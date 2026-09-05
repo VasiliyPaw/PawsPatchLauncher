@@ -10,8 +10,9 @@ $coreData = [IO.Path]::GetFullPath((Join-Path $sourcesRoot 'pawpatch-core\data')
 $arcaneData = [IO.Path]::GetFullPath((Join-Path $releaseRoot 'original_extract\Arcane Wars 0.82beta\data'))
 $standardRoaming = [IO.Path]::GetFullPath((Join-Path $releaseRoot '..\..\roaming_spawn_backup_pre_x4_20260826'))
 $baseRwd = [IO.Path]::GetFullPath((Join-Path $releaseRoot 'baseline_rwd'))
+$localizedAutoexec = [IO.Path]::GetFullPath((Join-Path $sourcesRoot 'localization-ru\startup\autoexec.txt'))
 
-foreach ($required in @($releaseRoot, $sourcesRoot, $coreData, $arcaneData, $standardRoaming, $baseRwd)) {
+foreach ($required in @($releaseRoot, $sourcesRoot, $coreData, $arcaneData, $standardRoaming, $baseRwd, $localizedAutoexec)) {
     if (-not (Test-Path -LiteralPath $required)) {
         throw "Required source is missing: $required"
     }
@@ -114,6 +115,25 @@ function Write-NoNewRoamingFiles([string]$targetRoot) {
         Copy-RelativeFile $arcaneData $relative $targetRoot
     }
 }
+
+# startup\autoexec.txt is required even when Russian localization is disabled:
+# it registers the game's writable work depot.  The localization package may
+# override this file at a higher priority to add the Russian localized depot.
+$startupBase = Reset-SourceDirectory 'startup-base'
+$startupDestination = Join-Path $startupBase 'startup\autoexec.txt'
+New-Item -ItemType Directory -Path (Split-Path -Parent $startupDestination) -Force | Out-Null
+$startupText = Get-Content -LiteralPath $localizedAutoexec -Raw
+$startupText = [regex]::Replace(
+    $startupText,
+    '(?m)^[ \t]*addlocaledepot[ \t]+localized/RU/Local_ru\.rwd[ \t]*$',
+    '# addlocaledepot localized/RU/Local_ru.rwd')
+if ($startupText -match '(?m)^[ \t]*addlocaledepot[ \t]+localized/RU/') {
+    throw 'Failed to remove the active Russian depot from startup-base.'
+}
+if (-not $startupText.Contains('adddepot %USERDATA%/data/ 1', [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'startup-base does not define the required writable work depot.'
+}
+Set-Content -LiteralPath $startupDestination -Value $startupText -Encoding utf8NoBOM -NoNewline
 
 $standardWithNew = Reset-SourceDirectory 'roaming-profile-standard-with-new'
 New-Item -ItemType Directory -Path (Join-Path $standardWithNew 'data') -Force | Out-Null

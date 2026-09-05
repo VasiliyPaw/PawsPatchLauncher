@@ -123,6 +123,36 @@ try
     AssertTrue(!File.Exists(Path.Combine(game, "patch-only.txt")), "Disabled overlay file was not removed.");
     passed += 2;
 
+    var startupGame = Path.Combine(root, "startup-game");
+    Directory.CreateDirectory(startupGame);
+    var startupPackage = await CreatePackageAsync(root, "startup-base", "1.0.0", 50,
+        new Dictionary<string, string> { ["startup\\autoexec.txt"] = "adddepot %USERDATA%/data/ 1" });
+    var localizationPackage = await CreatePackageAsync(root, "localization-ru", "1.0.0", 200,
+        new Dictionary<string, string>
+        {
+            ["startup\\autoexec.txt"] = "adddepot %USERDATA%/data/ 1\naddlocaledepot localized/RU/Local_ru.rwd",
+            ["startup\\autoexec_ru.txt"] = "addlocaledepot Local_ru.rwd"
+        });
+    var startupInstaller = new ModuleInstaller(startupGame);
+    var startupInstalled = await startupInstaller.PrepareAsync(startupPackage.Release, startupPackage.Archive);
+    var localizationInstalled = await startupInstaller.PrepareAsync(localizationPackage.Release, localizationPackage.Archive);
+    await startupInstaller.ReconcileAsync(new Dictionary<string, InstalledModule>
+    {
+        [startupPackage.Release.Id] = startupInstalled,
+        [localizationPackage.Release.Id] = localizationInstalled
+    });
+    AssertTrue((await File.ReadAllTextAsync(Path.Combine(startupGame, "startup", "autoexec.txt"))).Contains("addlocaledepot"),
+        "Russian localization did not override the base startup configuration.");
+    await startupInstaller.ReconcileAsync(new Dictionary<string, InstalledModule>
+    {
+        [startupPackage.Release.Id] = startupInstalled
+    });
+    var restoredStartup = await File.ReadAllTextAsync(Path.Combine(startupGame, "startup", "autoexec.txt"));
+    AssertTrue(restoredStartup.Contains("adddepot %USERDATA%/data/ 1"), "Disabling localization removed the required work depot.");
+    AssertTrue(!restoredStartup.Contains("addlocaledepot"), "Disabling localization kept the Russian localized depot.");
+    AssertTrue(!File.Exists(Path.Combine(startupGame, "startup", "autoexec_ru.txt")), "Disabling localization kept autoexec_ru.txt.");
+    passed += 4;
+
     var verifyErrors = await installer.VerifyAsync();
     AssertEqual(0, verifyErrors.Count);
     passed++;

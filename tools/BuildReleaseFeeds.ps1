@@ -23,31 +23,43 @@ $publishedAt = [DateTimeOffset]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')
 
 $definitions = @(
     [pscustomobject]@{
-        Id = 'roaming-profile-standard-with-new'; Priority = 500
+        Id = 'startup-base'; Version = '1.3.72-startup.1'; Priority = 50; Required = $true
+        DependsOn = @('arcane-wars')
+        RuName = 'Базовая конфигурация запуска'; EnName = 'Base startup configuration'
+        RuDescription = 'Сохраняет рабочий depot игры при отключённой русской локализации'
+        EnDescription = 'Keeps the game work depot configured when Russian localization is disabled'
+    },
+    [pscustomobject]@{
+        Id = 'roaming-profile-standard-with-new'; Version = $ModuleVersion; Priority = 500; Required = $false
+        DependsOn = @('arcane-wars', 'pawpatch-core')
         RuName = 'Стандартная частота с новыми ротами'; EnName = 'Standard frequency with additional companies'
         RuDescription = 'Обычные интервалы и шансы; дополнительные блуждающие роты включены'
         EnDescription = 'Original intervals and chances; additional roaming companies enabled'
     },
     [pscustomobject]@{
-        Id = 'roaming-profile-x4-no-new'; Priority = 510
+        Id = 'roaming-profile-x4-no-new'; Version = $ModuleVersion; Priority = 510; Required = $false
+        DependsOn = @('arcane-wars', 'pawpatch-core')
         RuName = 'Частота ×4 без новых рот'; EnName = '×4 frequency without additional companies'
         RuDescription = 'Ускоряет штатные блуждающие роты, не добавляя новые источники'
         EnDescription = 'Speeds up original roaming companies without adding new sources'
     },
     [pscustomobject]@{
-        Id = 'roaming-profile-standard-no-new'; Priority = 520
+        Id = 'roaming-profile-standard-no-new'; Version = $ModuleVersion; Priority = 520; Required = $false
+        DependsOn = @('arcane-wars', 'pawpatch-core')
         RuName = 'Стандартные блуждающие роты'; EnName = 'Original roaming-company profile'
         RuDescription = 'Обычные интервалы, шансы и исходный набор источников'
         EnDescription = 'Original intervals, chances and source set'
     },
     [pscustomobject]@{
-        Id = 'siege-balance-standard'; Priority = 600
+        Id = 'siege-balance-standard'; Version = $ModuleVersion; Priority = 600; Required = $false
+        DependsOn = @('arcane-wars', 'pawpatch-core')
         RuName = 'Стандартный баланс осадных машин'; EnName = 'Original siege-engine balance'
         RuDescription = 'Возвращает исходную стоимость четырёх особых осадных машин'
         EnDescription = 'Restores the original cost of four special siege engines'
     },
     [pscustomobject]@{
-        Id = 'large-map-sizes-standard'; Priority = 700
+        Id = 'large-map-sizes-standard'; Version = $ModuleVersion; Priority = 700; Required = $false
+        DependsOn = @('arcane-wars', 'pawpatch-core')
         RuName = 'Стандартные размеры карт'; EnName = 'Original map sizes'
         RuDescription = 'Убирает только дополнительные размеры 1024 и 1152'
         EnDescription = 'Removes only the additional 1024 and 1152 sizes'
@@ -55,19 +67,24 @@ $definitions = @(
 )
 
 function New-PackageRelease($definition) {
-    $archiveName = "$($definition.Id)-$ModuleVersion.zip"
+    $archiveName = "$($definition.Id)-$($definition.Version).zip"
     $archivePath = Join-Path $packagesRoot $archiveName
     $archive = Get-Item -LiteralPath $archivePath
+    $packageUrl = if ($definition.Id -eq 'startup-base') {
+        "https://raw.githubusercontent.com/VasiliyPaw/PawsPatchLauncher/main/packages/$archiveName"
+    } else {
+        "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/v$LauncherVersion/$archiveName"
+    }
     return [ordered]@{
         id = $definition.Id
-        version = $ModuleVersion
+        version = $definition.Version
         priority = $definition.Priority
-        required = $false
+        required = $definition.Required
         experimental = $false
         size = $archive.Length
         sha256 = (Get-FileHash -LiteralPath $archive.FullName -Algorithm SHA256).Hash
-        urls = @("https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/v$LauncherVersion/$archiveName")
-        dependsOn = @('arcane-wars', 'pawpatch-core')
+        urls = @($packageUrl)
+        dependsOn = @($definition.DependsOn)
         name = [ordered]@{ ru = $definition.RuName; en = $definition.EnName }
         description = [ordered]@{ ru = $definition.RuDescription; en = $definition.EnDescription }
     }

@@ -7,3 +7,4 @@ release_workspace_*/
 *.user
 *.pdb
 *.zip
+!packages/startup-base-*.zip
