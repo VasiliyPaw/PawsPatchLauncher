@@ -73,6 +73,17 @@ try
     AssertEqual("PAW-BETA-IW1-SP1-RM0-SG1-LM0-RU1-CL0-OOS1", configurationCode);
     passed++;
 
+    var executableConfiguration = new LauncherConfiguration
+    {
+        PreferredGameExecutable = "k2_paws_family_herd_relations_1372.exe"
+    };
+    AssertEqual("k2.exe", GameExecutableSelector.Select(executableConfiguration, false, false, false));
+    AssertEqual("k2_paws_family_herd_relations_1372.exe", GameExecutableSelector.Select(executableConfiguration, false, false, true));
+    AssertEqual("k2_paws_sync_continue_1372.exe", GameExecutableSelector.Select(executableConfiguration, false, true, false));
+    AssertEqual("k2_paws_sync_family_herd_relations_1372.exe", GameExecutableSelector.Select(executableConfiguration, false, true, true));
+    AssertEqual("k2_paws_lobby_colors_mp_1372_experimental.exe", GameExecutableSelector.Select(executableConfiguration, true, false, true));
+    passed += 5;
+
     var fingerprintFeed = new ChannelManifest
     {
         Channel = "stable",

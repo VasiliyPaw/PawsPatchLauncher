@@ -209,7 +209,7 @@ public partial class MainWindow : Window
         RepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
         LaunchButton.IsEnabled = !_busy && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
-        IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true && !_settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase);
+        IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
         StandardSpawnRadio.IsEnabled = !_busy;
         X4SpawnRadio.IsEnabled = !_busy;
         AdditionalRoamingToggle.IsEnabled = !_busy;
@@ -421,6 +421,7 @@ public partial class MainWindow : Window
             "k2",
             "k2_paws_family_herd_relations_1372",
             "k2_paws_sync_family_herd_relations_1372",
+            "k2_paws_sync_continue_1372",
             "k2_paws_lobby_colors_mp_1372_experimental"
         };
         return processNames.Any(name => Process.GetProcessesByName(name).Length > 0);
@@ -428,16 +429,11 @@ public partial class MainWindow : Window
 
     private string ResolveLaunchExecutable(string root)
     {
-        var colors = _colorsAvailable && ColorsToggle.IsChecked == true;
-        var bypass = _settings.DesyncMode == "continue";
-        var independent = _settings.IndependentHostility;
-        var name = (colors, bypass, independent) switch
-        {
-            (true, _, _) => "k2_paws_lobby_colors_mp_1372_experimental.exe",
-            (false, true, _) => "k2_paws_sync_family_herd_relations_1372.exe",
-            (false, false, true) => _configuration.PreferredGameExecutable,
-            _ => "k2.exe"
-        };
+        var name = GameExecutableSelector.Select(
+            _configuration,
+            _colorsAvailable && ColorsToggle.IsChecked == true,
+            _settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase),
+            _settings.IndependentHostility);
         return Path.Combine(root, name);
     }
 
@@ -536,7 +532,7 @@ public partial class MainWindow : Window
             SelectOosMode("official");
             _settingsStore.Save(_settings);
         }
-        if (ColorsToggle.IsChecked == true || _settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase))
+        if (ColorsToggle.IsChecked == true)
         {
             _settings.IndependentHostility = true;
             IndependentHostilityToggle.IsChecked = true;
@@ -548,7 +544,7 @@ public partial class MainWindow : Window
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
         LargeMapsToggle.IsChecked = _settings.LargeMapSizes;
-        IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true && !_settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase);
+        IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
         if (!_colorsAvailable)
         {
             ColorsDescriptionText.Text = _text.Language == "ru"
@@ -597,11 +593,6 @@ public partial class MainWindow : Window
         if (sender is RadioButton item && item.Tag is string mode)
         {
             _settings.DesyncMode = mode;
-            if (mode.Equals("continue", StringComparison.OrdinalIgnoreCase))
-            {
-                _settings.IndependentHostility = true;
-                IndependentHostilityToggle.IsChecked = true;
-            }
             _settingsStore.Save(_settings);
             RefreshConfigurationCode();
             RefreshStatus();

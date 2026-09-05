@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$LauncherPath,
-    [string]$LauncherVersion = '0.4.0',
+    [string]$LauncherVersion = '0.4.1',
     [long]$PublishedLauncherSize = 0,
     [string]$PublishedLauncherSha256 = '',
     [string]$ModuleVersion = '1.3.72-options.1',
@@ -28,6 +28,13 @@ $definitions = @(
         RuName = 'Базовая конфигурация запуска'; EnName = 'Base startup configuration'
         RuDescription = 'Сохраняет рабочий depot игры при отключённой русской локализации'
         EnDescription = 'Keeps the game work depot configured when Russian localization is disabled'
+    },
+    [pscustomobject]@{
+        Id = 'desync-continue'; Version = '1.3.72-r3'; Priority = 300; Required = $false
+        DependsOn = @('arcane-wars', 'pawpatch-core')
+        RuName = 'Продолжение после рассинхрона'; EnName = 'Continue after desync'
+        RuDescription = 'Добавляет отдельные варианты EXE с враждой независимых и без неё'
+        EnDescription = 'Adds separate executable variants with and without independent hostility'
     },
     [pscustomobject]@{
         Id = 'roaming-profile-standard-with-new'; Version = $ModuleVersion; Priority = 500; Required = $false
@@ -70,7 +77,7 @@ function New-PackageRelease($definition) {
     $archiveName = "$($definition.Id)-$($definition.Version).zip"
     $archivePath = Join-Path $packagesRoot $archiveName
     $archive = Get-Item -LiteralPath $archivePath
-    $packageUrl = if ($definition.Id -eq 'startup-base') {
+    $packageUrl = if ($definition.Id -in @('startup-base', 'desync-continue')) {
         "https://raw.githubusercontent.com/VasiliyPaw/PawsPatchLauncher/main/packages/$archiveName"
     } else {
         "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/v$LauncherVersion/$archiveName"
@@ -102,16 +109,16 @@ foreach ($channel in @('stable', 'beta')) {
     $kept = @($feed.packages | Where-Object { $_.id -notin $newIds })
     $feed.packages = @($kept) + @($definitions | ForEach-Object { New-PackageRelease $_ })
     if ($channel -eq 'stable') {
-        $feed.newsTitle = [ordered]@{ ru = 'Лаунчер 0.4.0 · игровые переключатели'; en = 'Launcher 0.4.0 · gameplay switches' }
+        $feed.newsTitle = [ordered]@{ ru = 'Лаунчер 0.4.1 · независимый обход рассинхрона'; en = 'Launcher 0.4.1 · independent desync bypass' }
         $feed.newsBody = [ordered]@{
-            ru = 'Добавлены переключатели вражды независимых, частоты и состава блуждающих рот, баланса осадных машин и больших карт. У каждого пункта есть справка, а код конфигурации и архив диагностики упрощают сетевую игру и разбор ошибок.'
-            en = 'Added switches for independent hostility, roaming-company frequency and sources, siege balance and large maps. Every item has help, while configuration codes and diagnostic archives simplify multiplayer setup and troubleshooting.'
+            ru = 'Обход рассинхрона теперь можно включать независимо от вражды независимых. Перед сетевой игрой сравните код конфигурации у всех участников.'
+            en = 'Desync bypass can now be enabled independently from independent hostility. Compare configuration codes for every participant before a multiplayer match.'
         }
     } else {
-        $feed.newsTitle = [ordered]@{ ru = 'Бета · игровые переключатели и цвета'; en = 'Beta · gameplay switches and colors' }
+        $feed.newsTitle = [ordered]@{ ru = 'Бета 0.4.1 · независимый обход и цвета'; en = 'Beta 0.4.1 · independent bypass and colors' }
         $feed.newsBody = [ordered]@{
-            ru = 'Все игровые переключатели версии 0.4.0 доступны вместе с экспериментальными расширенными цветами. Перед сетевой игрой сравните код конфигурации у всех участников.'
-            en = 'All 0.4.0 gameplay switches are available alongside the experimental extended colors. Compare configuration codes for every participant before a multiplayer match.'
+            ru = 'Обход рассинхрона больше не принуждает включать вражду независимых. Экспериментальные расширенные цвета остаются доступны в бета-канале.'
+            en = 'Desync bypass no longer forces independent hostility. Experimental extended colors remain available in the Beta channel.'
         }
     }
     $feed | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $path -Encoding utf8NoBOM
