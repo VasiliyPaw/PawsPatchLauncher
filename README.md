@@ -24,6 +24,8 @@ Balance and random-map data remain in `pawpatch-core` until overlapping `.tgi` f
 
 The Stable and Beta channels use separate signed feeds. Stable keeps the last accepted patch, while Beta can add early modules without changing Stable. Returning to Stable and applying the update removes files that belonged only to the Beta module.
 
+The active channel is checked at startup, after a channel switch, and once per minute while the launcher remains open. Patch updates are reported for the selected channel. Launcher self-updates are offered through a visible button instead of closing the launcher without user action.
+
 Every installed module records its complete file list. Files dropped by a newer version are removed automatically, and a package can additionally contain explicit removal entries for legacy manual installations. Original files are backed up and restored transactionally when appropriate.
 
 No private signing key belongs in this repository or in a public release.

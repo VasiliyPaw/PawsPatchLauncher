@@ -39,6 +39,19 @@ try
     AssertEqual("beta", (await channelClient.GetChannelAsync("beta"))?.Channel);
     passed += 2;
 
+    var currentRelease = new PackageRelease { Id = "core", Version = "1.0", Priority = 100, Sha256 = "ABC" };
+    var currentState = new InstallState
+    {
+        Modules = new Dictionary<string, InstalledModule>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["core"] = new InstalledModule { Version = "1.0", Priority = 100, ArchiveSha256 = "ABC", Enabled = true }
+        }
+    };
+    AssertTrue(!UpdateDetector.HasModuleChanges(currentState, [currentRelease]), "Current packages were reported as outdated.");
+    AssertTrue(UpdateDetector.HasModuleChanges(currentState, [new PackageRelease { Id = "core", Version = "1.1", Priority = 100, Sha256 = "DEF" }]), "A newer package was not detected.");
+    AssertTrue(UpdateDetector.HasModuleChanges(currentState, []), "A module removed from the selected channel was not detected.");
+    passed += 3;
+
     var game = Path.Combine(root, "game");
     Directory.CreateDirectory(game);
     await File.WriteAllTextAsync(Path.Combine(game, "shared.txt"), "original");

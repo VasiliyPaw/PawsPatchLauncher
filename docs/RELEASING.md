@@ -8,4 +8,6 @@
 
 Experimental work is published to the independently signed `feed/beta.json`. Promote a tested package to Stable only by rebuilding and signing the Stable payload; never edit a signed envelope by hand.
 
+Keep the launcher metadata current in both feeds. Running launchers poll only their selected channel and show a self-update button when its signed launcher version increases. Package changes are detected independently from launcher changes.
+
 The Arcane Wars base archive belongs to Darquan Mortis. Prefer an author-controlled download or obtain explicit redistribution permission before mirroring it as a release asset. The public launcher repository contains no Arcane Wars game data.

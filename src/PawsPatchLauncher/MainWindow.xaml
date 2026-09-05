@@ -74,6 +74,7 @@
                     <TextBlock Text="  /  KOHAN II" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button x:Name="LauncherUpdateButton" Visibility="Collapsed" Height="32" Margin="0,7,12,7" Style="{StaticResource GoldButton}" Padding="12,4" Click="LauncherUpdateButton_Click"/>
                     <TextBlock x:Name="BetaChannelText" VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" FontSize="11" Margin="0,0,7,0"/>
                     <CheckBox x:Name="BetaChannelToggle" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Margin="0,0,14,0" Click="BetaChannelToggle_Click"/>
                     <Button x:Name="LanguageButton" Width="58" Height="32" Margin="0,7,6,7" Style="{StaticResource GhostButton}" Padding="4" Click="LanguageButton_Click">EN</Button>
@@ -144,9 +145,49 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer x:Name="MainOptionsScroll" Grid.Column="0" VerticalScrollBarVisibility="Auto">
                             <StackPanel>
-                                <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                                <Border x:Name="HomeWelcomeCard" Style="{StaticResource Card}" Margin="0,0,0,14">
+                                    <StackPanel>
+                                        <TextBlock x:Name="HomeWelcomeTitleText" FontFamily="Georgia" FontSize="19" FontWeight="Bold"/>
+                                        <TextBlock x:Name="HomeWelcomeBodyText" Foreground="{StaticResource TextMutedBrush}" FontSize="12" TextWrapping="Wrap" LineHeight="19" Margin="0,8,0,0"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border x:Name="UpdateNoticeBorder" Style="{StaticResource Card}" BorderBrush="{StaticResource GoldBrush}" Background="#B23A321D" Margin="0,0,0,14" Visibility="Collapsed">
+                                    <StackPanel>
+                                        <TextBlock x:Name="UpdateNoticeTitleText" Foreground="{StaticResource GoldBrightBrush}" FontWeight="Bold" FontSize="15"/>
+                                        <TextBlock x:Name="UpdateNoticeBodyText" Foreground="#E7DFC9" FontSize="12" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border x:Name="SettingsPanel" Style="{StaticResource Card}" Margin="0,0,0,14" Visibility="Collapsed">
+                                    <StackPanel>
+                                        <TextBlock x:Name="SettingsTitleText" FontFamily="Georgia" FontSize="19" FontWeight="Bold"/>
+                                        <Grid Margin="0,16,0,0">
+                                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock x:Name="SettingsLanguageTitleText" FontWeight="SemiBold"/>
+                                                <TextBlock x:Name="SettingsLanguageDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" Margin="0,4,12,0"/>
+                                            </StackPanel>
+                                            <Button x:Name="SettingsLanguageButton" Grid.Column="1" Style="{StaticResource GhostButton}" Padding="14,7" Click="LanguageButton_Click"/>
+                                        </Grid>
+                                        <Grid Margin="0,15,0,0">
+                                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock x:Name="SettingsBetaTitleText" FontWeight="SemiBold"/>
+                                                <TextBlock x:Name="SettingsBetaDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,12,0"/>
+                                            </StackPanel>
+                                            <CheckBox x:Name="SettingsBetaToggle" Grid.Column="1" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="SettingsBetaToggle_Click"/>
+                                        </Grid>
+                                        <Separator Margin="0,16,0,13" Background="#40536E"/>
+                                        <TextBlock x:Name="SettingsUpdatesDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap"/>
+                                        <Button x:Name="CheckUpdatesButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,11,0,0" Padding="14,7" Click="CheckUpdatesButton_Click"/>
+                                        <TextBlock x:Name="LastCheckedText" Foreground="#71819A" FontSize="10" Margin="0,9,0,0"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border x:Name="GameInfoCard" Style="{StaticResource Card}" Margin="0,0,0,14">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -175,9 +216,9 @@
                                     </Grid>
                                 </Border>
 
-                                <TextBlock x:Name="ModulesTitleText" FontFamily="Georgia" FontSize="19" FontWeight="Bold" Margin="2,0,0,10"/>
+                                <TextBlock x:Name="ModulesTitleText" FontFamily="Georgia" FontSize="19" FontWeight="Bold" Margin="2,0,0,10" Visibility="Collapsed"/>
 
-                                <Border Style="{StaticResource Card}" Margin="0,0,0,9">
+                                <Border x:Name="CoreModuleCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                         <Border Width="34" Height="34" CornerRadius="17" Background="#2E6A4A"><TextBlock Text="✓" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/></Border>
@@ -189,7 +230,7 @@
                                     </Grid>
                                 </Border>
 
-                                <Border Style="{StaticResource Card}" Margin="0,0,0,9">
+                                <Border x:Name="RussianModuleCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                         <Border Width="34" Height="34" CornerRadius="17" Background="#2B4C72"><TextBlock Text="RU" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="10"/></Border>
@@ -201,7 +242,7 @@
                                     </Grid>
                                 </Border>
 
-                                <Border Style="{StaticResource Card}" Margin="0,0,0,9">
+                                <Border x:Name="ColorsModuleCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                         <Border Width="34" Height="34" CornerRadius="17" Background="#56396D"><TextBlock Text="✦" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/></Border>
@@ -213,7 +254,7 @@
                                     </Grid>
                                 </Border>
 
-                                <Border Style="{StaticResource Card}">
+                                <Border x:Name="OosModuleCard" Style="{StaticResource Card}" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                         <Border Width="34" Height="34" CornerRadius="17" Background="#6B3B38"><TextBlock Text="↻" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/></Border>

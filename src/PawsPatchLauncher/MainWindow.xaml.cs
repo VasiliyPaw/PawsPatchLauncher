@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace PawsPatchLauncher;
 
@@ -19,6 +21,12 @@ public partial class MainWindow : Window
     private bool _busy;
     private bool _initializing = true;
     private bool _colorsAvailable;
+    private bool _checkingFeed;
+    private bool _patchUpdateAvailable;
+    private string _activePage = "home";
+    private LauncherRelease? _pendingLauncherUpdate;
+    private DateTimeOffset? _lastChecked;
+    private readonly DispatcherTimer _updateTimer = new();
 
     public MainWindow()
     {
@@ -28,10 +36,15 @@ public partial class MainWindow : Window
         _settings = _settingsStore.Load();
         _text = new Localization(_settings.Language);
         BetaChannelToggle.IsChecked = _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase);
+        SettingsBetaToggle.IsChecked = BetaChannelToggle.IsChecked;
         RussianToggle.IsChecked = _settings.RussianLocalization;
         ColorsToggle.IsChecked = _settings.CustomPlayerColors;
         SelectOosMode(_settings.DesyncMode);
         ApplyLanguage();
+        SetActivePage("home");
+        _updateTimer.Interval = TimeSpan.FromMinutes(1);
+        _updateTimer.Tick += async (_, _) => await CheckFeedAsync(background: true);
+        Closed += (_, _) => _updateTimer.Stop();
         _initializing = false;
         Loaded += async (_, _) => await InitializeAsync();
     }
@@ -40,6 +53,7 @@ public partial class MainWindow : Window
     {
         LocateGame();
         await CheckFeedAsync();
+        _updateTimer.Start();
         RefreshStatus();
     }
 
@@ -52,6 +66,16 @@ public partial class MainWindow : Window
         SettingsNav.Content = "⚙   " + _text["nav.settings"];
         BetaChannelText.Text = _text["channel.beta"];
         BetaChannelToggle.ToolTip = _text["channel.beta.tip"];
+        HomeWelcomeTitleText.Text = _text["home.welcome.title"];
+        HomeWelcomeBodyText.Text = _text["home.welcome.body"];
+        SettingsTitleText.Text = _text["settings.title"];
+        SettingsLanguageTitleText.Text = _text["settings.language"];
+        SettingsLanguageDescriptionText.Text = _text["settings.language.desc"];
+        SettingsLanguageButton.Content = _text.Language == "ru" ? "English" : "Русский";
+        SettingsBetaTitleText.Text = _text["settings.beta"];
+        SettingsBetaDescriptionText.Text = _text["settings.beta.desc"];
+        SettingsUpdatesDescriptionText.Text = _text["settings.updates.desc"];
+        CheckUpdatesButton.Content = _text["button.checknow"];
         var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
         LauncherVersionText.Text = $"{version.Major}.{version.Minor}.{version.Build} · {_settings.Channel.ToLowerInvariant()}";
         GamePathLabel.Text = _text["game.path"].ToUpperInvariant();
@@ -88,8 +112,9 @@ public partial class MainWindow : Window
         }
     }
 
-    private async Task CheckFeedAsync()
+    private async Task CheckFeedAsync(bool background = false)
     {
+        if (_checkingFeed || _busy && background) return;
         var sources = _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase)
             ? _configuration.BetaFeedUrls
             : _configuration.FeedUrls;
@@ -99,39 +124,92 @@ public partial class MainWindow : Window
             return;
         }
 
+        _checkingFeed = true;
         try
         {
-            SetBusy(true, _text["progress.checking"]);
-            _channel = null;
-            RefreshModuleAvailability();
+            if (!background)
+            {
+                SetBusy(true, _text["progress.checking"]);
+                _channel = null;
+                RefreshModuleAvailability();
+            }
             _channel = await _feedClient.GetChannelAsync(_settings.Channel);
+            _lastChecked = DateTimeOffset.Now;
             RefreshModuleAvailability();
-            if (_channel is not null && await TrySelfUpdateAsync(_channel.Launcher)) return;
+            RefreshStatus();
+            if (background && _pendingLauncherUpdate is not null)
+                OperationText.Text = string.Format(_text["update.launcher.ready"], _pendingLauncherUpdate.Version);
+            else if (background && _patchUpdateAvailable)
+                OperationText.Text = string.Format(_text["update.patch.title"], CurrentChannelName());
         }
-        catch (Exception ex) { OperationText.Text = ex.GetBaseException().Message; }
-        finally { SetBusy(false); ApplyLanguage(); }
+        catch (Exception ex)
+        {
+            if (!background) OperationText.Text = ex.GetBaseException().Message;
+        }
+        finally
+        {
+            _checkingFeed = false;
+            if (!background)
+            {
+                SetBusy(false);
+                ApplyLanguage();
+            }
+            else RefreshStatus();
+        }
     }
 
     private void RefreshStatus()
     {
         var state = _game is null ? null : new ModuleInstaller(_game.Directory).LoadState();
+        RefreshAvailableUpdates(state);
         GamePathText.Text = _game?.Directory ?? "—";
         GameVersionText.Text = _game is null ? "—" : $"{(_game.Branch == "beta" ? "Beta" : "Steam")} · build {_game.SteamBuild ?? "?"}";
         PatchVersionText.Text = state?.Modules.TryGetValue("pawpatch-core", out var core) == true ? core.Version : "—";
         ReadyStatusText.Text = _game is null
             ? _text["status.notfound"]
-            : _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase)
-                ? $"{_text["status.ready"]} · {_text["channel.beta"]}"
-                : _text["status.ready"];
-        ReadyStatusText.Foreground = _game is null ? (System.Windows.Media.Brush)FindResource("DangerBrush") : (System.Windows.Media.Brush)FindResource("SuccessBrush");
-        ReadyStatusBadge.Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_game is null ? "#3B2226" : "#193926"));
-        ReadyStatusBadge.BorderBrush = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_game is null ? "#844B50" : "#3F8D64"));
+            : _patchUpdateAvailable
+                ? string.Format(_text["update.patch.title"], CurrentChannelName())
+                : $"{_text["status.ready"]} · {CurrentChannelName()}";
+        var statusKind = _game is null ? "danger" : _patchUpdateAvailable ? "update" : "ready";
+        ReadyStatusText.Foreground = (Brush)FindResource(statusKind == "danger" ? "DangerBrush" : statusKind == "update" ? "GoldBrightBrush" : "SuccessBrush");
+        ReadyStatusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#3B2226" : statusKind == "update" ? "#40351E" : "#193926"));
+        ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
         UpdateButton.IsEnabled = !_busy && _game is not null && _channel is not null;
         RepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
         LaunchButton.IsEnabled = !_busy && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         BetaChannelToggle.IsEnabled = !_busy;
+        SettingsBetaToggle.IsEnabled = !_busy;
+        CheckUpdatesButton.IsEnabled = !_busy && !_checkingFeed;
+        LastCheckedText.Text = _lastChecked is null ? "" : string.Format(_text["updates.checked"], _lastChecked.Value.ToString("HH:mm:ss"));
     }
+
+    private void RefreshAvailableUpdates(InstallState? state)
+    {
+        _pendingLauncherUpdate = _channel is not null && SelfUpdater.IsNewer(_channel.Launcher.Version) && _channel.Launcher.Urls.Count > 0
+            ? _channel.Launcher
+            : null;
+        LauncherUpdateButton.Visibility = _pendingLauncherUpdate is null ? Visibility.Collapsed : Visibility.Visible;
+        if (_pendingLauncherUpdate is not null)
+            LauncherUpdateButton.Content = string.Format(_text["button.launcherupdate"], _pendingLauncherUpdate.Version);
+
+        _patchUpdateAvailable = false;
+        if (_game is not null && _channel is not null && state is not null)
+        {
+            try { _patchUpdateAvailable = UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(_channel)); }
+            catch { _patchUpdateAvailable = false; }
+        }
+
+        UpdateNoticeTitleText.Text = string.Format(_text["update.patch.title"], CurrentChannelName());
+        UpdateNoticeBodyText.Text = _text["update.patch.body"];
+        UpdateNoticeBorder.Visibility = _activePage == "home" && _patchUpdateAvailable ? Visibility.Visible : Visibility.Collapsed;
+        UpdateButton.Content = _patchUpdateAvailable
+            ? string.Format(_text["button.patchupdate"], CurrentChannelName())
+            : _text["button.update"];
+    }
+
+    private string CurrentChannelName()
+        => _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase) ? _text["channel.beta"] : "Stable";
 
     private async void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
@@ -240,19 +318,27 @@ public partial class MainWindow : Window
                 : $"This k2.exe version is unsupported. Steam Beta {channel.Game.Version}, build {channel.Game.SteamBuild} is required.");
     }
 
-    private async Task<bool> TrySelfUpdateAsync(LauncherRelease release)
+    private async void LauncherUpdateButton_Click(object sender, RoutedEventArgs e)
     {
-        if (!SelfUpdater.IsNewer(release.Version) || release.Urls.Count == 0 || string.IsNullOrWhiteSpace(release.Sha256)) return false;
-        OperationText.Text = _text.Language == "ru" ? $"Обновляю лаунчер до {release.Version}…" : $"Updating launcher to {release.Version}…";
-        var progress = new Progress<(long Received, long? Total)>(value =>
+        var release = _pendingLauncherUpdate;
+        if (release is null || _busy) return;
+        try
         {
-            OperationProgress.IsIndeterminate = value.Total is null;
-            if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
-        });
-        var executable = await _feedClient.DownloadLauncherAsync(release, progress);
-        SelfUpdater.ScheduleReplacement(executable);
-        Application.Current.Shutdown();
-        return true;
+            SetBusy(true, _text.Language == "ru" ? $"Обновляю лаунчер до {release.Version}…" : $"Updating launcher to {release.Version}…");
+            var progress = new Progress<(long Received, long? Total)>(value =>
+            {
+                OperationProgress.IsIndeterminate = value.Total is null;
+                if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
+            });
+            var executable = await _feedClient.DownloadLauncherAsync(release, progress);
+            SelfUpdater.ScheduleReplacement(executable);
+            Application.Current.Shutdown();
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+            SetBusy(false);
+        }
     }
 
     private void BrowseButton_Click(object sender, RoutedEventArgs e)
@@ -286,6 +372,7 @@ public partial class MainWindow : Window
         }
         ContinueOosRadio.IsEnabled = ColorsToggle.IsChecked != true;
         _settingsStore.Save(_settings);
+        RefreshStatus();
     }
 
     private void RefreshModuleAvailability()
@@ -311,11 +398,35 @@ public partial class MainWindow : Window
     private async void BetaChannelToggle_Click(object sender, RoutedEventArgs e)
     {
         if (_initializing || _busy) return;
-        _settings.Channel = BetaChannelToggle.IsChecked == true ? "beta" : "stable";
+        await ChangeChannelAsync(BetaChannelToggle.IsChecked == true);
+    }
+
+    private async void SettingsBetaToggle_Click(object sender, RoutedEventArgs e)
+    {
+        if (_initializing || _busy) return;
+        await ChangeChannelAsync(SettingsBetaToggle.IsChecked == true);
+    }
+
+    private async Task ChangeChannelAsync(bool beta)
+    {
+        _settings.Channel = beta ? "beta" : "stable";
+        BetaChannelToggle.IsChecked = beta;
+        SettingsBetaToggle.IsChecked = beta;
         _settingsStore.Save(_settings);
+        _channel = null;
+        RefreshModuleAvailability();
         ApplyLanguage();
         await CheckFeedAsync();
         RefreshStatus();
+    }
+
+    private async void CheckUpdatesButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_busy || _checkingFeed) return;
+        await CheckFeedAsync();
+        RefreshStatus();
+        if (!_patchUpdateAvailable && _pendingLauncherUpdate is null)
+            OperationText.Text = string.Format(_text["updates.current"], CurrentChannelName());
     }
 
     private void OosMode_Checked(object sender, RoutedEventArgs e)
@@ -325,6 +436,7 @@ public partial class MainWindow : Window
         {
             _settings.DesyncMode = mode;
             _settingsStore.Save(_settings);
+            RefreshStatus();
         }
     }
 
@@ -361,7 +473,36 @@ public partial class MainWindow : Window
     private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) { if (e.ButtonState == MouseButtonState.Pressed) DragMove(); }
     private void MinimizeButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
-    private void HomeNav_Click(object sender, RoutedEventArgs e) { }
-    private void ModulesNav_Click(object sender, RoutedEventArgs e) { }
-    private void SettingsNav_Click(object sender, RoutedEventArgs e) { }
+    private void HomeNav_Click(object sender, RoutedEventArgs e) => SetActivePage("home");
+    private void ModulesNav_Click(object sender, RoutedEventArgs e) => SetActivePage("modules");
+    private void SettingsNav_Click(object sender, RoutedEventArgs e) => SetActivePage("settings");
+
+    private void SetActivePage(string page)
+    {
+        _activePage = page;
+        var home = page == "home";
+        var modules = page == "modules";
+        var settings = page == "settings";
+
+        HomeWelcomeCard.Visibility = home ? Visibility.Visible : Visibility.Collapsed;
+        UpdateNoticeBorder.Visibility = home && _patchUpdateAvailable ? Visibility.Visible : Visibility.Collapsed;
+        GameInfoCard.Visibility = home || settings ? Visibility.Visible : Visibility.Collapsed;
+        SettingsPanel.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
+        ModulesTitleText.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        CoreModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        RussianModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        ColorsModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        OosModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+
+        SetNavState(HomeNav, home);
+        SetNavState(ModulesNav, modules);
+        SetNavState(SettingsNav, settings);
+        MainOptionsScroll.ScrollToTop();
+    }
+
+    private static void SetNavState(Button button, bool active)
+    {
+        button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(active ? "#314969" : "#1B304D"));
+        button.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(active ? "#B68D37" : "#526984"));
+    }
 }
