@@ -16,6 +16,12 @@ if (args.Length == 4 && args[0] == "--verify-transition")
     return;
 }
 
+if (args.Length == 3 && args[0] == "--verify-gameplay-profiles")
+{
+    await VerifyGameplayProfilesAsync(args[1], args[2]);
+    return;
+}
+
 var root = Path.Combine(Path.GetTempPath(), "PawsPatchLauncherTests", Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(root);
 var passed = 0;
@@ -51,6 +57,21 @@ try
     AssertTrue(UpdateDetector.HasModuleChanges(currentState, [new PackageRelease { Id = "core", Version = "1.1", Priority = 100, Sha256 = "DEF" }]), "A newer package was not detected.");
     AssertTrue(UpdateDetector.HasModuleChanges(currentState, []), "A module removed from the selected channel was not detected.");
     passed += 3;
+
+    var configurationCode = ConfigurationCode.Create(new UserSettings
+    {
+        Channel = "beta",
+        IndependentHostility = true,
+        RoamingSpawnMode = "standard",
+        AdditionalRoamingCompanies = false,
+        SiegeBalance = true,
+        LargeMapSizes = false,
+        RussianLocalization = true,
+        CustomPlayerColors = false,
+        DesyncMode = "continue"
+    });
+    AssertEqual("PAW-BETA-IW1-SP1-RM0-SG1-LM0-RU1-CL0-OOS1", configurationCode);
+    passed++;
 
     var game = Path.Combine(root, "game");
     Directory.CreateDirectory(game);
@@ -257,6 +278,61 @@ static async Task VerifyTransitionAsync(string betaFeedPath, string stableFeedPa
     {
         var full = Path.GetFullPath(root);
         var safeParent = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "PawsPatchLauncherTransitionTests")) + Path.DirectorySeparatorChar;
+        if (full.StartsWith(safeParent, StringComparison.OrdinalIgnoreCase) && Directory.Exists(full)) Directory.Delete(full, true);
+    }
+}
+
+static async Task VerifyGameplayProfilesAsync(string feedPath, string publicKeyPath)
+{
+    var root = Path.Combine(Path.GetTempPath(), "PawsPatchLauncherProfileTests", Guid.NewGuid().ToString("N"));
+    var game = Path.Combine(root, "Kohan II");
+    Directory.CreateDirectory(game);
+    try
+    {
+        await File.WriteAllTextAsync(Path.Combine(game, "k2.exe"), "test sentinel; never distributed");
+        var configuration = new LauncherConfiguration
+        {
+            FeedUrls = [Path.GetFullPath(feedPath)],
+            PublicKeyPem = await File.ReadAllTextAsync(Path.GetFullPath(publicKeyPath)),
+            RequireSignedRemoteFeed = true,
+            CacheRoot = Path.Combine(root, "cache")
+        };
+        var client = new FeedClient(configuration);
+        var channel = await client.GetChannelAsync("stable") ?? throw new Exception("Profile feed was not loaded.");
+        var installer = new ModuleInstaller(game);
+        var prepared = new Dictionary<string, InstalledModule>(StringComparer.OrdinalIgnoreCase);
+        foreach (var package in channel.Packages.Where(package =>
+                     package.Required
+                     || package.Id.StartsWith("roaming-profile-", StringComparison.OrdinalIgnoreCase)
+                     || package.Id is "siege-balance-standard" or "large-map-sizes-standard"))
+        {
+            var archive = await client.DownloadVerifiedAsync(package, null);
+            prepared[package.Id] = await installer.PrepareAsync(package, archive);
+        }
+
+        var required = channel.Packages.Where(package => package.Required).Select(package => package.Id).ToArray();
+        var profiles = new[]
+        {
+            new[] { "default-x4-with-new" },
+            new[] { "standard-with-new", "roaming-profile-standard-with-new", "siege-balance-standard", "large-map-sizes-standard" },
+            new[] { "x4-no-new", "roaming-profile-x4-no-new" },
+            new[] { "standard-no-new", "roaming-profile-standard-no-new", "siege-balance-standard", "large-map-sizes-standard" }
+        };
+        foreach (var profile in profiles)
+        {
+            var selected = required.Concat(profile.Skip(1)).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var desired = prepared.Where(pair => selected.Contains(pair.Key))
+                .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
+            await installer.ReconcileAsync(desired);
+            var errors = await installer.VerifyAsync();
+            if (errors.Count != 0) throw new Exception($"Profile {profile[0]} failed: " + string.Join("; ", errors.Take(10)));
+            Console.WriteLine($"PROFILE PASS {profile[0]} modules={desired.Count}");
+        }
+    }
+    finally
+    {
+        var full = Path.GetFullPath(root);
+        var safeParent = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "PawsPatchLauncherProfileTests")) + Path.DirectorySeparatorChar;
         if (full.StartsWith(safeParent, StringComparison.OrdinalIgnoreCase) && Directory.Exists(full)) Directory.Delete(full, true);
     }
 }

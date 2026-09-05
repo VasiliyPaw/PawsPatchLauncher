@@ -9,8 +9,11 @@ Windows launcher and transactional updater for Kohan II, Arcane Wars and Paw's P
 - `localization-ru`: optional Russian localization.
 - `player-colors`: optional experimental multiplayer color selection, available through the Beta channel.
 - `desync-continue`: optional experimental out-of-sync bypass launcher.
+- `roaming-profile-*`: mutually exclusive overlays for standard/×4 timing and original/additional roaming-company sets.
+- `siege-balance-standard`: restores the original Arcane Wars siege-engine costs when Paw's balance is disabled.
+- `large-map-sizes-standard`: removes only the two Paw map sizes while preserving the remaining random-map fixes.
 
-Balance and random-map data remain in `pawpatch-core` until overlapping `.tgi` files are split into reproducible variants. The UI must not promise unsafe per-feature toggles before that work is complete.
+The default core profile keeps independent hostility, ×4 roaming frequency, additional roaming companies, Paw's siege balance, and the two large map sizes enabled. Small higher-priority overlays restore the original behavior when a setting is disabled, so switching an option does not require reinstalling Arcane Wars.
 
 ## Update model
 
@@ -26,7 +29,9 @@ The Stable and Beta channels use separate signed feeds. Stable keeps the last ac
 
 The active channel is checked at startup, after a channel switch, and once per minute while the launcher remains open. Patch updates are reported for the selected channel. Launcher self-updates are offered through a visible button instead of closing the launcher without user action.
 
-Launching the game also reconciles the selected channel and component settings first. If a user changed localization, player colors, or out-of-sync handling, the launcher applies and verifies those files before starting Kohan II. A failed update prevents the game from starting with a partially applied configuration.
+Launching the game also reconciles the selected channel and every component setting first. A failed update prevents the game from starting with a partially applied configuration.
+
+Gameplay options that affect multiplayer produce a compact configuration code. Players can copy it before a match and compare codes to catch mismatched settings. The diagnostic archive command collects available logs, sync logs, dumps, launcher state, module versions and SHA-256 hashes; crash dumps should be reviewed before public sharing because they can contain memory fragments.
 
 Every installed module records its complete file list. Files dropped by a newer version are removed automatically, and a package can additionally contain explicit removal entries for legacy manual installations. Original files are backed up and restored transactionally when appropriate.
 

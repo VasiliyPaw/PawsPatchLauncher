@@ -65,6 +65,39 @@
             <Setter Property="BorderBrush" Value="#49607D"/>
         </Style>
 
+        <Style x:Key="HelpButton" TargetType="Button">
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource GoldBrightBrush}"/>
+            <Setter Property="Background" Value="#243A59"/>
+            <Setter Property="BorderBrush" Value="#6F86A3"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Content" Value="?"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="HelpCircle" CornerRadius="11" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="HelpCircle" Property="Background" Value="#3B5375"/>
+                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{StaticResource GoldBrightBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="CheckBox" x:Key="ToggleSwitch">
             <Setter Property="Foreground" Value="{StaticResource TextMainBrush}"/>
             <Setter Property="Template">
@@ -98,4 +131,3 @@
         </Style>
     </Application.Resources>
 </Application>
-

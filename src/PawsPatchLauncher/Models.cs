@@ -21,6 +21,11 @@ public sealed class UserSettings
     public bool RussianLocalization { get; set; } = true;
     public bool CustomPlayerColors { get; set; }
     public string DesyncMode { get; set; } = "official";
+    public bool IndependentHostility { get; set; } = true;
+    public string RoamingSpawnMode { get; set; } = "x4";
+    public bool AdditionalRoamingCompanies { get; set; } = true;
+    public bool SiegeBalance { get; set; } = true;
+    public bool LargeMapSizes { get; set; } = true;
 }
 
 public sealed class SignedFeedEnvelope

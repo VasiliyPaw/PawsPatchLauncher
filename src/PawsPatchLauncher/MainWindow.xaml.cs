@@ -39,7 +39,12 @@ public partial class MainWindow : Window
         SettingsBetaToggle.IsChecked = BetaChannelToggle.IsChecked;
         RussianToggle.IsChecked = _settings.RussianLocalization;
         ColorsToggle.IsChecked = _settings.CustomPlayerColors;
+        IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
+        AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
+        SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
+        LargeMapsToggle.IsChecked = _settings.LargeMapSizes;
         SelectOosMode(_settings.DesyncMode);
+        SelectSpawnMode(_settings.RoamingSpawnMode);
         ApplyLanguage();
         SetActivePage("home");
         _updateTimer.Interval = TimeSpan.FromMinutes(1);
@@ -91,6 +96,25 @@ public partial class MainWindow : Window
         OosTitleText.Text = _text["modules.oos"];
         OfficialOosRadio.Content = _text["modules.oos.official"];
         ContinueOosRadio.Content = _text["modules.oos.continue"];
+        IndependentTitleText.Text = _text["modules.independent"];
+        IndependentDescriptionText.Text = _text["modules.independent.desc"];
+        RoamingSpawnTitleText.Text = _text["modules.spawn"];
+        StandardSpawnRadio.Content = _text["modules.spawn.standard"];
+        X4SpawnRadio.Content = _text["modules.spawn.x4"];
+        AdditionalRoamingTitleText.Text = _text["modules.roaming"];
+        AdditionalRoamingDescriptionText.Text = _text["modules.roaming.desc"];
+        SiegeBalanceTitleText.Text = _text["modules.siege"];
+        SiegeBalanceDescriptionText.Text = _text["modules.siege.desc"];
+        LargeMapsTitleText.Text = _text["modules.maps"];
+        LargeMapsDescriptionText.Text = _text["modules.maps.desc"];
+        MultiplayerNoteText.Text = _text["modules.multiplayer.note"];
+        ConfigurationTitleText.Text = _text["configuration.title"];
+        ConfigurationDescriptionText.Text = _text["configuration.desc"];
+        CopyConfigurationButton.Content = _text["button.copyconfig"];
+        DiagnosticsTitleText.Text = _text["diagnostics.title"];
+        DiagnosticsDescriptionText.Text = _text["diagnostics.desc"];
+        DiagnosticsButton.Content = _text["button.diagnostics"];
+        HelpCloseButton.Content = _text["help.close"];
         NewsTitleText.Text = _channel?.NewsTitle.Get(_text.Language) is { Length: > 0 } title ? title : _text["news.title"];
         NewsBodyText.Text = _channel?.NewsBody.Get(_text.Language) is { Length: > 0 } body ? body : _text["news.empty"];
         UpdateButton.Content = _text["button.update"];
@@ -98,6 +122,8 @@ public partial class MainWindow : Window
         LaunchButton.Content = _text["button.launch"];
         BrowseButton.Content = _text["button.browse"];
         LanguageButton.Content = _text.Language == "ru" ? "EN" : "RU";
+        ApplyHelpTooltips(this);
+        RefreshConfigurationCode();
         RefreshModuleAvailability();
         RefreshStatus();
     }
@@ -178,10 +204,19 @@ public partial class MainWindow : Window
         RepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
         LaunchButton.IsEnabled = !_busy && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
+        IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true && !_settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase);
+        StandardSpawnRadio.IsEnabled = !_busy;
+        X4SpawnRadio.IsEnabled = !_busy;
+        AdditionalRoamingToggle.IsEnabled = !_busy;
+        SiegeBalanceToggle.IsEnabled = !_busy;
+        LargeMapsToggle.IsEnabled = !_busy;
+        CopyConfigurationButton.IsEnabled = !_busy;
+        DiagnosticsButton.IsEnabled = !_busy && _game is not null;
         BetaChannelToggle.IsEnabled = !_busy;
         SettingsBetaToggle.IsEnabled = !_busy;
         CheckUpdatesButton.IsEnabled = !_busy && !_checkingFeed;
         LastCheckedText.Text = _lastChecked is null ? "" : string.Format(_text["updates.checked"], _lastChecked.Value.ToString("HH:mm:ss"));
+        RefreshConfigurationCode();
     }
 
     private void RefreshAvailableUpdates(InstallState? state)
@@ -262,6 +297,13 @@ public partial class MainWindow : Window
         if (_colorsAvailable && ColorsToggle.IsChecked == true) ids.Add("player-colors");
         if (_settings.DesyncMode == "continue") ids.Add("desync-continue");
 
+        var fastSpawn = _settings.RoamingSpawnMode.Equals("x4", StringComparison.OrdinalIgnoreCase);
+        if (!fastSpawn && _settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-with-new");
+        if (fastSpawn && !_settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-x4-no-new");
+        if (!fastSpawn && !_settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-no-new");
+        if (!_settings.SiegeBalance) ids.Add("siege-balance-standard");
+        if (!_settings.LargeMapSizes) ids.Add("large-map-sizes-standard");
+
         bool changed;
         do
         {
@@ -334,11 +376,13 @@ public partial class MainWindow : Window
     {
         var colors = _colorsAvailable && ColorsToggle.IsChecked == true;
         var bypass = _settings.DesyncMode == "continue";
-        var name = (colors, bypass) switch
+        var independent = _settings.IndependentHostility;
+        var name = (colors, bypass, independent) switch
         {
-            (true, _) => "k2_paws_lobby_colors_mp_1372_experimental.exe",
-            (false, true) => "k2_paws_sync_family_herd_relations_1372.exe",
-            _ => _configuration.PreferredGameExecutable
+            (true, _, _) => "k2_paws_lobby_colors_mp_1372_experimental.exe",
+            (false, true, _) => "k2_paws_sync_family_herd_relations_1372.exe",
+            (false, false, true) => _configuration.PreferredGameExecutable,
+            _ => "k2.exe"
         };
         return Path.Combine(root, name);
     }
@@ -405,8 +449,26 @@ public partial class MainWindow : Window
                 ? "Цвета пока тестируются только со штатной проверкой рассинхрона."
                 : "Player colors are currently tested only with the official out-of-sync handling.";
         }
+        if (ColorsToggle.IsChecked == true)
+        {
+            _settings.IndependentHostility = true;
+            IndependentHostilityToggle.IsChecked = true;
+        }
         ContinueOosRadio.IsEnabled = ColorsToggle.IsChecked != true;
         _settingsStore.Save(_settings);
+        RefreshConfigurationCode();
+        RefreshStatus();
+    }
+
+    private void GameplayOptionChanged(object sender, RoutedEventArgs e)
+    {
+        if (_initializing) return;
+        _settings.IndependentHostility = IndependentHostilityToggle.IsChecked == true;
+        _settings.AdditionalRoamingCompanies = AdditionalRoamingToggle.IsChecked == true;
+        _settings.SiegeBalance = SiegeBalanceToggle.IsChecked == true;
+        _settings.LargeMapSizes = LargeMapsToggle.IsChecked == true;
+        _settingsStore.Save(_settings);
+        RefreshConfigurationCode();
         RefreshStatus();
     }
 
@@ -420,8 +482,19 @@ public partial class MainWindow : Window
             SelectOosMode("official");
             _settingsStore.Save(_settings);
         }
+        if (ColorsToggle.IsChecked == true || _settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase))
+        {
+            _settings.IndependentHostility = true;
+            IndependentHostilityToggle.IsChecked = true;
+            _settingsStore.Save(_settings);
+        }
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         ContinueOosRadio.IsEnabled = ColorsToggle.IsChecked != true;
+        IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
+        AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
+        SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
+        LargeMapsToggle.IsChecked = _settings.LargeMapSizes;
+        IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true && !_settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase);
         if (!_colorsAvailable)
         {
             ColorsDescriptionText.Text = _text.Language == "ru"
@@ -470,7 +543,13 @@ public partial class MainWindow : Window
         if (sender is RadioButton item && item.Tag is string mode)
         {
             _settings.DesyncMode = mode;
+            if (mode.Equals("continue", StringComparison.OrdinalIgnoreCase))
+            {
+                _settings.IndependentHostility = true;
+                IndependentHostilityToggle.IsChecked = true;
+            }
             _settingsStore.Save(_settings);
+            RefreshConfigurationCode();
             RefreshStatus();
         }
     }
@@ -481,12 +560,96 @@ public partial class MainWindow : Window
         ContinueOosRadio.IsChecked = mode.Equals("continue", StringComparison.OrdinalIgnoreCase);
     }
 
+    private void SpawnMode_Checked(object sender, RoutedEventArgs e)
+    {
+        if (_initializing) return;
+        if (sender is RadioButton item && item.Tag is string mode)
+        {
+            _settings.RoamingSpawnMode = mode.Equals("x4", StringComparison.OrdinalIgnoreCase) ? "x4" : "standard";
+            _settingsStore.Save(_settings);
+            RefreshConfigurationCode();
+            RefreshStatus();
+        }
+    }
+
+    private void SelectSpawnMode(string mode)
+    {
+        var fast = mode.Equals("x4", StringComparison.OrdinalIgnoreCase);
+        StandardSpawnRadio.IsChecked = !fast;
+        X4SpawnRadio.IsChecked = fast;
+    }
+
     private void LanguageButton_Click(object sender, RoutedEventArgs e)
     {
         _settings.Language = _text.Language == "ru" ? "en" : "ru";
         _text.SetLanguage(_settings.Language);
         _settingsStore.Save(_settings);
         ApplyLanguage();
+    }
+
+    private void RefreshConfigurationCode()
+    {
+        if (ConfigurationCodeText is not null)
+            ConfigurationCodeText.Text = ConfigurationCode.Create(_settings);
+    }
+
+    private void CopyConfigurationButton_Click(object sender, RoutedEventArgs e)
+    {
+        var code = ConfigurationCode.Create(_settings);
+        Clipboard.SetText(code);
+        OperationText.Text = _text["configuration.copied"];
+    }
+
+    private async void DiagnosticsButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_game is null || _busy) return;
+        var downloads = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+        var dialog = new SaveFileDialog
+        {
+            Title = _text["diagnostics.dialog"],
+            Filter = "ZIP archive (*.zip)|*.zip",
+            FileName = $"PawsPatch_Diagnostics_{DateTime.Now:yyyy-MM-dd_HHmmss}.zip",
+            InitialDirectory = Directory.Exists(downloads) ? downloads : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+            AddExtension = true,
+            DefaultExt = ".zip"
+        };
+        if (dialog.ShowDialog(this) != true) return;
+
+        try
+        {
+            SetBusy(true, _text["diagnostics.progress"]);
+            var installer = new ModuleInstaller(_game.Directory);
+            var state = installer.LoadState();
+            var errors = await installer.VerifyAsync();
+            var archive = await DiagnosticsCollector.CreateAsync(dialog.FileName, _game, _settings, state, errors);
+            OperationProgress.IsIndeterminate = false;
+            OperationProgress.Value = 100;
+            OperationText.Text = string.Format(_text["diagnostics.ready"], archive);
+        }
+        catch (Exception ex) { ShowError(ex); }
+        finally { SetBusy(false); RefreshStatus(); }
+    }
+
+    private void HelpButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string key }) return;
+        HelpTitleText.Text = _text[$"{key}.title"] == $"{key}.title" ? _text[key] : _text[$"{key}.title"];
+        HelpBodyText.Text = _text[$"{key}.help"];
+        HelpOverlay.Visibility = Visibility.Visible;
+    }
+
+    private void HelpCloseButton_Click(object sender, RoutedEventArgs e) => HelpOverlay.Visibility = Visibility.Collapsed;
+
+    private void ApplyHelpTooltips(DependencyObject parent)
+    {
+        for (var index = 0; index < VisualTreeHelper.GetChildrenCount(parent); index++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, index);
+            if (child is Button { Tag: string key } button
+                && (key.StartsWith("modules.", StringComparison.Ordinal) || key is "configuration" or "diagnostics"))
+                button.ToolTip = _text[$"{key}.help"];
+            ApplyHelpTooltips(child);
+        }
     }
 
     private void SetBusy(bool busy, string? message = null)
@@ -524,10 +687,18 @@ public partial class MainWindow : Window
         GameInfoCard.Visibility = home || settings ? Visibility.Visible : Visibility.Collapsed;
         SettingsPanel.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
         ModulesTitleText.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        MultiplayerNoteCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         CoreModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         RussianModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         ColorsModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         OosModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        IndependentHostilityCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        RoamingSpawnCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        AdditionalRoamingCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        SiegeBalanceCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        LargeMapsCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        ConfigurationCodeCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        DiagnosticsCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
 
         SetNavState(HomeNav, home);
         SetNavState(ModulesNav, modules);

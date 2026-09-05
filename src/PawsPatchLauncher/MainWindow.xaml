@@ -218,12 +218,22 @@
 
                                 <TextBlock x:Name="ModulesTitleText" FontFamily="Georgia" FontSize="19" FontWeight="Bold" Margin="2,0,0,10" Visibility="Collapsed"/>
 
+                                <Border x:Name="MultiplayerNoteCard" CornerRadius="6" Background="#B238301D" BorderBrush="#8C7137" BorderThickness="1" Padding="12" Margin="0,0,0,10" Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="⚔" Foreground="{StaticResource GoldBrightBrush}" FontSize="15" Margin="0,0,9,0"/>
+                                        <TextBlock x:Name="MultiplayerNoteText" Foreground="#E7DFC9" FontSize="11" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Border>
+
                                 <Border x:Name="CoreModuleCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                         <Border Width="34" Height="34" CornerRadius="17" Background="#2E6A4A"><TextBlock Text="✓" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/></Border>
                                         <StackPanel Grid.Column="1" Margin="10,0,12,0">
-                                            <TextBlock x:Name="CoreTitleText" FontWeight="SemiBold" FontSize="14"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="CoreTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.core" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
                                             <TextBlock x:Name="CoreDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
                                         </StackPanel>
                                         <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitch}" IsChecked="True" IsEnabled="False" VerticalAlignment="Center"/>
@@ -235,7 +245,10 @@
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                         <Border Width="34" Height="34" CornerRadius="17" Background="#2B4C72"><TextBlock Text="RU" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="10"/></Border>
                                         <StackPanel Grid.Column="1" Margin="10,0,12,0">
-                                            <TextBlock x:Name="RussianTitleText" FontWeight="SemiBold" FontSize="14"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="RussianTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.ru" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
                                             <TextBlock x:Name="RussianDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
                                         </StackPanel>
                                         <CheckBox x:Name="RussianToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="OptionChanged"/>
@@ -247,25 +260,137 @@
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                         <Border Width="34" Height="34" CornerRadius="17" Background="#56396D"><TextBlock Text="✦" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/></Border>
                                         <StackPanel Grid.Column="1" Margin="10,0,12,0">
-                                            <TextBlock x:Name="ColorsTitleText" FontWeight="SemiBold" FontSize="14"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="ColorsTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.colors" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
                                             <TextBlock x:Name="ColorsDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
                                         </StackPanel>
                                         <CheckBox x:Name="ColorsToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="OptionChanged"/>
                                     </Grid>
                                 </Border>
 
-                                <Border x:Name="OosModuleCard" Style="{StaticResource Card}" Visibility="Collapsed">
+                                <Border x:Name="OosModuleCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                         <Border Width="34" Height="34" CornerRadius="17" Background="#6B3B38"><TextBlock Text="↻" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/></Border>
                                         <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                            <TextBlock x:Name="OosTitleText" FontWeight="SemiBold" FontSize="14"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="OosTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.oos" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
                                             <Grid Margin="0,9,0,0">
                                                 <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                                 <RadioButton x:Name="OfficialOosRadio" GroupName="OosMode" Tag="official" Style="{StaticResource ModeRadio}" Checked="OosMode_Checked"/>
                                                 <RadioButton x:Name="ContinueOosRadio" Grid.Column="2" GroupName="OosMode" Tag="continue" Style="{StaticResource ModeRadio}" Checked="OosMode_Checked"/>
                                             </Grid>
                                         </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <Border x:Name="IndependentHostilityCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <Border Width="34" Height="34" CornerRadius="17" Background="#70402F"><TextBlock Text="⚔" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/></Border>
+                                        <StackPanel Grid.Column="1" Margin="10,0,12,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="IndependentTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.independent" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
+                                            <TextBlock x:Name="IndependentDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                        <CheckBox x:Name="IndependentHostilityToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="GameplayOptionChanged"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border x:Name="RoamingSpawnCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                        <Border Width="34" Height="34" CornerRadius="17" Background="#315C68"><TextBlock Text="⌛" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/></Border>
+                                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="RoamingSpawnTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.spawn" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
+                                            <Grid Margin="0,9,0,0">
+                                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                                <RadioButton x:Name="StandardSpawnRadio" GroupName="SpawnMode" Tag="standard" Style="{StaticResource ModeRadio}" Checked="SpawnMode_Checked"/>
+                                                <RadioButton x:Name="X4SpawnRadio" Grid.Column="2" GroupName="SpawnMode" Tag="x4" Style="{StaticResource ModeRadio}" Checked="SpawnMode_Checked"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <Border x:Name="AdditionalRoamingCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <Border Width="34" Height="34" CornerRadius="17" Background="#4A4F78"><TextBlock Text="➜" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/></Border>
+                                        <StackPanel Grid.Column="1" Margin="10,0,12,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="AdditionalRoamingTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.roaming" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
+                                            <TextBlock x:Name="AdditionalRoamingDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                        <CheckBox x:Name="AdditionalRoamingToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="GameplayOptionChanged"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border x:Name="SiegeBalanceCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <Border Width="34" Height="34" CornerRadius="17" Background="#755327"><TextBlock Text="◉" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/></Border>
+                                        <StackPanel Grid.Column="1" Margin="10,0,12,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="SiegeBalanceTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.siege" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
+                                            <TextBlock x:Name="SiegeBalanceDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                        <CheckBox x:Name="SiegeBalanceToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="GameplayOptionChanged"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border x:Name="LargeMapsCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <Border Width="34" Height="34" CornerRadius="17" Background="#326447"><TextBlock Text="▦" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/></Border>
+                                        <StackPanel Grid.Column="1" Margin="10,0,12,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="LargeMapsTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="modules.maps" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
+                                            <TextBlock x:Name="LargeMapsDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                        <CheckBox x:Name="LargeMapsToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="GameplayOptionChanged"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border x:Name="ConfigurationCodeCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Name="ConfigurationTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                            <Button Style="{StaticResource HelpButton}" Tag="configuration" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                        </StackPanel>
+                                        <TextBlock x:Name="ConfigurationDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" Margin="0,4,0,0"/>
+                                        <Border Background="#0A1729" BorderBrush="#405878" BorderThickness="1" CornerRadius="5" Padding="10,8" Margin="0,10,0,9">
+                                            <TextBlock x:Name="ConfigurationCodeText" FontFamily="Consolas" Foreground="{StaticResource GoldBrightBrush}" TextWrapping="Wrap"/>
+                                        </Border>
+                                        <Button x:Name="CopyConfigurationButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Padding="14,7" Click="CopyConfigurationButton_Click"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border x:Name="DiagnosticsCard" Style="{StaticResource Card}" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <StackPanel Margin="0,0,12,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="DiagnosticsTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource HelpButton}" Tag="diagnostics" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                            </StackPanel>
+                                            <TextBlock x:Name="DiagnosticsDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                        <Button x:Name="DiagnosticsButton" Grid.Column="1" Style="{StaticResource GhostButton}" Padding="14,7" VerticalAlignment="Center" Click="DiagnosticsButton_Click"/>
                                     </Grid>
                                 </Border>
                             </StackPanel>
@@ -299,6 +424,23 @@
                     </Grid>
                 </Grid>
             </Grid>
+
+            <Border x:Name="HelpOverlay" Grid.RowSpan="2" Panel.ZIndex="100" Background="#D907101F" Visibility="Collapsed">
+                <Grid>
+                    <Border Width="520" MaxWidth="520" Background="#132541" BorderBrush="{StaticResource GoldBrush}" BorderThickness="1" CornerRadius="9" Padding="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="30" Height="30" CornerRadius="15" Background="#3B5375" BorderBrush="{StaticResource GoldBrightBrush}" BorderThickness="1" Margin="0,0,12,0">
+                                    <TextBlock Text="?" Foreground="{StaticResource GoldBrightBrush}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="HelpTitleText" FontFamily="Georgia" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBlock x:Name="HelpBodyText" Foreground="#D5DDE8" FontSize="13" LineHeight="21" TextWrapping="Wrap" Margin="0,18,0,20"/>
+                            <Button x:Name="HelpCloseButton" Style="{StaticResource GoldButton}" HorizontalAlignment="Right" Padding="22,9" Click="HelpCloseButton_Click"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
         </Grid>
     </Border>
 </Window>
