@@ -2,6 +2,13 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.4.6",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Корректный статус проверки", "en": "Correct update-check status" },
+      "body": { "ru": "После стартовой или ручной проверки надпись «Проверяю обновления…» заменяется итоговым состоянием и индикатор останавливается.", "en": "After a startup or manual check, Checking for updates is replaced by the final status and the progress indicator stops." }
+    },
+    {
+      "category": "launcher",
       "version": "0.4.5",
       "publishedAt": "2026-09-05",
       "title": { "ru": "Автообновление при запуске", "en": "Automatic startup updates" },
@@ -72,6 +79,13 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.4.6",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Корректный статус проверки", "en": "Correct update-check status" },
+      "body": { "ru": "После стартовой или ручной проверки надпись «Проверяю обновления…» заменяется итоговым состоянием и индикатор останавливается.", "en": "After a startup or manual check, Checking for updates is replaced by the final status and the progress indicator stops." }
+    },
     {
       "category": "launcher",
       "version": "0.4.5",

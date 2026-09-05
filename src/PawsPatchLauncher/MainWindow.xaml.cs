@@ -173,7 +173,19 @@ public partial class MainWindow : Window
             RefreshNews();
             RefreshModuleAvailability();
             RefreshStatus();
-            if (background && _pendingLauncherUpdate is not null)
+            if (!background)
+            {
+                OperationProgress.IsIndeterminate = false;
+                OperationProgress.Value = 0;
+                OperationText.Text = _pendingLauncherUpdate is not null
+                    ? string.Format(_text["update.launcher.ready"], _pendingLauncherUpdate.Version)
+                    : _patchUpdateAvailable
+                        ? _patchInstalled
+                            ? string.Format(_text["update.patch.title"], CurrentChannelName())
+                            : _text["install.patch.title"]
+                        : string.Format(_text["updates.current"], CurrentChannelName());
+            }
+            else if (_pendingLauncherUpdate is not null)
                 OperationText.Text = string.Format(_text["update.launcher.ready"], _pendingLauncherUpdate.Version);
             else if (background && _patchUpdateAvailable)
                 OperationText.Text = _patchInstalled
