@@ -57,6 +57,16 @@ public sealed class ModuleInstaller
             if (!hash.Equals(file.Sha256, StringComparison.OrdinalIgnoreCase))
                 throw new InvalidDataException($"Package file hash mismatch: {file.Path}");
         }
+        var normalizedFiles = module.Files.Select(file => CryptoAndIO.NormalizeRelativePath(file.Path))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var removals = module.Remove.Select(CryptoAndIO.NormalizeRelativePath)
+            .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        foreach (var relative in removals)
+        {
+            CryptoAndIO.SafeChildPath(_gameRoot, relative);
+            if (normalizedFiles.Contains(relative))
+                throw new InvalidDataException($"Package {package.Id} both installs and removes: {relative}");
+        }
         await File.WriteAllTextAsync(readyMarker, package.Sha256, cancellationToken);
         return new InstalledModule
         {
@@ -64,7 +74,8 @@ public sealed class ModuleInstaller
             Priority = package.Priority,
             Enabled = true,
             ArchiveSha256 = package.Sha256,
-            Files = module.Files
+            Files = module.Files,
+            Remove = removals
         };
     }
 
@@ -74,6 +85,8 @@ public sealed class ModuleInstaller
         var state = LoadState();
         var allPaths = state.Modules.Values.SelectMany(x => x.Files).Select(x => CryptoAndIO.NormalizeRelativePath(x.Path))
             .Concat(desired.Values.SelectMany(x => x.Files).Select(x => CryptoAndIO.NormalizeRelativePath(x.Path)))
+            .Concat(state.Modules.Values.SelectMany(x => x.Remove).Select(CryptoAndIO.NormalizeRelativePath))
+            .Concat(desired.Values.SelectMany(x => x.Remove).Select(CryptoAndIO.NormalizeRelativePath))
             .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
 
         foreach (var relative in allPaths)
@@ -126,17 +139,22 @@ public sealed class ModuleInstaller
                 applied.Add((target, rollback, existed));
 
                 var winner = desired
-                    .Where(pair => pair.Value.Enabled && pair.Value.Files.Any(file => CryptoAndIO.NormalizeRelativePath(file.Path).Equals(relative, StringComparison.OrdinalIgnoreCase)))
+                    .Where(pair => pair.Value.Enabled && (Provides(pair.Value, relative) is not null || Removes(pair.Value, relative)))
                     .OrderBy(pair => pair.Value.Priority)
                     .LastOrDefault();
 
                 if (!string.IsNullOrEmpty(winner.Key))
                 {
-                    var source = CryptoAndIO.SafeChildPath(Path.Combine(_packageRoot, Sanitize(winner.Key), Sanitize(winner.Value.Version), "payload"), relative);
-                    Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-                    var temporary = target + ".pawpatch.tmp";
-                    File.Copy(source, temporary, true);
-                    File.Move(temporary, target, true);
+                    var suppliedFile = Provides(winner.Value, relative);
+                    if (suppliedFile is not null)
+                    {
+                        var source = CryptoAndIO.SafeChildPath(Path.Combine(_packageRoot, Sanitize(winner.Key), Sanitize(winner.Value.Version), "payload"), relative);
+                        Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                        var temporary = target + ".pawpatch.tmp";
+                        File.Copy(source, temporary, true);
+                        File.Move(temporary, target, true);
+                    }
+                    else if (File.Exists(target)) File.Delete(target);
                 }
                 else if (state.Originals.TryGetValue(relative, out var original) && original.Existed && original.BackupRelativePath is not null)
                 {
@@ -171,21 +189,32 @@ public sealed class ModuleInstaller
     {
         var state = LoadState();
         var errors = new List<string>();
-        foreach (var module in state.Modules.Where(pair => pair.Value.Enabled))
+        var paths = state.Modules.Values.Where(module => module.Enabled)
+            .SelectMany(module => module.Files.Select(file => CryptoAndIO.NormalizeRelativePath(file.Path)).Concat(module.Remove.Select(CryptoAndIO.NormalizeRelativePath)))
+            .Distinct(StringComparer.OrdinalIgnoreCase);
+        foreach (var relative in paths)
         {
-            foreach (var file in module.Value.Files)
+            var winner = state.Modules.Where(pair => pair.Value.Enabled && (Provides(pair.Value, relative) is not null || Removes(pair.Value, relative)))
+                .OrderBy(pair => pair.Value.Priority).Last();
+            var expected = Provides(winner.Value, relative);
+            var target = CryptoAndIO.SafeChildPath(_gameRoot, relative);
+            if (expected is null)
             {
-                var target = CryptoAndIO.SafeChildPath(_gameRoot, file.Path);
-                if (!File.Exists(target)) { errors.Add($"Missing: {file.Path}"); continue; }
-                var winner = state.Modules.Where(pair => pair.Value.Enabled && pair.Value.Files.Any(x => CryptoAndIO.NormalizeRelativePath(x.Path).Equals(CryptoAndIO.NormalizeRelativePath(file.Path), StringComparison.OrdinalIgnoreCase)))
-                    .OrderBy(pair => pair.Value.Priority).Last();
-                if (!winner.Key.Equals(module.Key, StringComparison.OrdinalIgnoreCase)) continue;
-                var actual = await CryptoAndIO.Sha256Async(target, cancellationToken);
-                if (!actual.Equals(file.Sha256, StringComparison.OrdinalIgnoreCase)) errors.Add($"Changed: {file.Path}");
+                if (File.Exists(target)) errors.Add($"Should be removed: {relative}");
+                continue;
             }
+            if (!File.Exists(target)) { errors.Add($"Missing: {relative}"); continue; }
+            var actual = await CryptoAndIO.Sha256Async(target, cancellationToken);
+            if (!actual.Equals(expected.Sha256, StringComparison.OrdinalIgnoreCase)) errors.Add($"Changed: {relative}");
         }
         return errors;
     }
+
+    private static ModuleFile? Provides(InstalledModule module, string relative)
+        => module.Files.FirstOrDefault(file => CryptoAndIO.NormalizeRelativePath(file.Path).Equals(relative, StringComparison.OrdinalIgnoreCase));
+
+    private static bool Removes(InstalledModule module, string relative)
+        => module.Remove.Any(path => CryptoAndIO.NormalizeRelativePath(path).Equals(relative, StringComparison.OrdinalIgnoreCase));
 
     private static string Sanitize(string value)
     {

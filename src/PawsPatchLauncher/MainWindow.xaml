@@ -74,6 +74,8 @@
                     <TextBlock Text="  /  KOHAN II" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock x:Name="BetaChannelText" VerticalAlignment="Center" Foreground="{StaticResource TextMutedBrush}" FontSize="11" Margin="0,0,7,0"/>
+                    <CheckBox x:Name="BetaChannelToggle" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Margin="0,0,14,0" Click="BetaChannelToggle_Click"/>
                     <Button x:Name="LanguageButton" Width="58" Height="32" Margin="0,7,6,7" Style="{StaticResource GhostButton}" Padding="4" Click="LanguageButton_Click">EN</Button>
                     <Button Width="42" Height="46" Background="Transparent" Foreground="{StaticResource TextMutedBrush}" BorderThickness="0" FontSize="18" Click="MinimizeButton_Click">−</Button>
                     <Button Width="46" Height="46" Background="Transparent" Foreground="{StaticResource TextMutedBrush}" BorderThickness="0" FontSize="16" Click="CloseButton_Click">×</Button>
@@ -107,7 +109,7 @@
                         </StackPanel>
                         <StackPanel Grid.Row="4">
                             <TextBlock Text="LAUNCHER" Foreground="#708098" FontSize="10"/>
-                            <TextBlock Text="0.1.0 · preview" Foreground="{StaticResource TextMutedBrush}" FontSize="12" Margin="0,3,0,0"/>
+                            <TextBlock x:Name="LauncherVersionText" Foreground="{StaticResource TextMutedBrush}" FontSize="12" Margin="0,3,0,0"/>
                         </StackPanel>
                     </Grid>
                 </Border>

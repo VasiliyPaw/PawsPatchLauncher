@@ -27,6 +27,7 @@ public partial class MainWindow : Window
         _feedClient = new FeedClient(_configuration);
         _settings = _settingsStore.Load();
         _text = new Localization(_settings.Language);
+        BetaChannelToggle.IsChecked = _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase);
         RussianToggle.IsChecked = _settings.RussianLocalization;
         ColorsToggle.IsChecked = _settings.CustomPlayerColors;
         SelectOosMode(_settings.DesyncMode);
@@ -49,6 +50,10 @@ public partial class MainWindow : Window
         HomeNav.Content = "⌂   " + _text["nav.home"];
         ModulesNav.Content = "◇   " + _text["nav.modules"];
         SettingsNav.Content = "⚙   " + _text["nav.settings"];
+        BetaChannelText.Text = _text["channel.beta"];
+        BetaChannelToggle.ToolTip = _text["channel.beta.tip"];
+        var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
+        LauncherVersionText.Text = $"{version.Major}.{version.Minor}.{version.Build} · {_settings.Channel.ToLowerInvariant()}";
         GamePathLabel.Text = _text["game.path"].ToUpperInvariant();
         GameVersionLabel.Text = _text["game.version"].ToUpperInvariant();
         PatchVersionLabel.Text = _text["patch.version"].ToUpperInvariant();
@@ -85,7 +90,10 @@ public partial class MainWindow : Window
 
     private async Task CheckFeedAsync()
     {
-        if (_configuration.FeedUrls.Count == 0)
+        var sources = _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase)
+            ? _configuration.BetaFeedUrls
+            : _configuration.FeedUrls;
+        if (sources.Count == 0)
         {
             OperationText.Text = _text["status.feedmissing"];
             return;
@@ -94,7 +102,9 @@ public partial class MainWindow : Window
         try
         {
             SetBusy(true, _text["progress.checking"]);
-            _channel = await _feedClient.GetChannelAsync();
+            _channel = null;
+            RefreshModuleAvailability();
+            _channel = await _feedClient.GetChannelAsync(_settings.Channel);
             RefreshModuleAvailability();
             if (_channel is not null && await TrySelfUpdateAsync(_channel.Launcher)) return;
         }
@@ -108,7 +118,11 @@ public partial class MainWindow : Window
         GamePathText.Text = _game?.Directory ?? "—";
         GameVersionText.Text = _game is null ? "—" : $"{(_game.Branch == "beta" ? "Beta" : "Steam")} · build {_game.SteamBuild ?? "?"}";
         PatchVersionText.Text = state?.Modules.TryGetValue("pawpatch-core", out var core) == true ? core.Version : "—";
-        ReadyStatusText.Text = _game is null ? _text["status.notfound"] : _text["status.ready"];
+        ReadyStatusText.Text = _game is null
+            ? _text["status.notfound"]
+            : _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase)
+                ? $"{_text["status.ready"]} · {_text["channel.beta"]}"
+                : _text["status.ready"];
         ReadyStatusText.Foreground = _game is null ? (System.Windows.Media.Brush)FindResource("DangerBrush") : (System.Windows.Media.Brush)FindResource("SuccessBrush");
         ReadyStatusBadge.Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_game is null ? "#3B2226" : "#193926"));
         ReadyStatusBadge.BorderBrush = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_game is null ? "#844B50" : "#3F8D64"));
@@ -116,6 +130,7 @@ public partial class MainWindow : Window
         RepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
         LaunchButton.IsEnabled = !_busy && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
+        BetaChannelToggle.IsEnabled = !_busy;
     }
 
     private async void UpdateButton_Click(object sender, RoutedEventArgs e)
@@ -208,8 +223,7 @@ public partial class MainWindow : Window
         var bypass = _settings.DesyncMode == "continue";
         var name = (colors, bypass) switch
         {
-            (true, true) => "k2_paws_sync_family_herd_relations_lobby_colors_mp_1372_experimental.exe",
-            (true, false) => "k2_paws_family_herd_relations_lobby_colors_mp_1372_experimental.exe",
+            (true, _) => "k2_paws_lobby_colors_mp_1372_experimental.exe",
             (false, true) => "k2_paws_sync_family_herd_relations_1372.exe",
             _ => _configuration.PreferredGameExecutable
         };
@@ -262,6 +276,15 @@ public partial class MainWindow : Window
         if (_initializing) return;
         _settings.RussianLocalization = RussianToggle.IsChecked == true;
         _settings.CustomPlayerColors = ColorsToggle.IsChecked == true;
+        if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue")
+        {
+            _settings.DesyncMode = "official";
+            SelectOosMode("official");
+            OperationText.Text = _text.Language == "ru"
+                ? "Цвета пока тестируются только со штатной проверкой рассинхрона."
+                : "Player colors are currently tested only with the official out-of-sync handling.";
+        }
+        ContinueOosRadio.IsEnabled = ColorsToggle.IsChecked != true;
         _settingsStore.Save(_settings);
     }
 
@@ -269,13 +292,30 @@ public partial class MainWindow : Window
     {
         _colorsAvailable = _channel?.Packages.Any(x => x.Id.Equals("player-colors", StringComparison.OrdinalIgnoreCase)) == true;
         ColorsToggle.IsChecked = _colorsAvailable && _settings.CustomPlayerColors;
+        if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue")
+        {
+            _settings.DesyncMode = "official";
+            SelectOosMode("official");
+            _settingsStore.Save(_settings);
+        }
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
+        ContinueOosRadio.IsEnabled = ColorsToggle.IsChecked != true;
         if (!_colorsAvailable)
         {
             ColorsDescriptionText.Text = _text.Language == "ru"
-                ? "Готовится совместимая версия для сетевой игры"
-                : "A multiplayer-compatible build is in preparation";
+                ? "Доступно в канале «Бета»"
+                : "Available in the Beta channel";
         }
+    }
+
+    private async void BetaChannelToggle_Click(object sender, RoutedEventArgs e)
+    {
+        if (_initializing || _busy) return;
+        _settings.Channel = BetaChannelToggle.IsChecked == true ? "beta" : "stable";
+        _settingsStore.Save(_settings);
+        ApplyLanguage();
+        await CheckFeedAsync();
+        RefreshStatus();
     }
 
     private void OosMode_Checked(object sender, RoutedEventArgs e)

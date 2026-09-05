@@ -17,19 +17,25 @@ public sealed class FeedClient
             ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher")
             : Path.GetFullPath(configuration.CacheRoot);
         _http = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
-        _http.DefaultRequestHeaders.UserAgent.ParseAdd("PawsPatchLauncher/0.1");
+        _http.DefaultRequestHeaders.UserAgent.ParseAdd("PawsPatchLauncher/0.2");
     }
 
-    public async Task<ChannelManifest?> GetChannelAsync(CancellationToken cancellationToken = default)
+    public async Task<ChannelManifest?> GetChannelAsync(string channel = "stable", CancellationToken cancellationToken = default)
     {
-        if (_configuration.FeedUrls.Count == 0) return null;
+        var sources = channel.Equals("beta", StringComparison.OrdinalIgnoreCase)
+            ? _configuration.BetaFeedUrls
+            : _configuration.FeedUrls;
+        if (sources.Count == 0) return null;
         var errors = new List<Exception>();
-        foreach (var source in _configuration.FeedUrls)
+        foreach (var source in sources)
         {
             try
             {
                 var bytes = await ReadBytesAsync(source, cancellationToken);
-                return ParseFeed(bytes, IsRemote(source));
+                var manifest = ParseFeed(bytes, IsRemote(source));
+                if (!manifest.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidDataException($"Requested update channel '{channel}', received '{manifest.Channel}'.");
+                return manifest;
             }
             catch (Exception ex) { errors.Add(ex); }
         }

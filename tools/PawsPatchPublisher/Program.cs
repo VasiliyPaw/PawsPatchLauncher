@@ -50,10 +50,23 @@ static async Task PackAsync(string id, string version, string sourceArgument, st
     try
     {
         var manifest = new ModuleArchiveManifest { Id = id, Version = version };
+        var removalsPath = Path.Combine(source, ".pawpatch-remove.txt");
+        if (File.Exists(removalsPath))
+        {
+            manifest.Remove = File.ReadAllLines(removalsPath)
+                .Select(line => line.Trim())
+                .Where(line => line.Length > 0 && !line.StartsWith('#'))
+                .Select(CryptoAndIO.NormalizeRelativePath)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            foreach (var relative in manifest.Remove) CryptoAndIO.SafeChildPath(source, relative);
+        }
         foreach (var file in Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories).OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
         {
             var relative = CryptoAndIO.NormalizeRelativePath(Path.GetRelativePath(source, file));
-            if (relative.Equals("module.json", StringComparison.OrdinalIgnoreCase)) continue;
+            if (relative.Equals("module.json", StringComparison.OrdinalIgnoreCase) || relative.Equals(".pawpatch-remove.txt", StringComparison.OrdinalIgnoreCase)) continue;
+            if (manifest.Remove.Contains(relative, StringComparer.OrdinalIgnoreCase))
+                throw new InvalidDataException($"Package both installs and removes: {relative}");
             var target = CryptoAndIO.SafeChildPath(payload, relative);
             Directory.CreateDirectory(Path.GetDirectoryName(target)!);
             File.Copy(file, target, true);
@@ -68,7 +81,7 @@ static async Task PackAsync(string id, string version, string sourceArgument, st
             JsonSerializer.Serialize(manifest, LauncherJsonContext.Default.ModuleArchiveManifest));
         if (File.Exists(output)) File.Delete(output);
         ZipFile.CreateFromDirectory(temporary, output, CompressionLevel.SmallestSize, false);
-        Console.WriteLine($"PACKED {id} {version} {manifest.Files.Count} files {new FileInfo(output).Length} bytes {await CryptoAndIO.Sha256Async(output)}");
+        Console.WriteLine($"PACKED {id} {version} {manifest.Files.Count} files {manifest.Remove.Count} removals {new FileInfo(output).Length} bytes {await CryptoAndIO.Sha256Async(output)}");
     }
     finally { try { Directory.Delete(temporary, true); } catch { } }
 }

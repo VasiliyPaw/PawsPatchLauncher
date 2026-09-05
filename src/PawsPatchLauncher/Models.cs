@@ -5,6 +5,7 @@ namespace PawsPatchLauncher;
 public sealed class LauncherConfiguration
 {
     public List<string> FeedUrls { get; set; } = [];
+    public List<string> BetaFeedUrls { get; set; } = ["https://raw.githubusercontent.com/VasiliyPaw/PawsPatchLauncher/main/feed/beta.json"];
     public string PublicKeyPem { get; set; } = "";
     public string? CacheRoot { get; set; }
     public bool RequireSignedRemoteFeed { get; set; } = true;
@@ -109,6 +110,7 @@ public sealed class InstalledModule
     public bool Enabled { get; set; }
     public string ArchiveSha256 { get; set; } = "";
     public List<ModuleFile> Files { get; set; } = [];
+    public List<string> Remove { get; set; } = [];
 }
 
 public sealed class OriginalFile

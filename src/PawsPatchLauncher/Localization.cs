@@ -33,7 +33,9 @@ public sealed class Localization
         ["modules.ru"] = ("Русская локализация", "Russian localization"),
         ["modules.ru.desc"] = ("Перевод оригинальной игры, Arcane Wars и новых настроек", "Translation for the base game, Arcane Wars and new settings"),
         ["modules.colors"] = ("Расширенные цвета игроков", "Extended player colors"),
-        ["modules.colors.desc"] = ("48 дополнительных цветов в лобби · экспериментально", "48 additional lobby colors · experimental"),
+        ["modules.colors.desc"] = ("51 цвет в лобби · экспериментально", "51 lobby colors · experimental"),
+        ["channel.beta"] = ("Бета", "Beta"),
+        ["channel.beta.tip"] = ("Тестовые функции и ранние обновления", "Test features and early updates"),
         ["modules.oos"] = ("Обработка рассинхрона", "Out-of-sync handling"),
         ["modules.oos.official"] = ("Официальная — остановить игру", "Official — stop the game"),
         ["modules.oos.continue"] = ("Продолжать игру · экспериментально", "Continue the game · experimental"),
@@ -50,4 +52,3 @@ public sealed class Localization
         ["dialog.selectgame"] = ("Выберите папку Kohan II", "Select the Kohan II folder"),
     };
 }
-

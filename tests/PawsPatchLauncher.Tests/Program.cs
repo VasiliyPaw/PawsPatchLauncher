@@ -4,9 +4,15 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
-if (args.Length == 3 && args[0] == "--verify-release")
+if ((args.Length == 3 || args.Length == 4) && args[0] == "--verify-release")
 {
-    await VerifyReleaseAsync(args[1], args[2]);
+    await VerifyReleaseAsync(args[1], args[2], args.Length == 4 ? args[3] : "stable");
+    return;
+}
+
+if (args.Length == 4 && args[0] == "--verify-transition")
+{
+    await VerifyTransitionAsync(args[1], args[2], args[3]);
     return;
 }
 
@@ -18,6 +24,20 @@ try
 {
     ExpectThrows<InvalidDataException>(() => CryptoAndIO.SafeChildPath(root, "..\\escape.txt"));
     passed++;
+
+    var stableFeedPath = Path.Combine(root, "stable.json");
+    var betaFeedPath = Path.Combine(root, "beta.json");
+    await File.WriteAllTextAsync(stableFeedPath, JsonSerializer.Serialize(new ChannelManifest { Channel = "stable" }, LauncherJsonContext.Default.ChannelManifest));
+    await File.WriteAllTextAsync(betaFeedPath, JsonSerializer.Serialize(new ChannelManifest { Channel = "beta" }, LauncherJsonContext.Default.ChannelManifest));
+    var channelClient = new FeedClient(new LauncherConfiguration
+    {
+        FeedUrls = [stableFeedPath],
+        BetaFeedUrls = [betaFeedPath],
+        CacheRoot = Path.Combine(root, "channel-cache")
+    });
+    AssertEqual("stable", (await channelClient.GetChannelAsync("stable"))?.Channel);
+    AssertEqual("beta", (await channelClient.GetChannelAsync("beta"))?.Channel);
+    passed += 2;
 
     var game = Path.Combine(root, "game");
     Directory.CreateDirectory(game);
@@ -72,6 +92,20 @@ try
     AssertEqual("arcane", await File.ReadAllTextAsync(Path.Combine(adoptedGame, "shared.txt")));
     passed++;
 
+    var cleanupGame = Path.Combine(root, "cleanup-game");
+    Directory.CreateDirectory(cleanupGame);
+    await File.WriteAllTextAsync(Path.Combine(cleanupGame, "obsolete.txt"), "manual legacy file");
+    var cleanupPackage = await CreatePackageAsync(root, "cleanup", "1.0.0", 500,
+        new Dictionary<string, string>(), ["obsolete.txt"]);
+    var cleanupInstaller = new ModuleInstaller(cleanupGame);
+    var cleanupInstalled = await cleanupInstaller.PrepareAsync(cleanupPackage.Release, cleanupPackage.Archive);
+    await cleanupInstaller.ReconcileAsync(new Dictionary<string, InstalledModule> { [cleanupPackage.Release.Id] = cleanupInstalled });
+    AssertTrue(!File.Exists(Path.Combine(cleanupGame, "obsolete.txt")), "A declared obsolete file was not removed.");
+    AssertEqual(0, (await cleanupInstaller.VerifyAsync()).Count);
+    await cleanupInstaller.ReconcileAsync(new Dictionary<string, InstalledModule>());
+    AssertEqual("manual legacy file", await File.ReadAllTextAsync(Path.Combine(cleanupGame, "obsolete.txt")));
+    passed += 3;
+
     Console.WriteLine($"PASS {passed}");
 }
 finally
@@ -80,12 +114,12 @@ finally
 }
 
 static async Task<(PackageRelease Release, string Archive)> CreatePackageAsync(string root, string id, string version, int priority,
-    Dictionary<string, string> files)
+    Dictionary<string, string> files, IEnumerable<string>? remove = null)
 {
     var source = Path.Combine(root, "source-" + id);
     var payload = Path.Combine(source, "payload");
     Directory.CreateDirectory(payload);
-    var manifest = new ModuleArchiveManifest { Id = id, Version = version };
+    var manifest = new ModuleArchiveManifest { Id = id, Version = version, Remove = remove?.ToList() ?? [] };
     foreach (var pair in files)
     {
         var path = Path.Combine(payload, pair.Key);
@@ -118,7 +152,7 @@ static void ExpectThrows<T>(Action action) where T : Exception
     throw new Exception($"Expected {typeof(T).Name}.");
 }
 
-static async Task VerifyReleaseAsync(string feedPath, string publicKeyPath)
+static async Task VerifyReleaseAsync(string feedPath, string publicKeyPath, string channelName)
 {
     var root = Path.Combine(Path.GetTempPath(), "PawsPatchLauncherReleaseTests", Guid.NewGuid().ToString("N"));
     var game = Path.Combine(root, "Kohan II");
@@ -134,7 +168,8 @@ static async Task VerifyReleaseAsync(string feedPath, string publicKeyPath)
             CacheRoot = Path.Combine(root, "cache")
         };
         var client = new FeedClient(configuration);
-        var channel = await client.GetChannelAsync() ?? throw new Exception("Release feed was not loaded.");
+        if (channelName.Equals("beta", StringComparison.OrdinalIgnoreCase)) configuration.BetaFeedUrls = [Path.GetFullPath(feedPath)];
+        var channel = await client.GetChannelAsync(channelName) ?? throw new Exception("Release feed was not loaded.");
         var installer = new ModuleInstaller(game);
         var modules = new Dictionary<string, InstalledModule>(StringComparer.OrdinalIgnoreCase);
         foreach (var package in channel.Packages.OrderBy(x => x.Priority))
@@ -155,6 +190,60 @@ static async Task VerifyReleaseAsync(string feedPath, string publicKeyPath)
     {
         var full = Path.GetFullPath(root);
         var safeParent = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "PawsPatchLauncherReleaseTests")) + Path.DirectorySeparatorChar;
+        if (full.StartsWith(safeParent, StringComparison.OrdinalIgnoreCase) && Directory.Exists(full)) Directory.Delete(full, true);
+    }
+}
+
+static async Task VerifyTransitionAsync(string betaFeedPath, string stableFeedPath, string publicKeyPath)
+{
+    var root = Path.Combine(Path.GetTempPath(), "PawsPatchLauncherTransitionTests", Guid.NewGuid().ToString("N"));
+    var game = Path.Combine(root, "Kohan II");
+    var cache = Path.Combine(root, "cache");
+    Directory.CreateDirectory(game);
+    try
+    {
+        await File.WriteAllTextAsync(Path.Combine(game, "k2.exe"), "test sentinel; never distributed");
+        var configuration = new LauncherConfiguration
+        {
+            FeedUrls = [Path.GetFullPath(stableFeedPath)],
+            BetaFeedUrls = [Path.GetFullPath(betaFeedPath)],
+            PublicKeyPem = await File.ReadAllTextAsync(Path.GetFullPath(publicKeyPath)),
+            RequireSignedRemoteFeed = true,
+            CacheRoot = cache
+        };
+        var client = new FeedClient(configuration);
+        var installer = new ModuleInstaller(game);
+
+        async Task ApplyAsync(string channelName)
+        {
+            var channel = await client.GetChannelAsync(channelName) ?? throw new Exception($"{channelName} feed was not loaded.");
+            var modules = new Dictionary<string, InstalledModule>(StringComparer.OrdinalIgnoreCase);
+            foreach (var package in channel.Packages.OrderBy(x => x.Priority))
+            {
+                var archive = await client.DownloadVerifiedAsync(package, null);
+                modules[package.Id] = await installer.PrepareAsync(package, archive);
+            }
+            await installer.ReconcileAsync(modules);
+            var errors = await installer.VerifyAsync();
+            if (errors.Count != 0) throw new Exception($"{channelName} verification failed: " + string.Join("; ", errors.Take(10)));
+        }
+
+        var colorFiles = new[]
+        {
+            "k2_paws_lobby_colors_mp_1372_experimental.exe",
+            "paws_player_colors.ini",
+            Path.Combine("Data", "UI", "Menus", "pcolors.tgi")
+        };
+        await ApplyAsync("beta");
+        foreach (var relative in colorFiles) AssertTrue(File.Exists(Path.Combine(game, relative)), $"Beta color file is missing: {relative}");
+        await ApplyAsync("stable");
+        foreach (var relative in colorFiles) AssertTrue(!File.Exists(Path.Combine(game, relative)), $"Stable rollback left a beta color file: {relative}");
+        Console.WriteLine("TRANSITION PASS beta->stable removed 3 beta color files");
+    }
+    finally
+    {
+        var full = Path.GetFullPath(root);
+        var safeParent = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "PawsPatchLauncherTransitionTests")) + Path.DirectorySeparatorChar;
         if (full.StartsWith(safeParent, StringComparison.OrdinalIgnoreCase) && Directory.Exists(full)) Directory.Delete(full, true);
     }
 }
