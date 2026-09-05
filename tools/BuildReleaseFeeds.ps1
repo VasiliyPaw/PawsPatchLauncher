@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$LauncherPath,
-    [string]$LauncherVersion = '0.4.2',
+    [string]$LauncherVersion = '0.4.3',
     [long]$PublishedLauncherSize = 0,
     [string]$PublishedLauncherSha256 = '',
     [string]$ModuleVersion = '1.3.72-options.1',
@@ -109,16 +109,16 @@ foreach ($channel in @('stable', 'beta')) {
     $kept = @($feed.packages | Where-Object { $_.id -notin $newIds })
     $feed.packages = @($kept) + @($definitions | ForEach-Object { New-PackageRelease $_ })
     if ($channel -eq 'stable') {
-        $feed.newsTitle = [ordered]@{ ru = 'Лаунчер 0.4.2 · удобные проверки'; en = 'Launcher 0.4.2 · convenient checks' }
+        $feed.newsTitle = [ordered]@{ ru = 'Лаунчер 0.4.3 · большие карты всегда включены'; en = 'Launcher 0.4.3 · large maps always enabled' }
         $feed.newsBody = [ordered]@{
-            ru = 'Кнопка проверки обновлений теперь всегда доступна в нижней панели. Проверка целостности установленных файлов перенесена в настройки.'
-            en = 'The update check is now always available in the bottom bar. Installed-file verification was moved to Settings.'
+            ru = "Переключатель больших карт убран. Размеры 1024×1024 и 1152×1152 теперь являются постоянной частью Paw's Patch."
+            en = "The large-map toggle was removed. The 1024×1024 and 1152×1152 sizes are now a permanent part of Paw's Patch."
         }
     } else {
-        $feed.newsTitle = [ordered]@{ ru = 'Бета · цвета r10 и лаунчер 0.4.2'; en = 'Beta · colors r10 and launcher 0.4.2' }
+        $feed.newsTitle = [ordered]@{ ru = 'Бета · цвета r10 и лаунчер 0.4.3'; en = 'Beta · colors r10 and launcher 0.4.3' }
         $feed.newsBody = [ordered]@{
-            ru = 'Палитра упорядочена по обычной, светлой и тёмной радуге; исправлена начальная подпись «Случайно». Проверка обновлений перенесена в нижнюю панель, а проверка файлов — в настройки.'
-            en = 'The palette is ordered as regular, light and dark rainbows, and the initial Random label is fixed. Update checking moved to the bottom bar and file verification to Settings.'
+            ru = 'Большие карты теперь всегда включены. Палитра упорядочена по обычной, светлой и тёмной радуге; исправлена начальная подпись «Случайно».'
+            en = 'Large maps are now always enabled. The palette is ordered as regular, light and dark rainbows, and the initial Random label is fixed.'
         }
     }
     $feed | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $path -Encoding utf8NoBOM

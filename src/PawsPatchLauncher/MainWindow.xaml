@@ -354,21 +354,6 @@
                                     </Grid>
                                 </Border>
 
-                                <Border x:Name="LargeMapsCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                        <Border Width="34" Height="34" CornerRadius="17" Background="#326447"><TextBlock Text="▦" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/></Border>
-                                        <StackPanel Grid.Column="1" Margin="10,0,12,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock x:Name="LargeMapsTitleText" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center"/>
-                                                <Button Style="{StaticResource HelpButton}" Tag="modules.maps" Margin="8,0,0,0" Click="HelpButton_Click"/>
-                                            </StackPanel>
-                                            <TextBlock x:Name="LargeMapsDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
-                                        </StackPanel>
-                                        <CheckBox x:Name="LargeMapsToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="GameplayOptionChanged"/>
-                                    </Grid>
-                                </Border>
-
                                 <Border x:Name="ConfigurationCodeCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal">

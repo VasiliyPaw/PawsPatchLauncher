@@ -27,16 +27,16 @@ foreach ($channel in @('stable', 'beta')) {
     $feed.launcher.urls = @($launcherUrl)
 
     if ($channel -eq 'stable') {
-        $feed.newsTitle = [ordered]@{ ru = "Лаунчер $LauncherVersion · удобные проверки"; en = "Launcher $LauncherVersion · convenient checks" }
+        $feed.newsTitle = [ordered]@{ ru = "Лаунчер $LauncherVersion · большие карты всегда включены"; en = "Launcher $LauncherVersion · large maps always enabled" }
         $feed.newsBody = [ordered]@{
-            ru = 'Кнопка проверки обновлений теперь всегда доступна в нижней панели. Проверка целостности установленных файлов перенесена в настройки.'
-            en = 'The update check is now always available in the bottom bar. Installed-file verification was moved to Settings.'
+            ru = "Переключатель больших карт убран. Размеры 1024×1024 и 1152×1152 теперь являются постоянной частью Paw's Patch."
+            en = "The large-map toggle was removed. The 1024×1024 and 1152×1152 sizes are now a permanent part of Paw's Patch."
         }
     } else {
         $feed.newsTitle = [ordered]@{ ru = "Бета · цвета r10 и лаунчер $LauncherVersion"; en = "Beta · colors r10 and launcher $LauncherVersion" }
         $feed.newsBody = [ordered]@{
-            ru = 'Палитра упорядочена по обычной, светлой и тёмной радуге; исправлена начальная подпись «Случайно». Проверка обновлений перенесена в нижнюю панель, а проверка файлов — в настройки.'
-            en = 'The palette is ordered as regular, light and dark rainbows, and the initial Random label is fixed. Update checking moved to the bottom bar and file verification to Settings.'
+            ru = 'Большие карты теперь всегда включены. Палитра упорядочена по обычной, светлой и тёмной радуге; исправлена начальная подпись «Случайно».'
+            en = 'Large maps are now always enabled. The palette is ordered as regular, light and dark rainbows, and the initial Random label is fixed.'
         }
     }
 

@@ -70,7 +70,7 @@ try
         CustomPlayerColors = false,
         DesyncMode = "continue"
     });
-    AssertEqual("PAW-BETA-IW1-SP1-RM0-SG1-LM0-RU1-CL0-OOS1", configurationCode);
+    AssertEqual("PAW-BETA-IW1-SP1-RM0-SG1-LM1-RU1-CL0-OOS1", configurationCode);
     passed++;
 
     var executableConfiguration = new LauncherConfiguration

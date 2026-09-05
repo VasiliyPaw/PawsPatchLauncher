@@ -35,6 +35,12 @@ public partial class MainWindow : Window
         _configuration = SettingsStore.LoadConfiguration();
         _feedClient = new FeedClient(_configuration);
         _settings = _settingsStore.Load();
+        if (!_settings.LargeMapSizes)
+        {
+            _settings.LargeMapSizes = true;
+            _settings.PreparedFeedFingerprint = null;
+            _settingsStore.Save(_settings);
+        }
         _text = new Localization(_settings.Language);
         BetaChannelToggle.IsChecked = _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase);
         SettingsBetaToggle.IsChecked = BetaChannelToggle.IsChecked;
@@ -43,7 +49,6 @@ public partial class MainWindow : Window
         IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
-        LargeMapsToggle.IsChecked = _settings.LargeMapSizes;
         SelectOosMode(_settings.DesyncMode);
         SelectSpawnMode(_settings.RoamingSpawnMode);
         ApplyLanguage();
@@ -109,8 +114,6 @@ public partial class MainWindow : Window
         AdditionalRoamingDescriptionText.Text = _text["modules.roaming.desc"];
         SiegeBalanceTitleText.Text = _text["modules.siege"];
         SiegeBalanceDescriptionText.Text = _text["modules.siege.desc"];
-        LargeMapsTitleText.Text = _text["modules.maps"];
-        LargeMapsDescriptionText.Text = _text["modules.maps.desc"];
         MultiplayerNoteText.Text = _text["modules.multiplayer.note"];
         ConfigurationTitleText.Text = _text["configuration.title"];
         ConfigurationDescriptionText.Text = _text["configuration.desc"];
@@ -216,7 +219,6 @@ public partial class MainWindow : Window
         X4SpawnRadio.IsEnabled = !_busy;
         AdditionalRoamingToggle.IsEnabled = !_busy;
         SiegeBalanceToggle.IsEnabled = !_busy;
-        LargeMapsToggle.IsEnabled = !_busy;
         CopyConfigurationButton.IsEnabled = !_busy;
         DiagnosticsButton.IsEnabled = !_busy && _game is not null;
         BetaChannelToggle.IsEnabled = !_busy;
@@ -356,7 +358,6 @@ public partial class MainWindow : Window
         if (fastSpawn && !_settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-x4-no-new");
         if (!fastSpawn && !_settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-no-new");
         if (!_settings.SiegeBalance) ids.Add("siege-balance-standard");
-        if (!_settings.LargeMapSizes) ids.Add("large-map-sizes-standard");
 
         bool changed;
         do
@@ -518,7 +519,6 @@ public partial class MainWindow : Window
         _settings.IndependentHostility = IndependentHostilityToggle.IsChecked == true;
         _settings.AdditionalRoamingCompanies = AdditionalRoamingToggle.IsChecked == true;
         _settings.SiegeBalance = SiegeBalanceToggle.IsChecked == true;
-        _settings.LargeMapSizes = LargeMapsToggle.IsChecked == true;
         _settingsStore.Save(_settings);
         RefreshConfigurationCode();
         RefreshStatus();
@@ -545,7 +545,6 @@ public partial class MainWindow : Window
         IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
-        LargeMapsToggle.IsChecked = _settings.LargeMapSizes;
         IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
         if (!_colorsAvailable)
         {
@@ -743,7 +742,6 @@ public partial class MainWindow : Window
         RoamingSpawnCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         AdditionalRoamingCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         SiegeBalanceCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
-        LargeMapsCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         ConfigurationCodeCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         DiagnosticsCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
 
