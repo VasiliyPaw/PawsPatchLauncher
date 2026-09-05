@@ -9,3 +9,4 @@ release_workspace_*/
 *.zip
 !packages/startup-base-*.zip
 !packages/desync-continue-*.zip
+!packages/player-colors-*.zip
