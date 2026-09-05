@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$LauncherPath,
-    [string]$LauncherVersion = '0.4.4',
+    [string]$LauncherVersion = '0.4.5',
     [long]$PublishedLauncherSize = 0,
     [string]$PublishedLauncherSha256 = '',
     [string]$ModuleVersion = '1.3.72-options.1',

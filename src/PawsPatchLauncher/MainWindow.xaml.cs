@@ -65,6 +65,7 @@ public partial class MainWindow : Window
     {
         LocateGame();
         await CheckFeedAsync();
+        if (await InstallPendingLauncherUpdateAsync(showErrors: false)) return;
         _updateTimer.Start();
         RefreshStatus();
     }
@@ -574,8 +575,13 @@ public partial class MainWindow : Window
 
     private async void LauncherUpdateButton_Click(object sender, RoutedEventArgs e)
     {
+        await InstallPendingLauncherUpdateAsync(showErrors: true);
+    }
+
+    private async Task<bool> InstallPendingLauncherUpdateAsync(bool showErrors)
+    {
         var release = _pendingLauncherUpdate;
-        if (release is null || _busy) return;
+        if (release is null || _busy) return false;
         try
         {
             SetBusy(true, _text.Language == "ru" ? $"Обновляю лаунчер до {release.Version}…" : $"Updating launcher to {release.Version}…");
@@ -587,11 +593,14 @@ public partial class MainWindow : Window
             var executable = await _feedClient.DownloadLauncherAsync(release, progress);
             SelfUpdater.ScheduleReplacement(executable);
             Application.Current.Shutdown();
+            return true;
         }
         catch (Exception ex)
         {
-            ShowError(ex);
+            if (showErrors) ShowError(ex);
+            else OperationText.Text = ex.GetBaseException().Message;
             SetBusy(false);
+            return false;
         }
     }
 
