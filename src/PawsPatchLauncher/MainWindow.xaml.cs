@@ -25,6 +25,7 @@ public partial class MainWindow : Window
     private bool _patchUpdateAvailable;
     private bool _patchInstalled;
     private string _activePage = "home";
+    private string _changelogCategory = "patch";
     private LauncherRelease? _pendingLauncherUpdate;
     private DateTimeOffset? _lastChecked;
     private readonly DispatcherTimer _updateTimer = new();
@@ -122,8 +123,9 @@ public partial class MainWindow : Window
         DiagnosticsDescriptionText.Text = _text["diagnostics.desc"];
         DiagnosticsButton.Content = _text["button.diagnostics"];
         HelpCloseButton.Content = _text["help.close"];
-        NewsTitleText.Text = _channel?.NewsTitle.Get(_text.Language) is { Length: > 0 } title ? title : _text["news.title"];
-        NewsBodyText.Text = _channel?.NewsBody.Get(_text.Language) is { Length: > 0 } body ? body : _text["news.empty"];
+        PatchChangelogButton.Content = _text["news.tab.patch"];
+        LauncherChangelogButton.Content = _text["news.tab.launcher"];
+        RefreshNews();
         UpdateButton.Content = _text["button.install"];
         LaunchButton.Content = _text["button.launch"];
         BrowseButton.Content = _text["button.browse"];
@@ -167,6 +169,7 @@ public partial class MainWindow : Window
             }
             _channel = await _feedClient.GetChannelAsync(_settings.Channel);
             _lastChecked = DateTimeOffset.Now;
+            RefreshNews();
             RefreshModuleAvailability();
             RefreshStatus();
             if (background && _pendingLauncherUpdate is not null)
@@ -281,6 +284,125 @@ public partial class MainWindow : Window
 
     private string CurrentChannelName()
         => _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase) ? _text["channel.beta"] : "Stable";
+
+    private void RefreshNews()
+    {
+        if (NewsEntriesPanel is null) return;
+        NewsTitleText.Text = _text["news.title"];
+        NewsEntriesPanel.Children.Clear();
+
+        RefreshChangelogTabState();
+        var entries = (_channel?.Changelog ?? [])
+            .Where(entry => string.Equals(entry.Category, _changelogCategory, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        if (entries.Count == 0 && _channel is not null
+            && _changelogCategory == "patch"
+            && (!string.IsNullOrWhiteSpace(_channel.NewsTitle.Get(_text.Language))
+                || !string.IsNullOrWhiteSpace(_channel.NewsBody.Get(_text.Language))))
+        {
+            entries =
+            [
+                new ChangelogEntry
+                {
+                    PublishedAt = _channel.PublishedAt,
+                    Title = _channel.NewsTitle,
+                    Body = _channel.NewsBody
+                }
+            ];
+        }
+
+        if (entries.Count == 0)
+        {
+            NewsEntriesPanel.Children.Add(new TextBlock
+            {
+                Text = _text["news.empty"],
+                Foreground = (Brush)FindResource("TextMutedBrush"),
+                FontSize = 13,
+                TextWrapping = TextWrapping.Wrap,
+                LineHeight = 21
+            });
+            return;
+        }
+
+        for (var index = 0; index < entries.Count; index++)
+        {
+            var entry = entries[index];
+            var item = new StackPanel();
+            var title = entry.Title.Get(_text.Language);
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                item.Children.Add(new TextBlock
+                {
+                    Text = title,
+                    FontFamily = new FontFamily("Georgia"),
+                    FontWeight = FontWeights.Bold,
+                    FontSize = 15,
+                    TextWrapping = TextWrapping.Wrap
+                });
+            }
+
+            var metadata = FormatChangelogMetadata(entry);
+            if (!string.IsNullOrWhiteSpace(metadata))
+            {
+                item.Children.Add(new TextBlock
+                {
+                    Text = metadata,
+                    Foreground = (Brush)FindResource("TextMutedBrush"),
+                    FontSize = 10,
+                    Margin = new Thickness(0, 4, 0, 0)
+                });
+            }
+
+            item.Children.Add(new TextBlock
+            {
+                Text = entry.Body.Get(_text.Language),
+                Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CDD5E1")),
+                FontSize = 12,
+                TextWrapping = TextWrapping.Wrap,
+                LineHeight = 19,
+                Margin = new Thickness(0, 7, 0, 0)
+            });
+            NewsEntriesPanel.Children.Add(item);
+
+            if (index < entries.Count - 1)
+            {
+                NewsEntriesPanel.Children.Add(new Separator
+                {
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#40536E")),
+                    Margin = new Thickness(0, 14, 0, 14)
+                });
+            }
+        }
+    }
+
+    private string FormatChangelogMetadata(ChangelogEntry entry)
+    {
+        var parts = new List<string>();
+        if (!string.IsNullOrWhiteSpace(entry.Version)) parts.Add(entry.Version);
+        if (DateTimeOffset.TryParse(entry.PublishedAt, out var published))
+            parts.Add(_text.Language == "ru" ? published.ToString("dd.MM.yyyy") : published.ToString("yyyy-MM-dd"));
+        return string.Join(" · ", parts);
+    }
+
+    private void ChangelogTab_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string category }) return;
+        _changelogCategory = category.Equals("launcher", StringComparison.OrdinalIgnoreCase) ? "launcher" : "patch";
+        RefreshNews();
+    }
+
+    private void RefreshChangelogTabState()
+    {
+        SetChangelogTabState(PatchChangelogButton, _changelogCategory == "patch");
+        SetChangelogTabState(LauncherChangelogButton, _changelogCategory == "launcher");
+    }
+
+    private static void SetChangelogTabState(Button button, bool active)
+    {
+        button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(active ? "#5B451D" : "#1B304D"));
+        button.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(active ? "#D6AA45" : "#526984"));
+        button.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(active ? "#FFF4CF" : "#E8EDF5"));
+    }
 
     private async void UpdateButton_Click(object sender, RoutedEventArgs e)
     {

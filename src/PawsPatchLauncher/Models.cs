@@ -47,6 +47,16 @@ public sealed class ChannelManifest
     public List<PackageRelease> Packages { get; set; } = [];
     public LocalizedText NewsTitle { get; set; } = new();
     public LocalizedText NewsBody { get; set; } = new();
+    public List<ChangelogEntry> Changelog { get; set; } = [];
+}
+
+public sealed class ChangelogEntry
+{
+    public string Category { get; set; } = "patch";
+    public string Version { get; set; } = "";
+    public string PublishedAt { get; set; } = "";
+    public LocalizedText Title { get; set; } = new();
+    public LocalizedText Body { get; set; } = new();
 }
 
 public sealed class LauncherRelease

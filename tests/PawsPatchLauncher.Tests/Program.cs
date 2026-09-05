@@ -99,6 +99,28 @@ try
     AssertTrue(stableFingerprint != ChannelFingerprint.Create(fingerprintFeed), "Changing a package did not change the channel fingerprint.");
     passed += 3;
 
+    var changelogFeed = new ChannelManifest
+    {
+        Channel = "beta",
+        Changelog =
+        [
+            new ChangelogEntry
+            {
+                Category = "launcher",
+                Version = "0.4.4",
+                PublishedAt = "2026-09-05",
+                Title = new LocalizedText { Ru = "История изменений", En = "Changelog" },
+                Body = new LocalizedText { Ru = "Все записи", En = "Every entry" }
+            }
+        ]
+    };
+    var changelogJson = JsonSerializer.Serialize(changelogFeed, LauncherJsonContext.Default.ChannelManifest);
+    var changelogRoundTrip = JsonSerializer.Deserialize(changelogJson, LauncherJsonContext.Default.ChannelManifest);
+    AssertEqual(1, changelogRoundTrip?.Changelog.Count);
+    AssertEqual("launcher", changelogRoundTrip?.Changelog[0].Category);
+    AssertEqual("Every entry", changelogRoundTrip?.Changelog[0].Body.Get("en"));
+    passed += 3;
+
     var game = Path.Combine(root, "game");
     Directory.CreateDirectory(game);
     await File.WriteAllTextAsync(Path.Combine(game, "shared.txt"), "original");

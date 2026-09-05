@@ -1,0 +1,132 @@
+{
+  "stable": [
+    {
+      "category": "launcher",
+      "version": "0.4.4",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Полная история изменений", "en": "Complete changelog" },
+      "body": { "ru": "Правая панель теперь показывает все выпуски. Список можно прокручивать колёсиком мыши.", "en": "The right panel now shows every release and can be scrolled with the mouse wheel." }
+    },
+    {
+      "category": "patch",
+      "version": "0.4.3",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Большие карты всегда включены", "en": "Large maps always enabled" },
+      "body": { "ru": "Переключатель больших карт удалён. Размеры 1024×1024 и 1152×1152 стали постоянной частью Paw's Patch.", "en": "The large-map toggle was removed. The 1024×1024 and 1152×1152 sizes became a permanent part of Paw's Patch." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.4.2",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Удобные проверки", "en": "Convenient checks" },
+      "body": { "ru": "Проверка обновлений перенесена в нижнюю панель, а проверка установленных файлов — в настройки.", "en": "Update checking moved to the bottom bar and installed-file verification moved to Settings." }
+    },
+    {
+      "category": "patch",
+      "version": "0.4.1",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Независимый обход рассинхрона", "en": "Independent desync bypass" },
+      "body": { "ru": "Продолжение игры после рассинхрона можно включать независимо от вражды независимых.", "en": "Continuing after a desync can be enabled independently from independent-faction hostility." }
+    },
+    {
+      "category": "patch",
+      "version": "0.4.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Настраиваемые компоненты", "en": "Configurable components" },
+      "body": { "ru": "Добавлены игровые переключатели, код конфигурации, архив диагностики и локальное переключение заранее загруженных вариантов.", "en": "Added gameplay switches, configuration codes, diagnostic archives and local switching of preloaded variants." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.3.1",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Применение перед запуском", "en": "Apply before launch" },
+      "body": { "ru": "Изменённые настройки патча автоматически применяются перед запуском игры.", "en": "Changed patch settings are now applied automatically before launching the game." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.3.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Живые уведомления", "en": "Live update alerts" },
+      "body": { "ru": "Добавлены фоновые уведомления об обновлениях и полностью рабочая навигация между страницами.", "en": "Added background update alerts and fully functional page navigation." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.2.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Каналы Stable и Beta", "en": "Stable and Beta channels" },
+      "body": { "ru": "Появились отдельные подписанные каналы для проверенных и экспериментальных обновлений.", "en": "Added separate signed channels for tested and experimental updates." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.1.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Первый выпуск", "en": "Initial release" },
+      "body": { "ru": "Первый публичный установщик и обновлятор Paw's Patch для Kohan II.", "en": "The first public Paw's Patch installer and updater for Kohan II." }
+    }
+  ],
+  "beta": [
+    {
+      "category": "launcher",
+      "version": "0.4.4",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Полная история изменений", "en": "Complete changelog" },
+      "body": { "ru": "Правая панель теперь показывает все бета-выпуски. Список можно прокручивать колёсиком мыши.", "en": "The right panel now shows every Beta release and can be scrolled with the mouse wheel." }
+    },
+    {
+      "category": "patch",
+      "version": "0.4.3",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Цвета r10 и постоянные большие карты", "en": "Colors r10 and permanent large maps" },
+      "body": { "ru": "Белый удалён, почти чёрный переименован в чёрный, палитра упорядочена по обычной, светлой и тёмной радуге. Исправлена начальная подпись «Случайно». Большие карты теперь всегда включены.", "en": "White was removed, Near Black was renamed to Black, and the palette was ordered as regular, light and dark rainbows. The initial Random label was fixed. Large maps are now always enabled." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.4.2",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Удобные проверки", "en": "Convenient checks" },
+      "body": { "ru": "Проверка обновлений перенесена в нижнюю панель, а проверка установленных файлов — в настройки.", "en": "Update checking moved to the bottom bar and installed-file verification moved to Settings." }
+    },
+    {
+      "category": "patch",
+      "version": "0.4.1",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Независимый обход и экспериментальные цвета", "en": "Independent bypass and experimental colors" },
+      "body": { "ru": "Обход рассинхрона больше не требует вражды независимых. В Beta доступны экспериментальные расширенные цвета игроков.", "en": "Desync bypass no longer requires independent hostility. Experimental extended player colors are available in Beta." }
+    },
+    {
+      "category": "patch",
+      "version": "0.4.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Настраиваемые компоненты", "en": "Configurable components" },
+      "body": { "ru": "Добавлены игровые переключатели, код конфигурации, архив диагностики и локальное переключение заранее загруженных вариантов.", "en": "Added gameplay switches, configuration codes, diagnostic archives and local switching of preloaded variants." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.3.1",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Применение перед запуском", "en": "Apply before launch" },
+      "body": { "ru": "Изменённые настройки патча автоматически применяются перед запуском игры.", "en": "Changed patch settings are now applied automatically before launching the game." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.3.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Живые уведомления", "en": "Live update alerts" },
+      "body": { "ru": "Добавлены фоновые уведомления об обновлениях и полностью рабочая навигация между страницами.", "en": "Added background update alerts and fully functional page navigation." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.2.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Каналы Stable и Beta", "en": "Stable and Beta channels" },
+      "body": { "ru": "Появились отдельные подписанные каналы и первый пакет экспериментальных цветов игроков.", "en": "Added separate signed channels and the first experimental player-color package." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.1.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Первый выпуск", "en": "Initial release" },
+      "body": { "ru": "Первый публичный установщик и обновлятор Paw's Patch для Kohan II.", "en": "The first public Paw's Patch installer and updater for Kohan II." }
+    }
+  ]
+}
