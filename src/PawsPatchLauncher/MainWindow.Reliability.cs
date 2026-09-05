@@ -108,7 +108,7 @@ public partial class MainWindow
         Button(versions, "Выбрать выпуск", "Select release", SelectRelease_Click);
         _releaseStatus = Text(versions, "", "");
         ReliabilityPanels.Children.Remove(_importCard);
-        ReliabilityPanels.Children.Add(_importCard);
+        ConfigurationImportHost.Children.Add(_importCard);
         _gameTimer.Tick += async (_, _) => await ObserveGameAsync();
         Closed += (_, _) => { _gameTimer.Stop(); _observedProcess?.Dispose(); };
     }
@@ -365,19 +365,16 @@ public partial class MainWindow
     }
     private async void MultiplayerNav_Click(object sender, RoutedEventArgs e) { SetActivePage("multiplayer"); await LoadVersionChoicesAsync(); }
 
-    private string ChangelogId(string category)
+    private void MarkVisibleChangelogRead()
     {
-        var entries = (_latestChannel ?? _channel)?.Changelog.Where(x => x.Category == category).Select(x => x.Version + ":" + x.PublishedAt) ?? [];
-        return string.Join("|", entries);
-    }
-    private void MarkChangelogRead(string category)
-    {
-        _settings.ReadChangelogs[category == "launcher" ? category : category + ":" + _settings.Channel] = ChangelogId(category);
-        _settingsStore.Save(_settings);
+        var visible = IsLoaded && IsVisible && IsActive && WindowState != WindowState.Minimized;
+        if (ChangelogReadState.MarkViewed(_settings, _latestChannel ?? _channel, _changelogCategory, visible))
+            _settingsStore.Save(_settings);
+        RefreshUnreadBadges();
     }
     private void RefreshUnreadBadges()
     {
-        bool Unread(string category) => ChangelogId(category).Length > 0 && _settings.ReadChangelogs.GetValueOrDefault(category == "launcher" ? category : category + ":" + _settings.Channel) != ChangelogId(category);
+        bool Unread(string category) => ChangelogReadState.IsUnread(_settings, _latestChannel ?? _channel, category);
         PatchChangelogButton.Content = _text["news.tab.patch"] + (Unread("patch") ? " ●" : "");
         LauncherChangelogButton.Content = _text["news.tab.launcher"] + (Unread("launcher") ? " ●" : "");
     }

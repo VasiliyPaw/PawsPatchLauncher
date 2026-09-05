@@ -399,6 +399,8 @@
                                     </StackPanel>
                                 </Border>
 
+                                <StackPanel x:Name="ConfigurationImportHost"/>
+
                                 <Border x:Name="DiagnosticsCard" Style="{StaticResource Card}" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>

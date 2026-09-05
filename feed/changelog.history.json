@@ -2,6 +2,13 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.5.1",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Прочитанная история и импорт настроек", "en": "Read history and settings import" },
+      "body": { "ru": "Открытая история изменений автоматически отмечается прочитанной, в том числе при запуске лаунчера. Отметка другой вкладки сохраняется до её открытия. Импорт настроек друга перенесён под код конфигурации в «Компонентах» и «Мультиплеере».", "en": "The displayed changelog is automatically marked as read, including on launcher startup. The other tab keeps its unread marker until opened. Settings import now sits below the configuration code in Components and Multiplayer." }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.0",
       "publishedAt": "2026-09-05",
       "title": { "ru": "Восстановление и мультиплеер", "en": "Recovery and multiplayer" },
@@ -93,6 +100,13 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.5.1",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Прочитанная история и импорт настроек", "en": "Read history and settings import" },
+      "body": { "ru": "Открытая история изменений автоматически отмечается прочитанной, в том числе при запуске лаунчера. Отметка другой вкладки сохраняется до её открытия. Импорт настроек друга перенесён под код конфигурации в «Компонентах» и «Мультиплеере».", "en": "The displayed changelog is automatically marked as read, including on launcher startup. The other tab keeps its unread marker until opened. Settings import now sits below the configuration code in Components and Multiplayer." }
+    },
     {
       "category": "launcher",
       "version": "0.5.0",

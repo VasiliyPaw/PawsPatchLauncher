@@ -11,6 +11,28 @@ public static class ReliabilityTests
     {
         var count = 0;
         void Check(bool value, string message) { if (!value) throw new Exception(message); count++; }
+        var reader = new UserSettings();
+        var history = new ChannelManifest { Channel = "stable", Changelog = [
+            new() { Category = "patch", Version = "1", PublishedAt = "2026-09-05" },
+            new() { Category = "launcher", Version = "1", PublishedAt = "2026-09-05" }
+        ] };
+        Check(ChangelogReadState.IsUnread(reader, history, "patch"), "New patch history was not unread.");
+        Check(!ChangelogReadState.MarkViewed(reader, history, "patch", false), "Hidden history was marked as read.");
+        Check(ChangelogReadState.MarkViewed(reader, history, "patch", true), "Automatically displayed patch history was not marked as read.");
+        Check(!ChangelogReadState.IsUnread(reader, history, "patch"), "Visible patch badge remained unread.");
+        Check(ChangelogReadState.IsUnread(reader, history, "launcher"), "Opening patch cleared the unopened launcher badge.");
+        Check(!ChangelogReadState.MarkViewed(reader, history, "patch", true), "Unchanged history caused another settings write.");
+        Check(ChangelogReadState.MarkViewed(reader, history, "launcher", true), "Opening launcher history did not clear its badge.");
+        history.Changelog.Add(new() { Category = "launcher", Version = "2", PublishedAt = "2026-09-05" });
+        Check(ChangelogReadState.IsUnread(reader, history, "launcher"), "A later launcher release did not restore its badge.");
+        var savedReader = JsonSerializer.Deserialize(JsonSerializer.Serialize(reader, LauncherJsonContext.Default.UserSettings), LauncherJsonContext.Default.UserSettings)!;
+        Check(!ChangelogReadState.IsUnread(savedReader, history, "patch"), "Read history was lost after saving/reloading settings.");
+        history.Channel = "beta";
+        Check(ChangelogReadState.IsUnread(reader, history, "patch"), "Stable and Beta patch badges shared read state.");
+        Check(ChangelogReadState.MarkViewed(reader, history, "PATCH", true), "Displayed Beta history did not use its own channel.");
+        Check(reader.ReadChangelogs.ContainsKey("patch:beta") && reader.ReadChangelogs.ContainsKey("patch:stable"), "Patch history overwrote another channel.");
+        Check(!ChangelogReadState.MarkViewed(reader, null, "patch", true), "A missing feed was marked as read.");
+        Check(!ChangelogReadState.MarkViewed(reader, new ChannelManifest(), "patch", true), "Empty history was marked as read.");
         for (var bits = 0; bits < 64; bits++)
         {
             var settings = new UserSettings { Channel = (bits & 1) > 0 ? "beta" : "stable", RussianLocalization = (bits & 2) > 0,

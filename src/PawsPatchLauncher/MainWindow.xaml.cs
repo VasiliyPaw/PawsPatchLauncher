@@ -61,6 +61,9 @@ public partial class MainWindow : Window
         Closing += (_, e) => { if (_busy) { e.Cancel = true; OperationText.Text = T("Дождитесь окончания операции или приостановите загрузку.", "Wait for the operation or pause the download."); } };
         _initializing = false;
         Loaded += async (_, _) => await InitializeAsync();
+        ContentRendered += (_, _) => MarkVisibleChangelogRead();
+        Activated += (_, _) => MarkVisibleChangelogRead();
+        StateChanged += (_, _) => MarkVisibleChangelogRead();
     }
 
     private async Task InitializeAsync()
@@ -69,7 +72,7 @@ public partial class MainWindow : Window
         {
             await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
             SelfUpdater.AcknowledgeStartup();
-            File.WriteAllText(Path.Combine(ActivityStore.Root, "window-ready.txt"), "0.5.0");
+            File.WriteAllText(Path.Combine(ActivityStore.Root, "window-ready.txt"), SelfUpdater.CurrentVersion.ToString(3));
             return;
         }
         try
@@ -419,6 +422,7 @@ public partial class MainWindow : Window
                 });
             }
         }
+        MarkVisibleChangelogRead();
     }
 
     private string FormatChangelogMetadata(ChangelogEntry entry)
@@ -434,7 +438,6 @@ public partial class MainWindow : Window
     {
         if (sender is not Button { Tag: string category }) return;
         _changelogCategory = category.Equals("launcher", StringComparison.OrdinalIgnoreCase) ? "launcher" : "patch";
-        MarkChangelogRead(_changelogCategory);
         RefreshNews();
     }
 
@@ -937,7 +940,7 @@ public partial class MainWindow : Window
         RoamingSpawnCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         AdditionalRoamingCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         SiegeBalanceCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
-        ConfigurationCodeCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        ConfigurationCodeCard.Visibility = modules || page == "multiplayer" ? Visibility.Visible : Visibility.Collapsed;
         DiagnosticsCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         RefreshReliabilityVisibility();
 
