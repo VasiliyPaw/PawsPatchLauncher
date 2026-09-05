@@ -26,6 +26,8 @@ The Stable and Beta channels use separate signed feeds. Stable keeps the last ac
 
 The active channel is checked at startup, after a channel switch, and once per minute while the launcher remains open. Patch updates are reported for the selected channel. Launcher self-updates are offered through a visible button instead of closing the launcher without user action.
 
+Launching the game also reconciles the selected channel and component settings first. If a user changed localization, player colors, or out-of-sync handling, the launcher applies and verifies those files before starting Kohan II. A failed update prevents the game from starting with a partially applied configuration.
+
 Every installed module records its complete file list. Files dropped by a newer version are removed automatically, and a package can additionally contain explicit removal entries for legacy manual installations. Original files are backed up and restored transactionally when appropriate.
 
 No private signing key belongs in this repository or in a public release.

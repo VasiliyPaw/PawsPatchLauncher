@@ -217,32 +217,42 @@ public partial class MainWindow : Window
         try
         {
             SetBusy(true, _text["progress.downloading"]);
-            await EnsureSupportedGameAsync(_channel);
-            if (Process.GetProcessesByName("k2").Any())
-                throw new InvalidOperationException(_text.Language == "ru" ? "Перед обновлением полностью закройте Kohan II." : "Close Kohan II before updating.");
-            var selected = ResolveSelectedPackages(_channel);
-            var modules = new Dictionary<string, InstalledModule>(StringComparer.OrdinalIgnoreCase);
-            var installer = new ModuleInstaller(_game.Directory);
-            foreach (var package in selected.OrderBy(x => x.Priority))
-            {
-                var progress = new Progress<(long Received, long? Total)>(value =>
-                {
-                    OperationText.Text = $"{_text["progress.downloading"]}: {package.Name.Get(_text.Language)}";
-                    OperationProgress.IsIndeterminate = value.Total is null;
-                    if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
-                });
-                var archive = await _feedClient.DownloadVerifiedAsync(package, progress);
-                modules[package.Id] = await installer.PrepareAsync(package, archive);
-            }
-            OperationProgress.IsIndeterminate = true;
-            OperationText.Text = _text["progress.installing"];
-            await installer.ReconcileAsync(modules);
-            OperationProgress.IsIndeterminate = false;
-            OperationProgress.Value = 100;
+            await ApplySelectedConfigurationAsync(_channel);
             OperationText.Text = _text["status.ready"];
         }
         catch (Exception ex) { ShowError(ex); }
         finally { SetBusy(false); RefreshStatus(); }
+    }
+
+    private async Task ApplySelectedConfigurationAsync(ChannelManifest channel)
+    {
+        if (_game is null) throw new InvalidOperationException(_text["status.notfound"]);
+        await EnsureSupportedGameAsync(channel);
+        if (IsGameRunning())
+            throw new InvalidOperationException(_text.Language == "ru" ? "Перед изменением файлов полностью закройте Kohan II." : "Close Kohan II before changing its files.");
+
+        var selected = ResolveSelectedPackages(channel);
+        var modules = new Dictionary<string, InstalledModule>(StringComparer.OrdinalIgnoreCase);
+        var installer = new ModuleInstaller(_game.Directory);
+        foreach (var package in selected.OrderBy(x => x.Priority))
+        {
+            var progress = new Progress<(long Received, long? Total)>(value =>
+            {
+                OperationText.Text = $"{_text["progress.downloading"]}: {package.Name.Get(_text.Language)}";
+                OperationProgress.IsIndeterminate = value.Total is null;
+                if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
+            });
+            var archive = await _feedClient.DownloadVerifiedAsync(package, progress);
+            modules[package.Id] = await installer.PrepareAsync(package, archive);
+        }
+        OperationProgress.IsIndeterminate = true;
+        OperationText.Text = _text["progress.installing"];
+        await installer.ReconcileAsync(modules);
+        var errors = await installer.VerifyAsync();
+        if (errors.Count > 0)
+            throw new InvalidDataException("Installed file verification failed: " + string.Join("; ", errors.Take(5)));
+        OperationProgress.IsIndeterminate = false;
+        OperationProgress.Value = 100;
     }
 
     private List<PackageRelease> ResolveSelectedPackages(ChannelManifest channel)
@@ -280,19 +290,44 @@ public partial class MainWindow : Window
         finally { SetBusy(false); }
     }
 
-    private void LaunchButton_Click(object sender, RoutedEventArgs e)
+    private async void LaunchButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_game is null) return;
-        var executable = ResolveLaunchExecutable(_game.Directory);
-        if (!File.Exists(executable))
+        if (_game is null || _busy) return;
+        try
         {
-            MessageBox.Show(_text.Language == "ru"
-                    ? "Для выбранного набора функций пока нет установленного EXE. Нажмите «Установить / обновить»."
-                    : "The executable for the selected feature set is not installed. Choose Install / update first.",
-                _text["error.title"], MessageBoxButton.OK, MessageBoxImage.Warning);
-            return;
+            if (_channel is null) await CheckFeedAsync();
+            var channel = _channel ?? throw new InvalidOperationException(_text["status.feedmissing"]);
+            var installer = new ModuleInstaller(_game.Directory);
+            var executable = ResolveLaunchExecutable(_game.Directory);
+            var needsApply = UpdateDetector.HasModuleChanges(installer.LoadState(), ResolveSelectedPackages(channel)) || !File.Exists(executable);
+            if (needsApply)
+            {
+                SetBusy(true, _text["progress.beforelaunch"]);
+                await ApplySelectedConfigurationAsync(channel);
+                executable = ResolveLaunchExecutable(_game.Directory);
+            }
+            if (!File.Exists(executable))
+                throw new FileNotFoundException(_text.Language == "ru"
+                    ? "Не найден EXE для выбранного набора функций."
+                    : "The executable for the selected feature set was not found.", executable);
+
+            OperationText.Text = _text["status.ready"];
+            Process.Start(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true });
         }
-        Process.Start(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true });
+        catch (Exception ex) { ShowError(ex); }
+        finally { SetBusy(false); RefreshStatus(); }
+    }
+
+    private static bool IsGameRunning()
+    {
+        var processNames = new[]
+        {
+            "k2",
+            "k2_paws_family_herd_relations_1372",
+            "k2_paws_sync_family_herd_relations_1372",
+            "k2_paws_lobby_colors_mp_1372_experimental"
+        };
+        return processNames.Any(name => Process.GetProcessesByName(name).Length > 0);
     }
 
     private string ResolveLaunchExecutable(string root)

@@ -64,6 +64,7 @@ public sealed class Localization
         ["progress.checking"] = ("Проверяю обновления…", "Checking for updates…"),
         ["progress.downloading"] = ("Загрузка", "Downloading"),
         ["progress.installing"] = ("Установка и проверка файлов…", "Installing and verifying files…"),
+        ["progress.beforelaunch"] = ("Применяю выбранные настройки перед запуском…", "Applying the selected settings before launch…"),
         ["error.title"] = ("Ошибка", "Error"),
         ["dialog.selectgame"] = ("Выберите папку Kohan II", "Select the Kohan II folder"),
     };
