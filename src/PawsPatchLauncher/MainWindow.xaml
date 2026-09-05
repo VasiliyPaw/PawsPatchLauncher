@@ -181,8 +181,11 @@
                                             <CheckBox x:Name="SettingsBetaToggle" Grid.Column="1" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="SettingsBetaToggle_Click"/>
                                         </Grid>
                                         <Separator Margin="0,16,0,13" Background="#40536E"/>
+                                        <TextBlock x:Name="SettingsRepairTitleText" FontWeight="SemiBold"/>
+                                        <TextBlock x:Name="SettingsRepairDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        <Button x:Name="SettingsRepairButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,11,0,0" Padding="14,7" Click="RepairButton_Click"/>
+                                        <Separator Margin="0,16,0,13" Background="#40536E"/>
                                         <TextBlock x:Name="SettingsUpdatesDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap"/>
-                                        <Button x:Name="CheckUpdatesButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,11,0,0" Padding="14,7" Click="CheckUpdatesButton_Click"/>
                                         <TextBlock x:Name="LastCheckedText" Foreground="#71819A" FontSize="10" Margin="0,9,0,0"/>
                                     </StackPanel>
                                 </Border>
@@ -419,7 +422,7 @@
                     <Grid Grid.Row="4">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <Button x:Name="UpdateButton" Style="{StaticResource GoldButton}" Click="UpdateButton_Click"/>
-                        <Button x:Name="RepairButton" Grid.Column="1" Style="{StaticResource GhostButton}" Margin="10,0,0,0" Click="RepairButton_Click"/>
+                        <Button x:Name="CheckUpdatesButton" Grid.Column="1" Style="{StaticResource GhostButton}" Margin="10,0,0,0" Click="CheckUpdatesButton_Click"/>
                         <Button x:Name="LaunchButton" Grid.Column="3" Style="{StaticResource GoldButton}" Padding="30,11" Click="LaunchButton_Click"/>
                     </Grid>
                 </Grid>

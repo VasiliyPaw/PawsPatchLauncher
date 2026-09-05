@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$LauncherPath,
-    [string]$LauncherVersion = '0.4.1',
+    [string]$LauncherVersion = '0.4.2',
     [long]$PublishedLauncherSize = 0,
     [string]$PublishedLauncherSha256 = '',
     [string]$ModuleVersion = '1.3.72-options.1',
@@ -109,16 +109,16 @@ foreach ($channel in @('stable', 'beta')) {
     $kept = @($feed.packages | Where-Object { $_.id -notin $newIds })
     $feed.packages = @($kept) + @($definitions | ForEach-Object { New-PackageRelease $_ })
     if ($channel -eq 'stable') {
-        $feed.newsTitle = [ordered]@{ ru = 'Лаунчер 0.4.1 · независимый обход рассинхрона'; en = 'Launcher 0.4.1 · independent desync bypass' }
+        $feed.newsTitle = [ordered]@{ ru = 'Лаунчер 0.4.2 · удобные проверки'; en = 'Launcher 0.4.2 · convenient checks' }
         $feed.newsBody = [ordered]@{
-            ru = 'Обход рассинхрона теперь можно включать независимо от вражды независимых. Перед сетевой игрой сравните код конфигурации у всех участников.'
-            en = 'Desync bypass can now be enabled independently from independent hostility. Compare configuration codes for every participant before a multiplayer match.'
+            ru = 'Кнопка проверки обновлений теперь всегда доступна в нижней панели. Проверка целостности установленных файлов перенесена в настройки.'
+            en = 'The update check is now always available in the bottom bar. Installed-file verification was moved to Settings.'
         }
     } else {
-        $feed.newsTitle = [ordered]@{ ru = 'Бета 0.4.1 · независимый обход и цвета'; en = 'Beta 0.4.1 · independent bypass and colors' }
+        $feed.newsTitle = [ordered]@{ ru = 'Бета · цвета r10 и лаунчер 0.4.2'; en = 'Beta · colors r10 and launcher 0.4.2' }
         $feed.newsBody = [ordered]@{
-            ru = 'Обход рассинхрона больше не принуждает включать вражду независимых. Экспериментальные расширенные цвета остаются доступны в бета-канале.'
-            en = 'Desync bypass no longer forces independent hostility. Experimental extended colors remain available in the Beta channel.'
+            ru = 'Палитра упорядочена по обычной, светлой и тёмной радуге; исправлена начальная подпись «Случайно». Проверка обновлений перенесена в нижнюю панель, а проверка файлов — в настройки.'
+            en = 'The palette is ordered as regular, light and dark rainbows, and the initial Random label is fixed. Update checking moved to the bottom bar and file verification to Settings.'
         }
     }
     $feed | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $path -Encoding utf8NoBOM

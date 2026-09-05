@@ -80,6 +80,9 @@ public partial class MainWindow : Window
         SettingsLanguageButton.Content = _text.Language == "ru" ? "English" : "Русский";
         SettingsBetaTitleText.Text = _text["settings.beta"];
         SettingsBetaDescriptionText.Text = _text["settings.beta.desc"];
+        SettingsRepairTitleText.Text = _text["settings.repair"];
+        SettingsRepairDescriptionText.Text = _text["settings.repair.desc"];
+        SettingsRepairButton.Content = _text["button.repair"];
         SettingsUpdatesDescriptionText.Text = _text["settings.updates.desc"];
         CheckUpdatesButton.Content = _text["button.checknow"];
         var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
@@ -119,7 +122,6 @@ public partial class MainWindow : Window
         NewsTitleText.Text = _channel?.NewsTitle.Get(_text.Language) is { Length: > 0 } title ? title : _text["news.title"];
         NewsBodyText.Text = _channel?.NewsBody.Get(_text.Language) is { Length: > 0 } body ? body : _text["news.empty"];
         UpdateButton.Content = _text["button.install"];
-        RepairButton.Content = _text["button.repair"];
         LaunchButton.Content = _text["button.launch"];
         BrowseButton.Content = _text["button.browse"];
         LanguageButton.Content = _text.Language == "ru" ? "EN" : "RU";
@@ -206,7 +208,7 @@ public partial class MainWindow : Window
         ReadyStatusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#3B2226" : statusKind == "update" ? "#40351E" : "#193926"));
         ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
         UpdateButton.IsEnabled = !_busy && _game is not null && _channel is not null && _patchUpdateAvailable;
-        RepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
+        SettingsRepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
         LaunchButton.IsEnabled = !_busy && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
