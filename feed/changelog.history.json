@@ -66,6 +66,13 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.4.5",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Исправлена первая подпись цвета", "en": "Fixed initial color label" },
+      "body": { "ru": "Поле цвета сразу показывает «Случайно» при первом входе в лобби. Исправление находится в интерфейсном файле и не меняет сетевую логику цветов.", "en": "The color field now immediately shows Random on the first lobby entry. The fix is in the UI file and does not change color networking." }
+    },
+    {
       "category": "launcher",
       "version": "0.4.4",
       "publishedAt": "2026-09-05",
