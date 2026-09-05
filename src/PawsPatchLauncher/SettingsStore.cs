@@ -4,7 +4,7 @@ namespace PawsPatchLauncher;
 
 public sealed class SettingsStore
 {
-    private readonly string _directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher");
+    private readonly string _directory = ActivityStore.Root;
     private string SettingsPath => Path.Combine(_directory, "settings.json");
 
     public UserSettings Load()
@@ -31,9 +31,12 @@ public sealed class SettingsStore
     {
         var path = Path.Combine(AppContext.BaseDirectory, "launcher.config.json");
         if (!File.Exists(path))
-            return new LauncherConfiguration();
+        {
+            using var embedded = typeof(SettingsStore).Assembly.GetManifestResourceStream("PawsPatchLauncher.launcher.config.json")
+                ?? throw new InvalidDataException("Launcher configuration is missing.");
+            return JsonSerializer.Deserialize(embedded, LauncherJsonContext.Default.LauncherConfiguration) ?? throw new InvalidDataException("Launcher configuration is invalid.");
+        }
         return JsonSerializer.Deserialize(File.ReadAllText(path), LauncherJsonContext.Default.LauncherConfiguration)
                ?? new LauncherConfiguration();
     }
 }
-

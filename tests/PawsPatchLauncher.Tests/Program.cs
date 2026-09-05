@@ -4,6 +4,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
+if (args.Length == 4 && args[0] == "--self-update-fixtures")
+{
+    await SelfUpdateTests.RunAsync(args[1],args[2],args[3]);
+    return;
+}
+
 if ((args.Length == 3 || args.Length == 4) && args[0] == "--verify-release")
 {
     await VerifyReleaseAsync(args[1], args[2], args.Length == 4 ? args[3] : "stable");
@@ -224,6 +230,7 @@ try
     AssertEqual("manual legacy file", await File.ReadAllTextAsync(Path.Combine(cleanupGame, "obsolete.txt")));
     passed += 3;
 
+    passed += await ReliabilityTests.RunAsync(root);
     Console.WriteLine($"PASS {passed}");
 }
 finally
@@ -357,6 +364,10 @@ static async Task VerifyTransitionAsync(string betaFeedPath, string stableFeedPa
         await ApplyAsync("stable");
         foreach (var relative in colorFiles) AssertTrue(!File.Exists(Path.Combine(game, relative)), $"Stable rollback left a beta color file: {relative}");
         Console.WriteLine("TRANSITION PASS beta->stable removed 3 beta color files");
+        await new PatchRecovery(game).RollbackAsync(installer.LoadState());
+        foreach (var relative in colorFiles) AssertTrue(File.Exists(Path.Combine(game, relative)), $"Patch rollback did not restore {relative}");
+        AssertEqual(0, (await installer.VerifyAsync()).Count);
+        Console.WriteLine("ROLLBACK PASS stable->previous beta restored all beta files and hashes");
     }
     finally
     {

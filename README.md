@@ -23,11 +23,13 @@ The default core profile keeps independent hostility, ×4 roaming frequency, add
 4. Packages are extracted with path traversal protection.
 5. Enabled modules form an ordered overlay. Disabling a module reapplies the next lower layer instead of blindly deleting files.
 6. Installation is staged and rolled back if a copy fails.
-7. The launcher can download a new signed launcher executable, hand replacement to a temporary helper script, exit and restart.
+7. Launcher updates preserve the previous executable and require a startup acknowledgement. The independent helper automatically restores a failed update.
 
 The Stable and Beta channels use separate signed feeds. Stable keeps the last accepted patch, while Beta can add early modules without changing Stable. Installing or switching a channel downloads every settings variant for that channel into the verified local cache. Changing gameplay switches after that is a local overlay operation performed before launch and is not reported as a new patch update. Returning to Stable and applying the update removes files that belonged only to the Beta module.
 
-The active channel is checked at startup, after a channel switch, and once per minute while the launcher remains open. The main action reads `Install`, `Update <channel>`, or a disabled `Installed` according to the actual state. Launcher self-updates are offered through a separate visible button instead of closing the launcher without user action.
+The active channel is checked at startup, after a channel switch, and once per minute while the launcher remains open. The main action reads `Install`, `Update <channel>`, or a disabled `Installed` according to the actual state. Launcher self-updates run automatically at startup and remain available through a visible button during the session.
+
+Version 0.5.0 adds persistent patch rollback, configuration import, an exact multiplayer file comparison, working-settings recovery, crash/unclean-exit diagnostics, critical launch checks, resumable downloads, unread changelog markers and pinned previous Beta releases. See [reliability behavior and validation](docs/RELIABILITY.md).
 
 Launching the game also reconciles the selected channel and every component setting first. A failed update prevents the game from starting with a partially applied configuration.
 

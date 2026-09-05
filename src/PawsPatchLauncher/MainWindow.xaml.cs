@@ -43,6 +43,7 @@ public partial class MainWindow : Window
             _settingsStore.Save(_settings);
         }
         _text = new Localization(_settings.Language);
+        InitializeReliabilityUi();
         BetaChannelToggle.IsChecked = _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase);
         SettingsBetaToggle.IsChecked = BetaChannelToggle.IsChecked;
         RussianToggle.IsChecked = _settings.RussianLocalization;
@@ -57,21 +58,38 @@ public partial class MainWindow : Window
         _updateTimer.Interval = TimeSpan.FromMinutes(1);
         _updateTimer.Tick += async (_, _) => await CheckFeedAsync(background: true);
         Closed += (_, _) => _updateTimer.Stop();
+        Closing += (_, e) => { if (_busy) { e.Cancel = true; OperationText.Text = T("Дождитесь окончания операции или приостановите загрузку.", "Wait for the operation or pause the download."); } };
         _initializing = false;
         Loaded += async (_, _) => await InitializeAsync();
     }
 
     private async Task InitializeAsync()
     {
-        LocateGame();
+        if (ActivityStore.IsSmokeTest)
+        {
+            await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
+            SelfUpdater.AcknowledgeStartup();
+            File.WriteAllText(Path.Combine(ActivityStore.Root, "window-ready.txt"), "0.5.0");
+            return;
+        }
+        try
+        {
+            await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
+            SelfUpdater.AcknowledgeStartup();
+            LocateGame();
+            await RecoverAndCheckRunsAsync();
+        }
+        catch (Exception ex) { ShowError(ex); return; }
         await CheckFeedAsync();
         if (await InstallPendingLauncherUpdateAsync(showErrors: false)) return;
         _updateTimer.Start();
         RefreshStatus();
+        await LoadVersionChoicesAsync();
     }
 
     private void ApplyLanguage()
     {
+        ApplyReliabilityLanguage();
         TitleText.Text = _text["app.title"];
         SubtitleText.Text = _text["app.subtitle"];
         HomeNav.Content = "⌂   " + _text["nav.home"];
@@ -168,11 +186,19 @@ public partial class MainWindow : Window
                 _channel = null;
                 RefreshModuleAvailability();
             }
-            _channel = await _feedClient.GetChannelAsync(_settings.Channel);
+            _latestChannel = await _feedClient.GetChannelAsync(_settings.Channel);
+            _channel = _settings.PinnedRelease is null ? _latestChannel : _feedClient.LoadArchived(_settings.PinnedRelease, _settings.Channel);
             _lastChecked = DateTimeOffset.Now;
             RefreshNews();
             RefreshModuleAvailability();
             RefreshStatus();
+            if (_game is not null && _channel is not null && !IsGameRunning())
+            {
+                var installer = new ModuleInstaller(_game.Directory);
+                var state = installer.LoadState();
+                if (state.AppliedSettings is null && state.Modules.ContainsKey("pawpatch-core") && !UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(_channel)))
+                    await installer.RememberLegacyConfigurationAsync(_settings, ChannelFingerprint.Create(_channel));
+            }
             if (!background)
             {
                 OperationProgress.IsIndeterminate = false;
@@ -194,6 +220,9 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
+            ActivityStore.Log(ex);
+            if (_settings.PinnedRelease is not null)
+                try { _channel = _feedClient.LoadArchived(_settings.PinnedRelease, _settings.Channel); } catch { }
             if (!background) OperationText.Text = ex.GetBaseException().Message;
         }
         finally
@@ -210,7 +239,9 @@ public partial class MainWindow : Window
 
     private void RefreshStatus()
     {
-        var state = _game is null ? null : new ModuleInstaller(_game.Directory).LoadState();
+        InstallState? state = null;
+        try { state = _game is null ? null : new ModuleInstaller(_game.Directory).LoadState(); }
+        catch (Exception ex) { _incident = T("Не удалось прочитать состояние установки: ", "Cannot read the installation state: ") + ex.Message; }
         RefreshAvailableUpdates(state);
         GamePathText.Text = _game?.Directory ?? "—";
         GameVersionText.Text = _game is null ? "—" : $"{(_game.Branch == "beta" ? "Beta" : "Steam")} · build {_game.SteamBuild ?? "?"}";
@@ -226,9 +257,9 @@ public partial class MainWindow : Window
         ReadyStatusText.Foreground = (Brush)FindResource(statusKind == "danger" ? "DangerBrush" : statusKind == "update" ? "GoldBrightBrush" : "SuccessBrush");
         ReadyStatusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#3B2226" : statusKind == "update" ? "#40351E" : "#193926"));
         ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
-        UpdateButton.IsEnabled = !_busy && _game is not null && _channel is not null && _patchUpdateAvailable;
+        UpdateButton.IsEnabled = !_busy && !_checkingFeed && _game is not null && _channel is not null && _patchUpdateAvailable;
         SettingsRepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
-        LaunchButton.IsEnabled = !_busy && _game is not null;
+        LaunchButton.IsEnabled = !_busy && !_checkingFeed && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
         StandardSpawnRadio.IsEnabled = !_busy;
@@ -236,18 +267,20 @@ public partial class MainWindow : Window
         AdditionalRoamingToggle.IsEnabled = !_busy;
         SiegeBalanceToggle.IsEnabled = !_busy;
         CopyConfigurationButton.IsEnabled = !_busy;
-        DiagnosticsButton.IsEnabled = !_busy && _game is not null;
+        DiagnosticsButton.IsEnabled = !_busy;
         BetaChannelToggle.IsEnabled = !_busy;
         SettingsBetaToggle.IsEnabled = !_busy;
         CheckUpdatesButton.IsEnabled = !_busy && !_checkingFeed;
         LastCheckedText.Text = _lastChecked is null ? "" : string.Format(_text["updates.checked"], _lastChecked.Value.ToString("HH:mm:ss"));
         RefreshConfigurationCode();
+        RefreshReliabilityStatus();
     }
 
     private void RefreshAvailableUpdates(InstallState? state)
     {
-        _pendingLauncherUpdate = _channel is not null && SelfUpdater.IsNewer(_channel.Launcher.Version) && _channel.Launcher.Urls.Count > 0
-            ? _channel.Launcher
+        var launcher = (_latestChannel ?? _channel)?.Launcher;
+        _pendingLauncherUpdate = launcher is not null && SelfUpdater.IsNewer(launcher.Version) && launcher.Urls.Count > 0 && !SelfUpdater.IsBlocked(launcher.Sha256)
+            ? launcher
             : null;
         LauncherUpdateButton.Visibility = _pendingLauncherUpdate is null ? Visibility.Collapsed : Visibility.Visible;
         if (_pendingLauncherUpdate is not null)
@@ -305,7 +338,7 @@ public partial class MainWindow : Window
         NewsEntriesPanel.Children.Clear();
 
         RefreshChangelogTabState();
-        var entries = (_channel?.Changelog ?? [])
+        var entries = ((_latestChannel ?? _channel)?.Changelog ?? [])
             .Where(entry => string.Equals(entry.Category, _changelogCategory, StringComparison.OrdinalIgnoreCase))
             .ToList();
         if (entries.Count == 0 && _channel is not null
@@ -401,6 +434,7 @@ public partial class MainWindow : Window
     {
         if (sender is not Button { Tag: string category }) return;
         _changelogCategory = category.Equals("launcher", StringComparison.OrdinalIgnoreCase) ? "launcher" : "patch";
+        MarkChangelogRead(_changelogCategory);
         RefreshNews();
     }
 
@@ -408,6 +442,7 @@ public partial class MainWindow : Window
     {
         SetChangelogTabState(PatchChangelogButton, _changelogCategory == "patch");
         SetChangelogTabState(LauncherChangelogButton, _changelogCategory == "launcher");
+        RefreshUnreadBadges();
     }
 
     private static void SetChangelogTabState(Button button, bool active)
@@ -441,6 +476,7 @@ public partial class MainWindow : Window
         Dictionary<string, string>? downloaded = null;
         if (prepareWholeChannel)
         {
+            TransferText.Text = T("Всего к загрузке: ", "Total download: ") + FormatBytes(channel.Packages.Where(p => !_feedClient.IsPackageCached(p)).Sum(p => p.Size));
             downloaded = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             foreach (var package in channel.Packages.OrderBy(package => package.Priority))
                 downloaded[package.Id] = await DownloadPackageAsync(package);
@@ -456,10 +492,8 @@ public partial class MainWindow : Window
         }
         OperationProgress.IsIndeterminate = true;
         OperationText.Text = _text["progress.installing"];
-        await installer.ReconcileAsync(modules);
-        var errors = await installer.VerifyAsync();
-        if (errors.Count > 0)
-            throw new InvalidDataException("Installed file verification failed: " + string.Join("; ", errors.Take(5)));
+        await installer.ReconcileAsync(modules, settings: _settings, releaseId: ChannelFingerprint.Create(channel));
+        InvalidateReadiness();
         if (prepareWholeChannel)
         {
             _settings.PreparedChannel = channel.Channel;
@@ -470,15 +504,18 @@ public partial class MainWindow : Window
         OperationProgress.Value = 100;
     }
 
-    private Task<string> DownloadPackageAsync(PackageRelease package)
+    private async Task<string> DownloadPackageAsync(PackageRelease package)
     {
-        var progress = new Progress<(long Received, long? Total)>(value =>
+        using var cancellation = new CancellationTokenSource();
+        _downloadCancellation = cancellation;
+        CancelDownloadButton.Visibility = Visibility.Visible;
+        var progress = TransferProgress(package.Name.Get(_text.Language));
+        try { return await _feedClient.DownloadVerifiedAsync(package, progress, cancellation.Token); }
+        finally
         {
-            OperationText.Text = $"{_text["progress.downloading"]}: {package.Name.Get(_text.Language)}";
-            OperationProgress.IsIndeterminate = value.Total is null;
-            if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
-        });
-        return _feedClient.DownloadVerifiedAsync(package, progress);
+            _downloadCancellation = null;
+            CancelDownloadButton.Visibility = Visibility.Collapsed;
+        }
     }
 
     private List<PackageRelease> ResolveSelectedPackages(ChannelManifest channel)
@@ -528,6 +565,7 @@ public partial class MainWindow : Window
         try
         {
             if (_channel is null) await CheckFeedAsync();
+            if (IsGameRunning()) throw new InvalidOperationException(T("Kohan II уже запущен.", "Kohan II is already running."));
             var channel = _channel ?? throw new InvalidOperationException(_text["status.feedmissing"]);
             var installer = new ModuleInstaller(_game.Directory);
             var state = installer.LoadState();
@@ -545,8 +583,13 @@ public partial class MainWindow : Window
                     ? "Не найден EXE для выбранного набора функций."
                     : "The executable for the selected feature set was not found.", executable);
 
+            SetBusy(true, T("Проверяю критические файлы…", "Checking critical files…"));
+            var critical = await MultiplayerCheck.CriticalAsync(_game.Directory, installer.LoadState(), executable, channel.Game);
+            if (critical.Count > 0) throw new IOException(T("Запуск остановлен: ", "Launch stopped: ") + string.Join("; ", critical.Take(5)));
+            var process = Process.Start(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true })
+                ?? throw new IOException("Cannot start Kohan II.");
+            BeginGameObservation(process, installer.LoadState());
             OperationText.Text = _text["status.ready"];
-            Process.Start(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true });
         }
         catch (Exception ex) { ShowError(ex); }
         finally { SetBusy(false); RefreshStatus(); }
@@ -597,13 +640,10 @@ public partial class MainWindow : Window
         try
         {
             SetBusy(true, _text.Language == "ru" ? $"Обновляю лаунчер до {release.Version}…" : $"Updating launcher to {release.Version}…");
-            var progress = new Progress<(long Received, long? Total)>(value =>
-            {
-                OperationProgress.IsIndeterminate = value.Total is null;
-                if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
-            });
+            var progress = TransferProgress("Paw's Patch Launcher " + release.Version);
             var executable = await _feedClient.DownloadLauncherAsync(release, progress);
-            SelfUpdater.ScheduleReplacement(executable);
+            SelfUpdater.ScheduleReplacement(executable, release.Sha256);
+            _busy = false;
             Application.Current.Shutdown();
             return true;
         }
@@ -663,6 +703,7 @@ public partial class MainWindow : Window
         _settings.AdditionalRoamingCompanies = AdditionalRoamingToggle.IsChecked == true;
         _settings.SiegeBalance = SiegeBalanceToggle.IsChecked == true;
         _settingsStore.Save(_settings);
+        InvalidateReadiness();
         RefreshConfigurationCode();
         RefreshStatus();
     }
@@ -711,6 +752,8 @@ public partial class MainWindow : Window
 
     private async Task ChangeChannelAsync(bool beta)
     {
+        _settings.PinnedRelease = null;
+        _latestChannel = null;
         _settings.Channel = beta ? "beta" : "stable";
         BetaChannelToggle.IsChecked = beta;
         SettingsBetaToggle.IsChecked = beta;
@@ -719,6 +762,7 @@ public partial class MainWindow : Window
         RefreshModuleAvailability();
         ApplyLanguage();
         await CheckFeedAsync();
+        await LoadVersionChoicesAsync();
         RefreshStatus();
     }
 
@@ -726,6 +770,7 @@ public partial class MainWindow : Window
     {
         if (_busy || _checkingFeed) return;
         await CheckFeedAsync();
+        await LoadVersionChoicesAsync();
         RefreshStatus();
         if (!_patchUpdateAvailable && _pendingLauncherUpdate is null)
             OperationText.Text = string.Format(_text["updates.current"], CurrentChannelName());
@@ -778,6 +823,7 @@ public partial class MainWindow : Window
 
     private void RefreshConfigurationCode()
     {
+        InvalidateReadinessIfChanged();
         if (ConfigurationCodeText is not null)
             ConfigurationCodeText.Text = ConfigurationCode.Create(_settings);
     }
@@ -791,7 +837,7 @@ public partial class MainWindow : Window
 
     private async void DiagnosticsButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_game is null || _busy) return;
+        if (_busy) return;
         var downloads = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
         var dialog = new SaveFileDialog
         {
@@ -807,10 +853,9 @@ public partial class MainWindow : Window
         try
         {
             SetBusy(true, _text["diagnostics.progress"]);
-            var installer = new ModuleInstaller(_game.Directory);
-            var state = installer.LoadState();
-            var errors = await installer.VerifyAsync();
-            var archive = await DiagnosticsCollector.CreateAsync(dialog.FileName, _game, _settings, state, errors);
+            var archive = _game is null
+                ? await DiagnosticsCollector.CreateLauncherOnlyAsync(dialog.FileName)
+                : await CreateGameDiagnosticsAsync(dialog.FileName);
             OperationProgress.IsIndeterminate = false;
             OperationProgress.Value = 100;
             OperationText.Text = string.Format(_text["diagnostics.ready"], archive);
@@ -851,6 +896,13 @@ public partial class MainWindow : Window
 
     private void ShowError(Exception exception)
     {
+        ActivityStore.Log(exception);
+        if (exception is OperationCanceledException)
+        {
+            OperationProgress.IsIndeterminate = false;
+            OperationText.Text = T("Загрузка приостановлена. При повторной установке она продолжится.", "Download paused. Install again to resume.");
+            return;
+        }
         OperationProgress.IsIndeterminate = false;
         OperationProgress.Value = 0;
         OperationText.Text = exception.GetBaseException().Message;
@@ -862,7 +914,7 @@ public partial class MainWindow : Window
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
     private void HomeNav_Click(object sender, RoutedEventArgs e) => SetActivePage("home");
     private void ModulesNav_Click(object sender, RoutedEventArgs e) => SetActivePage("modules");
-    private void SettingsNav_Click(object sender, RoutedEventArgs e) => SetActivePage("settings");
+    private async void SettingsNav_Click(object sender, RoutedEventArgs e) { SetActivePage("settings"); await LoadVersionChoicesAsync(); }
 
     private void SetActivePage(string page)
     {
@@ -887,10 +939,12 @@ public partial class MainWindow : Window
         SiegeBalanceCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         ConfigurationCodeCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         DiagnosticsCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        RefreshReliabilityVisibility();
 
         SetNavState(HomeNav, home);
         SetNavState(ModulesNav, modules);
         SetNavState(SettingsNav, settings);
+        SetNavState(MultiplayerNav, page == "multiplayer");
         MainOptionsScroll.ScrollToTop();
     }
 

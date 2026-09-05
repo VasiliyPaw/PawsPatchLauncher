@@ -7,6 +7,28 @@ namespace PawsPatchLauncher;
 
 public static class DiagnosticsCollector
 {
+    private static void CopyLauncherDiagnostics(string staging)
+    {
+        var copied = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var name in new[] { "launcher-errors.log", "self-update.log", "launcher-run.json", "game-run.json", "failed-launcher-sha256.txt", "update-rollback.txt" })
+        {
+            var file = Path.Combine(ActivityStore.Root, name);
+            if (File.Exists(file)) CopyOne(file, Path.Combine(staging, "launcher", name), copied);
+        }
+    }
+
+    public static Task<string> CreateLauncherOnlyAsync(string destination)
+    {
+        var staging = Path.Combine(Path.GetTempPath(), "PawsPatchDiagnostics", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(staging);
+        try
+        {
+            CopyLauncherDiagnostics(staging);
+            ZipFile.CreateFromDirectory(staging, destination, CompressionLevel.SmallestSize, false);
+            return Task.FromResult(destination);
+        }
+        finally { Directory.Delete(staging, true); }
+    }
     private static readonly string[] RootPatterns =
     [
         "log*.log", "ART_log*.log", "SAI_log*.log", "*.dmp", "paws_sync_continue_status.txt"
@@ -30,6 +52,12 @@ public static class DiagnosticsCollector
                 JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState), cancellationToken);
 
             var copied = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            CopyLauncherDiagnostics(staging);
+            foreach (var name in new[] { "state.json", "last-working.json", "rollback.txt" })
+            {
+                var file = Path.Combine(game.Directory, ".pawpatch", name);
+                if (File.Exists(file)) CopyOne(file, Path.Combine(staging, "launcher", name), copied);
+            }
             foreach (var pattern in RootPatterns)
                 CopyMatches(game.Directory, pattern, Path.Combine(staging, "logs", "game-root"), copied);
 

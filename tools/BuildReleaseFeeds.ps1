@@ -5,6 +5,7 @@ param(
     [long]$PublishedLauncherSize = 0,
     [string]$PublishedLauncherSha256 = '',
     [string]$ModuleVersion = '1.3.72-options.1',
+    [string]$ModuleReleaseVersion = '0.4.1',
     [string]$ReleaseWorkspace = (Join-Path $PSScriptRoot '..\release_workspace_20260905')
 )
 
@@ -81,7 +82,7 @@ function New-PackageRelease($definition) {
     $packageUrl = if ($definition.Id -in @('startup-base', 'desync-continue')) {
         "https://raw.githubusercontent.com/VasiliyPaw/PawsPatchLauncher/main/packages/$archiveName"
     } else {
-        "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/v$LauncherVersion/$archiveName"
+        "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/v$ModuleReleaseVersion/$archiveName"
     }
     return [ordered]@{
         id = $definition.Id

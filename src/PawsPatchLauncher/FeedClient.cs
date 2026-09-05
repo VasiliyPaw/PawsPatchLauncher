@@ -10,13 +10,13 @@ public sealed class FeedClient
     private readonly LauncherConfiguration _configuration;
     private readonly string _cacheRoot;
 
-    public FeedClient(LauncherConfiguration configuration)
+    public FeedClient(LauncherConfiguration configuration, HttpClient? http = null)
     {
         _configuration = configuration;
         _cacheRoot = string.IsNullOrWhiteSpace(configuration.CacheRoot)
             ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher")
             : Path.GetFullPath(configuration.CacheRoot);
-        _http = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
+        _http = http ?? new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
         _http.DefaultRequestHeaders.UserAgent.ParseAdd("PawsPatchLauncher/0.2");
     }
 
@@ -35,8 +35,10 @@ public sealed class FeedClient
                 var manifest = ParseFeed(bytes, IsRemote(source));
                 if (!manifest.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase))
                     throw new InvalidDataException($"Requested update channel '{channel}', received '{manifest.Channel}'.");
+                await ArchiveAsync(bytes, manifest, cancellationToken);
                 return manifest;
             }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
             catch (Exception ex) { errors.Add(ex); }
         }
         throw new AggregateException("Every update feed failed.", errors);
@@ -52,23 +54,25 @@ public sealed class FeedClient
             return destination;
 
         var errors = new List<Exception>();
-        foreach (var url in package.Urls)
+        foreach (var url in package.Urls.Concat(package.Urls))
         {
             var temporary = destination + ".download";
             try
             {
-                if (File.Exists(temporary)) File.Delete(temporary);
-                await DownloadAsync(url, temporary, progress, cancellationToken);
+                await DownloadAsync(url, temporary, progress, cancellationToken, package.Size);
                 var actual = await CryptoAndIO.Sha256Async(temporary, cancellationToken);
                 if (!string.Equals(actual, package.Sha256, StringComparison.OrdinalIgnoreCase))
+                {
+                    File.Delete(temporary);
                     throw new InvalidDataException($"SHA-256 mismatch for {package.Id}: expected {package.Sha256}, got {actual}.");
+                }
                 File.Move(temporary, destination, true);
                 return destination;
             }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
             catch (Exception ex)
             {
                 errors.Add(ex);
-                try { if (File.Exists(temporary)) File.Delete(temporary); } catch { }
             }
         }
         throw new AggregateException($"Every download mirror failed for {package.Id}.", errors);
@@ -89,28 +93,30 @@ public sealed class FeedClient
     {
         var directory = Path.Combine(_cacheRoot, "launcher");
         Directory.CreateDirectory(directory);
-        var destination = Path.Combine(directory, $"PawsPatchLauncher-{release.Version}.exe");
+        var destination = CryptoAndIO.SafeChildPath(directory, $"PawsPatchLauncher-{release.Version}-{release.Sha256}.exe");
         if (File.Exists(destination) && string.Equals(await CryptoAndIO.Sha256Async(destination, cancellationToken), release.Sha256, StringComparison.OrdinalIgnoreCase))
             return destination;
 
         var errors = new List<Exception>();
-        foreach (var url in release.Urls)
+        foreach (var url in release.Urls.Concat(release.Urls))
         {
             var temporary = destination + ".download";
             try
             {
-                if (File.Exists(temporary)) File.Delete(temporary);
-                await DownloadAsync(url, temporary, progress, cancellationToken);
+                await DownloadAsync(url, temporary, progress, cancellationToken, release.Size);
                 var actual = await CryptoAndIO.Sha256Async(temporary, cancellationToken);
                 if (!actual.Equals(release.Sha256, StringComparison.OrdinalIgnoreCase))
+                {
+                    File.Delete(temporary);
                     throw new InvalidDataException($"Launcher SHA-256 mismatch: expected {release.Sha256}, got {actual}.");
+                }
                 File.Move(temporary, destination, true);
                 return destination;
             }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
             catch (Exception ex)
             {
                 errors.Add(ex);
-                try { if (File.Exists(temporary)) File.Delete(temporary); } catch { }
             }
         }
         throw new AggregateException("Every launcher download mirror failed.", errors);
@@ -143,22 +149,18 @@ public sealed class FeedClient
     }
 
     private async Task DownloadAsync(string source, string destination, IProgress<(long Received, long? Total)>? progress,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken, long expectedSize = 0)
     {
         if (!IsRemote(source))
         {
             var local = source.StartsWith("file:", StringComparison.OrdinalIgnoreCase) ? new Uri(source).LocalPath : source;
             await using var input = new FileStream(local, FileMode.Open, FileAccess.Read, FileShare.Read, 1024 * 1024, true);
-            await using var output = new FileStream(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1024 * 1024, true);
+            await using var output = new FileStream(destination, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, true);
             await CopyWithProgressAsync(input, output, input.Length, progress, cancellationToken);
             return;
         }
 
-        using var response = await _http.GetAsync(source, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-        response.EnsureSuccessStatusCode();
-        await using var inputStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        await using var outputStream = new FileStream(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1024 * 1024, true);
-        await CopyWithProgressAsync(inputStream, outputStream, response.Content.Headers.ContentLength, progress, cancellationToken);
+        await ResumableDownload.DownloadAsync(_http, source, destination, expectedSize, progress, cancellationToken);
     }
 
     private static async Task CopyWithProgressAsync(Stream input, Stream output, long? total,
@@ -187,4 +189,40 @@ public sealed class FeedClient
 
     private static bool IsRemote(string value)
         => Uri.TryCreate(value, UriKind.Absolute, out var uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+
+    private string ArchivedPath(string id)
+    {
+        if (id.Length != 64 || !id.All(Uri.IsHexDigit)) throw new InvalidDataException("Invalid release fingerprint.");
+        return Path.Combine(_cacheRoot, "releases", id.ToUpperInvariant() + ".json");
+    }
+
+    private async Task ArchiveAsync(byte[] bytes, ChannelManifest manifest, CancellationToken ct)
+        => await CryptoAndIO.AtomicWriteTextAsync(ArchivedPath(ChannelFingerprint.Create(manifest)), Encoding.UTF8.GetString(bytes), ct);
+
+    public ChannelManifest LoadArchived(string id, string channel)
+    {
+        var manifest = ParseFeed(File.ReadAllBytes(ArchivedPath(id)), _configuration.RequireSignedRemoteFeed);
+        if (!manifest.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase) || ChannelFingerprint.Create(manifest) != id.ToUpperInvariant())
+            throw new InvalidDataException("Archived release identity mismatch.");
+        return manifest;
+    }
+
+    public async Task<ChannelManifest> GetPreviousAsync(ReleaseReference reference, string channel)
+    {
+        var bytes = await ReadBytesAsync(reference.Url, CancellationToken.None);
+        var manifest = ParseFeed(bytes, true);
+        if (!manifest.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException("Previous release channel mismatch.");
+        await ArchiveAsync(bytes, manifest, CancellationToken.None);
+        return manifest;
+    }
+
+    public List<ChannelManifest> Archived(string channel)
+    {
+        var root = Path.Combine(_cacheRoot, "releases");
+        var result = new List<ChannelManifest>();
+        if (!Directory.Exists(root)) return result;
+        foreach (var file in Directory.EnumerateFiles(root, "*.json"))
+            try { result.Add(LoadArchived(Path.GetFileNameWithoutExtension(file), channel)); } catch { }
+        return result.OrderByDescending(x => x.PublishedAt, StringComparer.Ordinal).ToList();
+    }
 }

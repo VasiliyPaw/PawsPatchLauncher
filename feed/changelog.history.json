@@ -2,6 +2,13 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.5.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Восстановление и мультиплеер", "en": "Recovery and multiplayer" },
+      "body": { "ru": "Автоматический откат неудачного обновления лаунчера, резервная копия предыдущей установки патча, импорт кода настроек и проверка файлов перед мультиплеером. Добавлены рабочая конфигурация, уведомления об аварийном завершении, быстрая проверка запуска, продолжение скачивания со скоростью и оставшимся временем, отметки непрочитанных изменений и выбор предыдущих Beta.", "en": "Automatic launcher update rollback, previous patch installation backups, configuration code import and multiplayer file comparison. Adds working settings, unexpected-exit notices, quick preflight checks, resumable downloads with speed and ETA, unread changelog markers and previous Beta selection." }
+    },
+    {
+      "category": "launcher",
       "version": "0.4.7",
       "publishedAt": "2026-09-05",
       "title": { "ru": "Исправлен запуск после 0.4.5", "en": "Fixed startup after 0.4.5" },
@@ -86,6 +93,13 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.5.0",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Восстановление и мультиплеер", "en": "Recovery and multiplayer" },
+      "body": { "ru": "Автоматический откат неудачного обновления лаунчера, резервная копия предыдущей установки патча, импорт кода настроек и проверка файлов перед мультиплеером. Добавлены рабочая конфигурация, уведомления об аварийном завершении, быстрая проверка запуска, продолжение скачивания со скоростью и оставшимся временем, отметки непрочитанных изменений и выбор предыдущих Beta.", "en": "Automatic launcher update rollback, previous patch installation backups, configuration code import and multiplayer file comparison. Adds working settings, unexpected-exit notices, quick preflight checks, resumable downloads with speed and ETA, unread changelog markers and previous Beta selection." }
+    },
     {
       "category": "launcher",
       "version": "0.4.7",

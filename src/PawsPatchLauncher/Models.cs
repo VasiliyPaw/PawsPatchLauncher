@@ -28,6 +28,8 @@ public sealed class UserSettings
     public bool LargeMapSizes { get; set; } = true;
     public string? PreparedChannel { get; set; }
     public string? PreparedFeedFingerprint { get; set; }
+    public string? PinnedRelease { get; set; }
+    public Dictionary<string, string> ReadChangelogs { get; set; } = new();
 }
 
 public sealed class SignedFeedEnvelope
@@ -48,6 +50,13 @@ public sealed class ChannelManifest
     public LocalizedText NewsTitle { get; set; } = new();
     public LocalizedText NewsBody { get; set; } = new();
     public List<ChangelogEntry> Changelog { get; set; } = [];
+    public List<ReleaseReference> PreviousReleases { get; set; } = [];
+}
+
+public sealed class ReleaseReference
+{
+    public string Label { get; set; } = "";
+    public string Url { get; set; } = "";
 }
 
 public sealed class ChangelogEntry
@@ -118,6 +127,8 @@ public sealed class InstallState
     public Dictionary<string, InstalledModule> Modules { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     public Dictionary<string, OriginalFile> Originals { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     public string LastSuccessfulUpdate { get; set; } = "";
+    public UserSettings? AppliedSettings { get; set; }
+    public string? ReleaseId { get; set; }
 }
 
 public sealed class InstalledModule
@@ -144,4 +155,7 @@ public sealed class OriginalFile
 [JsonSerializable(typeof(ChannelManifest))]
 [JsonSerializable(typeof(ModuleArchiveManifest))]
 [JsonSerializable(typeof(InstallState))]
+[JsonSerializable(typeof(PatchTransaction))]
+[JsonSerializable(typeof(RunRecord))]
+[JsonSerializable(typeof(LastWorkingConfiguration))]
 public partial class LauncherJsonContext : JsonSerializerContext;

@@ -21,13 +21,19 @@ public sealed class ModuleInstaller
 
     public InstallState LoadState()
     {
-        try
-        {
-            if (File.Exists(_statePath))
-                return JsonSerializer.Deserialize(File.ReadAllText(_statePath), LauncherJsonContext.Default.InstallState) ?? new InstallState();
-        }
-        catch { }
+        if (File.Exists(_statePath))
+            return JsonSerializer.Deserialize(File.ReadAllText(_statePath), LauncherJsonContext.Default.InstallState)
+                ?? throw new InvalidDataException("The patch installation state is damaged.");
         return new InstallState();
+    }
+
+    public async Task RememberLegacyConfigurationAsync(UserSettings settings, string releaseId)
+    {
+        var state = LoadState();
+        if (state.AppliedSettings is not null || state.Modules.Count == 0) return;
+        state.AppliedSettings = JsonSerializer.Deserialize(JsonSerializer.Serialize(settings, LauncherJsonContext.Default.UserSettings), LauncherJsonContext.Default.UserSettings);
+        state.ReleaseId = releaseId;
+        await CryptoAndIO.AtomicWriteTextAsync(_statePath, JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState));
     }
 
     public async Task<InstalledModule> PrepareAsync(PackageRelease package, string archivePath, CancellationToken cancellationToken = default)
@@ -63,7 +69,7 @@ public sealed class ModuleInstaller
             .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         foreach (var relative in removals)
         {
-            CryptoAndIO.SafeChildPath(_gameRoot, relative);
+            PatchRecovery.GamePath(_gameRoot, relative);
             if (normalizedFiles.Contains(relative))
                 throw new InvalidDataException($"Package {package.Id} both installs and removes: {relative}");
         }
@@ -79,10 +85,22 @@ public sealed class ModuleInstaller
         };
     }
 
-    public async Task ReconcileAsync(IReadOnlyDictionary<string, InstalledModule> desired, CancellationToken cancellationToken = default)
+    public async Task ReconcileAsync(IReadOnlyDictionary<string, InstalledModule> desired, CancellationToken cancellationToken = default,
+        UserSettings? settings = null, string? releaseId = null)
     {
         Directory.CreateDirectory(_controlRoot);
+        var recovery = new PatchRecovery(_gameRoot);
+        await recovery.RecoverInterruptedAsync();
         var state = LoadState();
+        var previous = JsonSerializer.Deserialize(JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState), LauncherJsonContext.Default.InstallState)!;
+        var winners = new Dictionary<string, (string Id, InstalledModule Module, ModuleFile? File)>(StringComparer.OrdinalIgnoreCase);
+        foreach (var pair in desired.Where(x => x.Value.Enabled).OrderBy(x => x.Value.Priority).ThenBy(x => x.Key, StringComparer.OrdinalIgnoreCase))
+        {
+            foreach (var relative in pair.Value.Remove) winners[CryptoAndIO.NormalizeRelativePath(relative)] = (pair.Key, pair.Value, null);
+            foreach (var file in pair.Value.Files) winners[CryptoAndIO.NormalizeRelativePath(file.Path)] = (pair.Key, pair.Value, file);
+        }
+        var recognized = desired.Values.SelectMany(x => x.Files).GroupBy(x => CryptoAndIO.NormalizeRelativePath(x.Path), StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(g => g.Key, g => g.Select(x => x.Sha256).ToHashSet(StringComparer.OrdinalIgnoreCase), StringComparer.OrdinalIgnoreCase);
         var allPaths = state.Modules.Values.SelectMany(x => x.Files).Select(x => CryptoAndIO.NormalizeRelativePath(x.Path))
             .Concat(desired.Values.SelectMany(x => x.Files).Select(x => CryptoAndIO.NormalizeRelativePath(x.Path)))
             .Concat(state.Modules.Values.SelectMany(x => x.Remove).Select(CryptoAndIO.NormalizeRelativePath))
@@ -92,17 +110,12 @@ public sealed class ModuleInstaller
         foreach (var relative in allPaths)
         {
             if (state.Originals.ContainsKey(relative)) continue;
-            var target = CryptoAndIO.SafeChildPath(_gameRoot, relative);
+            var target = PatchRecovery.GamePath(_gameRoot, relative);
             var original = new OriginalFile { Existed = File.Exists(target) };
             if (original.Existed)
             {
                 var actualHash = await CryptoAndIO.Sha256Async(target, cancellationToken);
-                var recognizedManagedHashes = desired.Values
-                    .SelectMany(module => module.Files)
-                    .Where(file => CryptoAndIO.NormalizeRelativePath(file.Path).Equals(relative, StringComparison.OrdinalIgnoreCase))
-                    .Select(file => file.Sha256)
-                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
-                if (recognizedManagedHashes.Contains(actualHash))
+                if (recognized.TryGetValue(relative, out var hashes) && hashes.Contains(actualHash))
                 {
                     // A previous manual/archive installation already placed this exact managed file.
                     // Do not preserve it as a user original, otherwise disabling its module would restore the mod again.
@@ -120,35 +133,28 @@ public sealed class ModuleInstaller
             state.Originals[relative] = original;
         }
 
-        var transaction = Path.Combine(_controlRoot, "transactions", DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"));
-        Directory.CreateDirectory(transaction);
-        var applied = new List<(string Target, string Rollback, bool Existed)>();
+        var changes = new List<string>();
+        foreach (var relative in allPaths)
+        {
+            var target = PatchRecovery.GamePath(_gameRoot, relative);
+            var expected = winners.TryGetValue(relative, out var winner) ? winner.File?.Sha256 : state.Originals.GetValueOrDefault(relative)?.Sha256;
+            if (!File.Exists(target) ? expected is not null : expected is null || !(await CryptoAndIO.Sha256Async(target, cancellationToken)).Equals(expected, StringComparison.OrdinalIgnoreCase))
+                changes.Add(relative);
+        }
+        var snapshot = await recovery.CaptureAsync(changes, previous, ct: cancellationToken);
         try
         {
-            foreach (var relative in allPaths)
+            foreach (var relative in changes)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var target = CryptoAndIO.SafeChildPath(_gameRoot, relative);
-                var rollback = CryptoAndIO.SafeChildPath(transaction, relative);
-                var existed = File.Exists(target);
-                if (existed)
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(rollback)!);
-                    File.Copy(target, rollback, true);
-                }
-                applied.Add((target, rollback, existed));
+                var target = PatchRecovery.GamePath(_gameRoot, relative);
 
-                var winner = desired
-                    .Where(pair => pair.Value.Enabled && (Provides(pair.Value, relative) is not null || Removes(pair.Value, relative)))
-                    .OrderBy(pair => pair.Value.Priority)
-                    .LastOrDefault();
-
-                if (!string.IsNullOrEmpty(winner.Key))
+                if (winners.TryGetValue(relative, out var winner))
                 {
-                    var suppliedFile = Provides(winner.Value, relative);
+                    var suppliedFile = winner.File;
                     if (suppliedFile is not null)
                     {
-                        var source = CryptoAndIO.SafeChildPath(Path.Combine(_packageRoot, Sanitize(winner.Key), Sanitize(winner.Value.Version), "payload"), relative);
+                        var source = CryptoAndIO.SafeChildPath(Path.Combine(_packageRoot, Sanitize(winner.Id), Sanitize(winner.Module.Version), "payload"), relative);
                         Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                         var temporary = target + ".pawpatch.tmp";
                         File.Copy(source, temporary, true);
@@ -167,19 +173,20 @@ public sealed class ModuleInstaller
 
             state.Modules = desired.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
             state.LastSuccessfulUpdate = DateTimeOffset.UtcNow.ToString("O");
+            state.AppliedSettings = settings is null ? null : JsonSerializer.Deserialize(JsonSerializer.Serialize(settings, LauncherJsonContext.Default.UserSettings), LauncherJsonContext.Default.UserSettings);
+            state.ReleaseId = releaseId;
             await CryptoAndIO.AtomicWriteTextAsync(_statePath, JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState), cancellationToken);
-            Directory.Delete(transaction, true);
+            var errors = await VerifyAsync(cancellationToken);
+            if (errors.Count > 0) throw new IOException("Installation verification failed: " + string.Join("; ", errors.Take(5)));
+            await recovery.CommitAsync(snapshot.Directory, snapshot.Journal);
         }
         catch
         {
-            foreach (var item in applied.AsEnumerable().Reverse())
+            if (snapshot.Journal.Phase == "prepared")
             {
-                try
-                {
-                    if (item.Existed) { Directory.CreateDirectory(Path.GetDirectoryName(item.Target)!); File.Copy(item.Rollback, item.Target, true); }
-                    else if (File.Exists(item.Target)) File.Delete(item.Target);
-                }
-                catch { }
+                await recovery.RestoreAsync(snapshot.Directory, snapshot.Journal);
+                snapshot.Journal.Phase = "recovered";
+                await PatchRecovery.SaveAsync(snapshot.Directory, snapshot.Journal);
             }
             throw;
         }
@@ -189,15 +196,11 @@ public sealed class ModuleInstaller
     {
         var state = LoadState();
         var errors = new List<string>();
-        var paths = state.Modules.Values.Where(module => module.Enabled)
-            .SelectMany(module => module.Files.Select(file => CryptoAndIO.NormalizeRelativePath(file.Path)).Concat(module.Remove.Select(CryptoAndIO.NormalizeRelativePath)))
-            .Distinct(StringComparer.OrdinalIgnoreCase);
-        foreach (var relative in paths)
+        foreach (var entry in MultiplayerCheck.Expected(state))
         {
-            var winner = state.Modules.Where(pair => pair.Value.Enabled && (Provides(pair.Value, relative) is not null || Removes(pair.Value, relative)))
-                .OrderBy(pair => pair.Value.Priority).Last();
-            var expected = Provides(winner.Value, relative);
-            var target = CryptoAndIO.SafeChildPath(_gameRoot, relative);
+            var relative = entry.Key;
+            var expected = entry.Value;
+            var target = PatchRecovery.GamePath(_gameRoot, relative);
             if (expected is null)
             {
                 if (File.Exists(target)) errors.Add($"Should be removed: {relative}");
