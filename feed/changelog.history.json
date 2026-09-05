@@ -2,6 +2,13 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.4.7",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Исправлен запуск после 0.4.5", "en": "Fixed startup after 0.4.5" },
+      "body": { "ru": "В самодостаточную сборку снова включены нативные библиотеки WPF. Лаунчер больше не падает до появления окна после обновления.", "en": "Native WPF libraries are included in the self-contained build again. The launcher no longer crashes before showing its window after an update." }
+    },
+    {
+      "category": "launcher",
       "version": "0.4.6",
       "publishedAt": "2026-09-05",
       "title": { "ru": "Корректный статус проверки", "en": "Correct update-check status" },
@@ -79,6 +86,13 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.4.7",
+      "publishedAt": "2026-09-05",
+      "title": { "ru": "Исправлен запуск после 0.4.5", "en": "Fixed startup after 0.4.5" },
+      "body": { "ru": "В самодостаточную сборку снова включены нативные библиотеки WPF. Лаунчер больше не падает до появления окна после обновления.", "en": "Native WPF libraries are included in the self-contained build again. The launcher no longer crashes before showing its window after an update." }
+    },
     {
       "category": "launcher",
       "version": "0.4.6",
