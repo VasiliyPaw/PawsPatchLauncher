@@ -51,7 +51,10 @@
                                 <Setter TargetName="Border" Property="Background" Value="{StaticResource GoldBrightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Border" Property="Opacity" Value="0.45"/>
+                                <Setter TargetName="Border" Property="Background" Value="#2B3544"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#4B5A6E"/>
+                                <Setter Property="Foreground" Value="#8794A7"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

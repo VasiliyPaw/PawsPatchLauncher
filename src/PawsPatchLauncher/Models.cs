@@ -26,6 +26,8 @@ public sealed class UserSettings
     public bool AdditionalRoamingCompanies { get; set; } = true;
     public bool SiegeBalance { get; set; } = true;
     public bool LargeMapSizes { get; set; } = true;
+    public string? PreparedChannel { get; set; }
+    public string? PreparedFeedFingerprint { get; set; }
 }
 
 public sealed class SignedFeedEnvelope

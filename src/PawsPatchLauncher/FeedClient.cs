@@ -47,7 +47,7 @@ public sealed class FeedClient
     {
         var cacheRoot = Path.Combine(_cacheRoot, "downloads", package.Id, package.Version);
         Directory.CreateDirectory(cacheRoot);
-        var destination = Path.Combine(cacheRoot, package.Sha256.ToUpperInvariant() + ".zip");
+        var destination = CachedPackagePath(package);
         if (File.Exists(destination) && string.Equals(await CryptoAndIO.Sha256Async(destination, cancellationToken), package.Sha256, StringComparison.OrdinalIgnoreCase))
             return destination;
 
@@ -73,6 +73,16 @@ public sealed class FeedClient
         }
         throw new AggregateException($"Every download mirror failed for {package.Id}.", errors);
     }
+
+    public bool IsPackageCached(PackageRelease package)
+    {
+        var path = CachedPackagePath(package);
+        if (!File.Exists(path)) return false;
+        return package.Size <= 0 || new FileInfo(path).Length == package.Size;
+    }
+
+    private string CachedPackagePath(PackageRelease package)
+        => Path.Combine(_cacheRoot, "downloads", package.Id, package.Version, package.Sha256.ToUpperInvariant() + ".zip");
 
     public async Task<string> DownloadLauncherAsync(LauncherRelease release, IProgress<(long Received, long? Total)>? progress,
         CancellationToken cancellationToken = default)

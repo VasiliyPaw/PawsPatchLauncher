@@ -73,6 +73,21 @@ try
     AssertEqual("PAW-BETA-IW1-SP1-RM0-SG1-LM0-RU1-CL0-OOS1", configurationCode);
     passed++;
 
+    var fingerprintFeed = new ChannelManifest
+    {
+        Channel = "stable",
+        Game = new GameRequirement { Version = "1.3.72", SteamBuild = "25068126", K2ExeSha256 = ["GAME"] },
+        Packages = [new PackageRelease { Id = "core", Version = "1.0", Priority = 100, Size = 10, Sha256 = "HASH" }]
+    };
+    var stableFingerprint = ChannelFingerprint.Create(fingerprintFeed);
+    AssertEqual(stableFingerprint, ChannelFingerprint.Create(fingerprintFeed));
+    fingerprintFeed.Channel = "beta";
+    AssertTrue(stableFingerprint != ChannelFingerprint.Create(fingerprintFeed), "Changing the channel did not change its fingerprint.");
+    fingerprintFeed.Channel = "stable";
+    fingerprintFeed.Packages[0].Sha256 = "NEW-HASH";
+    AssertTrue(stableFingerprint != ChannelFingerprint.Create(fingerprintFeed), "Changing a package did not change the channel fingerprint.");
+    passed += 3;
+
     var game = Path.Combine(root, "game");
     Directory.CreateDirectory(game);
     await File.WriteAllTextAsync(Path.Combine(game, "shared.txt"), "original");
@@ -81,6 +96,12 @@ try
         new Dictionary<string, string> { ["shared.txt"] = "arcane", ["base-only.txt"] = "base" });
     var patchPackage = await CreatePackageAsync(root, "pawpatch-core", "2.0.0", 100,
         new Dictionary<string, string> { ["shared.txt"] = "patched", ["patch-only.txt"] = "patch" });
+
+    var cacheClient = new FeedClient(new LauncherConfiguration { CacheRoot = Path.Combine(root, "cache-check") });
+    AssertTrue(!cacheClient.IsPackageCached(basePackage.Release), "A package was reported cached before download.");
+    await cacheClient.DownloadVerifiedAsync(basePackage.Release, null);
+    AssertTrue(cacheClient.IsPackageCached(basePackage.Release), "A downloaded package was not reported cached.");
+    passed += 2;
 
     var installer = new ModuleInstaller(game);
     var baseInstalled = await installer.PrepareAsync(basePackage.Release, basePackage.Archive);

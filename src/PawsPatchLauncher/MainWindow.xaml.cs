@@ -23,6 +23,7 @@ public partial class MainWindow : Window
     private bool _colorsAvailable;
     private bool _checkingFeed;
     private bool _patchUpdateAvailable;
+    private bool _patchInstalled;
     private string _activePage = "home";
     private LauncherRelease? _pendingLauncherUpdate;
     private DateTimeOffset? _lastChecked;
@@ -117,7 +118,7 @@ public partial class MainWindow : Window
         HelpCloseButton.Content = _text["help.close"];
         NewsTitleText.Text = _channel?.NewsTitle.Get(_text.Language) is { Length: > 0 } title ? title : _text["news.title"];
         NewsBodyText.Text = _channel?.NewsBody.Get(_text.Language) is { Length: > 0 } body ? body : _text["news.empty"];
-        UpdateButton.Content = _text["button.update"];
+        UpdateButton.Content = _text["button.install"];
         RepairButton.Content = _text["button.repair"];
         LaunchButton.Content = _text["button.launch"];
         BrowseButton.Content = _text["button.browse"];
@@ -166,7 +167,9 @@ public partial class MainWindow : Window
             if (background && _pendingLauncherUpdate is not null)
                 OperationText.Text = string.Format(_text["update.launcher.ready"], _pendingLauncherUpdate.Version);
             else if (background && _patchUpdateAvailable)
-                OperationText.Text = string.Format(_text["update.patch.title"], CurrentChannelName());
+                OperationText.Text = _patchInstalled
+                    ? string.Format(_text["update.patch.title"], CurrentChannelName())
+                    : _text["install.patch.title"];
         }
         catch (Exception ex)
         {
@@ -193,14 +196,16 @@ public partial class MainWindow : Window
         PatchVersionText.Text = state?.Modules.TryGetValue("pawpatch-core", out var core) == true ? core.Version : "—";
         ReadyStatusText.Text = _game is null
             ? _text["status.notfound"]
+            : !_patchInstalled
+                ? _text["status.notinstalled"]
             : _patchUpdateAvailable
                 ? string.Format(_text["update.patch.title"], CurrentChannelName())
                 : $"{_text["status.ready"]} · {CurrentChannelName()}";
-        var statusKind = _game is null ? "danger" : _patchUpdateAvailable ? "update" : "ready";
+        var statusKind = _game is null ? "danger" : !_patchInstalled || _patchUpdateAvailable ? "update" : "ready";
         ReadyStatusText.Foreground = (Brush)FindResource(statusKind == "danger" ? "DangerBrush" : statusKind == "update" ? "GoldBrightBrush" : "SuccessBrush");
         ReadyStatusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#3B2226" : statusKind == "update" ? "#40351E" : "#193926"));
         ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
-        UpdateButton.IsEnabled = !_busy && _game is not null && _channel is not null;
+        UpdateButton.IsEnabled = !_busy && _game is not null && _channel is not null && _patchUpdateAvailable;
         RepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
         LaunchButton.IsEnabled = !_busy && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
@@ -228,19 +233,46 @@ public partial class MainWindow : Window
         if (_pendingLauncherUpdate is not null)
             LauncherUpdateButton.Content = string.Format(_text["button.launcherupdate"], _pendingLauncherUpdate.Version);
 
+        _patchInstalled = state is not null
+            && state.Modules.ContainsKey("arcane-wars")
+            && state.Modules.ContainsKey("pawpatch-core");
         _patchUpdateAvailable = false;
         if (_game is not null && _channel is not null && state is not null)
         {
-            try { _patchUpdateAvailable = UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(_channel)); }
+            try { _patchUpdateAvailable = NeedsChannelPreparation(_channel, state); }
             catch { _patchUpdateAvailable = false; }
         }
 
-        UpdateNoticeTitleText.Text = string.Format(_text["update.patch.title"], CurrentChannelName());
-        UpdateNoticeBodyText.Text = _text["update.patch.body"];
+        UpdateNoticeTitleText.Text = _patchInstalled
+            ? string.Format(_text["update.patch.title"], CurrentChannelName())
+            : _text["install.patch.title"];
+        UpdateNoticeBodyText.Text = _patchInstalled ? _text["update.patch.body"] : _text["install.patch.body"];
         UpdateNoticeBorder.Visibility = _activePage == "home" && _patchUpdateAvailable ? Visibility.Visible : Visibility.Collapsed;
-        UpdateButton.Content = _patchUpdateAvailable
-            ? string.Format(_text["button.patchupdate"], CurrentChannelName())
-            : _text["button.update"];
+        UpdateButton.Content = !_patchInstalled
+            ? _text["button.install"]
+            : _patchUpdateAvailable
+                ? string.Format(_text["button.patchupdate"], CurrentChannelName())
+                : _text["button.installed"];
+    }
+
+    private bool NeedsChannelPreparation(ChannelManifest channel, InstallState state)
+    {
+        if (!state.Modules.ContainsKey("arcane-wars") || !state.Modules.ContainsKey("pawpatch-core")) return true;
+        foreach (var package in channel.Packages.Where(package => package.Required))
+        {
+            if (!state.Modules.TryGetValue(package.Id, out var installed)
+                || !installed.Enabled
+                || !installed.Version.Equals(package.Version, StringComparison.OrdinalIgnoreCase)
+                || !installed.ArchiveSha256.Equals(package.Sha256, StringComparison.OrdinalIgnoreCase)
+                || installed.Priority != package.Priority)
+                return true;
+        }
+
+        var fingerprint = ChannelFingerprint.Create(channel);
+        if (!string.Equals(_settings.PreparedChannel, channel.Channel, StringComparison.OrdinalIgnoreCase)
+            || !string.Equals(_settings.PreparedFeedFingerprint, fingerprint, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return channel.Packages.Any(package => !_feedClient.IsPackageCached(package));
     }
 
     private string CurrentChannelName()
@@ -252,14 +284,14 @@ public partial class MainWindow : Window
         try
         {
             SetBusy(true, _text["progress.downloading"]);
-            await ApplySelectedConfigurationAsync(_channel);
+            await ApplySelectedConfigurationAsync(_channel, prepareWholeChannel: true);
             OperationText.Text = _text["status.ready"];
         }
         catch (Exception ex) { ShowError(ex); }
         finally { SetBusy(false); RefreshStatus(); }
     }
 
-    private async Task ApplySelectedConfigurationAsync(ChannelManifest channel)
+    private async Task ApplySelectedConfigurationAsync(ChannelManifest channel, bool prepareWholeChannel = false)
     {
         if (_game is null) throw new InvalidOperationException(_text["status.notfound"]);
         await EnsureSupportedGameAsync(channel);
@@ -267,17 +299,20 @@ public partial class MainWindow : Window
             throw new InvalidOperationException(_text.Language == "ru" ? "Перед изменением файлов полностью закройте Kohan II." : "Close Kohan II before changing its files.");
 
         var selected = ResolveSelectedPackages(channel);
+        Dictionary<string, string>? downloaded = null;
+        if (prepareWholeChannel)
+        {
+            downloaded = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var package in channel.Packages.OrderBy(package => package.Priority))
+                downloaded[package.Id] = await DownloadPackageAsync(package);
+        }
         var modules = new Dictionary<string, InstalledModule>(StringComparer.OrdinalIgnoreCase);
         var installer = new ModuleInstaller(_game.Directory);
         foreach (var package in selected.OrderBy(x => x.Priority))
         {
-            var progress = new Progress<(long Received, long? Total)>(value =>
-            {
-                OperationText.Text = $"{_text["progress.downloading"]}: {package.Name.Get(_text.Language)}";
-                OperationProgress.IsIndeterminate = value.Total is null;
-                if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
-            });
-            var archive = await _feedClient.DownloadVerifiedAsync(package, progress);
+            var archive = downloaded is not null && downloaded.TryGetValue(package.Id, out var cached)
+                ? cached
+                : await DownloadPackageAsync(package);
             modules[package.Id] = await installer.PrepareAsync(package, archive);
         }
         OperationProgress.IsIndeterminate = true;
@@ -286,8 +321,25 @@ public partial class MainWindow : Window
         var errors = await installer.VerifyAsync();
         if (errors.Count > 0)
             throw new InvalidDataException("Installed file verification failed: " + string.Join("; ", errors.Take(5)));
+        if (prepareWholeChannel)
+        {
+            _settings.PreparedChannel = channel.Channel;
+            _settings.PreparedFeedFingerprint = ChannelFingerprint.Create(channel);
+            _settingsStore.Save(_settings);
+        }
         OperationProgress.IsIndeterminate = false;
         OperationProgress.Value = 100;
+    }
+
+    private Task<string> DownloadPackageAsync(PackageRelease package)
+    {
+        var progress = new Progress<(long Received, long? Total)>(value =>
+        {
+            OperationText.Text = $"{_text["progress.downloading"]}: {package.Name.Get(_text.Language)}";
+            OperationProgress.IsIndeterminate = value.Total is null;
+            if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
+        });
+        return _feedClient.DownloadVerifiedAsync(package, progress);
     }
 
     private List<PackageRelease> ResolveSelectedPackages(ChannelManifest channel)
@@ -340,12 +392,14 @@ public partial class MainWindow : Window
             if (_channel is null) await CheckFeedAsync();
             var channel = _channel ?? throw new InvalidOperationException(_text["status.feedmissing"]);
             var installer = new ModuleInstaller(_game.Directory);
+            var state = installer.LoadState();
             var executable = ResolveLaunchExecutable(_game.Directory);
-            var needsApply = UpdateDetector.HasModuleChanges(installer.LoadState(), ResolveSelectedPackages(channel)) || !File.Exists(executable);
+            var prepareWholeChannel = NeedsChannelPreparation(channel, state);
+            var needsApply = prepareWholeChannel || UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(channel)) || !File.Exists(executable);
             if (needsApply)
             {
                 SetBusy(true, _text["progress.beforelaunch"]);
-                await ApplySelectedConfigurationAsync(channel);
+                await ApplySelectedConfigurationAsync(channel, prepareWholeChannel);
                 executable = ResolveLaunchExecutable(_game.Directory);
             }
             if (!File.Exists(executable))
