@@ -2,6 +2,8 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$LauncherPath,
     [string]$LauncherVersion = '0.4.0',
+    [long]$PublishedLauncherSize = 0,
+    [string]$PublishedLauncherSha256 = '',
     [string]$ModuleVersion = '1.3.72-options.1',
     [string]$ReleaseWorkspace = (Join-Path $PSScriptRoot '..\release_workspace_20260905')
 )
@@ -11,7 +13,12 @@ $releaseRoot = [IO.Path]::GetFullPath($ReleaseWorkspace)
 $packagesRoot = Join-Path $releaseRoot 'packages'
 $feedRoot = Join-Path $releaseRoot 'feed'
 $launcher = Get-Item -LiteralPath ([IO.Path]::GetFullPath($LauncherPath))
-$launcherHash = (Get-FileHash -LiteralPath $launcher.FullName -Algorithm SHA256).Hash
+$launcherSize = if ($PublishedLauncherSize -gt 0) { $PublishedLauncherSize } else { $launcher.Length }
+$launcherHash = if ([string]::IsNullOrWhiteSpace($PublishedLauncherSha256)) {
+    (Get-FileHash -LiteralPath $launcher.FullName -Algorithm SHA256).Hash
+} else {
+    $PublishedLauncherSha256.ToUpperInvariant()
+}
 $publishedAt = [DateTimeOffset]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')
 
 $definitions = @(
@@ -72,7 +79,7 @@ foreach ($channel in @('stable', 'beta')) {
     $feed = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
     $feed.publishedAt = $publishedAt
     $feed.launcher.version = $LauncherVersion
-    $feed.launcher.size = $launcher.Length
+    $feed.launcher.size = $launcherSize
     $feed.launcher.sha256 = $launcherHash
     $feed.launcher.urls = @("https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/v$LauncherVersion/PawsPatchLauncher.exe")
     $kept = @($feed.packages | Where-Object { $_.id -notin $newIds })
@@ -94,4 +101,4 @@ foreach ($channel in @('stable', 'beta')) {
     Write-Output "Updated $path"
 }
 
-Write-Output "Launcher $LauncherVersion $($launcher.Length) bytes $launcherHash"
+Write-Output "Launcher $LauncherVersion $launcherSize bytes $launcherHash"
