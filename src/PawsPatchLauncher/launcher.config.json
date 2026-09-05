@@ -1,0 +1,10 @@
+{
+  "feedUrls": [
+    "https://raw.githubusercontent.com/VasiliyPaw/PawsPatchLauncher/main/feed/stable.json"
+  ],
+  "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAELTU21+pvKiNCLqG44ge7vyZH5J8C\n3eOJEpo428Jn2eH14PLmcOHoOCxYuqxXPppg4U7Me2+E8h5WXxTltcEumQ==\n-----END PUBLIC KEY-----",
+  "cacheRoot": null,
+  "requireSignedRemoteFeed": true,
+  "steamAppId": "97130",
+  "preferredGameExecutable": "k2_paws_family_herd_relations_1372.exe"
+}

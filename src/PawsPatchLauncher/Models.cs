@@ -1,0 +1,128 @@
+using System.Text.Json.Serialization;
+
+namespace PawsPatchLauncher;
+
+public sealed class LauncherConfiguration
+{
+    public List<string> FeedUrls { get; set; } = [];
+    public string PublicKeyPem { get; set; } = "";
+    public string? CacheRoot { get; set; }
+    public bool RequireSignedRemoteFeed { get; set; } = true;
+    public string SteamAppId { get; set; } = "97130";
+    public string PreferredGameExecutable { get; set; } = "k2_paws_family_herd_relations_1372.exe";
+}
+
+public sealed class UserSettings
+{
+    public string Language { get; set; } = "ru";
+    public string? GamePath { get; set; }
+    public string Channel { get; set; } = "stable";
+    public bool RussianLocalization { get; set; } = true;
+    public bool CustomPlayerColors { get; set; }
+    public string DesyncMode { get; set; } = "official";
+}
+
+public sealed class SignedFeedEnvelope
+{
+    public string KeyId { get; set; } = "";
+    public string Payload { get; set; } = "";
+    public string Signature { get; set; } = "";
+}
+
+public sealed class ChannelManifest
+{
+    public int SchemaVersion { get; set; } = 1;
+    public string Channel { get; set; } = "stable";
+    public string PublishedAt { get; set; } = "";
+    public LauncherRelease Launcher { get; set; } = new();
+    public GameRequirement Game { get; set; } = new();
+    public List<PackageRelease> Packages { get; set; } = [];
+    public LocalizedText NewsTitle { get; set; } = new();
+    public LocalizedText NewsBody { get; set; } = new();
+}
+
+public sealed class LauncherRelease
+{
+    public string Version { get; set; } = "0.0.0";
+    public long Size { get; set; }
+    public string Sha256 { get; set; } = "";
+    public List<string> Urls { get; set; } = [];
+}
+
+public sealed class GameRequirement
+{
+    public string Version { get; set; } = "1.3.72";
+    public string SteamBuild { get; set; } = "25068126";
+    public List<string> K2ExeSha256 { get; set; } = [];
+}
+
+public sealed class PackageRelease
+{
+    public string Id { get; set; } = "";
+    public string Version { get; set; } = "0.0.0";
+    public int Priority { get; set; }
+    public bool Required { get; set; }
+    public bool Experimental { get; set; }
+    public long Size { get; set; }
+    public string Sha256 { get; set; } = "";
+    public List<string> Urls { get; set; } = [];
+    public List<string> DependsOn { get; set; } = [];
+    public LocalizedText Name { get; set; } = new();
+    public LocalizedText Description { get; set; } = new();
+}
+
+public sealed class LocalizedText
+{
+    public string Ru { get; set; } = "";
+    public string En { get; set; } = "";
+    public string Get(string language) => language.Equals("en", StringComparison.OrdinalIgnoreCase) ? En : Ru;
+}
+
+public sealed class ModuleArchiveManifest
+{
+    public int SchemaVersion { get; set; } = 1;
+    public string Id { get; set; } = "";
+    public string Version { get; set; } = "";
+    public List<ModuleFile> Files { get; set; } = [];
+    public List<string> Remove { get; set; } = [];
+}
+
+public sealed class ModuleFile
+{
+    public string Path { get; set; } = "";
+    public string Sha256 { get; set; } = "";
+    public long Size { get; set; }
+}
+
+public sealed class InstallState
+{
+    public int SchemaVersion { get; set; } = 1;
+    public Dictionary<string, InstalledModule> Modules { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, OriginalFile> Originals { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public string LastSuccessfulUpdate { get; set; } = "";
+}
+
+public sealed class InstalledModule
+{
+    public string Version { get; set; } = "";
+    public int Priority { get; set; }
+    public bool Enabled { get; set; }
+    public string ArchiveSha256 { get; set; } = "";
+    public List<ModuleFile> Files { get; set; } = [];
+}
+
+public sealed class OriginalFile
+{
+    public bool Existed { get; set; }
+    public string? BackupRelativePath { get; set; }
+    public string? Sha256 { get; set; }
+}
+
+[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase, WriteIndented = true)]
+[JsonSerializable(typeof(LauncherConfiguration))]
+[JsonSerializable(typeof(UserSettings))]
+[JsonSerializable(typeof(SignedFeedEnvelope))]
+[JsonSerializable(typeof(ChannelManifest))]
+[JsonSerializable(typeof(ModuleArchiveManifest))]
+[JsonSerializable(typeof(InstallState))]
+public partial class LauncherJsonContext : JsonSerializerContext;

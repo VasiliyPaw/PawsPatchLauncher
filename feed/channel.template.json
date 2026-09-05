@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "channel": "stable",
+  "publishedAt": "__UTC_TIMESTAMP__",
+  "launcher": {
+    "version": "__LAUNCHER_VERSION__",
+    "size": 0,
+    "sha256": "__LAUNCHER_SHA256__",
+    "urls": ["__PRIMARY_BASE_URL__/PawsPatchLauncher.exe", "__MIRROR_BASE_URL__/PawsPatchLauncher.exe"]
+  },
+  "game": {
+    "version": "1.3.72",
+    "steamBuild": "25068126",
+    "k2ExeSha256": ["1EB79BBB678668BE5A05F8C98103CD9988048490CE7C53C74C9A1D0813E9CD45"]
+  },
+  "packages": [],
+  "newsTitle": { "ru": "Обновление", "en": "Update" },
+  "newsBody": { "ru": "__RU_CHANGELOG__", "en": "__EN_CHANGELOG__" }
+}
