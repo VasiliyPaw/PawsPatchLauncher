@@ -21,3 +21,10 @@ not claimed; this Beta is being published for that testing.
 On both machines select **Beta**, **Latest**, and **Extended player colors**,
 check for updates, install the module and use matching game/component settings.
 The prior signed Beta feed is retained for rollback.
+
+Publication checks passed: all 15 unique referenced current/historical assets
+were anonymously downloaded and matched signed sizes and SHA-256; 136 launcher
+assertions passed. The real installer downloaded the candidate, reconciled Beta
+to Stable, removed Beta-only files, restored lower-priority content, then rolled
+back to Beta and verified all managed hashes. Checks used an isolated temporary
+directory, not either player's game installation.
