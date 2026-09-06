@@ -122,6 +122,13 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.1.0-beta.6",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Цвета: исправление рассинхрона в лобби", "en": "Colors: lobby desync fix" },
+      "body": { "ru": "Исправлена запись команды выбора цвета в контрольную сумму хоста: теперь она соответствует обработке у клиента. Контроль рассинхрона не отключён. Удалён тёмно-розовый, осталось 49 цветов. Все участники должны обновить Beta: со старой сборкой сетевой протокол несовместим. Проверки кода пройдены; живая проверка мультиплеера продолжается. Stable и лаунчер не изменены.", "en": "The host now records color-command boundaries in its checksum to match client processing. Desync detection remains enabled. Dark pink was removed, leaving 49 colors. All peers must update Beta: the network protocol is incompatible with the previous build. Code checks passed; live multiplayer validation is ongoing. Stable and the launcher are unchanged." }
+    },
+    {
       "category": "launcher",
       "version": "0.5.5",
       "publishedAt": "2026-09-06",

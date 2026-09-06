@@ -13,9 +13,14 @@ parser.add_argument("version")
 parser.add_argument("commit")
 parser.add_argument("notes")
 parser.add_argument("assets", nargs="+")
+parser.add_argument("--tag", help="Explicit tag for a separately versioned package release")
+parser.add_argument("--name", help="Release display name")
+parser.add_argument("--prerelease", action="store_true")
 args = parser.parse_args()
 repo = "VasiliyPaw/PawsPatchLauncher"
-tag = "v" + args.version
+tag = args.tag or "v" + args.version
+if args.tag and (not args.prerelease or tag.startswith("v")):
+    raise RuntimeError("Package tags must be prereleases outside the launcher v* workflow")
 credential = subprocess.run(
     ["git", "credential", "fill"], input="protocol=https\nhost=github.com\n\n",
     text=True, capture_output=True, check=True,
@@ -46,12 +51,15 @@ except urllib.error.HTTPError as error:
     if release is None:
         release = request(api + "/releases", "POST", {
             "tag_name": tag, "target_commitish": args.commit,
-            "name": "Paw's Patch Launcher " + tag,
+            "name": args.name or "Paw's Patch Launcher " + tag,
             "body": pathlib.Path(args.notes).read_text(encoding="utf-8"),
-            "draft": True, "prerelease": False,
+            "draft": True, "prerelease": args.prerelease,
+            **({"make_latest": "false"} if args.prerelease else {}),
         })
 if release["target_commitish"] != args.commit:
     raise RuntimeError("Existing release targets a different source revision")
+if release["prerelease"] != args.prerelease:
+    raise RuntimeError("Existing release has a different prerelease status")
 existing = {asset["name"]: asset for asset in release["assets"]}
 for path in map(pathlib.Path, args.assets):
     data = path.read_bytes()
