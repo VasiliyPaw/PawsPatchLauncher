@@ -2,6 +2,20 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.5.6",
+      "publishedAt": "2026-09-07",
+      "title": { "ru": "Новый интерфейс и удобные настройки", "en": "Refined interface and easier configuration" },
+      "body": { "ru": "Плавные переключатели, кнопки, вкладки и прокрутка, единое оформление текста и понятные статусы. Окно запоминает размер, положение и монитор. Добавлена страница «О патче», подробное сравнение файлов с другом, безопасная очистка старого кеша, понятные ошибки с действиями и открытие последнего архива диагностики. Подтверждения оформлены внутри лаунчера. Исправлены работа буфера обмена и код конфигурации при переходе из Беты в Релиз. Выбор цветов Беты сохраняется отдельно от активного набора. Канал патча теперь явно подписан и не влияет на обновления лаунчера.", "en": "Smooth switches, buttons, tabs and scrolling, consistent typography and clear status messages. Window size, position and monitor are remembered. Includes About the patch, detailed peer file comparison, safe old-cache cleanup, actionable errors and access to the latest diagnostic archive. Confirmations are shown inside the launcher. Clipboard handling and Beta-to-Release configuration codes are fixed; the Beta color preference is retained separately from active settings. The patch channel is explicitly labelled and does not affect launcher updates." }
+    },
+    {
+      "category": "patch",
+      "version": "1.3.72-options.2",
+      "publishedAt": "2026-09-07",
+      "title": { "ru": "Настраиваемые Powers/Shards и сохранение перевода", "en": "Configurable Powers/Shards and preserved localization" },
+      "body": { "ru": "Новый пункт «Отключение Powers и Shards» по умолчанию включён. Его выключение возвращает обе механики Arcane Wars; вариант заранее загружается и применяется перед запуском. При отключении новых рот или осадного баланса больше не теряются ключи перевода. Описание осадного баланса уточнено: переключатель управляет стоимостью, уроном и атаками, как и прежде. Исправление перевода не меняет числовые параметры. Игровые EXE и версия цветов Беты не изменены. Для мультиплеера всем участникам нужны одинаковые версии пакетов и настройки.", "en": "Disable Powers and Shards is enabled by default. Turning it off restores both Arcane Wars mechanics; the variant is preloaded and applied before launch. Disabling additional roaming companies or siege balance no longer loses localization references. Siege help now accurately describes its existing cost, damage and attack changes. The localization repair does not change gameplay numbers. Game executables and the Beta color version are unchanged. Multiplayer participants need matching package versions and settings." }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.5",
       "publishedAt": "2026-09-06",
       "title": { "ru": "Изящный логотип", "en": "Refined launcher logo" },
@@ -121,6 +135,20 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.5.6",
+      "publishedAt": "2026-09-07",
+      "title": { "ru": "Новый интерфейс и удобные настройки", "en": "Refined interface and easier configuration" },
+      "body": { "ru": "Плавные переключатели, кнопки, вкладки и прокрутка, единое оформление текста и понятные статусы. Окно запоминает размер, положение и монитор. Добавлена страница «О патче», подробное сравнение файлов с другом, безопасная очистка старого кеша, понятные ошибки с действиями и открытие последнего архива диагностики. Подтверждения оформлены внутри лаунчера. Исправлены работа буфера обмена и код конфигурации при переходе из Беты в Релиз. Выбор цветов Беты сохраняется отдельно от активного набора. Канал патча теперь явно подписан и не влияет на обновления лаунчера.", "en": "Smooth switches, buttons, tabs and scrolling, consistent typography and clear status messages. Window size, position and monitor are remembered. Includes About the patch, detailed peer file comparison, safe old-cache cleanup, actionable errors and access to the latest diagnostic archive. Confirmations are shown inside the launcher. Clipboard handling and Beta-to-Release configuration codes are fixed; the Beta color preference is retained separately from active settings. The patch channel is explicitly labelled and does not affect launcher updates." }
+    },
+    {
+      "category": "patch",
+      "version": "1.3.72-options.2",
+      "publishedAt": "2026-09-07",
+      "title": { "ru": "Настраиваемые Powers/Shards и сохранение перевода", "en": "Configurable Powers/Shards and preserved localization" },
+      "body": { "ru": "Новый пункт «Отключение Powers и Shards» по умолчанию включён. Его выключение возвращает обе механики Arcane Wars; вариант заранее загружается и применяется перед запуском. При отключении новых рот или осадного баланса больше не теряются ключи перевода. Описание осадного баланса уточнено: переключатель управляет стоимостью, уроном и атаками, как и прежде. Исправление перевода не меняет числовые параметры. Игровые EXE и версия цветов Беты не изменены. Для мультиплеера всем участникам нужны одинаковые версии пакетов и настройки.", "en": "Disable Powers and Shards is enabled by default. Turning it off restores both Arcane Wars mechanics; the variant is preloaded and applied before launch. Disabling additional roaming companies or siege balance no longer loses localization references. Siege help now accurately describes its existing cost, damage and attack changes. The localization repair does not change gameplay numbers. Game executables and the Beta color version are unchanged. Multiplayer participants need matching package versions and settings." }
+    },
     {
       "category": "patch",
       "version": "0.1.0-beta.6",

@@ -1,0 +1,4 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Width="1" Height="1" Left="-32000" Top="-32000" Opacity="0"
+        WindowStyle="None" ShowActivated="False" ShowInTaskbar="False"
+        WindowStartupLocation="Manual" Title="Preview renderer bootstrap"/>

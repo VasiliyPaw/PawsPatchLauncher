@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace PreviewRenderer;
 
@@ -13,43 +14,113 @@ public static class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        try { TestProcessErrorMode.Enable(); Run(args); }
+        catch (Exception error) { Console.Error.WriteLine(error); Environment.ExitCode = 1; }
+    }
+
+    private static void Run(string[] args)
+    {
         var language = args.FirstOrDefault(arg => arg.StartsWith("--language="))?.Split('=')[1] ?? "ru";
         var width = int.Parse(args.FirstOrDefault(arg => arg.StartsWith("--width="))?.Split('=')[1] ?? "1440");
         var height = int.Parse(args.FirstOrDefault(arg => arg.StartsWith("--height="))?.Split('=')[1] ?? "900");
+        var statusPreview = args.FirstOrDefault(arg => arg.StartsWith("--status="))?.Split('=')[1];
+        var enhancements = args.Contains("--enhancements");
+        var motionChecks = args.Contains("--motion");
+        var feedbackChecks = args.Contains("--feedback");
+        var appearanceChecks = args.Contains("--appearance");
+        var changelogChecks = args.Contains("--changelog");
+        var aboutChecks = args.Contains("--about-checks");
+        var powersChecks = args.Contains("--powers-checks");
+        var combinationAudit = args.Contains("--combination-audit");
+        var powersPreview = args.Contains("--powers-preview");
+        var aboutCategory = args.FirstOrDefault(arg => arg.StartsWith("--about-category="))?.Split('=')[1];
+        var diagnosticsChecks = args.Contains("--diagnostics");
+        var archivePreview = args.Contains("--archive-preview");
+        var windowChecks = args.Contains("--window-checks");
+        var storageConfirmationChecks = args.Contains("--storage-confirmation-checks");
+        var patchChannelChecks = args.Contains("--patch-channel-checks");
+        var placementChecks = args.Contains("--placement-checks");
+        var typographyChecks = args.Contains("--typography-checks");
+        var typographyPreview = args.Contains("--typography-preview");
+        var launcherUpdatePreview = args.Contains("--launcher-update-preview");
+        var confirmationPreview = args.FirstOrDefault(arg => arg.StartsWith("--confirmation="))?.Split('=')[1];
+        var toastPreview = args.FirstOrDefault(arg => arg.StartsWith("--toast="))?.Split('=')[1];
+        var helpPreview = args.Contains("--help-preview");
+        var helpKey = args.FirstOrDefault(arg => arg.StartsWith("--help-key="))?.Split('=')[1] ?? "configuration";
+        var focus = args.FirstOrDefault(arg => arg.StartsWith("--focus="))?.Split('=')[1];
         args = args.Where(arg => !arg.StartsWith("--")).ToArray();
         if (args.Length is < 1 or > 3) throw new ArgumentException("Pass the output PNG path, an optional page name, and an optional vertical offset.");
         var app = new App();
         app.InitializeComponent();
+        // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
+        app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
+        app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (motionChecks)
+        {
+            var motionFixture = new MainWindow();
+            try { MotionChecks.Run(motionFixture); }
+            finally { motionFixture.Close(); }
+        }
+        if (feedbackChecks) FeedbackChecks.Run(language);
+        if (appearanceChecks) AppearanceChecks.Run(language, args[0]);
+        if (changelogChecks) ChangelogChecks.Run(language);
+        if (aboutChecks) AboutChecks.Run(language);
+        if (powersChecks) PowersUiChecks.Run(language);
+        if (combinationAudit) CombinationUiAudit.Run();
+        if (diagnosticsChecks) DiagnosticsUiChecks.Run(language);
+        if (windowChecks) WindowExperienceChecks.Run(language);
+        if (storageConfirmationChecks) StorageConfirmationChecks.Run(language);
+        if (patchChannelChecks) PatchChannelChecks.Run(language);
+        if (placementChecks) PlacementChecks.Run();
+        if (typographyChecks) TypographyChecks.Run(language);
+        // Create the rendered window after other fixtures: unshown WPF radio groups share a root.
         var window = new MainWindow();
+        if (archivePreview)
+        {
+            var archive = new DiagnosticArchiveHistory(ActivityStore.Root).RecordCompleted(DiagnosticsUiChecks.CreateFixture());
+            typeof(MainWindow).GetField("_lastDiagnosticArchive", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(window, archive);
+            typeof(MainWindow).GetField("_diagnosticArchiveExists", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(window, true);
+        }
         if (window.Width > SystemParameters.WorkArea.Width || window.Height > SystemParameters.WorkArea.Height)
             throw new InvalidOperationException("Initial window exceeds the screen work area.");
         window.Width = width; window.Height = height;
         var localization = (PawsPatchLauncher.Localization)typeof(MainWindow).GetField("_text", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(window)!;
         localization.SetLanguage(language);
         Invoke(window, "ApplyLanguage");
+        CheckChannelPresentation(window, language);
         CheckTransferLifecycle(window);
+        if (launcherUpdatePreview)
+        {
+            var updateButton = (Button)window.FindName("LauncherUpdateButton");
+            updateButton.Visibility = Visibility.Visible;
+            updateButton.Content = string.Format(localization["button.launcherupdate"], "99.99.99");
+        }
+        if (enhancements) PopulateEnhancementsPreview(window);
+        if (powersPreview) PowersUiChecks.Populate(window);
         if (args.Length >= 2)
             typeof(MainWindow).GetMethod("SetActivePage", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(window, [args[1]]);
-        if (args.Length >= 2 && args[1] is "modules" or "multiplayer")
-        {
-            var code = (System.Windows.Controls.Border)window.FindName("ConfigurationCodeCard");
-            var host = (System.Windows.Controls.StackPanel)window.FindName("ConfigurationImportHost");
-            var parent = (System.Windows.Controls.StackPanel)code.Parent;
-            if (host.Parent != parent || parent.Children.IndexOf(host) != parent.Children.IndexOf(code) + 1
-                || code.Visibility != Visibility.Visible || host.Children.Count != 1
-                || host.Children[0].Visibility != Visibility.Visible)
-                throw new InvalidOperationException("Configuration import is not directly below the visible configuration code.");
-            Console.WriteLine("LAYOUT PASS " + args[1] + ": configuration code followed by import");
-        }
+        if (aboutCategory is not null) ((Task)Invoke(window, "SwitchAboutCategoryAsync", aboutCategory)!).GetAwaiter().GetResult();
         var content = (FrameworkElement)window.Content;
         content.Measure(new Size(width, height));
         content.Arrange(new Rect(0, 0, width, height));
         content.UpdateLayout();
         CheckBrandAndFonts(window, content);
+        CheckCaptionLayout(window, content);
         if (args.Length >= 2)
         {
             typeof(MainWindow).GetMethod("SetActivePage", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(window, [args[1]]);
             content.UpdateLayout();
+        }
+        if (typographyPreview)
+        {
+            TypographyChecks.PopulatePreview(window, language);
+            content.UpdateLayout();
+        }
+        if (statusPreview is not null)
+        {
+            PopulateStatusPreview(window, statusPreview, language);
+            content.UpdateLayout();
+            CheckStatusLayout(window, content);
         }
         if (args.Length == 3 && double.TryParse(args[2], out var offset))
         {
@@ -58,14 +129,32 @@ public static class Program
                 .GetValue(window)!;
             scroll.ScrollToVerticalOffset(offset);
             content.UpdateLayout();
+            window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+            content.UpdateLayout();
         }
-        foreach (var name in new[] { "HomeNav", "ModulesNav", "MultiplayerNav", "SettingsNav" })
+        if (focus is not null)
+        {
+            var target = (FrameworkElement)window.FindName(focus);
+            var scroll = (ScrollViewer)window.FindName("MainOptionsScroll");
+            scroll.ScrollToVerticalOffset(target.TranslatePoint(new Point(0, 0), (FrameworkElement)scroll.Content).Y);
+            content.UpdateLayout(); window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle); content.UpdateLayout();
+            if (target.Visibility != Visibility.Visible || target.ActualHeight < 30) throw new InvalidOperationException("Focused feature is not visible.");
+            Console.WriteLine("FOCUS PASS " + focus);
+        }
+        CheckOptionsLayout(window, content, args.Length >= 2 ? args[1] : "home");
+        TypographyChecks.Layout(window, content, args.Length >= 2 ? args[1] : "home");
+        AboutChecks.Layout(window, content);
+        if (args.Length >= 2 && args[1] == "settings") CheckStorageLabelGap(window);
+        if (args.Length >= 2 && args[1] == "modules") CheckMultiplayerNoteAlignment(window);
+        CheckScrollbars(window, content);
+        foreach (var name in new[] { "HomeNav", "ModulesNav", "MultiplayerNav", "SettingsNav", "AboutNav" })
         {
             var button = (Button)window.FindName(name);
             var label = new TextBlock { Text = button.Content.ToString(), FontFamily = button.FontFamily, FontSize = button.FontSize, FontWeight = button.FontWeight };
             label.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             var available = button.ActualWidth - button.Padding.Left - button.Padding.Right - button.BorderThickness.Left - button.BorderThickness.Right;
-            if (label.DesiredSize.Width > available) throw new InvalidOperationException(name + " label is clipped.");
+            var iconWidth = LauncherIcon.GetKind(button) == IconKind.None ? 0 : 27;
+            if (label.DesiredSize.Width + iconWidth > available) throw new InvalidOperationException(name + " icon/label is clipped.");
         }
         Console.WriteLine($"LAYOUT PASS {language} {width}x{height}: all navigation labels fit");
         if (args.Length >= 2 && args[1] == "settings")
@@ -78,7 +167,49 @@ public static class Program
             }
             Console.WriteLine("LAYOUT PASS settings: both localized uninstall buttons present");
         }
+        if (toastPreview is not null)
+        {
+            Invoke(window, "ShowToast", (Func<string>)(() => toastPreview == "error"
+                ? language == "ru" ? "Буфер обмена занят. Подождите немного и повторите действие." : "The clipboard is busy. Wait a moment and try again."
+                : language == "ru" ? "Код конфигурации скопирован" : "Configuration code copied"), toastPreview == "error");
+            var toast = (Border)window.FindName("ToastPanel"); toast.BeginAnimation(UIElement.OpacityProperty, null); toast.Opacity = 1;
+        }
+        if (helpPreview)
+        {
+            Invoke(window, "HelpButton_Click", new Button { Tag = helpKey }, new RoutedEventArgs());
+            var help = (Border)window.FindName("HelpOverlay"); help.BeginAnimation(UIElement.OpacityProperty, null); help.Opacity = 1;
+        }
+        if (confirmationPreview is not null)
+        {
+            var confirmationPath = confirmationPreview == "launcher"
+                ? @"C:\Users\Игрок\Documents\Codex\2026-08-11\kohan-ii-d-steamlibrary-steamapps-common\work\PawsPatchLauncher\release_workspace_056\window-fix\win-x64\PawsPatchLauncher.exe"
+                : @"D:\SteamLibrary\steamapps\common\Kohan II";
+            if (confirmationPreview.StartsWith("storage"))
+                Invoke(window, "ConfirmStorageCleanupAsync", StorageConfirmationChecks.PreviewPlan,
+                    confirmationPreview != "storage-backups", confirmationPreview != "storage-cache");
+            else Invoke(window, "ConfirmRemovalAsync", confirmationPreview == "launcher", confirmationPath);
+            var overlay = (Border)window.FindName("ConfirmationOverlay"); overlay.BeginAnimation(UIElement.OpacityProperty, null); overlay.Opacity = 1;
+            content.UpdateLayout();
+            var card = (Border)window.FindName("ConfirmationCard");
+            var position = card.TranslatePoint(new Point(), content);
+            if (position.X < 20 || position.Y < 20 || position.Y + card.ActualHeight > height - 20) throw new InvalidOperationException("Confirmation card exceeds the window.");
+            Console.WriteLine("CONFIRMATION LAYOUT PASS " + confirmationPreview);
+        }
+        content.UpdateLayout();
+        // Render settled visuals, not the first frame of checked/hover brush transitions.
+        var animationFrame = new System.Windows.Threading.DispatcherFrame();
+        var animationTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(320) };
+        animationTimer.Tick += (_, _) => animationFrame.Continue = false;
+        animationTimer.Start();
+        try { System.Windows.Threading.Dispatcher.PushFrame(animationFrame); }
+        finally { animationTimer.Stop(); }
+        content.UpdateLayout();
         var bitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+        if (args.Length >= 2 && args[1] == "about")
+        {
+            var selected = ((WrapPanel)window.FindName("AboutTabsPanel")).Children.OfType<Button>().Single(t => ((SolidColorBrush)t.Background).Color == (Color)ColorConverter.ConvertFromString("#5B451D"));
+            if ((string)selected.Tag != (aboutCategory ?? "always")) throw new InvalidOperationException("Guide preview has a stale category selection.");
+        }
         bitmap.Render(content);
         var encoder = new PngBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(bitmap));
@@ -86,6 +217,325 @@ public static class Program
         Directory.CreateDirectory(Path.GetDirectoryName(output)!);
         using var stream = File.Create(output);
         encoder.Save(stream);
+        if (enhancements)
+        {
+            foreach (var kind in new[] { "Comparison", "FriendlyError" })
+            {
+                if (kind == "FriendlyError") Invoke(window, "SetFriendlyError", new System.Net.Http.HttpRequestException("Response status code does not indicate success: 404", null, System.Net.HttpStatusCode.NotFound), false);
+                var dialog = (Window)Invoke(window, "Create" + kind + "Dialog")!;
+                var view = (FrameworkElement)dialog.Content;
+                var size = new Size(dialog.Width, double.IsNaN(dialog.Height) ? 490 : dialog.Height);
+                view.Measure(size); view.Arrange(new Rect(size)); view.UpdateLayout();
+                window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+                view.Measure(size); view.Arrange(new Rect(size)); view.UpdateLayout();
+                if (kind == "Comparison")
+                {
+                    var table = ((Grid)view).Children.OfType<DataGrid>().Single();
+                    if (table.Columns.Any(x => x.ActualWidth < 80)) throw new InvalidOperationException("Comparison column collapsed.");
+                    Console.WriteLine("COMPARISON COLUMNS " + string.Join(", ", table.Columns.Select(x => x.ActualWidth.ToString("F0"))));
+                }
+                var rendered = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
+                rendered.Render(view);
+                var saved = new PngBitmapEncoder(); saved.Frames.Add(BitmapFrame.Create(rendered));
+                using var file = File.Create(Path.Combine(Path.GetDirectoryName(output)!, Path.GetFileNameWithoutExtension(output) + "-" + kind + ".png"));
+                saved.Save(file);
+                Console.WriteLine("ENHANCEMENT WINDOW PASS " + kind + ": " + size);
+            }
+        }
+        if (statusPreview is not null)
+        {
+            var panel = (Border)window.FindName("OperationStatusPanel");
+            var card = (FrameworkElement)((FrameworkElement)panel.Parent).Parent;
+            var origin = card.TranslatePoint(new Point(0, 0), content);
+            var cardBitmap = new CroppedBitmap(bitmap, new Int32Rect((int)origin.X, (int)origin.Y, (int)card.ActualWidth, (int)card.ActualHeight));
+            var cardEncoder = new PngBitmapEncoder();
+            cardEncoder.Frames.Add(BitmapFrame.Create(cardBitmap));
+            using var cardStream = File.Create(Path.Combine(Path.GetDirectoryName(output)!, Path.GetFileNameWithoutExtension(output) + "-card.png"));
+            cardEncoder.Save(cardStream);
+        }
+    }
+
+    private static void CheckChannelPresentation(MainWindow window, string language)
+    {
+        const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
+        var settings = (UserSettings)typeof(MainWindow).GetField("_settings", flags)!.GetValue(window)!;
+        var expected = ChannelPresentation.Name(settings.Channel, language);
+        var footer = (TextBlock)window.FindName("LauncherVersionText");
+        if (!Version.TryParse(footer.Text, out _) || (string)Invoke(window, "CurrentChannelName")! != expected)
+            throw new InvalidOperationException("Footer/current channel did not use the display name.");
+        if (((TextBlock)window.FindName("PatchChannelDescriptionText")).Text.Contains("Stable"))
+            throw new InvalidOperationException("Settings retained the old display label.");
+        var comparison = typeof(MainWindow).GetField("_detailedComparison", flags)!;
+        var previous = comparison.GetValue(window);
+        try
+        {
+            comparison.SetValue(window, new MultiplayerComparison(false, [new("setting", "Channel", "STABLE", "BETA")]));
+            var dialog = (Window)Invoke(window, "CreateComparisonDialog")!;
+            var row = ((Grid)dialog.Content).Children.OfType<DataGrid>().Single().Items[0];
+            if ((string)row.GetType().GetProperty("Local")!.GetValue(row)! != ChannelPresentation.Name("stable", language)
+                || (string)row.GetType().GetProperty("Peer")!.GetValue(row)! != ChannelPresentation.Name("beta", language))
+                throw new InvalidOperationException("Multiplayer comparison retained raw channel IDs.");
+            dialog.Close();
+        }
+        finally { comparison.SetValue(window, previous); }
+        Console.WriteLine("CHANNEL UI PASS: footer, current channel, settings, multiplayer comparison; internal IDs unchanged");
+    }
+
+    private static void CheckCaptionLayout(MainWindow window, FrameworkElement content)
+    {
+        var titleBar = (Grid)window.FindName("TitleBar");
+        var actions = (StackPanel)window.FindName("TitleActions");
+        var brand = titleBar.Children.OfType<StackPanel>().First(x => x != actions);
+        var brandEnd = brand.TranslatePoint(new Point(0,0),content).X + brand.Children.OfType<FrameworkElement>().Sum(x=>x.DesiredSize.Width);
+        var actionsStart = actions.TranslatePoint(new Point(0,0),content).X;
+        if (actionsStart < brandEnd + 12 || actionsStart + actions.ActualWidth > content.ActualWidth + .1)
+            throw new InvalidOperationException("Patch channel/update controls overlap the title brand or window edge.");
+        foreach (var name in new[] { "HeaderReleaseRadio", "HeaderBetaRadio", "SettingsReleaseRadio", "SettingsBetaRadio" })
+        {
+            var choice = (RadioButton)window.FindName(name);
+            if (choice.Visibility != Visibility.Visible || choice.ActualHeight == 0) continue;
+            if (choice.ActualHeight < 24 || choice.ActualWidth < 60) throw new InvalidOperationException("Patch channel choice is clipped.");
+        }
+        Console.WriteLine("CAPTION LAYOUT PASS: patch-channel label/options and launcher update retain separate space");
+    }
+
+    private static void CheckOptionsLayout(MainWindow window, FrameworkElement content, string page)
+    {
+        var scroll = (ScrollViewer)window.FindName("MainOptionsScroll");
+        var stack = (StackPanel)scroll.Content;
+        var bar = (FrameworkElement)scroll.Template.FindName("PART_VerticalScrollBar", scroll);
+        var rightEdge = bar.Visibility == Visibility.Visible
+            ? bar.TranslatePoint(new Point(0, 0), content).X
+            : scroll.TranslatePoint(new Point(scroll.ActualWidth, 0), content).X;
+        int cards = 0;
+        double minimumGap = double.PositiveInfinity;
+        void CheckCards(StackPanel parent)
+        {
+            foreach (var item in parent.Children.OfType<FrameworkElement>())
+            {
+                if (item.Visibility != Visibility.Visible) continue;
+                if (item is StackPanel nested) CheckCards(nested);
+                if (item is not Border card || card.ActualWidth <= 0) continue;
+                var gap = rightEdge - card.TranslatePoint(new Point(card.ActualWidth, 0), content).X;
+                if (gap < 11.5) throw new InvalidOperationException($"{card.Name}: card crowds the options scrollbar ({gap:F1}px).");
+                minimumGap = Math.Min(minimumGap, gap);
+                cards++;
+            }
+        }
+        CheckCards(stack);
+        if (cards == 0) throw new InvalidOperationException("No visible options cards were checked.");
+        var code = (Border)window.FindName("ConfigurationCodeCard");
+        var import = (StackPanel)window.FindName("ConfigurationImportHost");
+        var diagnostics = (Border)window.FindName("DiagnosticsCard");
+        var game = (Border)window.FindName("GameInfoCard");
+        var recovery = (StackPanel)window.FindName("RecoveryHost");
+        var removal = (Border)window.FindName("RemovalCard");
+        var visible = stack.Children.OfType<FrameworkElement>()
+            .Where(x => x.Visibility == Visibility.Visible && x.ActualHeight > 0).ToArray();
+        if (page == "multiplayer")
+        {
+            if (visible.Length < 3 || visible[0] != code || visible[1] != import
+                || import.Children.Count != 1 || import.Children[0].Visibility != Visibility.Visible)
+                throw new InvalidOperationException("Multiplayer must begin with the configuration code and friend import.");
+        }
+        else if (code.Visibility != Visibility.Collapsed || import.Visibility != Visibility.Collapsed
+                 || import.Children[0].Visibility != Visibility.Collapsed)
+            throw new InvalidOperationException("Configuration sharing must be exclusive to Multiplayer.");
+        if (page == "settings")
+        {
+            if (visible[0] != window.FindName("SettingsPanel"))
+                throw new InvalidOperationException("Launcher settings must precede recovery, versions and storage.");
+            if (visible[1] != window.FindName("PatchUpdatesCard"))
+                throw new InvalidOperationException("Patch updates must follow launcher settings.");
+            if (visible[^1] != removal || visible[^2] != recovery || recovery.Children.Count != 1
+                || recovery.Children[0] != window.FindName("RecoveryCard") || recovery.Children[0].Visibility != Visibility.Visible)
+                throw new InvalidOperationException("Settings must end with expanded Recovery followed by Uninstall.");
+            if (diagnostics.Visibility != Visibility.Visible || diagnostics.Parent != game.Parent
+                || Array.IndexOf(visible, diagnostics) + 1 != Array.IndexOf(visible, game))
+                throw new InvalidOperationException("Diagnostics must be directly above the game folder in Settings.");
+        }
+        else if (diagnostics.Visibility != Visibility.Collapsed)
+            throw new InvalidOperationException("Diagnostics card must only appear in Settings.");
+        if (page != "settings" && (recovery.Visibility != Visibility.Collapsed || removal.Visibility != Visibility.Collapsed))
+            throw new InvalidOperationException("Recovery and uninstall must remain exclusive to Settings.");
+        if (game.Visibility == Visibility.Visible)
+        {
+            var heading = (TextBlock)window.FindName("GamePathLabel");
+            var text = (PawsPatchLauncher.Localization)typeof(MainWindow).GetField("_text", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(window)!;
+            if (heading.FontWeight != FontWeights.Bold || heading.FontSize != 18 || heading.Text != text["game.path"]
+                || heading.Foreground is not SolidColorBrush color || color.Color != ((SolidColorBrush)window.FindResource("TextMainBrush")).Color)
+                throw new InvalidOperationException("Game folder title must match the white bold card headings in sentence case.");
+            Console.WriteLine("GAME FOLDER HEADING PASS: main text color, bold 18px, localized sentence case");
+        }
+        Console.WriteLine($"OPTIONS ORDER PASS {page}: sharing only at Multiplayer top; diagnostics only before Settings game folder");
+        Console.WriteLine($"OPTIONS GAP PASS {page}: {cards} cards, minimum {minimumGap:F1}px, scrollbar={bar.Visibility}");
+    }
+
+    private static void CheckScrollbars(MainWindow window, FrameworkElement content)
+    {
+        void Pump()
+        {
+            content.UpdateLayout();
+            window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+            content.UpdateLayout();
+        }
+        foreach (var name in new[] { "MainOptionsScroll", "NewsScrollViewer" })
+        {
+            var scroll = (ScrollViewer)window.FindName(name);
+            var bar = (ScrollBar)scroll.Template.FindName("PART_VerticalScrollBar", scroll);
+            if (bar.Visibility != Visibility.Visible) continue;
+            if (bar.Template.FindName("ScrollRail", bar) is not Border { CornerRadius.TopLeft: >= 4, ActualWidth: <= 14 }
+                || bar.Template.FindName("PART_Track", bar) is not Track track
+                || track.Thumb.ActualHeight < 23 || !track.IsDirectionReversed)
+                throw new InvalidOperationException(name + " is missing the dark, rounded scrollbar.");
+            var savedOffset = scroll.VerticalOffset;
+            scroll.ScrollToTop(); Pump();
+            if (!ScrollBar.PageDownCommand.CanExecute(null, bar)) throw new InvalidOperationException("Scrollbar paging is unavailable.");
+            ScrollBar.PageDownCommand.Execute(null, bar); Pump();
+            if (scroll.VerticalOffset <= 0) throw new InvalidOperationException("Scrollbar page click did not scroll down.");
+            scroll.ScrollToTop(); Pump();
+            track.Thumb.RaiseEvent(new DragDeltaEventArgs(0, 20) { RoutedEvent = Thumb.DragDeltaEvent }); Pump();
+            if (scroll.VerticalOffset <= 0) throw new InvalidOperationException("Scrollbar thumb drag did not scroll down.");
+            scroll.ScrollToBottom(); Pump();
+            if (Math.Abs(scroll.VerticalOffset - scroll.ScrollableHeight) > 1) throw new InvalidOperationException("Scroll end is unreachable.");
+            scroll.ScrollToVerticalOffset(savedOffset); Pump();
+            Console.WriteLine($"SCROLLBAR PASS {name}: dark rounded theme, page click, thumb drag, full range");
+        }
+        // The same application style also serves horizontal scrollbars in report tables.
+        var horizontal = new ScrollViewer
+        {
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+            VerticalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            Content = new Border { Width = 800, Height = 30 }
+        };
+        void LayoutHorizontal()
+        {
+            horizontal.Measure(new Size(200, 80)); horizontal.Arrange(new Rect(0, 0, 200, 80)); horizontal.UpdateLayout();
+            window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+            horizontal.UpdateLayout();
+        }
+        LayoutHorizontal();
+        var horizontalBar = (ScrollBar)horizontal.Template.FindName("PART_HorizontalScrollBar", horizontal);
+        if (horizontalBar.Visibility != Visibility.Visible
+            || horizontalBar.Template.FindName("ScrollRail", horizontalBar) is not Border { ActualHeight: <= 14 }
+            || horizontalBar.Template.FindName("PART_Track", horizontalBar) is not Track horizontalTrack
+            || horizontalTrack.IsDirectionReversed || horizontalTrack.Thumb.ActualWidth < 23)
+            throw new InvalidOperationException("Horizontal scrollbar theme/orientation is invalid.");
+        ScrollBar.PageRightCommand.Execute(null, horizontalBar); LayoutHorizontal();
+        if (horizontal.HorizontalOffset <= 0) throw new InvalidOperationException("Horizontal paging failed.");
+        horizontal.ScrollToLeftEnd(); LayoutHorizontal();
+        horizontalTrack.Thumb.RaiseEvent(new DragDeltaEventArgs(20, 0) { RoutedEvent = Thumb.DragDeltaEvent }); LayoutHorizontal();
+        if (horizontal.HorizontalOffset <= 0) throw new InvalidOperationException("Horizontal dragging failed.");
+        Console.WriteLine("SCROLLBAR PASS horizontal: theme, orientation, page click, thumb drag");
+    }
+
+    private static void PopulateStatusPreview(MainWindow window, string state, string language)
+    {
+        var ru = language == "ru";
+        var news = (StackPanel)window.FindName("NewsEntriesPanel");
+        news.Children.Clear();
+        for (int i = 0; i < 12; i++)
+        {
+            news.Children.Add(new TextBlock { Text = ru ? "Цвета: исправление рассинхрона в лобби" : "Colors: lobby desync fix", Style = (Style)window.FindResource("CardSubtitle"), Margin = new Thickness(0, 0, 0, 10) });
+            news.Children.Add(new TextBlock { Text = ru ? "Исправлена запись команды выбора цвета в контрольную сумму хоста. Удалён тёмно-розовый, осталось 49 цветов. Все участники должны обновить Beta. Живая проверка мультиплеера продолжается." : "The host now records color-command boundaries in its checksum. Dark pink was removed, leaving 49 colors. All peers must update Beta. Live multiplayer validation is ongoing.", Style = (Style)window.FindResource("CardDescription"), Margin = new Thickness(0, 0, 0, 22) });
+        }
+        var operation = (TextBlock)window.FindName("OperationText");
+        operation.Text = state switch
+        {
+            "ready" => ru ? "Готово к игре · Бета" : "Ready to play · Beta",
+            "download" => ru ? "Скачиваю: цвета игроков" : "Downloading: player colors",
+            "error" => ru ? "Файл обновления не найден" : "Update file not found",
+            _ => ru ? "Применяю выбранные настройки перед запуском…" : "Applying selected settings before launch…"
+        };
+        if (state == "error")
+        {
+            operation.Foreground = (Brush)window.FindResource("DangerBrush");
+            Invoke(window, "SetFriendlyError", new System.Net.Http.HttpRequestException("Response status code does not indicate success: 404", null, System.Net.HttpStatusCode.NotFound), false);
+        }
+        else Invoke(window, "ClearFriendlyError");
+        var progress = (ProgressBar)window.FindName("OperationProgress");
+        progress.Visibility = state is "ready" or "error" ? Visibility.Collapsed : Visibility.Visible;
+        progress.IsIndeterminate = false; progress.Value = 65;
+        var details = (TextBlock)window.FindName("TransferText");
+        details.Visibility = state == "download" ? Visibility.Visible : Visibility.Collapsed;
+        details.Text = ru ? "42,2 МБ / 65,0 МБ\n8,1 МБ/с · осталось 00:03" : "42.2 MB / 65.0 MB\n8.1 MB/s · 00:03 remaining";
+        var cancel = (Button)window.FindName("CancelDownloadButton");
+        cancel.Visibility = state == "download" ? Visibility.Visible : Visibility.Collapsed;
+        cancel.Content = ru ? "Приостановить" : "Pause";
+    }
+
+    private static void CheckStatusLayout(MainWindow window, FrameworkElement content)
+    {
+        var panel = (Border)window.FindName("OperationStatusPanel");
+        var scroll = (ScrollViewer)window.FindName("NewsScrollViewer");
+        var text = (TextBlock)window.FindName("OperationText");
+        var panelTop = panel.TranslatePoint(new Point(0, 0), content).Y;
+        var newsBottom = scroll.TranslatePoint(new Point(0, scroll.ActualHeight), content).Y;
+        if (panelTop - newsBottom < 13.5 || !scroll.ClipToBounds || scroll.ActualHeight < 40)
+            throw new InvalidOperationException("Status panel overlaps or crowds the news viewport.");
+        foreach (var name in new[] { "OperationText", "OperationProgress", "TransferText", "CancelDownloadButton", "ErrorActionsPanel" })
+        {
+            var item = (FrameworkElement)window.FindName(name);
+            if (item.Visibility != Visibility.Visible) continue;
+            var bounds = item.TransformToAncestor(panel).TransformBounds(new Rect(item.RenderSize));
+            if (bounds.Top < panel.Padding.Top || bounds.Bottom > panel.ActualHeight - panel.Padding.Bottom
+                || bounds.Left < panel.Padding.Left || bounds.Right > panel.ActualWidth - panel.Padding.Right)
+                throw new InvalidOperationException(name + " extends outside its status panel.");
+        }
+        if (text.FontSize < 13 || text.FontWeight != FontWeights.SemiBold || panel.Background is not SolidColorBrush { Opacity: 1 })
+            throw new InvalidOperationException("Status readability styling is missing.");
+        Console.WriteLine($"STATUS LAYOUT PASS: {panelTop - newsBottom:F1}px separation; history={scroll.ActualHeight:F0}px; panel={panel.ActualHeight:F0}px");
+    }
+
+    private static void PopulateEnhancementsPreview(MainWindow window)
+    {
+        void Field(string name, object value) => typeof(MainWindow).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(window, value);
+        Field("_storagePlan", new StoragePlan([
+            new("downloads", "preview-cache", 1_250_000_000, false, "fixture"),
+            new("packages", "preview-old-cache", 430_000_000, true, "fixture"),
+            new("originals", "preview-originals", 180_000_000, false, "fixture"),
+            new("backups", "preview-latest-backup", 220_000_000, false, "fixture"),
+            new("backups", "preview-old-backup", 64_000_000, true, "fixture")]));
+        Field("_detailedComparison", new MultiplayerComparison(false, [
+            new("setting", "Roaming spawn", "SP4", "SP1"),
+            new("module", "player-colors", "0.1.0-beta.6", "0.1.0-beta.5"),
+            new("file", "paws_player_colors.ini", new string('A', 64), new string('B', 64)),
+            new("file", "Data\\old_units.tgi", "NOT_LISTED", new string('C', 64)),
+            new("file", "Data\\missing_units.tgi", new string('D', 64), "MISSING") ]));
+        Invoke(window, "SetFriendlyError", new System.Net.Http.HttpRequestException("Response status code does not indicate success: 404", null, System.Net.HttpStatusCode.NotFound), false);
+        Invoke(window, "RefreshEnhancements");
+        foreach (var name in new[] { "ExportMultiplayerReportButton", "ImportMultiplayerReportButton", "ScanStorageButton", "CleanStorageButton" })
+            if (window.FindName(name) is not Button { Content: not null }) throw new InvalidOperationException("Enhancement control missing: " + name);
+    }
+
+    private static void CheckStorageLabelGap(MainWindow window)
+    {
+        foreach (var name in new[] { "_cleanCache", "_cleanBackups" })
+        {
+            var check = (CheckBox)typeof(MainWindow).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(window)!;
+            var label = (TextBlock)check.Content;
+            var box = (Border)check.Template.FindName("CheckBoxBorder", check);
+            var boxRight = box.TranslatePoint(new Point(box.ActualWidth, 0), check).X;
+            var labelLeft = label.TranslatePoint(new Point(), check).X;
+            if (Math.Abs(labelLeft - boxRight - 8) > .75 || labelLeft + label.ActualWidth > check.ActualWidth + .75)
+                throw new InvalidOperationException("Storage checkbox label gap/clipping regression.");
+        }
+        Console.WriteLine("STORAGE LABEL PASS: 8px gaps, bounded labels with wrapping");
+    }
+
+    private static void CheckMultiplayerNoteAlignment(MainWindow window)
+    {
+        var card = (Border)window.FindName("MultiplayerNoteCard");
+        var group = (Grid)window.FindName("MultiplayerNoteContent");
+        var text = (TextBlock)window.FindName("MultiplayerNoteText");
+        var bounds = group.TransformToAncestor(card).TransformBounds(new Rect(group.RenderSize));
+        var textBounds = text.TransformToAncestor(group).TransformBounds(new Rect(text.RenderSize));
+        if (Math.Abs(bounds.Left + bounds.Width / 2 - card.ActualWidth / 2) > .75
+            || Math.Abs(bounds.Top + bounds.Height / 2 - card.ActualHeight / 2) > .75
+            || Math.Abs(textBounds.Top + textBounds.Height / 2 - group.ActualHeight / 2) > .75
+            || text.TextAlignment != TextAlignment.Center || text.TextWrapping != TextWrapping.Wrap)
+            throw new InvalidOperationException("Multiplayer note is not centered or wrapping is lost.");
+        Console.WriteLine("NOTE ALIGNMENT PASS: icon/text group centered horizontally and vertically, wrapping retained");
     }
 
     private static object? Invoke(MainWindow window, string name, params object?[] values)

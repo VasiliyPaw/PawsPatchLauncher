@@ -14,6 +14,7 @@ public static class GamePackageSelector
         if (fastSpawn && !settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-x4-no-new");
         if (!fastSpawn && !settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-no-new");
         if (!settings.SiegeBalance) ids.Add("siege-balance-standard");
+        if (!settings.DisablePowersAndShards) ids.Add("powers-shards-original");
         bool changed;
         do
         {

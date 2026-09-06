@@ -25,6 +25,7 @@ public sealed class UserSettings
     public string RoamingSpawnMode { get; set; } = "x4";
     public bool AdditionalRoamingCompanies { get; set; } = true;
     public bool SiegeBalance { get; set; } = true;
+    public bool DisablePowersAndShards { get; set; } = true;
     public bool LargeMapSizes { get; set; } = true;
     public string? PreparedChannel { get; set; }
     public string? PreparedFeedFingerprint { get; set; }
@@ -158,4 +159,7 @@ public sealed class OriginalFile
 [JsonSerializable(typeof(PatchTransaction))]
 [JsonSerializable(typeof(RunRecord))]
 [JsonSerializable(typeof(LastWorkingConfiguration))]
+[JsonSerializable(typeof(MultiplayerManifest))]
+[JsonSerializable(typeof(DiagnosticArchiveReference))]
+[JsonSerializable(typeof(SavedWindowPlacement))]
 public partial class LauncherJsonContext : JsonSerializerContext;

@@ -4,11 +4,17 @@ namespace PawsPatchLauncher;
 
 public partial class App : Application
 {
+    private void Tooltip_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement tooltip) { tooltip.UpdateLayout(); Motion.Reveal(tooltip); }
+    }
+
     private System.Threading.Mutex? _instance;
     public static bool PreviousUncleanExit { get; private set; }
     private RunRecord? _run;
     protected override void OnStartup(StartupEventArgs e)
     {
+        if (ActivityStore.IsSmokeTest) TestProcessErrorMode.Enable();
         _instance = new System.Threading.Mutex(true, "Local\\PawsPatchLauncher-Reliability" + (ActivityStore.IsSmokeTest ? "-smoke-" + Environment.ProcessId : ""), out var first);
         if (!first) { Shutdown(); return; }
         var previous = ActivityStore.Read("launcher-run");
@@ -18,6 +24,13 @@ public partial class App : Application
         DispatcherUnhandledException += (_, args) =>
         {
             ActivityStore.Log(args.Exception);
+            if (ActivityStore.IsSmokeTest)
+            {
+                Console.Error.WriteLine(args.Exception);
+                // Do not show a modal error over the user's game or let a failed test pass.
+                Environment.Exit(1);
+                return;
+            }
             MessageBox.Show(args.Exception.Message, "Paw's Patch Launcher", MessageBoxButton.OK, MessageBoxImage.Error);
             args.Handled = true;
         };

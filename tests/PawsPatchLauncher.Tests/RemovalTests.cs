@@ -80,6 +80,8 @@ public static class RemovalTests
             await File.WriteAllTextAsync(Path.Combine(root, "other.exe"), "unrelated");
             await File.WriteAllTextAsync(Path.Combine(data, "user-note.txt"), "unrelated note");
             await File.WriteAllTextAsync(Path.Combine(data, "settings.json"), "{}");
+            await File.WriteAllTextAsync(Path.Combine(data, "window-placement.json"), "{}");
+            await File.WriteAllTextAsync(Path.Combine(data, "window-placement.json.tmp"), "{}");
             await File.WriteAllTextAsync(Path.Combine(cache, "test.zip"), "cache fixture");
             var script = await LauncherUninstaller.BuildScriptAsync(exe, data, int.MaxValue, 0, showErrors: false);
             var mutexName = "Local\\PawsPatchLauncher-Test-" + Guid.NewGuid().ToString("N");
@@ -99,7 +101,8 @@ public static class RemovalTests
             if (scenario == "success")
             {
                 if (process.ExitCode != 0) throw new Exception("Removal helper failed: " + await error + await output);
-                if (File.Exists(exe) || File.Exists(exe + ".previous") || File.Exists(Path.Combine(data, "settings.json")) || Directory.Exists(Path.Combine(data, "downloads")))
+                if (File.Exists(exe) || File.Exists(exe + ".previous") || File.Exists(Path.Combine(data, "settings.json")) || Directory.Exists(Path.Combine(data, "downloads"))
+                    || File.Exists(Path.Combine(data, "window-placement.json")) || File.Exists(Path.Combine(data, "window-placement.json.tmp")))
                     throw new Exception("Owned fixture files survived.");
             }
             else if (process.ExitCode == 0 || !File.Exists(exe) || !File.Exists(Path.Combine(cache, "test.zip")))

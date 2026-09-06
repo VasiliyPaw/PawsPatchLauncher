@@ -175,4 +175,10 @@ if ($mapText -notmatch '(?m)^\s*width\s*=\s*960\s*$') {
 }
 Set-Content -LiteralPath $mapDestination -Value $mapText -Encoding utf8NoBOM -NoNewline
 
+# Original balance/roaming data must retain the current localization references.
+# This changes quoted display strings only and verifies that all gameplay bytes are preserved.
+$optionPython = 'C:\Users\Paw\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
+$optionRuStrings = Join-Path (Split-Path (Split-Path $localizedAutoexec)) 'Local_ru\Localization\strings_data_K2.tgi'
+& $optionPython (Join-Path $PSScriptRoot 'RepairComponentLocalization.py') --repair-generated $sourcesRoot --core-source $coreData --ru-source $optionRuStrings
+if ($LASTEXITCODE -ne 0) { throw 'Gameplay profiles failed localization preservation checks.' }
 Write-Output "Prepared gameplay option sources in $sourcesRoot"

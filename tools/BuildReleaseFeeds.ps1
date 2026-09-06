@@ -6,7 +6,8 @@ param(
     [string]$PublishedLauncherSha256 = '',
     [string]$ModuleVersion = '1.3.72-options.1',
     [string]$ModuleReleaseVersion = '0.4.1',
-    [string]$ReleaseWorkspace = (Join-Path $PSScriptRoot '..\release_workspace_20260905')
+    [string]$ReleaseWorkspace = (Join-Path $PSScriptRoot '..\release_workspace_20260905'),
+    [string]$LocalizedModuleVersion = '1.3.72-options.2'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -46,25 +47,25 @@ $definitions = @(
         EnDescription = 'Original intervals and chances; additional roaming companies enabled'
     },
     [pscustomobject]@{
-        Id = 'roaming-profile-x4-no-new'; Version = $ModuleVersion; Priority = 510; Required = $false
+        Id = 'roaming-profile-x4-no-new'; Version = $LocalizedModuleVersion; Priority = 510; Required = $false
         DependsOn = @('arcane-wars', 'pawpatch-core')
         RuName = 'Частота ×4 без новых рот'; EnName = '×4 frequency without additional companies'
         RuDescription = 'Ускоряет штатные блуждающие роты, не добавляя новые источники'
         EnDescription = 'Speeds up original roaming companies without adding new sources'
     },
     [pscustomobject]@{
-        Id = 'roaming-profile-standard-no-new'; Version = $ModuleVersion; Priority = 520; Required = $false
+        Id = 'roaming-profile-standard-no-new'; Version = $LocalizedModuleVersion; Priority = 520; Required = $false
         DependsOn = @('arcane-wars', 'pawpatch-core')
         RuName = 'Стандартные блуждающие роты'; EnName = 'Original roaming-company profile'
         RuDescription = 'Обычные интервалы, шансы и исходный набор источников'
         EnDescription = 'Original intervals, chances and source set'
     },
     [pscustomobject]@{
-        Id = 'siege-balance-standard'; Version = $ModuleVersion; Priority = 600; Required = $false
+        Id = 'siege-balance-standard'; Version = $LocalizedModuleVersion; Priority = 600; Required = $false
         DependsOn = @('arcane-wars', 'pawpatch-core')
         RuName = 'Стандартный баланс осадных машин'; EnName = 'Original siege-engine balance'
-        RuDescription = 'Возвращает исходную стоимость четырёх особых осадных машин'
-        EnDescription = 'Restores the original cost of four special siege engines'
+        RuDescription = 'Возвращает исходный осадный баланс Arcane Wars, включая стоимость и атаки, с сохранением перевода'
+        EnDescription = 'Restores original Arcane Wars siege balance, including cost and attacks, while preserving localization'
     },
     [pscustomobject]@{
         Id = 'large-map-sizes-standard'; Version = $ModuleVersion; Priority = 700; Required = $false

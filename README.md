@@ -25,7 +25,7 @@ The default core profile keeps independent hostility, ×4 roaming frequency, add
 6. Installation is staged and rolled back if a copy fails.
 7. Launcher updates preserve the previous executable and require a startup acknowledgement. The independent helper automatically restores a failed update.
 
-The Stable and Beta channels use separate signed feeds. Stable keeps the last accepted patch, while Beta can add early modules without changing Stable. Installing or switching a channel downloads every settings variant for that channel into the verified local cache. Changing gameplay switches after that is a local overlay operation performed before launch and is not reported as a new patch update. Returning to Stable and applying the update removes files that belonged only to the Beta module.
+The Release and Beta channels use separate signed feeds. Release keeps the last accepted patch, while Beta can add early modules without changing Release. Installing or switching a channel downloads every settings variant for that channel into the verified local cache. Changing gameplay switches after that is a local overlay operation performed before launch and is not reported as a new patch update. Returning to Release and applying the update removes files that belonged only to the Beta module. The internal `stable` ID, `stable.json` URL and `PAW-STABLE` configuration codes are retained for compatibility with existing installations.
 
 The active channel is checked at startup, after a channel switch, and once per minute while the launcher remains open. The main action reads `Install`, `Update <channel>`, or a disabled `Installed` according to the actual state. Launcher self-updates run automatically at startup and remain available through a visible button during the session.
 
@@ -38,6 +38,12 @@ Gameplay options that affect multiplayer produce a compact configuration code. P
 Every installed module records its complete file list. Files dropped by a newer version are removed automatically, and a package can additionally contain explicit removal entries for legacy manual installations. Original files are backed up and restored transactionally when appropriate.
 
 No private signing key belongs in this repository or in a public release.
+
+## Window placement
+
+The launcher saves its normal size/position, monitor connection and maximized state on an accepted close, in `%LOCALAPPDATA%\PawsPatchLauncher\window-placement.json`. The file is shared by launcher versions/copies for that Windows account, but is separate from patch settings, configuration codes and multiplayer fingerprints. A minimized window reopens in its preceding normal/maximized state, never minimized. Cancelled closes do not save; missing/invalid metadata uses the default window.
+
+Monitor interface identifiers, not model names, distinguish identical displays and take priority over `DISPLAY1/2/3` numbering. A changed/disconnected monitor layout chooses an available screen and bounds the window to its work area. Native placement accounts for restored bounds, taskbars and effective window DPI; unchanged geometry preserves negative coordinates and intentional multi-screen placement. Port/driver/remote-desktop changes can change identifiers, so that case uses a safe fallback rather than claiming permanent physical-monitor identity. The local placement file is removed only by launcher uninstall, not by patch removal/cache cleanup.
 
 Arcane Wars is a free non-commercial third-party mod by Darquan Mortis. Its files are not part of this source repository and are not covered by the launcher source-code license.
 

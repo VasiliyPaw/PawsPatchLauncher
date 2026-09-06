@@ -31,26 +31,27 @@ public partial class MainWindow
     private readonly HashSet<string> _loadedPrevious = [];
 
     private string T(string ru, string en) => _text.Language == "ru" ? ru : en;
-    private static string FormatBytes(long bytes) => bytes >= 1024 * 1024 ? $"{bytes / 1048576d:0.0} MB" : $"{bytes / 1024d:0.0} KB";
+    private static string FormatBytes(long bytes) => bytes >= 1024L * 1024 * 1024 ? $"{bytes / 1073741824d:0.00} GB"
+        : bytes >= 1024 * 1024 ? $"{bytes / 1048576d:0.0} MB" : $"{bytes / 1024d:0.0} KB";
 
     private void InitializeReliabilityUi()
     {
         void Label(Action<string> set, string ru, string en) { _reliabilityLabels.Add((set, ru, en)); set(T(ru, en)); }
         TextBlock Text(StackPanel panel, string ru, string en, bool heading = false)
         {
-            var item = new TextBlock { TextWrapping = TextWrapping.Wrap, FontSize = heading ? 18 : 12, Margin = new Thickness(0, 0, 0, 10),
-                FontWeight = heading ? FontWeights.Bold : FontWeights.Normal, Foreground = (Brush)FindResource(heading ? "TextMainBrush" : "TextMutedBrush") };
+            var item = heading ? new TextBlock { Style = (Style)FindResource("CardTitle") }
+                : new TextBlock { Style = (Style)FindResource("CardDescription"), Margin = new Thickness(0, 0, 0, 10) };
             Label(s => item.Text = s, ru, en); panel.Children.Add(item); return item;
         }
-        Button Button(StackPanel panel, string ru, string en, RoutedEventHandler action)
+        Button Button(Panel panel, string ru, string en, RoutedEventHandler action, IconKind icon = IconKind.None)
         {
-            var item = new Button { Style = (Style)FindResource("GhostButton"), Padding = new Thickness(12, 7, 12, 7), Margin = new Thickness(0, 0, 0, 8), HorizontalAlignment = HorizontalAlignment.Left };
+            var item = new Button { Style = (Style)FindResource("GhostButton"), Padding = new Thickness(12, 7, 12, 7), Margin = new Thickness(0, 0, panel is WrapPanel ? 8 : 0, 8), HorizontalAlignment = HorizontalAlignment.Left };
+            LauncherIcon.SetKind(item, icon);
             Label(s => item.Content = s, ru, en); item.Click += action; panel.Children.Add(item); _reliabilityActions.Add(item); return item;
         }
         TextBox Input(StackPanel panel)
         {
-            var box = new TextBox { Background = new SolidColorBrush(Color.FromRgb(10, 23, 41)), Foreground = (Brush)FindResource("TextMainBrush"),
-                BorderBrush = (Brush)FindResource("TextMutedBrush"), Padding = new Thickness(9), TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 10), MaxLength = 256 };
+            var box = new TextBox { Style = (Style)FindResource("ConfigurationInput"), MaxLength = 256 };
             panel.Children.Add(box); return box;
         }
         StackPanel Card(out Border border)
@@ -63,49 +64,56 @@ public partial class MainWindow
         var incident = Card(out _incidentCard);
         Text(incident, "Восстановление после ошибки", "Recovery after an error", true);
         _incidentText = Text(incident, "", "");
-        Button(incident, "Создать архив диагностики", "Create diagnostic archive", DiagnosticsButton_Click);
+        Button(incident, "Создать архив диагностики", "Create diagnostic archive", DiagnosticsButton_Click, IconKind.Diagnostics);
         Button(incident, "Понятно", "Dismiss", (_, _) => { _incident = null; RefreshReliabilityVisibility(); });
 
         var recovery = Card(out _recoveryCard);
+        ReliabilityPanels.Children.Remove(_recoveryCard);
+        RecoveryHost.Children.Add(_recoveryCard);
+        RegisterName("RecoveryCard", _recoveryCard);
         Text(recovery, "Восстановление", "Recovery", true);
         Text(recovery, "Предыдущая установка сохраняется вместе с изменёнными и удалёнными файлами. При откате выпуск закрепляется до вашего выбора обновиться.",
             "The previous installation retains replaced and removed files. Rolling back pins that release until you choose to update.");
-        _rollbackButton = Button(recovery, "Вернуть предыдущую установку", "Restore previous installation", RollbackPatch_Click);
-        _workingButton = Button(recovery, "Восстановить рабочие настройки", "Restore working settings", RestoreWorking_Click);
-        Text(recovery, "Рабочие настройки — набор, с которым окно игры открылось и работало не менее 20 секунд. Это не проверка отсутствия рассинхронов.",
+        _rollbackButton = Button(recovery, "Вернуть предыдущую установку", "Restore previous installation", RollbackPatch_Click, IconKind.Undo);
+        _workingButton = Button(recovery, "Восстановить рабочие настройки", "Restore working settings", RestoreWorking_Click, IconKind.Undo);
+        Text(recovery, "Рабочие настройки: набор, с которым окно игры открылось и работало не менее 20 секунд. Это не проверка отсутствия рассинхронов.",
             "Working settings means the game window opened and stayed running for at least 20 seconds. This does not verify multiplayer synchronization.");
         Text(recovery, "Обновления лаунчера: предыдущий EXE сохраняется; если новая версия не подтвердит запуск окна за 60 секунд, помощник вернёт старую и заблокирует повтор этого обновления.",
             "Launcher updates retain the previous EXE. If the new version does not confirm its window within 60 seconds, the helper restores the old version and blocks another attempt with that update.");
 
         var import = Card(out _importCard);
         Text(import, "Импорт настроек друга", "Import a friend's settings", true);
-        Text(import, "Вставьте код PAW-STABLE… или PAW-BETA…. Настройки применятся к файлам при установке или запуске игры.",
-            "Paste a PAW-STABLE… or PAW-BETA… code. Files are updated when you install or launch the game.");
+        Text(import, "Вставьте код конфигурации друга. Настройки применятся к файлам при установке или запуске игры.",
+            "Paste your friend's configuration code. Files are updated when you install or launch the game.");
         _importInput = Input(import);
-        Button(import, "Вставить из буфера", "Paste from clipboard", (_, _) => { if (Clipboard.ContainsText()) _importInput.Text = Clipboard.GetText(); });
-        Button(import, "Применить код", "Apply code", ImportConfiguration_Click);
+        Label(s => System.Windows.Automation.AutomationProperties.SetName(_importInput, s), "Код конфигурации друга", "Friend's configuration code");
+        var importActions = new WrapPanel(); import.Children.Add(importActions); RegisterName("ImportActions", importActions);
+        Button(importActions, "Вставить из буфера", "Paste from clipboard", async (_, _) => await PasteTextAsync(_importInput), IconKind.Paste);
+        Button(importActions, "Применить код", "Apply code", ImportConfiguration_Click, IconKind.Check);
 
         var multiplayer = Card(out _multiplayerCard);
         Text(multiplayer, "Готовность к мультиплееру", "Multiplayer readiness", true);
         Text(multiplayer, "Проверка читает установленные файлы и дополнительные игровые данные. Отправьте отпечаток другу, вставьте его ответ и сравните. В отпечаток входит и локализация: разные языки дадут различие, даже если они совместимы.",
             "Checks installed files and extra game data. Send the fingerprint to a friend, paste theirs and compare. Localization is included: different languages differ even if compatible.");
-        Button(multiplayer, "Проверить установленную конфигурацию", "Check installed configuration", CheckReadiness_Click);
+        Button(multiplayer, "Проверить установленную конфигурацию", "Check installed configuration", CheckReadiness_Click, IconKind.Shield);
         _readinessText = Text(multiplayer, "Ещё не проверено", "Not checked yet");
         _reliabilityLabels.RemoveAt(_reliabilityLabels.Count - 1);
-        _copyReadiness = Button(multiplayer, "Скопировать отпечаток", "Copy fingerprint", CopyReadiness_Click);
+        _copyReadiness = Button(multiplayer, "Скопировать отпечаток", "Copy fingerprint", CopyReadiness_Click, IconKind.Copy);
         _peerInput = Input(multiplayer);
-        Button(multiplayer, "Вставить отпечаток друга", "Paste friend's fingerprint", (_, _) => { if (Clipboard.ContainsText()) _peerInput.Text = Clipboard.GetText(); });
-        Button(multiplayer, "Сравнить с другом", "Compare with friend", CompareReadiness_Click);
+        Label(s => System.Windows.Automation.AutomationProperties.SetName(_peerInput, s), "Отпечаток конфигурации друга", "Friend's configuration fingerprint");
+        var peerActions = new WrapPanel(); multiplayer.Children.Add(peerActions); RegisterName("PeerActions", peerActions);
+        Button(peerActions, "Вставить отпечаток друга", "Paste friend's fingerprint", async (_, _) => await PasteTextAsync(_peerInput), IconKind.Paste);
+        Button(peerActions, "Сравнить с другом", "Compare with friend", CompareReadiness_Click, IconKind.Compare);
         _comparisonText = Text(multiplayer, "", "");
 
         var versions = Card(out _versionCard);
         Text(versions, "Версия патча", "Patch version", true);
-        Text(versions, "Последняя — получать обновления выбранного канала. Предыдущие Beta и сохранённые установки можно закрепить; лаунчер при этом продолжает обновляться.",
+        Text(versions, "Выберите «Последняя», чтобы получать обновления выбранного канала. Предыдущие Beta и сохранённые установки можно закрепить; лаунчер при этом продолжает обновляться.",
             "Latest follows the selected channel. Previous Beta releases and saved installations can be pinned while the launcher continues updating.");
         _releaseChoice = new ComboBox { Style = (Style)FindResource("ReleaseCombo"), Margin = new Thickness(0, 0, 0, 10), MaxDropDownHeight = 200, DisplayMemberPath = "Label",
             ItemsSource = new[] { new ReleaseChoice(T("Последняя версия", "Latest release"), null) }, SelectedIndex = 0 };
         versions.Children.Add(_releaseChoice);
-        Button(versions, "Выбрать выпуск", "Select release", SelectRelease_Click);
+        Button(versions, "Выбрать выпуск", "Select release", SelectRelease_Click, IconKind.Check);
         _releaseStatus = Text(versions, "", "");
         ReliabilityPanels.Children.Remove(_importCard);
         ConfigurationImportHost.Children.Add(_importCard);
@@ -116,7 +124,7 @@ public partial class MainWindow
     private void ApplyReliabilityLanguage()
     {
         foreach (var label in _reliabilityLabels) label.Set(T(label.Ru, label.En));
-        MultiplayerNav.Content = T("⚔   Мультиплеер", "⚔   Multiplayer");
+        MultiplayerNav.Content = T("Мультиплеер", "Multiplayer");
         CancelDownloadButton.Content = T("Приостановить загрузку", "Pause download");
     }
 
@@ -124,10 +132,11 @@ public partial class MainWindow
     {
         if (_recoveryCard is null) return;
         _recoveryCard.Visibility = _versionCard.Visibility = _activePage == "settings" ? Visibility.Visible : Visibility.Collapsed;
-        _importCard.Visibility = _activePage is "modules" or "multiplayer" ? Visibility.Visible : Visibility.Collapsed;
+        _importCard.Visibility = _activePage == "multiplayer" ? Visibility.Visible : Visibility.Collapsed;
         _multiplayerCard.Visibility = _activePage == "multiplayer" ? Visibility.Visible : Visibility.Collapsed;
         _incidentCard.Visibility = _incident is null ? Visibility.Collapsed : Visibility.Visible;
         _incidentText.Text = _incident ?? "";
+        RefreshEnhancements();
     }
 
     private void RefreshReliabilityStatus()
@@ -190,19 +199,23 @@ public partial class MainWindow
         _initializing = true;
         try
         {
+            var rememberedBetaColors = _settings.CustomPlayerColors;
             ConfigurationCode.Apply(source, _settings);
+            if (!source.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase)) _settings.CustomPlayerColors = rememberedBetaColors;
             _settings.PinnedRelease = release;
             _settings.PreparedChannel = null; _settings.PreparedFeedFingerprint = null;
-            BetaChannelToggle.IsChecked = SettingsBetaToggle.IsChecked = _settings.Channel == "beta";
+            SyncPatchChannelControls();
             RussianToggle.IsChecked = _settings.RussianLocalization;
             ColorsToggle.IsChecked = _settings.CustomPlayerColors;
             IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
             AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
             SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
+            PowersShardsToggle.IsChecked = _settings.DisablePowersAndShards;
             SelectOosMode(_settings.DesyncMode); SelectSpawnMode(_settings.RoamingSpawnMode);
             _settingsStore.Save(_settings);
             _channel = restoredChannel;
             _latestChannel = null;
+            ResetFeedbackContext();
             InvalidateReadiness();
         }
         finally { _initializing = false; }
@@ -215,9 +228,10 @@ public partial class MainWindow
         {
             var imported = ConfigurationCode.Parse(_importInput.Text);
             RestoreSettings(imported, null);
-            await CheckFeedAsync();
+            CardHighlight.Pulse(_importCard);
+            var checkedSuccessfully = await CheckFeedAsync();
             ApplyLanguage();
-            OperationText.Text = T("Настройки импортированы. При запуске игры файлы будут обновлены.", "Settings imported. Launching the game will apply the files.");
+            if (checkedSuccessfully) ShowToast(() => T("Настройки импортированы. При запуске игры файлы будут обновлены.", "Settings imported. Launching the game will apply the files."));
         }
         catch (FormatException ex) { ShowError(new FormatException(T("Некорректный или неподдерживаемый код конфигурации. ", "Invalid or unsupported configuration code. ") + ex.Message)); }
         catch (Exception ex) { ShowError(ex); }
@@ -235,7 +249,7 @@ public partial class MainWindow
             if (restored.AppliedSettings is not null) RestoreSettings(restored.AppliedSettings, restored.ReleaseId);
             else { _settings.PreparedFeedFingerprint = null; _settingsStore.Save(_settings); }
             InvalidateReadiness();
-            OperationText.Text = T("Предыдущая установка восстановлена.", "The previous installation was restored.");
+            ShowResult(() => T("Предыдущая установка восстановлена.", "The previous installation was restored."));
         }
         catch (Exception ex) { ShowError(ex); }
         finally { SetBusy(false); RefreshStatus(); }
@@ -248,8 +262,7 @@ public partial class MainWindow
         {
             var working = ActivityStore.Working(_game.Directory) ?? throw new IOException(T("Рабочих настроек пока нет.", "No working configuration has been recorded yet."));
             RestoreSettings(working.Settings, working.ReleaseId);
-            await CheckFeedAsync();
-            OperationText.Text = T("Рабочие настройки выбраны. Нажмите «Установить / Обновить» или запустите игру.", "Working settings selected. Install/update or launch the game to apply them.");
+            if (await CheckFeedAsync()) ShowResult(() => T("Рабочие настройки выбраны. Нажмите «Установить / Обновить» или запустите игру.", "Working settings selected. Install/update or launch the game to apply them."));
         }
         catch (Exception ex) { ShowError(ex); }
     }
@@ -278,7 +291,7 @@ public partial class MainWindow
             {
                 var color = release.Packages.FirstOrDefault(x => x.Id == "player-colors")?.Version;
                 var core = release.Packages.FirstOrDefault(x => x.Id == "pawpatch-core")?.Version ?? "?";
-                options.Add(new($"{channel} · {release.PublishedAt[..Math.Min(10, release.PublishedAt.Length)]} · {core}" + (color is null ? "" : T(" · цвета ", " · colors ") + color), ChannelFingerprint.Create(release)));
+                options.Add(new($"{ChannelPresentation.Name(channel, _text.Language)} · {release.PublishedAt[..Math.Min(10, release.PublishedAt.Length)]} · {core}" + (color is null ? "" : T(" · цвета ", " · colors ") + color), ChannelFingerprint.Create(release)));
             }
             _releaseChoice.ItemsSource = options;
             _releaseChoice.SelectedItem = options.FirstOrDefault(x => x.Id == _settings.PinnedRelease) ?? options[0];
@@ -292,22 +305,26 @@ public partial class MainWindow
         try
         {
             if (choice.Id is not null) _ = _feedClient.LoadArchived(choice.Id, _settings.Channel);
+            var changed = _settings.PinnedRelease != choice.Id;
             _settings.PinnedRelease = choice.Id;
+            ResetFeedbackContext();
             _settingsStore.Save(_settings);
             InvalidateReadiness();
-            await CheckFeedAsync();
-            OperationText.Text = T("Выпуск выбран. Установите его или запустите игру для применения.", "Release selected. Install it or launch the game to apply it.");
+            if (changed) CardHighlight.Pulse(_versionCard);
+            if (await CheckFeedAsync()) ShowResult(() => T("Выпуск выбран. Установите его или запустите игру для применения.", "Release selected. Install it or launch the game to apply it."));
         }
         catch (Exception ex) { ShowError(ex); }
     }
 
     private void InvalidateReadinessIfChanged()
     {
-        if (_readiness is not null && _checkedConfiguration != ConfigurationCode.Create(_settings) + _settings.PinnedRelease + _settings.GamePath) InvalidateReadiness();
+        if (_readiness is not null && _checkedConfiguration != EffectiveConfigurationCode + _settings.PinnedRelease + _settings.GamePath) InvalidateReadiness();
     }
     private void InvalidateReadiness()
     {
         _readiness = null; _readinessIdentity = null;
+        _detailedComparison = null;
+        if (_comparisonDetailsButton is not null) _comparisonDetailsButton.IsEnabled = false;
         if (_comparisonText is not null) _comparisonText.Text = "";
         if (_copyReadiness is not null) _copyReadiness.IsEnabled = false;
         if (_readinessText is not null) _readinessText.Text = T("Нужна новая проверка файлов.", "A new file check is required.");
@@ -323,14 +340,18 @@ public partial class MainWindow
             var state = new ModuleInstaller(_game.Directory).LoadState();
             if (!state.Modules.ContainsKey("pawpatch-core") || UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(_channel))) throw new IOException(T("Сначала примените выбранные настройки и версию патча.", "Apply the selected settings and patch version first."));
             var critical = await MultiplayerCheck.CriticalAsync(_game.Directory, state, ResolveLaunchExecutable(_game.Directory), _channel.Game);
-            if (critical.Count > 0) throw new IOException(string.Join("; ", critical));
-            _readiness = await MultiplayerCheck.CreateAsync(_game.Directory, state, _settings, ResolveLaunchExecutable(_game.Directory), _game.SteamBuild ?? "?");
-            _checkedConfiguration = ConfigurationCode.Create(_settings) + _settings.PinnedRelease + _settings.GamePath;
+            _fileCheckFailed = critical.Count > 0;
+            _readiness = await MultiplayerCheck.CreateAsync(_game.Directory, state, GetEffectiveSettings(), ResolveLaunchExecutable(_game.Directory), _game.SteamBuild ?? "?");
+            var integrity = _readiness.Errors.Concat(critical).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+            _readiness = _readiness with { Errors = integrity };
+            if (_readiness.Details is not null) _readiness.Details.IntegrityErrors = integrity;
+            _checkedConfiguration = EffectiveConfigurationCode + _settings.PinnedRelease + _settings.GamePath;
             _readinessIdentity = state.LastSuccessfulUpdate;
             var modules = string.Join("\n", state.Modules.OrderBy(x => x.Value.Priority).Select(x => $"{x.Key}: {x.Value.Version}"));
-            _readinessText.Text = $"Kohan II {_channel.Game.Version} · Steam {_game.SteamBuild}\n{CurrentChannelName()}\n{modules}\n\n{ConfigurationCode.Create(_settings)}\n\n{_readiness.Fingerprint}\n\n" +
+            _readinessText.Text = $"Kohan II {_channel.Game.Version} · Steam {_game.SteamBuild}\n{_text["patch.channel"]} {CurrentChannelName()}\n{modules}\n\n{EffectiveConfigurationCode}\n\n{_readiness.Fingerprint}\n\n" +
                 T($"Проверено файлов: {_readiness.Files}, {DateTime.Now:HH:mm:ss}. Ошибок: {_readiness.Errors.Count}.", $"Files checked: {_readiness.Files}, {DateTime.Now:HH:mm:ss}. Errors: {_readiness.Errors.Count}.");
-            OperationText.Text = _readiness.Errors.Count == 0 ? T("Отпечаток готов к сравнению.", "Fingerprint ready to compare.") : T("Найдены изменённые или отсутствующие файлы: ", "Changed or missing files: ") + string.Join(", ", _readiness.Errors.Take(4));
+            _fileCheckFailed = _readiness.Errors.Count > 0;
+            ShowResult(() => _readiness.Errors.Count == 0 ? T("Отпечаток готов к сравнению.", "Fingerprint ready to compare.") : T("Найдены изменённые или отсутствующие файлы: ", "Changed or missing files: ") + string.Join(", ", _readiness.Errors.Take(4)), failure: _fileCheckFailed);
         }
         finally { SetBusy(false); }
     }
@@ -345,7 +366,7 @@ public partial class MainWindow
         try
         {
             await CheckReadinessAsync();
-            if (_readiness is { Errors.Count: 0 }) Clipboard.SetText(_readiness.Fingerprint);
+            if (_readiness is { Errors.Count: 0 }) await CopyTextAsync(_readiness.Fingerprint, () => T("Отпечаток скопирован.", "Fingerprint copied."));
         }
         catch (Exception ex) { InvalidateReadiness(); ShowError(ex); }
     }
@@ -358,7 +379,7 @@ public partial class MainWindow
             if (peer.Length != 72 || !peer.StartsWith("PAW-MP1-") || !peer[8..].All(Uri.IsHexDigit)) throw new FormatException(T("Вставьте полный отпечаток PAW-MP1-…", "Paste a complete PAW-MP1-… fingerprint."));
             await CheckReadinessAsync();
             var matches = _readiness is { Errors.Count: 0 } && _readiness.Fingerprint == peer;
-            _comparisonText.Text = matches ? T("Конфигурации совпадают", "Configurations match") : T("Конфигурации различаются или файлы повреждены. Сверьте версии, компоненты и локализацию.", "Configurations differ or files are damaged. Compare versions, components and localization.");
+            _comparisonText.Text = matches ? T("Конфигурации совпадают", "Configurations match") : T("Отпечатки различаются или файлы повреждены. Откройте отчёт друга ниже, чтобы увидеть конкретные компоненты и файлы.", "Fingerprints differ or files are damaged. Open your friend's report below to see specific components and files.");
             _comparisonText.Foreground = (Brush)FindResource(matches ? "SuccessBrush" : "DangerBrush");
         }
         catch (Exception ex) { InvalidateReadiness(); ShowError(ex); }
@@ -367,7 +388,7 @@ public partial class MainWindow
 
     private void MarkVisibleChangelogRead()
     {
-        var visible = IsLoaded && IsVisible && IsActive && WindowState != WindowState.Minimized;
+        var visible = !_changelogTransitionPending && IsLoaded && IsVisible && IsActive && WindowState != WindowState.Minimized;
         if (ChangelogReadState.MarkViewed(_settings, _latestChannel ?? _channel, _changelogCategory, visible))
             _settingsStore.Save(_settings);
         RefreshUnreadBadges();
@@ -393,6 +414,10 @@ public partial class MainWindow
     {
         var transfer = _activeTransfer = new object();
         TransferText.Text = "";
+        TransferText.Visibility = Visibility.Collapsed;
+        ShowWorking(() => _text["progress.downloading"] + ": " + name);
+        OperationProgress.Value = 0;
+        OperationProgress.IsIndeterminate = true;
         var watch = Stopwatch.StartNew();
         long? first = null;
         long lastUpdate = -1000;
@@ -402,13 +427,12 @@ public partial class MainWindow
             first ??= value.Received;
             if (watch.ElapsedMilliseconds - lastUpdate < 180 && value.Received != value.Total) return;
             lastUpdate = watch.ElapsedMilliseconds;
-            var speed = (value.Received - first.Value) / Math.Max(watch.Elapsed.TotalSeconds, .1);
-            var remaining = value.Total is > 0 && speed > 1024 ? TimeSpan.FromSeconds(Math.Min((value.Total.Value - value.Received) / speed, 86400)).ToString(@"hh\:mm\:ss") : "—";
-            OperationText.Text = _text["progress.downloading"] + ": " + name;
+            var speed = Math.Max(0, value.Received - first.Value) / Math.Max(watch.Elapsed.TotalSeconds, .1);
+            var remaining = value.Total is > 0 && speed > 1024 ? TimeSpan.FromSeconds(Math.Clamp((value.Total.Value - value.Received) / speed, 0, 86400)).ToString(@"hh\:mm\:ss") : "-";
             TransferText.Text = FormatBytes(value.Received) + " / " + (value.Total is null ? "?" : FormatBytes(value.Total.Value)) + "\n" + FormatBytes((long)speed) + T("/с · осталось ", "/s · remaining ") + remaining;
             TransferText.Visibility = Visibility.Visible;
             OperationProgress.IsIndeterminate = value.Total is null;
-            if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
+            OperationProgress.Value = value.Total is > 0 ? Math.Clamp(value.Received * 100d / value.Total.Value, 0, 100) : 0;
         });
     }
     private void CancelDownload_Click(object sender, RoutedEventArgs e) => _downloadCancellation?.Cancel();
@@ -420,12 +444,12 @@ public partial class MainWindow
         IReadOnlyList<string> errors;
         try { state = installer.LoadState(); errors = await installer.VerifyAsync(); }
         catch (Exception ex) { ActivityStore.Log(ex); state = new InstallState(); errors = [ex.Message]; }
-        return await DiagnosticsCollector.CreateAsync(path, _game, _settings, state, errors);
+        return await DiagnosticsCollector.CreateAsync(path, _game, GetEffectiveSettings(), state, errors);
     }
 
     private void BeginGameObservation(Process process, InstallState state)
     {
-        _observedRun = new RunRecord { ProcessId = process.Id, GameRoot = _game!.Directory, Settings = JsonSerializer.Deserialize(JsonSerializer.Serialize(_settings, LauncherJsonContext.Default.UserSettings), LauncherJsonContext.Default.UserSettings), ReleaseId = state.ReleaseId };
+        _observedRun = new RunRecord { ProcessId = process.Id, GameRoot = _game!.Directory, Settings = GetEffectiveSettings(), ReleaseId = state.ReleaseId };
         try { _observedRun.StartTicks = process.StartTime.ToUniversalTime().Ticks; } catch { }
         _observedProcess?.Dispose(); _observedProcess = process; _workingSaved = false;
         ActivityStore.Save("game-run", _observedRun);

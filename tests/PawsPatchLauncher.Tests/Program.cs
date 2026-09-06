@@ -4,6 +4,27 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
+TestProcessErrorMode.Enable();
+if (args.Length == 1 && args[0] == "--quiet-mode-check")
+{
+    Console.WriteLine("QUIET MODE PASS: current-process critical/fault error dialogs disabled; no UI or crash generated.");
+    return;
+}
+
+if (args.Length == 3 && args[0] == "--audit-combinations")
+{
+    try { await CombinationAudit.RunAsync(args[1], args[2]); }
+    catch (Exception error) { Console.Error.WriteLine(error); Environment.ExitCode = 1; }
+    return;
+}
+
+if (args.Length is 5 or 6 && args[0] == "--verify-powers-shards")
+{
+    try { await PowersShardsTests.VerifyPackagesAsync(args[1], args[2], args[3], args[4], args.Length == 6 ? args[5] : null); }
+    catch (Exception error) { Console.Error.WriteLine(error); Environment.ExitCode = 1; }
+    return;
+}
+
 if (args.Length == 5 && args[0] == "--verify-common-ui-profiles")
 {
     await CommonUiPackageTests.RunAsync(args[1], args[2], args[3], args[4]);
@@ -58,6 +79,13 @@ var passed = 0;
 
 try
 {
+    passed += await EnhancementTests.RunAsync(root);
+    passed += await ClipboardRetryTests.RunAsync();
+    passed += DiagnosticArchiveHistoryTests.Run(root);
+    passed += ChannelPresentationTests.Run();
+    passed += WindowPlacementTests.Run(root);
+    passed += PowersShardsTests.Run();
+    passed += EffectiveSettingsTests.Run();
     ExpectThrows<InvalidDataException>(() => CryptoAndIO.SafeChildPath(root, "..\\escape.txt"));
     passed++;
 

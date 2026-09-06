@@ -3,7 +3,7 @@ using System.Text;
 
 namespace PawsPatchLauncher;
 
-public sealed record ReadinessReport(string Fingerprint, int Files, IReadOnlyList<string> Errors);
+public sealed record ReadinessReport(string Fingerprint, int Files, IReadOnlyList<string> Errors, MultiplayerManifest? Details = null);
 
 public static class MultiplayerCheck
 {
@@ -44,6 +44,7 @@ public static class MultiplayerCheck
         var expected = Expected(state);
         var paths = expected.Keys.ToHashSet(StringComparer.OrdinalIgnoreCase);
         paths.Add("k2.exe");
+        paths.Add(Path.GetFileName(executable));
         // Include extra gameplay data left by manual installs; do not traverse launcher backups or junctions.
         var pending = new Stack<string>();
         pending.Push(game);
@@ -55,6 +56,9 @@ public static class MultiplayerCheck
                 if (!Path.GetFileName(directory).StartsWith('.') && (File.GetAttributes(directory) & FileAttributes.ReparsePoint) == 0) pending.Push(directory);
         }
         var errors = new List<string>();
+        var details = new MultiplayerManifest { Configuration = ConfigurationCode.Create(settings), GameBuild = build,
+            Executable = Path.GetFileName(executable), Modules = state.Modules.Select(x => new MultiplayerModule {
+                Id = x.Key, Version = x.Value.Version, Sha256 = x.Value.ArchiveSha256, Enabled = x.Value.Enabled, Priority = x.Value.Priority }).ToList() };
         using var digest = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         void Add(string line) => digest.AppendData(Encoding.UTF8.GetBytes(line + "\n"));
         Add("PAW-MP1");
@@ -68,10 +72,13 @@ public static class MultiplayerCheck
             ct.ThrowIfCancellationRequested();
             var path = PatchRecovery.GamePath(game, relative);
             var hash = File.Exists(path) ? await CryptoAndIO.Sha256Async(path, ct) : "MISSING";
+            details.Files.Add(new MultiplayerFile { Path = relative, Sha256 = hash });
             Add(relative.ToLowerInvariant() + "|" + hash);
             if (!expected.TryGetValue(relative, out var file)) continue;
             if (file is null ? hash != "MISSING" : !hash.Equals(file.Sha256, StringComparison.OrdinalIgnoreCase)) errors.Add(relative);
         }
-        return new ReadinessReport("PAW-MP1-" + Convert.ToHexString(digest.GetHashAndReset()), paths.Count, errors);
+        details.Fingerprint = "PAW-MP1-" + Convert.ToHexString(digest.GetHashAndReset());
+        details.IntegrityErrors = errors.ToList();
+        return new ReadinessReport(details.Fingerprint, paths.Count, errors, details);
     }
 }

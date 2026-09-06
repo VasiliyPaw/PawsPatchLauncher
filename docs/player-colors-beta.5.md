@@ -2,7 +2,7 @@
 
 This release ships the byte-identical r15 candidate accepted locally by the user on 2026-09-06.
 
-Local crash dumps 133–135 showed a null string in native kingdom permission checking after a color request. The previous request used player-object serializers as if they serialized strings. r15 uses the real native uint32 serializers for a tagged kingdom ordinal and a palette ordinal, validates both before resolving local strings, and rejects malformed/legacy payloads before permission checking.
+Local crash dumps 133-135 showed a null string in native kingdom permission checking after a color request. The previous request used player-object serializers as if they serialized strings. r15 uses the real native uint32 serializers for a tagged kingdom ordinal and a palette ordinal, validates both before resolving local strings, and rejects malformed/legacy payloads before permission checking.
 
 The mandatory `common-ui` package provides mod-version labels and exact negative-zero display normalization in all five active launch helpers. The stock `k2.exe` is not changed on disk. When all optional features are off, launcher 0.5.4 selects `k2_paws_ui_1372.exe` if the signed channel requires this package. No simulation-resource or RNG values are written by these two presentation hooks.
 

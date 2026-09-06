@@ -85,7 +85,7 @@ public static class LauncherUninstaller
                     foreach ($child in [IO.Directory]::EnumerateDirectories($dir)) { Assert-NoLinks $child; $pending.Push($child) }
                 }
             }
-            foreach ($name in @('settings.json','settings.json.tmp','game-run.json','game-run.json.tmp','launcher-run.json','launcher-run.json.tmp','launcher-errors.log','self-update.log','failed-launcher-sha256.txt','update-rollback.txt')) {
+            foreach ($name in @('settings.json','settings.json.tmp','window-placement.json','window-placement.json.tmp','game-run.json','game-run.json.tmp','launcher-run.json','launcher-run.json.tmp','launcher-errors.log','self-update.log','failed-launcher-sha256.txt','update-rollback.txt')) {
                 $file = [IO.Path]::Combine($plan.dataRoot, $name); Assert-NoLinks $file
                 if ([IO.File]::Exists($file)) { $files.Add($file) }
             }

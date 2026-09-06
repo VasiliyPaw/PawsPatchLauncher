@@ -1,4 +1,4 @@
-# Player colors 0.1.0-beta.6 — r16
+# Player colors 0.1.0-beta.6 - r16
 
 ## Русский
 

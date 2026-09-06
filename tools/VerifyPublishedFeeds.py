@@ -9,6 +9,7 @@ import urllib.request
 parser = argparse.ArgumentParser()
 parser.add_argument("feeds", nargs="+")
 parser.add_argument("--skip-launcher", action="store_true")
+parser.add_argument("--workers", type=int, choices=range(1, 5), default=4, help="Use 1 to keep publication checks sequential")
 args = parser.parse_args()
 assets = {}
 for path in args.feeds:
@@ -39,7 +40,7 @@ def verify(item):
         raise RuntimeError("Published bytes do not match signed metadata: " + url)
     return f"PASS {package['id']} {package['version']} {size} bytes"
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
     for result in pool.map(verify, assets.items()):
         print(result, flush=True)
 print(f"PUBLICATION PASS {len(assets)} unique assets")

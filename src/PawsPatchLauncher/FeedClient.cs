@@ -9,6 +9,7 @@ public sealed class FeedClient
     private readonly HttpClient _http;
     private readonly LauncherConfiguration _configuration;
     private readonly string _cacheRoot;
+    public string CacheDirectory => _cacheRoot;
 
     public FeedClient(LauncherConfiguration configuration, HttpClient? http = null)
     {
