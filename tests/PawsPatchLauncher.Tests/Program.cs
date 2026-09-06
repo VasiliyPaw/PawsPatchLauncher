@@ -4,6 +4,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
+if (args.Length == 5 && args[0] == "--verify-common-ui-profiles")
+{
+    await CommonUiPackageTests.RunAsync(args[1], args[2], args[3], args[4]);
+    return;
+}
+
 if (args.Length == 4 && args[0] == "--self-update-fixtures")
 {
     await SelfUpdateTests.RunAsync(args[1],args[2],args[3]);
@@ -107,6 +113,25 @@ try
     AssertEqual("k2_paws_sync_family_herd_relations_1372.exe", GameExecutableSelector.Select(executableConfiguration, false, true, true));
     AssertEqual("k2_paws_lobby_colors_mp_1372_experimental.exe", GameExecutableSelector.Select(executableConfiguration, true, false, true));
     passed += 5;
+
+    var commonUiChannel = new ChannelManifest
+    {
+        Packages = [new PackageRelease { Id = "common-ui", Required = true }, new PackageRelease { Id = "player-colors" }]
+    };
+    AssertTrue(GameExecutableSelector.HasCommonUi(commonUiChannel), "Required common UI module not recognized.");
+    AssertTrue(!GameExecutableSelector.HasCommonUi(new ChannelManifest()), "Legacy channel must keep its stock fallback.");
+    AssertEqual("k2_paws_ui_1372.exe", GameExecutableSelector.Select(executableConfiguration, false, false, false, true));
+    passed += 3;
+    foreach (var colors in new[] { false, true })
+    foreach (var bypass in new[] { false, true })
+    foreach (var hostility in new[] { false, true })
+    {
+        var settings = new UserSettings { DesyncMode = "official", RoamingSpawnMode = "x4", AdditionalRoamingCompanies = true, SiegeBalance = true };
+        var selected = GamePackageSelector.Select(commonUiChannel, settings, false, colors);
+        AssertTrue(selected.Any(p => p.Id == "common-ui"), "Common UI was excluded by a profile.");
+        AssertTrue(GameExecutableSelector.Select(executableConfiguration, colors, bypass, hostility, true) != "k2.exe", "Profile bypassed common UI loader.");
+        passed += 2;
+    }
 
     var fingerprintFeed = new ChannelManifest
     {

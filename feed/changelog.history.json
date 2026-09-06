@@ -2,6 +2,13 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.5.4",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Новая иконка и Arial", "en": "New icon and Arial" },
+      "body": { "ru": "У лаунчера появилась собственная сине-золотая иконка с буквой P для файла, окна и панели задач. Все надписи переведены на Arial. Добавлена поддержка общих исправлений интерфейса во всех режимах запуска. Игровые пакеты Stable не изменены.", "en": "The launcher now has a blue-and-gold P icon for its file, window and taskbar. All interface text uses Arial. Shared interface fixes are supported in every launch mode. Stable game packages are unchanged." }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.2",
       "publishedAt": "2026-09-06",
       "title": { "ru": "Удаление и удобство интерфейса", "en": "Uninstall and UI improvements" },
@@ -107,6 +114,20 @@
     }
   ],
   "beta": [
+    {
+      "category": "patch",
+      "version": "0.4.6",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Сетевые цвета и общие исправления интерфейса", "en": "Multiplayer colors and common UI fixes" },
+      "body": { "ru": "Исправлена ошибка передачи выбранного цвета, вызывавшая краш в сетевом лобби. В главное меню добавлены версии Arcane Wars и Paw's Patch. В строке лимитов вместо точного -0 показывается 0; сами лимиты не меняются. Подписи и исправление нуля работают при любых настройках запуска. Для мультиплеера всем участникам нужна одинаковая новая Beta.", "en": "Fixed color-selection network encoding that caused a crash in multiplayer lobbies. The main menu now displays Arcane Wars and Paw's Patch versions. Exact negative zero is displayed as 0 in the limit row without changing the limits themselves. Version labels and zero normalization work with every launch configuration. All multiplayer participants need the same new Beta." }
+    },
+    {
+      "category": "launcher",
+      "version": "0.5.4",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Новая иконка и Arial", "en": "New icon and Arial" },
+      "body": { "ru": "У лаунчера появилась собственная сине-золотая иконка с буквой P для файла, окна и панели задач. Все надписи переведены на Arial. Общие исправления интерфейса автоматически применяются даже с выключенными цветами, враждой независимых и обходом рассинхрона.", "en": "The launcher now has a blue-and-gold P icon for its file, window and taskbar. All interface text uses Arial. Common interface fixes apply automatically even with colors, independent hostility and desync bypass disabled." }
+    },
     {
       "category": "launcher",
       "version": "0.5.2",

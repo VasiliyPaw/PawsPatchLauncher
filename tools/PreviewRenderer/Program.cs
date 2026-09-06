@@ -45,6 +45,7 @@ public static class Program
         content.Measure(new Size(width, height));
         content.Arrange(new Rect(0, 0, width, height));
         content.UpdateLayout();
+        CheckBrandAndFonts(window, content);
         if (args.Length >= 2)
         {
             typeof(MainWindow).GetMethod("SetActivePage", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(window, [args[1]]);
@@ -89,6 +90,32 @@ public static class Program
 
     private static object? Invoke(MainWindow window, string name, params object?[] values)
         => typeof(MainWindow).GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(window, values);
+
+    private static void CheckBrandAndFonts(MainWindow window, DependencyObject root)
+    {
+        if (window.Icon is null || window.FontFamily.Source != "Arial" || ((Image)window.FindName("BrandMark")).Source is not DrawingImage)
+            throw new InvalidOperationException("Window icon, shared brand or Arial default is missing.");
+        int checkedElements = 0;
+        void Visit(DependencyObject item)
+        {
+            FontFamily? family = item is TextBlock text ? text.FontFamily
+                : item is Button or TextBox or ComboBox or CheckBox or RadioButton ? ((Control)item).FontFamily : null;
+            if (family is not null)
+            {
+                if (family.Source != "Arial") throw new InvalidOperationException("Non-Arial UI font: " + item.GetType().Name + " " + family.Source);
+                checkedElements++;
+            }
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(item); i++) Visit(VisualTreeHelper.GetChild(item, i));
+        }
+        Visit(root);
+        if (checkedElements < 15) throw new InvalidOperationException("Insufficient rendered font coverage.");
+        var info = Application.GetResourceStream(new Uri("pack://application:,,,/PawsPatchLauncher;component/Assets/PawsPatch.ico"))!;
+        using var iconStream = info.Stream;
+        var decoder = new IconBitmapDecoder(iconStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+        if (!decoder.Frames.Select(f => f.PixelWidth).SequenceEqual(new[] { 16, 20, 24, 32, 40, 48, 64, 128, 256 }))
+            throw new InvalidOperationException("Embedded ICO resolutions changed.");
+        Console.WriteLine($"BRAND/FONT PASS: icon resource, vector logo, 9 icon resolutions, {checkedElements} Arial elements");
+    }
 
     private static void CheckTransferLifecycle(MainWindow window)
     {

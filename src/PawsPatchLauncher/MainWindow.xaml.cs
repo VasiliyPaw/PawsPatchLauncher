@@ -392,7 +392,7 @@ public partial class MainWindow : Window
                 item.Children.Add(new TextBlock
                 {
                     Text = title,
-                    FontFamily = new FontFamily("Georgia"),
+                    FontFamily = new FontFamily("Arial"),
                     FontWeight = FontWeights.Bold,
                     FontSize = 15,
                     TextWrapping = TextWrapping.Wrap
@@ -593,6 +593,7 @@ public partial class MainWindow : Window
             "k2_paws_family_herd_relations_1372",
             "k2_paws_sync_family_herd_relations_1372",
             "k2_paws_sync_continue_1372",
+            "k2_paws_ui_1372",
             "k2_paws_lobby_colors_mp_1372_experimental"
         };
         return processNames.Any(name => Process.GetProcessesByName(name).Length > 0);
@@ -604,7 +605,8 @@ public partial class MainWindow : Window
             _configuration,
             _colorsAvailable && ColorsToggle.IsChecked == true,
             _settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase),
-            _settings.IndependentHostility);
+            _settings.IndependentHostility,
+            GameExecutableSelector.HasCommonUi(_channel));
         return Path.Combine(root, name);
     }
 
