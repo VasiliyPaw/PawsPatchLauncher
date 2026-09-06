@@ -2,6 +2,13 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.5.5",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Изящный логотип", "en": "Refined launcher logo" },
+      "body": { "ru": "Новый логотип с буквой P в стиле Palatino Linotype, тонкой золотой рамкой и мягким градиентом. Обновлены значки EXE и окна. При запуске Windows получает уведомление об обновлении этого EXE. Остальные надписи остаются Arial. Игровые пакеты не изменены.", "en": "A new Palatino Linotype-style P logo with a fine gold rim and soft gradient. Executable and window icons are updated. Startup notifies Windows that this executable has changed. Other interface text remains Arial. Game packages are unchanged." }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.4",
       "publishedAt": "2026-09-06",
       "title": { "ru": "Новая иконка и Arial", "en": "New icon and Arial" },
@@ -114,6 +121,13 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.5.5",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Изящный логотип", "en": "Refined launcher logo" },
+      "body": { "ru": "Новый логотип с буквой P в стиле Palatino Linotype, тонкой золотой рамкой и мягким градиентом. Обновлены значки EXE и окна. При запуске Windows получает уведомление об обновлении этого EXE. Остальные надписи остаются Arial. Игровые пакеты не изменены.", "en": "A new Palatino Linotype-style P logo with a fine gold rim and soft gradient. Executable and window icons are updated. Startup notifies Windows that this executable has changed. Other interface text remains Arial. Game packages are unchanged." }
+    },
     {
       "category": "patch",
       "version": "0.4.6",

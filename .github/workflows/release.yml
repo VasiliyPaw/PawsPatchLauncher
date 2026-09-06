@@ -35,8 +35,6 @@ jobs:
           gh release create "$env:GITHUB_REF_NAME" `
             artifacts/win-x64/PawsPatchLauncher.exe `
             "artifacts/PawsPatchLauncher-$env:GITHUB_REF_NAME-win-x64.zip" `
-            packages/common-ui-1.3.72-ui.1.zip `
-            packages/player-colors-0.1.0-beta.5.zip `
             --repo "$env:GITHUB_REPOSITORY" `
             --title "Paw's Patch Launcher $env:GITHUB_REF_NAME" `
             --notes-file "docs/release-$($env:GITHUB_REF_NAME.Substring(1)).md"

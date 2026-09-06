@@ -21,6 +21,7 @@ public partial class App : Application
             MessageBox.Show(args.Exception.Message, "Paw's Patch Launcher", MessageBoxButton.OK, MessageBoxImage.Error);
             args.Handled = true;
         };
+        ShellIcon.RefreshExecutable();
         base.OnStartup(e);
     }
 
