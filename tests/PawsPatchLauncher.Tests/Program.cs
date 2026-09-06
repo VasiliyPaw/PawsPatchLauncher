@@ -10,6 +10,24 @@ if (args.Length == 4 && args[0] == "--self-update-fixtures")
     return;
 }
 
+if (args.Length == 4 && args[0] == "--real-launcher-update")
+{
+    await SelfUpdateTests.RunRealAsync(args[1], args[2], args[3]);
+    return;
+}
+
+if (args.Length == 2 && args[0] == "--uninstall-helper-fixtures")
+{
+    await RemovalTests.RunHelperAsync(args[1]);
+    return;
+}
+
+if (args.Length == 6 && args[0] == "--verify-clean-install")
+{
+    await CleanInstallTests.RunAsync(args[1], args[2], args[3], args[4], args[5]);
+    return;
+}
+
 if ((args.Length == 3 || args.Length == 4) && args[0] == "--verify-release")
 {
     await VerifyReleaseAsync(args[1], args[2], args.Length == 4 ? args[3] : "stable");
@@ -231,6 +249,7 @@ try
     passed += 3;
 
     passed += await ReliabilityTests.RunAsync(root);
+    passed += await RemovalTests.RunAsync(root);
     Console.WriteLine($"PASS {passed}");
 }
 finally

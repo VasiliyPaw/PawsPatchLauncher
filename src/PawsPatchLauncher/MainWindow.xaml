@@ -1,7 +1,7 @@
 <Window x:Class="PawsPatchLauncher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Paw's Patch Launcher" Width="1240" Height="760" MinWidth="1050" MinHeight="680"
+        Title="Paw's Patch Launcher" Width="1440" Height="900" MinWidth="1050" MinHeight="680"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip"
         Background="{StaticResource NightBrush}">
     <Window.Resources>
@@ -114,7 +114,7 @@
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="196"/>
+                    <ColumnDefinition Width="228"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -218,6 +218,12 @@
                                         <Separator Margin="0,16,0,13" Background="#40536E"/>
                                         <TextBlock x:Name="SettingsUpdatesDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap"/>
                                         <TextBlock x:Name="LastCheckedText" Foreground="#71819A" FontSize="10" Margin="0,9,0,0"/>
+                                        <Separator Margin="0,20,0,16" Background="#70504E"/>
+                                        <TextBlock x:Name="RemovalTitleText" FontFamily="Georgia" FontSize="18" FontWeight="Bold" Foreground="#F2B6A9"/>
+                                        <TextBlock x:Name="RemovePatchDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,10,0,8"/>
+                                        <Button x:Name="RemovePatchButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Padding="14,7" BorderBrush="#986A60" Click="RemovePatch_Click"/>
+                                        <TextBlock x:Name="RemoveLauncherDescriptionText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,17,0,8"/>
+                                        <Button x:Name="RemoveLauncherButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Padding="14,7" BorderBrush="#986A60" Click="RemoveLauncher_Click"/>
                                     </StackPanel>
                                 </Border>
 
@@ -438,7 +444,7 @@
                                 <StackPanel Grid.Row="5">
                                     <TextBlock x:Name="OperationText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,7"/>
                                     <ProgressBar x:Name="OperationProgress" Minimum="0" Maximum="100" Value="0"/>
-                                    <TextBlock x:Name="TransferText" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,7,0,0"/>
+                                    <TextBlock x:Name="TransferText" Visibility="Collapsed" Foreground="{StaticResource TextMutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,7,0,0"/>
                                     <Button x:Name="CancelDownloadButton" Visibility="Collapsed" Style="{StaticResource GhostButton}" Padding="9,5" Margin="0,6,0,0" Click="CancelDownload_Click"/>
                                 </StackPanel>
                             </Grid>

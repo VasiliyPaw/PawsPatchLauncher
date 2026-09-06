@@ -33,6 +33,12 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        // Keep the larger default usable on small screens and at increased Windows scaling.
+        var workArea = SystemParameters.WorkArea;
+        Width = Math.Min(Width, Math.Max(1, workArea.Width - 32));
+        Height = Math.Min(Height, Math.Max(1, workArea.Height - 32));
+        MinWidth = Math.Min(MinWidth, Width);
+        MinHeight = Math.Min(MinHeight, Height);
         _configuration = SettingsStore.LoadConfiguration();
         _feedClient = new FeedClient(_configuration);
         _settings = _settingsStore.Load();
@@ -112,6 +118,7 @@ public partial class MainWindow : Window
         SettingsRepairDescriptionText.Text = _text["settings.repair.desc"];
         SettingsRepairButton.Content = _text["button.repair"];
         SettingsUpdatesDescriptionText.Text = _text["settings.updates.desc"];
+        ApplyRemovalLanguage();
         CheckUpdatesButton.Content = _text["button.checknow"];
         var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
         LauncherVersionText.Text = $"{version.Major}.{version.Minor}.{version.Build} · {_settings.Channel.ToLowerInvariant()}";
@@ -262,6 +269,8 @@ public partial class MainWindow : Window
         ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
         UpdateButton.IsEnabled = !_busy && !_checkingFeed && _game is not null && _channel is not null && _patchUpdateAvailable;
         SettingsRepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
+        RemovePatchButton.IsEnabled = !_busy && !_checkingFeed && _game is not null && state?.Modules.Count > 0;
+        RemoveLauncherButton.IsEnabled = !_busy && !_checkingFeed;
         LaunchButton.IsEnabled = !_busy && !_checkingFeed && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
@@ -480,6 +489,7 @@ public partial class MainWindow : Window
         if (prepareWholeChannel)
         {
             TransferText.Text = T("Всего к загрузке: ", "Total download: ") + FormatBytes(channel.Packages.Where(p => !_feedClient.IsPackageCached(p)).Sum(p => p.Size));
+            TransferText.Visibility = Visibility.Visible;
             downloaded = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             foreach (var package in channel.Packages.OrderBy(package => package.Priority))
                 downloaded[package.Id] = await DownloadPackageAsync(package);
@@ -516,37 +526,14 @@ public partial class MainWindow : Window
         try { return await _feedClient.DownloadVerifiedAsync(package, progress, cancellation.Token); }
         finally
         {
+            FinishTransfer();
             _downloadCancellation = null;
             CancelDownloadButton.Visibility = Visibility.Collapsed;
         }
     }
 
     private List<PackageRelease> ResolveSelectedPackages(ChannelManifest channel)
-    {
-        var ids = new HashSet<string>(channel.Packages.Where(x => x.Required).Select(x => x.Id), StringComparer.OrdinalIgnoreCase);
-        if (RussianToggle.IsChecked == true) ids.Add("localization-ru");
-        if (_colorsAvailable && ColorsToggle.IsChecked == true) ids.Add("player-colors");
-        if (_settings.DesyncMode == "continue") ids.Add("desync-continue");
-
-        var fastSpawn = _settings.RoamingSpawnMode.Equals("x4", StringComparison.OrdinalIgnoreCase);
-        if (!fastSpawn && _settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-with-new");
-        if (fastSpawn && !_settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-x4-no-new");
-        if (!fastSpawn && !_settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-no-new");
-        if (!_settings.SiegeBalance) ids.Add("siege-balance-standard");
-
-        bool changed;
-        do
-        {
-            changed = false;
-            foreach (var package in channel.Packages.Where(x => ids.Contains(x.Id)))
-                foreach (var dependency in package.DependsOn)
-                    if (ids.Add(dependency)) changed = true;
-        } while (changed);
-
-        var missing = ids.Where(id => channel.Packages.All(x => !x.Id.Equals(id, StringComparison.OrdinalIgnoreCase))).ToList();
-        if (missing.Count > 0) throw new InvalidDataException("Missing update packages: " + string.Join(", ", missing));
-        return channel.Packages.Where(x => ids.Contains(x.Id)).ToList();
-    }
+        => GamePackageSelector.Select(channel, _settings, RussianToggle.IsChecked == true, _colorsAvailable && ColorsToggle.IsChecked == true);
 
     private async void RepairButton_Click(object sender, RoutedEventArgs e)
     {
@@ -645,6 +632,7 @@ public partial class MainWindow : Window
             SetBusy(true, _text.Language == "ru" ? $"Обновляю лаунчер до {release.Version}…" : $"Updating launcher to {release.Version}…");
             var progress = TransferProgress("Paw's Patch Launcher " + release.Version);
             var executable = await _feedClient.DownloadLauncherAsync(release, progress);
+            FinishTransfer();
             SelfUpdater.ScheduleReplacement(executable, release.Sha256);
             _busy = false;
             Application.Current.Shutdown();
@@ -892,6 +880,7 @@ public partial class MainWindow : Window
     private void SetBusy(bool busy, string? message = null)
     {
         _busy = busy;
+        if (!busy) FinishTransfer();
         if (message is not null) OperationText.Text = message;
         OperationProgress.IsIndeterminate = busy;
         RefreshStatus();

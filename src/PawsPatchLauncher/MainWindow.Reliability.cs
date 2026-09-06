@@ -379,13 +379,26 @@ public partial class MainWindow
         LauncherChangelogButton.Content = _text["news.tab.launcher"] + (Unread("launcher") ? " ●" : "");
     }
 
+    private object? _activeTransfer;
+
+    private void FinishTransfer()
+    {
+        // Progress<T> posts to the UI queue: ignore callbacks still queued after completion.
+        _activeTransfer = null;
+        TransferText.Text = "";
+        TransferText.Visibility = Visibility.Collapsed;
+    }
+
     private IProgress<(long Received, long? Total)> TransferProgress(string name)
     {
+        var transfer = _activeTransfer = new object();
+        TransferText.Text = "";
         var watch = Stopwatch.StartNew();
         long? first = null;
         long lastUpdate = -1000;
         return new Progress<(long Received, long? Total)>(value =>
         {
+            if (!ReferenceEquals(_activeTransfer, transfer)) return;
             first ??= value.Received;
             if (watch.ElapsedMilliseconds - lastUpdate < 180 && value.Received != value.Total) return;
             lastUpdate = watch.ElapsedMilliseconds;
@@ -393,6 +406,7 @@ public partial class MainWindow
             var remaining = value.Total is > 0 && speed > 1024 ? TimeSpan.FromSeconds(Math.Min((value.Total.Value - value.Received) / speed, 86400)).ToString(@"hh\:mm\:ss") : "—";
             OperationText.Text = _text["progress.downloading"] + ": " + name;
             TransferText.Text = FormatBytes(value.Received) + " / " + (value.Total is null ? "?" : FormatBytes(value.Total.Value)) + "\n" + FormatBytes((long)speed) + T("/с · осталось ", "/s · remaining ") + remaining;
+            TransferText.Visibility = Visibility.Visible;
             OperationProgress.IsIndeterminate = value.Total is null;
             if (value.Total is > 0) OperationProgress.Value = value.Received * 100d / value.Total.Value;
         });

@@ -2,6 +2,13 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.5.2",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Удаление и удобство интерфейса", "en": "Uninstall and UI improvements" },
+      "body": { "ru": "В настройках появились отдельные кнопки удаления патча и лаунчера с подтверждением. Удаление патча сохраняет возможность отката и не затрагивает сейвы; удаление лаунчера оставляет игру и патч. После загрузки исчезают скорость и оставшееся время. Начальное окно увеличено до 1440×900 с адаптацией под экран, надпись «Мультиплеер» больше не обрезается. Игровые пакеты не изменены.", "en": "Settings now has separately confirmed patch and launcher uninstall buttons. Patch removal retains rollback data and saves; launcher removal keeps the game and patch. Speed and ETA disappear after downloads. The default window is larger at 1440×900, capped to the screen, and Multiplayer is no longer clipped. Game packages are unchanged." }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.1",
       "publishedAt": "2026-09-05",
       "title": { "ru": "Прочитанная история и импорт настроек", "en": "Read history and settings import" },
@@ -100,6 +107,13 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.5.2",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Удаление и удобство интерфейса", "en": "Uninstall and UI improvements" },
+      "body": { "ru": "В настройках появились отдельные кнопки удаления патча и лаунчера с подтверждением. Удаление патча сохраняет возможность отката и не затрагивает сейвы; удаление лаунчера оставляет игру и патч. После загрузки исчезают скорость и оставшееся время. Начальное окно увеличено до 1440×900 с адаптацией под экран, надпись «Мультиплеер» больше не обрезается. Игровые пакеты не изменены.", "en": "Settings now has separately confirmed patch and launcher uninstall buttons. Patch removal retains rollback data and saves; launcher removal keeps the game and patch. Speed and ETA disappear after downloads. The default window is larger at 1440×900, capped to the screen, and Multiplayer is no longer clipped. Game packages are unchanged." }
+    },
     {
       "category": "patch",
       "version": "0.1.0-beta.4",

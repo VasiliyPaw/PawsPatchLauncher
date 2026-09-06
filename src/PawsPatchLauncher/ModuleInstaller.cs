@@ -86,8 +86,9 @@ public sealed class ModuleInstaller
     }
 
     public async Task ReconcileAsync(IReadOnlyDictionary<string, InstalledModule> desired, CancellationToken cancellationToken = default,
-        UserSettings? settings = null, string? releaseId = null)
+        UserSettings? settings = null, string? releaseId = null, bool resetOriginals = false)
     {
+        if (resetOriginals && desired.Count != 0) throw new InvalidOperationException("Originals can only be reset during uninstall.");
         Directory.CreateDirectory(_controlRoot);
         var recovery = new PatchRecovery(_gameRoot);
         await recovery.RecoverInterruptedAsync();
@@ -171,10 +172,24 @@ public sealed class ModuleInstaller
                 else if (File.Exists(target)) File.Delete(target);
             }
 
+            if (resetOriginals)
+            {
+                // An empty module list would make VerifyAsync vacuously succeed.
+                // Verify restoration inside the transaction so failure rolls back.
+                foreach (var relative in allPaths)
+                {
+                    var original = state.Originals[relative];
+                    var target = PatchRecovery.GamePath(_gameRoot, relative);
+                    if (original.Existed
+                        ? !File.Exists(target) || !(await CryptoAndIO.Sha256Async(target)).Equals(original.Sha256, StringComparison.OrdinalIgnoreCase)
+                        : File.Exists(target)) throw new IOException("Uninstall verification failed: " + relative);
+                }
+            }
             state.Modules = desired.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
             state.LastSuccessfulUpdate = DateTimeOffset.UtcNow.ToString("O");
             state.AppliedSettings = settings is null ? null : JsonSerializer.Deserialize(JsonSerializer.Serialize(settings, LauncherJsonContext.Default.UserSettings), LauncherJsonContext.Default.UserSettings);
             state.ReleaseId = releaseId;
+            if (resetOriginals) state.Originals.Clear(); // A later fresh install must capture its new baseline.
             await CryptoAndIO.AtomicWriteTextAsync(_statePath, JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState), cancellationToken);
             var errors = await VerifyAsync(cancellationToken);
             if (errors.Count > 0) throw new IOException("Installation verification failed: " + string.Join("; ", errors.Take(5)));
@@ -190,6 +205,44 @@ public sealed class ModuleInstaller
             }
             throw;
         }
+    }
+
+    public async Task UninstallAsync(CancellationToken cancellationToken = default)
+    {
+        RemovalSafety.CheckNoLinks(_controlRoot);
+        await new PatchRecovery(_gameRoot).RecoverInterruptedAsync();
+        var state = LoadState();
+        if (state.Modules.Count == 0) return;
+        var expected = MultiplayerCheck.Expected(state);
+        var paths = state.Modules.Values.SelectMany(m => m.Files.Select(f => f.Path).Concat(m.Remove))
+            .Select(CryptoAndIO.NormalizeRelativePath).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        // Validate every original and every live conflict BEFORE changing any game file.
+        foreach (var relative in paths)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var target = PatchRecovery.GamePath(_gameRoot, relative);
+            RemovalSafety.CheckNoLinks(target);
+            if (Directory.Exists(target)) throw new IOException("Managed file became a directory: " + relative);
+            if (!state.Originals.TryGetValue(relative, out var original))
+                throw new InvalidDataException("Original file record is missing: " + relative);
+            if (original.Existed)
+            {
+                if (string.IsNullOrWhiteSpace(original.BackupRelativePath) || string.IsNullOrWhiteSpace(original.Sha256))
+                    throw new IOException("Original backup record is incomplete: " + relative);
+                var backup = CryptoAndIO.SafeChildPath(_backupRoot, original.BackupRelativePath);
+                RemovalSafety.CheckNoLinks(backup);
+                if (!File.Exists(backup) || !(await CryptoAndIO.Sha256Async(backup, cancellationToken)).Equals(original.Sha256, StringComparison.OrdinalIgnoreCase))
+                    throw new IOException("Original backup is missing or damaged: " + relative);
+            }
+            else if (relative.Equals("k2.exe", StringComparison.OrdinalIgnoreCase))
+                throw new IOException("Refusing to remove the original game executable.");
+            if (!File.Exists(target)) continue;
+            var actual = await CryptoAndIO.Sha256Async(target, cancellationToken);
+            if (original.Existed && actual.Equals(original.Sha256, StringComparison.OrdinalIgnoreCase)) continue;
+            if (!expected.TryGetValue(relative, out var installed) || installed is null || !actual.Equals(installed.Sha256, StringComparison.OrdinalIgnoreCase))
+                throw new IOException("File was changed outside the launcher; uninstall stopped to preserve it: " + relative);
+        }
+        await ReconcileAsync(new Dictionary<string, InstalledModule>(), cancellationToken, resetOriginals: true);
     }
 
     public async Task<IReadOnlyList<string>> VerifyAsync(CancellationToken cancellationToken = default)
