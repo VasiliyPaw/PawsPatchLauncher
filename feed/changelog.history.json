@@ -101,6 +101,13 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.1.0-beta.4",
+      "publishedAt": "2026-09-06",
+      "title": { "ru": "Цвета игроков: мультиплеер и случайный выбор", "en": "Player colors: multiplayer and Random" },
+      "body": { "ru": "Исправлены выбор цветов в сетевом лобби и пустая надпись при первом входе. Случайные цвета теперь перемешиваются по общему числу матча, а не выдаются по порядку. Свободные слоты и «Случайно» отмечены серым. Смягчено затенение значков рот с сохранением объёма. На всех компьютерах нужна эта версия; полноценное сетевое тестирование продолжается. Stable и версия лаунчера не изменены.", "en": "Fixed the multiplayer lobby color selector and the blank label on first entry. Random colors are now shuffled from the shared finalized match seed instead of assigned in palette order. Empty slots and Random use gray markers. Badge shading is softened while preserving depth. Every computer needs this version; full multiplayer testing is ongoing. Stable and the launcher version are unchanged." }
+    },
+    {
       "category": "launcher",
       "version": "0.5.1",
       "publishedAt": "2026-09-05",
