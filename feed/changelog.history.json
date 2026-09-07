@@ -2,299 +2,590 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.5.7",
+      "publishedAt": "2026-09-07",
+      "title": {
+        "ru": "Автообновляемая справка и цвета с пропуском рассинхрона",
+        "en": "Automatic guide updates and colors with desync bypass"
+      },
+      "body": {
+        "ru": "«О патче» загружается из подписанных данных выбранного выпуска, обновляется без нового EXE и сохраняется для работы без интернета. Справка дополнена случайной картой, временем суток и новыми правилами сетевых цветов. В бете 7 расширенные цвета можно сочетать с пропуском рассинхрона; настройка сохраняется и передаётся кодом друга. У старых бет без соответствующего файла запуска это сочетание недоступно.",
+        "en": "About the patch comes from the selected release's signed feed, updates without a new EXE and remains available offline. The guide now covers random map type, time of day and multiplayer color behavior. Beta 7 allows extended colors with desync bypass, including saved settings and friend codes. Older Betas without the combined helper retain their compatibility restriction."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.6",
       "publishedAt": "2026-09-07",
-      "title": { "ru": "Новый интерфейс и удобные настройки", "en": "Refined interface and easier configuration" },
-      "body": { "ru": "Плавные переключатели, кнопки, вкладки и прокрутка, единое оформление текста и понятные статусы. Окно запоминает размер, положение и монитор. Добавлена страница «О патче», подробное сравнение файлов с другом, безопасная очистка старого кеша, понятные ошибки с действиями и открытие последнего архива диагностики. Подтверждения оформлены внутри лаунчера. Исправлены работа буфера обмена и код конфигурации при переходе из Беты в Релиз. Выбор цветов Беты сохраняется отдельно от активного набора. Канал патча теперь явно подписан и не влияет на обновления лаунчера.", "en": "Smooth switches, buttons, tabs and scrolling, consistent typography and clear status messages. Window size, position and monitor are remembered. Includes About the patch, detailed peer file comparison, safe old-cache cleanup, actionable errors and access to the latest diagnostic archive. Confirmations are shown inside the launcher. Clipboard handling and Beta-to-Release configuration codes are fixed; the Beta color preference is retained separately from active settings. The patch channel is explicitly labelled and does not affect launcher updates." }
+      "title": {
+        "ru": "Новый интерфейс и удобные настройки",
+        "en": "Refined interface and easier configuration"
+      },
+      "body": {
+        "ru": "Плавные переключатели, кнопки, вкладки и прокрутка, единое оформление текста и понятные статусы. Окно запоминает размер, положение и монитор. Добавлена страница «О патче», подробное сравнение файлов с другом, безопасная очистка старого кеша, понятные ошибки с действиями и открытие последнего архива диагностики. Подтверждения оформлены внутри лаунчера. Исправлены работа буфера обмена и код конфигурации при переходе из Беты в Релиз. Выбор цветов Беты сохраняется отдельно от активного набора. Канал патча теперь явно подписан и не влияет на обновления лаунчера.",
+        "en": "Smooth switches, buttons, tabs and scrolling, consistent typography and clear status messages. Window size, position and monitor are remembered. Includes About the patch, detailed peer file comparison, safe old-cache cleanup, actionable errors and access to the latest diagnostic archive. Confirmations are shown inside the launcher. Clipboard handling and Beta-to-Release configuration codes are fixed; the Beta color preference is retained separately from active settings. The patch channel is explicitly labelled and does not affect launcher updates."
+      }
     },
     {
       "category": "patch",
       "version": "1.3.72-options.2",
       "publishedAt": "2026-09-07",
-      "title": { "ru": "Настраиваемые Powers/Shards и сохранение перевода", "en": "Configurable Powers/Shards and preserved localization" },
-      "body": { "ru": "Новый пункт «Отключение Powers и Shards» по умолчанию включён. Его выключение возвращает обе механики Arcane Wars; вариант заранее загружается и применяется перед запуском. При отключении новых рот или осадного баланса больше не теряются ключи перевода. Описание осадного баланса уточнено: переключатель управляет стоимостью, уроном и атаками, как и прежде. Исправление перевода не меняет числовые параметры. Игровые EXE и версия цветов Беты не изменены. Для мультиплеера всем участникам нужны одинаковые версии пакетов и настройки.", "en": "Disable Powers and Shards is enabled by default. Turning it off restores both Arcane Wars mechanics; the variant is preloaded and applied before launch. Disabling additional roaming companies or siege balance no longer loses localization references. Siege help now accurately describes its existing cost, damage and attack changes. The localization repair does not change gameplay numbers. Game executables and the Beta color version are unchanged. Multiplayer participants need matching package versions and settings." }
+      "title": {
+        "ru": "Настраиваемые Powers/Shards и сохранение перевода",
+        "en": "Configurable Powers/Shards and preserved localization"
+      },
+      "body": {
+        "ru": "Новый пункт «Отключение Powers и Shards» по умолчанию включён. Его выключение возвращает обе механики Arcane Wars; вариант заранее загружается и применяется перед запуском. При отключении новых рот или осадного баланса больше не теряются ключи перевода. Описание осадного баланса уточнено: переключатель управляет стоимостью, уроном и атаками, как и прежде. Исправление перевода не меняет числовые параметры. Игровые EXE и версия цветов Беты не изменены. Для мультиплеера всем участникам нужны одинаковые версии пакетов и настройки.",
+        "en": "Disable Powers and Shards is enabled by default. Turning it off restores both Arcane Wars mechanics; the variant is preloaded and applied before launch. Disabling additional roaming companies or siege balance no longer loses localization references. Siege help now accurately describes its existing cost, damage and attack changes. The localization repair does not change gameplay numbers. Game executables and the Beta color version are unchanged. Multiplayer participants need matching package versions and settings."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.5",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Изящный логотип", "en": "Refined launcher logo" },
-      "body": { "ru": "Новый логотип с буквой P в стиле Palatino Linotype, тонкой золотой рамкой и мягким градиентом. Обновлены значки EXE и окна. При запуске Windows получает уведомление об обновлении этого EXE. Остальные надписи остаются Arial. Игровые пакеты не изменены.", "en": "A new Palatino Linotype-style P logo with a fine gold rim and soft gradient. Executable and window icons are updated. Startup notifies Windows that this executable has changed. Other interface text remains Arial. Game packages are unchanged." }
+      "title": {
+        "ru": "Изящный логотип",
+        "en": "Refined launcher logo"
+      },
+      "body": {
+        "ru": "Новый логотип с буквой P в стиле Palatino Linotype, тонкой золотой рамкой и мягким градиентом. Обновлены значки EXE и окна. При запуске Windows получает уведомление об обновлении этого EXE. Остальные надписи остаются Arial. Игровые пакеты не изменены.",
+        "en": "A new Palatino Linotype-style P logo with a fine gold rim and soft gradient. Executable and window icons are updated. Startup notifies Windows that this executable has changed. Other interface text remains Arial. Game packages are unchanged."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.4",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Новая иконка и Arial", "en": "New icon and Arial" },
-      "body": { "ru": "У лаунчера появилась собственная сине-золотая иконка с буквой P для файла, окна и панели задач. Все надписи переведены на Arial. Добавлена поддержка общих исправлений интерфейса во всех режимах запуска. Игровые пакеты Stable не изменены.", "en": "The launcher now has a blue-and-gold P icon for its file, window and taskbar. All interface text uses Arial. Shared interface fixes are supported in every launch mode. Stable game packages are unchanged." }
+      "title": {
+        "ru": "Новая иконка и Arial",
+        "en": "New icon and Arial"
+      },
+      "body": {
+        "ru": "У лаунчера появилась собственная сине-золотая иконка с буквой P для файла, окна и панели задач. Все надписи переведены на Arial. Добавлена поддержка общих исправлений интерфейса во всех режимах запуска. Игровые пакеты Stable не изменены.",
+        "en": "The launcher now has a blue-and-gold P icon for its file, window and taskbar. All interface text uses Arial. Shared interface fixes are supported in every launch mode. Stable game packages are unchanged."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.2",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Удаление и удобство интерфейса", "en": "Uninstall and UI improvements" },
-      "body": { "ru": "В настройках появились отдельные кнопки удаления патча и лаунчера с подтверждением. Удаление патча сохраняет возможность отката и не затрагивает сейвы; удаление лаунчера оставляет игру и патч. После загрузки исчезают скорость и оставшееся время. Начальное окно увеличено до 1440×900 с адаптацией под экран, надпись «Мультиплеер» больше не обрезается. Игровые пакеты не изменены.", "en": "Settings now has separately confirmed patch and launcher uninstall buttons. Patch removal retains rollback data and saves; launcher removal keeps the game and patch. Speed and ETA disappear after downloads. The default window is larger at 1440×900, capped to the screen, and Multiplayer is no longer clipped. Game packages are unchanged." }
+      "title": {
+        "ru": "Удаление и удобство интерфейса",
+        "en": "Uninstall and UI improvements"
+      },
+      "body": {
+        "ru": "В настройках появились отдельные кнопки удаления патча и лаунчера с подтверждением. Удаление патча сохраняет возможность отката и не затрагивает сейвы; удаление лаунчера оставляет игру и патч. После загрузки исчезают скорость и оставшееся время. Начальное окно увеличено до 1440×900 с адаптацией под экран, надпись «Мультиплеер» больше не обрезается. Игровые пакеты не изменены.",
+        "en": "Settings now has separately confirmed patch and launcher uninstall buttons. Patch removal retains rollback data and saves; launcher removal keeps the game and patch. Speed and ETA disappear after downloads. The default window is larger at 1440×900, capped to the screen, and Multiplayer is no longer clipped. Game packages are unchanged."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.1",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Прочитанная история и импорт настроек", "en": "Read history and settings import" },
-      "body": { "ru": "Открытая история изменений автоматически отмечается прочитанной, в том числе при запуске лаунчера. Отметка другой вкладки сохраняется до её открытия. Импорт настроек друга перенесён под код конфигурации в «Компонентах» и «Мультиплеере».", "en": "The displayed changelog is automatically marked as read, including on launcher startup. The other tab keeps its unread marker until opened. Settings import now sits below the configuration code in Components and Multiplayer." }
+      "title": {
+        "ru": "Прочитанная история и импорт настроек",
+        "en": "Read history and settings import"
+      },
+      "body": {
+        "ru": "Открытая история изменений автоматически отмечается прочитанной, в том числе при запуске лаунчера. Отметка другой вкладки сохраняется до её открытия. Импорт настроек друга перенесён под код конфигурации в «Компонентах» и «Мультиплеере».",
+        "en": "The displayed changelog is automatically marked as read, including on launcher startup. The other tab keeps its unread marker until opened. Settings import now sits below the configuration code in Components and Multiplayer."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Восстановление и мультиплеер", "en": "Recovery and multiplayer" },
-      "body": { "ru": "Автоматический откат неудачного обновления лаунчера, резервная копия предыдущей установки патча, импорт кода настроек и проверка файлов перед мультиплеером. Добавлены рабочая конфигурация, уведомления об аварийном завершении, быстрая проверка запуска, продолжение скачивания со скоростью и оставшимся временем, отметки непрочитанных изменений и выбор предыдущих Beta.", "en": "Automatic launcher update rollback, previous patch installation backups, configuration code import and multiplayer file comparison. Adds working settings, unexpected-exit notices, quick preflight checks, resumable downloads with speed and ETA, unread changelog markers and previous Beta selection." }
+      "title": {
+        "ru": "Восстановление и мультиплеер",
+        "en": "Recovery and multiplayer"
+      },
+      "body": {
+        "ru": "Автоматический откат неудачного обновления лаунчера, резервная копия предыдущей установки патча, импорт кода настроек и проверка файлов перед мультиплеером. Добавлены рабочая конфигурация, уведомления об аварийном завершении, быстрая проверка запуска, продолжение скачивания со скоростью и оставшимся временем, отметки непрочитанных изменений и выбор предыдущих Beta.",
+        "en": "Automatic launcher update rollback, previous patch installation backups, configuration code import and multiplayer file comparison. Adds working settings, unexpected-exit notices, quick preflight checks, resumable downloads with speed and ETA, unread changelog markers and previous Beta selection."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.7",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Исправлен запуск после 0.4.5", "en": "Fixed startup after 0.4.5" },
-      "body": { "ru": "В самодостаточную сборку снова включены нативные библиотеки WPF. Лаунчер больше не падает до появления окна после обновления.", "en": "Native WPF libraries are included in the self-contained build again. The launcher no longer crashes before showing its window after an update." }
+      "title": {
+        "ru": "Исправлен запуск после 0.4.5",
+        "en": "Fixed startup after 0.4.5"
+      },
+      "body": {
+        "ru": "В самодостаточную сборку снова включены нативные библиотеки WPF. Лаунчер больше не падает до появления окна после обновления.",
+        "en": "Native WPF libraries are included in the self-contained build again. The launcher no longer crashes before showing its window after an update."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.6",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Корректный статус проверки", "en": "Correct update-check status" },
-      "body": { "ru": "После стартовой или ручной проверки надпись «Проверяю обновления…» заменяется итоговым состоянием и индикатор останавливается.", "en": "After a startup or manual check, Checking for updates is replaced by the final status and the progress indicator stops." }
+      "title": {
+        "ru": "Корректный статус проверки",
+        "en": "Correct update-check status"
+      },
+      "body": {
+        "ru": "После стартовой или ручной проверки надпись «Проверяю обновления…» заменяется итоговым состоянием и индикатор останавливается.",
+        "en": "After a startup or manual check, Checking for updates is replaced by the final status and the progress indicator stops."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.5",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Автообновление при запуске", "en": "Automatic startup updates" },
-      "body": { "ru": "Доступное обновление лаунчера снова автоматически скачивается и устанавливается при запуске. Кнопка ручной проверки и обновления во время работы сохранена.", "en": "Available launcher updates are automatically downloaded and installed on startup again. The manual check and update button remains available while the launcher is running." }
+      "title": {
+        "ru": "Автообновление при запуске",
+        "en": "Automatic startup updates"
+      },
+      "body": {
+        "ru": "Доступное обновление лаунчера снова автоматически скачивается и устанавливается при запуске. Кнопка ручной проверки и обновления во время работы сохранена.",
+        "en": "Available launcher updates are automatically downloaded and installed on startup again. The manual check and update button remains available while the launcher is running."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.4",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Полная история изменений", "en": "Complete changelog" },
-      "body": { "ru": "Правая панель теперь показывает все выпуски. Список можно прокручивать колёсиком мыши.", "en": "The right panel now shows every release and can be scrolled with the mouse wheel." }
+      "title": {
+        "ru": "Полная история изменений",
+        "en": "Complete changelog"
+      },
+      "body": {
+        "ru": "Правая панель теперь показывает все выпуски. Список можно прокручивать колёсиком мыши.",
+        "en": "The right panel now shows every release and can be scrolled with the mouse wheel."
+      }
     },
     {
       "category": "patch",
       "version": "0.4.3",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Большие карты всегда включены", "en": "Large maps always enabled" },
-      "body": { "ru": "Переключатель больших карт удалён. Размеры 1024×1024 и 1152×1152 стали постоянной частью Paw's Patch.", "en": "The large-map toggle was removed. The 1024×1024 and 1152×1152 sizes became a permanent part of Paw's Patch." }
+      "title": {
+        "ru": "Большие карты всегда включены",
+        "en": "Large maps always enabled"
+      },
+      "body": {
+        "ru": "Переключатель больших карт удалён. Размеры 1024×1024 и 1152×1152 стали постоянной частью Paw's Patch.",
+        "en": "The large-map toggle was removed. The 1024×1024 and 1152×1152 sizes became a permanent part of Paw's Patch."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.2",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Удобные проверки", "en": "Convenient checks" },
-      "body": { "ru": "Проверка обновлений перенесена в нижнюю панель, а проверка установленных файлов — в настройки.", "en": "Update checking moved to the bottom bar and installed-file verification moved to Settings." }
+      "title": {
+        "ru": "Удобные проверки",
+        "en": "Convenient checks"
+      },
+      "body": {
+        "ru": "Проверка обновлений перенесена в нижнюю панель, а проверка установленных файлов — в настройки.",
+        "en": "Update checking moved to the bottom bar and installed-file verification moved to Settings."
+      }
     },
     {
       "category": "patch",
       "version": "0.4.1",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Независимый обход рассинхрона", "en": "Independent desync bypass" },
-      "body": { "ru": "Продолжение игры после рассинхрона можно включать независимо от вражды независимых.", "en": "Continuing after a desync can be enabled independently from independent-faction hostility." }
+      "title": {
+        "ru": "Независимый обход рассинхрона",
+        "en": "Independent desync bypass"
+      },
+      "body": {
+        "ru": "Продолжение игры после рассинхрона можно включать независимо от вражды независимых.",
+        "en": "Continuing after a desync can be enabled independently from independent-faction hostility."
+      }
     },
     {
       "category": "patch",
       "version": "0.4.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Настраиваемые компоненты", "en": "Configurable components" },
-      "body": { "ru": "Добавлены игровые переключатели, код конфигурации, архив диагностики и локальное переключение заранее загруженных вариантов.", "en": "Added gameplay switches, configuration codes, diagnostic archives and local switching of preloaded variants." }
+      "title": {
+        "ru": "Настраиваемые компоненты",
+        "en": "Configurable components"
+      },
+      "body": {
+        "ru": "Добавлены игровые переключатели, код конфигурации, архив диагностики и локальное переключение заранее загруженных вариантов.",
+        "en": "Added gameplay switches, configuration codes, diagnostic archives and local switching of preloaded variants."
+      }
     },
     {
       "category": "launcher",
       "version": "0.3.1",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Применение перед запуском", "en": "Apply before launch" },
-      "body": { "ru": "Изменённые настройки патча автоматически применяются перед запуском игры.", "en": "Changed patch settings are now applied automatically before launching the game." }
+      "title": {
+        "ru": "Применение перед запуском",
+        "en": "Apply before launch"
+      },
+      "body": {
+        "ru": "Изменённые настройки патча автоматически применяются перед запуском игры.",
+        "en": "Changed patch settings are now applied automatically before launching the game."
+      }
     },
     {
       "category": "launcher",
       "version": "0.3.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Живые уведомления", "en": "Live update alerts" },
-      "body": { "ru": "Добавлены фоновые уведомления об обновлениях и полностью рабочая навигация между страницами.", "en": "Added background update alerts and fully functional page navigation." }
+      "title": {
+        "ru": "Живые уведомления",
+        "en": "Live update alerts"
+      },
+      "body": {
+        "ru": "Добавлены фоновые уведомления об обновлениях и полностью рабочая навигация между страницами.",
+        "en": "Added background update alerts and fully functional page navigation."
+      }
     },
     {
       "category": "launcher",
       "version": "0.2.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Каналы Stable и Beta", "en": "Stable and Beta channels" },
-      "body": { "ru": "Появились отдельные подписанные каналы для проверенных и экспериментальных обновлений.", "en": "Added separate signed channels for tested and experimental updates." }
+      "title": {
+        "ru": "Каналы Stable и Beta",
+        "en": "Stable and Beta channels"
+      },
+      "body": {
+        "ru": "Появились отдельные подписанные каналы для проверенных и экспериментальных обновлений.",
+        "en": "Added separate signed channels for tested and experimental updates."
+      }
     },
     {
       "category": "launcher",
       "version": "0.1.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Первый выпуск", "en": "Initial release" },
-      "body": { "ru": "Первый публичный установщик и обновлятор Paw's Patch для Kohan II.", "en": "The first public Paw's Patch installer and updater for Kohan II." }
+      "title": {
+        "ru": "Первый выпуск",
+        "en": "Initial release"
+      },
+      "body": {
+        "ru": "Первый публичный установщик и обновлятор Paw's Patch для Kohan II.",
+        "en": "The first public Paw's Patch installer and updater for Kohan II."
+      }
     }
   ],
   "beta": [
     {
       "category": "launcher",
+      "version": "0.5.7",
+      "publishedAt": "2026-09-07",
+      "title": {
+        "ru": "Автообновляемая справка и цвета с пропуском рассинхрона",
+        "en": "Automatic guide updates and colors with desync bypass"
+      },
+      "body": {
+        "ru": "«О патче» загружается из подписанных данных выбранного выпуска, обновляется без нового EXE и сохраняется для работы без интернета. Справка дополнена случайной картой, временем суток и новыми правилами сетевых цветов. В бете 7 расширенные цвета можно сочетать с пропуском рассинхрона; настройка сохраняется и передаётся кодом друга. У старых бет без соответствующего файла запуска это сочетание недоступно.",
+        "en": "About the patch comes from the selected release's signed feed, updates without a new EXE and remains available offline. The guide now covers random map type, time of day and multiplayer color behavior. Beta 7 allows extended colors with desync bypass, including saved settings and friend codes. Older Betas without the combined helper retain their compatibility restriction."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.1.0-beta.7",
+      "publishedAt": "2026-09-07",
+      "title": {
+        "ru": "Случайные карты, время суток и сетевые цвета",
+        "en": "Random maps, time of day and multiplayer colors"
+      },
+      "body": {
+        "ru": "Добавлен случайный выбор типа карты и времени суток с сохранением настроек. Исправлена найденная причина стартового рассинхрона после повторных матчей. Хост меняет цвета всех игроков, клиент только свой. Цвета сохраняются при возврате в лобби и повторном подключении; занятый цвет возвращающегося игрока заменяется на «Случайно». В лобби сохранения отображаются цвета королевств из сейва без возможности изменения. Расширенные цвета можно сочетать с пропуском рассинхрона в лаунчере 0.5.7. Служебное окно перед запуском больше не появляется. Для сетевой игры обновите бету на всех компьютерах. Игровые пакеты Релиза не изменены.",
+        "en": "Adds random map type and time of day with persistent settings. Fixes the identified startup desync cause after repeated matches. Hosts can change all player colors, clients only their own. Colors survive lobby returns and reconnects; a returning player whose old color is occupied becomes Random. Saved-game lobbies show the saved kingdom colors read-only. Extended colors can be combined with desync bypass in launcher 0.5.7. No helper window appears before launch. All multiplayer peers must update Beta. Release gameplay packages are unchanged."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.6",
       "publishedAt": "2026-09-07",
-      "title": { "ru": "Новый интерфейс и удобные настройки", "en": "Refined interface and easier configuration" },
-      "body": { "ru": "Плавные переключатели, кнопки, вкладки и прокрутка, единое оформление текста и понятные статусы. Окно запоминает размер, положение и монитор. Добавлена страница «О патче», подробное сравнение файлов с другом, безопасная очистка старого кеша, понятные ошибки с действиями и открытие последнего архива диагностики. Подтверждения оформлены внутри лаунчера. Исправлены работа буфера обмена и код конфигурации при переходе из Беты в Релиз. Выбор цветов Беты сохраняется отдельно от активного набора. Канал патча теперь явно подписан и не влияет на обновления лаунчера.", "en": "Smooth switches, buttons, tabs and scrolling, consistent typography and clear status messages. Window size, position and monitor are remembered. Includes About the patch, detailed peer file comparison, safe old-cache cleanup, actionable errors and access to the latest diagnostic archive. Confirmations are shown inside the launcher. Clipboard handling and Beta-to-Release configuration codes are fixed; the Beta color preference is retained separately from active settings. The patch channel is explicitly labelled and does not affect launcher updates." }
+      "title": {
+        "ru": "Новый интерфейс и удобные настройки",
+        "en": "Refined interface and easier configuration"
+      },
+      "body": {
+        "ru": "Плавные переключатели, кнопки, вкладки и прокрутка, единое оформление текста и понятные статусы. Окно запоминает размер, положение и монитор. Добавлена страница «О патче», подробное сравнение файлов с другом, безопасная очистка старого кеша, понятные ошибки с действиями и открытие последнего архива диагностики. Подтверждения оформлены внутри лаунчера. Исправлены работа буфера обмена и код конфигурации при переходе из Беты в Релиз. Выбор цветов Беты сохраняется отдельно от активного набора. Канал патча теперь явно подписан и не влияет на обновления лаунчера.",
+        "en": "Smooth switches, buttons, tabs and scrolling, consistent typography and clear status messages. Window size, position and monitor are remembered. Includes About the patch, detailed peer file comparison, safe old-cache cleanup, actionable errors and access to the latest diagnostic archive. Confirmations are shown inside the launcher. Clipboard handling and Beta-to-Release configuration codes are fixed; the Beta color preference is retained separately from active settings. The patch channel is explicitly labelled and does not affect launcher updates."
+      }
     },
     {
       "category": "patch",
       "version": "1.3.72-options.2",
       "publishedAt": "2026-09-07",
-      "title": { "ru": "Настраиваемые Powers/Shards и сохранение перевода", "en": "Configurable Powers/Shards and preserved localization" },
-      "body": { "ru": "Новый пункт «Отключение Powers и Shards» по умолчанию включён. Его выключение возвращает обе механики Arcane Wars; вариант заранее загружается и применяется перед запуском. При отключении новых рот или осадного баланса больше не теряются ключи перевода. Описание осадного баланса уточнено: переключатель управляет стоимостью, уроном и атаками, как и прежде. Исправление перевода не меняет числовые параметры. Игровые EXE и версия цветов Беты не изменены. Для мультиплеера всем участникам нужны одинаковые версии пакетов и настройки.", "en": "Disable Powers and Shards is enabled by default. Turning it off restores both Arcane Wars mechanics; the variant is preloaded and applied before launch. Disabling additional roaming companies or siege balance no longer loses localization references. Siege help now accurately describes its existing cost, damage and attack changes. The localization repair does not change gameplay numbers. Game executables and the Beta color version are unchanged. Multiplayer participants need matching package versions and settings." }
+      "title": {
+        "ru": "Настраиваемые Powers/Shards и сохранение перевода",
+        "en": "Configurable Powers/Shards and preserved localization"
+      },
+      "body": {
+        "ru": "Новый пункт «Отключение Powers и Shards» по умолчанию включён. Его выключение возвращает обе механики Arcane Wars; вариант заранее загружается и применяется перед запуском. При отключении новых рот или осадного баланса больше не теряются ключи перевода. Описание осадного баланса уточнено: переключатель управляет стоимостью, уроном и атаками, как и прежде. Исправление перевода не меняет числовые параметры. Игровые EXE и версия цветов Беты не изменены. Для мультиплеера всем участникам нужны одинаковые версии пакетов и настройки.",
+        "en": "Disable Powers and Shards is enabled by default. Turning it off restores both Arcane Wars mechanics; the variant is preloaded and applied before launch. Disabling additional roaming companies or siege balance no longer loses localization references. Siege help now accurately describes its existing cost, damage and attack changes. The localization repair does not change gameplay numbers. Game executables and the Beta color version are unchanged. Multiplayer participants need matching package versions and settings."
+      }
     },
     {
       "category": "patch",
       "version": "0.1.0-beta.6",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Цвета: исправление рассинхрона в лобби", "en": "Colors: lobby desync fix" },
-      "body": { "ru": "Исправлена запись команды выбора цвета в контрольную сумму хоста: теперь она соответствует обработке у клиента. Контроль рассинхрона не отключён. Удалён тёмно-розовый, осталось 49 цветов. Все участники должны обновить Beta: со старой сборкой сетевой протокол несовместим. Проверки кода пройдены; живая проверка мультиплеера продолжается. Stable и лаунчер не изменены.", "en": "The host now records color-command boundaries in its checksum to match client processing. Desync detection remains enabled. Dark pink was removed, leaving 49 colors. All peers must update Beta: the network protocol is incompatible with the previous build. Code checks passed; live multiplayer validation is ongoing. Stable and the launcher are unchanged." }
+      "title": {
+        "ru": "Цвета: исправление рассинхрона в лобби",
+        "en": "Colors: lobby desync fix"
+      },
+      "body": {
+        "ru": "Исправлена запись команды выбора цвета в контрольную сумму хоста: теперь она соответствует обработке у клиента. Контроль рассинхрона не отключён. Удалён тёмно-розовый, осталось 49 цветов. Все участники должны обновить Beta: со старой сборкой сетевой протокол несовместим. Проверки кода пройдены; живая проверка мультиплеера продолжается. Stable и лаунчер не изменены.",
+        "en": "The host now records color-command boundaries in its checksum to match client processing. Desync detection remains enabled. Dark pink was removed, leaving 49 colors. All peers must update Beta: the network protocol is incompatible with the previous build. Code checks passed; live multiplayer validation is ongoing. Stable and the launcher are unchanged."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.5",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Изящный логотип", "en": "Refined launcher logo" },
-      "body": { "ru": "Новый логотип с буквой P в стиле Palatino Linotype, тонкой золотой рамкой и мягким градиентом. Обновлены значки EXE и окна. При запуске Windows получает уведомление об обновлении этого EXE. Остальные надписи остаются Arial. Игровые пакеты не изменены.", "en": "A new Palatino Linotype-style P logo with a fine gold rim and soft gradient. Executable and window icons are updated. Startup notifies Windows that this executable has changed. Other interface text remains Arial. Game packages are unchanged." }
+      "title": {
+        "ru": "Изящный логотип",
+        "en": "Refined launcher logo"
+      },
+      "body": {
+        "ru": "Новый логотип с буквой P в стиле Palatino Linotype, тонкой золотой рамкой и мягким градиентом. Обновлены значки EXE и окна. При запуске Windows получает уведомление об обновлении этого EXE. Остальные надписи остаются Arial. Игровые пакеты не изменены.",
+        "en": "A new Palatino Linotype-style P logo with a fine gold rim and soft gradient. Executable and window icons are updated. Startup notifies Windows that this executable has changed. Other interface text remains Arial. Game packages are unchanged."
+      }
     },
     {
       "category": "patch",
       "version": "0.4.6",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Сетевые цвета и общие исправления интерфейса", "en": "Multiplayer colors and common UI fixes" },
-      "body": { "ru": "Исправлена ошибка передачи выбранного цвета, вызывавшая краш в сетевом лобби. В главное меню добавлены версии Arcane Wars и Paw's Patch. В строке лимитов вместо точного -0 показывается 0; сами лимиты не меняются. Подписи и исправление нуля работают при любых настройках запуска. Для мультиплеера всем участникам нужна одинаковая новая Beta.", "en": "Fixed color-selection network encoding that caused a crash in multiplayer lobbies. The main menu now displays Arcane Wars and Paw's Patch versions. Exact negative zero is displayed as 0 in the limit row without changing the limits themselves. Version labels and zero normalization work with every launch configuration. All multiplayer participants need the same new Beta." }
+      "title": {
+        "ru": "Сетевые цвета и общие исправления интерфейса",
+        "en": "Multiplayer colors and common UI fixes"
+      },
+      "body": {
+        "ru": "Исправлена ошибка передачи выбранного цвета, вызывавшая краш в сетевом лобби. В главное меню добавлены версии Arcane Wars и Paw's Patch. В строке лимитов вместо точного -0 показывается 0; сами лимиты не меняются. Подписи и исправление нуля работают при любых настройках запуска. Для мультиплеера всем участникам нужна одинаковая новая Beta.",
+        "en": "Fixed color-selection network encoding that caused a crash in multiplayer lobbies. The main menu now displays Arcane Wars and Paw's Patch versions. Exact negative zero is displayed as 0 in the limit row without changing the limits themselves. Version labels and zero normalization work with every launch configuration. All multiplayer participants need the same new Beta."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.4",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Новая иконка и Arial", "en": "New icon and Arial" },
-      "body": { "ru": "У лаунчера появилась собственная сине-золотая иконка с буквой P для файла, окна и панели задач. Все надписи переведены на Arial. Общие исправления интерфейса автоматически применяются даже с выключенными цветами, враждой независимых и обходом рассинхрона.", "en": "The launcher now has a blue-and-gold P icon for its file, window and taskbar. All interface text uses Arial. Common interface fixes apply automatically even with colors, independent hostility and desync bypass disabled." }
+      "title": {
+        "ru": "Новая иконка и Arial",
+        "en": "New icon and Arial"
+      },
+      "body": {
+        "ru": "У лаунчера появилась собственная сине-золотая иконка с буквой P для файла, окна и панели задач. Все надписи переведены на Arial. Общие исправления интерфейса автоматически применяются даже с выключенными цветами, враждой независимых и обходом рассинхрона.",
+        "en": "The launcher now has a blue-and-gold P icon for its file, window and taskbar. All interface text uses Arial. Common interface fixes apply automatically even with colors, independent hostility and desync bypass disabled."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.2",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Удаление и удобство интерфейса", "en": "Uninstall and UI improvements" },
-      "body": { "ru": "В настройках появились отдельные кнопки удаления патча и лаунчера с подтверждением. Удаление патча сохраняет возможность отката и не затрагивает сейвы; удаление лаунчера оставляет игру и патч. После загрузки исчезают скорость и оставшееся время. Начальное окно увеличено до 1440×900 с адаптацией под экран, надпись «Мультиплеер» больше не обрезается. Игровые пакеты не изменены.", "en": "Settings now has separately confirmed patch and launcher uninstall buttons. Patch removal retains rollback data and saves; launcher removal keeps the game and patch. Speed and ETA disappear after downloads. The default window is larger at 1440×900, capped to the screen, and Multiplayer is no longer clipped. Game packages are unchanged." }
+      "title": {
+        "ru": "Удаление и удобство интерфейса",
+        "en": "Uninstall and UI improvements"
+      },
+      "body": {
+        "ru": "В настройках появились отдельные кнопки удаления патча и лаунчера с подтверждением. Удаление патча сохраняет возможность отката и не затрагивает сейвы; удаление лаунчера оставляет игру и патч. После загрузки исчезают скорость и оставшееся время. Начальное окно увеличено до 1440×900 с адаптацией под экран, надпись «Мультиплеер» больше не обрезается. Игровые пакеты не изменены.",
+        "en": "Settings now has separately confirmed patch and launcher uninstall buttons. Patch removal retains rollback data and saves; launcher removal keeps the game and patch. Speed and ETA disappear after downloads. The default window is larger at 1440×900, capped to the screen, and Multiplayer is no longer clipped. Game packages are unchanged."
+      }
     },
     {
       "category": "patch",
       "version": "0.1.0-beta.4",
       "publishedAt": "2026-09-06",
-      "title": { "ru": "Цвета игроков: мультиплеер и случайный выбор", "en": "Player colors: multiplayer and Random" },
-      "body": { "ru": "Исправлены выбор цветов в сетевом лобби и пустая надпись при первом входе. Случайные цвета теперь перемешиваются по общему числу матча, а не выдаются по порядку. Свободные слоты и «Случайно» отмечены серым. Смягчено затенение значков рот с сохранением объёма. На всех компьютерах нужна эта версия; полноценное сетевое тестирование продолжается. Stable и версия лаунчера не изменены.", "en": "Fixed the multiplayer lobby color selector and the blank label on first entry. Random colors are now shuffled from the shared finalized match seed instead of assigned in palette order. Empty slots and Random use gray markers. Badge shading is softened while preserving depth. Every computer needs this version; full multiplayer testing is ongoing. Stable and the launcher version are unchanged." }
+      "title": {
+        "ru": "Цвета игроков: мультиплеер и случайный выбор",
+        "en": "Player colors: multiplayer and Random"
+      },
+      "body": {
+        "ru": "Исправлены выбор цветов в сетевом лобби и пустая надпись при первом входе. Случайные цвета теперь перемешиваются по общему числу матча, а не выдаются по порядку. Свободные слоты и «Случайно» отмечены серым. Смягчено затенение значков рот с сохранением объёма. На всех компьютерах нужна эта версия; полноценное сетевое тестирование продолжается. Stable и версия лаунчера не изменены.",
+        "en": "Fixed the multiplayer lobby color selector and the blank label on first entry. Random colors are now shuffled from the shared finalized match seed instead of assigned in palette order. Empty slots and Random use gray markers. Badge shading is softened while preserving depth. Every computer needs this version; full multiplayer testing is ongoing. Stable and the launcher version are unchanged."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.1",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Прочитанная история и импорт настроек", "en": "Read history and settings import" },
-      "body": { "ru": "Открытая история изменений автоматически отмечается прочитанной, в том числе при запуске лаунчера. Отметка другой вкладки сохраняется до её открытия. Импорт настроек друга перенесён под код конфигурации в «Компонентах» и «Мультиплеере».", "en": "The displayed changelog is automatically marked as read, including on launcher startup. The other tab keeps its unread marker until opened. Settings import now sits below the configuration code in Components and Multiplayer." }
+      "title": {
+        "ru": "Прочитанная история и импорт настроек",
+        "en": "Read history and settings import"
+      },
+      "body": {
+        "ru": "Открытая история изменений автоматически отмечается прочитанной, в том числе при запуске лаунчера. Отметка другой вкладки сохраняется до её открытия. Импорт настроек друга перенесён под код конфигурации в «Компонентах» и «Мультиплеере».",
+        "en": "The displayed changelog is automatically marked as read, including on launcher startup. The other tab keeps its unread marker until opened. Settings import now sits below the configuration code in Components and Multiplayer."
+      }
     },
     {
       "category": "launcher",
       "version": "0.5.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Восстановление и мультиплеер", "en": "Recovery and multiplayer" },
-      "body": { "ru": "Автоматический откат неудачного обновления лаунчера, резервная копия предыдущей установки патча, импорт кода настроек и проверка файлов перед мультиплеером. Добавлены рабочая конфигурация, уведомления об аварийном завершении, быстрая проверка запуска, продолжение скачивания со скоростью и оставшимся временем, отметки непрочитанных изменений и выбор предыдущих Beta.", "en": "Automatic launcher update rollback, previous patch installation backups, configuration code import and multiplayer file comparison. Adds working settings, unexpected-exit notices, quick preflight checks, resumable downloads with speed and ETA, unread changelog markers and previous Beta selection." }
+      "title": {
+        "ru": "Восстановление и мультиплеер",
+        "en": "Recovery and multiplayer"
+      },
+      "body": {
+        "ru": "Автоматический откат неудачного обновления лаунчера, резервная копия предыдущей установки патча, импорт кода настроек и проверка файлов перед мультиплеером. Добавлены рабочая конфигурация, уведомления об аварийном завершении, быстрая проверка запуска, продолжение скачивания со скоростью и оставшимся временем, отметки непрочитанных изменений и выбор предыдущих Beta.",
+        "en": "Automatic launcher update rollback, previous patch installation backups, configuration code import and multiplayer file comparison. Adds working settings, unexpected-exit notices, quick preflight checks, resumable downloads with speed and ETA, unread changelog markers and previous Beta selection."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.7",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Исправлен запуск после 0.4.5", "en": "Fixed startup after 0.4.5" },
-      "body": { "ru": "В самодостаточную сборку снова включены нативные библиотеки WPF. Лаунчер больше не падает до появления окна после обновления.", "en": "Native WPF libraries are included in the self-contained build again. The launcher no longer crashes before showing its window after an update." }
+      "title": {
+        "ru": "Исправлен запуск после 0.4.5",
+        "en": "Fixed startup after 0.4.5"
+      },
+      "body": {
+        "ru": "В самодостаточную сборку снова включены нативные библиотеки WPF. Лаунчер больше не падает до появления окна после обновления.",
+        "en": "Native WPF libraries are included in the self-contained build again. The launcher no longer crashes before showing its window after an update."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.6",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Корректный статус проверки", "en": "Correct update-check status" },
-      "body": { "ru": "После стартовой или ручной проверки надпись «Проверяю обновления…» заменяется итоговым состоянием и индикатор останавливается.", "en": "After a startup or manual check, Checking for updates is replaced by the final status and the progress indicator stops." }
+      "title": {
+        "ru": "Корректный статус проверки",
+        "en": "Correct update-check status"
+      },
+      "body": {
+        "ru": "После стартовой или ручной проверки надпись «Проверяю обновления…» заменяется итоговым состоянием и индикатор останавливается.",
+        "en": "After a startup or manual check, Checking for updates is replaced by the final status and the progress indicator stops."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.5",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Автообновление при запуске", "en": "Automatic startup updates" },
-      "body": { "ru": "Доступное обновление лаунчера снова автоматически скачивается и устанавливается при запуске. Кнопка ручной проверки и обновления во время работы сохранена.", "en": "Available launcher updates are automatically downloaded and installed on startup again. The manual check and update button remains available while the launcher is running." }
+      "title": {
+        "ru": "Автообновление при запуске",
+        "en": "Automatic startup updates"
+      },
+      "body": {
+        "ru": "Доступное обновление лаунчера снова автоматически скачивается и устанавливается при запуске. Кнопка ручной проверки и обновления во время работы сохранена.",
+        "en": "Available launcher updates are automatically downloaded and installed on startup again. The manual check and update button remains available while the launcher is running."
+      }
     },
     {
       "category": "patch",
       "version": "0.4.5",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Исправлена первая подпись цвета", "en": "Fixed initial color label" },
-      "body": { "ru": "Поле цвета сразу показывает «Случайно» при первом входе в лобби. Исправление находится в интерфейсном файле и не меняет сетевую логику цветов.", "en": "The color field now immediately shows Random on the first lobby entry. The fix is in the UI file and does not change color networking." }
+      "title": {
+        "ru": "Исправлена первая подпись цвета",
+        "en": "Fixed initial color label"
+      },
+      "body": {
+        "ru": "Поле цвета сразу показывает «Случайно» при первом входе в лобби. Исправление находится в интерфейсном файле и не меняет сетевую логику цветов.",
+        "en": "The color field now immediately shows Random on the first lobby entry. The fix is in the UI file and does not change color networking."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.4",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Полная история изменений", "en": "Complete changelog" },
-      "body": { "ru": "Правая панель теперь показывает все бета-выпуски. Список можно прокручивать колёсиком мыши.", "en": "The right panel now shows every Beta release and can be scrolled with the mouse wheel." }
+      "title": {
+        "ru": "Полная история изменений",
+        "en": "Complete changelog"
+      },
+      "body": {
+        "ru": "Правая панель теперь показывает все бета-выпуски. Список можно прокручивать колёсиком мыши.",
+        "en": "The right panel now shows every Beta release and can be scrolled with the mouse wheel."
+      }
     },
     {
       "category": "patch",
       "version": "0.4.3",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Цвета r10 и постоянные большие карты", "en": "Colors r10 and permanent large maps" },
-      "body": { "ru": "Белый удалён, почти чёрный переименован в чёрный, палитра упорядочена по обычной, светлой и тёмной радуге. Исправлена начальная подпись «Случайно». Большие карты теперь всегда включены.", "en": "White was removed, Near Black was renamed to Black, and the palette was ordered as regular, light and dark rainbows. The initial Random label was fixed. Large maps are now always enabled." }
+      "title": {
+        "ru": "Цвета r10 и постоянные большие карты",
+        "en": "Colors r10 and permanent large maps"
+      },
+      "body": {
+        "ru": "Белый удалён, почти чёрный переименован в чёрный, палитра упорядочена по обычной, светлой и тёмной радуге. Исправлена начальная подпись «Случайно». Большие карты теперь всегда включены.",
+        "en": "White was removed, Near Black was renamed to Black, and the palette was ordered as regular, light and dark rainbows. The initial Random label was fixed. Large maps are now always enabled."
+      }
     },
     {
       "category": "launcher",
       "version": "0.4.2",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Удобные проверки", "en": "Convenient checks" },
-      "body": { "ru": "Проверка обновлений перенесена в нижнюю панель, а проверка установленных файлов — в настройки.", "en": "Update checking moved to the bottom bar and installed-file verification moved to Settings." }
+      "title": {
+        "ru": "Удобные проверки",
+        "en": "Convenient checks"
+      },
+      "body": {
+        "ru": "Проверка обновлений перенесена в нижнюю панель, а проверка установленных файлов — в настройки.",
+        "en": "Update checking moved to the bottom bar and installed-file verification moved to Settings."
+      }
     },
     {
       "category": "patch",
       "version": "0.4.1",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Независимый обход и экспериментальные цвета", "en": "Independent bypass and experimental colors" },
-      "body": { "ru": "Обход рассинхрона больше не требует вражды независимых. В Beta доступны экспериментальные расширенные цвета игроков.", "en": "Desync bypass no longer requires independent hostility. Experimental extended player colors are available in Beta." }
+      "title": {
+        "ru": "Независимый обход и экспериментальные цвета",
+        "en": "Independent bypass and experimental colors"
+      },
+      "body": {
+        "ru": "Обход рассинхрона больше не требует вражды независимых. В Beta доступны экспериментальные расширенные цвета игроков.",
+        "en": "Desync bypass no longer requires independent hostility. Experimental extended player colors are available in Beta."
+      }
     },
     {
       "category": "patch",
       "version": "0.4.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Настраиваемые компоненты", "en": "Configurable components" },
-      "body": { "ru": "Добавлены игровые переключатели, код конфигурации, архив диагностики и локальное переключение заранее загруженных вариантов.", "en": "Added gameplay switches, configuration codes, diagnostic archives and local switching of preloaded variants." }
+      "title": {
+        "ru": "Настраиваемые компоненты",
+        "en": "Configurable components"
+      },
+      "body": {
+        "ru": "Добавлены игровые переключатели, код конфигурации, архив диагностики и локальное переключение заранее загруженных вариантов.",
+        "en": "Added gameplay switches, configuration codes, diagnostic archives and local switching of preloaded variants."
+      }
     },
     {
       "category": "launcher",
       "version": "0.3.1",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Применение перед запуском", "en": "Apply before launch" },
-      "body": { "ru": "Изменённые настройки патча автоматически применяются перед запуском игры.", "en": "Changed patch settings are now applied automatically before launching the game." }
+      "title": {
+        "ru": "Применение перед запуском",
+        "en": "Apply before launch"
+      },
+      "body": {
+        "ru": "Изменённые настройки патча автоматически применяются перед запуском игры.",
+        "en": "Changed patch settings are now applied automatically before launching the game."
+      }
     },
     {
       "category": "launcher",
       "version": "0.3.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Живые уведомления", "en": "Live update alerts" },
-      "body": { "ru": "Добавлены фоновые уведомления об обновлениях и полностью рабочая навигация между страницами.", "en": "Added background update alerts and fully functional page navigation." }
+      "title": {
+        "ru": "Живые уведомления",
+        "en": "Live update alerts"
+      },
+      "body": {
+        "ru": "Добавлены фоновые уведомления об обновлениях и полностью рабочая навигация между страницами.",
+        "en": "Added background update alerts and fully functional page navigation."
+      }
     },
     {
       "category": "launcher",
       "version": "0.2.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Каналы Stable и Beta", "en": "Stable and Beta channels" },
-      "body": { "ru": "Появились отдельные подписанные каналы и первый пакет экспериментальных цветов игроков.", "en": "Added separate signed channels and the first experimental player-color package." }
+      "title": {
+        "ru": "Каналы Stable и Beta",
+        "en": "Stable and Beta channels"
+      },
+      "body": {
+        "ru": "Появились отдельные подписанные каналы и первый пакет экспериментальных цветов игроков.",
+        "en": "Added separate signed channels and the first experimental player-color package."
+      }
     },
     {
       "category": "launcher",
       "version": "0.1.0",
       "publishedAt": "2026-09-05",
-      "title": { "ru": "Первый выпуск", "en": "Initial release" },
-      "body": { "ru": "Первый публичный установщик и обновлятор Paw's Patch для Kohan II.", "en": "The first public Paw's Patch installer and updater for Kohan II." }
+      "title": {
+        "ru": "Первый выпуск",
+        "en": "Initial release"
+      },
+      "body": {
+        "ru": "Первый публичный установщик и обновлятор Paw's Patch для Kohan II.",
+        "en": "The first public Paw's Patch installer and updater for Kohan II."
+      }
     }
   ]
 }
