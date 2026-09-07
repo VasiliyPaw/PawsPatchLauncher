@@ -2,6 +2,32 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.5.8",
+      "publishedAt": "2026-09-07",
+      "title": {
+        "ru": "Независимые настройки Релиза",
+        "en": "Independent Release settings"
+      },
+      "body": {
+        "ru": "Расширенные цвета доступны в Релизе. В новых пакетах цвета, вражда независимых и пропуск рассинхрона переключаются независимо. Код конфигурации и импорт поддерживают все сочетания. «О патче» обновлено для Релиза 0.2.0, включая все 7 моделей затенения значков; во вкладке беты поясняется, что отдельных новых функций пока нет. Для закреплённых старых выпусков сохраняются ограничения реально отсутствующих файлов запуска.",
+        "en": "Extended colors are available in Release. New packages allow independent color, independent-hostility and desync-bypass switches. Friend codes and import support every combination. About is updated for Release 0.2.0, including all seven badge shading models; Beta explains that no exclusive features remain. Pinned old releases keep restrictions for launch helpers they actually lack."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.2.0",
+      "publishedAt": "2026-09-07",
+      "title": {
+        "ru": "Возможности беты теперь в Релизе",
+        "en": "Beta features graduate to Release"
+      },
+      "body": {
+        "ru": "В Релиз перенесены случайный тип карты и время суток с сохранением настроек, исправление стартового рассинхрона и общие исправления интерфейса. Доступны 49 цветов с синхронизацией лобби, проверкой занятых цветов при подключении и отображением цветов сохранения. Все переключатели независимы: цвета работают с выключенной враждой независимых и с любым режимом контроля рассинхрона. Добавлены все 7 моделей значков рот и согласованное мягкое затенение, в том числе без расширенных цветов. Служебное окно перед запуском не появляется. Beta сейчас содержит тот же набор игровых файлов. Для мультиплеера обновите лаунчер и патч на всех компьютерах; игровые настройки должны совпадать.",
+        "en": "Release now includes persistent random map type and time of day, the identified startup desync fix and common UI fixes. Includes 49 colors with lobby synchronization, occupied-color checks on reconnect and saved-game colors. All switches are independent: colors work with independent hostility disabled and with either desync mode. All 7 company badge models and consistent soft shading are included, even without extended colors. No helper window opens before launch. Beta currently uses the same gameplay files. Update the launcher and patch on every multiplayer PC; gameplay settings must match."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.7",
       "publishedAt": "2026-09-07",
       "title": {
@@ -262,6 +288,32 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.5.8",
+      "publishedAt": "2026-09-07",
+      "title": {
+        "ru": "Независимые настройки Релиза",
+        "en": "Independent Release settings"
+      },
+      "body": {
+        "ru": "Расширенные цвета доступны в Релизе. В новых пакетах цвета, вражда независимых и пропуск рассинхрона переключаются независимо. Код конфигурации и импорт поддерживают все сочетания. «О патче» обновлено для Релиза 0.2.0, включая все 7 моделей затенения значков; во вкладке беты поясняется, что отдельных новых функций пока нет. Для закреплённых старых выпусков сохраняются ограничения реально отсутствующих файлов запуска.",
+        "en": "Extended colors are available in Release. New packages allow independent color, independent-hostility and desync-bypass switches. Friend codes and import support every combination. About is updated for Release 0.2.0, including all seven badge shading models; Beta explains that no exclusive features remain. Pinned old releases keep restrictions for launch helpers they actually lack."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.2.0",
+      "publishedAt": "2026-09-07",
+      "title": {
+        "ru": "Возможности беты теперь в Релизе",
+        "en": "Beta features graduate to Release"
+      },
+      "body": {
+        "ru": "В Релиз перенесены случайный тип карты и время суток с сохранением настроек, исправление стартового рассинхрона и общие исправления интерфейса. Доступны 49 цветов с синхронизацией лобби, проверкой занятых цветов при подключении и отображением цветов сохранения. Все переключатели независимы: цвета работают с выключенной враждой независимых и с любым режимом контроля рассинхрона. Добавлены все 7 моделей значков рот и согласованное мягкое затенение, в том числе без расширенных цветов. Служебное окно перед запуском не появляется. Beta сейчас содержит тот же набор игровых файлов. Для мультиплеера обновите лаунчер и патч на всех компьютерах; игровые настройки должны совпадать.",
+        "en": "Release now includes persistent random map type and time of day, the identified startup desync fix and common UI fixes. Includes 49 colors with lobby synchronization, occupied-color checks on reconnect and saved-game colors. All switches are independent: colors work with independent hostility disabled and with either desync mode. All 7 company badge models and consistent soft shading are included, even without extended colors. No helper window opens before launch. Beta currently uses the same gameplay files. Update the launcher and patch on every multiplayer PC; gameplay settings must match."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.5.7",

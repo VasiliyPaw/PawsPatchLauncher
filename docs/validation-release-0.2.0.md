@@ -21,7 +21,8 @@ is not modified on disk.
   rejection checked. Historical broken archives remain in the audit as findings.
 - Eight native WinExe variants: quiet startup (534 assertions each), common UI,
   color payload and compile-time feature reporting checked without launching a game.
-- Real-package Release EN/RU clean installs and uninstall passed. All eight Release
+- Real-package Release EN/RU and Beta EN/RU clean installs and uninstall passed. All eight
+  native combinations per channel (16 profiles total) passed. The
   color/bypass/hostility profiles passed file verification and native preflight;
   compiled flags exactly match chosen switches. All 7 NIF + 7 TGA files survive
   colors OFF. Stock EXE and user-save sentinel survive uninstall.
@@ -61,3 +62,9 @@ downloads against signed sizes/hashes before advertising canonical feeds. Keep o
 signed Release/Beta history entries for rollback. Patch release must not replace the
 launcher as GitHub's latest launcher release. Never publish private signing keys,
 settings, crash dumps or raw player logs.
+
+Both releases were published from source revision
+`dcbfbd2959642f13aebfa0ccab393cb5c786be6a`. All 13 referenced game archives were
+downloaded anonymously from their public URLs and matched the signed sizes/SHA-256.
+The launcher EXE and portable ZIP were also anonymously downloaded and byte-verified.
+Portable ZIP SHA-256: `8D2C0B460B56C77462655062EA4A7C112EF10AC0B53644C98CF66AA45D3EFFCD`.
