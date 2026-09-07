@@ -28,7 +28,8 @@ public static class PatchGuide
         _ => "The required Paw's Patch base, included in both Release and Beta. These changes are installed with the patch and have no separate switches."
     };
 
-    public static IReadOnlyList<PatchGuideEntry> Entries { get; } = [
+    // Retained for pinned, signed releases made before the feed carried its own guide.
+    public static IReadOnlyList<PatchGuideEntry> LegacyEntries { get; } = [
         new("base", "always", "Paw's Patch и Arcane Wars", "Paw's Patch and Arcane Wars",
             "Лаунчер устанавливает Arcane Wars как основу и применяет изменения Paw's Patch: общие исправления, дополнительные настройки и функции бета-канала.\n\nЗдесь собраны действующие возможности патча. Список отдельных обновлений с датами и версиями доступен в «Истории изменений» справа.",
             "The launcher installs Arcane Wars as the base mod and applies Paw's Patch changes: shared fixes, optional settings and Beta features.\n\nThis guide covers the patch's current features. Individual updates with dates and versions are listed in the Changelog on the right."),
@@ -69,4 +70,44 @@ public static class PatchGuide
             "Под версией игры в главном меню показаны Arcane Wars и Paw's Patch с их версиями. В отображении лимитов исправлен отрицательный ноль: вместо -0 выводится 0.\n\nЭти исправления входят в текущую бету автоматически, даже если расширенные цвета и остальные дополнительные функции выключены. Меняется только отображение, а не сами значения лимитов.",
             "The main menu shows Arcane Wars and Paw's Patch versions beneath the game version. Negative zero in limit displays is corrected: -0 is shown as 0.\n\nThese fixes are automatically included in the current Beta even when extended colors and other optional features are disabled. Only the display changes, not the underlying limit values.")
     ];
+
+    public static IReadOnlyList<PatchGuideEntry> Entries { get; } = LegacyEntries.Select(entry => entry.Id switch
+    {
+        "desync" => entry with {
+            BodyRu = DesyncHelpRu + "\n\nРежим доступен в релизе и в бете, независимо от вражды независимых. Начиная с беты 7 его можно использовать вместе с расширенными цветами. В старых закреплённых бетах это сочетание недоступно.",
+            BodyEn = DesyncHelpEn + "\n\nAvailable in Release and Beta, independently of independent hostility. From Beta 7 onward it can be used with extended colors. Older pinned Betas do not support this combination."
+        },
+        "colors" => entry with {
+            BodyRu = $"В палитре {PlayerColorCount} цветов и вариант «Случайно». Оттенки сгруппированы по обычной, светлой и тёмной палитре; названия окрашены в соответствующие цвета. Свободные слоты и «Случайно» отмечены серым. Затенение значков рот смягчено с сохранением объёма.\n\nХост может менять цвета всех участников, клиент только свой. Случайные цвета распределяются перед матчем без повторений. Выбор сохраняется при возврате в лобби и повторном подключении. Если прежний цвет вернувшегося игрока уже занят, ему назначается «Случайно», а цвет другого участника сохраняется.\n\nПри выборе сохранения список игроков показывает цвета королевств из сейва. Изменять их нельзя; при перестановке игроков цвет остаётся у королевства. При переходе к новой игре выбор снова доступен.\n\nЦвета включают вражду независимых. Начиная с беты 7 можно выбрать как официальную обработку рассинхрона, так и пропуск. Всем участникам сетевой игры нужна одинаковая бета и совместимые настройки.",
+            BodyEn = $"The palette has {PlayerColorCount} colors plus Random, grouped into regular, light and dark shades. Labels match their colors. Empty slots and Random are gray. Company-badge shading is softened while retaining depth.\n\nHosts may change all player colors, clients only their own. Random colors are assigned without duplicates before the match. Choices survive lobby returns and reconnects. If a returning player's former color is occupied, that player becomes Random and the incumbent keeps their color.\n\nSaved-game lobbies show saved kingdom colors read-only. Moving players between slots keeps colors attached to kingdoms. Color selection is available again when switching to a new game.\n\nColors enable independent hostility. From Beta 7 onward either official desync handling or bypass may be selected. All multiplayer peers need the same Beta and compatible settings."
+        },
+        _ => entry
+    }).Concat(new PatchGuideEntry[] {
+        new("random-map", "beta", "Случайный тип карты", "Random map type",
+            "Пятый вариант «Случайно» выбирает один из четырёх типов карт: обычный, пустынный, зимний или добавленный Arcane Wars. Для него используется отдельный общий набор настроек размера, числа игроков, времени суток, ресурсов и логов.\n\nЭти настройки сохраняются после перезапуска. Особенности местности выбранного типа, например снег и лёд, используют стандартные значения. Собственные настройки четырёх обычных типов карт сохраняются отдельно. В сетевой игре тип карты выбирается согласованно у всех участников.",
+            "A fifth Random option selects one of the four map types: regular, desert, winter or the Arcane Wars type. It has a separate common set of size, player count, time-of-day, resource and lair settings.\n\nThese settings persist after restarting. Type-specific terrain, such as snow and ice, uses its default values. The four regular map types retain their separate settings. Multiplayer peers select the same map type."),
+        new("random-time", "beta", "Случайное время суток", "Random time of day",
+            "В настройках случайной карты добавлено «Случайно» для времени суток. Игра выбирает один из вариантов освещения Arcane Wars при создании карты. Сам выбор «Случайно» сохраняется вместе с остальными настройками карты, в том числе после перезапуска игры.\n\nРаботает как с конкретным типом карты, так и со случайным. Вариант добавлен через игровые файлы.",
+            "Random is added to the time-of-day setting for generated maps. The game selects one of the Arcane Wars lighting options during map creation. The Random preference persists with the other map settings, including after restarting the game.\n\nWorks with a specific map type or Random. This option is implemented through game data files."),
+        new("terrain-startup", "beta", "Исправление стартового рассинхрона", "Startup desync fix",
+            "Исправлена инициализация параметра генерации рельефа, который мог приводить к разной карте у участников после повторных матчей или аварийного завершения игры. Исправление применяется автоматически при запуске через лаунчер, независимо от выбора цветов и пропуска рассинхрона.\n\nОно исправляет найденную причину, но не отключает проверку синхронизации и не гарантирует отсутствие любых других рассинхронов. Дополнительное служебное окно перед запуском не появляется.",
+            "Fixes initialization of a terrain-generation parameter that could produce different maps after repeated matches or an abnormal game exit. Applied automatically when starting through the launcher, regardless of color or desync-bypass settings.\n\nIt addresses the identified cause, does not disable synchronization checks, and cannot guarantee that all other desync causes are absent. No additional helper window appears before launch.")
+    }).ToArray();
+
+    public static PatchGuideDocument Current() => new() { Version = "0.1.0-beta.7", Entries = Entries.ToList() };
+
+    public static PatchGuideDocument Resolve(ChannelManifest? channel)
+    {
+        if (IsValid(channel?.PatchGuide)) return channel!.PatchGuide!;
+        return channel is null ? Current() : new() { Version = "", Entries = LegacyEntries.ToList() };
+    }
+
+    public static bool IsValid(PatchGuideDocument? guide)
+        => guide is { SchemaVersion: 1, Version.Length: > 0 and <= 80, Entries.Count: > 0 and <= 100 }
+        && guide.Entries.All(e => e is not null && e.Id is { Length: > 0 and <= 64 }
+            && e.Id.All(c => c is >= 'a' and <= 'z' or >= '0' and <= '9' or '-')
+            && e.Category is "always" or "optional" or "beta"
+            && new[] { e.TitleRu, e.TitleEn }.All(t => !string.IsNullOrWhiteSpace(t) && t.Length <= 160)
+            && new[] { e.BodyRu, e.BodyEn }.All(t => !string.IsNullOrWhiteSpace(t) && t.Length <= 12000))
+        && guide.Entries.Select(e => e.Id).Distinct(StringComparer.Ordinal).Count() == guide.Entries.Count;
 }

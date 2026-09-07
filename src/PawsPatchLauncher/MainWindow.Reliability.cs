@@ -151,7 +151,7 @@ public partial class MainWindow
             try { if (_readinessIdentity != new ModuleInstaller(_game.Directory).LoadState().LastSuccessfulUpdate) InvalidateReadiness(); } catch { InvalidateReadiness(); }
         RussianToggle.IsEnabled = !_busy;
         OfficialOosRadio.IsEnabled = !_busy;
-        ContinueOosRadio.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
+        ContinueOosRadio.IsEnabled = !_busy && CanContinueWithSelectedColors;
         _releaseStatus.Text = _settings.PinnedRelease is null ? T("Выбрана последняя версия", "Following the latest release") : T("Выпуск закреплён: ", "Pinned release: ") + _settings.PinnedRelease[..Math.Min(12,_settings.PinnedRelease.Length)];
         RefreshReliabilityVisibility();
     }

@@ -9,6 +9,28 @@ public partial class MainWindow
 {
     private string _aboutCategory = "always";
     private int _aboutTransitionVersion;
+    private readonly Dictionary<string, ChannelManifest?> _cachedGuideChannels = new();
+    private string? _renderedGuideIdentity;
+
+    private ChannelManifest? GuideChannel()
+    {
+        if (_channel is not null) return _channel;
+        var key = _settings.Channel + ":" + _settings.PinnedRelease;
+        if (!_cachedGuideChannels.TryGetValue(key, out var cached))
+            _cachedGuideChannels[key] = cached = _feedClient.CachedGuideChannel(_settings.Channel, _settings.PinnedRelease);
+        return cached ?? (_settings.PinnedRelease is not null ? new ChannelManifest { Channel = _settings.Channel } : null);
+    }
+
+    private void RefreshAboutFeed()
+    {
+        if (_channel is not null) _cachedGuideChannels[_settings.Channel + ":" + _settings.PinnedRelease] = _channel;
+        var guide = PatchGuide.Resolve(GuideChannel());
+        var identity = System.Text.Json.JsonSerializer.Serialize(guide);
+        if (identity == _renderedGuideIdentity) return;
+        var offset = MainOptionsScroll.VerticalOffset;
+        RefreshAboutPage();
+        if (_activePage == "about") MainOptionsScroll.ScrollToVerticalOffset(offset);
+    }
 
     private void AboutNav_Click(object sender, RoutedEventArgs e) => SetActivePage("about");
     private async void AboutCategory_Click(object sender, RoutedEventArgs e)
@@ -41,9 +63,16 @@ public partial class MainWindow
         AboutTitleText.Text = _text["nav.about"];
         AboutIntroText.Text = T("Что добавляет и меняет Paw's Patch поверх Arcane Wars. Выберите раздел, чтобы посмотреть подробности.",
             "What Paw's Patch adds and changes on top of Arcane Wars. Choose a section to read the details.");
+        var channel = GuideChannel();
+        var guide = PatchGuide.Resolve(channel);
+        _renderedGuideIdentity = System.Text.Json.JsonSerializer.Serialize(guide);
+        AboutIntroText.Text += "\n" + (PatchGuide.IsValid(channel?.PatchGuide)
+            ? T("Описание выбранного выпуска: ", "Selected release guide: ") + guide.Version
+            : T("Встроенная справка. Для этого выпуска отдельное описание ещё не получено.",
+                "Built-in guide. No separate guide has been received for this release."));
         AboutCategoryText.Text = PatchGuide.CategoryDescription(_aboutCategory, _text.Language);
         AboutEntriesPanel.Children.Clear();
-        foreach (var entry in PatchGuide.Entries.Where(x => x.Category == _aboutCategory))
+        foreach (var entry in guide.Entries.Where(x => x.Category == _aboutCategory))
         {
             var panel = new StackPanel();
             var badge = new TextBlock { Text = PatchGuide.CategoryName(entry.Category, _text.Language),

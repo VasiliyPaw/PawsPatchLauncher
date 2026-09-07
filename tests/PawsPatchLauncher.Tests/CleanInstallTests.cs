@@ -53,6 +53,7 @@ public static class CleanInstallTests
                 foreach (var bypass in new[] { false, true })
                 foreach (var hostility in new[] { false, true })
                 {
+                    if (colors && bypass && !GameExecutableSelector.SupportsColorDesyncContinue(channel)) continue;
                     settings.CustomPlayerColors = colors;
                     settings.DesyncMode = bypass ? "continue" : "official";
                     settings.IndependentHostility = hostility;
@@ -71,6 +72,19 @@ public static class CleanInstallTests
                     if (selectedExe == "k2.exe") throw new Exception("Common UI was bypassed.");
                     var checks = await MultiplayerCheck.CriticalAsync(game, installer.LoadState(), Path.Combine(game, selectedExe), channel.Game);
                     if (checks.Count != 0) throw new Exception("Profile preflight: " + string.Join("; ", checks));
+                    if (channel.ColorDesyncContinue)
+                    {
+                        var start = new System.Diagnostics.ProcessStartInfo(Path.Combine(game, selectedExe)) {
+                            UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true,
+                            RedirectStandardError = true, WorkingDirectory = game };
+                        start.ArgumentList.Add("--preflight"); start.ArgumentList.Add(game);
+                        using var process = System.Diagnostics.Process.Start(start)!;
+                        var output = process.StandardOutput.ReadToEndAsync();
+                        var errors = process.StandardError.ReadToEndAsync();
+                        await process.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(30));
+                        if (process.ExitCode != 0 || !(await output).Contains("PREFLIGHT_PASS"))
+                            throw new Exception("Quiet helper data guard failed: " + selectedExe + " " + await errors);
+                    }
                     var profileName = $"colors={colors}, bypass={bypass}, hostility={hostility}";
                     commonUiProfiles.Add(profileName);
                     Console.WriteLine("COMMON UI PROFILE PASS " + profileName + ": " + selectedExe);

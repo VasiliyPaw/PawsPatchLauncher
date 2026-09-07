@@ -62,13 +62,16 @@ internal static class AboutChecks
         void Check(bool valid, string message) { if (!valid) throw new InvalidOperationException(message); checks++; }
         async Task Scenario()
         {
+            // Never borrow a persisted smoke fixture's older guide.
+            typeof(MainWindow).GetField("_channel", flags)!.SetValue(window,
+                new ChannelManifest { Channel = "beta", ColorDesyncContinue = true, PatchGuide = PatchGuide.Current() });
             var localization = Field<PawsPatchLauncher.Localization>("_text");
             localization.SetLanguage(language); Invoke("ApplyLanguage");
             Invoke("ShowWorking", (Func<string>)(() => "isolated operation"));
             var settingsBefore = JsonSerializer.Serialize(Field<UserSettings>("_settings"));
             var channelBefore = Field<ChannelManifest?>("_channel");
             var operationBefore = Named<TextBlock>("OperationText").Text;
-            Check(PatchGuide.Entries.Count == 13 && PatchGuide.Entries.Select(e => e.Id).Distinct().Count() == 13,
+            Check(PatchGuide.Entries.Count == 16 && PatchGuide.Entries.Select(e => e.Id).Distinct().Count() == 16,
                 "Guide entries are missing or have duplicate IDs.");
             Check(PatchGuide.Entries.All(e => e.Category is "always" or "optional" or "beta"), "Unknown guide category.");
             foreach (var entry in PatchGuide.Entries)
@@ -124,8 +127,8 @@ internal static class AboutChecks
             var first = Switch("beta"); await Task.Delay(20);
             var second = Switch("always"); await Task.Delay(20);
             var third = Switch("beta"); await Task.WhenAll(first, second, third); await Task.Delay(230); window.UpdateLayout();
-            Check(FirstId() == "colors" && entries.Children.Count == 2 && entries.Opacity == 1 && scroll.VerticalOffset == 0,
-                "Rapid category changes show stale contents or scroll.");
+            Check(FirstId() == "colors" && entries.Children.Count == 5 && entries.Opacity == 1 && scroll.VerticalOffset == 0,
+                $"Rapid category changes show stale contents or scroll: {FirstId()}, count={entries.Children.Count}, opacity={entries.Opacity}, offset={scroll.VerticalOffset}.");
             var betaTab = Named<Button>("AboutBetaTab");
             Check(betaTab.Style == Named<Button>("PatchChangelogButton").Style, "Guide tab differs from the history tab style.");
             var selectedSurface = (Border)betaTab.Template.FindName("Border", betaTab);
@@ -151,6 +154,13 @@ internal static class AboutChecks
             Check(JsonSerializer.Serialize(Field<UserSettings>("_settings")) == settingsBefore, "Reading About changed patch configuration.");
             Check(ReferenceEquals(Field<ChannelManifest?>("_channel"), channelBefore), "Reading About changed the patch channel.");
             Check(Named<TextBlock>("OperationText").Text == operationBefore, "Reading About changed independent operation status.");
+            var selectedGuide = Field<ChannelManifest>("_channel").PatchGuide!;
+            selectedGuide.Entries[0] = selectedGuide.Entries[0] with { TitleRu = "Автообновлённая справка", TitleEn = "Refreshed guide" };
+            Invoke("RefreshAboutFeed");
+            await Switch("always"); await Task.Delay(230);
+            var refreshedTitle = ((StackPanel)((Border)entries.Children[0]).Child).Children.OfType<TextBlock>().ElementAt(1).Text;
+            Check(refreshedTitle == selectedGuide.Entries[0].Title(localization.Language), "Downloaded guide not displayed.");
+            Check(JsonSerializer.Serialize(Field<UserSettings>("_settings")) == settingsBefore, "Guide refresh changed settings.");
             foreach (var available in new[] { true, false, true })
             {
                 var channel = new ChannelManifest { Channel = available ? "beta" : "stable" };

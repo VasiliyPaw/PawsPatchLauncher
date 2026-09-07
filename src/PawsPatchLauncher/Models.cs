@@ -52,6 +52,15 @@ public sealed class ChannelManifest
     public LocalizedText NewsBody { get; set; } = new();
     public List<ChangelogEntry> Changelog { get; set; } = [];
     public List<ReleaseReference> PreviousReleases { get; set; } = [];
+    public bool ColorDesyncContinue { get; set; }
+    public PatchGuideDocument? PatchGuide { get; set; }
+}
+
+public sealed class PatchGuideDocument
+{
+    public int SchemaVersion { get; set; } = 1;
+    public string Version { get; set; } = "";
+    public List<PatchGuideEntry> Entries { get; set; } = [];
 }
 
 public sealed class ReleaseReference

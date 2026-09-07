@@ -21,6 +21,9 @@ public static class CombinationAudit
         if ((a is "arcane-wars" or "pawpatch-core") && DataOverlays.Contains(b)
             || (b is "arcane-wars" or "pawpatch-core") && DataOverlays.Contains(a)) return "reviewed-data-profile";
         if (pair.SetEquals(["startup-base", "localization-ru"]) && path == "startup\\autoexec.txt") return "localized-startup";
+        if (pair.Contains("common-ui") && (pair.Contains("arcane-wars") || pair.Contains("pawpatch-core"))
+            && path is "data\\game\\world_rules_k2.tgi" or "data\\templates\\template_rmc_k2.tgi" or "data\\randommap\\rmc_temperate03.tgi")
+            return "reviewed-beta7-random-map-time";
         if (pair.Contains("common-ui") && (pair.Contains("pawpatch-core") && path == "k2_paws_family_herd_relations_1372.exe"
             || pair.Contains("desync-continue") && path is "k2_paws_sync_continue_1372.exe" or "k2_paws_sync_family_herd_relations_1372.exe")) return "combined-ui-executable";
         return "UNREVIEWED";
@@ -42,10 +45,12 @@ public static class CombinationAudit
         var allCollisions = new List<object>();
         var allLosses = new List<object>();
         var total = 0;
-        foreach (var source in new[] { "published", "candidate", "fixed" })
+        foreach (var source in new[] { "published", "candidate", "fixed", "beta7" })
         foreach (var name in new[] { "stable", "beta" })
         {
-            var feedPath = Path.Combine(repo, source == "published" ? $"feed/{name}.json" : $"release_workspace_056/{(source == "fixed" ? "combination-fix" : "powers-shards")}/feed/{name}.signed.json");
+            if (source == "beta7" && name == "stable") continue;
+            var feedPath = Path.Combine(repo, source == "beta7" ? "release_workspace_beta7_v2/feed/beta.local.signed.json"
+                : source == "published" ? $"feed/{name}.json" : $"release_workspace_056/{(source == "fixed" ? "combination-fix" : "powers-shards")}/feed/{name}.signed.json");
             var bytes = await File.ReadAllBytesAsync(feedPath);
             var envelope = JsonSerializer.Deserialize(bytes, LauncherJsonContext.Default.SignedFeedEnvelope)!;
             var payload = Convert.FromBase64String(envelope.Payload);
@@ -61,7 +66,7 @@ public static class CombinationAudit
                 {
                     var url = package.Urls[0];
                     var filename = Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme is "https" or "http" ? Path.GetFileName(uri.AbsolutePath) : Path.GetFileName(url);
-                    var candidates = new[] { Path.Combine(repo, "packages", filename), Path.Combine(repo, "release_workspace_20260905/packages", filename), Path.Combine(repo, "release_workspace_056/powers-shards/packages", filename), Path.Combine(repo, "release_workspace_056/combination-fix/packages", filename) };
+                    var candidates = new[] { Path.Combine(repo, "release_workspace_beta7_v2/packages", filename), Path.Combine(repo, "packages", filename), Path.Combine(repo, "release_workspace_20260905/packages", filename), Path.Combine(repo, "release_workspace_056/powers-shards/packages", filename), Path.Combine(repo, "release_workspace_056/combination-fix/packages", filename) };
                     var archivePath = candidates.FirstOrDefault(File.Exists) ?? throw new FileNotFoundException("No local package: " + filename);
                     Require(new FileInfo(archivePath).Length == package.Size && (await CryptoAndIO.Sha256Async(archivePath)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase), "Wrong local archive bytes: " + filename);
                     using var archive = ZipFile.OpenRead(archivePath);
@@ -111,7 +116,8 @@ public static class CombinationAudit
                 bool Bit(int bit) => (bits & (1 << bit)) != 0;
                 var settings = new UserSettings { Channel = name, RussianLocalization = Bit(0), CustomPlayerColors = Bit(1), DesyncMode = Bit(2) ? "continue" : "official",
                     IndependentHostility = Bit(3), RoamingSpawnMode = Bit(4) ? "x4" : "standard", AdditionalRoamingCompanies = Bit(5), SiegeBalance = Bit(6), DisablePowersAndShards = Bit(7) };
-                if (settings.CustomPlayerColors && (name != "beta" || !settings.IndependentHostility || settings.DesyncMode != "official")) { unsupported++; continue; }
+                if (settings.CustomPlayerColors && (name != "beta" || !settings.IndependentHostility
+                    || settings.DesyncMode != "official" && !feed.ColorDesyncContinue)) { unsupported++; continue; }
                 var code = ConfigurationCode.Create(settings);
                 try { _ = ConfigurationCode.Parse(code); } catch (FormatException) { unsupported++; continue; }
                 if (!settings.DisablePowersAndShards && !modules.ContainsKey("powers-shards-original")) { missingOptional++; continue; }
@@ -149,7 +155,7 @@ public static class CombinationAudit
                 rows.Add(new { source, channel = name, code, modules = selected.Select(p => p.Id).ToArray(), executable = exe, translationKeyLossFiles = damaged.Select(d => d.Path).ToArray() });
                 accepted++; total++;
             }
-            if (source == "fixed") Require(untranslated == 0, "Fixed candidate still loses translation keys.");
+            if (source is "fixed" or "beta7") Require(untranslated == 0, "Fixed candidate still loses translation keys.");
             allCollisions.Add(new { source, channel = name, collisions = collisions.Values });
             sets.Add(new { source, channel = name, accepted, unsupported, unavailableRestoration = missingOptional, configurationsWithTranslationKeyLoss = untranslated, uniqueCoSelectedCollisions = collisions.Count, roamingCompositionFiles = joint.Count });
             Console.WriteLine($"COMBINATIONS {source}/{name}: {accepted} supported, {unsupported} rejected, {missingOptional} unavailable; {untranslated} lose translation keys; roaming composition {joint.Count} files matches");

@@ -16,7 +16,7 @@ internal static class CombinationUiAudit
         var root = Path.Combine(ActivityStore.Root, "combination-audit", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(root);
         var release = new ChannelManifest { Channel = "stable", Packages = [new() { Id = "pawpatch-core", Required = true }] };
-        var beta = new ChannelManifest { Channel = "beta", Packages = [new() { Id = "pawpatch-core", Required = true }, new() { Id = "player-colors" }] };
+        var beta = new ChannelManifest { Channel = "beta", ColorDesyncContinue = true, Packages = [new() { Id = "pawpatch-core", Required = true }, new() { Id = "player-colors" }] };
         var config = new LauncherConfiguration { FeedUrls = [Path.Combine(root,"stable.json")], BetaFeedUrls = [Path.Combine(root,"beta.json")], CacheRoot = Path.Combine(root,"cache") };
         File.WriteAllText(config.FeedUrls[0], JsonSerializer.Serialize(release, LauncherJsonContext.Default.ChannelManifest));
         File.WriteAllText(config.BetaFeedUrls[0], JsonSerializer.Serialize(beta, LauncherJsonContext.Default.ChannelManifest));
@@ -32,6 +32,21 @@ internal static class CombinationUiAudit
         colors.IsChecked = true; Invoke("OptionChanged", colors, new RoutedEventArgs());
         async Task Scenario()
         {
+            var bypass = (RadioButton)window.FindName("ContinueOosRadio");
+            Invoke("RefreshReliabilityStatus");
+            if (!bypass.IsEnabled) throw new InvalidOperationException("New Beta disables colors plus bypass.");
+            bypass.IsChecked = true;
+            Invoke("OptionChanged", colors, new RoutedEventArgs());
+            if (settings.DesyncMode != "continue" || !ConfigurationCode.Parse(((TextBlock)window.FindName("ConfigurationCodeText")).Text).CustomPlayerColors)
+                throw new InvalidOperationException("Combined colors/bypass state or friend code lost.");
+            Invoke("RefreshModuleAvailability");
+            if (settings.DesyncMode != "continue") throw new InvalidOperationException("Feed refresh reverted combined mode.");
+            beta.ColorDesyncContinue = false;
+            Invoke("RefreshModuleAvailability");
+            if (settings.DesyncMode != "official" || bypass.IsEnabled) throw new InvalidOperationException("Older Beta can select a missing combined helper.");
+            beta.ColorDesyncContinue = true;
+            Invoke("RefreshModuleAvailability");
+            Console.WriteLine("COLORS + BYPASS UI PASS: new feed, radio, code, refresh, old-feed guard");
             await (Task)Invoke("ChangeChannelAsync", false)!;
             var code = ((TextBlock)window.FindName("ConfigurationCodeText")).Text;
             bool importable;

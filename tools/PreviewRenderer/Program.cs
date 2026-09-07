@@ -34,6 +34,7 @@ public static class Program
         var combinationAudit = args.Contains("--combination-audit");
         var powersPreview = args.Contains("--powers-preview");
         var aboutCategory = args.FirstOrDefault(arg => arg.StartsWith("--about-category="))?.Split('=')[1];
+        var guideFeed = args.FirstOrDefault(arg => arg.StartsWith("--guide-feed="))?["--guide-feed=".Length..];
         var diagnosticsChecks = args.Contains("--diagnostics");
         var archivePreview = args.Contains("--archive-preview");
         var windowChecks = args.Contains("--window-checks");
@@ -75,6 +76,14 @@ public static class Program
         if (typographyChecks) TypographyChecks.Run(language);
         // Create the rendered window after other fixtures: unshown WPF radio groups share a root.
         var window = new MainWindow();
+        if (guideFeed is not null)
+        {
+            var config = SettingsStore.LoadConfiguration();
+            config.BetaFeedUrls = [Path.GetFullPath(guideFeed)];
+            config.CacheRoot = Path.Combine(ActivityStore.Root, "signed-guide-preview");
+            var selected = Task.Run(() => new FeedClient(config).GetChannelAsync("beta")).GetAwaiter().GetResult();
+            typeof(MainWindow).GetField("_channel", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(window, selected);
+        }
         if (archivePreview)
         {
             var archive = new DiagnosticArchiveHistory(ActivityStore.Root).RecordCompleted(DiagnosticsUiChecks.CreateFixture());

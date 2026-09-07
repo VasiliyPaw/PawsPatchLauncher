@@ -24,6 +24,7 @@ public static class CommonUiPackageTests
         foreach (var bypass in new[] { false, true })
         foreach (var hostility in new[] { false, true })
         {
+            if (colors && bypass && !GameExecutableSelector.SupportsColorDesyncContinue(feed)) continue;
             var settings = new UserSettings { Channel = "beta", CustomPlayerColors = colors,
                 DesyncMode = bypass ? "continue" : "official", IndependentHostility = hostility };
             var fullSelection = GamePackageSelector.Select(feed, settings, true, colors);
@@ -37,7 +38,7 @@ public static class CommonUiPackageTests
             if (critical.Count != 0) throw new Exception(string.Join("; ", critical));
             var expected = MultiplayerCheck.Expected(installer.LoadState());
             var versionFile = await File.ReadAllTextAsync(Path.Combine(game, "paws_patch_versions.ini"));
-            if (!versionFile.Contains("PawPatch=1.3.72-data.8-r2+ui.1")) throw new Exception("Stale version metadata.");
+            if (!versionFile.Contains(feed.ColorDesyncContinue ? "PawPatch=0.1.0-beta.7" : "PawPatch=1.3.72-data.8-r2+ui.1")) throw new Exception("Stale version metadata.");
             foreach (var file in prepared["common-ui"].Files)
                 if (expected[CryptoAndIO.NormalizeRelativePath(file.Path)]?.Sha256 != file.Sha256)
                     throw new Exception("Older helper overrode common UI: " + file.Path);
@@ -46,7 +47,7 @@ public static class CommonUiPackageTests
             profiles.Add(description);
             Console.WriteLine("COMMON UI PACKAGE PASS " + description + ": " + selected);
         }
-        if (helperHashes.Count != 5) throw new Exception("Not all five active helpers covered.");
+        if (helperHashes.Count != (feed.ColorDesyncContinue ? 6 : 5)) throw new Exception("Not all active helpers covered.");
         await installer.UninstallAsync();
         if (!File.Exists(Path.Combine(game, "k2.exe")) || File.Exists(Path.Combine(game, "paws_patch_versions.ini")))
             throw new Exception("UI package uninstall failed.");

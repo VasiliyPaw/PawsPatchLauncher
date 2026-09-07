@@ -226,4 +226,15 @@ public sealed class FeedClient
             try { result.Add(LoadArchived(Path.GetFileNameWithoutExtension(file), channel)); } catch { }
         return result.OrderByDescending(x => x.PublishedAt, StringComparer.Ordinal).ToList();
     }
+
+    // Read-only fallback for documentation, not authority to install or launch an old feed.
+    public ChannelManifest? CachedGuideChannel(string channel, string? pinnedRelease)
+    {
+        try
+        {
+            return pinnedRelease is null ? Archived(channel).FirstOrDefault()
+                : LoadArchived(pinnedRelease, channel);
+        }
+        catch { return null; }
+    }
 }

@@ -626,7 +626,8 @@ public partial class MainWindow : Window
             "k2_paws_sync_family_herd_relations_1372",
             "k2_paws_sync_continue_1372",
             "k2_paws_ui_1372",
-            "k2_paws_lobby_colors_mp_1372_experimental"
+            "k2_paws_lobby_colors_mp_1372_experimental",
+            "k2_paws_lobby_colors_mp_sync_1372"
         };
         return processNames.Any(name => Process.GetProcessesByName(name).Length > 0);
     }
@@ -710,20 +711,21 @@ public partial class MainWindow : Window
         _settings.RussianLocalization = RussianToggle.IsChecked == true;
         if (ReferenceEquals(sender, ColorsToggle) && _colorsAvailable && _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase))
             _settings.CustomPlayerColors = ColorsToggle.IsChecked == true;
-        if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue")
+        if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue"
+            && !GameExecutableSelector.SupportsColorDesyncContinue(_channel))
         {
             _settings.DesyncMode = "official";
             SelectOosMode("official");
             ShowResult(() => _text.Language == "ru"
-                ? "Цвета пока тестируются только со штатной проверкой рассинхрона."
-                : "Player colors are currently tested only with the official out-of-sync handling.");
+                ? "Для цветов вместе с пропуском рассинхрона выберите новую бету. В этом старом выпуске сочетание недоступно."
+                : "Select the latest Beta to combine colors with desync bypass. This older release does not support the combination.");
         }
         if (ColorsToggle.IsChecked == true)
         {
             _settings.IndependentHostility = true;
             IndependentHostilityToggle.IsChecked = true;
         }
-        ContinueOosRadio.IsEnabled = ColorsToggle.IsChecked != true;
+        ContinueOosRadio.IsEnabled = !_busy && CanContinueWithSelectedColors;
         _settingsStore.Save(_settings);
         RefreshConfigurationCode();
         RefreshStatus();
@@ -747,13 +749,15 @@ public partial class MainWindow : Window
 
     private void RefreshModuleAvailability()
     {
+        RefreshAboutFeed();
         var wasInitializing = _initializing;
         _initializing = true;
         try
         {
         _colorsAvailable = _channel?.Packages.Any(x => x.Id.Equals("player-colors", StringComparison.OrdinalIgnoreCase)) == true;
         ColorsToggle.IsChecked = _colorsAvailable && _settings.CustomPlayerColors;
-        if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue")
+        if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue"
+            && !GameExecutableSelector.SupportsColorDesyncContinue(_channel))
         {
             _settings.DesyncMode = "official";
             SelectOosMode("official");
@@ -768,7 +772,7 @@ public partial class MainWindow : Window
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         PowersShardsToggle.IsChecked = _settings.DisablePowersAndShards;
         RefreshPowersShardsOption();
-        ContinueOosRadio.IsEnabled = ColorsToggle.IsChecked != true;
+        ContinueOosRadio.IsEnabled = !_busy && CanContinueWithSelectedColors;
         IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
@@ -835,6 +839,11 @@ public partial class MainWindow : Window
         if (_initializing) return;
         if (sender is RadioButton item && item.Tag is string mode)
         {
+            if (mode == "continue" && !CanContinueWithSelectedColors)
+            {
+                SelectOosMode("official");
+                return;
+            }
             var appearance = CaptureAppearance();
             _settings.DesyncMode = mode;
             _settingsStore.Save(_settings);
@@ -849,6 +858,9 @@ public partial class MainWindow : Window
         OfficialOosRadio.IsChecked = !mode.Equals("continue", StringComparison.OrdinalIgnoreCase);
         ContinueOosRadio.IsChecked = mode.Equals("continue", StringComparison.OrdinalIgnoreCase);
     }
+
+    private bool CanContinueWithSelectedColors => ColorsToggle.IsChecked != true
+        || GameExecutableSelector.SupportsColorDesyncContinue(_channel);
 
     private void SpawnMode_Checked(object sender, RoutedEventArgs e)
     {

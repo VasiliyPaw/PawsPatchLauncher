@@ -5,6 +5,11 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 2 && args[0] == "--export-guide")
+{
+    await File.WriteAllTextAsync(args[1], JsonSerializer.Serialize(PatchGuide.Current(), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true }));
+    return;
+}
 if (args.Length == 1 && args[0] == "--quiet-mode-check")
 {
     Console.WriteLine("QUIET MODE PASS: current-process critical/fault error dialogs disabled; no UI or crash generated.");
@@ -86,6 +91,7 @@ try
     passed += WindowPlacementTests.Run(root);
     passed += PowersShardsTests.Run();
     passed += EffectiveSettingsTests.Run();
+    passed += await PatchGuideTests.RunAsync(root);
     ExpectThrows<InvalidDataException>(() => CryptoAndIO.SafeChildPath(root, "..\\escape.txt"));
     passed++;
 
@@ -140,7 +146,8 @@ try
     AssertEqual("k2_paws_sync_continue_1372.exe", GameExecutableSelector.Select(executableConfiguration, false, true, false));
     AssertEqual("k2_paws_sync_family_herd_relations_1372.exe", GameExecutableSelector.Select(executableConfiguration, false, true, true));
     AssertEqual("k2_paws_lobby_colors_mp_1372_experimental.exe", GameExecutableSelector.Select(executableConfiguration, true, false, true));
-    passed += 5;
+    AssertEqual("k2_paws_lobby_colors_mp_sync_1372.exe", GameExecutableSelector.Select(executableConfiguration, true, true, true));
+    passed += 6;
 
     var commonUiChannel = new ChannelManifest
     {
