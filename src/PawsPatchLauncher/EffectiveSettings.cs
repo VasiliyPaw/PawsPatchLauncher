@@ -8,7 +8,7 @@ public static class EffectiveSettings
     public static UserSettings ForChannel(UserSettings preferences, bool colorsAvailable = true)
     {
         var active = JsonSerializer.Deserialize(JsonSerializer.Serialize(preferences, LauncherJsonContext.Default.UserSettings), LauncherJsonContext.Default.UserSettings)!;
-        active.CustomPlayerColors = preferences.CustomPlayerColors && colorsAvailable && preferences.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase);
+        active.CustomPlayerColors = preferences.CustomPlayerColors && colorsAvailable;
         active.LargeMapSizes = true;
         return active;
     }

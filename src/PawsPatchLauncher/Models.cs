@@ -53,6 +53,7 @@ public sealed class ChannelManifest
     public List<ChangelogEntry> Changelog { get; set; } = [];
     public List<ReleaseReference> PreviousReleases { get; set; } = [];
     public bool ColorDesyncContinue { get; set; }
+    public bool IndependentColorHostility { get; set; }
     public PatchGuideDocument? PatchGuide { get; set; }
 }
 

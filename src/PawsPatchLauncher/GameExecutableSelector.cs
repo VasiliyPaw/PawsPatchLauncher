@@ -7,10 +7,13 @@ public static class GameExecutableSelector
         bool colorsEnabled,
         bool continueAfterDesync,
         bool independentHostility,
-        bool commonUiAvailable = false)
+        bool commonUiAvailable = false,
+        bool independentColorsAvailable = false)
     {
         return (colorsEnabled, continueAfterDesync, independentHostility) switch
         {
+            (true, true, false) when independentColorsAvailable => "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe",
+            (true, false, false) when independentColorsAvailable => "k2_paws_lobby_colors_mp_nohostility_1372.exe",
             (true, true, _) => "k2_paws_lobby_colors_mp_sync_1372.exe",
             (true, _, _) => "k2_paws_lobby_colors_mp_1372_experimental.exe",
             (false, true, true) => "k2_paws_sync_family_herd_relations_1372.exe",
@@ -26,6 +29,10 @@ public static class GameExecutableSelector
         => channel?.Packages.Any(p => p.Id.Equals("common-ui", StringComparison.OrdinalIgnoreCase) && p.Required) == true;
 
     public static bool SupportsColorDesyncContinue(ChannelManifest? channel)
-        => channel is { Channel: "beta", ColorDesyncContinue: true }
+        => channel is { ColorDesyncContinue: true }
             && channel.Packages.Any(p => p.Id == "player-colors");
+
+    public static bool SupportsIndependentColors(ChannelManifest? channel)
+        => channel is { IndependentColorHostility: true }
+            && channel.Packages.Any(p => p.Id.Equals("player-colors", StringComparison.OrdinalIgnoreCase));
 }

@@ -10,7 +10,7 @@ using System.Threading;
 
 internal static class ReleaseStartup
 {
-    internal const string Build = "beta.7-1372-terrain-randommap-colors20-quiet";
+    internal const string Build = "release.0.2.0-1372-terrain-randommap-colors20-independent-quiet";
     private static int verifiedPid;
     private static DateTime verifiedStart;
     internal static IntPtr VerifiedImage;
@@ -47,7 +47,7 @@ internal static class ReleaseStartup
         };
         foreach (string[] f in files)
             if (!File.Exists(Path.Combine(root, f[0])) || Hash(Path.Combine(root, f[0])) != f[1])
-                throw new InvalidDataException("Нужны файлы текущей беты. Отличается " + f[0] + ". Выполните проверку файлов в лаунчере. Игра не запущена.");
+                throw new InvalidDataException("Нужны файлы текущего выпуска патча. Отличается " + f[0] + ". Выполните проверку файлов в лаунчере. Игра не запущена.");
         RandomMapPatch.GuardData(root);
     }
 

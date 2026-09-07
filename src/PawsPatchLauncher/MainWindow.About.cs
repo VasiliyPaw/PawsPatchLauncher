@@ -85,6 +85,11 @@ public partial class MainWindow
             System.Windows.Automation.AutomationProperties.SetName(card, entry.Title(_text.Language));
             AboutEntriesPanel.Children.Add(card);
         }
+        if (_aboutCategory == "beta" && !guide.Entries.Any(x => x.Category == "beta"))
+            AboutEntriesPanel.Children.Add(new TextBlock {
+                Text = T("Все текущие возможности беты уже включены в Релиз. Они описаны во вкладках «Всегда включено» и «Настраиваемое». Новых функций только для беты сейчас нет.",
+                    "All current Beta features are now included in Release. See Always included and Configurable. There are currently no Beta-only features."),
+                Style = (Style)FindResource("CardDescription") });
     }
 
     private async Task SwitchAboutCategoryAsync(string category)

@@ -41,7 +41,7 @@ public static class ReliabilityTests
             var code = ConfigurationCode.Create(settings);
             Check(ConfigurationCode.Create(ConfigurationCode.Parse(" " + code.ToLowerInvariant() + " ")) == code, "Configuration did not round trip.");
         }
-        foreach (var code in new[] { "PAW-BETA", "PAW-STABLE-IW1-SP3-RM1-SG1-LM1-RU1-CL0-OOS0", "PAW-STABLE-IW1-SP4-RM1-SG1-LM1-RU1-CL1-OOS0", "PAW-BETA-IW0-SP4-RM1-SG1-LM1-RU1-CL1-OOS1", "PAW-STABLE-IW1-SP4-RM1-SG1-LM0-RU1-CL0-OOS0" })
+        foreach (var code in new[] { "PAW-BETA", "PAW-STABLE-IW1-SP3-RM1-SG1-LM1-RU1-CL0-OOS0", "PAW-STABLE-IW1-SP4-RM1-SG1-LM1-RU1-CL2-OOS0", "PAW-BETA-IW2-SP4-RM1-SG1-LM1-RU1-CL1-OOS1", "PAW-STABLE-IW1-SP4-RM1-SG1-LM0-RU1-CL0-OOS0" })
         {
             var rejected = false; try { ConfigurationCode.Parse(code); } catch (FormatException) { rejected = true; }
             Check(rejected, "Invalid configuration was accepted: " + code);

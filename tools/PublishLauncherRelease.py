@@ -19,8 +19,8 @@ parser.add_argument("--prerelease", action="store_true")
 args = parser.parse_args()
 repo = "VasiliyPaw/PawsPatchLauncher"
 tag = args.tag or "v" + args.version
-if args.tag and (not args.prerelease or tag.startswith("v")):
-    raise RuntimeError("Package tags must be prereleases outside the launcher v* workflow")
+if args.tag and (tag.startswith("v") or not args.prerelease and tag != "patch-" + args.version):
+    raise RuntimeError("Package releases require patch-<version>, or a prerelease tag outside the launcher v* workflow")
 credential = subprocess.run(
     ["git", "credential", "fill"], input="protocol=https\nhost=github.com\n\n",
     text=True, capture_output=True, check=True,
@@ -54,7 +54,7 @@ except urllib.error.HTTPError as error:
             "name": args.name or "Paw's Patch Launcher " + tag,
             "body": pathlib.Path(args.notes).read_text(encoding="utf-8"),
             "draft": True, "prerelease": args.prerelease,
-            **({"make_latest": "false"} if args.prerelease else {}),
+            **({"make_latest": "false"} if args.prerelease or args.tag else {}),
         })
 if release["target_commitish"] != args.commit:
     raise RuntimeError("Existing release targets a different source revision")
@@ -75,5 +75,6 @@ for path in map(pathlib.Path, args.assets):
             raise RuntimeError("Uploaded asset digest mismatch")
     print("ASSET VERIFIED", path.name, len(data), digest, flush=True)
 if release["draft"]:
-    release = request(api + "/releases/" + str(release["id"]), "PATCH", {"draft": False})
+    release = request(api + "/releases/" + str(release["id"]), "PATCH", {
+        "draft": False, "make_latest": "false" if args.prerelease or args.tag else "true"})
 print("PUBLISHED", release["html_url"], flush=True)

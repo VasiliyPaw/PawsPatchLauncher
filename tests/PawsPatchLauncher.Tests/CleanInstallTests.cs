@@ -42,7 +42,7 @@ public static class CleanInstallTests
             var critical = await MultiplayerCheck.CriticalAsync(game, installer.LoadState(), executable, channel.Game);
             if (critical.Count != 0) throw new Exception("Preflight: " + string.Join("; ", critical));
             Console.WriteLine("CLEAN INSTALL PASS " + name + ": hashes, work depot, selected EXE, preflight; game NOT launched");
-            if (name == "beta-ru" && GameExecutableSelector.HasCommonUi(channel))
+            if (ru && GameExecutableSelector.HasCommonUi(channel))
             {
                 var commonFiles = new[] { "paws_patch_versions.ini", Path.Combine("data", "UI", "Menus", "main.tgi") };
                 var commonHashes = new Dictionary<string, string>();
@@ -54,6 +54,8 @@ public static class CleanInstallTests
                 foreach (var hostility in new[] { false, true })
                 {
                     if (colors && bypass && !GameExecutableSelector.SupportsColorDesyncContinue(channel)) continue;
+                    if (colors && !channel.Packages.Any(p => p.Id == "player-colors")) continue;
+                    if (colors && !hostility && !GameExecutableSelector.SupportsIndependentColors(channel)) continue;
                     settings.CustomPlayerColors = colors;
                     settings.DesyncMode = bypass ? "continue" : "official";
                     settings.IndependentHostility = hostility;
@@ -68,12 +70,30 @@ public static class CleanInstallTests
                     foreach (var file in commonFiles)
                         if (commonHashes[file] != await CryptoAndIO.Sha256Async(Path.Combine(game, file)))
                             throw new Exception("Settings changed mandatory UI data: " + file);
-                    var selectedExe = GameExecutableSelector.Select(config, colors, bypass, hostility, true);
+                    var selectedExe = GameExecutableSelector.Select(config, colors, bypass, hostility, true, GameExecutableSelector.SupportsIndependentColors(channel));
                     if (selectedExe == "k2.exe") throw new Exception("Common UI was bypassed.");
                     var checks = await MultiplayerCheck.CriticalAsync(game, installer.LoadState(), Path.Combine(game, selectedExe), channel.Game);
                     if (checks.Count != 0) throw new Exception("Profile preflight: " + string.Join("; ", checks));
                     if (channel.ColorDesyncContinue)
                     {
+                        if (channel.IndependentColorHostility)
+                        {
+                            var featuresStart = new System.Diagnostics.ProcessStartInfo(Path.Combine(game, selectedExe)) {
+                                UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, WorkingDirectory = game };
+                            featuresStart.ArgumentList.Add("--features");
+                            using var featuresProcess = System.Diagnostics.Process.Start(featuresStart)!;
+                            var featuresOutput = featuresProcess.StandardOutput.ReadToEndAsync();
+                            await featuresProcess.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(30));
+                            using var features = JsonDocument.Parse(await featuresOutput);
+                            var f = features.RootElement;
+                            if (featuresProcess.ExitCode != 0 || f.GetProperty("colors").GetBoolean() != colors
+                                || f.GetProperty("bypass").GetBoolean() != bypass || f.GetProperty("hostility").GetBoolean() != hostility)
+                                throw new Exception("Compiled helper features differ from selected settings: " + selectedExe);
+                            foreach (var organization in new[] { "Monster", "Nationalist", "Council", "Royalist", "Ceyah", "Fallen", "Default" })
+                            foreach (var asset in new[] { organization + "Banner.NIF", organization + "PlayerColor.tga" })
+                                if (!File.Exists(Path.Combine(game, "data", "Organizations", "Banners", organization, asset)))
+                                    throw new Exception("Mandatory badge asset missing: " + asset);
+                        }
                         var start = new System.Diagnostics.ProcessStartInfo(Path.Combine(game, selectedExe)) {
                             UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true,
                             RedirectStandardError = true, WorkingDirectory = game };

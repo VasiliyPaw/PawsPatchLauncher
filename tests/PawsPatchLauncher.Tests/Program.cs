@@ -5,6 +5,11 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 5 && args[0] == "--verify-promotion")
+{
+    await PromotionTransitionTests.RunAsync(args[1], args[2], args[3], args[4]);
+    return;
+}
 if (args.Length == 2 && args[0] == "--export-guide")
 {
     await File.WriteAllTextAsync(args[1], JsonSerializer.Serialize(PatchGuide.Current(), new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true }));
@@ -85,6 +90,7 @@ var passed = 0;
 try
 {
     passed += await EnhancementTests.RunAsync(root);
+    passed += PromotedReleaseTests.Run();
     passed += await ClipboardRetryTests.RunAsync();
     passed += DiagnosticArchiveHistoryTests.Run(root);
     passed += ChannelPresentationTests.Run();

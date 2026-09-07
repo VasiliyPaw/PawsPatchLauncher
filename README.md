@@ -7,11 +7,13 @@ Windows launcher and transactional updater for Kohan II, Arcane Wars and Paw's P
 - `arcane-wars`: required base module.
 - `pawpatch-core`: required Paw's Patch data and the default runtime launcher.
 - `localization-ru`: optional Russian localization.
-- `player-colors`: optional experimental multiplayer color selection, available through the Beta channel.
-- `desync-continue`: optional experimental out-of-sync bypass launcher.
+- `player-colors`: optional 49-color multiplayer selection, available in Release and Beta.
+- `desync-continue`: optional out-of-sync bypass. It skips detected mismatches, including serious ones; it does not repair divergent game state.
+- `common-ui`: mandatory terrain-startup, random-map/time, version/zero-display fixes and all seven company-badge models with soft shading.
 - `roaming-profile-*`: mutually exclusive overlays for standard/×4 timing and original/additional roaming-company sets.
-- `siege-balance-standard`: restores the original Arcane Wars siege-engine costs when Paw's balance is disabled.
-- `large-map-sizes-standard`: removes only the two Paw map sizes while preserving the remaining random-map fixes.
+- `siege-balance-standard`: restores the original Arcane Wars siege costs, damage and attack parameters when Paw's balance is disabled.
+- `powers-shards-original`: restores Arcane Wars Powers and Shards when their default-on removal switch is disabled.
+- Large maps remain always enabled. The legacy `large-map-sizes-standard` archive is not selected by current launchers.
 
 The default core profile keeps independent hostility, ×4 roaming frequency, additional roaming companies, Paw's siege balance, and the two large map sizes enabled. Small higher-priority overlays restore the original behavior when a setting is disabled, so switching an option does not require reinstalling Arcane Wars.
 
@@ -25,7 +27,7 @@ The default core profile keeps independent hostility, ×4 roaming frequency, add
 6. Installation is staged and rolled back if a copy fails.
 7. Launcher updates preserve the previous executable and require a startup acknowledgement. The independent helper automatically restores a failed update.
 
-The Release and Beta channels use separate signed feeds. Release keeps the last accepted patch, while Beta can add early modules without changing Release. Installing or switching a channel downloads every settings variant for that channel into the verified local cache. Changing gameplay switches after that is a local overlay operation performed before launch and is not reported as a new patch update. Returning to Release and applying the update removes files that belonged only to the Beta module. The internal `stable` ID, `stable.json` URL and `PAW-STABLE` configuration codes are retained for compatibility with existing installations.
+The Release and Beta channels use separate signed feeds. As of patch 0.2.0 they share the same gameplay packages; all accepted Beta 7 features have graduated to Release. Every optional switch is independent, including colors with independent hostility OFF and with either desync mode. Native startup uses eight compiled variants; it does not silently enable another option. Old pinned feeds retain their genuine helper-availability restrictions. Installing or switching a channel downloads every settings variant into the verified local cache. Changing switches after that is a local overlay operation performed before launch, not a new patch update. The internal `stable` ID, `stable.json` URL and `PAW-STABLE` configuration codes are retained for compatibility.
 
 The active channel is checked at startup, after a channel switch, and once per minute while the launcher remains open. The main action reads `Install`, `Update <channel>`, or a disabled `Installed` according to the actual state. Launcher self-updates run automatically at startup and remain available through a visible button during the session.
 

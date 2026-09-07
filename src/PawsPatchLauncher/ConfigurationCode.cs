@@ -22,8 +22,7 @@ public static class ConfigurationCode
             DisablePowersAndShards = parts.Length == 10 || Flag(10, "PS"),
             RoamingSpawnMode = parts[3] switch { "SP4" => "x4", "SP1" => "standard", _ => throw new FormatException("Invalid SP field") }
         };
-        if (!result.LargeMapSizes || result.CustomPlayerColors &&
-            (result.Channel != "beta" || !result.IndependentHostility))
+        if (!result.LargeMapSizes)
             throw new FormatException("This combination is not supported by this launcher.");
         return result;
     }

@@ -31,7 +31,7 @@ public static class PatchGuideTests
         var client = new FeedClient(config);
         var first = await client.GetChannelAsync("beta") ?? throw new Exception("No signed feed.");
         var firstId = ChannelFingerprint.Create(first);
-        Check(PatchGuide.Resolve(first).Entries.Count == 16, "Signed guide not deserialized.");
+        Check(PatchGuide.Resolve(first).Entries.Count == PatchGuide.Current().Entries.Count, "Signed guide not deserialized.");
         Check(first.ColorDesyncContinue, "Capability not deserialized.");
         var initialTitle = first.PatchGuide!.Entries[0].TitleRu;
         feed.PatchGuide!.Entries[0] = feed.PatchGuide.Entries[0] with { TitleRu = "Обновлённое описание без нового EXE" };

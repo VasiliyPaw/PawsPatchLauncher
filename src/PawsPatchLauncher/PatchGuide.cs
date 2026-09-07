@@ -92,9 +92,37 @@ public static class PatchGuide
         new("terrain-startup", "beta", "Исправление стартового рассинхрона", "Startup desync fix",
             "Исправлена инициализация параметра генерации рельефа, который мог приводить к разной карте у участников после повторных матчей или аварийного завершения игры. Исправление применяется автоматически при запуске через лаунчер, независимо от выбора цветов и пропуска рассинхрона.\n\nОно исправляет найденную причину, но не отключает проверку синхронизации и не гарантирует отсутствие любых других рассинхронов. Дополнительное служебное окно перед запуском не появляется.",
             "Fixes initialization of a terrain-generation parameter that could produce different maps after repeated matches or an abnormal game exit. Applied automatically when starting through the launcher, regardless of color or desync-bypass settings.\n\nIt addresses the identified cause, does not disable synchronization checks, and cannot guarantee that all other desync causes are absent. No additional helper window appears before launch.")
-    }).ToArray();
+        ,new("badge-lighting", "always", "Цвет и затенение значков рот", "Company badge colors and shading",
+            "Все семь типов значков используют исправленное освещение цветного фона. Цвет меньше искажается дополнительным освещением, при этом мягкое затенение сохраняет объём. Золотая рамка и обозначение типа роты не меняются.\n\nМодели и текстуры входят в обязательную часть патча, в том числе при выключенных расширенных цветах. Они устанавливаются одинаково у всех игроков.",
+            "All seven badge types use corrected lighting for the player-color background. Extra lighting no longer distorts the tint as much, while soft shading preserves depth. The gold frame and company-type symbol are unchanged.\n\nModels and textures are part of the required patch, including when extended colors are disabled. All players receive the same assets.")
+    }).Select(Promote).ToArray();
 
-    public static PatchGuideDocument Current() => new() { Version = "0.1.0-beta.7", Entries = Entries.ToList() };
+    private static PatchGuideEntry Promote(PatchGuideEntry entry)
+    {
+        entry = entry with { Category = entry.Category == "beta" ? (entry.Id == "colors" ? "optional" : "always") : entry.Category };
+        return entry.Id switch
+        {
+            "base" => entry with {
+                BodyRu = "Лаунчер устанавливает Arcane Wars как основу и применяет Paw's Patch. Релиз 0.2.0 включает возможности прежней беты: случайные карты и время суток, исправление стартового рассинхрона, сетевые цвета и общие исправления интерфейса.\n\nВсе переключатели компонентов независимы. Для сетевой игры участникам нужны одинаковые версии и совместимые настройки. История отдельных обновлений доступна справа.",
+                BodyEn = "The launcher installs Arcane Wars as the base mod and applies Paw's Patch. Release 0.2.0 includes the former Beta features: random maps and time of day, the startup desync fix, multiplayer colors and shared interface fixes.\n\nAll component switches are independent. Multiplayer participants need matching versions and compatible settings. Individual updates are listed in the changelog."
+            },
+            "desync" => entry with {
+                BodyRu = DesyncHelpRu + "\n\nВ текущем релизе сочетается с любыми другими настройками, включая расширенные цвета и выключенную вражду независимых. Ограничения сохраняются только для старых закреплённых выпусков без нужных файлов запуска.",
+                BodyEn = DesyncHelpEn + "\n\nThe current release supports every other setting, including extended colors with independent hostility disabled. Compatibility restrictions apply only to older pinned releases without the required launch files."
+            },
+            "colors" => entry with {
+                BodyRu = entry.BodyRu.Replace("Цвета включают вражду независимых. Начиная с беты 7 можно выбрать как официальную обработку рассинхрона, так и пропуск. Всем участникам сетевой игры нужна одинаковая бета и совместимые настройки.", "Настройка доступна в релизе и не включает другие компоненты. Вражду независимых и обработку рассинхрона можно выбирать отдельно. Всем участникам сетевой игры нужны одинаковые версии патча и совместимые настройки."),
+                BodyEn = entry.BodyEn.Replace("Colors enable independent hostility. From Beta 7 onward either official desync handling or bypass may be selected. All multiplayer peers need the same Beta and compatible settings.", "Available in Release without enabling other components. Independent hostility and desync handling are chosen separately. All multiplayer peers need matching patch versions and compatible settings.")
+            },
+            "common-ui" => entry with {
+                BodyRu = entry.BodyRu.Replace("в текущую бету", "в текущий релиз"),
+                BodyEn = entry.BodyEn.Replace("current Beta", "current Release")
+            },
+            _ => entry
+        };
+    }
+
+    public static PatchGuideDocument Current() => new() { Version = "0.2.0", Entries = Entries.ToList() };
 
     public static PatchGuideDocument Resolve(ChannelManifest? channel)
     {

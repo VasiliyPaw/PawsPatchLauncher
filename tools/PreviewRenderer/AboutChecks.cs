@@ -57,7 +57,7 @@ internal static class AboutChecks
         Task Switch(string category) => (Task)Invoke("SwitchAboutCategoryAsync", category)!;
         var entries = Named<StackPanel>("AboutEntriesPanel");
         var scroll = Named<ScrollViewer>("MainOptionsScroll");
-        string FirstId() => (string)((Border)entries.Children[0]).Tag;
+        string FirstId() => entries.Children[0] is Border card ? (string)card.Tag : "empty-beta";
         var checks = 0;
         void Check(bool valid, string message) { if (!valid) throw new InvalidOperationException(message); checks++; }
         async Task Scenario()
@@ -71,7 +71,7 @@ internal static class AboutChecks
             var settingsBefore = JsonSerializer.Serialize(Field<UserSettings>("_settings"));
             var channelBefore = Field<ChannelManifest?>("_channel");
             var operationBefore = Named<TextBlock>("OperationText").Text;
-            Check(PatchGuide.Entries.Count == 16 && PatchGuide.Entries.Select(e => e.Id).Distinct().Count() == 16,
+            Check(PatchGuide.Entries.Count == 17 && PatchGuide.Entries.Select(e => e.Id).Distinct().Count() == 17,
                 "Guide entries are missing or have duplicate IDs.");
             Check(PatchGuide.Entries.All(e => e.Category is "always" or "optional" or "beta"), "Unknown guide category.");
             foreach (var entry in PatchGuide.Entries)
@@ -95,7 +95,7 @@ internal static class AboutChecks
                 && desyncText.Contains(language == "ru" ? "серьёзные" : "serious"), "Desync warning lost scope, severity or divergent-state warning.");
             Named<Button>("AboutNav").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             await Task.Delay(230); window.UpdateLayout();
-            Check(Field<string>("_activePage") == "about" && entries.Children.Count == 4 && FirstId() == "base", "About navigation does not open Always included.");
+            Check(Field<string>("_activePage") == "about" && entries.Children.Count == 9 && FirstId() == "base", "About navigation does not open Always included.");
             foreach (var name in new[] { "SettingsPanel", "GameInfoCard", "ConfigurationCodeCard", "DiagnosticsCard", "ColorsModuleCard", "RemovalCard" })
                 Check(Named<FrameworkElement>(name).Visibility == Visibility.Collapsed, "Unrelated block remains visible in About: " + name);
             Layout(window, (FrameworkElement)window.Content);
@@ -108,7 +108,7 @@ internal static class AboutChecks
                 Check(entries.Opacity is > 0 and < 1, "About has no intermediate fade-out frame.");
             }
             await switching;
-            Check(entries.Children.Count == 7 && FirstId() == "powers-shards", "Configurable entries are wrong.");
+            Check(entries.Children.Count == 8 && FirstId() == "powers-shards", "Configurable entries are wrong.");
             if (moving)
             {
                 // Hidden WPF windows can delay the first animation tick during layout.
@@ -127,7 +127,7 @@ internal static class AboutChecks
             var first = Switch("beta"); await Task.Delay(20);
             var second = Switch("always"); await Task.Delay(20);
             var third = Switch("beta"); await Task.WhenAll(first, second, third); await Task.Delay(230); window.UpdateLayout();
-            Check(FirstId() == "colors" && entries.Children.Count == 5 && entries.Opacity == 1 && scroll.VerticalOffset == 0,
+            Check(FirstId() == "empty-beta" && entries.Children.Count == 1 && entries.Opacity == 1 && scroll.VerticalOffset == 0,
                 $"Rapid category changes show stale contents or scroll: {FirstId()}, count={entries.Children.Count}, opacity={entries.Opacity}, offset={scroll.VerticalOffset}.");
             var betaTab = Named<Button>("AboutBetaTab");
             Check(betaTab.Style == Named<Button>("PatchChangelogButton").Style, "Guide tab differs from the history tab style.");
@@ -150,7 +150,7 @@ internal static class AboutChecks
             Check(entries.Opacity == 1 && Named<StackPanel>("AboutPatchPanel").Visibility == Visibility.Collapsed,
                 "Leaving About keeps a stale transition active.");
             Invoke("SetActivePage", "about"); await Task.Delay(220);
-            Check(FirstId() == "colors", "Returning to About lost the selected category.");
+            Check(FirstId() == "empty-beta", "Returning to About lost the selected category.");
             Check(JsonSerializer.Serialize(Field<UserSettings>("_settings")) == settingsBefore, "Reading About changed patch configuration.");
             Check(ReferenceEquals(Field<ChannelManifest?>("_channel"), channelBefore), "Reading About changed the patch channel.");
             Check(Named<TextBlock>("OperationText").Text == operationBefore, "Reading About changed independent operation status.");

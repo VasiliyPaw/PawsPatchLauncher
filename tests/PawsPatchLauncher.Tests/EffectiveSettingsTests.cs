@@ -13,8 +13,10 @@ public static class EffectiveSettingsTests
         Check(preferences.CustomPlayerColors && !active.CustomPlayerColors, "Release mutated remembered Beta colors or left them active.");
         Check(!ReferenceEquals(active, preferences), "Effective configuration aliases remembered settings.");
         Check(!active.DisablePowersAndShards && active.RussianLocalization == preferences.RussianLocalization, "Unrelated choices were changed.");
-        Check(!ConfigurationCode.Parse(ConfigurationCode.Create(preferences)).CustomPlayerColors, "Release friend code is not importable/effective.");
-        Check(ConfigurationCode.Create(preferences) == ConfigurationCode.Create(active), "Remembered color changed the Release shared identity.");
+        Check(!ConfigurationCode.Parse(ConfigurationCode.Create(active)).CustomPlayerColors, "Legacy release friend code advertised missing colors.");
+        var promoted = new ChannelManifest { Channel = "stable", ColorDesyncContinue = true, IndependentColorHostility = true, Packages = [new() { Id = "player-colors" }] };
+        Check(EffectiveSettings.ForFeed(preferences, promoted).CustomPlayerColors, "Release colors were still masked by channel name.");
+        Check(ConfigurationCode.Parse(ConfigurationCode.Create(EffectiveSettings.ForFeed(preferences, promoted))).CustomPlayerColors, "Release friend code lost available colors.");
         Check(!EffectiveSettings.ForFeed(preferences, beta).CustomPlayerColors, "Mismatched feed enabled Beta colors in Release.");
         preferences.Channel = "beta";
         Check(EffectiveSettings.ForFeed(preferences, beta).CustomPlayerColors, "Returning to Beta lost remembered colors.");

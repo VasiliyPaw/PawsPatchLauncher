@@ -199,9 +199,7 @@ public partial class MainWindow
         _initializing = true;
         try
         {
-            var rememberedBetaColors = _settings.CustomPlayerColors;
             ConfigurationCode.Apply(source, _settings);
-            if (!source.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase)) _settings.CustomPlayerColors = rememberedBetaColors;
             _settings.PinnedRelease = release;
             _settings.PreparedChannel = null; _settings.PreparedFeedFingerprint = null;
             SyncPatchChannelControls();

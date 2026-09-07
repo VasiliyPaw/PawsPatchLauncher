@@ -301,7 +301,7 @@ public partial class MainWindow : Window
         RefreshGameFolderButton();
         LaunchButton.IsEnabled = !_busy && !_checkingFeed && _game is not null;
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
-        IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
+        IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
         StandardSpawnRadio.IsEnabled = !_busy;
         X4SpawnRadio.IsEnabled = !_busy;
         AdditionalRoamingToggle.IsEnabled = !_busy;
@@ -627,7 +627,9 @@ public partial class MainWindow : Window
             "k2_paws_sync_continue_1372",
             "k2_paws_ui_1372",
             "k2_paws_lobby_colors_mp_1372_experimental",
-            "k2_paws_lobby_colors_mp_sync_1372"
+            "k2_paws_lobby_colors_mp_sync_1372",
+            "k2_paws_lobby_colors_mp_nohostility_1372",
+            "k2_paws_lobby_colors_mp_nohostility_sync_1372"
         };
         return processNames.Any(name => Process.GetProcessesByName(name).Length > 0);
     }
@@ -639,7 +641,8 @@ public partial class MainWindow : Window
             GetEffectiveSettings().CustomPlayerColors,
             _settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase),
             _settings.IndependentHostility,
-            GameExecutableSelector.HasCommonUi(_channel));
+            GameExecutableSelector.HasCommonUi(_channel),
+            GameExecutableSelector.SupportsIndependentColors(_channel));
         return Path.Combine(root, name);
     }
 
@@ -709,7 +712,7 @@ public partial class MainWindow : Window
         if (_initializing) return;
         var appearance = CaptureAppearance();
         _settings.RussianLocalization = RussianToggle.IsChecked == true;
-        if (ReferenceEquals(sender, ColorsToggle) && _colorsAvailable && _settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase))
+        if (ReferenceEquals(sender, ColorsToggle) && _colorsAvailable)
             _settings.CustomPlayerColors = ColorsToggle.IsChecked == true;
         if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue"
             && !GameExecutableSelector.SupportsColorDesyncContinue(_channel))
@@ -717,10 +720,10 @@ public partial class MainWindow : Window
             _settings.DesyncMode = "official";
             SelectOosMode("official");
             ShowResult(() => _text.Language == "ru"
-                ? "Для цветов вместе с пропуском рассинхрона выберите новую бету. В этом старом выпуске сочетание недоступно."
-                : "Select the latest Beta to combine colors with desync bypass. This older release does not support the combination.");
+                ? "Для цветов вместе с пропуском рассинхрона выберите последний выпуск. В этом старом выпуске сочетание недоступно."
+                : "Select the latest release to combine colors with desync bypass. This older release does not support the combination.");
         }
-        if (ColorsToggle.IsChecked == true)
+        if (ColorsToggle.IsChecked == true && !GameExecutableSelector.SupportsIndependentColors(_channel))
         {
             _settings.IndependentHostility = true;
             IndependentHostilityToggle.IsChecked = true;
@@ -763,7 +766,7 @@ public partial class MainWindow : Window
             SelectOosMode("official");
             _settingsStore.Save(_settings);
         }
-        if (ColorsToggle.IsChecked == true)
+        if (ColorsToggle.IsChecked == true && !GameExecutableSelector.SupportsIndependentColors(_channel))
         {
             _settings.IndependentHostility = true;
             IndependentHostilityToggle.IsChecked = true;
@@ -776,10 +779,10 @@ public partial class MainWindow : Window
         IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
-        IndependentHostilityToggle.IsEnabled = !_busy && ColorsToggle.IsChecked != true;
+        IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
         ColorsDescriptionText.Text = _colorsAvailable ? _text["modules.colors.desc"] : _text.Language == "ru"
-                ? "Доступно в бета-версии патча"
-                : "Available in the Beta patch";
+                ? "Недоступно в выбранном старом выпуске. Выберите последнюю версию патча."
+                : "Unavailable in this older release. Select the latest patch version.";
         }
         finally { _initializing = wasInitializing; }
     }
@@ -861,6 +864,9 @@ public partial class MainWindow : Window
 
     private bool CanContinueWithSelectedColors => ColorsToggle.IsChecked != true
         || GameExecutableSelector.SupportsColorDesyncContinue(_channel);
+
+    private bool CanChangeHostilityWithSelectedColors => ColorsToggle.IsChecked != true
+        || GameExecutableSelector.SupportsIndependentColors(_channel);
 
     private void SpawnMode_Checked(object sender, RoutedEventArgs e)
     {

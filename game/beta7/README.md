@@ -1,4 +1,4 @@
-# Beta 7 game startup helpers
+# Release 0.2.0 game startup helpers (Beta 7 lineage)
 
 These are the patch-owned C# sources and native resources used for the quiet startup package. The original Kohan II EXE is not included or modified on disk. The supported game is 1.3.72, Steam build 25068126.
 
@@ -8,11 +8,12 @@ Build with Windows .NET Framework 4:
 ./build.ps1 -OutputDirectory C:/PatchBuild/beta7
 ```
 
-The output directory must be new. The script compiles six x86 WinExe variants and runs their offline tests; it does not launch or install the game. Install through the signed Beta feed so the matching map, UI, version and palette files are present.
+The output directory must be new. The script compiles eight x86 WinExe variants and runs their offline tests; it does not launch or install the game. Install through a matching signed 0.2.0 feed so map, UI, version and palette files are present. The historical directory name is retained for source continuity.
 
-- All six variants install the accepted terrain initializer and random-map selector.
+- All eight variants install the accepted terrain initializer and random-map selector.
 - The mandatory common-ui package provides all four non-color startup variants.
-- The optional player-colors package provides official-handling and bypass color variants.
+- The optional player-colors package provides four variants: hostility ON/OFF crossed with official-handling/bypass. `SYNC_ONLY;PAW_COLORS` excludes family-hostility hooks without disabling colors.
+- `--features` reports the compile-time switches without starting the game; package tests check them against the actual selected settings.
 - Bypass remains an explicit setting and is not a substitute for synchronization.
 - Runtime installation is restricted to a freshly launched, path-verified game process. A failed partial startup stops only that verified new process.
 - Normal startup creates no helper window, console or child helper. Actual startup errors still receive an error message.

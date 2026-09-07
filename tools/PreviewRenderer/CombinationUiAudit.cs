@@ -68,14 +68,36 @@ internal static class CombinationUiAudit
                     throw new InvalidOperationException("Changing Release localization erased Beta preference or broke the shared code.");
             }
             Invoke("RestoreSettings", new UserSettings { Channel = "stable", CustomPlayerColors = false }, null);
-            if (!settings.CustomPlayerColors) throw new InvalidOperationException("Release recovery/import erased remembered Beta colors.");
-            Console.WriteLine("COMBINATION UI FIX PASS: Release code is importable, active snapshot excludes colors, localization changes and recovery/import retain Beta preference");
+            if (settings.CustomPlayerColors) throw new InvalidOperationException("Explicit import of colors OFF ignored.");
+            Console.WriteLine("COMBINATION UI FIX PASS: old Release masks unavailable colors; explicit imported preference wins");
             await (Task)Invoke("ChangeChannelAsync", true)!;
-            if (colors.IsChecked != true) throw new InvalidOperationException("Remembered Beta color selection did not return.");
+            if (colors.IsChecked != false) throw new InvalidOperationException("Explicit imported color selection did not persist.");
             colors.IsChecked = false; Invoke("OptionChanged", colors, new RoutedEventArgs());
             if (settings.CustomPlayerColors || ((UserSettings)Invoke("GetEffectiveSettings")!).CustomPlayerColors)
                 throw new InvalidOperationException("Explicit Beta color OFF was not saved.");
             Console.WriteLine("RETURN TO BETA: remembered selection restored; no packages installed or game launched");
+            var hostilityToggle = (CheckBox)window.FindName("IndependentHostilityToggle");
+            foreach (var channel in new[] { release, beta })
+            {
+                channel.IndependentColorHostility = true; channel.ColorDesyncContinue = true;
+                if (!channel.Packages.Any(p => p.Id == "player-colors")) channel.Packages.Add(new() { Id = "player-colors" });
+                settings.Channel = channel.Channel; Set("_channel", channel); Set("_latestChannel", channel);
+                for (var bits = 0; bits < 8; bits++)
+                {
+                    settings.CustomPlayerColors = (bits & 1) != 0;
+                    settings.DesyncMode = (bits & 2) != 0 ? "continue" : "official";
+                    settings.IndependentHostility = (bits & 4) != 0;
+                    Invoke("RefreshModuleAvailability"); Invoke("RefreshReliabilityStatus");
+                    if (!colors.IsEnabled || !hostilityToggle.IsEnabled || !bypass.IsEnabled)
+                        throw new InvalidOperationException("Promoted release disables an independent switch.");
+                    Invoke("OptionChanged", colors, new RoutedEventArgs());
+                    var parsed = ConfigurationCode.Parse(((TextBlock)window.FindName("ConfigurationCodeText")).Text);
+                    if (parsed.CustomPlayerColors != ((bits & 1) != 0) || parsed.IndependentHostility != ((bits & 4) != 0)
+                        || parsed.DesyncMode != ((bits & 2) != 0 ? "continue" : "official"))
+                        throw new InvalidOperationException("Promoted release changed an independent switch.");
+                }
+            }
+            Console.WriteLine("PROMOTED UI PASS: 16 native toggle combinations in Release/Beta, controls enabled, no forced settings");
         }
         try
         {

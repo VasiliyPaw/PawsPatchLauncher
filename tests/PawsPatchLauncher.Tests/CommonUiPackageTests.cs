@@ -32,13 +32,13 @@ public static class CommonUiPackageTests
             var desired = fullSelection.Where(p => prepared.ContainsKey(p.Id)).ToDictionary(p => p.Id, p => prepared[p.Id]);
             await installer.ReconcileAsync(desired, settings: settings, releaseId: ChannelFingerprint.Create(feed));
             if ((await installer.VerifyAsync()).Count != 0) throw new Exception("Installed package hashes differ.");
-            var selected = GameExecutableSelector.Select(config, colors, bypass, hostility, GameExecutableSelector.HasCommonUi(feed));
+            var selected = GameExecutableSelector.Select(config, colors, bypass, hostility, GameExecutableSelector.HasCommonUi(feed), GameExecutableSelector.SupportsIndependentColors(feed));
             if (selected == "k2.exe") throw new Exception("All-off bypassed UI helper.");
             var critical = await MultiplayerCheck.CriticalAsync(game, installer.LoadState(), Path.Combine(game, selected), feed.Game);
             if (critical.Count != 0) throw new Exception(string.Join("; ", critical));
             var expected = MultiplayerCheck.Expected(installer.LoadState());
             var versionFile = await File.ReadAllTextAsync(Path.Combine(game, "paws_patch_versions.ini"));
-            if (!versionFile.Contains(feed.ColorDesyncContinue ? "PawPatch=0.1.0-beta.7" : "PawPatch=1.3.72-data.8-r2+ui.1")) throw new Exception("Stale version metadata.");
+            if (!versionFile.Contains(feed.IndependentColorHostility ? "PawPatch=0.2.0" : feed.ColorDesyncContinue ? "PawPatch=0.1.0-beta.7" : "PawPatch=1.3.72-data.8-r2+ui.1")) throw new Exception("Stale version metadata.");
             foreach (var file in prepared["common-ui"].Files)
                 if (expected[CryptoAndIO.NormalizeRelativePath(file.Path)]?.Sha256 != file.Sha256)
                     throw new Exception("Older helper overrode common UI: " + file.Path);
@@ -47,7 +47,7 @@ public static class CommonUiPackageTests
             profiles.Add(description);
             Console.WriteLine("COMMON UI PACKAGE PASS " + description + ": " + selected);
         }
-        if (helperHashes.Count != (feed.ColorDesyncContinue ? 6 : 5)) throw new Exception("Not all active helpers covered.");
+        if (helperHashes.Count != (feed.IndependentColorHostility ? 8 : feed.ColorDesyncContinue ? 6 : 5)) throw new Exception("Not all active helpers covered.");
         await installer.UninstallAsync();
         if (!File.Exists(Path.Combine(game, "k2.exe")) || File.Exists(Path.Combine(game, "paws_patch_versions.ini")))
             throw new Exception("UI package uninstall failed.");

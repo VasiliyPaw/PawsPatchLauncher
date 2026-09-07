@@ -402,6 +402,7 @@ internal static class K2PawFamilyPostgen1372
     [STAThread]
     private static int Main(string[] args)
     {
+        if (args.Length == 1 && args[0] == "--features") return BuildFeatures.Write();
         if (args.Length == 1 && args[0] == "--quiet-startup-self-test") return ReleaseStartup.SelfTest();
         if (args.Length == 2 && args[0] == "--preflight")
         { string root = Path.GetFullPath(args[1]); VerifyFiles(root, Path.Combine(root, "k2.exe")); ReleaseStartup.GuardData(root); Console.WriteLine("PREFLIGHT_PASS " + ReleaseStartup.Build); return 0; }
