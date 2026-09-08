@@ -2,6 +2,16 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.6.2",
+      "publishedAt": "2026-09-08",
+      "title": { "ru": "Английский при первом запуске и закреплённая админ-панель", "en": "English first launch and pinned administration navigation" },
+      "body": {
+        "ru": "При первом запуске интерфейс открывается на английском независимо от языка Windows; сохранённый выбор языка остаётся прежним. Панель администрирования закреплена: вкладки, обновление, поиск и время проверки всегда сверху, прокручивается только содержимое. Игровые файлы и локализация игры не изменились.",
+        "en": "The first launch uses English regardless of the Windows language; existing language preferences are preserved. Administration navigation, refresh, search and check time stay pinned while only the content scrolls. Game files and in-game localization are unchanged."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.6.1",
       "publishedAt": "2026-09-08",
       "title": { "ru": "Закреплённая панель администрирования", "en": "Pinned administration navigation" },
@@ -308,6 +318,16 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.6.2",
+      "publishedAt": "2026-09-08",
+      "title": { "ru": "Английский при первом запуске и закреплённая админ-панель", "en": "English first launch and pinned administration navigation" },
+      "body": {
+        "ru": "При первом запуске интерфейс открывается на английском независимо от языка Windows; сохранённый выбор языка остаётся прежним. Панель администрирования закреплена: вкладки, обновление, поиск и время проверки всегда сверху, прокручивается только содержимое. Игровые файлы и локализация игры не изменились.",
+        "en": "The first launch uses English regardless of the Windows language; existing language preferences are preserved. Administration navigation, refresh, search and check time stay pinned while only the content scrolls. Game files and in-game localization are unchanged."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.6.1",

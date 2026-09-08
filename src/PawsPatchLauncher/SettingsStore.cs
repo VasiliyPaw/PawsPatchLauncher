@@ -4,7 +4,8 @@ namespace PawsPatchLauncher;
 
 public sealed class SettingsStore
 {
-    private readonly string _directory = ActivityStore.Root;
+    private readonly string _directory;
+    public SettingsStore(string? directory = null) => _directory = directory ?? ActivityStore.Root;
     private string SettingsPath => Path.Combine(_directory, "settings.json");
 
     public UserSettings Load()
@@ -16,7 +17,7 @@ public sealed class SettingsStore
         }
         catch { }
 
-        return new UserSettings { Language = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru" ? "ru" : "en" };
+        return new UserSettings();
     }
 
     public void Save(UserSettings settings)

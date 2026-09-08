@@ -18,7 +18,7 @@ public sealed class UserSettings
     public bool NotificationSoundEnabled { get; set; } = true;
     public int NotificationVolume { get; set; } = 100;
     public string NotificationSoundName { get; set; } = "";
-    public string Language { get; set; } = "ru";
+    public string Language { get; set; } = "en";
     public string? GamePath { get; set; }
     public string Channel { get; set; } = "stable";
     public bool RussianLocalization { get; set; } = true;
