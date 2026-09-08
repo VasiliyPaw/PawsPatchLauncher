@@ -5,6 +5,11 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 3 && args[0] == "--verify-shared-guide")
+{
+    await SharedPatchGuideTests.RunAsync(args[1], args[2]);
+    return;
+}
 if (args.Length == 4 && args[0] == "--verify-roaming-x2")
 {
     await RoamingX2PackageTests.RunAsync(args[1], args[2], args[3]);

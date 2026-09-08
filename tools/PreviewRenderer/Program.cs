@@ -53,6 +53,7 @@ public static class Program
         var powersPreview = args.Contains("--powers-preview");
         var aboutCategory = args.FirstOrDefault(arg => arg.StartsWith("--about-category="))?.Split('=')[1];
         var guideFeed = args.FirstOrDefault(arg => arg.StartsWith("--guide-feed="))?["--guide-feed=".Length..];
+        var guideChannel = args.FirstOrDefault(arg => arg.StartsWith("--guide-channel="))?["--guide-channel=".Length..] ?? "beta";
         var diagnosticsChecks = args.Contains("--diagnostics");
         var archivePreview = args.Contains("--archive-preview");
         var windowChecks = args.Contains("--window-checks");
@@ -111,10 +112,13 @@ public static class Program
         if (guideFeed is not null)
         {
             var config = SettingsStore.LoadConfiguration();
-            config.BetaFeedUrls = [Path.GetFullPath(guideFeed)];
+            if (guideChannel == "stable") config.FeedUrls = [Path.GetFullPath(guideFeed)];
+            else if (guideChannel == "beta") config.BetaFeedUrls = [Path.GetFullPath(guideFeed)];
+            else throw new ArgumentException("Guide preview channel must be stable or beta.");
             config.CacheRoot = Path.Combine(ActivityStore.Root, "signed-guide-preview");
-            var selected = Task.Run(() => new FeedClient(config).GetChannelAsync("beta")).GetAwaiter().GetResult();
+            var selected = Task.Run(() => new FeedClient(config).GetChannelAsync(guideChannel)).GetAwaiter().GetResult();
             typeof(MainWindow).GetField("_channel", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(window, selected);
+            ((UserSettings)typeof(MainWindow).GetField("_settings", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(window)!).Channel = guideChannel;
         }
         if (archivePreview)
         {

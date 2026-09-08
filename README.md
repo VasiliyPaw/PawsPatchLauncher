@@ -31,6 +31,8 @@ The Release and Beta channels use separate signed feeds. Release remains patch 0
 
 The installed-patch label describes the last successfully applied version and channel, not the channel currently selected for update checking. It changes after installation/reconciliation succeeds. See the [Beta validation record](docs/release-030-beta1-validation.md).
 
+The current Release and Beta feeds carry the same About guide, authored in `feed/patch-guide.json`. The existing Always included, Configurable and In Beta sections describe availability; selecting a patch channel must not hide another section's documentation. Run `tools/SyncPatchGuide.py <new-staging-directory> --apply` to sign the shared guide into both current feeds, then validate with `--verify-shared-guide <repository> <staging-directory>` before publishing. Documentation-only changes preserve package hashes, the installed release identity and launcher version. Historical pinned feeds retain their original documentation; `feed/patch-guide-beta.json` is an identical compatibility mirror, not a separately authored catalog.
+
 The active channel is checked at startup, after a channel switch, and once per minute while the launcher remains open. The main action reads `Install`, `Update <channel>`, or a disabled `Installed` according to the actual state. Launcher self-updates run automatically at startup and remain available through a visible button during the session.
 
 From launcher 0.6.0, launcher availability is session-wide and independent of patch
