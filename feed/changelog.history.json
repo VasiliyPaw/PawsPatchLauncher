@@ -4,7 +4,10 @@
       "category": "launcher",
       "version": "0.6.3",
       "publishedAt": "2026-09-08",
-      "title": { "ru": "Плавная полоса загрузки", "en": "Smooth download progress" },
+      "title": {
+        "ru": "Плавная полоса загрузки",
+        "en": "Smooth download progress"
+      },
       "body": {
         "ru": "Полоса плавно заполняется при обновлении лаунчера и скачивании пакетов патча. Переходы между показаниями не меняют реальные данные загрузки; смена файла и отмена корректно сбрасывают анимацию. На этапе установки без известного процента сохраняется непрерывный индикатор. Настройки, язык и игровые файлы не изменились.",
         "en": "Progress fills smoothly during launcher updates and patch package downloads. Transitions preserve real transfer measurements; switching files and cancellation reset the animation correctly. Installation stages without a known percentage retain the indeterminate indicator. Settings, language and game files are unchanged."
@@ -14,7 +17,10 @@
       "category": "launcher",
       "version": "0.6.1",
       "publishedAt": "2026-09-08",
-      "title": { "ru": "Закреплённая панель администрирования", "en": "Pinned administration navigation" },
+      "title": {
+        "ru": "Закреплённая панель администрирования",
+        "en": "Pinned administration navigation"
+      },
       "body": {
         "ru": "Вкладки администрирования, кнопка обновления, поиск и время проверки остаются сверху. Прокручивается только содержимое вкладки, поэтому переключаться можно даже из конца списка. Сохранены плавная прокрутка и переходы. Игровые файлы и настройки не изменились.",
         "en": "Administration tabs, refresh, search and check time stay at the top. Only the selected tab's content scrolls, so navigation remains available at the bottom of long lists. Smooth scrolling and transitions are preserved. Game files and settings are unchanged."
@@ -24,7 +30,10 @@
       "category": "launcher",
       "version": "0.6.0",
       "publishedAt": "2026-09-08",
-      "title": { "ru": "Друзья, профили и обмен в лаунчере", "en": "Friends, profiles and sharing in the launcher" },
+      "title": {
+        "ru": "Друзья, профили и обмен в лаунчере",
+        "en": "Friends, profiles and sharing in the launcher"
+      },
       "body": {
         "ru": "Аккаунты с аватарками, именами и username; восстановление пароля кодом. Чаты, заявки, статусы, предложения конфигураций и передача сейвов, включая рассылку нескольким друзьям. Компактный интерфейс, плавная прокрутка, настраиваемые звуковые уведомления и кнопка возврата вниз чата. Админ-панель со статусами сервисов, ресурсами и модерацией. Добавлены два пакета частоты блуждающих рот ×2; остальные игровые пакеты не изменились. Исправлены очистка временных сейвов и обновлятор. Если старая 0.5.8 в очень глубокой папке откатывает обновление, закройте её и однократно замените EXE файлом выпуска 0.6.0.",
         "en": "Accounts with avatars, display names and usernames; password recovery by code. Chats, friend requests, presence, configuration offers and save transfers, including sharing with several friends. Compact interface, smooth scrolling, customizable notification audio and a jump-to-latest chat button. Administration with service status, resources and moderation. Two ×2 roaming profiles are included; existing gameplay packages are unchanged. Temporary-save cleanup and the updater are fixed. If old 0.5.8 rolls back an update from a very deep folder, close it and replace its EXE once with the official 0.6.0 release file."
@@ -319,10 +328,26 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.3.0-beta.1",
+      "publishedAt": "2026-09-08",
+      "title": {
+        "ru": "Автоулучшение городов и предупреждение о рассинхроне",
+        "en": "Automatic city upgrades and desync notification"
+      },
+      "body": {
+        "ru": "Автоулучшение городов встроено в бету и работает со всеми компонентами. Управление находится в F1: галочка, резерв золота и состояние очереди. Сначала устраняются дефициты ресурсов, затем повышается доход золота, затем выбирается другое доступное улучшение. Города обслуживаются по очереди с учётом стоимости, резерва и ручных приказов. Enter применяет введённый резерв, Esc и щелчок вне поля отменяют ввод; кнопки меняют его на 100. При новой партии и загрузке сохранения автоулучшение включено, резерв равен 2000; в сейв эти параметры пока не записываются. При включённом игнорировании рассинхронов предупреждение появляется в игровом чате со штатным звуком ошибки не чаще раза в 5 минут. Это предупреждение, а не исправление самого рассинхрона. Для мультиплеера обновите бету у всех участников. Релиз 0.2.0 и лаунчер 0.6.3 не изменены. Исправлен запуск с возвращёнными Powers и Shards: ресурс Shards теперь регистрируется вне комментария и соответствует порядку статистики.",
+        "en": "Automatic city upgrades are built into Beta and work with every component combination. F1 contains the toggle, gold reserve and queue status. Resource deficits take priority, followed by gold income and then another legal upgrade. Cities are processed fairly with affordability, the reserve and manual orders respected. Enter applies the typed reserve; Esc or clicking outside cancels editing; buttons adjust it by 100. New matches and loaded saves start with automation enabled and a 2000 reserve; these preferences are not yet stored in saves. With Ignore desyncs enabled, a native chat warning and game error sound play at most once every 5 minutes. This warns about desyncs; it does not fix them. Update Beta on every multiplayer PC. Release 0.2.0 and launcher 0.6.3 are unchanged. Fixed startup with restored Powers and Shards: the Shards resource is now registered outside the comment and matches scoring order."
+      }
+    },
+    {
       "category": "launcher",
       "version": "0.6.3",
       "publishedAt": "2026-09-08",
-      "title": { "ru": "Плавная полоса загрузки", "en": "Smooth download progress" },
+      "title": {
+        "ru": "Плавная полоса загрузки",
+        "en": "Smooth download progress"
+      },
       "body": {
         "ru": "Полоса плавно заполняется при обновлении лаунчера и скачивании пакетов патча. Переходы между показаниями не меняют реальные данные загрузки; смена файла и отмена корректно сбрасывают анимацию. На этапе установки без известного процента сохраняется непрерывный индикатор. Настройки, язык и игровые файлы не изменились.",
         "en": "Progress fills smoothly during launcher updates and patch package downloads. Transitions preserve real transfer measurements; switching files and cancellation reset the animation correctly. Installation stages without a known percentage retain the indeterminate indicator. Settings, language and game files are unchanged."
@@ -332,7 +357,10 @@
       "category": "launcher",
       "version": "0.6.1",
       "publishedAt": "2026-09-08",
-      "title": { "ru": "Закреплённая панель администрирования", "en": "Pinned administration navigation" },
+      "title": {
+        "ru": "Закреплённая панель администрирования",
+        "en": "Pinned administration navigation"
+      },
       "body": {
         "ru": "Вкладки администрирования, кнопка обновления, поиск и время проверки остаются сверху. Прокручивается только содержимое вкладки, поэтому переключаться можно даже из конца списка. Сохранены плавная прокрутка и переходы. Игровые файлы и настройки не изменились.",
         "en": "Administration tabs, refresh, search and check time stay at the top. Only the selected tab's content scrolls, so navigation remains available at the bottom of long lists. Smooth scrolling and transitions are preserved. Game files and settings are unchanged."
@@ -342,7 +370,10 @@
       "category": "launcher",
       "version": "0.6.0",
       "publishedAt": "2026-09-08",
-      "title": { "ru": "Друзья, профили и обмен в лаунчере", "en": "Friends, profiles and sharing in the launcher" },
+      "title": {
+        "ru": "Друзья, профили и обмен в лаунчере",
+        "en": "Friends, profiles and sharing in the launcher"
+      },
       "body": {
         "ru": "Аккаунты с аватарками, именами и username; восстановление пароля кодом. Чаты, заявки, статусы, предложения конфигураций и передача сейвов, включая рассылку нескольким друзьям. Компактный интерфейс, плавная прокрутка, настраиваемые звуковые уведомления и кнопка возврата вниз чата. Админ-панель со статусами сервисов, ресурсами и модерацией. Добавлены два пакета частоты блуждающих рот ×2; остальные игровые пакеты не изменились. Исправлены очистка временных сейвов и обновлятор. Если старая 0.5.8 в очень глубокой папке откатывает обновление, закройте её и однократно замените EXE файлом выпуска 0.6.0.",
         "en": "Accounts with avatars, display names and usernames; password recovery by code. Chats, friend requests, presence, configuration offers and save transfers, including sharing with several friends. Compact interface, smooth scrolling, customizable notification audio and a jump-to-latest chat button. Administration with service status, resources and moderation. Two ×2 roaming profiles are included; existing gameplay packages are unchanged. Temporary-save cleanup and the updater are fixed. If old 0.5.8 rolls back an update from a very deep folder, close it and replace its EXE once with the official 0.6.0 release file."

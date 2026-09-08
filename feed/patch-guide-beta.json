@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "version": "0.3.0-beta.1",
+  "entries": [
+    {
+      "id": "city-assistant",
+      "category": "beta",
+      "titleRu": "Автоулучшение городов и предупреждение о рассинхроне",
+      "titleEn": "Automatic city upgrades and desync notification",
+      "bodyRu": "Автоулучшение городов встроено в бету и работает со всеми компонентами. Управление находится в F1: галочка, резерв золота и состояние очереди. Сначала устраняются дефициты ресурсов, затем повышается доход золота, затем выбирается другое доступное улучшение. Города обслуживаются по очереди с учётом стоимости, резерва и ручных приказов. Enter применяет введённый резерв, Esc и щелчок вне поля отменяют ввод; кнопки меняют его на 100. При новой партии и загрузке сохранения автоулучшение включено, резерв равен 2000; в сейв эти параметры пока не записываются. При включённом игнорировании рассинхронов предупреждение появляется в игровом чате со штатным звуком ошибки не чаще раза в 5 минут. Это предупреждение, а не исправление самого рассинхрона. Для мультиплеера обновите бету у всех участников. Релиз 0.2.0 и лаунчер 0.6.3 не изменены. Исправлен запуск с возвращёнными Powers и Shards: ресурс Shards теперь регистрируется вне комментария и соответствует порядку статистики.",
+      "bodyEn": "Automatic city upgrades are built into Beta and work with every component combination. F1 contains the toggle, gold reserve and queue status. Resource deficits take priority, followed by gold income and then another legal upgrade. Cities are processed fairly with affordability, the reserve and manual orders respected. Enter applies the typed reserve; Esc or clicking outside cancels editing; buttons adjust it by 100. New matches and loaded saves start with automation enabled and a 2000 reserve; these preferences are not yet stored in saves. With Ignore desyncs enabled, a native chat warning and game error sound play at most once every 5 minutes. This warns about desyncs; it does not fix them. Update Beta on every multiplayer PC. Release 0.2.0 and launcher 0.6.3 are unchanged. Fixed startup with restored Powers and Shards: the Shards resource is now registered outside the comment and matches scoring order."
+    },
+    {
+      "id": "base",
+      "category": "always",
+      "titleRu": "Paw's Patch и Arcane Wars",
+      "titleEn": "Paw's Patch and Arcane Wars",
+      "bodyRu": "Лаунчер устанавливает Arcane Wars как основу и применяет Paw's Patch. Релиз 0.2.0 включает возможности прежней беты: случайные карты и время суток, исправление стартового рассинхрона, сетевые цвета и общие исправления интерфейса.\n\nВсе переключатели компонентов независимы. Для сетевой игры участникам нужны одинаковые версии и совместимые настройки. История отдельных обновлений доступна справа.",
+      "bodyEn": "The launcher installs Arcane Wars as the base mod and applies Paw's Patch. Release 0.2.0 includes the former Beta features: random maps and time of day, the startup desync fix, multiplayer colors and shared interface fixes.\n\nAll component switches are independent. Multiplayer participants need matching versions and compatible settings. Individual updates are listed in the changelog."
+    },
+    {
+      "id": "powers-shards",
+      "category": "optional",
+      "titleRu": "Отключение Powers и Shards",
+      "titleEn": "Disable Powers and Shards",
+      "bodyRu": "Включённый переключатель убирает глобальные способности Arcane Wars и ресурс Shards: их меню, применение игроками и компьютером, производство и расход осколков. Это стандартный режим Paw's Patch.\n\nВыключите его, чтобы вернуть обе механики Arcane Wars вместе. Остальные выбранные изменения патча сохраняются. Настройка применяется перед запуском игры; для сетевого матча она должна совпадать у всех участников. После переключения начинайте новый матч: сохранения с другим набором ресурсов могут быть несовместимы.",
+      "bodyEn": "When enabled, this option removes Arcane Wars global powers and the Shards resource: their menu, use by players and AI, shard production and spending. This is the default Paw's Patch mode.\n\nTurn it off to restore both Arcane Wars mechanics together. Other selected patch changes are preserved. The setting is applied before launching the game and must match for every multiplayer participant. Start a new match after switching: saves made with a different resource set may be incompatible."
+    },
+    {
+      "id": "kingdoms",
+      "category": "always",
+      "titleRu": "До 16 королевств и 8 команд",
+      "titleEn": "Up to 16 kingdoms and 8 teams",
+      "bodyRu": "На случайных картах доступны до 16 игровых королевств и до 8 команд. Можно собирать крупные матчи с людьми и компьютером. Независимые семейства используют отдельные служебные королевства и не являются дополнительными местами для игроков.",
+      "bodyEn": "Random maps support up to 16 playable kingdoms and up to 8 teams, allowing larger matches with humans and AI. Independent families use separate internal kingdoms; these are not extra player slots."
+    },
+    {
+      "id": "maps",
+      "category": "always",
+      "titleRu": "Большие случайные карты",
+      "titleEn": "Larger random maps",
+      "bodyRu": "Добавлены два размера: 1024×1024 и 1152×1152. Они доступны постоянно, без отдельного переключателя. Большая карта даёт больше пространства для исследования и развёртывания армий, но дольше создаётся и требует больше ресурсов компьютера.\n\nНа самой большой карте, 1152×1152, игра работает на пределе своих возможностей и особенно склонна к вылетам. Для более надёжной игры выбирайте меньший размер.",
+      "bodyEn": "Two sizes are added: 1024×1024 and 1152×1152. They are always available without a separate switch. Larger maps provide more room for exploration and armies, but take longer to generate and require more system resources.\n\nOn the largest map, 1152×1152, the game runs at the limits of its capabilities and is particularly prone to crashes. Choose a smaller size for more reliable play."
+    },
+    {
+      "id": "dvorak",
+      "category": "always",
+      "titleRu": "Управление в профиле Dvorak",
+      "titleEn": "Dvorak control profile",
+      "bodyRu": "В профиль управления Dvorak добавлено движение камеры на WASD; управление стрелками также сохраняется. Клавиша F ставит союзную метку на карте.\n\nИзменения относятся именно к профилю Dvorak в настройках самой игры. Они не означают, что клавиши принудительно меняются во всех профилях.",
+      "bodyEn": "The Dvorak control profile adds WASD camera movement while retaining the arrow keys. F places an allied map marker.\n\nThese changes apply specifically to the Dvorak profile selected in the game's settings. They do not forcibly change keys in every profile."
+    },
+    {
+      "id": "independent",
+      "category": "optional",
+      "titleRu": "Вражда независимых",
+      "titleEn": "Independent faction hostility",
+      "bodyRu": "Логова, лагеря и независимые города распределяются по командам семейств. Разные семейства могут сражаться друг с другом и с игроками, а выбранные монстры охотятся на животных.\n\nРаспределение выполняется после генерации карты. Захваченные владения сохраняют своего владельца при загрузке сохранения. Для игроков за Нежить и Тень применяется враждебность к животным. Старые механики нейтралитета по совпадению расы и провокации не используются.\n\nПри отключении не применяется распределение независимых объектов по командам семейств. В сетевом матче эта настройка должна совпадать у участников.",
+      "bodyEn": "Lairs, camps and independent towns are assigned to family factions. Different families can fight each other and players, while selected monsters hunt wildlife.\n\nAssignment happens after map generation. Captured holdings retain their owner when loading a save. Players using Undead or Shadow are hostile to wildlife. The old matching-race neutrality and provocation mechanics are not used.\n\nDisabling this option skips family-faction assignment for independent objects. Multiplayer participants must use the same setting."
+    },
+    {
+      "id": "frequency",
+      "category": "optional",
+      "titleRu": "Частота блуждающих рот",
+      "titleEn": "Roaming company frequency",
+      "bodyRu": "Стандартный режим использует обычные интервалы и шансы появления. ×2 сокращает интервал на 25% и увеличивает шанс события на 50%. ×4 вдвое сокращает интервал и удваивает шанс. В среднем роты появляются примерно в два или четыре раза чаще, но конкретное появление остаётся случайным.\n\nВсе три режима совместимы с включёнными и выключенными новыми ротами. Настройку можно применить без запуска игры кнопкой «Применить настройки».",
+      "bodyEn": "Standard uses normal appearance intervals and chances. ×2 shortens the interval by 25% and raises the event chance by 50%. ×4 halves the interval and doubles the chance. On average, companies appear about two or four times as often, but individual appearances remain random.\n\nAll three modes work with additional companies on or off. Use Apply settings to apply your choice without starting the game."
+    },
+    {
+      "id": "roaming",
+      "category": "optional",
+      "titleRu": "Новые блуждающие роты",
+      "titleEn": "Additional roaming companies",
+      "bodyRu": "Добавляет выход рот из лагерей бандитов, варваров, ракшасов и слаан на местах поселений и фундаментов. Дополнительными источниками становятся логова пауков и скорпионов, Тёмный разлом и руины нежити.\n\nДля добавленных рот настроены параметры выхода, боевого духа и восстановления. Опцию можно отключить при любой частоте: стандартной, ×2 или ×4; тогда остаётся исходный набор источников блуждающих рот.",
+      "bodyEn": "Adds roaming companies from bandit, barbarian, Rhaksha and Slaan camps on settlement and foundation sites. Spider and scorpion lairs, the Dark Rift and undead ruins also become sources.\n\nThe added companies have tuned spawning, morale and recovery parameters. The option can be disabled with Standard, ×2 or ×4 frequency, leaving the original roaming-company sources."
+    },
+    {
+      "id": "siege",
+      "category": "optional",
+      "titleRu": "Баланс осадных машин",
+      "titleEn": "Siege engine balance",
+      "bodyRu": "Переключает весь набор изменений осадного баланса Paw's Patch. Багровая и Чумная катапульты, Баллиста Драконьего огня и Ворпальная машина используют по 0,75 очка королевства за одно орудие. У баллисты и Ворпальной машины также меняются урон, минимальная дальность и параметры атак, включая бомбардировку. Баланс в основном рассчитан на игры против компьютера.\n\nПри отключении возвращается исходный баланс всех четырёх машин из Arcane Wars, а не только их стоимость. Перевод и остальные выбранные компоненты сохраняются.",
+      "bodyEn": "Toggles the complete Paw's Patch siege rebalance. Crimson and Plague Catapults, Dragonfire Ballista and Vorpal Engine each use 0.75 kingdom points per engine. Ballista and Vorpal Engine damage, minimum range and attack settings, including bombardment, also change. The balance is mainly intended for matches against AI.\n\nDisabling it restores the original Arcane Wars balance for all four engines, not just their cost. Localization and other selected components are preserved."
+    },
+    {
+      "id": "localization",
+      "category": "optional",
+      "titleRu": "Русская локализация",
+      "titleEn": "Russian localization",
+      "bodyRu": "Устанавливает русский перевод оригинальной игры, Arcane Wars и дополнительных настроек патча. Язык игры выбирается отдельно от языка лаунчера.\n\nПри отключении используются исходные языковые файлы установленной игры и мода. Сама локализация не меняет игровую симуляцию.",
+      "bodyEn": "Installs Russian translations for the base game, Arcane Wars and additional patch settings. The game language is independent of the launcher language.\n\nDisabling it uses the underlying language files of the installed game and mod. Localization itself does not change the game simulation."
+    },
+    {
+      "id": "desync",
+      "category": "optional",
+      "titleRu": "Игнорирование рассинхронов",
+      "titleEn": "Ignore desyncs",
+      "bodyRu": "При включении игра пропускает все обнаруженные рассинхроны, включая серьёзные, которые могут заметно повлиять на матч. Это не устраняет расхождения: у игроков могут отличаться события, положение и действия рот, ресурсы и исход боя. При выключении игра останавливает матч при рассинхроне. Настройка должна совпадать у всех участников.\n\nВ текущем релизе сочетается с любыми другими настройками, включая расширенные цвета и выключенную вражду независимых. Ограничения сохраняются только для старых закреплённых выпусков без нужных файлов запуска.",
+      "bodyEn": "When enabled, skips all detected desyncs, including serious ones that can substantially affect the match. This does not repair divergent states: players may see different events, company positions and actions, resources or battle outcomes. When disabled, the game stops the match on a desync. Every participant must use the same setting.\n\nThe current release supports every other setting, including extended colors with independent hostility disabled. Compatibility restrictions apply only to older pinned releases without the required launch files."
+    },
+    {
+      "id": "colors",
+      "category": "optional",
+      "titleRu": "Расширенные цвета игроков",
+      "titleEn": "Extended player colors",
+      "bodyRu": "В палитре 49 цветов и вариант «Случайно». Оттенки сгруппированы по обычной, светлой и тёмной палитре; названия окрашены в соответствующие цвета. Свободные слоты и «Случайно» отмечены серым. Затенение значков рот смягчено с сохранением объёма.\n\nХост может менять цвета всех участников, клиент только свой. Случайные цвета распределяются перед матчем без повторений. Выбор сохраняется при возврате в лобби и повторном подключении. Если прежний цвет вернувшегося игрока уже занят, ему назначается «Случайно», а цвет другого участника сохраняется.\n\nПри выборе сохранения список игроков показывает цвета королевств из сейва. Изменять их нельзя; при перестановке игроков цвет остаётся у королевства. При переходе к новой игре выбор снова доступен.\n\nНастройка доступна в релизе и не включает другие компоненты. Вражду независимых и обработку рассинхрона можно выбирать отдельно. Всем участникам сетевой игры нужны одинаковые версии патча и совместимые настройки.",
+      "bodyEn": "The palette has 49 colors plus Random, grouped into regular, light and dark shades. Labels match their colors. Empty slots and Random are gray. Company-badge shading is softened while retaining depth.\n\nHosts may change all player colors, clients only their own. Random colors are assigned without duplicates before the match. Choices survive lobby returns and reconnects. If a returning player's former color is occupied, that player becomes Random and the incumbent keeps their color.\n\nSaved-game lobbies show saved kingdom colors read-only. Moving players between slots keeps colors attached to kingdoms. Color selection is available again when switching to a new game.\n\nAvailable in Release without enabling other components. Independent hostility and desync handling are chosen separately. All multiplayer peers need matching patch versions and compatible settings."
+    },
+    {
+      "id": "common-ui",
+      "category": "always",
+      "titleRu": "Версии в меню и правильный ноль",
+      "titleEn": "Menu versions and correct zero display",
+      "bodyRu": "Под версией игры в главном меню показаны Arcane Wars и Paw's Patch с их версиями. В отображении лимитов исправлен отрицательный ноль: вместо -0 выводится 0.\n\nЭти исправления входят в текущий релиз автоматически, даже если расширенные цвета и остальные дополнительные функции выключены. Меняется только отображение, а не сами значения лимитов.",
+      "bodyEn": "The main menu shows Arcane Wars and Paw's Patch versions beneath the game version. Negative zero in limit displays is corrected: -0 is shown as 0.\n\nThese fixes are automatically included in the current Release even when extended colors and other optional features are disabled. Only the display changes, not the underlying limit values."
+    },
+    {
+      "id": "random-map",
+      "category": "always",
+      "titleRu": "Случайный тип карты",
+      "titleEn": "Random map type",
+      "bodyRu": "Пятый вариант «Случайно» выбирает один из четырёх типов карт: обычный, пустынный, зимний или добавленный Arcane Wars. Для него используется отдельный общий набор настроек размера, числа игроков, времени суток, ресурсов и логов.\n\nЭти настройки сохраняются после перезапуска. Особенности местности выбранного типа, например снег и лёд, используют стандартные значения. Собственные настройки четырёх обычных типов карт сохраняются отдельно. В сетевой игре тип карты выбирается согласованно у всех участников.",
+      "bodyEn": "A fifth Random option selects one of the four map types: regular, desert, winter or the Arcane Wars type. It has a separate common set of size, player count, time-of-day, resource and lair settings.\n\nThese settings persist after restarting. Type-specific terrain, such as snow and ice, uses its default values. The four regular map types retain their separate settings. Multiplayer peers select the same map type."
+    },
+    {
+      "id": "random-time",
+      "category": "always",
+      "titleRu": "Случайное время суток",
+      "titleEn": "Random time of day",
+      "bodyRu": "В настройках случайной карты добавлено «Случайно» для времени суток. Игра выбирает один из вариантов освещения Arcane Wars при создании карты. Сам выбор «Случайно» сохраняется вместе с остальными настройками карты, в том числе после перезапуска игры.\n\nРаботает как с конкретным типом карты, так и со случайным. Вариант добавлен через игровые файлы.",
+      "bodyEn": "Random is added to the time-of-day setting for generated maps. The game selects one of the Arcane Wars lighting options during map creation. The Random preference persists with the other map settings, including after restarting the game.\n\nWorks with a specific map type or Random. This option is implemented through game data files."
+    },
+    {
+      "id": "terrain-startup",
+      "category": "always",
+      "titleRu": "Исправление стартового рассинхрона",
+      "titleEn": "Startup desync fix",
+      "bodyRu": "Исправлена инициализация параметра генерации рельефа, который мог приводить к разной карте у участников после повторных матчей или аварийного завершения игры. Исправление применяется автоматически при запуске через лаунчер, независимо от выбора цветов и пропуска рассинхрона.\n\nОно исправляет найденную причину, но не отключает проверку синхронизации и не гарантирует отсутствие любых других рассинхронов. Дополнительное служебное окно перед запуском не появляется.",
+      "bodyEn": "Fixes initialization of a terrain-generation parameter that could produce different maps after repeated matches or an abnormal game exit. Applied automatically when starting through the launcher, regardless of color or desync-bypass settings.\n\nIt addresses the identified cause, does not disable synchronization checks, and cannot guarantee that all other desync causes are absent. No additional helper window appears before launch."
+    },
+    {
+      "id": "badge-lighting",
+      "category": "always",
+      "titleRu": "Цвет и затенение значков рот",
+      "titleEn": "Company badge colors and shading",
+      "bodyRu": "Все семь типов значков используют исправленное освещение цветного фона. Цвет меньше искажается дополнительным освещением, при этом мягкое затенение сохраняет объём. Золотая рамка и обозначение типа роты не меняются.\n\nМодели и текстуры входят в обязательную часть патча, в том числе при выключенных расширенных цветах. Они устанавливаются одинаково у всех игроков.",
+      "bodyEn": "All seven badge types use corrected lighting for the player-color background. Extra lighting no longer distorts the tint as much, while soft shading preserves depth. The gold frame and company-type symbol are unchanged.\n\nModels and textures are part of the required patch, including when extended colors are disabled. All players receive the same assets."
+    }
+  ]
+}
