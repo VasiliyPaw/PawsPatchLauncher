@@ -24,3 +24,9 @@ The random-map payload remains
 `FC8AAE172AE11AE4E0C31CF4E3E27527738444737E1EAA7926086B51B1E6D46D`.
 
 Native self-test flags and mock-memory checks are distinct from multiplayer acceptance. See the release validation record.
+
+## City-assistant Beta build
+
+For patch 0.3.0-beta.1, use `./build.ps1 -CityAssistant -OutputDirectory C:/PatchBuild/city-beta1` with a new output directory. This compile-time option embeds the assistant in all eight variants and emits both native F1 layouts. It is not a launcher setting. Building without it retains the Release helper behavior. The historical native build string identifies the underlying 0.2.0 startup lineage; `--features` reports the additional `cityAssistant` capability and the installed package records its Beta version.
+
+See [assistant sources and controls](../city-assistant/README.md) and [release validation](../../docs/release-030-beta1-validation.md). Do not replace stable packages with these Beta binaries.

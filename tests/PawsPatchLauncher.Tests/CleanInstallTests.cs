@@ -42,7 +42,7 @@ public static class CleanInstallTests
             var critical = await MultiplayerCheck.CriticalAsync(game, installer.LoadState(), executable, channel.Game);
             if (critical.Count != 0) throw new Exception("Preflight: " + string.Join("; ", critical));
             Console.WriteLine("CLEAN INSTALL PASS " + name + ": hashes, work depot, selected EXE, preflight; game NOT launched");
-            if (ru && GameExecutableSelector.HasCommonUi(channel))
+            if (GameExecutableSelector.HasCommonUi(channel))
             {
                 var commonFiles = new[] { "paws_patch_versions.ini", Path.Combine("data", "UI", "Menus", "main.tgi") };
                 var commonHashes = new Dictionary<string, string>();
@@ -89,6 +89,12 @@ public static class CleanInstallTests
                             if (featuresProcess.ExitCode != 0 || f.GetProperty("colors").GetBoolean() != colors
                                 || f.GetProperty("bypass").GetBoolean() != bypass || f.GetProperty("hostility").GetBoolean() != hostility)
                                 throw new Exception("Compiled helper features differ from selected settings: " + selectedExe);
+                            var assistantFiles = new[] { "paw_city_en.tgi", "paw_city_ru.tgi" }
+                                .Count(file => File.Exists(Path.Combine(game, "data", "UI", "Game", file)));
+                            var assistantExpected = channel.Packages.Any(p => p.Id == "common-ui" && p.Version == "1.3.72-ui.4-beta.1");
+                            if (assistantFiles != (assistantExpected ? 2 : 0)
+                                || (f.TryGetProperty("cityAssistant", out var assistant) && assistant.GetBoolean()) != assistantExpected)
+                                throw new Exception("Built-in assistant missing or leaked into stable.");
                             foreach (var organization in new[] { "Monster", "Nationalist", "Council", "Royalist", "Ceyah", "Fallen", "Default" })
                             foreach (var asset in new[] { organization + "Banner.NIF", organization + "PlayerColor.tga" })
                                 if (!File.Exists(Path.Combine(game, "data", "Organizations", "Banners", organization, asset)))

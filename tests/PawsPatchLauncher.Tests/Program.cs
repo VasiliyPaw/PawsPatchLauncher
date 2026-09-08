@@ -33,6 +33,18 @@ if (args.Length == 3 && args[0] == "--audit-combinations")
     return;
 }
 
+if (args.Length == 3 && args[0] == "--audit-city-assistant")
+{
+    await CombinationAudit.RunAsync(args[1], args[2], cityAssistantOnly: true);
+    return;
+}
+
+if (args.Length == 5 && args[0] == "--verify-city-transitions")
+{
+    await CityAssistantTransitionTests.RunAsync(args[1], args[2], args[3], args[4]);
+    return;
+}
+
 if (args.Length is 5 or 6 && args[0] == "--verify-powers-shards")
 {
     try { await PowersShardsTests.VerifyPackagesAsync(args[1], args[2], args[3], args[4], args.Length == 6 ? args[5] : null); }

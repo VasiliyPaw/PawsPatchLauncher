@@ -38,7 +38,9 @@ public static class CommonUiPackageTests
             if (critical.Count != 0) throw new Exception(string.Join("; ", critical));
             var expected = MultiplayerCheck.Expected(installer.LoadState());
             var versionFile = await File.ReadAllTextAsync(Path.Combine(game, "paws_patch_versions.ini"));
-            if (!versionFile.Contains(feed.IndependentColorHostility ? "PawPatch=0.2.0" : feed.ColorDesyncContinue ? "PawPatch=0.1.0-beta.7" : "PawPatch=1.3.72-data.8-r2+ui.1")) throw new Exception("Stale version metadata.");
+            var patchVersion = feed.IndependentColorHostility ? "PawPatch=" + feed.Packages.Single(p => p.Id == "pawpatch-core").Version
+                : feed.ColorDesyncContinue ? "PawPatch=0.1.0-beta.7" : "PawPatch=1.3.72-data.8-r2+ui.1";
+            if (!versionFile.Split('\n').Any(line => line.Trim() == patchVersion)) throw new Exception("Stale version metadata.");
             foreach (var file in prepared["common-ui"].Files)
                 if (expected[CryptoAndIO.NormalizeRelativePath(file.Path)]?.Sha256 != file.Sha256)
                     throw new Exception("Older helper overrode common UI: " + file.Path);

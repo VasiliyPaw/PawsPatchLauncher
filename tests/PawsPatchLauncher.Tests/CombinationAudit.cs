@@ -30,7 +30,7 @@ public static class CombinationAudit
     }
     private static void Require(bool valid, string message) { if (!valid) throw new InvalidDataException(message); }
 
-    public static async Task RunAsync(string repository, string reportRoot)
+    public static async Task RunAsync(string repository, string reportRoot, bool cityAssistantOnly = false)
     {
         var repo = Path.GetFullPath(repository);
         var output = Path.GetFullPath(reportRoot);
@@ -45,11 +45,11 @@ public static class CombinationAudit
         var allCollisions = new List<object>();
         var allLosses = new List<object>();
         var total = 0;
-        foreach (var source in new[] { "published", "candidate", "fixed", "beta7", "release020", "x2" })
+        foreach (var source in cityAssistantOnly ? new[] { "city" } : new[] { "published", "candidate", "fixed", "beta7", "release020", "x2" })
         foreach (var name in new[] { "stable", "beta" })
         {
             if (source == "beta7" && name == "stable") continue;
-            var feedPath = Path.Combine(repo, source == "x2" ? $"release_workspace_059/components-v2/feed/{name}.local.signed.json" : source == "release020" ? $"release_workspace_020/feed/{name}.local.signed.json" : source == "beta7" ? "release_workspace_beta7_v2/feed/beta.local.signed.json"
+            var feedPath = Path.Combine(repo, source == "city" ? $"release_workspace_city_beta1_v2/feed/{name}.local.signed.json" : source == "x2" ? $"release_workspace_059/components-v2/feed/{name}.local.signed.json" : source == "release020" ? $"release_workspace_020/feed/{name}.local.signed.json" : source == "beta7" ? "release_workspace_beta7_v2/feed/beta.local.signed.json"
                 : source == "published" ? $"feed/{name}.json" : $"release_workspace_056/{(source == "fixed" ? "combination-fix" : "powers-shards")}/feed/{name}.signed.json");
             var bytes = await File.ReadAllBytesAsync(feedPath);
             var envelope = JsonSerializer.Deserialize(bytes, LauncherJsonContext.Default.SignedFeedEnvelope)!;
@@ -67,7 +67,7 @@ public static class CombinationAudit
                     var url = package.Urls[0];
                     var filename = Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme is "https" or "http" ? Path.GetFileName(uri.AbsolutePath) : Path.GetFileName(url);
                     var candidates = new[] { Path.Combine(repo, "release_workspace_beta7_v2/packages", filename), Path.Combine(repo, "packages", filename), Path.Combine(repo, "release_workspace_20260905/packages", filename), Path.Combine(repo, "release_workspace_056/powers-shards/packages", filename), Path.Combine(repo, "release_workspace_056/combination-fix/packages", filename) };
-                    var archivePath = new[] { Path.Combine(repo, "release_workspace_059/components-v2/packages", filename), Path.Combine(repo, "release_workspace_020/packages", filename) }.Concat(candidates).FirstOrDefault(File.Exists) ?? throw new FileNotFoundException("No local package: " + filename);
+                    var archivePath = new[] { Path.Combine(repo, "release_workspace_city_beta1_v2/packages", filename), Path.Combine(repo, "release_workspace_city_beta1/packages", filename), Path.Combine(repo, "release_workspace_059/components-v2/packages", filename), Path.Combine(repo, "release_workspace_020/packages", filename) }.Concat(candidates).FirstOrDefault(File.Exists) ?? throw new FileNotFoundException("No local package: " + filename);
                     Require(new FileInfo(archivePath).Length == package.Size && (await CryptoAndIO.Sha256Async(archivePath)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase), "Wrong local archive bytes: " + filename);
                     using var archive = ZipFile.OpenRead(archivePath);
                     var entries = archive.Entries.ToDictionary(e => N(e.FullName), StringComparer.OrdinalIgnoreCase);
@@ -111,7 +111,7 @@ public static class CombinationAudit
             var collisions = new Dictionary<string, Collision>();
             var accepted = 0; var unsupported = 0; var untranslated = 0; var missingOptional = 0;
             // Eight binary options. The real code parser determines supported color combinations.
-            for (var bits = 0; bits < (source == "x2" ? 384 : 256); bits++)
+            for (var bits = 0; bits < (source is "x2" or "city" ? 384 : 256); bits++)
             {
                 var selection = bits < 256 ? bits : ((bits - 256) & 15) | (((bits - 256) & 112) << 1);
                 bool Bit(int bit) => (selection & (1 << bit)) != 0;
@@ -148,6 +148,28 @@ public static class CombinationAudit
                 var exe = GameExecutableSelector.Select(new(), settings.CustomPlayerColors, settings.DesyncMode == "continue", settings.IndependentHostility, GameExecutableSelector.HasCommonUi(feed), GameExecutableSelector.SupportsIndependentColors(feed));
                 Require(exe == "k2.exe" || winners.TryGetValue(N(exe), out var binary) && binary.Hash is not null, "Selected EXE is absent: " + code);
                 if (GameExecutableSelector.HasCommonUi(feed) && !settings.CustomPlayerColors) Require(winners[N(exe)].Id == "common-ui", "Common UI helper was overwritten.");
+                if (source == "city")
+                    foreach (var language in new[] { "en", "ru" })
+                    {
+                        var path = N($"data/UI/Game/paw_city_{language}.tgi");
+                        Require(winners.ContainsKey(path) == (name == "beta"), "Assistant layout leaked into stable or was disabled: " + code);
+                        if (name == "beta") Require(winners[path].Id == "common-ui" && winners[path].Hash is not null
+                            && selected.Any(p => p.Id == "common-ui" && p.Required), "Assistant is not mandatory: " + code);
+                    }
+                if (source == "city" && name == "beta")
+                {
+                    string Active(string path) => Regex.Replace(modules[winners[N(path)].Id].Text[N(path)], @"/\*.*?\*/", "", RegexOptions.Singleline);
+                    var list = Active("data/Game/resource_list.tgi");
+                    var definitions = Active("data/Game/resources.tgi");
+                    var scoring = Active("data/Scoring/scoring.tgi");
+                    var resourceList = Regex.Match(list, @"(?is)\[template\s+ResourceList\]\s*\{([^}]+)\}").Groups[1].Value;
+                    var declared = Regex.Matches(resourceList, @"(?im)^\s*fixed\s+(\w+)").Select(m => m.Groups[1].Value.ToLowerInvariant()).ToArray();
+                    var registered = Regex.Matches(definitions, @"(?is)\[Resource\s+template=\w+\]\s*\{\s*IDS\s*=\s*(\w+)").Select(m => m.Groups[1].Value.ToLowerInvariant()).ToArray();
+                    var produced = Regex.Matches(scoring, @"(?is)\[Statistic\s+template\s*=\s*ResourceProductionStatistic\]\s*\{([^}]+)\}")
+                        .Select(m => Regex.Match(m.Groups[1].Value, @"(?i)resource_ids\s*=\s*(\w+)").Groups[1].Value.ToLowerInvariant()).ToArray();
+                    Require(declared.Length >= 9 && declared.SequenceEqual(registered) && registered.SequenceEqual(produced), "Active resource definitions/scoring order mismatch (comments excluded): " + code);
+                    Require(registered.Contains("shards") != settings.DisablePowersAndShards, "Shards resource differs from option: " + code);
+                }
                 var startup = modules[winners["startup\\autoexec.txt"].Id].Text["startup\\autoexec.txt"];
                 Require(startup.Contains("adddepot %USERDATA%/data/ 1", StringComparison.OrdinalIgnoreCase), "Writable work depot missing.");
                 Require(Regex.IsMatch(startup, @"(?m)^[ \t]*addlocaledepot[ \t]+localized/RU/Local_ru\.rwd") == settings.RussianLocalization, "Startup localization differs from setting.");
@@ -156,8 +178,8 @@ public static class CombinationAudit
                 rows.Add(new { source, channel = name, code, modules = selected.Select(p => p.Id).ToArray(), executable = exe, translationKeyLossFiles = damaged.Select(d => d.Path).ToArray() });
                 accepted++; total++;
             }
-            if (source is "fixed" or "beta7" or "release020" or "x2") Require(untranslated == 0, "Fixed candidate still loses translation keys.");
-            if (source == "x2") Require(accepted == 384 && missingOptional == 0 && unsupported == 0, "x2 toggle dependency remains.");
+            if (source is "fixed" or "beta7" or "release020" or "x2" or "city") Require(untranslated == 0, "Fixed candidate still loses translation keys.");
+            if (source is "x2" or "city") Require(accepted == 384 && missingOptional == 0 && unsupported == 0, "x2 toggle dependency remains.");
             if (source == "release020") Require(accepted == 256 && missingOptional == 0 && unsupported == 0, "Release toggle dependency remains.");
             allCollisions.Add(new { source, channel = name, collisions = collisions.Values });
             sets.Add(new { source, channel = name, accepted, unsupported, unavailableRestoration = missingOptional, configurationsWithTranslationKeyLoss = untranslated, uniqueCoSelectedCollisions = collisions.Count, roamingCompositionFiles = joint.Count });

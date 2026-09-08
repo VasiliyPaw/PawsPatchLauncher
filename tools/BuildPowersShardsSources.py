@@ -33,11 +33,16 @@ def restore(relative, original, current):
         # Reviewed diffs: only the powers toggle and shard column/editor widget were changed.
         return original
     if relative == 'Game/resources.tgi':
-        block = re.search(rb'\[Resource template=PurchaseResource\][^\[]*?IDS\s*=\s*shards[^\[]*?\}', original, re.I).group()
+        active_original = re.sub(rb'/\*.*?\*/', b'', original, flags=re.S)
+        block = re.search(rb'\[Resource template=PurchaseResource\][^\[]*?IDS\s*=\s*shards[^\[]*?\}', active_original, re.I).group()
         block = block.replace(b'"Khaldunite Shards"', b'"#awloc_khaldunite_shards_f2e5aef5"').replace(b'"Khaldunite Shards Production"', b'"#awloc_khaldunite_shards_production_d839b2fd"')
         anchor = b'[Resource template=UpkeepResource]'
-        assert current.count(anchor) >= 1
-        return current.replace(anchor, block + b'\r\n\r\n' + anchor, 1)
+        # The header contains an example UpkeepResource. Never insert the real
+        # shard registration inside that comment: the engine ignores it there.
+        boundary = current.index(b'*/') + 2
+        header, active = current[:boundary], current[boundary:]
+        assert active.count(anchor) >= 1
+        return header + active.replace(anchor, block + b'\r\n\r\n' + anchor, 1)
     if relative == 'Scoring/scoring.tgi':
         # Only shard statistics were removed; preserve the existing localized kingdom-point labels.
         result = original

@@ -9,6 +9,11 @@ internal static class BuildFeatures
 #else
         const bool colors = false;
 #endif
+#if CITY_ASSISTANT
+        const bool cityAssistant = true;
+#else
+        const bool cityAssistant = false;
+#endif
 #if SYNC_CONTINUE
         const bool bypass = true;
 #else
@@ -22,7 +27,7 @@ internal static class BuildFeatures
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
-            ",\"commonFixes\":true,\"quiet\":true}");
+            ",\"commonFixes\":true,\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() + "}");
         return 0;
     }
 }
