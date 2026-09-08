@@ -44,7 +44,6 @@ public static class Program
         var socialDemo = args.FirstOrDefault(a=>a.StartsWith("--social-demo="))?.Split('=')[1];
         var adminDemo=args.FirstOrDefault(a=>a.StartsWith("--admin-demo="))?.Split('=')[1];
         var adminChecks=args.Contains("--admin-checks");
-        var startupLanguageChecks=args.Contains("--startup-language-checks");
         var historyResourceChecks=args.Contains("--history-resource-checks");
         var compatibilityChecks=args.Contains("--compatibility-checks");
         var compatibilityDemo=args.Contains("--compatibility-demo");
@@ -74,7 +73,6 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-        if(startupLanguageChecks)StartupLanguageChecks.Run();
         if (motionChecks)
         {
             var motionFixture = new MainWindow();

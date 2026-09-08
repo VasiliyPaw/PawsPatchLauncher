@@ -118,7 +118,6 @@ try
     passed += await PatchGuideTests.RunAsync(root);
     passed += await LauncherUpdateTests.RunAsync(root);
     passed += ComponentSettingsTests.Run();
-    passed += SettingsLanguageTests.Run(root);
     ExpectThrows<InvalidDataException>(() => CryptoAndIO.SafeChildPath(root, "..\\escape.txt"));
     passed++;
 

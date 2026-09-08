@@ -27,21 +27,26 @@ foreach ($directory in @($build, $standalone)) {
     New-Item -ItemType Directory -Path $runLogs | Out-Null
     # Redirection uses direct process creation, so the parent's error mode is inherited.
     $process = Start-Process -FilePath (Join-Path $directory 'PawsPatchLauncher.exe') -WorkingDirectory $directory -ArgumentList '--smoke-test' -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $runLogs 'stdout.log') -RedirectStandardError (Join-Path $runLogs 'stderr.log')
+    $startedAt = $process.StartTime.ToUniversalTime()
     $marker = Join-Path ([IO.Path]::GetTempPath()) "PawsPatchLauncherSmoke\$($process.Id)\window-ready.txt"
+    # Windows can reuse a PID from an older fixture. Keep its artifacts, but
+    # never accept its ready marker or attribute its old error log to this run.
+    $isReady = { (Test-Path -LiteralPath $marker) -and (Get-Item -LiteralPath $marker).LastWriteTimeUtc -ge $startedAt }
     try {
         $deadline = [DateTime]::UtcNow.AddSeconds(30)
-        while (!(Test-Path -LiteralPath $marker) -and !$process.HasExited -and [DateTime]::UtcNow -lt $deadline) {
+        while (!(& $isReady) -and !$process.HasExited -and [DateTime]::UtcNow -lt $deadline) {
             Start-Sleep -Milliseconds 200
             $process.Refresh()
         }
-        if (!(Test-Path -LiteralPath $marker)) {
+        if (!(& $isReady)) {
             $failureCode = if ($process.HasExited) { $process.ExitCode } else { 'still running' }
             throw "Launcher did not acknowledge its window: $directory; exit=$failureCode; logs=$(Split-Path $marker); console=$runLogs"
         }
         Start-Sleep -Seconds 2
         $process.Refresh()
         if ($process.HasExited) { throw "Launcher exited after window acknowledgement: $($process.ExitCode)" }
-        if (Test-Path -LiteralPath (Join-Path (Split-Path $marker) 'launcher-errors.log')) { throw "Launcher logged an exception: $marker" }
+        $errorLog = Join-Path (Split-Path $marker) 'launcher-errors.log'
+        if ((Test-Path -LiteralPath $errorLog) -and (Get-Item -LiteralPath $errorLog).LastWriteTimeUtc -ge $startedAt) { throw "Launcher logged an exception: $marker" }
         Write-Output "SMOKE PASS pid=$($process.Id) window=$($process.MainWindowHandle) directory=$directory"
     } finally {
         if (!$process.HasExited) {
