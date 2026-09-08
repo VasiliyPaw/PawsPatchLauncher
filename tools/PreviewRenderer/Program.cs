@@ -44,6 +44,7 @@ public static class Program
         var socialDemo = args.FirstOrDefault(a=>a.StartsWith("--social-demo="))?.Split('=')[1];
         var adminDemo=args.FirstOrDefault(a=>a.StartsWith("--admin-demo="))?.Split('=')[1];
         var adminChecks=args.Contains("--admin-checks");
+        var progressMotionChecks=args.Contains("--progress-motion-checks");
         var historyResourceChecks=args.Contains("--history-resource-checks");
         var compatibilityChecks=args.Contains("--compatibility-checks");
         var compatibilityDemo=args.Contains("--compatibility-demo");
@@ -82,6 +83,7 @@ public static class Program
         if (feedbackChecks) FeedbackChecks.Run(language);
         if (friendsPolishChecks) FriendsPolishChecks.Run(language);
         if(adminChecks)AdminChecks.Run(language);
+        if(progressMotionChecks)ProgressMotionChecks.Run(language);
         if(historyResourceChecks)HistoryResourceChecks.Run(language);
         if(compatibilityChecks)CompatibilityChecks.Run(language);
         if (updateRefreshChecks) UpdateRefreshChecks.Run(language);
@@ -683,7 +685,7 @@ public static class Program
             // Also handle a cached download with no progress reports.
             Begin("cached"); Invoke(window, "FinishTransfer"); operation.Text = "READY"; queue.Drain(); CheckHidden();
             operation.Text = "";
-            ((ProgressBar)window.FindName("OperationProgress")).Value = 0;
+            Invoke(window,"SetOperationProgress",0d,false);
             Console.WriteLine("UI TRANSFER PASS: live, completed, cancelled, replaced, cached; queued callbacks ignored");
         }
         finally { SynchronizationContext.SetSynchronizationContext(previous); }

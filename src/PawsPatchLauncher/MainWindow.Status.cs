@@ -20,6 +20,7 @@ public partial class MainWindow
 
     private void InitializeFeedback()
     {
+        InitializeProgressMotion();
         _feedbackTimer.Tick += (_, _) => RefreshOperationStatus();
         Closed += (_, _) => _feedbackTimer.Stop();
     }
@@ -76,10 +77,10 @@ public partial class MainWindow
         OperationProgress.Visibility = progressVisible ? Visibility.Visible : Visibility.Collapsed;
         if (!progressVisible)
         {
-            OperationProgress.IsIndeterminate = false;
-            OperationProgress.Value = 0;
+            SetOperationIndeterminate(false);
+            SetOperationProgress(0,animate:false);
         }
-        else if (!_busy) OperationProgress.IsIndeterminate = true;
+        else if (!_busy) SetOperationIndeterminate(true);
         if (_feedback.HasExpiry) _feedbackTimer.Start();
         else _feedbackTimer.Stop();
         RefreshErrorActions();

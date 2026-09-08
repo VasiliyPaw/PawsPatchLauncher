@@ -592,7 +592,7 @@ public partial class MainWindow : Window
                 : await DownloadPackageAsync(package);
             modules[package.Id] = await installer.PrepareAsync(package, archive);
         }
-        OperationProgress.IsIndeterminate = true;
+        SetOperationIndeterminate(true);
         ShowWorking(() => _text["progress.installing"]);
         if (beforeCommit is not null) await beforeCommit();
         EnsureGameClosed();
@@ -605,8 +605,8 @@ public partial class MainWindow : Window
             selection.PreparedFeedFingerprint = ChannelFingerprint.Create(channel);
             if (ReferenceEquals(selection, _settings)) _settingsStore.Save(_settings);
         }
-        OperationProgress.IsIndeterminate = false;
-        OperationProgress.Value = 100;
+        SetOperationIndeterminate(false);
+        SetOperationProgress(100);
     }
 
     private async Task<string> DownloadPackageAsync(PackageRelease package)
@@ -1071,9 +1071,9 @@ public partial class MainWindow : Window
             // Capture a localization key when possible, so switching RU/EN cannot leave old text.
             var key = Localization.KeyFor(message);
             ShowWorking(() => key is not null ? _text[key] : message ?? T("Выполняю операцию…", "Operation in progress…"));
-            OperationProgress.Value = 0;
+            SetOperationProgress(0,animate:false);
         }
-        OperationProgress.IsIndeterminate = busy;
+        SetOperationIndeterminate(busy);
         RefreshStatus();
     }
 

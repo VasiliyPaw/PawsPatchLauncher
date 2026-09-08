@@ -2,6 +2,16 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.6.3",
+      "publishedAt": "2026-09-08",
+      "title": { "ru": "Плавная полоса загрузки", "en": "Smooth download progress" },
+      "body": {
+        "ru": "Полоса плавно заполняется при обновлении лаунчера и скачивании пакетов патча. Переходы между показаниями не меняют реальные данные загрузки; смена файла и отмена корректно сбрасывают анимацию. На этапе установки без известного процента сохраняется непрерывный индикатор. Настройки, язык и игровые файлы не изменились.",
+        "en": "Progress fills smoothly during launcher updates and patch package downloads. Transitions preserve real transfer measurements; switching files and cancellation reset the animation correctly. Installation stages without a known percentage retain the indeterminate indicator. Settings, language and game files are unchanged."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.6.1",
       "publishedAt": "2026-09-08",
       "title": { "ru": "Закреплённая панель администрирования", "en": "Pinned administration navigation" },
@@ -308,6 +318,16 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.6.3",
+      "publishedAt": "2026-09-08",
+      "title": { "ru": "Плавная полоса загрузки", "en": "Smooth download progress" },
+      "body": {
+        "ru": "Полоса плавно заполняется при обновлении лаунчера и скачивании пакетов патча. Переходы между показаниями не меняют реальные данные загрузки; смена файла и отмена корректно сбрасывают анимацию. На этапе установки без известного процента сохраняется непрерывный индикатор. Настройки, язык и игровые файлы не изменились.",
+        "en": "Progress fills smoothly during launcher updates and patch package downloads. Transitions preserve real transfer measurements; switching files and cancellation reset the animation correctly. Installation stages without a known percentage retain the indeterminate indicator. Settings, language and game files are unchanged."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.6.1",

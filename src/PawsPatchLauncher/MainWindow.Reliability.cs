@@ -403,6 +403,7 @@ public partial class MainWindow
     {
         // Progress<T> posts to the UI queue: ignore callbacks still queued after completion.
         _activeTransfer = null;
+        StopProgressAnimation();
         TransferText.Text = "";
         TransferText.Visibility = Visibility.Collapsed;
     }
@@ -413,8 +414,8 @@ public partial class MainWindow
         TransferText.Text = "";
         TransferText.Visibility = Visibility.Collapsed;
         ShowWorking(() => _text["progress.downloading"] + ": " + name);
-        OperationProgress.Value = 0;
-        OperationProgress.IsIndeterminate = true;
+        SetOperationProgress(0,animate:false);
+        SetOperationIndeterminate(true);
         var watch = Stopwatch.StartNew();
         long? first = null;
         long lastUpdate = -1000;
@@ -428,8 +429,8 @@ public partial class MainWindow
             var remaining = value.Total is > 0 && speed > 1024 ? TimeSpan.FromSeconds(Math.Clamp((value.Total.Value - value.Received) / speed, 0, 86400)).ToString(@"hh\:mm\:ss") : "-";
             TransferText.Text = FormatBytes(value.Received) + " / " + (value.Total is null ? "?" : FormatBytes(value.Total.Value)) + "\n" + FormatBytes((long)speed) + T("/с · осталось ", "/s · remaining ") + remaining;
             TransferText.Visibility = Visibility.Visible;
-            OperationProgress.IsIndeterminate = value.Total is null;
-            OperationProgress.Value = value.Total is > 0 ? Math.Clamp(value.Received * 100d / value.Total.Value, 0, 100) : 0;
+            SetOperationIndeterminate(value.Total is null);
+            SetOperationProgress(value.Total is > 0 ? Math.Clamp(value.Received * 100d / value.Total.Value, 0, 100) : 0);
         });
     }
     private void CancelDownload_Click(object sender, RoutedEventArgs e) => _downloadCancellation?.Cancel();
