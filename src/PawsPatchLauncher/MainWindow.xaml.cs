@@ -1114,6 +1114,7 @@ public partial class MainWindow : Window
     {
         if(page=="admin"&&_account.AdminLevel<1)page="home";
         AdminPanel.Visibility=page=="admin"?Visibility.Visible:Visibility.Collapsed;
+        MainOptionsScroll.Visibility=page=="admin"?Visibility.Collapsed:Visibility.Visible;
         SetNavState(AdminNav,page=="admin");
         if (page == "multiplayer") page = "friends";
         CloseSocialMenu();
@@ -1168,10 +1169,11 @@ public partial class MainWindow : Window
         AccountHeaderButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#314969" : "#00000000"));
         AccountHeaderButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#B68D37" : "#00000000"));
         MainOptionsScroll.ScrollToTop();
+        if (page == "admin" && changed) AdminContentScroll.ScrollToTop();
         RenderSocialNotifications();
         if (changed && !_initializing)
         {
-            Motion.Reveal(MainOptionsScroll);
+            Motion.Reveal(page == "admin" ? (FrameworkElement)AdminPanel : MainOptionsScroll);
             // Both Friends columns enter together after their first layout.
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() =>
             {

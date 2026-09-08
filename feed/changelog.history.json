@@ -2,6 +2,16 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.6.1",
+      "publishedAt": "2026-09-08",
+      "title": { "ru": "Закреплённая панель администрирования", "en": "Pinned administration navigation" },
+      "body": {
+        "ru": "Вкладки администрирования, кнопка обновления, поиск и время проверки остаются сверху. Прокручивается только содержимое вкладки, поэтому переключаться можно даже из конца списка. Сохранены плавная прокрутка и переходы. Игровые файлы и настройки не изменились.",
+        "en": "Administration tabs, refresh, search and check time stay at the top. Only the selected tab's content scrolls, so navigation remains available at the bottom of long lists. Smooth scrolling and transitions are preserved. Game files and settings are unchanged."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.6.0",
       "publishedAt": "2026-09-08",
       "title": { "ru": "Друзья, профили и обмен в лаунчере", "en": "Friends, profiles and sharing in the launcher" },
@@ -298,6 +308,16 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.6.1",
+      "publishedAt": "2026-09-08",
+      "title": { "ru": "Закреплённая панель администрирования", "en": "Pinned administration navigation" },
+      "body": {
+        "ru": "Вкладки администрирования, кнопка обновления, поиск и время проверки остаются сверху. Прокручивается только содержимое вкладки, поэтому переключаться можно даже из конца списка. Сохранены плавная прокрутка и переходы. Игровые файлы и настройки не изменились.",
+        "en": "Administration tabs, refresh, search and check time stay at the top. Only the selected tab's content scrolls, so navigation remains available at the bottom of long lists. Smooth scrolling and transitions are preserved. Game files and settings are unchanged."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.6.0",

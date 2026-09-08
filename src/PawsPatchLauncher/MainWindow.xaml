@@ -368,10 +368,21 @@
                             <ColumnDefinition x:Name="NewsColumn" Width="1*"/>
                         </Grid.ColumnDefinitions>
 
+                        <Grid x:Name="AdminPanel" Grid.ColumnSpan="3" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel x:Name="AdminHeaderPanel" Margin="0,0,12,0"/>
+                            <ScrollViewer x:Name="AdminContentScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled" ClipToBounds="True">
+                                <StackPanel x:Name="AdminContentPanel" Margin="0,0,12,0"/>
+                            </ScrollViewer>
+                        </Grid>
+
                         <ScrollViewer x:Name="MainOptionsScroll" Grid.Column="0" VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled" ClipToBounds="True">
                             <StackPanel Margin="0,0,12,0">
-                                <StackPanel x:Name="AdminPanel" Visibility="Collapsed"/>
                                 <StackPanel x:Name="FriendsPanel" Visibility="Collapsed">
                                     <ContentControl x:Name="FriendsModerationNotice"/>
                                     <Border Style="{StaticResource Card}" Margin="0,0,0,14">

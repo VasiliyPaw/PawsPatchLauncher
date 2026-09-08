@@ -46,7 +46,7 @@ internal static class HistoryResourceChecks
         {
             Field<PawsPatchLauncher.Localization>(w,"_text").SetLanguage(language);Call(w,"ApplyLanguage");
             PopulateResources(w);w.UpdateLayout();
-            var tabs=Desc<Button>(C<StackPanel>("AdminPanel")).Where(b=>b.Tag is string).Select(b=>b.Tag).ToArray();
+            var tabs=Desc<Button>(C<Grid>("AdminPanel")).Where(b=>b.Tag is string).Select(b=>b.Tag).ToArray();
             Check(tabs.SequenceEqual(new[]{"status","resources","users","bans","deleted"}),"resource tab not second");
             Check(Field<TextBox>(w,"_adminSearch").Visibility==Visibility.Collapsed,"resources has irrelevant search");
             Check(Field<StackPanel>(w,"_adminRows").Children.Count==7,"resource card count");

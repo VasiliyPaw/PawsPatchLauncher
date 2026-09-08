@@ -194,9 +194,7 @@ public static class Program
         }
         if (args.Length == 3 && double.TryParse(args[2], out var offset))
         {
-            var scroll = (System.Windows.Controls.ScrollViewer)typeof(MainWindow)
-                .GetField("MainOptionsScroll", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!
-                .GetValue(window)!;
+            var scroll = (ScrollViewer)window.FindName(((Grid)window.FindName("AdminPanel")).Visibility == Visibility.Visible ? "AdminContentScroll" : "MainOptionsScroll");
             scroll.ScrollToVerticalOffset(offset);
             content.UpdateLayout();
             window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
@@ -389,7 +387,7 @@ public static class Program
 
     private static void CheckOptionsLayout(MainWindow window, FrameworkElement content, string page)
     {
-        var scroll = (ScrollViewer)window.FindName("MainOptionsScroll");
+        var scroll = (ScrollViewer)window.FindName(((Grid)window.FindName("AdminPanel")).Visibility == Visibility.Visible ? "AdminContentScroll" : "MainOptionsScroll");
         var stack = (StackPanel)scroll.Content;
         var bar = (FrameworkElement)scroll.Template.FindName("PART_VerticalScrollBar", scroll);
         var rightEdge = bar.Visibility == Visibility.Visible
@@ -467,7 +465,7 @@ public static class Program
             window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
             content.UpdateLayout();
         }
-        foreach (var name in new[] { "MainOptionsScroll", "NewsScrollViewer", "FriendsChatScroll" })
+        foreach (var name in new[] { "MainOptionsScroll", "AdminContentScroll", "NewsScrollViewer", "FriendsChatScroll" })
         {
             var scroll = (ScrollViewer)window.FindName(name);
             if (scroll.ActualWidth <= 0 || scroll.ActualHeight <= 0) continue;

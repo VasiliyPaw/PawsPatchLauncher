@@ -53,6 +53,43 @@ internal static class AdminChecks
             if(mode=="profile")Call(w,"ShowSocialDetails",players[0]);
         }
     }
+    private static async Task CheckPinnedHeaderAsync(MainWindow w,Action<bool,string> check)
+    {
+        T C<T>(string name)=>(T)w.FindName(name);
+        foreach(var size in new[]{new Size(1050,680),new Size(1440,900)})
+        foreach(var section in new[]{"status","resources","users","bans","deleted"})
+        {
+            w.Width=size.Width;w.Height=size.Height;
+            if(section is "status" or "resources")MonitorChecks.Populate(w,section);
+            else Populate(w,section);
+            // Long mock content, including sections whose live data can currently be empty.
+            var rows=Field<StackPanel>(w,"_adminRows");
+            for(var i=0;i<12;i++)rows.Children.Add(new Border{Height=90,Margin=new Thickness(0,0,0,10),Child=new TextBlock{Text="Scroll fixture "+i}});
+            await Task.Delay(260);w.UpdateLayout();
+            var panel=C<Grid>("AdminPanel");var header=C<StackPanel>("AdminHeaderPanel");var scroll=C<ScrollViewer>("AdminContentScroll");
+            check(!C<ScrollViewer>("MainOptionsScroll").IsVisible&&panel.IsVisible,"admin shares outer page scroll");
+            check(SmoothScroll.GetEnabled(scroll)&&scroll.ViewportHeight>100&&scroll.ScrollableHeight>500,"admin content is not independently scrollable");
+            var headerTop=header.TranslatePoint(new Point(),panel).Y;
+            var headerBottom=header.TranslatePoint(new Point(0,header.ActualHeight),panel).Y;
+            check(scroll.TranslatePoint(new Point(),panel).Y>=headerBottom-.1,"body overlaps pinned header");
+            var first=(FrameworkElement)rows.Children[0];var firstY=first.TranslatePoint(new Point(),panel).Y;
+            scroll.ScrollToEnd();w.UpdateLayout();
+            check(Math.Abs(scroll.VerticalOffset-scroll.ScrollableHeight)<1&&first.TranslatePoint(new Point(),panel).Y<firstY-500,"only content should move to bottom");
+            check(Math.Abs(header.TranslatePoint(new Point(),panel).Y-headerTop)<.1,"admin header moved with content");
+            var tabs=Descendants<Button>(header).Where(b=>b.Tag is string).ToArray();
+            check(tabs.Length==5&&tabs.All(b=>b.IsVisible&&b.TranslatePoint(new Point(),panel).Y>=0&&b.TranslatePoint(new Point(b.ActualWidth,b.ActualHeight),panel).Y<=headerBottom+.1),"tabs clipped after scrolling");
+            var target=tabs.First(b=>!Equals(b.Tag,section));
+            DependencyObject? hit=panel.InputHitTest(target.TranslatePoint(new Point(target.ActualWidth/2,target.ActualHeight/2),panel)) as DependencyObject;
+            while(hit is not null&&hit!=target)hit=VisualTreeHelper.GetParent(hit);
+            check(hit==target,"scrolled content intercepts tab hit target");
+            target.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));w.UpdateLayout();
+            check(Field<string>(w,"_adminSection")==target.Tag as string&&scroll.VerticalOffset<1,"tab click from bottom did not switch/reset content");
+            check(!Descendants<TextBox>(scroll).Any(t=>ReferenceEquals(t,Field<TextBox>(w,"_adminSearch"))),"search must remain in header");
+        }
+        Call(w,"SetActivePage","settings");w.UpdateLayout();
+        check(C<ScrollViewer>("MainOptionsScroll").IsVisible&&!C<Grid>("AdminPanel").IsVisible,"leaving admin did not restore normal page scrolling");
+        w.Width=1050;w.Height=680;
+    }
     internal static void Run(string language)
     {
         var w=new MainWindow{Left=-32000,Top=-32000,ShowActivated=false,ShowInTaskbar=false,WindowStartupLocation=WindowStartupLocation.Manual,Width=1050,Height=680};
@@ -61,14 +98,15 @@ internal static class AdminChecks
         async Task Scenario()
         {
             Field<PawsPatchLauncher.Localization>(w,"_text").SetLanguage(language);Call(w,"ApplyLanguage");
+            await CheckPinnedHeaderAsync(w,Check);
             Populate(w,"users");w.UpdateLayout();
-            Check(C<Button>("AdminNav").Visibility==Visibility.Visible&&C<StackPanel>("AdminPanel").Visibility==Visibility.Visible,"owner navigation");
+            Check(C<Button>("AdminNav").Visibility==Visibility.Visible&&C<Grid>("AdminPanel").Visibility==Visibility.Visible,"owner navigation");
             Check(Field<StackPanel>(w,"_adminRows").Children.Count==4,"paged cards");
             var bannedCard=Field<StackPanel>(w,"_adminRows").Children[2];
             Check(!Descendants<Button>(bannedCard).Single(b=>b.Content is TextBlock t&&t.Text==(language=="ru"?"Заблокировать почту":"Ban email")).IsEnabled,"already banned email button enabled");
             foreach(var status in new[]{"status","users","bans","deleted"})
             {
-                Descendants<Button>(C<StackPanel>("AdminPanel")).Single(b=>Equals(b.Tag,status)).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));w.UpdateLayout();
+                Descendants<Button>(C<Grid>("AdminPanel")).Single(b=>Equals(b.Tag,status)).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));w.UpdateLayout();
                 Check(Field<string>(w,"_adminSection")==status&&Field<StackPanel>(w,"_adminRows").RenderTransform is TranslateTransform,"tab selection / transition");
             }
             Populate(w,"status");w.UpdateLayout();

@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$PublishedLauncherPath,
-    [Parameter(Mandatory=$true)][string]$OutputDirectory
+    [Parameter(Mandatory=$true)][string]$OutputDirectory,
+    [string]$ExpectedVersion='0.5.5'
 )
 $ErrorActionPreference='Stop'
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -9,18 +10,21 @@ $dotnet='C:\Users\Paw\Documents\Codex\Kohan-Reborn\.tools\dotnet\dotnet.exe'
 $publisher=Join-Path $repo 'tools\PawsPatchPublisher\bin\Release\net8.0-windows\PawsPatchPublisher.dll'
 $publicKey=Join-Path $repo '.local\signing\pawpatch-signing-public.pem'
 $privateKey=Join-Path $repo '.local\signing\pawpatch-signing-private.pem'
-$history=Get-Content -LiteralPath (Join-Path $repo 'feed\changelog.history.json') -Raw | ConvertFrom-Json
+$history=Get-Content -LiteralPath (Join-Path $repo 'feed\changelog.history.json') -Raw | ConvertFrom-Json -DateKind String
 $launcher=Get-Item -LiteralPath $PublishedLauncherPath
 $version=[Version]::Parse($launcher.VersionInfo.FileVersion).ToString(3)
-if ($version -ne '0.5.5') { throw 'Expected launcher 0.5.5.' }
+if ($version -ne $ExpectedVersion) { throw "Expected launcher $ExpectedVersion." }
 $launcherHash=(Get-FileHash -LiteralPath $launcher.FullName).Hash
-New-Item -ItemType Directory -Path $out -Force | Out-Null
+if(Test-Path -LiteralPath $out){throw 'Use a new feed staging directory.'}
+New-Item -ItemType Directory -Path $out | Out-Null
 foreach ($channel in 'stable','beta') {
     $source=Join-Path $repo "feed\$channel.json"
     & $dotnet $publisher verify $source $publicKey
     if ($LASTEXITCODE -ne 0) { throw 'Input feed signature invalid' }
     $envelope=Get-Content -LiteralPath $source -Raw | ConvertFrom-Json
-    $feed=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($envelope.payload)) | ConvertFrom-Json
+    $feed=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($envelope.payload)) | ConvertFrom-Json -DateKind String
+    if($feed.channel -ne $channel -or [Version]$feed.launcher.version -ge [Version]$version){throw 'Unexpected source channel or launcher version.'}
+    if($history.$channel[0].category -ne 'launcher' -or $history.$channel[0].version -ne $version){throw 'Missing launcher release changelog.'}
     $originalGame=$feed | Select-Object * -ExcludeProperty launcher,publishedAt,changelog,newsTitle,newsBody | ConvertTo-Json -Depth 40 -Compress
     $feed.publishedAt=[DateTimeOffset]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')
     $feed.launcher.version=$version; $feed.launcher.size=$launcher.Length

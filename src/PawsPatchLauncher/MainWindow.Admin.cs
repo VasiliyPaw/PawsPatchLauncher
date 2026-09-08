@@ -37,15 +37,17 @@ public partial class MainWindow
             Closed+=(_,_)=>{_adminSearchTimer.Stop();_adminRequest++;};
         }
         _adminLanguage=_text.Language;
-        AdminPanel.Children.Clear();
-        AdminPanel.Children.Add(new TextBlock{Text=T("Администрирование","Administration"),FontSize=24,FontWeight=FontWeights.Bold,Margin=new Thickness(0,0,0,14)});
+        AdminHeaderPanel.Children.Clear();
+        AdminContentPanel.Children.Clear();
+        AdminContentScroll.ScrollToTop();
+        AdminHeaderPanel.Children.Add(new TextBlock{Text=T("Администрирование","Administration"),FontSize=24,FontWeight=FontWeights.Bold,Margin=new Thickness(0,0,0,14)});
         var tabs=new WrapPanel{Margin=new Thickness(0,0,0,10)};
         foreach(var (key,ru,en) in new[]{("status","Статус","Status"),("resources","Ресурсы","Resources"),("users","Пользователи","Users"),("bans","Блокировки","Bans"),("deleted","Удалённые","Deleted")})
         {
             var tab=SocialButton(T(ru,en),async()=>{if(_adminSection==key||_adminBusy)return;_adminRequest++;_adminSection=key;_adminPage=0;_adminData=null;BuildAdminLayout();RevealAdminRows();await LoadAdminAsync();if(_adminSection==key)RevealAdminRows();});
             tab.Tag=key;SetNavState(tab,_adminSection==key);tabs.Children.Add(tab);
         }
-        var tabBar=new DockPanel();tabBar.Children.Add(tabs);AdminPanel.Children.Add(tabBar);
+        var tabBar=new DockPanel();tabBar.Children.Add(tabs);AdminHeaderPanel.Children.Add(tabBar);
         var searchRow=new DockPanel{Margin=new Thickness(0,0,0,12)};
         var refresh=SocialButton(T("Обновить","Refresh"),LoadAdminAsync);refresh.Height=36;refresh.Margin=new Thickness(8,0,0,0);DockPanel.SetDock(refresh,Dock.Right);
         if(_adminSection is "status" or "resources"){tabBar.Children.Insert(0,refresh);refresh.VerticalAlignment=VerticalAlignment.Top;searchRow.Visibility=Visibility.Collapsed;}
@@ -54,14 +56,14 @@ public partial class MainWindow
             ToolTip=_adminSection=="bans"?T("Поиск по почте","Search by email"):T("Имя или username","Display name or username"),Visibility=_adminSection is "status" or "resources"?Visibility.Collapsed:Visibility.Visible};
         System.Windows.Automation.AutomationProperties.SetName(_adminSearch,_adminSearch.ToolTip.ToString());
         _adminSearch.TextChanged+=(_,_)=>{_adminQuery=_adminSearch.Text;_adminPage=0;_adminRequest++;_adminData=null;_adminSearchTimer.Stop();_adminSearchTimer.Start();};
-        searchRow.Children.Add(_adminSearch);AdminPanel.Children.Add(searchRow);
+        searchRow.Children.Add(_adminSearch);AdminHeaderPanel.Children.Add(searchRow);
         _adminSummary=new TextBlock{Text=T("Загрузка…","Loading…"),Foreground=SocialBrush("#A8BBD2"),TextWrapping=TextWrapping.Wrap,Margin=new Thickness(0,0,0,12)};
-        AdminPanel.Children.Add(_adminSummary);_adminRows=new StackPanel();AdminPanel.Children.Add(_adminRows);
+        AdminHeaderPanel.Children.Add(_adminSummary);_adminRows=new StackPanel();AdminContentPanel.Children.Add(_adminRows);
         var pages=new WrapPanel{Margin=new Thickness(0,6,0,0)};
         _adminPrevious=SocialButton(T("Назад","Previous"),async()=>{if(_adminPage>0){_adminPage--;await LoadAdminAsync();}});
         _adminNext=SocialButton(T("Далее","Next"),async()=>{_adminPage++;await LoadAdminAsync();});
         pages.Children.Add(_adminPrevious);pages.Children.Add(_adminNext);pages.Visibility=_adminSection is "status" or "resources"?Visibility.Collapsed:Visibility.Visible;
-        AdminPanel.Children.Add(pages);RenderAdminRows();
+        AdminContentPanel.Children.Add(pages);RenderAdminRows();
     }
     private async Task LoadAdminAsync()
     {
