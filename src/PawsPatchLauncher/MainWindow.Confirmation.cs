@@ -20,7 +20,7 @@ public partial class MainWindow
                 _ = CompleteConfirmationAsync(false);
             }
         };
-        Closed += (_, _) => { _confirmation?.TrySetResult(false); _confirmation = null; };
+        Closed += (_, _) => { _confirmation?.TrySetResult(false); _confirmation = null; Motion.Collapse(ConfirmationOverlay); };
     }
 
     private Task<bool> ConfirmRemovalAsync(bool launcher, string path)
@@ -51,10 +51,14 @@ public partial class MainWindow
     private Task<bool> ConfirmActionAsync(string title, string body, string detailsLabel, string details, string action)
     {
         // Confirmation reserves the UI, but is not an installation/removal operation.
-        if (ConfirmationActive || _busy || _checkingFeed) return Task.FromResult(false);
+        if (ConfirmationActive || _busy || FeedBlocksActions) return Task.FromResult(false);
+        CancelBackgroundFeed();
         _confirmation = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         _confirmationPreviousFocus = Keyboard.FocusedElement;
-        HelpOverlay.Visibility = Visibility.Collapsed;
+        Motion.Hide(HelpOverlay);
+        SocialDetailsOverlay.IsEnabled = false;
+        ConfirmationLocalizationToggle.Visibility = Visibility.Collapsed;
+        ConfirmationLocalizationToggle.IsChecked = false;
         MainBody.IsEnabled = TitleBar.IsEnabled = false;
         ConfirmationCard.IsEnabled = true;
         ConfirmationEyebrowText.Text = T("ПОДТВЕРЖДЕНИЕ ДЕЙСТВИЯ", "CONFIRM ACTION");
@@ -62,8 +66,20 @@ public partial class MainWindow
         ConfirmationBodyText.Text = body;
         ConfirmationPathLabel.Text = detailsLabel;
         ConfirmationPathText.Text = details;
+        ConfirmationPathText.Visibility = Visibility.Visible;
+        ConfirmationChangesPanel.Visibility = Visibility.Collapsed;
+        ConfirmationChangesPanel.Children.Clear();
+        System.Windows.Automation.AutomationProperties.SetName(ConfirmationChangesPanel,"");
+        ConfirmationIconBadge.Background=SocialBrush("#432E35");ConfirmationIconBadge.BorderBrush=SocialBrush("#87565A");ConfirmationActionIcon.Foreground=SocialBrush("#F3AA96");
         ConfirmationCancelButton.Content = T("Отмена", "Cancel");
         ConfirmationDeleteButton.Content = action;
+        ConfirmationDeleteButton.IsEnabled = true;
+        ConfirmationDeleteButton.Background = SocialBrush("#653A38");
+        ConfirmationDeleteButton.BorderBrush = SocialBrush("#BC7967");
+        Motion.SetHoverBackground(ConfirmationDeleteButton, SocialBrush("#854D43"));
+        Motion.SetPressedBackground(ConfirmationDeleteButton, SocialBrush("#542F2F"));
+        LauncherIcon.SetKind(ConfirmationDeleteButton, IconKind.Trash);
+        ConfirmationActionIcon.Kind = IconKind.Trash;
         ConfirmationCloseButton.ToolTip = T("Отмена", "Cancel");
         System.Windows.Automation.AutomationProperties.SetName(ConfirmationCloseButton, T("Отмена", "Cancel"));
         Motion.Reveal(ConfirmationOverlay);
@@ -77,11 +93,13 @@ public partial class MainWindow
         var completion = _confirmation;
         _confirmationFinishing = true;
         ConfirmationCard.IsEnabled = false;
-        Motion.Hide(ConfirmationOverlay);
-        if (IsLoaded && SystemParameters.ClientAreaAnimation) await Task.Delay(130);
-        ConfirmationOverlay.Visibility = Visibility.Collapsed;
+        await Motion.HideAsync(ConfirmationOverlay);
+        if(!ReferenceEquals(_confirmation,completion)) { _confirmationFinishing=false;return; }
         MainBody.IsEnabled = TitleBar.IsEnabled = true;
+        SocialDetailsOverlay.IsEnabled = true;
         _confirmation = null;
+        RefreshOfferActions();
+        RefreshSocialCopyAvailability();
         _confirmationFinishing = false;
         if (IsLoaded && _confirmationPreviousFocus is UIElement { IsVisible: true, IsEnabled: true } previous) previous.Focus();
         _confirmationPreviousFocus = null;

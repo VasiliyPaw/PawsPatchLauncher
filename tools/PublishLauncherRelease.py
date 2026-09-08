@@ -16,6 +16,7 @@ parser.add_argument("assets", nargs="+")
 parser.add_argument("--tag", help="Explicit tag for a separately versioned package release")
 parser.add_argument("--name", help="Release display name")
 parser.add_argument("--prerelease", action="store_true")
+parser.add_argument("--attach-only", action="store_true", help="Only add immutable assets to an already published, commit-verified release")
 args = parser.parse_args()
 repo = "VasiliyPaw/PawsPatchLauncher"
 tag = args.tag or "v" + args.version
@@ -46,6 +47,8 @@ try:
 except urllib.error.HTTPError as error:
     if error.code != 404:
         raise
+    if args.attach_only:
+        raise RuntimeError("Attach-only mode requires an existing public release") from None
     # A previous interrupted invocation can have left an unpublished draft.
     release = next((r for r in request(api + "/releases?per_page=100") if r["tag_name"] == tag), None)
     if release is None:
@@ -56,8 +59,18 @@ except urllib.error.HTTPError as error:
             "draft": True, "prerelease": args.prerelease,
             **({"make_latest": "false"} if args.prerelease or args.tag else {}),
         })
-if release["target_commitish"] != args.commit:
-    raise RuntimeError("Existing release targets a different source revision")
+if args.attach_only or release["target_commitish"] != args.commit:
+    # CI-created releases can store the branch name as target_commitish. Verify
+    # the immutable tag's actual commit instead of trusting a moving branch.
+    tagged = request(api + "/git/ref/tags/" + urllib.parse.quote(tag))["object"]
+    for _ in range(4):
+        if tagged["type"] != "tag":
+            break
+        tagged = request(api + "/git/tags/" + tagged["sha"])["object"]
+    if tagged["type"] != "commit" or tagged["sha"] != args.commit:
+        raise RuntimeError("Existing release tag targets a different source revision")
+if args.attach_only and release["draft"]:
+    raise RuntimeError("Attach-only mode refuses unpublished drafts")
 if release["prerelease"] != args.prerelease:
     raise RuntimeError("Existing release has a different prerelease status")
 existing = {asset["name"]: asset for asset in release["assets"]}

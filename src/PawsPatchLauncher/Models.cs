@@ -15,6 +15,9 @@ public sealed class LauncherConfiguration
 
 public sealed class UserSettings
 {
+    public bool NotificationSoundEnabled { get; set; } = true;
+    public int NotificationVolume { get; set; } = 100;
+    public string NotificationSoundName { get; set; } = "";
     public string Language { get; set; } = "ru";
     public string? GamePath { get; set; }
     public string Channel { get; set; } = "stable";
@@ -145,6 +148,7 @@ public sealed class InstallState
 public sealed class InstalledModule
 {
     public string Version { get; set; } = "";
+    public DateTimeOffset? DownloadedAt { get; set; }
     public int Priority { get; set; }
     public bool Enabled { get; set; }
     public string ArchiveSha256 { get; set; } = "";

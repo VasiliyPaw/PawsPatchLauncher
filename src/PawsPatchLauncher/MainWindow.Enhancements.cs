@@ -76,8 +76,8 @@ public partial class MainWindow
         if (_storageCard is null) return;
         _storageCard.Visibility = _activePage == "settings" ? Visibility.Visible : Visibility.Collapsed;
         _comparisonDetailsButton.IsEnabled = !_busy && _detailedComparison is not null;
-        _cleanStorageButton.IsEnabled = !_busy && !_checkingFeed && _storagePlan is { CleanableBytes: > 0 };
-        _cleanCache.IsEnabled = _cleanBackups.IsEnabled = !_busy && !_checkingFeed;
+        _cleanStorageButton.IsEnabled = !_busy && !FeedBlocksActions && _storagePlan is { CleanableBytes: > 0 };
+        _cleanCache.IsEnabled = _cleanBackups.IsEnabled = !_busy && !FeedBlocksActions;
         if (_storagePlan is not null)
         {
             var cache = _storagePlan.Entries.Where(x => x.Kind is "downloads" or "packages" or "launcher-cache").Sum(x => x.Bytes);
@@ -91,7 +91,7 @@ public partial class MainWindow
 
     private async void ExportMultiplayerReport_Click(object sender, RoutedEventArgs e)
     {
-        if (_busy || _checkingFeed) return;
+        if (_busy || FeedBlocksActions) return;
         try
         {
             await CheckReadinessAsync();
@@ -107,7 +107,7 @@ public partial class MainWindow
     }
     private async void ImportMultiplayerReport_Click(object sender, RoutedEventArgs e)
     {
-        if (_busy || _checkingFeed) return;
+        if (_busy || FeedBlocksActions) return;
         var dialog = new OpenFileDialog { Title = T("Отчёт друга", "Friend's report"), Filter = "Paw multiplayer report (*.pawmp.json)|*.pawmp.json|JSON (*.json)|*.json" };
         if (dialog.ShowDialog(this) != true) return;
         try
@@ -167,7 +167,7 @@ public partial class MainWindow
         {
             if (row.Kind != "setting") return Value(value);
             if (row.Name == "Channel") return ChannelPresentation.Name(value, _text.Language);
-            if (value is "SP1" or "SP4") return value == "SP1" ? T("Стандартно", "Standard") : "×4";
+            if (value is "SP1" or "SP2" or "SP4") return value == "SP1" ? T("Стандартно", "Standard") : value == "SP2" ? "×2" : "×4";
             if (value is "OOS0" or "OOS1") return value == "OOS0" ? T("Остановить игру", "Stop game") : T("Продолжать", "Continue");
             if (value.Length == 3 && value[..2] is "IW" or "RM" or "SG" or "LM" or "RU" or "CL" or "PS") return value.EndsWith('1') ? T("Включено", "Enabled") : T("Выключено", "Disabled");
             return value;
@@ -192,7 +192,7 @@ public partial class MainWindow
     }
     private async void ScanStorage_Click(object sender, RoutedEventArgs e)
     {
-        if (_busy || _checkingFeed || ConfirmationActive) return;
+        if (_busy || FeedBlocksActions || ConfirmationActive) return;
         try
         {
             SetBusy(true, T("Считаю размер кеша и резервных копий…", "Calculating cache and backup sizes…"));
@@ -207,7 +207,7 @@ public partial class MainWindow
 
     private async Task CleanStorageAsync()
     {
-        if (_busy || _checkingFeed || ConfirmationActive || _storagePlan is null) return;
+        if (_busy || FeedBlocksActions || ConfirmationActive || _storagePlan is null) return;
         var ownsOperation = false;
         try
         {
@@ -221,10 +221,10 @@ public partial class MainWindow
             SetBusy(false); ownsOperation = false;
             if (!await ConfirmStorageCleanupAsync(approved, cache, backups))
             {
-                if (!_busy && !_checkingFeed) ShowResult(() => T("Очистка отменена. Ничего не удалено.", "Cleanup cancelled. Nothing was deleted."));
+                if (!_busy && !FeedBlocksActions) ShowResult(() => T("Очистка отменена. Ничего не удалено.", "Cleanup cancelled. Nothing was deleted."));
                 return;
             }
-            if (_busy || _checkingFeed || ConfirmationActive) return;
+            if (_busy || FeedBlocksActions || ConfirmationActive) return;
             ownsOperation = true; SetBusy(true, T("Очищаю устаревшие данные…", "Cleaning up obsolete data…"));
             if (IsGameRunning()) throw new IOException(T("Игра запущена. Очистка отменена.", "The game is running. Cleanup cancelled."));
             // Re-read pinned/installed release metadata after the confirmation dialog.
@@ -241,6 +241,8 @@ public partial class MainWindow
     {
         _presentedException = exception; _presentedError = FriendlyErrors.Describe(exception); _errorFromFeed = fromFeed;
         RefreshErrorActions();
+        var error = _presentedError;
+        ShowToast(() => error.Title(_text.Language), true);
     }
     private void ClearFriendlyError()
     {
@@ -249,14 +251,14 @@ public partial class MainWindow
     private void RefreshErrorActions()
     {
         if (ErrorActionButton is null) return;
-        var visible = _presentedError is not null && !_busy && !_checkingFeed;
+        var visible = _presentedError is not null && !_busy && !FeedBlocksActions;
         ErrorActionsPanel.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         if (_presentedError is not null) ErrorActionButton.Content = _presentedError.ActionText(_text.Language);
         ErrorDetailsButton.Content = T("Объяснение и подробности", "Explanation and details");
     }
     private async void ErrorAction_Click(object sender, RoutedEventArgs e)
     {
-        if (_busy || _checkingFeed || _presentedError is null) return;
+        if (_busy || FeedBlocksActions || _presentedError is null) return;
         var action = _presentedError.Action;
         switch (action)
         {

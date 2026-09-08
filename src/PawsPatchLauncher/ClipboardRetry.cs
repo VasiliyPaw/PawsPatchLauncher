@@ -8,8 +8,8 @@ public static class ClipboardRetry
 
     public static bool IsBusy(Exception error) => error is ExternalException && error.HResult == unchecked((int)0x800401D0);
 
-    // Await on the caller's context: Windows clipboard calls must stay on the UI's STA thread.
-    // No forced unlock, background clipboard reads, or retry of unrelated errors.
+    // Preserve the caller's context: WPF paste/test delegates use STA, native Unicode
+    // writes use their serialized background worker. Never force-unlock another owner.
     public static async Task<T> RunAsync<T>(Func<T> operation, CancellationToken cancellationToken = default,
         Func<TimeSpan, CancellationToken, Task>? delay = null)
     {

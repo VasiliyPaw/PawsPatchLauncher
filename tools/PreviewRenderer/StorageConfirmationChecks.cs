@@ -66,7 +66,7 @@ internal static class StorageConfirmationChecks
 
             // Exercise the real async handler against disposable cache files only.
             // Never close the user's game to enable this additional integration check.
-            if ((bool)typeof(MainWindow).GetMethod("IsGameRunning", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, null)!)
+            if ((bool)Invoke("IsGameRunning")!)
             {
                 Console.WriteLine("STORAGE HANDLER SKIPPED: user's game is running; presentation checks completed without touching it.");
                 return;

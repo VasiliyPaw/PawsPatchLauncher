@@ -155,6 +155,12 @@ public static class EnhancementTests
         feedback.Show(() => "error", true); clock.Now += TimeSpan.FromDays(1); Check(feedback.Failed && feedback.Message == "error", "Actionable error expired");
         feedback.Begin(() => "retry"); Check(!feedback.Failed && feedback.Message == "retry", "Retry kept old error");
         feedback.Finish(); Check(feedback.Message is null, "Working status remained after finish");
+        feedback.Show(() => "toast failure", true, TimeSpan.FromSeconds(8), expireFailure: true);
+        Check(feedback.Failed && feedback.HasExpiry, "Transient failure is not timed");
+        clock.Now += TimeSpan.FromSeconds(7); Check(feedback.Message == "toast failure", "Failure vanished too soon");
+        clock.Now += TimeSpan.FromSeconds(1); Check(feedback.Message is null, "Transient failure did not expire");
+        feedback.Show(() => "toast success", duration: TimeSpan.FromSeconds(3));
+        clock.Now += TimeSpan.FromSeconds(3); Check(feedback.Message is null, "Short success did not expire");
         Console.WriteLine($"ENHANCEMENTS PASS {count}: report comparison/import, error actions, scoped cleanup, status lifecycle");
         return count;
     }

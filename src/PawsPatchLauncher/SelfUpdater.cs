@@ -45,21 +45,31 @@ public static class SelfUpdater
     public static string BuildScript(string current, string staged, int pid, string hash, string logRoot, string token, int timeoutSeconds = 60)
     {
         static string Q(string value) => "'" + value.Replace("'", "''") + "'";
+        // Windows PowerShell uses .NET Framework: File.Exists silently returns
+        // false past MAX_PATH. Keep native launch paths normal, extend all I/O paths.
+        static string Extended(string value)
+        {
+            var path = Path.GetFullPath(value);
+            if (path.StartsWith(@"\\?\", StringComparison.Ordinal)) return path;
+            return path.StartsWith(@"\\", StringComparison.Ordinal) ? @"\\?\UNC\" + path[2..] : @"\\?\" + path;
+        }
         return $$"""
         $ErrorActionPreference = 'Stop'
-        $target = {{Q(current)}}
-        $staged = {{Q(staged)}}
+        $launchTarget = {{Q(Path.GetFullPath(current))}}
+        $launchFolder = [IO.Path]::GetDirectoryName($launchTarget)
+        $target = {{Q(Extended(current))}}
+        $staged = {{Q(Extended(staged))}}
         $folder = [IO.Path]::GetDirectoryName($target)
         $backup = $target + '.previous'
         $failed = $target + '.failed'
         $ack = [IO.Path]::Combine($folder, '.paw-update-{{token}}.ok')
-        $logRoot = {{Q(logRoot)}}
+        $logRoot = {{Q(Extended(logRoot))}}
         $replaced = $false
         $candidate = $null
         function Start-Launcher([string]$arguments) {
             $info = New-Object System.Diagnostics.ProcessStartInfo
-            $info.FileName = $target
-            $info.WorkingDirectory = $folder
+            $info.FileName = $launchTarget
+            $info.WorkingDirectory = $launchFolder
             $info.Arguments = $arguments
             $info.UseShellExecute = $false
             $info.CreateNoWindow = $true

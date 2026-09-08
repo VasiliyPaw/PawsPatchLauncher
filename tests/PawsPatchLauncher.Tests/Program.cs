@@ -5,6 +5,11 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 4 && args[0] == "--verify-roaming-x2")
+{
+    await RoamingX2PackageTests.RunAsync(args[1], args[2], args[3]);
+    return;
+}
 if (args.Length == 5 && args[0] == "--verify-promotion")
 {
     await PromotionTransitionTests.RunAsync(args[1], args[2], args[3], args[4]);
@@ -89,15 +94,30 @@ var passed = 0;
 
 try
 {
+        passed += await AccountTests.RunAsync(root);
+        passed += await AccountModerationTests.RunAsync(root);
+        passed += await HistoryNetworkTests.RunAsync(root);
+        passed += await CompatibilityModerationTests.RunAsync(root);
+        passed += await LauncherSessionTests.RunAsync(root);
+        passed += await AccountProfileTests.RunAsync(root);
+        passed += await AccountActionsTests.RunAsync(root);
+        passed += await SocialTests.RunAsync(root);
+        passed += await OfferTests.RunAsync(root);
+        passed += await SocialIdentityMediaTests.RunAsync(root);
     passed += await EnhancementTests.RunAsync(root);
+    passed += await SocialHubTests.RunAsync(root);
     passed += PromotedReleaseTests.Run();
     passed += await ClipboardRetryTests.RunAsync();
+    passed += await WindowsClipboardTests.RunAsync();
     passed += DiagnosticArchiveHistoryTests.Run(root);
     passed += ChannelPresentationTests.Run();
     passed += WindowPlacementTests.Run(root);
     passed += PowersShardsTests.Run();
     passed += EffectiveSettingsTests.Run();
+    passed += FriendConfigurationTests.Run();
     passed += await PatchGuideTests.RunAsync(root);
+    passed += await LauncherUpdateTests.RunAsync(root);
+    passed += ComponentSettingsTests.Run();
     ExpectThrows<InvalidDataException>(() => CryptoAndIO.SafeChildPath(root, "..\\escape.txt"));
     passed++;
 

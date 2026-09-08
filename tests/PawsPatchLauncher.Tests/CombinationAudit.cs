@@ -12,7 +12,7 @@ public static class CombinationAudit
     private sealed record Collision(string A, string B, string Path, bool SameBytes, string Policy);
     private sealed record TranslationLoss(string Module, string Path, string[] MissingKeys);
     private static string N(string path) => CryptoAndIO.NormalizeRelativePath(path).ToLowerInvariant();
-    private static readonly HashSet<string> Profiles = ["roaming-profile-standard-with-new", "roaming-profile-x4-no-new", "roaming-profile-standard-no-new"];
+    private static readonly HashSet<string> Profiles = ["roaming-profile-standard-with-new", "roaming-profile-x4-no-new", "roaming-profile-standard-no-new", "roaming-profile-x2-with-new", "roaming-profile-x2-no-new"];
     private static readonly HashSet<string> DataOverlays = [..Profiles, "siege-balance-standard", "large-map-sizes-standard", "powers-shards-original"];
     private static string Policy(string a, string b, string path)
     {
@@ -45,11 +45,11 @@ public static class CombinationAudit
         var allCollisions = new List<object>();
         var allLosses = new List<object>();
         var total = 0;
-        foreach (var source in new[] { "published", "candidate", "fixed", "beta7", "release020" })
+        foreach (var source in new[] { "published", "candidate", "fixed", "beta7", "release020", "x2" })
         foreach (var name in new[] { "stable", "beta" })
         {
             if (source == "beta7" && name == "stable") continue;
-            var feedPath = Path.Combine(repo, source == "release020" ? $"release_workspace_020/feed/{name}.local.signed.json" : source == "beta7" ? "release_workspace_beta7_v2/feed/beta.local.signed.json"
+            var feedPath = Path.Combine(repo, source == "x2" ? $"release_workspace_059/components-v2/feed/{name}.local.signed.json" : source == "release020" ? $"release_workspace_020/feed/{name}.local.signed.json" : source == "beta7" ? "release_workspace_beta7_v2/feed/beta.local.signed.json"
                 : source == "published" ? $"feed/{name}.json" : $"release_workspace_056/{(source == "fixed" ? "combination-fix" : "powers-shards")}/feed/{name}.signed.json");
             var bytes = await File.ReadAllBytesAsync(feedPath);
             var envelope = JsonSerializer.Deserialize(bytes, LauncherJsonContext.Default.SignedFeedEnvelope)!;
@@ -67,7 +67,7 @@ public static class CombinationAudit
                     var url = package.Urls[0];
                     var filename = Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme is "https" or "http" ? Path.GetFileName(uri.AbsolutePath) : Path.GetFileName(url);
                     var candidates = new[] { Path.Combine(repo, "release_workspace_beta7_v2/packages", filename), Path.Combine(repo, "packages", filename), Path.Combine(repo, "release_workspace_20260905/packages", filename), Path.Combine(repo, "release_workspace_056/powers-shards/packages", filename), Path.Combine(repo, "release_workspace_056/combination-fix/packages", filename) };
-                    var archivePath = new[] { Path.Combine(repo, "release_workspace_020/packages", filename) }.Concat(candidates).FirstOrDefault(File.Exists) ?? throw new FileNotFoundException("No local package: " + filename);
+                    var archivePath = new[] { Path.Combine(repo, "release_workspace_059/components-v2/packages", filename), Path.Combine(repo, "release_workspace_020/packages", filename) }.Concat(candidates).FirstOrDefault(File.Exists) ?? throw new FileNotFoundException("No local package: " + filename);
                     Require(new FileInfo(archivePath).Length == package.Size && (await CryptoAndIO.Sha256Async(archivePath)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase), "Wrong local archive bytes: " + filename);
                     using var archive = ZipFile.OpenRead(archivePath);
                     var entries = archive.Entries.ToDictionary(e => N(e.FullName), StringComparer.OrdinalIgnoreCase);
@@ -111,11 +111,12 @@ public static class CombinationAudit
             var collisions = new Dictionary<string, Collision>();
             var accepted = 0; var unsupported = 0; var untranslated = 0; var missingOptional = 0;
             // Eight binary options. The real code parser determines supported color combinations.
-            for (var bits = 0; bits < 256; bits++)
+            for (var bits = 0; bits < (source == "x2" ? 384 : 256); bits++)
             {
-                bool Bit(int bit) => (bits & (1 << bit)) != 0;
+                var selection = bits < 256 ? bits : ((bits - 256) & 15) | (((bits - 256) & 112) << 1);
+                bool Bit(int bit) => (selection & (1 << bit)) != 0;
                 var settings = new UserSettings { Channel = name, RussianLocalization = Bit(0), CustomPlayerColors = Bit(1), DesyncMode = Bit(2) ? "continue" : "official",
-                    IndependentHostility = Bit(3), RoamingSpawnMode = Bit(4) ? "x4" : "standard", AdditionalRoamingCompanies = Bit(5), SiegeBalance = Bit(6), DisablePowersAndShards = Bit(7) };
+                    IndependentHostility = Bit(3), RoamingSpawnMode = bits >= 256 ? "x2" : Bit(4) ? "x4" : "standard", AdditionalRoamingCompanies = Bit(5), SiegeBalance = Bit(6), DisablePowersAndShards = Bit(7) };
                 if (settings.CustomPlayerColors && (!feed.Packages.Any(p => p.Id == "player-colors") || !settings.IndependentHostility && !GameExecutableSelector.SupportsIndependentColors(feed)
                     || settings.DesyncMode != "official" && !feed.ColorDesyncContinue)) { unsupported++; continue; }
                 var code = ConfigurationCode.Create(settings);
@@ -155,7 +156,8 @@ public static class CombinationAudit
                 rows.Add(new { source, channel = name, code, modules = selected.Select(p => p.Id).ToArray(), executable = exe, translationKeyLossFiles = damaged.Select(d => d.Path).ToArray() });
                 accepted++; total++;
             }
-            if (source is "fixed" or "beta7" or "release020") Require(untranslated == 0, "Fixed candidate still loses translation keys.");
+            if (source is "fixed" or "beta7" or "release020" or "x2") Require(untranslated == 0, "Fixed candidate still loses translation keys.");
+            if (source == "x2") Require(accepted == 384 && missingOptional == 0 && unsupported == 0, "x2 toggle dependency remains.");
             if (source == "release020") Require(accepted == 256 && missingOptional == 0 && unsupported == 0, "Release toggle dependency remains.");
             allCollisions.Add(new { source, channel = name, collisions = collisions.Values });
             sets.Add(new { source, channel = name, accepted, unsupported, unavailableRestoration = missingOptional, configurationsWithTranslationKeyLoss = untranslated, uniqueCoSelectedCollisions = collisions.Count, roamingCompositionFiles = joint.Count });

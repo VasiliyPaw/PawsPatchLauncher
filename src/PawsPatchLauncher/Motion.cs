@@ -4,10 +4,11 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace PawsPatchLauncher;
 
-/// <summary>Presentation-only transitions. Never animates a setting or delays a command.</summary>
+/// <summary>Presentation-only transitions. Never changes a setting or executes an operation.</summary>
 public static class Motion
 {
     public static readonly DependencyProperty BackgroundProperty = BrushProperty("Background", Border.BackgroundProperty);
@@ -18,12 +19,17 @@ public static class Motion
     public static readonly DependencyProperty OpacityProperty = DependencyProperty.RegisterAttached("Opacity", typeof(double), typeof(Motion), new PropertyMetadata(1d, OpacityChanged));
     public static readonly DependencyProperty HoverBackgroundProperty = DependencyProperty.RegisterAttached("HoverBackground", typeof(Brush), typeof(Motion));
     public static readonly DependencyProperty PressedBackgroundProperty = DependencyProperty.RegisterAttached("PressedBackground", typeof(Brush), typeof(Motion));
-    private static readonly DependencyProperty TransitionVersionProperty = DependencyProperty.RegisterAttached("TransitionVersion", typeof(int), typeof(Motion), new PropertyMetadata(0));
+    private static readonly DependencyProperty HideOperationProperty = DependencyProperty.RegisterAttached("HideOperation", typeof(HideOperation), typeof(Motion));
+    private sealed class HideOperation
+    {
+        public readonly TaskCompletionSource<bool> Completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public Action? Cancel;
+    }
 
     public static void Reveal(FrameworkElement view)
     {
-        view.SetValue(TransitionVersionProperty, (int)view.GetValue(TransitionVersionProperty) + 1);
         var from = view.Opacity < 0.999 ? view.Opacity : 0.55;
+        (view.GetValue(HideOperationProperty) as HideOperation)?.Cancel?.Invoke();
         view.BeginAnimation(UIElement.OpacityProperty, null);
         view.Visibility = Visibility.Visible;
         view.Opacity = 1;
@@ -34,21 +40,94 @@ public static class Motion
         }
     }
 
-    public static void Hide(FrameworkElement view)
+    public static void RevealFromBottom(FrameworkElement view, TranslateTransform transform)
     {
-        var version = (int)view.GetValue(TransitionVersionProperty) + 1;
-        view.SetValue(TransitionVersionProperty, version);
-        void Finish()
+        var from = IsHiding(view) ? transform.Y : 24;
+        var fromX = transform.X;
+        Reveal(view);
+        transform.BeginAnimation(TranslateTransform.XProperty,null);transform.X=0;
+        transform.BeginAnimation(TranslateTransform.YProperty, null);
+        transform.Y = 0;
+        if (Animate(view))
         {
-            if ((int)view.GetValue(TransitionVersionProperty) != version) return;
-            view.Visibility = Visibility.Collapsed;
-            view.BeginAnimation(UIElement.OpacityProperty, null);
-            view.Opacity = 1;
+            transform.X=fromX;
+            if(Math.Abs(fromX)>.01)transform.BeginAnimation(TranslateTransform.XProperty,Transition(fromX,0,220),HandoffBehavior.SnapshotAndReplace);
+            transform.Y = from;
+            transform.BeginAnimation(TranslateTransform.YProperty, Transition(from, 0, 220), HandoffBehavior.SnapshotAndReplace);
         }
-        if (!Animate(view)) { Finish(); return; }
-        var animation = Transition(view.Opacity, 0, 120);
-        animation.Completed += (_, _) => Finish();
-        view.BeginAnimation(UIElement.OpacityProperty, animation, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    public static bool IsHiding(FrameworkElement view) => view.GetValue(HideOperationProperty) is HideOperation;
+    public static void Hide(FrameworkElement view) => _ = HideAsync(view);
+    public static void HideToBottom(FrameworkElement view, TranslateTransform transform) => _ = HideAsync(view, transform);
+    public static Task<bool> HideToBottomAsync(FrameworkElement view, TranslateTransform transform) => HideAsync(view, transform);
+    public static Task<bool> HideToRightAsync(FrameworkElement view, TranslateTransform transform) => HideAsync(view, transform, horizontal:true);
+
+    public static void Reposition(FrameworkElement view,TranslateTransform transform,double from)
+    {
+        transform.BeginAnimation(TranslateTransform.YProperty,null);
+        transform.Y=Animate(view)?from:0;
+        if(Animate(view))transform.BeginAnimation(TranslateTransform.YProperty,Transition(from,0,220),HandoffBehavior.SnapshotAndReplace);
+    }
+
+    // Immediate teardown for account changes/removal, not user dismissal.
+    public static void Collapse(FrameworkElement view)
+    {
+        (view.GetValue(HideOperationProperty) as HideOperation)?.Cancel?.Invoke();
+        view.Visibility=Visibility.Collapsed;
+        view.BeginAnimation(UIElement.OpacityProperty,null);view.Opacity=1;
+    }
+
+    public static Task<bool> HideAsync(FrameworkElement view) => HideAsync(view, null);
+
+    private static Task<bool> HideAsync(FrameworkElement view, TranslateTransform? slide,bool horizontal=false)
+    {
+        if(view.GetValue(HideOperationProperty) is HideOperation pending)return pending.Completion.Task;
+        if(!view.IsLoaded || !Animate(view))
+        {
+            Collapse(view);
+            if(slide is not null)
+            { slide.BeginAnimation(TranslateTransform.XProperty,null);slide.BeginAnimation(TranslateTransform.YProperty,null);slide.X=slide.Y=0; }
+            return Task.FromResult(true);
+        }
+        var operation=new HideOperation();view.SetValue(HideOperationProperty,operation);
+        var timer=new DispatcherTimer(DispatcherPriority.Background,view.Dispatcher) {Interval=TimeSpan.FromMilliseconds(250)};
+        RoutedEventHandler? unloaded=null;
+        void Finish(bool collapsed)
+        {
+            if(!ReferenceEquals(view.GetValue(HideOperationProperty),operation))return;
+            timer.Stop();view.Unloaded-=unloaded;view.ClearValue(HideOperationProperty);
+            var opacity=view.Opacity;
+            if(slide is not null)
+            {
+                var offsetX=slide.X;var offsetY=slide.Y;
+                slide.BeginAnimation(TranslateTransform.XProperty,null);slide.BeginAnimation(TranslateTransform.YProperty,null);
+                slide.X=collapsed?0:offsetX;slide.Y=collapsed?0:offsetY;
+            }
+            if(collapsed)view.Visibility=Visibility.Collapsed;
+            view.BeginAnimation(UIElement.OpacityProperty,null);view.Opacity=collapsed?1:opacity;
+            operation.Completion.TrySetResult(collapsed);
+        }
+        operation.Cancel=()=>Finish(false);
+        unloaded=(_,_)=>Finish(true);view.Unloaded+=unloaded;
+        // The fallback also completes while minimized, when render clocks may stop.
+        timer.Tick+=(_,_)=>Finish(true);timer.Start();
+        var duration=slide is null?180:220;
+        if(slide is not null)
+        {
+            var offsetX=slide.X;var offset=slide.Y;
+            slide.BeginAnimation(TranslateTransform.XProperty,null);slide.X=offsetX;
+            slide.BeginAnimation(TranslateTransform.YProperty,null);slide.Y=offset;
+            slide.BeginAnimation(horizontal?TranslateTransform.XProperty:TranslateTransform.YProperty,
+                Transition(horizontal?offsetX:offset,horizontal?48:24,duration),HandoffBehavior.SnapshotAndReplace);
+        }
+        var fromOpacity=view.Opacity;
+        view.BeginAnimation(UIElement.OpacityProperty,null);view.Opacity=fromOpacity;
+        var animation=Transition(fromOpacity,0,duration);
+        animation.EasingFunction=new CubicEase {EasingMode=EasingMode.EaseInOut};
+        animation.Completed+=(_,_)=>Finish(true);
+        view.BeginAnimation(UIElement.OpacityProperty,animation,HandoffBehavior.SnapshotAndReplace);
+        return operation.Completion.Task;
     }
 
     public static Brush? GetBackground(DependencyObject o) => (Brush?)o.GetValue(BackgroundProperty);

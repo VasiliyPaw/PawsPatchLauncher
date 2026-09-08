@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace PawsPatchLauncher;
 
-public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize }
+public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera }
 
 /// <summary>Original, font-independent line icons on a shared 24-unit grid.</summary>
 public sealed class LauncherIcon : FrameworkElement
@@ -23,9 +23,14 @@ public sealed class LauncherIcon : FrameworkElement
     {
         var paths = new Dictionary<IconKind, string>
         {
+            [IconKind.Camera] = "M3,7 L7,7 9,4 15,4 17,7 21,7 21,20 3,20 Z M12,9 A4,4 0 1 1 11.99,9",
+            [IconKind.Profile] = "M3,4 L21,4 21,20 3,20 Z M8,7 A2,2 0 1 1 7.99,7 M5,16 C5,12 11,12 11,16 M14,9 L18,9 M14,13 L18,13 M14,17 L17,17",
+            [IconKind.More] = "M5,11 A1,1 0 1 1 4.99,11 M12,11 A1,1 0 1 1 11.99,11 M19,11 A1,1 0 1 1 18.99,11",
+            [IconKind.Send] = "M3,3 L22,12 3,21 6,12 Z M6,12 L22,12",
             [IconKind.Home] = "M3,11 L12,3 21,11 M5,10 L5,21 10,21 10,15 14,15 14,21 19,21 19,10",
             [IconKind.Components] = "M12,3 L21,8 12,13 3,8 Z M3,12 L12,17 21,12 M3,16 L12,21 21,16",
             [IconKind.Multiplayer] = "M12,3 A3,3 0 1 1 11.99,3 M5,21 L5,18 Q5,13 12,13 Q19,13 19,18 L19,21 M3,7 A2.5,2.5 0 0 1 3,12 M3,15 Q1,16 1,19 M21,7 A2.5,2.5 0 0 0 21,12 M21,15 Q23,16 23,19",
+            [IconKind.Person] = "M12,3 A4,4 0 1 1 11.99,3 M4,21 L4,19 C4,12 20,12 20,19 L20,21",
             [IconKind.Settings] = "M4,5 L20,5 M4,12 L20,12 M4,19 L20,19 M9,2 L9,8 M16,9 L16,15 M8,16 L8,22",
             [IconKind.Shield] = "M12,2 L21,6 20,14 Q18,19 12,22 Q6,19 4,14 L3,6 Z M8,12 L11,15 17,9",
             [IconKind.Language] = "M3,5 L14,5 M8,2 L8,5 M12,5 Q11,12 3,16 M5,8 Q7,12 12,14 M13,21 L17,11 21,21 M14.5,18 L19.5,18",
@@ -50,7 +55,8 @@ public sealed class LauncherIcon : FrameworkElement
             [IconKind.Save] = "M3,3 L18,3 21,6 21,21 3,21 Z M7,3 L7,9 17,9 17,3 M7,21 L7,14 17,14 17,21",
             [IconKind.Search] = "M10,3 A7,7 0 1 1 9.99,3 M15,15 L22,22",
             [IconKind.Close] = "M6,6 L18,18 M6,18 L18,6",
-            [IconKind.Minimize] = "M5,12 L19,12"
+            [IconKind.Minimize] = "M5,12 L19,12",
+            [IconKind.Logout] = "M10,3 L3,3 3,21 10,21 M8,12 L22,12 M17,7 L22,12 17,17"
         };
         return paths.ToDictionary(p => p.Key, p => { var g = Geometry.Parse(p.Value); g.Freeze(); return g; });
     }

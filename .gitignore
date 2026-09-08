@@ -6,6 +6,13 @@ release_workspace_*/
 .vs/
 *.user
 *.pdb
+node_modules/
+__pycache__/
+*.py[cod]
+*_wpftmp.csproj
+# Retired one-time server bootstrap; retained locally, never a release input.
+supabase/functions/admin-monitor/bootstrap.mjs
+supabase/functions/admin-monitor/bootstrap.test.mjs
 *.zip
 !packages/startup-base-*.zip
 !packages/desync-continue-*.zip

@@ -53,6 +53,14 @@ public static class SelfUpdateTests
         finally
         {
             CloseFixture(old);
+            // Failed-update recovery can start another baseline process. Close
+            // only this test's exact executable, including that restored copy.
+            foreach (var fixtureProcess in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(target)))
+            {
+                using (fixtureProcess)
+                    if (!fixtureProcess.HasExited && string.Equals(fixtureProcess.MainModule?.FileName, target, StringComparison.OrdinalIgnoreCase))
+                        CloseFixture(fixtureProcess);
+            }
             if (updated is null && File.Exists(Path.Combine(root, "candidate.pid")))
             {
                 try { updated = Process.GetProcessById(int.Parse(File.ReadAllText(Path.Combine(root, "candidate.pid")))); } catch (ArgumentException) { }

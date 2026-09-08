@@ -7,6 +7,7 @@ public partial class MainWindow
 {
     private int _changelogTransitionVersion;
     private bool _changelogTransitionPending;
+    private string? _renderedNewsIdentity;
 
     private void CancelChangelogTransition()
     {

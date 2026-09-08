@@ -91,7 +91,7 @@ internal static class AboutChecks
             Check(!desyncText.Contains("experiment", StringComparison.OrdinalIgnoreCase)
                 && !desyncText.Contains("эксперимент", StringComparison.OrdinalIgnoreCase), "Desync bypass still marked experimental.");
             Check(desyncText.Contains(language == "ru" ? "все обнаруженные" : "all detected")
-                && desyncText.Contains(language == "ru" ? "не исправляет" : "does not repair")
+                && (language == "ru" ? desyncText.Contains("не исправляет") || desyncText.Contains("не устраняет") : desyncText.Contains("does not repair"))
                 && desyncText.Contains(language == "ru" ? "серьёзные" : "serious"), "Desync warning lost scope, severity or divergent-state warning.");
             Named<Button>("AboutNav").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             await Task.Delay(230); window.UpdateLayout();

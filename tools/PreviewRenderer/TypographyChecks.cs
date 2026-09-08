@@ -99,9 +99,9 @@ internal static class TypographyChecks
             "Detailed comparison did not keep its subsection hierarchy.");
         var comparison = (StackPanel)subtitle.Parent;
         Require(comparison.Children.IndexOf(divider) + 1 == comparison.Children.IndexOf(subtitle), "Comparison divider is misplaced.");
-        if (page == "multiplayer")
+        if (page == "settings")
         {
-            foreach (var name in new[] { "ImportActions", "PeerActions" })
+            foreach (var name in new[] { "ImportActions" })
             {
                 var row = Named<WrapPanel>(window, name);
                 var buttons = row.Children.OfType<Button>().ToArray();
@@ -111,7 +111,7 @@ internal static class TypographyChecks
                 Require(sameLine == fits, "Action pair does not wrap according to available width.");
                 Require(buttons.All(b => b.TranslatePoint(new Point(b.ActualWidth, 0), row).X <= row.ActualWidth + 0.5), "Action button is clipped.");
             }
-            foreach (var field in new[] { "_importInput", "_peerInput" })
+            foreach (var field in new[] { "_importInput" })
             {
                 var input = Field<TextBox>(window, field);
                 var border = (Border)input.Template.FindName("InputBorder", input);
@@ -160,9 +160,9 @@ internal static class TypographyChecks
         {
             Field<PawsPatchLauncher.Localization>(window, "_text").SetLanguage(language);
             typeof(MainWindow).GetMethod("ApplyLanguage", Fields)!.Invoke(window, null);
-            typeof(MainWindow).GetMethod("SetActivePage", Fields)!.Invoke(window, ["multiplayer"]);
+            typeof(MainWindow).GetMethod("SetActivePage", Fields)!.Invoke(window, ["settings"]);
             window.Show(); Pump(); window.UpdateLayout();
-            foreach (var field in new[] { "_importInput", "_peerInput" })
+            foreach (var field in new[] { "_importInput" })
             {
                 var input = Field<TextBox>(window, field);
                 Check(input.Template.FindName("PART_ContentHost", input) is ScrollViewer, "Text editor host missing.");
@@ -185,7 +185,7 @@ internal static class TypographyChecks
                 input.IsEnabled = false; Pump(); Check(Math.Abs(border.Opacity - 0.45) < 0.01, "Disabled input isn't visually disabled.");
                 input.IsEnabled = true; Pump(); Check(Math.Abs(border.Opacity - 1) < 0.01, "Re-enabled input remains faded.");
             }
-            foreach (var name in new[] { "ImportActions", "PeerActions" })
+            foreach (var name in new[] { "ImportActions" })
             {
                 var row = Named<WrapPanel>(window, name); var buttons = row.Children.OfType<Button>().ToArray();
                 row.Width = buttons.Max(b => b.ActualWidth + b.Margin.Right) + 1; window.UpdateLayout();
@@ -193,7 +193,7 @@ internal static class TypographyChecks
                 row.Width = double.NaN;
             }
             window.Width = 1440; window.UpdateLayout();
-            foreach (var name in new[] { "ImportActions", "PeerActions" })
+            foreach (var name in new[] { "ImportActions" })
             {
                 var row = Named<WrapPanel>(window, name); var buttons = row.Children.OfType<Button>().ToArray();
                 Check(Math.Abs(buttons[1].TranslatePoint(new Point(), row).Y - buttons[0].TranslatePoint(new Point(), row).Y) < 0.5, "Wide action pair remained stacked.");

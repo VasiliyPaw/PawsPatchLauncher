@@ -20,7 +20,7 @@ public static class ConfigurationCode
             LargeMapSizes = Flag(6, "LM"), RussianLocalization = Flag(7, "RU"),
             CustomPlayerColors = Flag(8, "CL"), DesyncMode = Flag(9, "OOS") ? "continue" : "official",
             DisablePowersAndShards = parts.Length == 10 || Flag(10, "PS"),
-            RoamingSpawnMode = parts[3] switch { "SP4" => "x4", "SP1" => "standard", _ => throw new FormatException("Invalid SP field") }
+            RoamingSpawnMode = parts[3] switch { "SP4" => "x4", "SP2" => "x2", "SP1" => "standard", _ => throw new FormatException("Invalid SP field") }
         };
         if (!result.LargeMapSizes)
             throw new FormatException("This combination is not supported by this launcher.");
@@ -45,7 +45,7 @@ public static class ConfigurationCode
     {
         settings = EffectiveSettings.ForChannel(settings);
         var channel = settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase) ? "BETA" : "STABLE";
-        var spawn = settings.RoamingSpawnMode.Equals("x4", StringComparison.OrdinalIgnoreCase) ? "4" : "1";
+        var spawn = settings.RoamingSpawnMode.ToLowerInvariant() switch { "x4" => "4", "x2" => "2", _ => "1" };
         var oos = settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase) ? "1" : "0";
         // Legacy codes already mean powers/shards disabled; preserve their fingerprints.
         var powers = settings.DisablePowersAndShards ? "" : "-PS0";

@@ -16,7 +16,7 @@ public partial class MainWindow
             HeaderReleaseRadio.IsChecked = SettingsReleaseRadio.IsChecked = !beta;
             HeaderBetaRadio.IsChecked = SettingsBetaRadio.IsChecked = beta;
             foreach (var control in new[] { HeaderReleaseRadio, HeaderBetaRadio, SettingsReleaseRadio, SettingsBetaRadio })
-                control.IsEnabled = !_busy && !_checkingFeed;
+                control.IsEnabled = !_busy && !FeedBlocksActions;
         }
         finally { _syncingPatchChannel = false; }
     }

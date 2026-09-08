@@ -32,10 +32,11 @@ internal static class CombinationUiAudit
         colors.IsChecked = true; Invoke("OptionChanged", colors, new RoutedEventArgs());
         async Task Scenario()
         {
-            var bypass = (RadioButton)window.FindName("ContinueOosRadio");
+            var bypass = (CheckBox)window.FindName("IgnoreDesyncToggle");
             Invoke("RefreshReliabilityStatus");
             if (!bypass.IsEnabled) throw new InvalidOperationException("New Beta disables colors plus bypass.");
             bypass.IsChecked = true;
+            Invoke("OosToggle_Click", bypass, new RoutedEventArgs());
             Invoke("OptionChanged", colors, new RoutedEventArgs());
             if (settings.DesyncMode != "continue" || !ConfigurationCode.Parse(((TextBlock)window.FindName("ConfigurationCodeText")).Text).CustomPlayerColors)
                 throw new InvalidOperationException("Combined colors/bypass state or friend code lost.");

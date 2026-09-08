@@ -19,14 +19,14 @@ public partial class MainWindow
 
     private async void RemovePatch_Click(object sender, RoutedEventArgs e)
     {
-        if (_game is null || _busy || _checkingFeed || ConfirmationActive) return;
+        if (_game is null || _busy || FeedBlocksActions || ConfirmationActive) return;
         var root = _game.Directory;
         var started = false;
         try
         {
             if (IsGameRunning()) throw new InvalidOperationException(T("Перед удалением патча закройте Kohan II.", "Close Kohan II before uninstalling the patch."));
             if (!await ConfirmRemovalAsync(false, root)) return;
-            if (_busy || _checkingFeed || _game?.Directory != root) return;
+            if (_busy || FeedBlocksActions || _game?.Directory != root) return;
             if (IsGameRunning()) throw new InvalidOperationException(T("Kohan II запущен. Удаление отменено.", "Kohan II is running. Uninstall cancelled."));
             started = true; SetBusy(true);
             ShowWorking(() => T("Удаляю патч и восстанавливаю исходные файлы…", "Uninstalling patch and restoring originals…"));
@@ -44,12 +44,12 @@ public partial class MainWindow
 
     private async void RemoveLauncher_Click(object sender, RoutedEventArgs e)
     {
-        if (_busy || _checkingFeed || ConfirmationActive) return;
+        if (_busy || FeedBlocksActions || ConfirmationActive) return;
         var started = false;
         try
         {
             if (!await ConfirmRemovalAsync(true, Environment.ProcessPath ?? T("Текущий лаунчер", "Current launcher"))) return;
-            if (_busy || _checkingFeed) return;
+            if (_busy || FeedBlocksActions) return;
             started = true; SetBusy(true);
             await LauncherUninstaller.ScheduleAsync();
             _updateTimer.Stop(); _gameTimer.Stop();

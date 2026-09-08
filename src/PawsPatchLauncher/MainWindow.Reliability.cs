@@ -124,7 +124,6 @@ public partial class MainWindow
     private void ApplyReliabilityLanguage()
     {
         foreach (var label in _reliabilityLabels) label.Set(T(label.Ru, label.En));
-        MultiplayerNav.Content = T("Мультиплеер", "Multiplayer");
         CancelDownloadButton.Content = T("Приостановить загрузку", "Pause download");
     }
 
@@ -132,8 +131,8 @@ public partial class MainWindow
     {
         if (_recoveryCard is null) return;
         _recoveryCard.Visibility = _versionCard.Visibility = _activePage == "settings" ? Visibility.Visible : Visibility.Collapsed;
-        _importCard.Visibility = _activePage == "multiplayer" ? Visibility.Visible : Visibility.Collapsed;
-        _multiplayerCard.Visibility = _activePage == "multiplayer" ? Visibility.Visible : Visibility.Collapsed;
+        _importCard.Visibility = _activePage == "settings" ? Visibility.Visible : Visibility.Collapsed;
+        _multiplayerCard.Visibility = Visibility.Collapsed;
         _incidentCard.Visibility = _incident is null ? Visibility.Collapsed : Visibility.Visible;
         _incidentText.Text = _incident ?? "";
         RefreshEnhancements();
@@ -142,17 +141,18 @@ public partial class MainWindow
     private void RefreshReliabilityStatus()
     {
         if (_rollbackButton is null) return;
-        foreach (var button in _reliabilityActions) button.IsEnabled = !_busy && !_checkingFeed;
-        _rollbackButton.IsEnabled = !_busy && !_checkingFeed && _game is not null && new PatchRecovery(_game.Directory).CanRollback;
+        foreach (var button in _reliabilityActions) button.IsEnabled = !_busy && !FeedBlocksActions;
+        _rollbackButton.IsEnabled = !_busy && !FeedBlocksActions && _game is not null && new PatchRecovery(_game.Directory).CanRollback;
         _workingButton.IsEnabled = !_busy && _game is not null && File.Exists(Path.Combine(_game.Directory, ".pawpatch", "last-working.json"));
         _copyReadiness.IsEnabled = !_busy && _readiness is { Errors.Count: 0 };
         _releaseChoice.IsEnabled = !_busy;
         if (_readiness is not null && _game is not null)
             try { if (_readinessIdentity != new ModuleInstaller(_game.Directory).LoadState().LastSuccessfulUpdate) InvalidateReadiness(); } catch { InvalidateReadiness(); }
         RussianToggle.IsEnabled = !_busy;
-        OfficialOosRadio.IsEnabled = !_busy;
-        ContinueOosRadio.IsEnabled = !_busy && CanContinueWithSelectedColors;
+        IgnoreDesyncToggle.IsEnabled = !_busy && CanContinueWithSelectedColors;
         _releaseStatus.Text = _settings.PinnedRelease is null ? T("Выбрана последняя версия", "Following the latest release") : T("Выпуск закреплён: ", "Pinned release: ") + _settings.PinnedRelease[..Math.Min(12,_settings.PinnedRelease.Length)];
+        if (PatchVersionText.Text != "-")
+            _releaseStatus.Text += "\n" + T("Установлена: ", "Installed: ") + PatchVersionText.Text + "\n" + PatchDownloadedText.Text;
         RefreshReliabilityVisibility();
     }
 
@@ -229,7 +229,7 @@ public partial class MainWindow
             CardHighlight.Pulse(_importCard);
             var checkedSuccessfully = await CheckFeedAsync();
             ApplyLanguage();
-            if (checkedSuccessfully) ShowToast(() => T("Настройки импортированы. При запуске игры файлы будут обновлены.", "Settings imported. Launching the game will apply the files."));
+            if (checkedSuccessfully) ShowToast(() => T("Настройки импортированы. Нажмите «Применить настройки» или запустите игру.", "Settings imported. Use Apply settings or launch the game."));
         }
         catch (FormatException ex) { ShowError(new FormatException(T("Некорректный или неподдерживаемый код конфигурации. ", "Invalid or unsupported configuration code. ") + ex.Message)); }
         catch (Exception ex) { ShowError(ex); }
@@ -382,7 +382,6 @@ public partial class MainWindow
         }
         catch (Exception ex) { InvalidateReadiness(); ShowError(ex); }
     }
-    private async void MultiplayerNav_Click(object sender, RoutedEventArgs e) { SetActivePage("multiplayer"); await LoadVersionChoicesAsync(); }
 
     private void MarkVisibleChangelogRead()
     {

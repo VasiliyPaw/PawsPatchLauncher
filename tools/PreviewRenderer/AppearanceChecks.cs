@@ -68,7 +68,7 @@ internal static class AppearanceChecks
             Invoke("LanguageButton_Click", window, new RoutedEventArgs()); await Task.Delay(50);
             Check(!moving || Pulses(panel).Length == 1, "Language setting did not highlight its card.");
             await Task.Delay(800);
-            var nav = Control<Button>("MultiplayerNav");
+            var nav = Control<Button>("FriendsNav");
             var icon = (LauncherIcon)nav.Template.FindName("ActionIcon", nav);
             Check(icon.Kind == IconKind.Multiplayer && icon.ActualWidth == 18 && icon.IsVisible, "Navigation vector icon missing after language change.");
             Check(nav.Content is string label && !label.Contains('⚔'), "Navigation still relies on font symbols.");

@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using PawsPatchLauncher;
 
@@ -35,7 +36,7 @@ internal static class FeedbackChecks
         async Task Scenario()
         {
             ((PawsPatchLauncher.Localization)Field("_text")).SetLanguage(language); Invoke("ApplyLanguage");
-            Invoke("SetActivePage", "multiplayer");
+            Invoke("SetActivePage", "settings");
             var snapshot = JsonSerializer.Serialize(Field("_settings"));
             var toast = (OperationFeedback)Field("_toast");
             var toastPanel = (Border)window.FindName("ToastPanel");
@@ -56,6 +57,7 @@ internal static class FeedbackChecks
             Set("_clipboardWrite", (Action<string>)(_ => { calls++; throw Busy(); }));
             Check(!await Copy("never") && calls == 6 && written == "first", "Failed copy claimed success.");
             Check(toast.Failed && !toast.Message!.Contains("copied"), "Old success survived a failed retry.");
+            Check(toast.HasExpiry, "error toast must auto-dismiss");
             Check(feedback.Working && operation.Text == "unchanged download status", "Clipboard feedback replaced download status.");
             Set("_clipboardWrite", (Action<string>)(text => { if (text == "old") throw Busy(); written = text; }));
             var oldRequest = Copy("old"); await Task.Delay(5);
@@ -83,19 +85,57 @@ internal static class FeedbackChecks
             await Task.Delay(500);
             Check(toastPanel.Visibility == Visibility.Collapsed, "Expired toast remained visible.");
             Check(operation.Text == "unchanged download status", "Toast expiry touched operation status.");
+            var progress=(ScaleTransform)window.FindName("ToastProgressScale");
+            var slide=(TranslateTransform)window.FindName("ToastSlide");
+            var expiryTimer=(DispatcherTimer)Field("_toastTimer");
+            toast.Show(()=>"render-clock fixture",duration:TimeSpan.FromSeconds(2));Invoke("RefreshToast");
+            expiryTimer.Stop(); // The progress must advance independently of dispatcher timer ticks.
+            await Task.Delay(90);var firstProgress=progress.ScaleX;
+            Check(progress.HasAnimatedProperties&&firstProgress>0&&firstProgress<.2,"No render-clock progress animation.");
+            await Task.Delay(170);
+            Check(progress.ScaleX>firstProgress+.035&&progress.ScaleX<.3,"Progress depends on the expiry timer or is not linear.");
+            var beforeRefresh=progress.ScaleX;Invoke("RefreshToast");
+            Check(Math.Abs(progress.ScaleX-beforeRefresh)<.02,"Refreshing text restarted progress.");
+            var stack=(StackPanel)window.FindName("ToastStack");var noticesBefore=stack.Children.Count;
+            Invoke("ShowToast",(Func<string>)(()=>"render-clock fixture"),false);
+            Check(progress.ScaleX<.02&&stack.Children.Count==noticesBefore+1,"Repeated toast did not retain the prior notice/reset time.");
+            await Task.Delay(260);
+            Invoke("ToastCloseButton_Click",toastPanel,new RoutedEventArgs());
+            Check(!progress.HasAnimatedProperties,"Closing kept the progress clock alive.");
+            await Task.Delay(70);
+            if(SystemParameters.ClientAreaAnimation)
+            {
+                Check(toastPanel.Visibility==Visibility.Visible&&toastPanel.Opacity is >0 and <1,"Toast closed without fading.");
+                Check(slide.X is >0 and <48&&Math.Abs(slide.Y)<.01,"Toast did not slide right while fading.");
+                var beforeReopen=slide.X;
+                Invoke("ShowToast",(Func<string>)(()=>"render-clock fixture"),false);
+                Check(Math.Abs(slide.X-beforeReopen)<1,"Reversing the exit jumped to its start.");
+            }
+            else Invoke("ShowToast",(Func<string>)(()=>"render-clock fixture"),false);
+            await Task.Delay(300);
+            Check(toastPanel.Visibility==Visibility.Visible&&toastPanel.Opacity>.99&&Math.Abs(slide.Y)<.01&&Math.Abs(slide.X)<.01,"Exit completion hid the replacement.");
+            Invoke("ToastCloseButton_Click",toastPanel,new RoutedEventArgs());await Task.Delay(300);
+            Invoke("ShowToast",(Func<string>)(()=>"interrupted entrance"),false);await Task.Delay(60);
+            var enteringY=slide.Y;var enteringOpacity=toastPanel.Opacity;
+            Invoke("ToastCloseButton_Click",toastPanel,new RoutedEventArgs());
+            if(SystemParameters.ClientAreaAnimation)
+                Check(Math.Abs(slide.Y-enteringY)<1&&Math.Abs(toastPanel.Opacity-enteringOpacity)<.01,"Dismissing during entrance jumped or flashed.");
+            await Task.Delay(300);
+            Check(toastPanel.Visibility==Visibility.Collapsed&&!slide.HasAnimatedProperties&&!Motion.IsHiding(toastPanel),"Dismissal left a slide clock or pending operation.");
             Invoke("ShowToast", (Func<string>)(() => language == "ru"
                 ? "Буфер обмена занят. Подождите немного и повторите действие."
                 : "The clipboard is busy. Wait a moment and try again."), true);
+            await Task.Delay(250); // Inspect the resting position after the slide-up entrance.
             window.UpdateLayout();
             var content = (FrameworkElement)window.Content;
             var bounds = toastPanel.TransformToAncestor(content).TransformBounds(new Rect(toastPanel.RenderSize));
             var options = (ScrollViewer)window.FindName("MainOptionsScroll");
             var optionsRight = options.TranslatePoint(new Point(options.ActualWidth, 0), content).X;
             var launch = (Button)window.FindName("LaunchButton");
-            Check(bounds.Right < optionsRight && bounds.Bottom < launch.TranslatePoint(new Point(), content).Y,
-                "Toast covers the status column or launch controls.");
+            Check(bounds.Left >= 0 && bounds.Right <= content.ActualWidth && bounds.Bottom < launch.TranslatePoint(new Point(), content).Y,
+                "Toast is outside the window or covers launch controls.");
             Check(toastPanel.ActualHeight < 160 && toastPanel.ActualWidth > 180, "Toast is not compact.");
-            Invoke("SetActivePage", "settings");
+            Invoke("SetActivePage", "modules");
             if (SystemParameters.ClientAreaAnimation) Check(options.Opacity < 1, "Page switch did not fade.");
             Invoke("SetActivePage", "home"); await Task.Delay(230);
             Check((string)Field("_activePage") == "home" && Math.Abs(options.Opacity - 1) < 0.001, "Rapid navigation left stale/transparent content.");
@@ -111,6 +151,7 @@ internal static class FeedbackChecks
             Set("_clipboardWrite", (Action<string>)(_ => throw Busy()));
             var closingCopy = Copy("closing"); window.Close();
             Check(!await closingCopy, "Closing the launcher did not cancel clipboard retries.");
+            Check(!progress.HasAnimatedProperties&&!expiryTimer.IsEnabled,"Window closure leaked notification animation/timer.");
             Console.WriteLine($"FEEDBACK UI PASS {tests} {language}: safe STA retries, truthful notifications, races, paste, status isolation, expiry, bounds, page/help fades; simulated clipboard only");
         }
         try

@@ -45,6 +45,37 @@ public sealed class FeedClient
         throw new AggregateException("Every update feed failed.", errors);
     }
 
+    // Launcher versions are shared by all patch channels. Read both current
+    // channel endpoints and all configured mirrors, never the selected/pinned
+    // patch manifest. Do not archive/apply any gameplay data during this check.
+    public async Task<LauncherRelease?> GetLauncherUpdateAsync(CancellationToken cancellationToken = default)
+    {
+        var sources = _configuration.FeedUrls.Select(url => (Url: url, Channel: "stable"))
+            .Concat(_configuration.BetaFeedUrls.Select(url => (Url: url, Channel: "beta"))).Distinct().ToArray();
+        if (sources.Length == 0) return null;
+        async Task<(LauncherRelease? Release, Exception? Error)> Read((string Url, string Channel) source)
+        {
+            try
+            {
+                var manifest = ParseFeed(await ReadBytesAsync(source.Url, cancellationToken), IsRemote(source.Url));
+                if (!manifest.Channel.Equals(source.Channel, StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidDataException("Wrong channel in launcher update source: " + source.Url);
+                var release = manifest.Launcher;
+                if (release.Version == "0.0.0" && release.Urls.Count == 0) return (null, null);
+                if (!LauncherUpdateState.IsValid(release)) throw new InvalidDataException("Invalid launcher release metadata: " + source.Url);
+                return (release, null);
+            }
+            catch (Exception error) { return (null, error); }
+        }
+        var results = await Task.WhenAll(sources.Select(Read));
+        var latest = new LauncherUpdateState();
+        foreach (var result in results) latest.Observe(result.Release);
+        // A healthy source still wins when another source fails or times out.
+        if (results.Any(result => result.Error is null)) return latest.Latest;
+        cancellationToken.ThrowIfCancellationRequested();
+        throw new AggregateException("Every launcher update source failed.", results.Select(result => result.Error!));
+    }
+
     public async Task<string> DownloadVerifiedAsync(PackageRelease package, IProgress<(long Received, long? Total)>? progress,
         CancellationToken cancellationToken = default)
     {
@@ -68,6 +99,7 @@ public sealed class FeedClient
                     throw new InvalidDataException($"SHA-256 mismatch for {package.Id}: expected {package.Sha256}, got {actual}.");
                 }
                 File.Move(temporary, destination, true);
+                await PackageDownloadDate.RecordAsync(destination, cancellationToken);
                 return destination;
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
@@ -185,7 +217,12 @@ public sealed class FeedClient
             var local = source.StartsWith("file:", StringComparison.OrdinalIgnoreCase) ? new Uri(source).LocalPath : source;
             return await File.ReadAllBytesAsync(local, cancellationToken);
         }
-        return await _http.GetByteArrayAsync(source, cancellationToken);
+        using var request = new HttpRequestMessage(HttpMethod.Get, source);
+        request.Headers.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue {
+            NoCache = true, MaxAge = TimeSpan.Zero };
+        using var response = await _http.SendAsync(request, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsByteArrayAsync(cancellationToken);
     }
 
     private static bool IsRemote(string value)

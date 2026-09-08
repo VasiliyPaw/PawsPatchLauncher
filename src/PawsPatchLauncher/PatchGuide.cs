@@ -10,8 +10,8 @@ public sealed record PatchGuideEntry(string Id, string Category, string TitleRu,
 public static class PatchGuide
 {
     public const int PlayerColorCount = 49;
-    public const string DesyncHelpRu = "Официальный режим останавливает матч при рассинхроне. Режим «Продолжать игру» пропускает все обнаруженные рассинхроны, в том числе серьёзные, которые могут заметно повлиять на ход матча. Он не исправляет расхождения: у игроков могут отличаться события, положение и действия рот, ресурсы и исход боя.";
-    public const string DesyncHelpEn = "Official handling stops the match on a desync. Continue the game skips all detected desyncs, including serious ones that can substantially affect the match. It does not repair divergent states: players may see different events, company positions and actions, resources or battle outcomes.";
+    public const string DesyncHelpRu = "При включении игра пропускает все обнаруженные рассинхроны, включая серьёзные, которые могут заметно повлиять на матч. Это не устраняет расхождения: у игроков могут отличаться события, положение и действия рот, ресурсы и исход боя. При выключении игра останавливает матч при рассинхроне. Настройка должна совпадать у всех участников.";
+    public const string DesyncHelpEn = "When enabled, skips all detected desyncs, including serious ones that can substantially affect the match. This does not repair divergent states: players may see different events, company positions and actions, resources or battle outcomes. When disabled, the game stops the match on a desync. Every participant must use the same setting.";
     public static string CategoryName(string category, string language) => (category, language == "en") switch
     {
         ("optional", false) => "Настраиваемое", ("optional", true) => "Configurable",
@@ -20,8 +20,8 @@ public static class PatchGuide
     };
     public static string CategoryDescription(string category, string language) => (category, language == "en") switch
     {
-        ("optional", false) => "Эти функции выбираются в разделе «Компоненты». Изменения применяются при установке или перед запуском игры. Здесь только описание, настройки не переключаются.",
-        ("optional", true) => "Choose these features in Components. Changes are applied when installing or before launching the game. This page only describes them; it does not change settings.",
+        ("optional", false) => "Эти функции выбираются в разделе «Компоненты». Нажмите «Применить настройки» или запустите игру. Здесь только описание, настройки не переключаются.",
+        ("optional", true) => "Choose these features in Components. Click Apply settings or launch the game. This page only describes them; it does not change settings.",
         ("beta", false) => "Дополнения текущей беты патча. Просмотр этой вкладки не включает бета-канал. Для сетевой игры всем участникам нужна совместимая версия и одинаковые игровые настройки.",
         ("beta", true) => "Additions in the current patch Beta. Reading this tab does not enable the Beta channel. Multiplayer peers need compatible versions and matching gameplay settings.",
         (_, false) => "Обязательная основа Paw's Patch, доступная и в релизе, и в бете. Эти изменения устанавливаются вместе с патчем и не имеют отдельных переключателей.",
@@ -49,8 +49,8 @@ public static class PatchGuide
             "Логова, лагеря и независимые города распределяются по командам семейств. Разные семейства могут сражаться друг с другом и с игроками, а выбранные монстры охотятся на животных.\n\nРаспределение выполняется после генерации карты. Захваченные владения сохраняют своего владельца при загрузке сохранения. Для игроков за Нежить и Тень применяется враждебность к животным. Старые механики нейтралитета по совпадению расы и провокации не используются.\n\nПри отключении не применяется распределение независимых объектов по командам семейств. В сетевом матче эта настройка должна совпадать у участников.",
             "Lairs, camps and independent towns are assigned to family factions. Different families can fight each other and players, while selected monsters hunt wildlife.\n\nAssignment happens after map generation. Captured holdings retain their owner when loading a save. Players using Undead or Shadow are hostile to wildlife. The old matching-race neutrality and provocation mechanics are not used.\n\nDisabling this option skips family-faction assignment for independent objects. Multiplayer participants must use the same setting."),
         new("frequency", "optional", "Частота блуждающих рот", "Roaming company frequency",
-            "Стандартный режим использует обычные интервалы и шансы появления. Режим ×4 вдвое сокращает интервал между проверками и удваивает шанс события. В среднем роты появляются примерно в четыре раза чаще, но конкретное появление остаётся случайным.\n\nЧастота и добавление новых типов блуждающих рот настраиваются отдельно.",
-            "Standard uses normal appearance intervals and chances. ×4 halves the interval between checks and doubles the event chance. On average, companies appear about four times as often, but individual appearances remain random.\n\nFrequency and the addition of new roaming-company types are configured separately."),
+            "Стандартный режим использует обычные интервалы и шансы появления. ×2 сокращает интервал на 25% и увеличивает шанс события на 50%. ×4 вдвое сокращает интервал и удваивает шанс. В среднем роты появляются примерно в два или четыре раза чаще, но конкретное появление остаётся случайным.\n\nВсе три режима совместимы с включёнными и выключенными новыми ротами. Настройку можно применить без запуска игры кнопкой «Применить настройки».",
+            "Standard uses normal appearance intervals and chances. ×2 shortens the interval by 25% and raises the event chance by 50%. ×4 halves the interval and doubles the chance. On average, companies appear about two or four times as often, but individual appearances remain random.\n\nAll three modes work with additional companies on or off. Use Apply settings to apply your choice without starting the game."),
         new("roaming", "optional", "Новые блуждающие роты", "Additional roaming companies",
             "Добавляет выход рот из лагерей бандитов, варваров, ракшасов и слаан на местах поселений и фундаментов. Дополнительными источниками становятся логова пауков и скорпионов, Тёмный разлом и руины нежити.\n\nДля добавленных рот настроены параметры выхода, боевого духа и восстановления. Опцию можно отключить как при стандартной частоте, так и при ×4; тогда остаётся исходный набор источников блуждающих рот.",
             "Adds roaming companies from bandit, barbarian, Rhaksha and Slaan camps on settlement and foundation sites. Spider and scorpion lairs, the Dark Rift and undead ruins also become sources.\n\nThe added companies have tuned spawning, morale and recovery parameters. The option can be disabled with either Standard or ×4 frequency, leaving the original roaming-company sources."),
@@ -60,7 +60,7 @@ public static class PatchGuide
         new("localization", "optional", "Русская локализация", "Russian localization",
             "Устанавливает русский перевод оригинальной игры, Arcane Wars и дополнительных настроек патча. Язык игры выбирается отдельно от языка лаунчера.\n\nПри отключении используются исходные языковые файлы установленной игры и мода. Сама локализация не меняет игровую симуляцию.",
             "Installs Russian translations for the base game, Arcane Wars and additional patch settings. The game language is independent of the launcher language.\n\nDisabling it uses the underlying language files of the installed game and mod. Localization itself does not change the game simulation."),
-        new("desync", "optional", "Продолжение после рассинхрона", "Continue after desync",
+        new("desync", "optional", "Игнорирование рассинхронов", "Ignore desyncs",
             DesyncHelpRu + "\n\nРежим доступен в релизе и в бете. Его можно выбрать независимо от вражды независимых. При включённых расширенных цветах текущая сборка использует официальную обработку рассинхрона, поэтому продолжение недоступно.",
             DesyncHelpEn + "\n\nAvailable in both Release and Beta, independently of independent-faction hostility. With extended player colors enabled, the current build uses official desync handling, so continuing after a desync is unavailable."),
         new("colors", "beta", "Расширенные цвета игроков", "Extended player colors",
@@ -102,6 +102,10 @@ public static class PatchGuide
         entry = entry with { Category = entry.Category == "beta" ? (entry.Id == "colors" ? "optional" : "always") : entry.Category };
         return entry.Id switch
         {
+            "roaming" => entry with {
+                BodyRu = entry.BodyRu.Replace("как при стандартной частоте, так и при ×4", "при любой частоте: стандартной, ×2 или ×4"),
+                BodyEn = entry.BodyEn.Replace("with either Standard or ×4 frequency", "with Standard, ×2 or ×4 frequency")
+            },
             "base" => entry with {
                 BodyRu = "Лаунчер устанавливает Arcane Wars как основу и применяет Paw's Patch. Релиз 0.2.0 включает возможности прежней беты: случайные карты и время суток, исправление стартового рассинхрона, сетевые цвета и общие исправления интерфейса.\n\nВсе переключатели компонентов независимы. Для сетевой игры участникам нужны одинаковые версии и совместимые настройки. История отдельных обновлений доступна справа.",
                 BodyEn = "The launcher installs Arcane Wars as the base mod and applies Paw's Patch. Release 0.2.0 includes the former Beta features: random maps and time of day, the startup desync fix, multiplayer colors and shared interface fixes.\n\nAll component switches are independent. Multiplayer participants need matching versions and compatible settings. Individual updates are listed in the changelog."

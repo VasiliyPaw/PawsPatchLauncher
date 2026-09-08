@@ -10,9 +10,14 @@ public static class GamePackageSelector
         if (customPlayerColors) ids.Add("player-colors");
         if (settings.DesyncMode == "continue") ids.Add("desync-continue");
         var fastSpawn = settings.RoamingSpawnMode.Equals("x4", StringComparison.OrdinalIgnoreCase);
-        if (!fastSpawn && settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-with-new");
-        if (fastSpawn && !settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-x4-no-new");
-        if (!fastSpawn && !settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-no-new");
+        if (settings.RoamingSpawnMode.Equals("x2", StringComparison.OrdinalIgnoreCase))
+            ids.Add(settings.AdditionalRoamingCompanies ? "roaming-profile-x2-with-new" : "roaming-profile-x2-no-new");
+        else
+        {
+            if (!fastSpawn && settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-with-new");
+            if (fastSpawn && !settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-x4-no-new");
+            if (!fastSpawn && !settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-no-new");
+        }
         if (!settings.SiegeBalance) ids.Add("siege-balance-standard");
         if (!settings.DisablePowersAndShards) ids.Add("powers-shards-original");
         bool changed;

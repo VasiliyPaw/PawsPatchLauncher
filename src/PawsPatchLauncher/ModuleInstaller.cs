@@ -77,6 +77,7 @@ public sealed class ModuleInstaller
         return new InstalledModule
         {
             Version = module.Version,
+            DownloadedAt = PackageDownloadDate.Read(archivePath),
             Priority = package.Priority,
             Enabled = true,
             ArchiveSha256 = package.Sha256,

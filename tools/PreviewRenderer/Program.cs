@@ -27,11 +27,28 @@ public static class Program
         var enhancements = args.Contains("--enhancements");
         var motionChecks = args.Contains("--motion");
         var feedbackChecks = args.Contains("--feedback");
+        var friendsPolishChecks = args.Contains("--friends-polish-checks");
+        var updateRefreshChecks = args.Contains("--update-refresh-checks");
+        var arrivalPolishChecks = args.Contains("--arrival-polish-checks");
         var appearanceChecks = args.Contains("--appearance");
         var changelogChecks = args.Contains("--changelog");
         var aboutChecks = args.Contains("--about-checks");
         var powersChecks = args.Contains("--powers-checks");
         var combinationAudit = args.Contains("--combination-audit");
+        var launcherUpdateChecks = args.Contains("--launcher-update-checks");
+        var componentSettingsChecks = args.Contains("--component-settings-checks");
+        var helpCreditChecks = args.Contains("--help-credit-checks");
+        var accountChecks = args.Contains("--account-checks");
+        var socialChecks = args.Contains("--social-checks");
+        var socialHubChecks = args.Contains("--social-hub-checks");
+        var socialDemo = args.FirstOrDefault(a=>a.StartsWith("--social-demo="))?.Split('=')[1];
+        var adminDemo=args.FirstOrDefault(a=>a.StartsWith("--admin-demo="))?.Split('=')[1];
+        var adminChecks=args.Contains("--admin-checks");
+        var historyResourceChecks=args.Contains("--history-resource-checks");
+        var compatibilityChecks=args.Contains("--compatibility-checks");
+        var compatibilityDemo=args.Contains("--compatibility-demo");
+        var accountForm = args.FirstOrDefault(arg => arg.StartsWith("--account-form="))?.Split('=')[1];
+        var accountDemo = args.FirstOrDefault(a => a.StartsWith("--account-demo=", StringComparison.Ordinal))?.Split('=', 2)[1];
         var powersPreview = args.Contains("--powers-preview");
         var aboutCategory = args.FirstOrDefault(arg => arg.StartsWith("--about-category="))?.Split('=')[1];
         var guideFeed = args.FirstOrDefault(arg => arg.StartsWith("--guide-feed="))?["--guide-feed=".Length..];
@@ -63,11 +80,24 @@ public static class Program
             finally { motionFixture.Close(); }
         }
         if (feedbackChecks) FeedbackChecks.Run(language);
+        if (friendsPolishChecks) FriendsPolishChecks.Run(language);
+        if(adminChecks)AdminChecks.Run(language);
+        if(historyResourceChecks)HistoryResourceChecks.Run(language);
+        if(compatibilityChecks)CompatibilityChecks.Run(language);
+        if (updateRefreshChecks) UpdateRefreshChecks.Run(language);
+        if (arrivalPolishChecks) ArrivalPolishChecks.Run(language);
+        if (motionChecks) SmoothExperienceChecks.Run(language);
         if (appearanceChecks) AppearanceChecks.Run(language, args[0]);
         if (changelogChecks) ChangelogChecks.Run(language);
         if (aboutChecks) AboutChecks.Run(language);
         if (powersChecks) PowersUiChecks.Run(language);
         if (combinationAudit) CombinationUiAudit.Run();
+        if (launcherUpdateChecks) LauncherUpdateChecks.Run();
+        if (componentSettingsChecks) ComponentSettingsChecks.Run(language);
+        if (helpCreditChecks) HelpCreditChecks.Run(language);
+        if (accountChecks) AccountChecks.Run(language);
+        if (socialChecks) { SocialChecks.Run(language); SocialRefreshChecks.Run(language); SessionMenuChecks.Run(language,args[0]); ChatPresentationChecks.Run(language); FriendSettingsChecks.Run(language); OfferUiChecks.Run(language); IdentityMediaUiChecks.Run(language); SocialRefinementChecks.Run(language); SocialFinishChecks.Run(language); MediaLayoutChecks.Run(language); }
+        if (socialHubChecks) SocialHubChecks.Run(language);
         if (diagnosticsChecks) DiagnosticsUiChecks.Run(language);
         if (windowChecks) WindowExperienceChecks.Run(language);
         if (storageConfirmationChecks) StorageConfirmationChecks.Run(language);
@@ -109,6 +139,37 @@ public static class Program
         if (args.Length >= 2)
             typeof(MainWindow).GetMethod("SetActivePage", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(window, [args[1]]);
         if (aboutCategory is not null) ((Task)Invoke(window, "SwitchAboutCategoryAsync", aboutCategory)!).GetAwaiter().GetResult();
+        if (accountForm is not null) Invoke(window, "ShowAccountForm", accountForm == "register");
+        if (accountDemo is not null) AccountChecks.Populate(window, accountDemo);
+        if (socialDemo=="search")
+        {
+            SocialHubChecks.Populate(window);Invoke(window,"ResetBroadcast");
+            Invoke(window,"FriendsSearch_Click",window.FindName("FriendsSearchButton"),new RoutedEventArgs());
+            ((TextBox)window.FindName("FriendsSearchInput")).Text="friend";
+            Invoke(window,"FriendsShowAdd_Click",window.FindName("FriendsShowAddButton"),new RoutedEventArgs());
+        }
+        else if (socialDemo is "broadcast" or "broadcast-selected")
+        {
+            SocialHubChecks.Populate(window);
+            if(socialDemo=="broadcast-selected")
+                foreach(var recipient in ((StackPanel)window.FindName("BroadcastRows")).Children.OfType<CheckBox>().Where(c=>c.IsEnabled).Take(2))
+                    recipient.IsChecked=true;
+        }
+        else if (socialDemo == "history") HistoryResourceChecks.PopulateHistory(window);
+        else if (socialDemo == "media") MediaLayoutChecks.Populate(window);
+        else if (socialDemo == "offers") OfferUiChecks.Populate(window);
+        else if (socialDemo == "copy") OfferUiChecks.PopulateConfirmation(window);
+        else if (socialDemo is "offer-confirm" or "offer-match") SocialRefinementChecks.PopulateConfirmation(window,socialDemo=="offer-match");
+        else if (socialDemo is not null) SocialChecks.Populate(window, socialDemo);
+        if(adminDemo is "monitor-resources" or "monitor-status")MonitorChecks.Populate(window,adminDemo=="monitor-resources"?"resources":"status");
+        else if(adminDemo=="resources")HistoryResourceChecks.PopulateResources(window);
+        else if(adminDemo is not null)AdminChecks.Populate(window,adminDemo);
+        if(compatibilityDemo)CompatibilityChecks.Populate(window);
+        if (accountDemo == "avatar")
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(args[0]))!);
+            File.WriteAllBytes(Path.ChangeExtension(args[0], ".jpg"), AccountChecks.AvatarFixture());
+        }
         var content = (FrameworkElement)window.Content;
         content.Measure(new Size(width, height));
         content.Arrange(new Rect(0, 0, width, height));
@@ -151,12 +212,18 @@ public static class Program
             Console.WriteLine("FOCUS PASS " + focus);
         }
         CheckOptionsLayout(window, content, args.Length >= 2 ? args[1] : "home");
+        if(socialDemo=="history")
+        {
+            var chat=(ScrollViewer)window.FindName("FriendsChatScroll");chat.ScrollToVerticalOffset(600);
+            content.UpdateLayout();window.Dispatcher.Invoke(()=>{},System.Windows.Threading.DispatcherPriority.ContextIdle);content.UpdateLayout();
+            Invoke(window,"RefreshHistoryJump");
+        }
         TypographyChecks.Layout(window, content, args.Length >= 2 ? args[1] : "home");
         AboutChecks.Layout(window, content);
         if (args.Length >= 2 && args[1] == "settings") CheckStorageLabelGap(window);
         if (args.Length >= 2 && args[1] == "modules") CheckMultiplayerNoteAlignment(window);
         CheckScrollbars(window, content);
-        foreach (var name in new[] { "HomeNav", "ModulesNav", "MultiplayerNav", "SettingsNav", "AboutNav" })
+        foreach (var name in new[] { "HomeNav", "ModulesNav", "FriendsNav", "SettingsNav", "AboutNav" })
         {
             var button = (Button)window.FindName(name);
             var label = new TextBlock { Text = button.Content.ToString(), FontFamily = button.FontFamily, FontSize = button.FontSize, FontWeight = button.FontWeight };
@@ -178,10 +245,22 @@ public static class Program
         }
         if (toastPreview is not null)
         {
+            if(toastPreview=="stack")
+            {
+                Invoke(window,"ShowToast",(Func<string>)(()=>language=="ru"?"Заявка отправлена.":"Request sent."),false);
+                Invoke(window,"ShowToast",(Func<string>)(()=>language=="ru"?"Конфигурация отправлена.":"Configuration sent."),false);
+            }
             Invoke(window, "ShowToast", (Func<string>)(() => toastPreview == "error"
                 ? language == "ru" ? "Буфер обмена занят. Подождите немного и повторите действие." : "The clipboard is busy. Wait a moment and try again."
+                : toastPreview == "avatar" ? language == "ru" ? "Аватарка успешно изменена." : "Avatar updated successfully."
                 : language == "ru" ? "Код конфигурации скопирован" : "Configuration code copied"), toastPreview == "error");
             var toast = (Border)window.FindName("ToastPanel"); toast.BeginAnimation(UIElement.OpacityProperty, null); toast.Opacity = 1;
+            // Static fixture: show the resting position and mid-life fill, not the first entry frame.
+            var toastSlide=(TranslateTransform)window.FindName("ToastSlide");toastSlide.BeginAnimation(TranslateTransform.YProperty,null);toastSlide.Y=0;
+            var toastProgress=(ScaleTransform)window.FindName("ToastProgressScale");toastProgress.BeginAnimation(ScaleTransform.ScaleXProperty,null);toastProgress.ScaleX=.45;
+            foreach(var panel in ((StackPanel)window.FindName("ToastStack")).Children.OfType<Border>())
+            { panel.BeginAnimation(UIElement.OpacityProperty,null);panel.Opacity=1;
+              if(panel.RenderTransform is TranslateTransform slide) {slide.BeginAnimation(TranslateTransform.YProperty,null);slide.Y=0;} }
         }
         if (helpPreview)
         {
@@ -341,15 +420,15 @@ public static class Program
         var removal = (Border)window.FindName("RemovalCard");
         var visible = stack.Children.OfType<FrameworkElement>()
             .Where(x => x.Visibility == Visibility.Visible && x.ActualHeight > 0).ToArray();
-        if (page == "multiplayer")
+        if (page == "settings")
         {
-            if (visible.Length < 3 || visible[0] != code || visible[1] != import
+            if (code.Visibility != Visibility.Visible || import.Visibility != Visibility.Visible
                 || import.Children.Count != 1 || import.Children[0].Visibility != Visibility.Visible)
-                throw new InvalidOperationException("Multiplayer must begin with the configuration code and friend import.");
+                throw new InvalidOperationException("Settings must retain manual configuration code sharing.");
         }
         else if (code.Visibility != Visibility.Collapsed || import.Visibility != Visibility.Collapsed
                  || import.Children[0].Visibility != Visibility.Collapsed)
-            throw new InvalidOperationException("Configuration sharing must be exclusive to Multiplayer.");
+            throw new InvalidOperationException("Manual configuration codes must be exclusive to Settings.");
         if (page == "settings")
         {
             if (visible[0] != window.FindName("SettingsPanel"))
@@ -376,7 +455,7 @@ public static class Program
                 throw new InvalidOperationException("Game folder title must match the white bold card headings in sentence case.");
             Console.WriteLine("GAME FOLDER HEADING PASS: main text color, bold 18px, localized sentence case");
         }
-        Console.WriteLine($"OPTIONS ORDER PASS {page}: sharing only at Multiplayer top; diagnostics only before Settings game folder");
+        Console.WriteLine($"OPTIONS ORDER PASS {page}: manual codes in Settings; diagnostics before game folder");
         Console.WriteLine($"OPTIONS GAP PASS {page}: {cards} cards, minimum {minimumGap:F1}px, scrollbar={bar.Visibility}");
     }
 
@@ -388,9 +467,10 @@ public static class Program
             window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
             content.UpdateLayout();
         }
-        foreach (var name in new[] { "MainOptionsScroll", "NewsScrollViewer" })
+        foreach (var name in new[] { "MainOptionsScroll", "NewsScrollViewer", "FriendsChatScroll" })
         {
             var scroll = (ScrollViewer)window.FindName(name);
+            if (scroll.ActualWidth <= 0 || scroll.ActualHeight <= 0) continue;
             var bar = (ScrollBar)scroll.Template.FindName("PART_VerticalScrollBar", scroll);
             if (bar.Visibility != Visibility.Visible) continue;
             if (bar.Template.FindName("ScrollRail", bar) is not Border { CornerRadius.TopLeft: >= 4, ActualWidth: <= 14 }

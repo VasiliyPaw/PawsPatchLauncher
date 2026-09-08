@@ -86,7 +86,7 @@ internal static class PatchChannelChecks
             Check(settings.Channel=="beta" && Control<RadioButton>("HeaderBetaRadio").IsChecked==true,"Busy channel change left inconsistent selection.");
             Set("_checkingFeed",false); Invoke("SyncPatchChannelControls");
             File.Delete(cached[0]); Invoke("RefreshStatus");
-            Check(Field<bool>("_patchUpdateAvailable"),"Missing cache was incorrectly treated as ready.");
+            Check(!Field<bool>("_patchUpdateAvailable"),"Identical installed files incorrectly need an update just because a cache copy is missing.");
             File.WriteAllBytes(cached[0],[1]); Invoke("RefreshStatus");
             Check(!Field<bool>("_patchUpdateAvailable"),"Restored cache did not clear preparation state.");
             beta.Packages[1].Version="2"; Set("_channel",beta); Invoke("RefreshStatus");

@@ -2,6 +2,16 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.6.0",
+      "publishedAt": "2026-09-08",
+      "title": { "ru": "Друзья, профили и обмен в лаунчере", "en": "Friends, profiles and sharing in the launcher" },
+      "body": {
+        "ru": "Аккаунты с аватарками, именами и username; восстановление пароля кодом. Чаты, заявки, статусы, предложения конфигураций и передача сейвов, включая рассылку нескольким друзьям. Компактный интерфейс, плавная прокрутка, настраиваемые звуковые уведомления и кнопка возврата вниз чата. Админ-панель со статусами сервисов, ресурсами и модерацией. Добавлены два пакета частоты блуждающих рот ×2; остальные игровые пакеты не изменились. Исправлены очистка временных сейвов и обновлятор. Если старая 0.5.8 в очень глубокой папке откатывает обновление, закройте её и однократно замените EXE файлом выпуска 0.6.0.",
+        "en": "Accounts with avatars, display names and usernames; password recovery by code. Chats, friend requests, presence, configuration offers and save transfers, including sharing with several friends. Compact interface, smooth scrolling, customizable notification audio and a jump-to-latest chat button. Administration with service status, resources and moderation. Two ×2 roaming profiles are included; existing gameplay packages are unchanged. Temporary-save cleanup and the updater are fixed. If old 0.5.8 rolls back an update from a very deep folder, close it and replace its EXE once with the official 0.6.0 release file."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.5.8",
       "publishedAt": "2026-09-07",
       "title": {
@@ -288,6 +298,16 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.6.0",
+      "publishedAt": "2026-09-08",
+      "title": { "ru": "Друзья, профили и обмен в лаунчере", "en": "Friends, profiles and sharing in the launcher" },
+      "body": {
+        "ru": "Аккаунты с аватарками, именами и username; восстановление пароля кодом. Чаты, заявки, статусы, предложения конфигураций и передача сейвов, включая рассылку нескольким друзьям. Компактный интерфейс, плавная прокрутка, настраиваемые звуковые уведомления и кнопка возврата вниз чата. Админ-панель со статусами сервисов, ресурсами и модерацией. Добавлены два пакета частоты блуждающих рот ×2; остальные игровые пакеты не изменились. Исправлены очистка временных сейвов и обновлятор. Если старая 0.5.8 в очень глубокой папке откатывает обновление, закройте её и однократно замените EXE файлом выпуска 0.6.0.",
+        "en": "Accounts with avatars, display names and usernames; password recovery by code. Chats, friend requests, presence, configuration offers and save transfers, including sharing with several friends. Compact interface, smooth scrolling, customizable notification audio and a jump-to-latest chat button. Administration with service status, resources and moderation. Two ×2 roaming profiles are included; existing gameplay packages are unchanged. Temporary-save cleanup and the updater are fixed. If old 0.5.8 rolls back an update from a very deep folder, close it and replace its EXE once with the official 0.6.0 release file."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.5.8",

@@ -22,11 +22,17 @@ public partial class MainWindow : Window
     private bool _initializing = true;
     private bool _colorsAvailable;
     private bool _checkingFeed;
+    private bool _backgroundFeedCheck;
+    private bool FeedBlocksActions => _checkingFeed && !_backgroundFeedCheck;
+    private long _feedCheckVersion;
+    private CancellationTokenSource? _feedCancellation;
     private bool _patchUpdateAvailable;
     private bool _patchInstalled;
     private string _activePage = "home";
     private string _changelogCategory = "patch";
     private LauncherRelease? _pendingLauncherUpdate;
+    private readonly LauncherUpdateState _launcherUpdates = new();
+    private bool _launcherCheckFailed;
     private DateTimeOffset? _lastChecked;
     private readonly DispatcherTimer _updateTimer = new();
 
@@ -51,6 +57,9 @@ public partial class MainWindow : Window
             _settingsStore.Save(_settings);
         }
         _text = new Localization(_settings.Language);
+        InitializeAccountUi();
+        InitializeGameLaunchState();
+        InitializeNotificationSound();
         InitializeFeedback();
         InitializeNotifications();
         InitializeReliabilityUi();
@@ -71,9 +80,10 @@ public partial class MainWindow : Window
         SetActivePage("home");
         _updateTimer.Interval = TimeSpan.FromMinutes(1);
         _updateTimer.Tick += async (_, _) => await CheckFeedAsync(background: true);
-        Closed += (_, _) => _updateTimer.Stop();
+        Closed += (_, _) => { _updateTimer.Stop(); CancelBackgroundFeed(); };
         Closed += (_, _) => CancelChangelogTransition();
         Closed += (_, _) => CancelAboutTransition();
+        Closed += (_, _) => ResetChatMedia(dispose:true);
         Closing += (_, e) =>
         {
             if (ConfirmationActive) { e.Cancel = true; _ = CompleteConfirmationAsync(false); }
@@ -142,6 +152,7 @@ public partial class MainWindow : Window
         CheckUpdatesButton.Content = _text["button.checknow"];
         var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
         LauncherVersionLabel.Text = T("ЛАУНЧЕР", "LAUNCHER");
+        InstalledPatchLabel.Text = T("УСТАНОВЛЕННЫЙ ПАТЧ", "INSTALLED PATCH");
         LauncherVersionText.Text = $"{version.Major}.{version.Minor}.{version.Build}";
         GamePathLabel.Text = _text["game.path"];
         GameVersionLabel.Text = _text["game.version"].ToUpperInvariant();
@@ -154,12 +165,13 @@ public partial class MainWindow : Window
         ColorsTitleText.Text = _text["modules.colors"];
         ColorsDescriptionText.Text = _text["modules.colors.desc"];
         OosTitleText.Text = _text["modules.oos"];
-        OfficialOosRadio.Content = _text["modules.oos.official"];
-        ContinueOosRadio.Content = _text["modules.oos.continue"];
+        OosDescriptionText.Text = T("Продолжает матч при обнаружении рассинхрона, не устраняя его причину", "Continues the match on desync without fixing its cause");
+        ApplySettingsButton.Content = T("Применить настройки", "Apply settings");
         IndependentTitleText.Text = _text["modules.independent"];
         IndependentDescriptionText.Text = _text["modules.independent.desc"];
         RoamingSpawnTitleText.Text = _text["modules.spawn"];
         StandardSpawnRadio.Content = _text["modules.spawn.standard"];
+        X2SpawnRadio.Content = "×2";
         X4SpawnRadio.Content = _text["modules.spawn.x4"];
         AdditionalRoamingTitleText.Text = _text["modules.roaming"];
         AdditionalRoamingDescriptionText.Text = _text["modules.roaming.desc"];
@@ -184,6 +196,8 @@ public partial class MainWindow : Window
         LaunchButton.Content = _text["button.launch"];
         BrowseButton.Content = _text["button.browse"];
         LanguageButton.Content = _text.Language == "ru" ? "EN" : "RU";
+        // Friend profiles reuse the component labels; refresh only after those labels are localized.
+        ApplyAccountLanguage();
         ApplyHelpTooltips(this);
         RefreshConfigurationCode();
         RefreshModuleAvailability();
@@ -203,16 +217,20 @@ public partial class MainWindow : Window
 
     private async Task<bool> CheckFeedAsync(bool background = false)
     {
+        if (!background) CancelBackgroundFeed();
         if (_checkingFeed || _busy || ConfirmationActive) return false;
         var requestedChannel = _settings.Channel;
         var requestedRelease = _settings.PinnedRelease;
         _checkingFeed = true;
+        _backgroundFeedCheck = background;
+        var version = ++_feedCheckVersion;
         if (!background) SetBusy(true, _text["progress.checking"]);
-        else RefreshStatus();
         var revision = _operationRevision;
         bool IsCurrent() => requestedChannel == _settings.Channel && requestedRelease == _settings.PinnedRelease
-            && revision == _operationRevision && (!background || !_busy);
+            && version == _feedCheckVersion && revision == _operationRevision && (!background || !_busy && !ConfirmationActive);
         using var cancellation = new CancellationTokenSource(_feedTimeout);
+        _feedCancellation = cancellation;
+        var launcherCheck = CheckLauncherUpdateAsync(cancellation.Token, IsCurrent);
         try
         {
             var latest = await _feedClient.GetChannelAsync(requestedChannel, cancellation.Token);
@@ -227,7 +245,7 @@ public partial class MainWindow : Window
             RefreshNews();
             RefreshModuleAvailability();
             RefreshStatus();
-            if (_game is not null && _channel is not null && !IsGameRunning())
+            if (!background && _game is not null && _channel is not null && !IsGameRunning())
             {
                 var installer = new ModuleInstaller(_game.Directory);
                 var state = installer.LoadState();
@@ -236,15 +254,17 @@ public partial class MainWindow : Window
             }
             if (!IsCurrent()) return false;
             if (!background)
-                ShowResult(() => _pendingLauncherUpdate is not null || _patchUpdateAvailable || !_patchInstalled || _game is null || _settingsPending || _installationFailure is not null || _fileCheckFailed
+                ShowResult(() => _pendingLauncherUpdate is not null || _patchUpdateAvailable || !_patchInstalled || _game is null || _settingsPending || _installationFailure is not null || _fileCheckFailed || _launcherCheckFailed
                     ? IdleStatus()
                     : T("Проверка завершена. Обновлений нет.", "Check complete. No updates available."));
             return true;
         }
+        catch (OperationCanceledException) when (!IsCurrent()) { return false; }
         catch (Exception ex)
         {
             ActivityStore.Log(ex);
             if (!IsCurrent()) return false;
+            _silentFeedFailure = background;
             SetFriendlyError(ex, fromFeed: true);
             var friendly = _presentedError!;
             _feedFailure = () => friendly.Title(_text.Language);
@@ -253,14 +273,51 @@ public partial class MainWindow : Window
         }
         finally
         {
-            _checkingFeed = false;
-            if (!background)
+            // Also complete the independent check when the patch feed is broken
+            // or a pinned patch cannot be loaded. Startup self-update still runs.
+            await launcherCheck;
+            if (version == _feedCheckVersion)
             {
-                SetBusy(false);
-                ApplyLanguage();
+                _feedCancellation = null;
+                _checkingFeed = false;
+                _backgroundFeedCheck = false;
+                if (!background)
+                {
+                    SetBusy(false);
+                    ApplyLanguage();
+                }
+                else RefreshStatus();
             }
-            else RefreshStatus();
         }
+    }
+
+    private void CancelBackgroundFeed()
+    {
+        if (!_checkingFeed || !_backgroundFeedCheck) return;
+        ++_feedCheckVersion;
+        _checkingFeed = false;
+        _backgroundFeedCheck = false;
+        var cancellation = _feedCancellation;
+        _feedCancellation = null;
+        cancellation?.Cancel();
+    }
+
+    private async Task CheckLauncherUpdateAsync(CancellationToken cancellationToken, Func<bool> isCurrent)
+    {
+        try
+        {
+            var release = await _feedClient.GetLauncherUpdateAsync(cancellationToken);
+            if (!isCurrent()) return;
+            _launcherUpdates.Observe(release);
+            _launcherCheckFailed = false;
+        }
+        catch (Exception error)
+        {
+            if (!isCurrent()) return;
+            _launcherCheckFailed = true;
+            ActivityStore.Log(error);
+        }
+        RefreshStatus();
     }
 
     private void RefreshStatus()
@@ -272,12 +329,20 @@ public partial class MainWindow : Window
         catch (Exception ex) { _installationFailure = ex.Message; _incident = T("Не удалось прочитать состояние установки: ", "Cannot read the installation state: ") + ex.Message; }
         RefreshAvailableUpdates(state);
         if (_patchInstalled && _channel is not null && state is not null && _installationFailure is null)
-            try { _settingsPending = UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(_channel)); }
+            try { _settingsPending = UpdateDetector.HasSettingsChanges(state, ResolveSelectedPackages(_channel), GetEffectiveSettings()); }
+            catch (FrequencyUnavailableException) { _settingsPending = true; }
             catch (Exception ex) { _installationFailure = ex.Message; }
         GamePathText.Text = _game?.Directory ?? "-";
         GameVersionText.Text = _game is null ? "-" : $"{(_game.Branch == "beta" ? "Beta" : "Steam")} · build {_game.SteamBuild ?? "?"}";
-        PatchVersionText.Text = state?.Modules.TryGetValue("pawpatch-core", out var core) == true ? core.Version : "-";
-        ReadyStatusText.Text = _installationFailure is not null || _fileCheckFailed
+        var core = state?.Modules.GetValueOrDefault("pawpatch-core");
+        PatchVersionText.Text = core?.Enabled == true ? core.Version : "-";
+        InstalledPatchText.Text = core?.Enabled == true ? core.Version + " · " +
+            (state?.AppliedSettings?.Channel == "beta" ? T("Бета", "Beta") : T("Релиз", "Release")) : T("Не установлен", "Not installed");
+        PatchDownloadedText.Text = core?.Enabled == true ? core.DownloadedAt is DateTimeOffset downloaded
+            ? T("Скачана: ", "Downloaded: ") + downloaded.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")
+            : T("Дата загрузки неизвестна", "Download date unavailable") : "";
+        ReadyStatusText.Text = FrequencyUnavailable ? T("Режим ×2 недоступен", "×2 unavailable in this release")
+            : _installationFailure is not null || _fileCheckFailed
             ? T("Нужна проверка файлов", "File check required")
             : _feedFailure is not null
             ? T("Обновления не проверены", "Updates not checked")
@@ -294,15 +359,22 @@ public partial class MainWindow : Window
         ReadyStatusText.Foreground = (Brush)FindResource(statusKind == "danger" ? "DangerBrush" : statusKind == "update" ? "GoldBrightBrush" : "SuccessBrush");
         ReadyStatusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#3B2226" : statusKind == "update" ? "#40351E" : "#193926"));
         ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
-        UpdateButton.IsEnabled = !_busy && !_checkingFeed && _game is not null && _channel is not null && _patchUpdateAvailable;
+        UpdateButton.IsEnabled = !_busy && !FeedBlocksActions && _game is not null && _channel is not null && _patchUpdateAvailable;
         SettingsRepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
-        RemovePatchButton.IsEnabled = !_busy && !_checkingFeed && _game is not null && state?.Modules.Count > 0;
-        RemoveLauncherButton.IsEnabled = !_busy && !_checkingFeed;
+        RemovePatchButton.IsEnabled = !_busy && !FeedBlocksActions && _game is not null && state?.Modules.Count > 0;
+        RemoveLauncherButton.IsEnabled = !_busy && !FeedBlocksActions;
         RefreshGameFolderButton();
-        LaunchButton.IsEnabled = !_busy && !_checkingFeed && _game is not null;
+        RefreshGameLaunchState();
+        ApplySettingsButton.IsEnabled = !_busy && !FeedBlocksActions && !FrequencyUnavailable && _game is not null && _channel is not null && (_settingsPending || !_patchInstalled);
+        ApplySettingsButton.ToolTip = FrequencyUnavailable ? FrequencyUnavailableText : _settingsPending || !_patchInstalled
+            ? T("Применить выбранные компоненты без запуска игры.", "Apply selected components without starting the game.")
+            : T("Выбранные настройки уже применены.", "Selected settings are already applied.");
+        RefreshApplySettingsVisibility();
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
         StandardSpawnRadio.IsEnabled = !_busy;
+        X2SpawnRadio.IsEnabled = !_busy && SupportsX2(_channel);
+        X2SpawnRadio.ToolTip = SupportsX2(_channel) ? null : T("Для ×2 нужен выпуск патча с пакетами этой частоты.", "×2 requires a patch release containing this frequency.");
         X4SpawnRadio.IsEnabled = !_busy;
         AdditionalRoamingToggle.IsEnabled = !_busy;
         SiegeBalanceToggle.IsEnabled = !_busy;
@@ -311,7 +383,7 @@ public partial class MainWindow : Window
         DiagnosticsButton.IsEnabled = !_busy;
         RenderDiagnosticsArchive();
         SyncPatchChannelControls();
-        CheckUpdatesButton.IsEnabled = !_busy && !_checkingFeed;
+        CheckUpdatesButton.IsEnabled = !_busy && !FeedBlocksActions;
         LastCheckedText.Text = _lastChecked is null ? "" : string.Format(_text["updates.checked"], _lastChecked.Value.ToString("HH:mm:ss"));
         RefreshConfigurationCode();
         RefreshReliabilityStatus();
@@ -320,7 +392,7 @@ public partial class MainWindow : Window
 
     private void RefreshAvailableUpdates(InstallState? state)
     {
-        var launcher = (_latestChannel ?? _channel)?.Launcher;
+        var launcher = _launcherUpdates.Latest;
         _pendingLauncherUpdate = launcher is not null && SelfUpdater.IsNewer(launcher.Version) && launcher.Urls.Count > 0 && !SelfUpdater.IsBlocked(launcher.Sha256)
             ? launcher
             : null;
@@ -334,7 +406,8 @@ public partial class MainWindow : Window
         _patchUpdateAvailable = false;
         if (_game is not null && _channel is not null && state is not null)
         {
-            try { _patchUpdateAvailable = NeedsChannelPreparation(_channel, state); }
+            try { _patchUpdateAvailable = !_patchInstalled || UpdateDetector.HasRemoteUpdate(state, ResolveSelectedPackages(_channel), _feedClient.IsPackageCached); }
+            catch (FrequencyUnavailableException) { }
             catch (Exception ex) { _installationFailure = ex.Message; }
         }
 
@@ -352,22 +425,7 @@ public partial class MainWindow : Window
 
     private bool NeedsChannelPreparation(ChannelManifest channel, InstallState state)
     {
-        if (!state.Modules.ContainsKey("arcane-wars") || !state.Modules.ContainsKey("pawpatch-core")) return true;
-        foreach (var package in channel.Packages.Where(package => package.Required))
-        {
-            if (!state.Modules.TryGetValue(package.Id, out var installed)
-                || !installed.Enabled
-                || !installed.Version.Equals(package.Version, StringComparison.OrdinalIgnoreCase)
-                || !installed.ArchiveSha256.Equals(package.Sha256, StringComparison.OrdinalIgnoreCase)
-                || installed.Priority != package.Priority)
-                return true;
-        }
-
-        var fingerprint = ChannelFingerprint.Create(channel);
-        if (!string.Equals(_settings.PreparedChannel, channel.Channel, StringComparison.OrdinalIgnoreCase)
-            || !string.Equals(_settings.PreparedFeedFingerprint, fingerprint, StringComparison.OrdinalIgnoreCase))
-            return true;
-        return channel.Packages.Any(package => !_feedClient.IsPackageCached(package));
+        return UpdateDetector.NeedsDownload(state, ResolveSelectedPackages(channel), _feedClient.IsPackageCached);
     }
 
     private string CurrentChannelName()
@@ -376,9 +434,7 @@ public partial class MainWindow : Window
     private void RefreshNews()
     {
         if (NewsEntriesPanel is null) return;
-        CancelChangelogTransition();
         NewsTitleText.Text = _text["news.title"];
-        NewsEntriesPanel.Children.Clear();
 
         RefreshChangelogTabState();
         var entries = ((_latestChannel ?? _channel)?.Changelog ?? [])
@@ -400,6 +456,11 @@ public partial class MainWindow : Window
             ];
         }
 
+        var identity = System.Text.Json.JsonSerializer.Serialize(new { _text.Language, Category = _changelogCategory, Entries = entries });
+        if (identity == _renderedNewsIdentity) { MarkVisibleChangelogRead(); return; }
+        _renderedNewsIdentity = identity;
+        CancelChangelogTransition();
+        NewsEntriesPanel.Children.Clear();
         if (entries.Count == 0)
         {
             NewsEntriesPanel.Children.Add(new TextBlock
@@ -501,13 +562,17 @@ public partial class MainWindow : Window
     }
 
     private async Task ApplySelectedConfigurationAsync(ChannelManifest channel, bool prepareWholeChannel = false)
+        => await ApplyConfigurationSnapshotAsync(channel, prepareWholeChannel, _settings);
+
+    private async Task ApplyConfigurationSnapshotAsync(ChannelManifest channel, bool prepareWholeChannel, UserSettings selection, Func<Task>? beforeCommit = null)
     {
         if (_game is null) throw new InvalidOperationException(_text["status.notfound"]);
+        EnsureGameClosed();
+        if (selection.RoamingSpawnMode == "x2" && !SupportsX2(channel))
+            throw new FrequencyUnavailableException(FrequencyUnavailableText);
         await EnsureSupportedGameAsync(channel);
-        if (IsGameRunning())
-            throw new InvalidOperationException(_text.Language == "ru" ? "Перед изменением файлов полностью закройте Kohan II." : "Close Kohan II before changing its files.");
 
-        var activeSettings = EffectiveSettings.ForFeed(_settings, channel);
+        var activeSettings = EffectiveSettings.ForFeed(selection, channel);
         var selected = GamePackageSelector.Select(channel, activeSettings, activeSettings.RussianLocalization, activeSettings.CustomPlayerColors);
         Dictionary<string, string>? downloaded = null;
         if (prepareWholeChannel)
@@ -529,14 +594,16 @@ public partial class MainWindow : Window
         }
         OperationProgress.IsIndeterminate = true;
         ShowWorking(() => _text["progress.installing"]);
+        if (beforeCommit is not null) await beforeCommit();
+        EnsureGameClosed();
         await installer.ReconcileAsync(modules, settings: activeSettings, releaseId: ChannelFingerprint.Create(channel));
         InvalidateReadiness();
         _fileCheckFailed = false;
         if (prepareWholeChannel)
         {
-            _settings.PreparedChannel = channel.Channel;
-            _settings.PreparedFeedFingerprint = ChannelFingerprint.Create(channel);
-            _settingsStore.Save(_settings);
+            selection.PreparedChannel = channel.Channel;
+            selection.PreparedFeedFingerprint = ChannelFingerprint.Create(channel);
+            if (ReferenceEquals(selection, _settings)) _settingsStore.Save(_settings);
         }
         OperationProgress.IsIndeterminate = false;
         OperationProgress.Value = 100;
@@ -562,6 +629,7 @@ public partial class MainWindow : Window
 
     private List<PackageRelease> ResolveSelectedPackages(ChannelManifest channel)
     {
+        EnsureFrequencyAvailable(channel);
         var active = EffectiveSettings.ForFeed(_settings, channel);
         return GamePackageSelector.Select(channel, active, active.RussianLocalization, active.CustomPlayerColors);
     }
@@ -580,19 +648,23 @@ public partial class MainWindow : Window
         finally { SetBusy(false); }
     }
 
-    private async void LaunchButton_Click(object sender, RoutedEventArgs e)
+    private async void LaunchButton_Click(object sender, RoutedEventArgs e) => await LaunchGameAsync();
+
+    private async Task LaunchGameAsync()
     {
-        if (_game is null || _busy) return;
+        if (_game is null || _busy || _launchStarting) return;
+        _launchStarting=true;
         try
         {
+            EnsureGameClosed();
             if (_channel is null && !await CheckFeedAsync()) return;
-            if (IsGameRunning()) throw new InvalidOperationException(T("Kohan II уже запущен.", "Kohan II is already running."));
             var channel = _channel ?? throw new InvalidOperationException(_text["status.feedmissing"]);
+            if(!await CheckGameCompatibilityAsync(true))return;
             var installer = new ModuleInstaller(_game.Directory);
             var state = installer.LoadState();
             var executable = ResolveLaunchExecutable(_game.Directory);
             var prepareWholeChannel = NeedsChannelPreparation(channel, state);
-            var needsApply = prepareWholeChannel || UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(channel)) || !File.Exists(executable);
+            var needsApply = UpdateDetector.HasSettingsChanges(state, ResolveSelectedPackages(channel), GetEffectiveSettings()) || !File.Exists(executable);
             if (needsApply)
             {
                 SetBusy(true, _text["progress.beforelaunch"]);
@@ -608,16 +680,20 @@ public partial class MainWindow : Window
             var critical = await MultiplayerCheck.CriticalAsync(_game.Directory, installer.LoadState(), executable, channel.Game);
             _fileCheckFailed = critical.Count > 0;
             if (_fileCheckFailed) throw new IOException(T("Запуск остановлен: ", "Launch stopped: ") + string.Join("; ", critical.Take(5)));
+            EnsureGameClosed();
             var process = Process.Start(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true })
                 ?? throw new IOException("Cannot start Kohan II.");
             BeginGameObservation(process, installer.LoadState());
             ShowResult(() => T("Игра запущена.", "Game launched."));
         }
         catch (Exception ex) { ShowError(ex); }
-        finally { SetBusy(false); RefreshStatus(); }
+        finally { _launchStarting=false; SetBusy(false); RefreshStatus(); }
     }
 
-    private static bool IsGameRunning()
+    private Func<bool> _gameRunningProbe = DetectGameRunning;
+    private bool IsGameRunning() => _gameRunningProbe();
+
+    private static bool DetectGameRunning()
     {
         var processNames = new[]
         {
@@ -631,7 +707,13 @@ public partial class MainWindow : Window
             "k2_paws_lobby_colors_mp_nohostility_1372",
             "k2_paws_lobby_colors_mp_nohostility_sync_1372"
         };
-        return processNames.Any(name => Process.GetProcessesByName(name).Length > 0);
+        foreach (var name in processNames)
+        {
+            var processes = Process.GetProcessesByName(name);
+            try { if (processes.Length > 0) return true; }
+            finally { foreach (var process in processes) process.Dispose(); }
+        }
+        return false;
     }
 
     private string ResolveLaunchExecutable(string root)
@@ -728,7 +810,7 @@ public partial class MainWindow : Window
             _settings.IndependentHostility = true;
             IndependentHostilityToggle.IsChecked = true;
         }
-        ContinueOosRadio.IsEnabled = !_busy && CanContinueWithSelectedColors;
+        IgnoreDesyncToggle.IsEnabled = !_busy && CanContinueWithSelectedColors;
         _settingsStore.Save(_settings);
         RefreshConfigurationCode();
         RefreshStatus();
@@ -775,7 +857,7 @@ public partial class MainWindow : Window
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         PowersShardsToggle.IsChecked = _settings.DisablePowersAndShards;
         RefreshPowersShardsOption();
-        ContinueOosRadio.IsEnabled = !_busy && CanContinueWithSelectedColors;
+        IgnoreDesyncToggle.IsEnabled = !_busy && CanContinueWithSelectedColors;
         IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
@@ -811,7 +893,7 @@ public partial class MainWindow : Window
 
     private async Task ChangeChannelAsync(bool beta)
     {
-        if (_busy || _checkingFeed || ConfirmationActive || _initializing) { SyncPatchChannelControls(); return; }
+        if (_busy || FeedBlocksActions || ConfirmationActive || _initializing) { SyncPatchChannelControls(); return; }
         if (_settings.Channel.Equals(beta ? "beta" : "stable", StringComparison.OrdinalIgnoreCase)) { SyncPatchChannelControls(); return; }
         var appearance = CaptureAppearance();
         _settings.PinnedRelease = null;
@@ -831,17 +913,18 @@ public partial class MainWindow : Window
 
     private async void CheckUpdatesButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_busy || _checkingFeed) return;
+        if (_busy || FeedBlocksActions) return;
         await CheckFeedAsync();
         await LoadVersionChoicesAsync();
         RefreshStatus();
     }
 
-    private void OosMode_Checked(object sender, RoutedEventArgs e)
+    private void OosToggle_Click(object sender, RoutedEventArgs e)
     {
         if (_initializing) return;
-        if (sender is RadioButton item && item.Tag is string mode)
+        if (sender is CheckBox item)
         {
+            var mode = item.IsChecked == true ? "continue" : "official";
             if (mode == "continue" && !CanContinueWithSelectedColors)
             {
                 SelectOosMode("official");
@@ -858,8 +941,7 @@ public partial class MainWindow : Window
 
     private void SelectOosMode(string mode)
     {
-        OfficialOosRadio.IsChecked = !mode.Equals("continue", StringComparison.OrdinalIgnoreCase);
-        ContinueOosRadio.IsChecked = mode.Equals("continue", StringComparison.OrdinalIgnoreCase);
+        IgnoreDesyncToggle.IsChecked = mode.Equals("continue", StringComparison.OrdinalIgnoreCase);
     }
 
     private bool CanContinueWithSelectedColors => ColorsToggle.IsChecked != true
@@ -874,7 +956,8 @@ public partial class MainWindow : Window
         if (sender is RadioButton item && item.Tag is string mode)
         {
             var appearance = CaptureAppearance();
-            _settings.RoamingSpawnMode = mode.Equals("x4", StringComparison.OrdinalIgnoreCase) ? "x4" : "standard";
+            if (mode == "x2" && !SupportsX2(_channel)) { SelectSpawnMode(_settings.RoamingSpawnMode); return; }
+            _settings.RoamingSpawnMode = mode.ToLowerInvariant() is "x2" or "x4" ? mode.ToLowerInvariant() : "standard";
             _settingsStore.Save(_settings);
             RefreshConfigurationCode();
             RefreshStatus();
@@ -884,9 +967,9 @@ public partial class MainWindow : Window
 
     private void SelectSpawnMode(string mode)
     {
-        var fast = mode.Equals("x4", StringComparison.OrdinalIgnoreCase);
-        StandardSpawnRadio.IsChecked = !fast;
-        X4SpawnRadio.IsChecked = fast;
+        StandardSpawnRadio.IsChecked = mode.Equals("standard", StringComparison.OrdinalIgnoreCase);
+        X2SpawnRadio.IsChecked = mode.Equals("x2", StringComparison.OrdinalIgnoreCase);
+        X4SpawnRadio.IsChecked = mode.Equals("x4", StringComparison.OrdinalIgnoreCase);
     }
 
     private void LanguageButton_Click(object sender, RoutedEventArgs e)
@@ -913,7 +996,7 @@ public partial class MainWindow : Window
     private async void CopyConfigurationButton_Click(object sender, RoutedEventArgs e)
     {
         var code = EffectiveConfigurationCode;
-        await CopyTextAsync(code, () => _text["configuration.copied"]);
+        await CopyConfigurationButton.CopyAsync(()=>CopyTextAsync(code, () => _text["configuration.copied"]));
     }
 
     private async void DiagnosticsButton_Click(object sender, RoutedEventArgs e)
@@ -947,9 +1030,11 @@ public partial class MainWindow : Window
 
     private void HelpButton_Click(object sender, RoutedEventArgs e)
     {
+        _socialDetailsPeer=null;
         if (sender is not Button { Tag: string key }) return;
         HelpTitleText.Text = _text[$"{key}.title"] == $"{key}.title" ? _text[key] : _text[$"{key}.title"];
         HelpBodyText.Text = _text[$"{key}.help"];
+        RenderArcaneWarsCredit(key);
         HelpOverlay.Visibility = Visibility.Visible;
         HelpOverlay.UpdateLayout();
         Motion.Reveal(HelpOverlay);
@@ -964,15 +1049,18 @@ public partial class MainWindow : Window
             var child = VisualTreeHelper.GetChild(parent, index);
             if (child is Button { Tag: string key } button
                 && (key.StartsWith("modules.", StringComparison.Ordinal) || key is "configuration" or "diagnostics"))
-                button.ToolTip = _text[$"{key}.help"];
+                button.ToolTip = _text[$"{key}.help"] + (key == "modules.core"
+                    ? "\n\n" + ArcaneWarsAuthorText + "\n" + ArcaneWarsDiscordInvite : "");
             ApplyHelpTooltips(child);
         }
     }
 
     private void SetBusy(bool busy, string? message = null)
     {
+        if (busy) CancelBackgroundFeed();
         if (busy && !_busy) _operationRevision++;
         _busy = busy;
+        RefreshOfferActions();
         if (!busy)
         {
             FinishTransfer();
@@ -991,6 +1079,19 @@ public partial class MainWindow : Window
 
     private void ShowError(Exception exception)
     {
+        if (exception is GameAlreadyRunningException)
+        {
+            ShowResult(() => T("Kohan II уже запущен. Закройте игру перед применением настроек, обновлением или новым запуском.",
+                "Kohan II is already running. Close the game before applying settings, updating or launching again."));
+            ShowToast(() => T("Игра уже запущена. Сначала закройте Kohan II.", "The game is running. Close Kohan II first."));
+            return;
+        }
+        if (exception is FrequencyUnavailableException)
+        {
+            ShowResult(() => exception.Message);
+            ShowToast(() => exception.Message);
+            return;
+        }
         ActivityStore.Log(exception);
         if (exception is OperationCanceledException)
         {
@@ -1000,7 +1101,7 @@ public partial class MainWindow : Window
         SetFriendlyError(exception);
         var friendly = _presentedError!;
         ShowResult(() => friendly.Title(_text.Language), failure: true);
-        ShowFriendlyErrorDialog();
+        // Details remain available through the error action; ordinary failures use a toast.
     }
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
@@ -1011,12 +1112,30 @@ public partial class MainWindow : Window
 
     private void SetActivePage(string page)
     {
+        if(page=="admin"&&_account.AdminLevel<1)page="home";
+        AdminPanel.Visibility=page=="admin"?Visibility.Visible:Visibility.Collapsed;
+        SetNavState(AdminNav,page=="admin");
+        if (page == "multiplayer") page = "friends";
+        CloseSocialMenu();
         var changed = _activePage != page;
         _activePage = page;
         var home = page == "home";
         var modules = page == "modules";
+        RefreshActionLayout();
         var settings = page == "settings";
         AboutPatchPanel.Visibility = page == "about" ? Visibility.Visible : Visibility.Collapsed;
+        FriendsPanel.Visibility = page == "friends" ? Visibility.Visible : Visibility.Collapsed;
+        FriendsConversationScroll.Visibility = page == "friends" ? Visibility.Visible : Visibility.Collapsed;
+        ChangelogCard.Visibility = home ? Visibility.Visible : Visibility.Collapsed;
+        if (!home) CancelChangelogTransition();
+        var split = home || page == "friends";
+        Grid.SetColumnSpan(MainOptionsScroll, split ? 1 : 3);
+        OptionsGapColumn.Width = new GridLength(split ? 20 : 0);
+        OptionsColumn.Width = new GridLength(page == "friends" ? .8 : 1.6, GridUnitType.Star);
+        NewsColumn.Width = split ? new GridLength(page == "friends" ? 1.5 : 1, GridUnitType.Star) : new GridLength(0);
+        RefreshOperationPlacement();
+        AccountPanel.Visibility = page == "account" ? Visibility.Visible : Visibility.Collapsed;
+        if (page != "account") ClearAccountPasswords();
         if (page != "about") CancelAboutTransition();
         else if (changed) RefreshAboutPage();
 
@@ -1036,7 +1155,7 @@ public partial class MainWindow : Window
         AdditionalRoamingCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         SiegeBalanceCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         PowersShardsCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
-        ConfigurationCodeCard.Visibility = ConfigurationImportHost.Visibility = page == "multiplayer" ? Visibility.Visible : Visibility.Collapsed;
+        ConfigurationCodeCard.Visibility = ConfigurationImportHost.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
         DiagnosticsCard.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
         if (settings) _ = RefreshDiagnosticsArchiveAsync();
         RefreshReliabilityVisibility();
@@ -1044,15 +1163,30 @@ public partial class MainWindow : Window
         SetNavState(HomeNav, home);
         SetNavState(ModulesNav, modules);
         SetNavState(SettingsNav, settings);
-        SetNavState(MultiplayerNav, page == "multiplayer");
         SetNavState(AboutNav, page == "about");
+        SetNavState(FriendsNav, page == "friends");
+        AccountHeaderButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#314969" : "#00000000"));
+        AccountHeaderButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#B68D37" : "#00000000"));
         MainOptionsScroll.ScrollToTop();
-        if (changed && !_initializing) Motion.Reveal(MainOptionsScroll);
+        RenderSocialNotifications();
+        if (changed && !_initializing)
+        {
+            Motion.Reveal(MainOptionsScroll);
+            // Both Friends columns enter together after their first layout.
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() =>
+            {
+                if (_activePage != page) return;
+                if (page == "friends") Motion.Reveal(FriendsConversationScroll);
+                else if (home) Motion.Reveal(ChangelogCard);
+            }));
+        }
     }
 
     private static void SetNavState(Button button, bool active)
     {
-        button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(active ? "#314969" : "#1B304D"));
-        button.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(active ? "#B68D37" : "#526984"));
+        var background = (Color)ColorConverter.ConvertFromString(active ? "#314969" : "#1B304D");
+        var border = (Color)ColorConverter.ConvertFromString(active ? "#B68D37" : "#526984");
+        if (button.Background is not SolidColorBrush current || current.Color != background) button.Background = new SolidColorBrush(background);
+        if (button.BorderBrush is not SolidColorBrush edge || edge.Color != border) button.BorderBrush = new SolidColorBrush(border);
     }
 }
