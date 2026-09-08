@@ -78,6 +78,8 @@ internal static class SocialHubChecks
             Check(menu.Items.Count==2&&menu.Items.Cast<MenuItem>().All(i=>i.IsEnabled),"avatar menu actions");
             Invoke(w,"CloseSocialMenu");
             var players=Populate(w);
+            Check(!Field<bool>(w,"_broadcastConfig"),"save tab must be default");
+            Invoke(w,"BroadcastKind_Click",Control<Button>("BroadcastConfigTab"),new RoutedEventArgs());
             var owner=Guid.Parse(Field<AccountService>(w,"_account").UserId);
             Check(Boxes().Length==9&&Boxes().Count(b=>b.IsEnabled)==7,"matching/unknown configs allowed");
             var available=Boxes().Where(b=>b.IsEnabled).ToArray();
@@ -152,6 +154,7 @@ internal static class SocialHubChecks
             Invoke(w,"ResetBroadcast");
             Check(Field<byte[]?>(w,"_broadcastBytes") is null&&Boxes().Length==0,"private payload not cleared");
             players=Populate(w);
+            Invoke(w,"BroadcastKind_Click",Control<Button>("BroadcastConfigTab"),new RoutedEventArgs());
             Boxes().First(b=>b.IsEnabled).IsChecked=true;
             var invoked=0;
             Set(w,"_broadcastSendOverride",(Func<Guid,Guid,string?,SaveTransferDescriptor?,byte[]?,CancellationToken,Task>)((_,_,_,_,_,_)=>{invoked++;return Task.CompletedTask;}));
@@ -159,6 +162,7 @@ internal static class SocialHubChecks
             await (Task)Invoke(w,"SendBroadcastAsync")!;
             Check(invoked==0,"removed friend received an offer");
             Invoke(w,"ResetBroadcast");players=Populate(w);
+            Invoke(w,"BroadcastKind_Click",Control<Button>("BroadcastConfigTab"),new RoutedEventArgs());
             foreach(var checkbox in Boxes().Where(b=>b.IsEnabled).Take(2))checkbox.IsChecked=true;
             Set(w,"_friendSettingsReadOverride",(Func<Task<IReadOnlyList<SocialPlayer>>>)(()=>Task.FromResult(players)));
             Set(w,"_broadcastSendOverride",(Func<Guid,Guid,string?,SaveTransferDescriptor?,byte[]?,CancellationToken,Task>)((_,_,_,_,_,_)=>{invoked++;throw new AccountException("rate_limit");}));

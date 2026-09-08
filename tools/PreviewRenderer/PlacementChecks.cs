@@ -45,6 +45,7 @@ internal static class PlacementChecks
             first.Close();
             var saved = store.Read();
             Check(saved is not null && saved.NormalBounds == baseline.NormalBounds, "Accepted close did not persist exact native normal bounds.");
+            Check(saved?.LayoutRevision == WindowPlacementStore.CurrentLayoutRevision, "Fresh display did not commit size revision.");
             var second = NewWindow();
             Check(second.WindowStartupLocation == WindowStartupLocation.Manual, "Saved placement still has random centering.");
             new WindowInteropHelper(second).EnsureHandle();
@@ -75,6 +76,7 @@ internal static class PlacementChecks
             {
                 store.Save(new SavedWindowPlacement
                 {
+                    LayoutRevision = WindowPlacementStore.CurrentLayoutRevision,
                     MonitorId = screen.Id, DeviceName = screen.DeviceName, MonitorBounds = screen.Bounds,
                     WorkArea = screen.WorkArea, Dpi = 96,
                     NormalBounds = new(screen.WorkArea.Left + 16, screen.WorkArea.Top + 16,
@@ -94,6 +96,29 @@ internal static class PlacementChecks
                     "Maximized reopen lost its chosen monitor.");
                 maximized.Close();
             }
+            // A legacy maximized/small placement is reset once, even before first close.
+            baseline.LayoutRevision = 0;
+            baseline.Maximized = true;
+            baseline.MonitorId = target.Id; baseline.DeviceName = target.DeviceName;
+            baseline.MonitorBounds = target.Bounds; baseline.WorkArea = target.WorkArea;
+            baseline.NormalBounds = new(target.WorkArea.Left + 20, target.WorkArea.Top + 20,
+                target.WorkArea.Left + 1100, target.WorkArea.Top + 720);
+            store.Save(baseline);
+            var migrated = NewWindow(); migrated.Show(); Pump();
+            var migration = WindowPlacementPersistence.Capture(migrated);
+            Check(!migration.Maximized && migration.NormalBounds == WindowPlacementPersistence.InitialBounds(target, migration.Dpi),
+                $"Legacy placement did not reset to new centered default: {migration.NormalBounds}, expected {WindowPlacementPersistence.InitialBounds(target, migration.Dpi)}, maximized={migration.Maximized}.");
+            Check(store.Read()?.LayoutRevision == WindowPlacementStore.CurrentLayoutRevision,
+                "Migration was not committed on first display.");
+            migrated.Width = Math.Min(1200, migrated.Width - 100);
+            migrated.Height = Math.Min(800, migrated.Height - 70);
+            Pump();
+            var customized = WindowPlacementPersistence.Capture(migrated);
+            migrated.Close();
+            var afterMigration = NewWindow(); afterMigration.Show(); Pump();
+            Check(WindowPlacementPersistence.Capture(afterMigration).NormalBounds == customized.NormalBounds,
+                "Second launch reset the user's custom size again.");
+            afterMigration.Close();
             Check(store.Read()?.IsValid == true, "Final persisted state is invalid.");
             Console.WriteLine($"WINDOW PLACEMENT UI PASS {checks}: native save/reopen, hidden initialization, accepted/cancelled close, normal/maximized/minimized roundtrips; invisible isolated windows only");
         }

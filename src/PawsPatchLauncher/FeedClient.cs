@@ -9,6 +9,10 @@ public sealed class FeedClient
     private readonly HttpClient _http;
     private readonly LauncherConfiguration _configuration;
     private readonly string _cacheRoot;
+    private readonly System.Collections.Concurrent.ConcurrentDictionary<string, ChannelManifest> _knownChannels = new(StringComparer.OrdinalIgnoreCase);
+    public ChannelManifest? KnownChannel(string channel) => _knownChannels.GetValueOrDefault(channel);
+    private void RememberChannel(ChannelManifest manifest) => _knownChannels.AddOrUpdate(manifest.Channel, manifest,
+        (_, previous) => DateTimeOffset.TryParse(previous.PublishedAt, out var before) && DateTimeOffset.TryParse(manifest.PublishedAt, out var after) && before > after ? previous : manifest);
     public string CacheDirectory => _cacheRoot;
 
     public FeedClient(LauncherConfiguration configuration, HttpClient? http = null)
@@ -37,6 +41,7 @@ public sealed class FeedClient
                 if (!manifest.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase))
                     throw new InvalidDataException($"Requested update channel '{channel}', received '{manifest.Channel}'.");
                 await ArchiveAsync(bytes, manifest, cancellationToken);
+                RememberChannel(manifest);
                 return manifest;
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
@@ -61,6 +66,7 @@ public sealed class FeedClient
                 if (!manifest.Channel.Equals(source.Channel, StringComparison.OrdinalIgnoreCase))
                     throw new InvalidDataException("Wrong channel in launcher update source: " + source.Url);
                 var release = manifest.Launcher;
+                RememberChannel(manifest);
                 if (release.Version == "0.0.0" && release.Urls.Count == 0) return (null, null);
                 if (!LauncherUpdateState.IsValid(release)) throw new InvalidDataException("Invalid launcher release metadata: " + source.Url);
                 return (release, null);

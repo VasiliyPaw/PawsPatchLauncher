@@ -104,7 +104,9 @@ internal static class AccountChecks
                 passwordBox.Password = "fixture-private";
                 reveal.IsChecked = true;
                 await (Task)Invoke("SubmitAccountAsync")!;
-                Check(passwordBox.Password == "fixture-private" && plain.Text == "fixture-private" && Control<TextBox>("AccountEmailInput").Text == "fixture@example.invalid", "server rejection cleared input: " + errorCode);
+                Check(Control<TextBox>("AccountEmailInput").Text == "fixture@example.invalid" &&
+                    (errorCode == "email_not_confirmed" ? passwordBox.Password == "" && plain.Text == "" :
+                    passwordBox.Password == "fixture-private" && plain.Text == "fixture-private"), "password retention for rejection/OTP: " + errorCode);
                 Check(Control<Border>("AccountMessageCard").Visibility == Visibility.Visible && Control<TextBlock>("AccountMessageText").Text.Length > 0, "server rejection not visible");
                 if (errorCode == "email_not_confirmed")
                 {
@@ -352,10 +354,10 @@ internal static class AccountChecks
         using var output = new MemoryStream(); encoder.Save(output);
         return AccountAvatarImage.Normalize(output.ToArray());
     }
-    private sealed class Handler(Func<HttpRequestMessage, Task<HttpResponseMessage>> response) : HttpMessageHandler
+    internal sealed class Handler(Func<HttpRequestMessage, Task<HttpResponseMessage>> response) : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
-            request.RequestUri!.AbsolutePath.EndsWith("/paw_launcher_session")
+            request.RequestUri!.AbsolutePath.EndsWith("/paw_launcher_session") || request.RequestUri.AbsolutePath.EndsWith("/social-transfers")
                 ? Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("{\"status\":\"ok\"}") }) : response(request);
     }
 }

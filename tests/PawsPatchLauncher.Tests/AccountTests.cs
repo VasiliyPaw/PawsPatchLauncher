@@ -110,6 +110,54 @@ internal static class AccountTests
             Check(first.State == AccountState.SignedIn && second.State == AccountState.SignedIn, "concurrent restoration failed");
             Check(store.Read()!.RefreshToken == "fixture-new-refresh", "rotated refresh token not persisted");
         }
+        foreach (var rememberOtp in new[] { true, false })
+        {
+            var otpStore = Vault("confirmation-" + rememberOtp);
+            var verifiedCount = 0;
+            using var otp = new AccountService(otpStore, new FakeAuth(async request =>
+            {
+                if (request.RequestUri!.AbsolutePath.EndsWith("/verify"))
+                {
+                    using var body = JsonDocument.Parse(await request.Content!.ReadAsStringAsync());
+                    Check(body.RootElement.GetProperty("type").GetString() == "email", "wrong confirmation OTP type");
+                    Check(body.RootElement.GetProperty("token").GetString() == "001234", "OTP lost leading zeroes");
+                    Check(!body.RootElement.TryGetProperty("password", out _), "password retained for OTP");
+                    verifiedCount++; return Ok(Session());
+                }
+                return Ok(request.RequestUri.AbsolutePath.EndsWith("/user") ? User() : Profile());
+            }));
+            await Error(() => otp.ConfirmRegistrationAsync("player@example.invalid", "123", rememberOtp), "invalid_confirmation_code");
+            Check(verifiedCount == 0, "incomplete code reached server");
+            await otp.ConfirmRegistrationAsync("player@example.invalid", "001234", rememberOtp);
+            Check(otp.State == AccountState.SignedIn && otp.UserId == user, "OTP did not establish login");
+            Check(File.Exists(otpStore.SessionPath) == rememberOtp, "OTP ignored remember me");
+            await Error(() => otp.ConfirmRegistrationAsync("player@example.invalid", "001234", rememberOtp), "sign_out_first");
+        }
+        using (var invalidOtp = new AccountService(Vault("expired-otp"), new FakeAuth(_ => Task.FromResult(Fail(403, "otp_expired")))))
+        {
+            await Error(() => invalidOtp.ConfirmRegistrationAsync("player@example.invalid", "001234", true), "invalid_confirmation_code");
+            Check(invalidOtp.State == AccountState.Guest, "expired OTP signed in");
+        }
+        Check(GameProcessExit.ReadCode(() => 0) == 0, "clean exit code changed");
+        Check(GameProcessExit.ReadCode(() => unchecked((int)0xc0000005)) == unchecked((int)0xc0000005), "crash exit code changed");
+        Check(GameProcessExit.ReadCode(() => throw new InvalidOperationException()) is null, "unavailable exit code was not handled");
+        Check(GameProcessExit.ReadCode(() => throw new System.ComponentModel.Win32Exception(5)) is null, "denied exit code was not handled");
+        foreach (var exit in new[] { 0, 7 })
+        {
+            var start = new System.Diagnostics.ProcessStartInfo(Environment.ProcessPath!)
+                { UseShellExecute = false, CreateNoWindow = true, RedirectStandardInput = true };
+            if (string.Equals(Path.GetFileNameWithoutExtension(Environment.ProcessPath), "dotnet", StringComparison.OrdinalIgnoreCase))
+                start.ArgumentList.Add(typeof(AccountTests).Assembly.Location);
+            start.ArgumentList.Add("--exit-code-probe");
+            using var launched = System.Diagnostics.Process.Start(start)!;
+            using var adopted = System.Diagnostics.Process.GetProcessById(launched.Id);
+            GameProcessExit.RetainHandle(adopted);
+            await launched.StandardInput.WriteLineAsync(exit.ToString());
+            launched.StandardInput.Close();
+            await launched.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(10));
+            adopted.Refresh();
+            Check(adopted.HasExited && GameProcessExit.ReadCode(adopted) == exit, "adopted process lost exit code");
+        }
         var beforeOffline = await File.ReadAllBytesAsync(store.SessionPath);
         using (var offline = new AccountService(store, new FakeAuth(_ => throw new HttpRequestException("fixture-secret-server-detail"))))
         {

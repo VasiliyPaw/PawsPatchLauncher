@@ -17,9 +17,12 @@ public partial class MainWindow
     private string? _broadcastOwner, _broadcastCode;
     private byte[]? _broadcastBytes;
     private SaveTransferDescriptor? _broadcastSave;
-    private bool _broadcastConfig = true, _broadcastRunning, _broadcastClosing;
+    private bool _broadcastConfig, _broadcastRunning, _broadcastClosing;
     private CancellationTokenSource? _broadcastCancellation;
     private int _broadcastGeneration;
+    private bool _broadcastCloseAfterSend, _broadcastPicking;
+    private sealed record PreparedBroadcastSave(SaveTransferDescriptor Descriptor, byte[] Bytes);
+    private Func<Task<string?>>? _broadcastPickPathOverride = null;
     private Func<Guid,Guid,string?,SaveTransferDescriptor?,byte[]?,CancellationToken,Task>? _broadcastSendOverride = null;
 
     private void ResetBroadcast()
@@ -27,22 +30,33 @@ public partial class MainWindow
         _broadcastGeneration++;
         _broadcastCancellation?.Cancel();
         _broadcastOwner = null;
+        _broadcastCloseAfterSend=false;
         _broadcastBytes = null; _broadcastSave = null; _broadcastCode = null;
         _broadcastEntries.Clear(); BroadcastRows.Children.Clear();
         Motion.Collapse(BroadcastOverlay);
     }
 
-    private async void FriendsBroadcast_Click(object sender, RoutedEventArgs e)
+    private async void FriendsBroadcast_Click(object sender, RoutedEventArgs e) => await OpenBroadcastFlowAsync(false);
+    private async void SendSaveBroadcast_Click(object sender, RoutedEventArgs e) => await OpenBroadcastFlowAsync(true);
+    private async Task OpenBroadcastFlowAsync(bool quickSave)
     {
         if (_offerSending || _busy || _accountBusy || ConfirmationActive || _account.State != AccountState.SignedIn) return;
         var owner = _account.UserId;
         _offerSending = true; RenderSocialIdentity();
         try
         {
+            var prepared = quickSave ? await PickBroadcastSaveAsync() : null;
+            if (quickSave && prepared is null || _account.UserId != owner) return;
             var friends = _friendSettingsReadOverride is not null ? await _friendSettingsReadOverride()
                 : await _account.GetFriendsAsync(_accountLifetime.Token);
             if (_account.UserId != owner) return;
             OpenBroadcast(owner!, friends);
+            _broadcastCloseAfterSend=quickSave;
+            if(prepared is not null)
+            {
+                _broadcastBytes=prepared.Bytes; _broadcastSave=prepared.Descriptor;
+                RefreshBroadcastKind();
+            }
         }
         catch (AccountException error) { HandleEndedAccount(error.Code); ShowToast(()=>SocialError(error.Code),true); }
         catch (OperationCanceledException) { }
@@ -53,7 +67,7 @@ public partial class MainWindow
     private void OpenBroadcast(string owner, IReadOnlyList<SocialPlayer> friends)
     {
         ResetBroadcast(); CloseSocialMenu();
-        _broadcastOwner=owner; _broadcastClosing=false; _broadcastConfig=true;
+        _broadcastOwner=owner; _broadcastClosing=false; _broadcastConfig=false;
         var state=_game is null?null:new ModuleInstaller(_game.Directory).LoadState();
         if (state?.AppliedSettings is UserSettings applied && state.Modules.GetValueOrDefault("pawpatch-core")?.Enabled==true)
             _broadcastCode=ConfigurationCode.Create(applied);
@@ -77,7 +91,7 @@ public partial class MainWindow
         }
         if (_broadcastEntries.Count == 0) BroadcastHint.Text=T("Друзей пока нет","No friends yet");
         RefreshBroadcastKind();
-        Motion.Reveal(BroadcastOverlay); BroadcastConfigTab.Focus();
+        Motion.Reveal(BroadcastOverlay); BroadcastSaveTab.Focus();
     }
 
     private string? BroadcastIneligible(SocialPlayer friend)
@@ -120,8 +134,8 @@ public partial class MainWindow
         foreach(var entry in _broadcastEntries)
             entry.Select.IsEnabled=!_broadcastRunning&&!entry.Sent&&BroadcastIneligible(entry.Player) is null
                 && (count<BroadcastLimit||entry.Select.IsChecked==true);
-        BroadcastConfigTab.IsEnabled=BroadcastSaveTab.IsEnabled=BroadcastChooseFile.IsEnabled=!_broadcastRunning;
-        BroadcastSendButton.IsEnabled=!_broadcastRunning&&count>0&&count<=BroadcastLimit;
+        BroadcastConfigTab.IsEnabled=BroadcastSaveTab.IsEnabled=BroadcastChooseFile.IsEnabled=!_broadcastRunning&&!_broadcastPicking;
+        BroadcastSendButton.IsEnabled=!_broadcastRunning&&!_broadcastPicking&&count>0&&count<=BroadcastLimit;
         BroadcastSendButton.Content=_broadcastRunning?T("Отправка…","Sending…"):T("Отправить","Send")+(count>0?" · "+count:"");
         if(!_broadcastRunning) BroadcastSummary.Text=T("Выбрано: ","Selected: ")+count+" / "+BroadcastLimit+
             (_broadcastEntries.Any(e=>e.Sent) ? " · "+T("Отправлено: ","Sent: ")+_broadcastEntries.Count(e=>e.Sent) : "");
@@ -129,34 +143,51 @@ public partial class MainWindow
 
     private void BroadcastKind_Click(object sender,RoutedEventArgs e)
     {
-        if(_broadcastRunning || sender is not Button {Tag:string kind} || _broadcastConfig==(kind=="config"))return;
+        if(_broadcastRunning || _broadcastPicking || sender is not Button {Tag:string kind} || _broadcastConfig==(kind=="config"))return;
         _broadcastConfig=kind=="config"; RefreshBroadcastKind();
     }
 
     private async void BroadcastChooseFile_Click(object sender,RoutedEventArgs e)
     {
-        if(_broadcastRunning || _account.UserId!=_broadcastOwner)return;
+        if(_broadcastRunning || _broadcastPicking || _account.UserId!=_broadcastOwner)return;
         var owner=_broadcastOwner; var generation=_broadcastGeneration;
+        _broadcastPicking=true; RefreshBroadcastSelection();
         try
         {
-            var picker=new OpenFileDialog {Title=T("Выберите сохранение","Choose a save"),Filter="Kohan II (*.rsg)|*.rsg",InitialDirectory=SavesDirectory,CheckFileExists=true};
-            if(picker.ShowDialog(this)!=true)return;
-            using var file=new FileStream(picker.FileName,FileMode.Open,FileAccess.Read,FileShare.Read);
+            var prepared=await PickBroadcastSaveAsync();
+            if(prepared is null || owner!=_account.UserId || generation!=_broadcastGeneration)return;
+            _broadcastBytes=prepared.Bytes; _broadcastSave=prepared.Descriptor; RefreshBroadcastKind();
+        }
+        finally { _broadcastPicking=false; if(generation==_broadcastGeneration)RefreshBroadcastSelection(); }
+    }
+
+    private async Task<PreparedBroadcastSave?> PickBroadcastSaveAsync()
+    {
+        try
+        {
+            string? path;
+            if(_broadcastPickPathOverride is not null)path=await _broadcastPickPathOverride();
+            else
+            {
+                var picker=new OpenFileDialog {Title=T("Выберите сохранение","Choose a save"),Filter="Kohan II (*.rsg)|*.rsg",InitialDirectory=SavesDirectory,CheckFileExists=true};
+                path=picker.ShowDialog(this)==true?picker.FileName:null;
+            }
+            if(path is null)return null;
+            using var file=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.Read);
             if(file.Length>SaveTransferGuard.MaximumBytes)throw new InvalidDataException();
             var bytes=new byte[(int)file.Length]; await file.ReadExactlyAsync(bytes,_accountLifetime.Token);
-            var descriptor=SaveTransferGuard.Describe(Path.GetFileName(picker.FileName),bytes);
-            if(owner!=_account.UserId || generation!=_broadcastGeneration)return;
-            _broadcastBytes=bytes; _broadcastSave=descriptor; RefreshBroadcastKind();
+            return new(SaveTransferGuard.Describe(Path.GetFileName(path),bytes),bytes);
         }
         catch(OperationCanceledException) { }
         catch { ShowToast(()=>T("Нужен корректный сейв Kohan II (.rsg), не больше 20 МБ.","Choose a valid Kohan II .rsg save up to 20 MB."),true); }
+        return null;
     }
 
     private async void BroadcastSend_Click(object sender,RoutedEventArgs e)=>await SendBroadcastAsync();
 
     private async Task SendBroadcastAsync()
     {
-        if(_broadcastRunning||_offerSending||_busy||_accountBusy||FeedBlocksActions||ConfirmationActive
+        if(_broadcastRunning||_broadcastPicking||_offerSending||_busy||_accountBusy||FeedBlocksActions||ConfirmationActive
             ||_account.State!=AccountState.SignedIn||_broadcastOwner!=_account.UserId||!Guid.TryParse(_broadcastOwner,out var owner))return;
         var selected=_broadcastEntries.Where(e=>e.Select.IsChecked==true&&!e.Sent&&BroadcastIneligible(e.Player) is null).ToArray();
         if(selected.Length<1||selected.Length>BroadcastLimit)return;
@@ -218,7 +249,8 @@ public partial class MainWindow
                 foreach(var entry in selected.Where(e=>!e.Sent && e.Status.Text==T("Отправляется…","Sending…")))
                     entry.Status.Text=T("Отправка прервана — можно повторить","Sending interrupted — you can retry");
                 RefreshBroadcastSelection();
-                if(_broadcastClosing) { await Motion.HideAsync(BroadcastOverlay); ResetBroadcast(); }
+                if(_broadcastClosing || _broadcastCloseAfterSend && completed==selected.Length && !cancellation.IsCancellationRequested)
+                    await DismissBroadcastAsync(generation);
             }
             RenderSocialIdentity(); RenderSocialMessages();
         }
@@ -228,7 +260,12 @@ public partial class MainWindow
     private async Task CloseBroadcastAsync()
     {
         if(_broadcastRunning){_broadcastClosing=true;_broadcastCancellation?.Cancel();return;}
-        await Motion.HideAsync(BroadcastOverlay); ResetBroadcast();
+        await DismissBroadcastAsync(_broadcastGeneration);
+    }
+    private async Task DismissBroadcastAsync(int generation)
+    {
+        await Motion.HideAsync(BroadcastOverlay);
+        if(generation==_broadcastGeneration && BroadcastOverlay.Visibility!=Visibility.Visible)ResetBroadcast();
     }
     private async void BroadcastOverlay_MouseDown(object sender,MouseButtonEventArgs e)
     {

@@ -29,7 +29,7 @@ public partial class MainWindow : Window
     private bool _patchUpdateAvailable;
     private bool _patchInstalled;
     private string _activePage = "home";
-    private string _changelogCategory = "patch";
+    private string _changelogCategory = "launcher";
     private LauncherRelease? _pendingLauncherUpdate;
     private readonly LauncherUpdateState _launcherUpdates = new();
     private bool _launcherCheckFailed;
@@ -287,6 +287,7 @@ public partial class MainWindow : Window
                     ApplyLanguage();
                 }
                 else RefreshStatus();
+                RefreshNews();
             }
         }
     }
@@ -437,21 +438,22 @@ public partial class MainWindow : Window
         NewsTitleText.Text = _text["news.title"];
 
         RefreshChangelogTabState();
-        var entries = ((_latestChannel ?? _channel)?.Changelog ?? [])
-            .Where(entry => string.Equals(entry.Category, _changelogCategory, StringComparison.OrdinalIgnoreCase))
+        var history = ChangelogManifest(_changelogCategory);
+        var entries = (history?.Changelog ?? [])
+            .Where(entry => string.Equals(entry.Category, _changelogCategory == "beta" ? "patch" : _changelogCategory, StringComparison.OrdinalIgnoreCase))
             .ToList();
-        if (entries.Count == 0 && _channel is not null
-            && _changelogCategory == "patch"
-            && (!string.IsNullOrWhiteSpace(_channel.NewsTitle.Get(_text.Language))
-                || !string.IsNullOrWhiteSpace(_channel.NewsBody.Get(_text.Language))))
+        if (entries.Count == 0 && history is not null
+            && _changelogCategory != "launcher"
+            && (!string.IsNullOrWhiteSpace(history.NewsTitle.Get(_text.Language))
+                || !string.IsNullOrWhiteSpace(history.NewsBody.Get(_text.Language))))
         {
             entries =
             [
                 new ChangelogEntry
                 {
-                    PublishedAt = _channel.PublishedAt,
-                    Title = _channel.NewsTitle,
-                    Body = _channel.NewsBody
+                    PublishedAt = history.PublishedAt,
+                    Title = history.NewsTitle,
+                    Body = history.NewsBody
                 }
             ];
         }
@@ -538,6 +540,7 @@ public partial class MainWindow : Window
     {
         SetChangelogTabState(PatchChangelogButton, _changelogCategory == "patch");
         SetChangelogTabState(LauncherChangelogButton, _changelogCategory == "launcher");
+        SetChangelogTabState(BetaChangelogButton, _changelogCategory == "beta");
         RefreshUnreadBadges();
     }
 

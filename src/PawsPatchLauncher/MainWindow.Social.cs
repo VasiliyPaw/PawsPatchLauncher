@@ -61,17 +61,16 @@ public partial class MainWindow
             RenderSocialDetails(profile);
         FriendsNicknameLabel.Text=T("Username друга", "Friend's username");
         foreach(var (control,label) in new[] {(FriendsAddButton,T("Отправить заявку · Enter", "Send request · Enter")),
-            (FriendsCancelAddButton,T("Закрыть", "Close")),(FriendsSearchButton,T("Поиск друзей", "Search friends")),
-            (FriendsClearSearchButton,T("Закрыть поиск", "Close search"))})
+            (FriendsDialogClose,T("Закрыть", "Close")),(FriendsShowAddButton,T("Добавить друга", "Add friend")),
+            (FriendsRequestsTab,T("Заявки", "Requests"))})
         { control.ToolTip=label;System.Windows.Automation.AutomationProperties.SetName(control,label); }
         FriendsSearchInput.ToolTip=T("Имя или @username", "Display name or @username");
         System.Windows.Automation.AutomationProperties.SetName(FriendsSearchInput,(string)FriendsSearchInput.ToolTip);
         System.Windows.Automation.AutomationProperties.SetName(FriendsNicknameInput,FriendsNicknameLabel.Text);
-        FriendsShowAddButton.Content=T("+ Добавить друга", "+ Add friend");
+        FriendsSearchPlaceholder.Text=T("Поиск", "Search");
+        RefreshFriendsSearchPlaceholder();
         FriendsBroadcastButton.ToolTip=T("Отправить друзьям", "Send to friends");
         System.Windows.Automation.AutomationProperties.SetName(FriendsBroadcastButton,(string)FriendsBroadcastButton.ToolTip);
-        FriendsChatsTabText.Text=T("Чаты", "Chats");
-        FriendsRequestsTabText.Text=T("Заявки", "Requests");
         FriendsSendButton.ToolTip=T("Отправить · Enter", "Send · Enter");
         System.Windows.Automation.AutomationProperties.SetName(FriendsSendButton,T("Отправить", "Send"));
         FriendsMessageInput.ToolTip=T("Enter — отправить · Shift+Enter — новая строка", "Enter — send · Shift+Enter — new line");
@@ -84,26 +83,27 @@ public partial class MainWindow
         if(_socialIdentity!=_account.UserId) {
             ResetBroadcast();
             ClearToastStack();
-            FriendsSearchInput.Clear();Motion.Collapse(FriendsSearchPanel);
+            FriendsSearchInput.Clear(); ResetFriendsDialog();
             _socialIdentity=_account.UserId; _socialPeer=null; _socialPlayers=[]; _socialMessages=[]; _socialPending=[];
             ResetSocialHistory();
             ClearSocialProfiles();
             _socialLoadedChat=null;
             _socialOffers=[];_sendingOffers.Clear();_soundOwner=null;_soundPlayers=[];ResetChatMedia(dispose:true);
-            _socialRetryAfter=default; _socialFailures=0; _socialSection="chats"; _socialRequestSection="incoming"; _socialMenuPeer=null; _socialShowBlocked=false;
+            _socialRetryAfter=default; _socialFailures=0; _socialSection="chats"; _socialRequestSection="incoming";
             FriendsAddPanel.Visibility=Visibility.Collapsed;
             FriendsNicknameInput.Clear();FriendsMessageInput.Clear();FriendsStatusText.Text="";
             RenderSocialRows();RenderSocialMessages();
         }
         var ready=!_socialBusy && !_accountBusy && _account.State!=AccountState.Guest && !_account.Restricted;
-        FriendsSearchButton.Visibility=_account.State==AccountState.Guest?Visibility.Collapsed:Visibility.Visible;
-        FriendsAddButton.IsEnabled=FriendsShowAddButton.IsEnabled=FriendsRowsPanel.IsEnabled=ready;
+        FriendsToolbar.Visibility=_account.State==AccountState.Guest?Visibility.Collapsed:Visibility.Visible;
+        FriendsAddButton.IsEnabled=FriendsShowAddButton.IsEnabled=FriendsRowsPanel.IsEnabled=FriendsDialogRows.IsEnabled=ready;
+        FriendsRequestsTab.IsEnabled = ready;
         RenderSocialNotifications();
         var contact=SocialContactAvailable(_socialPlayers.FirstOrDefault(p=>p.Id==_socialPeer));
         FriendsSendButton.IsEnabled=ready && contact;
         FriendsMessageInput.IsEnabled=ready&&contact;
         FriendsComposerMoreButton.IsEnabled=ready && contact && !_offerSending && !_busy;
-        FriendsBroadcastButton.IsEnabled=ready && !_offerSending && !_busy && _socialPlayers.Any(p=>p.Relation=="friend"&&p.Available);
+        SendSaveBroadcastButton.IsEnabled=FriendsBroadcastButton.IsEnabled=ready && !_offerSending && !_busy && _socialPlayers.Any(p=>p.Relation=="friend"&&p.Available);
     }
     private async Task SocialOperationAsync(Func<Guid,Task> action, bool background = false)
     {
@@ -195,7 +195,7 @@ public partial class MainWindow
         }
         var pending=await _socialOutbox.ReadAsync(owner,_accountLifetime.Token);
         if(_account.UserId!=owner.ToString())return;
-        _socialPending=pending;RenderSocialMessages();
+        _socialPending=pending;RenderSocialRows();RenderSocialMessages();
     }
     private async void FriendsAdd_Click(object sender,RoutedEventArgs e)
     {
@@ -203,7 +203,7 @@ public partial class MainWindow
         await SocialOperationAsync(async owner=> {
             await _account.FriendActionAsync("request",nickname:nickname,ct:_accountLifetime.Token);
             if(_account.UserId!=owner.ToString())return;
-            if(FriendsNicknameInput.Text==raw){FriendsNicknameInput.Clear();Motion.Hide(FriendsAddPanel);}
+            if(FriendsNicknameInput.Text==raw){FriendsNicknameInput.Clear();await CloseFriendsDialogAsync();}
             SetSocialStatus("");
             ShowToast(()=>T("Заявка отправлена.", "Friend request sent."));
             var players=await _account.GetFriendsAsync(_accountLifetime.Token);
@@ -232,7 +232,7 @@ public partial class MainWindow
             if(_account.UserId!=owner.ToString())return;
             _socialPlayers=players;
             if(_socialPeer==player.Id && action is "remove" or "block" or "hide_chat"){_socialPeer=null;_socialMessages=[];_socialOffers=[];ResetSocialHistory();FriendsMessageInput.Clear();}
-            _socialMenuPeer=null;RenderSocialRows();RenderSocialMessages();RenderSocialNotifications();SetSocialStatus("");
+            RenderSocialRows();RenderSocialMessages();RenderSocialNotifications();SetSocialStatus("");
             ShowToast(()=>SocialActionResult(action));
         });
     }

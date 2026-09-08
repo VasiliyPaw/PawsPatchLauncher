@@ -26,7 +26,7 @@ internal static class FriendsPolishChecks
             var players=SocialHubChecks.Populate(w);Invoke("ResetBroadcast");
             var input=C<TextBox>("FriendsSearchInput");var rows=C<StackPanel>("FriendsRowsPanel");
             var initial=rows.Children.Count;Check(initial==9,"fixture friends missing");
-            Invoke("FriendsSearch_Click",C<Button>("FriendsSearchButton"),new RoutedEventArgs());
+            Check(w.FindName("FriendsSearchButton") is null && w.FindName("FriendsClearSearchButton") is null,"obsolete search buttons remain");
             Check(C<Border>("FriendsSearchPanel").Visibility==Visibility.Visible,"search toggle did not reveal field");
             input.Text="@FRIEND0";Check(rows.Children.Count==1,"case-insensitive @username search");
             input.Text="ЛЕСНОЙ";Check(rows.Children.Count==1,"case-insensitive display name search");
@@ -36,7 +36,7 @@ internal static class FriendsPolishChecks
             Check(Field<Guid?>("_socialPeer")==players[0].Id&&C<TextBox>("FriendsMessageInput").Text=="draft","filter destroyed selected chat/draft");
             input.Text="friend0";var row=rows.Children[0];Invoke("RenderSocialRows");
             Check(ReferenceEquals(row,rows.Children[0]),"identical poll rebuilt filtered row");
-            Invoke("FriendsClearSearch_Click",C<Button>("FriendsClearSearchButton"),new RoutedEventArgs());
+            input.Clear();
             Check(rows.Children.Count==initial&&input.Text=="","clear search");
             Invoke("FriendsShowAdd_Click",C<Button>("FriendsShowAddButton"),new RoutedEventArgs());w.UpdateLayout();
             Check(C<Border>("FriendsAddPanel").ActualHeight is >40 and <90,"add friend form is not compact");
@@ -75,7 +75,7 @@ internal static class FriendsPolishChecks
             Check(stack.Children.Count==5,"burst notices overwritten");Invoke("ClearToastStack");
             Check(stack.Children.Count==1&&last.Visibility==Visibility.Collapsed&&!Field<DispatcherTimer>("_toastTimer").IsEnabled,"stack clear leaked entries/timer");
             input.Text="private search";Set("_socialIdentity","different-owner");Invoke("RenderSocialIdentity");
-            Check(input.Text==""&&C<Border>("FriendsSearchPanel").Visibility==Visibility.Collapsed,"account switch retained search");
+            Check(input.Text==""&&C<Border>("FriendsSearchPanel").Visibility==Visibility.Visible,"account switch retained search or removed permanent field");
             AccountChecks.Populate(w,"nickname");Invoke("RenderAccountCooldown");
             Check(C<TextBlock>("AccountCooldownText").Text.Contains("23:")&&!C<Button>("AccountEditorSubmitButton").IsEnabled,"daily cooldown lost hours or enabled rename");
         }

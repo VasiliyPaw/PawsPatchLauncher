@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace PawsPatchLauncher;
 
-public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera }
+public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera, AddFriend, Requests, BlockedUsers }
 
 /// <summary>Original, font-independent line icons on a shared 24-unit grid.</summary>
 public sealed class LauncherIcon : FrameworkElement
@@ -56,6 +56,9 @@ public sealed class LauncherIcon : FrameworkElement
             [IconKind.Search] = "M10,3 A7,7 0 1 1 9.99,3 M15,15 L22,22",
             [IconKind.Close] = "M6,6 L18,18 M6,18 L18,6",
             [IconKind.Minimize] = "M5,12 L19,12",
+            [IconKind.AddFriend] = "M13,6 A4,4 0 1 1 5,6 A4,4 0 1 1 13,6 M2,22 L2,19 C2,12 16,12 16,19 M19,8 L19,16 M15,12 L23,12",
+            [IconKind.Requests] = "M3,5 L21,5 21,19 3,19 Z M3,6 L12,13 21,6",
+            [IconKind.BlockedUsers] = "M12,6 A3,3 0 1 1 6,6 A3,3 0 1 1 12,6 M3,21 L3,18 C3,13 9,12 12,14 M23,18 A5,5 0 1 1 13,18 A5,5 0 1 1 23,18 M14.5,21.5 L21.5,14.5",
             [IconKind.Logout] = "M10,3 L3,3 3,21 10,21 M8,12 L22,12 M17,7 L22,12 17,17"
         };
         return paths.ToDictionary(p => p.Key, p => { var g = Geometry.Parse(p.Value); g.Freeze(); return g; });

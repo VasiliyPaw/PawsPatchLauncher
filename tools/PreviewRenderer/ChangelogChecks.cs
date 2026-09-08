@@ -37,7 +37,9 @@ internal static class ChangelogChecks
         async Task Scenario()
         {
             Field<PawsPatchLauncher.Localization>("_text").SetLanguage(language);
-            var manifest = new ChannelManifest { Channel = "beta" };
+            Check(Field<string>("_changelogCategory") == "launcher", "Launcher history is not the default.");
+            Set("_changelogCategory", "patch");
+            var manifest = new ChannelManifest { Channel = "stable" };
             foreach (var category in new[] { "patch", "launcher" })
                 for (int i = 0; i < 8; i++) manifest.Changelog.Add(new ChangelogEntry
                 {
@@ -95,7 +97,7 @@ internal static class ChangelogChecks
             Invoke("RefreshNews");
             var releaseName = language == "ru" ? "Релиз" : "Release";
             Check(Heading().StartsWith(releaseName) && ((StackPanel)entries.Children[0]).Children.OfType<TextBlock>().Last().Text == releaseName + ". PAW-STABLE-IW1", "Legacy channel labels were not renamed, or sharing code was modified.");
-            Check(manifest.Changelog[0].Title.En == "Stable and Beta" && manifest.Channel == "beta", "Display renaming mutated signed feed content.");
+            Check(manifest.Changelog[0].Title.En == "Stable and Beta" && manifest.Channel == "stable", "Display renaming mutated signed feed content.");
             foreach (var category in new[] { "patch", "launcher" })
             {
                 var entry = manifest.Changelog.First(item => item.Category == category);

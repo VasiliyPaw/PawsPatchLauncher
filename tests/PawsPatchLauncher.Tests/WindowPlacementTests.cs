@@ -11,6 +11,10 @@ internal static class WindowPlacementTests
         var left = new WindowMonitor("same-model-port-B", "DISPLAY2", new(-1920, 0, 0, 1080), new(-1920, 0, 0, 1040), false);
         var above = new WindowMonitor("same-model-port-C", "DISPLAY3", new(0, -1440, 2560, 0), new(0, -1440, 2560, -40), false);
         WindowMonitor[] monitors = [primary, left, above];
+        var initial = WindowPlacementPersistence.InitialBounds(primary, 96);
+        Check(initial.Width == 1600 && initial.Height == 1000, "new default size incorrect");
+        var initialSmall = WindowPlacementPersistence.InitialBounds(left, 144);
+        Check(initialSmall.Left >= left.WorkArea.Left && initialSmall.Right <= left.WorkArea.Right && initialSmall.Top >= left.WorkArea.Top && initialSmall.Bottom <= left.WorkArea.Bottom, "new default exceeds scaled work area");
         SavedWindowPlacement Saved(WindowMonitor m, WindowPixelRect rect) => new()
         { MonitorId = m.Id, DeviceName = m.DeviceName, MonitorBounds = m.Bounds, WorkArea = m.WorkArea, NormalBounds = rect };
         var saved = Saved(left, new(-1850, 45, -650, 845));

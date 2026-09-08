@@ -36,7 +36,6 @@ public partial class MainWindow
                 && p.Unread > (_badgeArrivalPlayers.FirstOrDefault(old=>old.Id==p.Id&&old.Relation=="friend")?.Unread ?? 0));
             if (incoming || unread) ScheduleBadgePulse(FriendsNavBadge);
             if (incoming) ScheduleBadgePulse(FriendsRequestsBadge);
-            if (unread) ScheduleBadgePulse(FriendsChatsBadge);
         }
         _badgeArrivalOwner=_account.UserId; _badgeArrivalReady=ready; _badgeArrivalPlayers=_socialPlayers;
     }

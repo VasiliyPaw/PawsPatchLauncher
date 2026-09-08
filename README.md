@@ -55,6 +55,8 @@ No private signing key belongs in this repository or in a public release.
 
 ## Window placement
 
+Version 0.6.4 applies a larger 1600 × 1000 default, bounded by the available screen, once to legacy window geometry. Later resizing is remembered normally; the selected monitor and language are retained. This migration uses its own layout revision and does not reset component settings.
+
 The launcher saves its normal size/position, monitor connection and maximized state on an accepted close, in `%LOCALAPPDATA%\PawsPatchLauncher\window-placement.json`. The file is shared by launcher versions/copies for that Windows account, but is separate from patch settings, configuration codes and multiplayer fingerprints. A minimized window reopens in its preceding normal/maximized state, never minimized. Cancelled closes do not save; missing/invalid metadata uses the default window.
 
 Monitor interface identifiers, not model names, distinguish identical displays and take priority over `DISPLAY1/2/3` numbering. A changed/disconnected monitor layout chooses an available screen and bounds the window to its work area. Native placement accounts for restored bounds, taskbars and effective window DPI; unchanged geometry preserves negative coordinates and intentional multi-screen placement. Port/driver/remote-desktop changes can change identifiers, so that case uses a safe fallback rather than claiming permanent physical-monitor identity. The local placement file is removed only by launcher uninstall, not by patch removal/cache cleanup.

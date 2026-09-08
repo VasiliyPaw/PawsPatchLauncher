@@ -9,6 +9,18 @@ public partial class MainWindow
     private bool _changelogTransitionPending;
     private string? _renderedNewsIdentity;
 
+    private ChannelManifest? ChangelogManifest(string category)
+    {
+        var current = _latestChannel ?? _channel;
+        if (category == "launcher")
+            return new[] { _feedClient.KnownChannel("stable"), _feedClient.KnownChannel("beta"), current }
+                .Where(m => m is not null).OrderByDescending(m => m!.Changelog.Where(e => e.Category == "launcher")
+                    .Select(e => DateTimeOffset.TryParse(e.PublishedAt, out var date) ? date : DateTimeOffset.MinValue)
+                    .DefaultIfEmpty().Max()).FirstOrDefault();
+        var channel = category == "beta" ? "beta" : "stable";
+        return _feedClient.KnownChannel(channel) ?? (current?.Channel == channel ? current : null);
+    }
+
     private void CancelChangelogTransition()
     {
         _changelogTransitionVersion++;
@@ -19,7 +31,7 @@ public partial class MainWindow
 
     private async Task SwitchChangelogAsync(string category)
     {
-        var target = category.Equals("launcher", StringComparison.OrdinalIgnoreCase) ? "launcher" : "patch";
+        var target = category.ToLowerInvariant() switch { "launcher" => "launcher", "beta" => "beta", _ => "patch" };
         // A second click on the current tab must not flash or reset the reading position.
         if (_changelogCategory == target) return;
         _changelogCategory = target;

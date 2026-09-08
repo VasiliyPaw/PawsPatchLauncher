@@ -66,7 +66,8 @@ public partial class MainWindow
             }
             if(!restricted){_banPopupKey="";if(_banPopup is not null){((Grid)ToastHost.Parent).Children.Remove(_banPopup);_banPopup=null;}}
         }
-        FriendsSignedInPanel.IsEnabled=!restricted;FriendsConversationScroll.IsEnabled=!restricted;FriendsSearchButton.IsEnabled=!restricted;
+        FriendsSignedInPanel.IsEnabled=!restricted;FriendsConversationScroll.IsEnabled=!restricted;FriendsSearchInput.IsEnabled=FriendsToolbar.IsEnabled=FriendsDialogCard.IsEnabled=!restricted;
+        if(restricted)ResetFriendsDialog();
         FriendsNav.ToolTip=restricted?T("Общение недоступно: аккаунт заблокирован или удалён","Social features unavailable: account banned or deleted"):null;
         RefreshModerationCountdowns();
     }

@@ -63,6 +63,7 @@ public partial class MainWindow
         AccountPasswordInput.Clear(); AccountRepeatInput.Clear();
         AccountCurrentPasswordInput.Clear(); AccountNewPasswordInput.Clear(); AccountNewRepeatInput.Clear();
         AccountRecoveryProofInput.Clear(); AccountRecoveryPasswordInput.Clear(); AccountRecoveryRepeatInput.Clear();
+        AccountConfirmationCodeInput.Clear();
         ResetPasswordReveal();
     }
 
@@ -83,7 +84,7 @@ public partial class MainWindow
         AccountRepeatLabel.Text = T("Повторите пароль", "Repeat password");
         AccountRememberCheck.Content = T("Запомнить меня", "Remember me");
         ApplyAccountProfileLanguage();
-        AccountResendButton.Content = T("Отправить письмо повторно", "Resend confirmation email");
+        AccountResendButton.Content = T("Отправить код повторно", "Resend code");
         AccountProfileTitleText.Text = T("Ваш аккаунт", "Your account");
         AccountLogoutButton.Content = T("Выйти из аккаунта", "Sign out");
         AccountRetryButton.Content = T("Повторить подключение", "Reconnect");
@@ -98,7 +99,7 @@ public partial class MainWindow
         var guest = _account.State == AccountState.Guest;
         FriendsGuestPanel.Visibility = guest ? Visibility.Visible : Visibility.Collapsed;
         FriendsSignedInPanel.Visibility = guest ? Visibility.Collapsed : Visibility.Visible;
-        AccountFormCard.Visibility = guest && !_accountRecoveryOpen ? Visibility.Visible : Visibility.Collapsed;
+        AccountFormCard.Visibility = guest && !_accountRecoveryOpen && !_accountConfirmation ? Visibility.Visible : Visibility.Collapsed;
         SetNavState(AccountShowLoginButton, !_accountRegister);
         SetNavState(AccountShowRegisterButton, _accountRegister);
         AccountSignedInCard.Visibility = guest ? Visibility.Collapsed : Visibility.Visible;
@@ -122,6 +123,7 @@ public partial class MainWindow
         AccountMessageText.Text = AccountMessage(_accountMessage);
         UpdateAccountMessageAppearance();
         RenderAccountProfile();
+        RenderEmailConfirmation();
         RenderSocialIdentity();
         RenderModerationState();
     }
@@ -140,7 +142,7 @@ public partial class MainWindow
             await action();
         }
         catch (OperationCanceledException) when (_accountLifetime.IsCancellationRequested) { }
-        catch (AccountException error) { _accountMessage = error.Code; if (error.Code == "email_not_confirmed") _accountConfirmation = true; HandleEndedAccount(error.Code); }
+        catch (AccountException error) { _accountMessage = error.Code; if (error.Code == "email_not_confirmed") BeginEmailConfirmation(); HandleEndedAccount(error.Code); }
         catch { _accountMessage = "local_error"; } // No input, credentials or raw HTTP errors in launcher logs.
         finally
         {
@@ -182,7 +184,7 @@ public partial class MainWindow
                     var signedIn = await _account.RegisterAsync(email, password, confirmation, nickname, _accountLifetime.Token, remember,AccountDisplayNameInput.Text);
                     if (!signedIn)
                     {
-                        _accountRegister = false; _accountConfirmation = true; _accountMessage = "confirmation_sent";
+                        BeginEmailConfirmation(); _accountRegister = false; _accountMessage = "confirmation_sent";
                         _accountResendAfter = DateTimeOffset.UtcNow.AddSeconds(60);
                         _accountResendTimer.Start();
                     }
@@ -192,6 +194,7 @@ public partial class MainWindow
             }
             finally { if (_account.State != AccountState.Guest || _accountMessage == "confirmation_sent") ClearAccountPasswords(); }
         });
+        if (_accountConfirmation) { Motion.Reveal(AccountConfirmationCard); AccountConfirmationCodeInput.Focus(); }
     }
 
     private async void AccountPassword_KeyDown(object sender, KeyEventArgs e)
@@ -200,14 +203,15 @@ public partial class MainWindow
     private async void AccountResend_Click(object sender, RoutedEventArgs e)
     {
         if (DateTimeOffset.UtcNow < _accountResendAfter) return;
-        try{AccountService.ValidateEmail(AccountEmailInput.Text);}
+        var email = _accountConfirmation ? AccountConfirmationEmailInput.Text : AccountEmailInput.Text;
+        try{AccountService.ValidateEmail(email);}
         catch(AccountException){
-            ShowToast(()=>T("Для повторного письма укажите почту аккаунта в поле входа.", "To resend the email, enter your account email in the login field."),true);
-            AccountEmailInput.Focus();return;
+            ShowToast(()=>T("Для повторного письма укажите почту аккаунта.", "To resend the email, enter your account email."),true);
+            AccountConfirmationEmailInput.Focus();return;
         }
         await AccountOperationAsync(async () =>
         {
-            await _account.ResendConfirmationAsync(AccountEmailInput.Text, _accountLifetime.Token);
+            await _account.ResendConfirmationAsync(email, _accountLifetime.Token);
             _accountResendAfter = DateTimeOffset.UtcNow.AddSeconds(60); _accountMessage = "confirmation_sent";
             _accountResendTimer.Start();
         });
@@ -258,8 +262,9 @@ public partial class MainWindow
         "signed_in" => _account.Remembered ? T("Вход выполнен и сохранён на этом компьютере.", "Signed in. Your session is saved on this computer.") : T("Вход выполнен только до закрытия лаунчера. Сеанс не сохраняется на диск.", "Signed in until the launcher closes. This session is not saved to disk."),
         "signed_out" => T("Вы вышли из аккаунта. Лаунчер работает в гостевом режиме.", "Signed out. The launcher is in guest mode."),
         "signed_out_offline" => T("Сохранённый вход на этом компьютере удалён. Сервер не ответил, поэтому завершение сеанса на сервере не подтверждено.", "The saved sign-in was removed from this computer. The server did not respond, so server-side session revocation is not confirmed."),
-        "confirmation_sent" => T("Проверьте почту и подтвердите адрес по ссылке из письма, затем войдите с паролем. Если аккаунт уже существует, используйте вход. Подтверждать почту при каждом запуске не нужно.", "Check your email and confirm the address using the link, then sign in with your password. If an account already exists, use sign in. You do not need email confirmation on each launch."),
-        "email_not_confirmed" => T("Сначала подтвердите почту по ссылке из письма. Затем войдите с паролем.", "Confirm your email using the link in the message, then sign in with your password."),
+        "confirmation_sent" => T("Проверьте почту и введите код из письма. Если аккаунт уже подтверждён, используйте вход.", "Check your email and enter the code. If your account is already confirmed, use sign in."),
+        "email_not_confirmed" => T("Подтвердите почту кодом из письма.", "Confirm your email with the code from the message."),
+        "invalid_confirmation_code" => T("Код неверный или устарел. Проверьте последние 6 цифр из письма либо запросите новый код.", "The code is invalid or expired. Enter the six-digit code from the latest email or request a new code."),
         "invalid_email" => T("Введите корректный адрес электронной почты.", "Enter a valid email address."),
         "invalid_nickname" => T("Username: 3–24 символа. Только английские буквы, цифры, точка, дефис и подчёркивание; первый символ — буква или цифра.", "Username: 3–24 characters. Use English letters, digits, dots, hyphens and underscores; start with a letter or digit."),
         "nickname_taken" => T("Этот username уже занят. Выберите другой.", "This username is taken. Choose another one."),

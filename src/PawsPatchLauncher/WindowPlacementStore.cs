@@ -13,6 +13,7 @@ public readonly record struct WindowPixelRect(int Left, int Top, int Right, int 
 
 public sealed class SavedWindowPlacement
 {
+    public int LayoutRevision { get; set; }
     public int SchemaVersion { get; set; } = 1;
     public string MonitorId { get; set; } = "";
     public string DeviceName { get; set; } = "";
@@ -34,6 +35,7 @@ public sealed record WindowMonitor(string Id, string DeviceName, WindowPixelRect
 /// <summary>Local UI state, independent of game settings, executable location and patch channel.</summary>
 public sealed class WindowPlacementStore(string directory)
 {
+    public const int CurrentLayoutRevision = 1;
     private readonly string _path = Path.Combine(directory, "window-placement.json");
 
     public SavedWindowPlacement? Read()

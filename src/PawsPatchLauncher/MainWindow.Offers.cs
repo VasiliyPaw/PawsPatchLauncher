@@ -134,24 +134,28 @@ public partial class MainWindow
         var now = DateTimeOffset.UtcNow;
         _sendingOffers[id] = new SocialOffer(id,owner,peer,code is not null?"config":"save",code,descriptor?.FileName,
             descriptor?.Size,descriptor?.Sha256,"sending",now,now.AddMinutes(10),null,null);
+        RenderSocialRows();
         RenderSocialMessages();
         if (_socialPeer == peer) ShowNewestCachedHistory();
         var sent = false;
         try
         {
             var offer = await _account.CreateOfferAsync(peer,id,code,descriptor,ct);
+            if(_account.UserId==owner.ToString() && _sendingOffers.TryGetValue(id,out var prepared))
+                _sendingOffers[id]=prepared with {CreatedAt=offer.CreatedAt};
             if (offer.State == "expired") { OfferSendIdentity.Complete(ActivityStore.Root,key); throw new AccountException("offer_expired"); }
             if (bytes is not null && offer.State is "uploading" or "pending")
                 await _account.TransferSaveAsync(id,"upload",bytes,ct);
             OfferSendIdentity.Complete(ActivityStore.Root,key);
             sent = true;
+            if(_account.UserId==owner.ToString()) { _chatActivity.SetOwner(_account.UserId);_chatActivity.Observe(peer,offer.CreatedAt); }
         }
         finally
         {
             // Retain the same durable identity after any uncertain network outcome.
             if (_account.UserId == owner.ToString() && _sendingOffers.TryGetValue(id,out var local))
                 _sendingOffers[id] = local with { State=sent?"pending":"send_failed" };
-            RenderSocialMessages();
+            RenderSocialRows(); RenderSocialMessages();
         }
     }
     private async Task<bool> ConfirmConfigurationOfferAsync(SocialPlayer recipient,string code)

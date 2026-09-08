@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:PawsPatchLauncher"
-        Title="Paw's Patch Launcher" Width="1440" Height="900" MinWidth="1050" MinHeight="680"
+        Title="Paw's Patch Launcher" Width="1600" Height="1000" MinWidth="1050" MinHeight="680"
         FontFamily="Arial" Icon="Assets/PawsPatch.ico"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip"
         Background="{StaticResource NightBrush}">
@@ -390,9 +390,13 @@
                                             <Grid>
                                                 <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                                 <TextBlock x:Name="FriendsTitleText" Style="{StaticResource CardTitle}" VerticalAlignment="Center" Margin="0"/>
-                                                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                                    <Button x:Name="FriendsBlockedTab" Style="{StaticResource GhostButton}" Width="30" Height="30" Padding="0" Margin="0,0,6,0" Click="FriendsBlocked_Click"><local:LauncherIcon Kind="Shield" Width="17" Height="17"/></Button>
-                                                    <Button x:Name="FriendsSearchButton" Style="{StaticResource GhostButton}" Width="30" Height="30" Padding="0" Click="FriendsSearch_Click"><local:LauncherIcon Kind="Search" Width="17" Height="17"/></Button>
+                                                <StackPanel x:Name="FriendsToolbar" Grid.Column="1" Orientation="Horizontal">
+                                                    <Button x:Name="FriendsShowAddButton" Style="{StaticResource GhostButton}" Background="#216343" BorderBrush="#45996A" Foreground="White" local:Motion.HoverBackground="#2C7954" local:Motion.PressedBackground="#17482F" Width="28" Height="28" Padding="0" Margin="0,0,4,0" Click="FriendsShowAdd_Click"><local:LauncherIcon Kind="AddFriend" Width="18" Height="18"/></Button>
+                                                    <Button x:Name="FriendsRequestsTab" Style="{StaticResource GhostButton}" Width="28" Height="28" Padding="0" Margin="0,0,4,0" Click="FriendsRequests_Click">
+                                                        <Grid><local:LauncherIcon Kind="Requests" Width="18" Height="18"/><Border x:Name="FriendsRequestsBadge" Background="#B94757" CornerRadius="7" MinWidth="14" Height="14" Padding="3,0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="12,-7,-7,0" Visibility="Collapsed"><TextBlock x:Name="FriendsRequestsBadgeText" FontSize="9" Foreground="White"/></Border></Grid>
+                                                    </Button>
+                                                    <Button x:Name="FriendsBroadcastButton" Style="{StaticResource GhostButton}" Width="28" Height="28" Padding="0" Margin="0,0,4,0" Click="FriendsBroadcast_Click"><local:LauncherIcon Kind="Send" Width="18" Height="18"/></Button>
+                                                    <Button x:Name="FriendsBlockedTab" Style="{StaticResource GhostButton}" Width="28" Height="28" Padding="0" Margin="0" Click="FriendsBlocked_Click"><local:LauncherIcon Kind="BlockedUsers" Width="18" Height="18"/></Button>
                                                 </StackPanel>
                                             </Grid>
                                             <StackPanel x:Name="FriendsGuestPanel" Margin="0,12,0,0">
@@ -403,37 +407,12 @@
                                                 </WrapPanel>
                                             </StackPanel>
                                             <StackPanel x:Name="FriendsSignedInPanel" Margin="0,12,0,0" Visibility="Collapsed">
-                                                <WrapPanel Margin="0,0,0,8">
-                                                    <Button x:Name="FriendsChatsTab" Style="{StaticResource GhostButton}" Padding="10,7" Margin="0,0,6,6" Click="FriendsChats_Click">
-                                                        <StackPanel Orientation="Horizontal"><TextBlock x:Name="FriendsChatsTabText"/><Border x:Name="FriendsChatsBadge" Background="#B94757" CornerRadius="8" Padding="4,0" Margin="6,0,0,0" Visibility="Collapsed"><TextBlock x:Name="FriendsChatsBadgeText" FontSize="11" Foreground="White"/></Border></StackPanel>
-                                                    </Button>
-                                                    <Button x:Name="FriendsRequestsTab" Style="{StaticResource GhostButton}" Padding="10,7" Margin="0,0,6,6" Click="FriendsRequests_Click">
-                                                        <StackPanel Orientation="Horizontal"><TextBlock x:Name="FriendsRequestsTabText"/><Border x:Name="FriendsRequestsBadge" Background="#B94757" CornerRadius="8" Padding="4,0" Margin="6,0,0,0" Visibility="Collapsed"><TextBlock x:Name="FriendsRequestsBadgeText" FontSize="11" Foreground="White"/></Border></StackPanel>
-                                                    </Button>
-                                                    <Button x:Name="FriendsShowAddButton" Style="{StaticResource GhostButton}" Background="#216343" BorderBrush="#45996A" Foreground="White" local:Motion.HoverBackground="#2C7954" local:Motion.PressedBackground="#17482F" Padding="10,7" Margin="0,0,0,6" Click="FriendsShowAdd_Click"/>
-                                                    <Button x:Name="FriendsBroadcastButton" Style="{StaticResource GhostButton}" Width="34" Height="34" Padding="0" Margin="6,0,0,6" Click="FriendsBroadcast_Click"><local:LauncherIcon Kind="Send" Width="19" Height="19"/></Button>
-                                                </WrapPanel>
-                                                <Border x:Name="FriendsSearchPanel" Background="#162A45" CornerRadius="7" Padding="8" Margin="0,0,0,8" Visibility="Collapsed">
+                                                <Border x:Name="FriendsSearchPanel" Margin="0,0,0,8">
                                                     <Grid>
-                                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="30"/></Grid.ColumnDefinitions>
-                                                        <TextBox x:Name="FriendsSearchInput" Style="{StaticResource ConfigurationInput}" Margin="0" Height="34" MaxLength="64" VerticalContentAlignment="Center" TextChanged="FriendsSearch_Changed" PreviewKeyDown="FriendsSearch_KeyDown"/>
-                                                        <Button x:Name="FriendsClearSearchButton" Grid.Column="1" Style="{StaticResource TitleButton}" Padding="0" Width="26" Height="32" Click="FriendsClearSearch_Click"><local:LauncherIcon Kind="Close" Width="15" Height="15"/></Button>
+                                                        <TextBox x:Name="FriendsSearchInput" Style="{StaticResource ConfigurationInput}" Margin="0" Height="34" MaxLength="64" VerticalContentAlignment="Center" TextChanged="FriendsSearch_Changed" GotKeyboardFocus="FriendsSearch_FocusChanged" LostKeyboardFocus="FriendsSearch_FocusChanged"/>
+                                                        <TextBlock x:Name="FriendsSearchPlaceholder" Foreground="#71869F" Margin="10,0" VerticalAlignment="Center" IsHitTestVisible="False"/>
                                                     </Grid>
                                                 </Border>
-                                                <Border x:Name="FriendsAddPanel" Background="#162A45" CornerRadius="7" Padding="10" Margin="0,0,0,8" Visibility="Collapsed">
-                                                    <Grid>
-                                                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="34"/></Grid.RowDefinitions>
-                                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="38"/><ColumnDefinition Width="30"/></Grid.ColumnDefinitions>
-                                                        <TextBlock x:Name="FriendsNicknameLabel" Grid.ColumnSpan="3" Style="{StaticResource SmallMetadataText}" Margin="0,0,0,5"/>
-                                                        <TextBox x:Name="FriendsNicknameInput" Grid.Row="1" Style="{StaticResource ConfigurationInput}" Margin="0" MaxLength="24" Height="34" VerticalContentAlignment="Center" PreviewKeyDown="FriendsNickname_KeyDown"/>
-                                                        <Button x:Name="FriendsAddButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource GoldButton}" Width="32" Height="34" Padding="0" Margin="6,0,0,0" Click="FriendsAdd_Click"><local:LauncherIcon Kind="Send" Width="17" Height="17"/></Button>
-                                                        <Button x:Name="FriendsCancelAddButton" Grid.Row="1" Grid.Column="2" Style="{StaticResource TitleButton}" Width="26" Height="32" Padding="0" Click="FriendsCancelAdd_Click"><local:LauncherIcon Kind="Close" Width="15" Height="15"/></Button>
-                                                    </Grid>
-                                                </Border>
-                                                <WrapPanel x:Name="FriendsRequestTabs" Visibility="Collapsed" Margin="0,2,0,8">
-                                                    <Button x:Name="FriendsIncomingTab" Style="{StaticResource GhostButton}" Padding="10,5" FontSize="12" Margin="0,0,6,4" Click="FriendsIncoming_Click"/>
-                                                    <Button x:Name="FriendsOutgoingTab" Style="{StaticResource GhostButton}" Padding="10,5" FontSize="12" Margin="0,0,0,4" Click="FriendsOutgoing_Click"/>
-                                                </WrapPanel>
                                                 <TextBlock x:Name="FriendsStatusText" Style="{StaticResource CardDescription}" Foreground="#F3CF7B" Margin="0,0,0,8" Visibility="Collapsed"/>
                                                 <TextBlock x:Name="FriendsListEmptyText" Style="{StaticResource CardDescription}" Margin="0,10,0,10"/>
                                                 <StackPanel x:Name="FriendsRowsPanel"/>
@@ -487,7 +466,23 @@
                                                 <Button x:Name="AccountSubmitButton" Style="{StaticResource GoldButton}" Margin="0,0,8,8" Click="AccountSubmit_Click"/>
                                             </WrapPanel>
                                             <Button x:Name="AccountForgotButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,6,0,0" Click="AccountForgot_Click"/>
-                                            <Button x:Name="AccountResendButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,8,0,0" Visibility="Collapsed" Click="AccountResend_Click"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border x:Name="AccountConfirmationCard" Style="{StaticResource Card}" Visibility="Collapsed" MaxWidth="580" HorizontalAlignment="Left">
+                                        <StackPanel>
+                                            <local:LauncherIcon Kind="Requests" Width="36" Height="36" Foreground="{StaticResource GoldBrightBrush}" HorizontalAlignment="Left" Margin="0,0,0,14"/>
+                                            <TextBlock x:Name="AccountConfirmationTitle" Style="{StaticResource CardTitle}"/>
+                                            <TextBlock x:Name="AccountConfirmationHint" Style="{StaticResource CardDescription}" Margin="0,0,0,18"/>
+                                            <TextBlock x:Name="AccountConfirmationEmailLabel" Style="{StaticResource FieldTitle}" Margin="0,0,0,6"/>
+                                            <TextBox x:Name="AccountConfirmationEmailInput" Style="{StaticResource ConfigurationInput}" MaxLength="254" MinWidth="260"/>
+                                            <TextBlock x:Name="AccountConfirmationCodeLabel" Style="{StaticResource FieldTitle}" Margin="0,4,0,8"/>
+                                            <TextBox x:Name="AccountConfirmationCodeInput" Style="{StaticResource ConfigurationInput}" Width="206" Height="48" HorizontalAlignment="Left" FontSize="26" Typography.NumeralAlignment="Tabular" MaxLength="6" TextAlignment="Center" VerticalContentAlignment="Center" IsUndoEnabled="False"
+                                                PreviewTextInput="AccountRecoveryCode_PreviewTextInput" DataObject.Pasting="AccountRecoveryCode_Pasting" TextChanged="AccountConfirmationCode_Changed" KeyDown="AccountConfirmationCode_KeyDown"/>
+                                            <WrapPanel Margin="0,12,0,0">
+                                                <Button x:Name="AccountConfirmButton" Style="{StaticResource GoldButton}" Margin="0,0,8,8" Click="AccountConfirm_Click"/>
+                                                <Button x:Name="AccountResendButton" Style="{StaticResource GhostButton}" Margin="0,0,0,8" Click="AccountResend_Click"/>
+                                            </WrapPanel>
+                                            <Button x:Name="AccountConfirmationBackButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,6,0,0" Click="AccountShowLogin_Click"/>
                                         </StackPanel>
                                     </Border>
                                     <Border x:Name="AccountSignedInCard" Style="{StaticResource Card}" Visibility="Collapsed" Margin="0,0,0,14" MaxWidth="900">
@@ -750,7 +745,8 @@
                                         <WrapPanel Grid.Row="1" Margin="0,10,0,5">
                                             <Button x:Name="BrowseButton" Style="{StaticResource GhostButton}" Padding="12,6" Margin="0,0,8,8" Click="BrowseButton_Click"/>
                                             <Button x:Name="OpenGameFolderButton" Style="{StaticResource GhostButton}" Padding="12,6" Margin="0,0,8,8" Click="OpenGameFolderButton_Click"/>
-                                            <Button x:Name="OpenSavesFolderButton" Style="{StaticResource GhostButton}" Padding="12,6" Margin="0,0,0,8" Click="OpenSavesFolderButton_Click"/>
+                                            <Button x:Name="OpenSavesFolderButton" Style="{StaticResource GhostButton}" Padding="12,6" Margin="0,0,8,8" Click="OpenSavesFolderButton_Click"/>
+                                            <Button x:Name="SendSaveBroadcastButton" Style="{StaticResource GhostButton}" Background="#216343" BorderBrush="#45996A" Foreground="White" local:Motion.HoverBackground="#2C7954" local:Motion.PressedBackground="#17482F" local:LauncherIcon.Kind="Send" Padding="12,6" Margin="0,0,0,8" Click="SendSaveBroadcast_Click"/>
                                         </WrapPanel>
                                         <Grid Grid.Row="2">
                                             <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
@@ -991,8 +987,9 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock x:Name="NewsTitleText" Style="{StaticResource CardTitle}" Margin="0"/>
                                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                                    <Button x:Name="PatchChangelogButton" Style="{StaticResource GhostButton}" Tag="patch" Padding="14,6" Click="ChangelogTab_Click"/>
-                                    <Button x:Name="LauncherChangelogButton" Style="{StaticResource GhostButton}" Tag="launcher" Padding="14,6" Margin="8,0,0,0" Click="ChangelogTab_Click"/>
+                                    <Button x:Name="LauncherChangelogButton" Style="{StaticResource GhostButton}" Tag="launcher" Padding="12,6" Click="ChangelogTab_Click"/>
+                                    <Button x:Name="PatchChangelogButton" Style="{StaticResource GhostButton}" Tag="patch" Padding="12,6" Margin="6,0,0,0" Click="ChangelogTab_Click"/>
+                                    <Button x:Name="BetaChangelogButton" Style="{StaticResource GhostButton}" Tag="beta" Padding="12,6" Margin="6,0,0,0" Click="ChangelogTab_Click"/>
                                 </StackPanel>
                                 <ScrollViewer x:Name="NewsScrollViewer" Grid.Row="4" ClipToBounds="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly" Padding="0,0,10,0">
                                     <StackPanel x:Name="NewsEntriesPanel"/>
@@ -1164,6 +1161,33 @@
                     </Border>
                 </Grid>
             </Border>
+            <Border x:Name="FriendsDialogOverlay" Grid.RowSpan="2" Panel.ZIndex="105" Visibility="Collapsed" Background="#D907101F" PreviewMouseDown="FriendsDialog_MouseDown" PreviewKeyDown="FriendsDialog_KeyDown">
+                <Border x:Name="FriendsDialogCard" MaxWidth="590" Margin="24" Padding="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#12263C" BorderBrush="#45617D" BorderThickness="1" CornerRadius="14">
+                    <Grid KeyboardNavigation.TabNavigation="Cycle">
+                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                        <DockPanel Margin="0,0,0,18">
+                            <Button x:Name="FriendsDialogClose" DockPanel.Dock="Right" Style="{StaticResource TitleButton}" Width="28" Height="28" Padding="0" Click="FriendsCancelAdd_Click"><local:LauncherIcon Kind="Close" Width="17" Height="17"/></Button>
+                            <TextBlock x:Name="FriendsDialogTitle" FontSize="21" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </DockPanel>
+                        <Border x:Name="FriendsAddPanel" Grid.Row="1" Visibility="Collapsed">
+                            <Grid>
+                                <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="38"/></Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="48"/></Grid.ColumnDefinitions>
+                                <TextBlock x:Name="FriendsNicknameLabel" Grid.ColumnSpan="2" Style="{StaticResource SmallMetadataText}" Margin="0,0,0,8"/>
+                                <TextBox x:Name="FriendsNicknameInput" Grid.Row="1" Style="{StaticResource ConfigurationInput}" Margin="0" MaxLength="24" Height="38" VerticalContentAlignment="Center" PreviewKeyDown="FriendsNickname_KeyDown"/>
+                                <Button x:Name="FriendsAddButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource GoldButton}" Width="38" Height="38" Padding="0" Margin="10,0,0,0" Click="FriendsAdd_Click"><local:LauncherIcon Kind="Send" Width="18" Height="18"/></Button>
+                            </Grid>
+                        </Border>
+                        <StackPanel Grid.Row="1" x:Name="FriendsRequestTabs" Visibility="Collapsed" Orientation="Horizontal" Margin="0,0,0,12">
+                            <Button x:Name="FriendsIncomingTab" Style="{StaticResource GhostButton}" Padding="12,7" Margin="0,0,8,0" Click="FriendsIncoming_Click"/>
+                            <Button x:Name="FriendsOutgoingTab" Style="{StaticResource GhostButton}" Padding="12,7" Click="FriendsOutgoing_Click"/>
+                        </StackPanel>
+                        <ScrollViewer x:Name="FriendsDialogScroll" Grid.Row="2" MaxHeight="430" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,2,0,0">
+                            <StackPanel><TextBlock x:Name="FriendsDialogEmpty" Foreground="#9EB5CE" Margin="0,12" TextWrapping="Wrap"/><StackPanel x:Name="FriendsDialogRows"/></StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Border>
             <Border x:Name="BroadcastOverlay" Grid.RowSpan="2" Panel.ZIndex="150" Visibility="Collapsed" Background="#D907101F"
                     PreviewMouseDown="BroadcastOverlay_MouseDown" PreviewKeyDown="BroadcastOverlay_KeyDown">
                 <Border x:Name="BroadcastCard" Width="580"
@@ -1178,8 +1202,8 @@
                         </Grid>
                         <StackPanel Grid.Row="1" Margin="0,18,0,0">
                             <UniformGrid Columns="2">
-                                <Button x:Name="BroadcastConfigTab" Style="{StaticResource GhostButton}" local:LauncherIcon.Kind="Copy" Margin="0,0,6,0" Tag="config" Click="BroadcastKind_Click"/>
-                                <Button x:Name="BroadcastSaveTab" Style="{StaticResource GhostButton}" local:LauncherIcon.Kind="Save" Margin="6,0,0,0" Tag="save" Click="BroadcastKind_Click"/>
+                                <Button x:Name="BroadcastSaveTab" Style="{StaticResource GhostButton}" local:LauncherIcon.Kind="Save" Margin="0,0,6,0" Tag="save" Click="BroadcastKind_Click"/>
+                                <Button x:Name="BroadcastConfigTab" Style="{StaticResource GhostButton}" local:LauncherIcon.Kind="Copy" Margin="6,0,0,0" Tag="config" Click="BroadcastKind_Click"/>
                             </UniformGrid>
                             <Button x:Name="BroadcastChooseFile" Style="{StaticResource GhostButton}" local:LauncherIcon.Kind="Folder" Margin="0,12,0,0" HorizontalAlignment="Left" Click="BroadcastChooseFile_Click"/>
                             <TextBlock x:Name="BroadcastPayloadText" Foreground="#BDCEE0" TextWrapping="Wrap" Margin="0,12,0,0"/>

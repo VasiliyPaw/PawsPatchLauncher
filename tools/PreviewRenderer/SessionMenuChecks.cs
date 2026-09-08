@@ -25,9 +25,12 @@ internal static class SessionMenuChecks
             Invoke("SetActivePage","friends"); SocialChecks.Populate(w,"requests");
             var content=(FrameworkElement)w.Content;
             content.Measure(new Size(1050,680));content.Arrange(new Rect(0,0,1050,680));content.UpdateLayout();
-            var card=(Border)Control<StackPanel>("FriendsRowsPanel").Children[0];
+            var card=(Border)Control<StackPanel>("FriendsDialogRows").Children[0];
             var body=(StackPanel)card.Child;var grid=(Grid)body.Children[0];
             var actions=(StackPanel)grid.Children[1];var anchor=(Button)actions.Children[1];
+            Check(actions.Children.Count==2 && ((Button)actions.Children[0]).Tag?.ToString()=="accept" && anchor.Tag?.ToString()=="decline",
+                "incoming request still has a menu instead of direct accept/decline");
+            Check(actions.Children.OfType<Button>().All(button=>button.Height==26), "request buttons are not compact");
             double rowHeight=card.ActualHeight;
             var players=(IReadOnlyList<SocialPlayer>)typeof(MainWindow).GetField("_socialPlayers",Flags)!.GetValue(w)!;
             var incoming=players.Single(p=>p.Relation=="incoming");

@@ -2,6 +2,19 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.6.4",
+      "publishedAt": "2026-09-09",
+      "title": {
+        "ru": "Обновлённые друзья и быстрая отправка сейвов",
+        "en": "Refreshed Friends and quick save sharing"
+      },
+      "body": {
+        "ru": "Постоянный поиск и отдельные окна заявок, добавления друзей, рассылки и блокировок. Чаты плавно поднимаются по новым входящим и исходящим сообщениям без потери черновика. «Отправить сейв» в папке игры сразу открывает выбор файла и закрывает рассылку после полной успешной отправки; обычная рассылка остаётся открытой. Регистрация подтверждается шестизначным кодом с автоматическим входом. Более крупный размер окна применяется один раз, затем снова сохраняется выбранный размер. В истории первыми открываются изменения лаунчера, отдельно доступны Релиз и Бета. Исправлена повторная ошибка чтения кода завершения игры. Игровые пакеты и настройки компонентов не изменились.",
+        "en": "Permanent search and separate dialogs for requests, adding friends, broadcast and blocked users. Chats move smoothly to the top for new incoming and outgoing messages without losing drafts. Game folder / Send save opens the file picker immediately and closes the broadcast after complete success; normal broadcasts stay open. Registration uses a six-digit email code with automatic sign-in. A larger default window is applied once, then user resizing is remembered again. Changelog opens on Launcher, with separate Release and Beta tabs. Fixed repeated game exit-code logging errors. Game packages and component settings are unchanged."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.6.3",
       "publishedAt": "2026-09-08",
       "title": {
@@ -327,6 +340,19 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.6.4",
+      "publishedAt": "2026-09-09",
+      "title": {
+        "ru": "Обновлённые друзья и быстрая отправка сейвов",
+        "en": "Refreshed Friends and quick save sharing"
+      },
+      "body": {
+        "ru": "Постоянный поиск и отдельные окна заявок, добавления друзей, рассылки и блокировок. Чаты плавно поднимаются по новым входящим и исходящим сообщениям без потери черновика. «Отправить сейв» в папке игры сразу открывает выбор файла и закрывает рассылку после полной успешной отправки; обычная рассылка остаётся открытой. Регистрация подтверждается шестизначным кодом с автоматическим входом. Более крупный размер окна применяется один раз, затем снова сохраняется выбранный размер. В истории первыми открываются изменения лаунчера, отдельно доступны Релиз и Бета. Исправлена повторная ошибка чтения кода завершения игры. Игровые пакеты и настройки компонентов не изменились.",
+        "en": "Permanent search and separate dialogs for requests, adding friends, broadcast and blocked users. Chats move smoothly to the top for new incoming and outgoing messages without losing drafts. Game folder / Send save opens the file picker immediately and closes the broadcast after complete success; normal broadcasts stay open. Registration uses a six-digit email code with automatic sign-in. A larger default window is applied once, then user resizing is remembered again. Changelog opens on Launcher, with separate Release and Beta tabs. Fixed repeated game exit-code logging errors. Game packages and component settings are unchanged."
+      }
+    },
     {
       "category": "patch",
       "version": "0.3.0-beta.1",

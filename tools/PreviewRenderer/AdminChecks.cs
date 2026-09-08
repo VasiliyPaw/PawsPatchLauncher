@@ -205,9 +205,9 @@ internal static class AdminChecks
             Check(C<Button>("AccountDeleteButton").IsEnabled&&C<Button>("AccountLogoutButton").IsEnabled,"banned logout/delete unavailable");
             Check(C<Grid>("MainBody").IsEnabled&&C<Button>("SettingsNav").IsEnabled,"ban blocked local launcher");
             session.BanUntil=DateTimeOffset.UtcNow.AddSeconds(-1);Call(w,"RenderAccount");Check(!profile.Banned&&C<StackPanel>("FriendsSignedInPanel").IsEnabled,"expired temporary ban did not unlock");
-            Call(w,"FriendsSearch_Click",C<Button>("FriendsSearchButton"),new RoutedEventArgs());Call(w,"FriendsClearSearch_Click",C<Button>("FriendsClearSearchButton"),new RoutedEventArgs());
-            await Task.Delay(300);Check(C<Border>("FriendsSearchPanel").Visibility==Visibility.Collapsed,"search X did not close");
-            Call(w,"FriendsBlocked_Click",C<Button>("FriendsBlockedTab"),new RoutedEventArgs());Check(Field<string>(w,"_socialSection")=="blocked","separate blocked section");
+            C<TextBox>("FriendsSearchInput").Clear();
+            await Task.Delay(300);Check(C<Border>("FriendsSearchPanel").Visibility==Visibility.Visible&&C<TextBox>("FriendsSearchInput").Text=="","permanent search disappeared");
+            Call(w,"FriendsBlocked_Click",C<Button>("FriendsBlockedTab"),new RoutedEventArgs());Check(Field<string>(w,"_friendsDialog")=="blocked","separate blocked section");
         }
         try{w.Show();var task=w.Dispatcher.InvokeAsync(Scenario).Task.Unwrap();var frame=new DispatcherFrame();var timeout=new DispatcherTimer{Interval=TimeSpan.FromSeconds(30)};
             timeout.Tick+=(_,_)=>frame.Continue=false;task.ContinueWith(_=>w.Dispatcher.BeginInvoke(()=>frame.Continue=false),TaskScheduler.Default);timeout.Start();Dispatcher.PushFrame(frame);timeout.Stop();if(!task.IsCompleted)throw new TimeoutException();task.GetAwaiter().GetResult();Console.WriteLine($"ADMIN UI PASS {n} {language}: roles, forms, sanctions, tombstones, search close; mock data only");}

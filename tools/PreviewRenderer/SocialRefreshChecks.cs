@@ -31,13 +31,13 @@ internal static class SocialRefreshChecks
             var row = Control<StackPanel>("FriendsRowsPanel").Children[0];
             var bubble = Control<StackPanel>("FriendsMessagesPanel").Children[0];
             var pendingRow = Control<StackPanel>("FriendsMessagesPanel").Children[2];
-            var brush = Control<Button>("FriendsChatsTab").Background;
+            var brush = Control<Button>("FriendsRequestsTab").Background;
             for (var i = 0; i < 20; i++) await Social(_ => Task.CompletedTask, true);
             Check(transitions == 0 && add.IsEnabled, "background polling toggles enabled state");
             Check(ReferenceEquals(row, Control<StackPanel>("FriendsRowsPanel").Children[0]), "poll rebuilds row");
             Invoke("RenderSocialMessages");
             Check(ReferenceEquals(bubble, Control<StackPanel>("FriendsMessagesPanel").Children[0]) && ReferenceEquals(pendingRow, Control<StackPanel>("FriendsMessagesPanel").Children[2]), "unchanged conversation/pending controls rebuilt");
-            Check(ReferenceEquals(brush, Control<Button>("FriendsChatsTab").Background), "poll restarts tab brush animation");
+            Check(ReferenceEquals(brush, Control<Button>("FriendsRequestsTab").Background), "poll restarts tab brush animation");
             var delayed = new TaskCompletionSource();
             var poll = Social(_ => delayed.Task, true);
             Check(!poll.IsCompleted && !Field<bool>("_socialBusy") && add.IsEnabled, "read poll dims buttons");

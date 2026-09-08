@@ -34,6 +34,6 @@ public partial class MainWindow
     private bool ShowingIncomingChat(Guid id)=>_socialPeer==id&&IsActive&&WindowState!=WindowState.Minimized
         &&_activePage=="friends"&&_socialSection=="chats"&&FriendsChatCard.Visibility==Visibility.Visible
         &&!ConfirmationActive&&SocialDetailsOverlay.Visibility!=Visibility.Visible&&HelpOverlay.Visibility!=Visibility.Visible
-        &&BroadcastOverlay.Visibility!=Visibility.Visible;
+        &&BroadcastOverlay.Visibility!=Visibility.Visible&&FriendsDialogOverlay.Visibility!=Visibility.Visible;
     private int VisibleUnread(SocialPlayer player)=>ShowingIncomingChat(player.Id)?0:player.Unread;
 }

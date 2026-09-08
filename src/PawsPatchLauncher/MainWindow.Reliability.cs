@@ -180,7 +180,7 @@ public partial class MainWindow
         {
             if (ActivityStore.IsAlive(run))
             {
-                _observedRun = run; _observedProcess = Process.GetProcessById(run.ProcessId); _workingSaved = run.ReachedWindow; _gameTimer.Start();
+                _observedRun = run; _observedProcess = Process.GetProcessById(run.ProcessId); GameProcessExit.RetainHandle(_observedProcess); _workingSaved = run.ReachedWindow; _gameTimer.Start();
             }
             else
             {
@@ -386,15 +386,16 @@ public partial class MainWindow
     private void MarkVisibleChangelogRead()
     {
         var visible = !_changelogTransitionPending && IsLoaded && IsVisible && IsActive && WindowState != WindowState.Minimized;
-        if (ChangelogReadState.MarkViewed(_settings, _latestChannel ?? _channel, _changelogCategory, visible))
+        if (ChangelogReadState.MarkViewed(_settings, ChangelogManifest(_changelogCategory), _changelogCategory == "beta" ? "patch" : _changelogCategory, visible && ChangelogCard.IsVisible))
             _settingsStore.Save(_settings);
         RefreshUnreadBadges();
     }
     private void RefreshUnreadBadges()
     {
-        bool Unread(string category) => ChangelogReadState.IsUnread(_settings, _latestChannel ?? _channel, category);
+        bool Unread(string category) => ChangelogReadState.IsUnread(_settings, ChangelogManifest(category), category == "beta" ? "patch" : category);
         PatchChangelogButton.Content = _text["news.tab.patch"] + (Unread("patch") ? " ●" : "");
         LauncherChangelogButton.Content = _text["news.tab.launcher"] + (Unread("launcher") ? " ●" : "");
+        BetaChangelogButton.Content = T("Бета", "Beta") + (Unread("beta") ? " ●" : "");
     }
 
     private object? _activeTransfer;
@@ -450,6 +451,7 @@ public partial class MainWindow
         _observedRun = new RunRecord { ProcessId = process.Id, GameRoot = _game!.Directory, Settings = GetEffectiveSettings(), ReleaseId = state.ReleaseId };
         try { _observedRun.StartTicks = process.StartTime.ToUniversalTime().Ticks; } catch { }
         _observedProcess?.Dispose(); _observedProcess = process; _workingSaved = false;
+        GameProcessExit.RetainHandle(process);
         ActivityStore.Save("game-run", _observedRun);
         _gameTimer.Start();
     }
@@ -462,21 +464,26 @@ public partial class MainWindow
             var run = _observedRun;
             if (_observedProcess is null || _observedProcess.HasExited || _observedProcess.MainWindowHandle == IntPtr.Zero)
             {
-                foreach (var candidate in Process.GetProcesses().Where(x => x.ProcessName.StartsWith("k2", StringComparison.OrdinalIgnoreCase)))
+                var candidates = Process.GetProcesses();
+                try
                 {
-                    try
+                    foreach (var candidate in candidates)
                     {
-                        if (candidate.StartTime.ToUniversalTime() >= run.Started.UtcDateTime.AddSeconds(-2) && candidate.MainWindowHandle != IntPtr.Zero &&
-                            string.Equals(Path.GetDirectoryName(candidate.MainModule?.FileName), run.GameRoot, StringComparison.OrdinalIgnoreCase))
+                        try
                         {
-                            _observedProcess?.Dispose(); _observedProcess = candidate;
-                            run.ProcessId = candidate.Id; run.StartTicks = candidate.StartTime.ToUniversalTime().Ticks;
-                            ActivityStore.Save("game-run", run); break;
+                            if (candidate.ProcessName.StartsWith("k2", StringComparison.OrdinalIgnoreCase) && candidate.StartTime.ToUniversalTime() >= run.Started.UtcDateTime.AddSeconds(-2) && candidate.MainWindowHandle != IntPtr.Zero &&
+                                string.Equals(Path.GetDirectoryName(candidate.MainModule?.FileName), run.GameRoot, StringComparison.OrdinalIgnoreCase))
+                            {
+                                _observedProcess?.Dispose(); _observedProcess = candidate;
+                                GameProcessExit.RetainHandle(candidate);
+                                run.ProcessId = candidate.Id; run.StartTicks = candidate.StartTime.ToUniversalTime().Ticks;
+                                ActivityStore.Save("game-run", run); break;
+                            }
                         }
+                        catch { }
                     }
-                    catch { }
-                    candidate.Dispose();
                 }
+                finally { foreach (var candidate in candidates) if (!ReferenceEquals(candidate, _observedProcess)) candidate.Dispose(); }
             }
             _observedProcess?.Refresh();
             if (_observedProcess is { HasExited: false } && _observedProcess.MainWindowHandle != IntPtr.Zero && DateTimeOffset.UtcNow - run.Started > TimeSpan.FromSeconds(20) && !_workingSaved)
@@ -486,10 +493,16 @@ public partial class MainWindow
             }
             if (_observedProcess is { HasExited: true } && DateTimeOffset.UtcNow - run.Started > TimeSpan.FromSeconds(30))
             {
-                run.ExitCode = _observedProcess.ExitCode;
+                // Finish once, even when an externally started process has no exit code.
+                // Unknown is not success, but is not evidence of a crash either.
+                _gameTimer.Stop();
+                run.ExitCode = GameProcessExit.ReadCode(_observedProcess);
                 run.CleanExit = run.ExitCode == 0 && run.ReachedWindow;
-                ActivityStore.Save("game-run", run); _gameTimer.Stop();
-                if (!run.CleanExit) _incident = T("Игра завершилась с ошибкой или не подтвердила запуск окна. Можно восстановить рабочие настройки и собрать диагностику.", "The game exited with an error or did not confirm its window. Restore working settings or collect diagnostics.");
+                _observedProcess.Dispose(); _observedProcess = null; _observedRun = null;
+                ActivityStore.Save("game-run", run);
+                if (!run.CleanExit) _incident = run.ExitCode is null
+                    ? T("Игра закрыта, но Windows не предоставила код завершения. Это не означает, что игра аварийно завершилась.", "The game closed, but Windows did not provide an exit code. This does not establish that the game crashed.")
+                    : T("Игра завершилась с ошибкой или не подтвердила запуск окна. Можно восстановить рабочие настройки и собрать диагностику.", "The game exited with an error or did not confirm its window. Restore working settings or collect diagnostics.");
                 RefreshReliabilityVisibility();
             }
         }

@@ -44,6 +44,7 @@ public partial class MainWindow
         var entries = await _socialOutbox.ReadAsync(owner, _accountLifetime.Token);
         if (_account.UserId != owner.ToString()) return;
         _socialPending = entries;
+        RenderSocialRows();
         RenderSocialMessages();
     }
 
@@ -74,6 +75,7 @@ public partial class MainWindow
             try
             {
                 var sent = await _account.SendMessageAsync(pending.Target, pending.Id, pending.Body, pending.Kind, timeout.Token);
+                ObserveChatMessage(owner,sent);
                 await _socialOutbox.RemoveAsync(owner, pending.Id, _accountLifetime.Token);
                 if (_account.UserId != owner.ToString()) return;
                 if (_socialPeer == pending.Target && !_socialMessages.Any(m => m.SenderId == owner && m.MessageId == sent.MessageId))

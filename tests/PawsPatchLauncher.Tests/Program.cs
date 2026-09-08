@@ -5,6 +5,11 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 1 && args[0] == "--exit-code-probe")
+{
+    Environment.ExitCode = int.Parse(Console.ReadLine()!);
+    return;
+}
 if (args.Length == 3 && args[0] == "--verify-shared-guide")
 {
     await SharedPatchGuideTests.RunAsync(args[1], args[2]);
@@ -114,6 +119,7 @@ try
         passed += await AccountTests.RunAsync(root);
         passed += await AccountModerationTests.RunAsync(root);
         passed += await HistoryNetworkTests.RunAsync(root);
+        passed += ChatActivityTests.Run();
         passed += await CompatibilityModerationTests.RunAsync(root);
         passed += await LauncherSessionTests.RunAsync(root);
         passed += await AccountProfileTests.RunAsync(root);

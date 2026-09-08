@@ -22,7 +22,7 @@ public partial class MainWindow
         {
             _accountEditor = ""; _accountRecoveryOpen = false;
             ClearAccountPasswords(); RenderAccount();
-            Motion.Reveal(_account.State == AccountState.Guest ? AccountFormCard : AccountSignedInCard);
+            Motion.Reveal(_account.State == AccountState.Guest ? (_accountConfirmation ? AccountConfirmationCard : AccountFormCard) : AccountSignedInCard);
         }
         MainOptionsScroll.ScrollToTop();
     }

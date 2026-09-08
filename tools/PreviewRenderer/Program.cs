@@ -28,6 +28,8 @@ public static class Program
         var motionChecks = args.Contains("--motion");
         var feedbackChecks = args.Contains("--feedback");
         var friendsPolishChecks = args.Contains("--friends-polish-checks");
+        var layoutRefreshChecks = args.Contains("--layout-refresh-checks");
+        var chatActivityChecks = args.Contains("--chat-activity-checks");
         var updateRefreshChecks = args.Contains("--update-refresh-checks");
         var arrivalPolishChecks = args.Contains("--arrival-polish-checks");
         var appearanceChecks = args.Contains("--appearance");
@@ -83,6 +85,8 @@ public static class Program
         }
         if (feedbackChecks) FeedbackChecks.Run(language);
         if (friendsPolishChecks) FriendsPolishChecks.Run(language);
+        if (layoutRefreshChecks) LayoutRefreshChecks.Run(language);
+        if (chatActivityChecks) ChatActivityChecks.Run(language,args[0]);
         if(adminChecks)AdminChecks.Run(language);
         if(progressMotionChecks)ProgressMotionChecks.Run(language);
         if(historyResourceChecks)HistoryResourceChecks.Run(language);
@@ -150,7 +154,7 @@ public static class Program
         if (socialDemo=="search")
         {
             SocialHubChecks.Populate(window);Invoke(window,"ResetBroadcast");
-            Invoke(window,"FriendsSearch_Click",window.FindName("FriendsSearchButton"),new RoutedEventArgs());
+
             ((TextBox)window.FindName("FriendsSearchInput")).Text="friend";
             Invoke(window,"FriendsShowAdd_Click",window.FindName("FriendsShowAddButton"),new RoutedEventArgs());
         }
@@ -166,11 +170,13 @@ public static class Program
         else if (socialDemo == "offers") OfferUiChecks.Populate(window);
         else if (socialDemo == "copy") OfferUiChecks.PopulateConfirmation(window);
         else if (socialDemo is "offer-confirm" or "offer-match") SocialRefinementChecks.PopulateConfirmation(window,socialDemo=="offer-match");
+        else if (socialDemo == "add") { SocialChecks.Populate(window, "chat"); Invoke(window, "OpenFriendsDialog", "add"); }
         else if (socialDemo is not null) SocialChecks.Populate(window, socialDemo);
         if(adminDemo is "monitor-resources" or "monitor-status")MonitorChecks.Populate(window,adminDemo=="monitor-resources"?"resources":"status");
         else if(adminDemo=="resources")HistoryResourceChecks.PopulateResources(window);
         else if(adminDemo is not null)AdminChecks.Populate(window,adminDemo);
         if(compatibilityDemo)CompatibilityChecks.Populate(window);
+        if (accountForm == "confirmation") { Invoke(window,"ShowAccountForm",true); ((TextBox)window.FindName("AccountEmailInput")).Text="player@example.test"; Invoke(window,"BeginEmailConfirmation"); Invoke(window,"RenderAccount"); }
         if (accountDemo == "avatar")
         {
             Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(args[0]))!);
