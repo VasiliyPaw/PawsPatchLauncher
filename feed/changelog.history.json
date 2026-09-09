@@ -341,6 +341,19 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.3.0-beta.2",
+      "publishedAt": "2026-09-09",
+      "title": {
+        "ru": "Умное автоулучшение городов и быстрая передача сейвов",
+        "en": "Advanced city upgrades and faster save transfers"
+      },
+      "body": {
+        "ru": "Расширенное автоулучшение городов и ускоренная штатная передача сохранений в сетевом лобби встроены в бету при любых настройках компонентов. В F1 под галочками расположены четыре поля порогов дохода с иконками камня, дерева, железа и кристаллов. Enter применяет значение, Esc или щелчок вне поля отменяет ввод. Резерв золота задаётся отдельно. Автоулучшение не снижает доход ресурса ниже порога и не усугубляет существующий дефицит. Если безопасно устранить нехватку сейчас невозможно, другие города могут повышать доход золота. Города строятся параллельно: учитываются уже начатые и ручные постройки; осада блокирует только осаждённый город. В отдельном окне доступны правила строительства, ветки улучшений и исключения городов. Выбираются выгодные золотые ветки рынков, если хватает ресурсов. Сохранения в лобби передаются штатным протоколом, без дружбы и ручного принятия: используется проверенный вариант R2 с ограниченными пакетами. Для мультиплеера обновите бету у всех участников. Формат сейвов не меняется; новая партия и загрузка начинают с включённым автоулучшением и резервом 2000. Пороги ресурсов и общие правила сохраняются на этом компьютере, исключения городов сбрасываются. Релиз 0.2.0 и лаунчер 0.6.4 не обновляются.",
+        "en": "Advanced city upgrades and faster native saved-game transfers in multiplayer lobbies are built into Beta with every component configuration. F1 has four income-target fields with stone, wood, iron and mana icons beneath the checkboxes. Enter applies a value; Esc or clicking outside cancels editing. The gold reserve is separate. Automation never lowers resource income below its target or worsens an existing shortage. If no safe remedy is currently available, other cities can still grow gold income. Cities build in parallel, accounting for active and manual construction; a siege only excludes its own city. A separate settings window offers construction rules, exact upgrade branches and city exceptions. Profitable market conversion branches are chosen when resource targets permit. Lobby saves use the native protocol with no friendship or manual acceptance required, using the tested bounded R2 tuning. All multiplayer participants must update Beta. Save format is unchanged; new matches and loaded saves start with automation on and a 2000 reserve. Resource targets and general rules persist locally; city exceptions reset. Release 0.2.0 and launcher 0.6.4 are not updated."
+      }
+    },
+    {
       "category": "launcher",
       "version": "0.6.4",
       "publishedAt": "2026-09-09",

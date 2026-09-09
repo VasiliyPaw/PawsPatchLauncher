@@ -45,7 +45,11 @@ def main():
         assert feeds[name]['game'] == old[name]['game'] and feeds[name]['launcher'] == old[name]['launcher']
         assert candidate.base.sha(repo / f'feed/{name}.json') == prepared['old_feed_hashes'][name], 'Local feed moved'
         live = fetch(f'https://raw.githubusercontent.com/VasiliyPaw/PawsPatchLauncher/main/feed/{name}.json')
-        assert hashlib.sha256(live).hexdigest().upper() == prepared['old_feed_hashes'][name], 'Public feed moved'
+        # Git normalizes the JSON envelope from Windows CRLF to LF. Compare
+        # exact normalized bytes, not merely parsed payloads: the signed base64
+        # payload, signature and all other contents must remain unchanged.
+        previous = (out / f'previous-{name}.signed.json').read_bytes()
+        assert live.replace(b'\r\n', b'\n') == previous.replace(b'\r\n', b'\n'), 'Public feed moved'
     stable_unchanged = lambda f: {k: v for k, v in f.items() if k not in ('patchGuide', 'publishedAt')}
     assert stable_unchanged(feeds['stable']) == stable_unchanged(old['stable'])
     beta = feeds['beta']
