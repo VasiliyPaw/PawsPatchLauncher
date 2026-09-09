@@ -1,0 +1,21 @@
+[Text language = Russian]
+{
+    ids = Localization/paw_city_policy.tgi
+    name = "Localization/paw_city_policy.tgi"
+    paw_city_auto = "Автоулучшение городов"
+    paw_city_reserve = "Запас золота"
+    paw_city_auto_tip = "Автоулучшение городов. Запас золота не расходуется."
+    paw_city_edit_tip = "Enter — применить. Esc или клик вне поля — отменить."
+    paw_city_status_tip = "Состояние автоулучшения городов"
+    paw_city_checking = "Проверка городов…"
+    paw_city_rules = "Правила"
+    paw_city_rules_tip = "Правила автоулучшения: ветки и города"
+    paw_city_stone_icon = ""
+    paw_city_stone_floor_tip = "Камень: порог дохода, не запас. Enter — применить. Esc или клик вне поля — отменить."
+    paw_city_wood_icon = ""
+    paw_city_wood_floor_tip = "Дерево: порог дохода, не запас. Enter — применить. Esc или клик вне поля — отменить."
+    paw_city_iron_icon = ""
+    paw_city_iron_floor_tip = "Железо: порог дохода, не запас. Enter — применить. Esc или клик вне поля — отменить."
+    paw_city_mana_icon = ""
+    paw_city_mana_floor_tip = "Мана: порог дохода, не запас. Enter — применить. Esc или клик вне поля — отменить."
+}

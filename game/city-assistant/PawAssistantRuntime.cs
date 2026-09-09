@@ -5,13 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 // Beta city assistant. Install only into the launcher's own fresh, verified game.
 internal static class PawAssistantRuntime
 {
     private const uint Hook = 0x4A17F0, Original = 0x109FA6, Entry = 0x1000;
-    private const int Size = 0x20000;
-    private static readonly uint[] Sites = { Hook, 0x48A6D4, 0x48A6BC, 0x48A6C4, 0x48A718, 0x5059FC, 0x5059EC, 0x2A4B14, 0x2A4B5D, 0x496F10 };
+    private const int Size = 0x30000;
+    private static readonly uint[] Sites = { Hook, 0x48A6D4, 0x48A6BC, 0x48A6C4, 0x48A718, 0x5059FC, 0x5059EC, 0x2A4B14, 0x2A4B5D, 0x496F10, 0x188215, 0x1883de };
     private static readonly uint[] Originals = { Original, 0xBB184, 0xBB71E, 0xBB205, 0xBB238, 0x2AB372, 0x2AB356, 0x2A4D12, 0x2A4DA5 };
     private static readonly uint[] Targets = { 0x2000, 0x1200, 0x1600, 0x1700, 0x1900, 0x4800, 0x4B00, 0x4C00, 0x4D00 };
     private const string OriginalLayout = "UI/Game/city_management_display.tgi::CityManagement";
@@ -30,6 +32,20 @@ internal static class PawAssistantRuntime
     private static string lastStatusText, lastStatusTooltip;
     private static uint statusSequence;
     private static bool russianUi;
+    private static Process gameProcess;
+    private static CityPolicy policy = new CityPolicy();
+    private static string policyPath;
+    private static uint settingsRequest, policyEpoch;
+    private static uint floorRevision;
+    private static bool floorsReady;
+    private static volatile bool settingsOpen;
+    private static CityPolicy settingsResult;
+    private static uint settingsEpoch;
+    private static readonly object settingsLock = new object();
+    private static CitySettingsForm.View settingsView;
+    private static readonly Dictionary<uint,string> cityNames = new Dictionary<uint,string>();
+    private static readonly Dictionary<uint,Tuple<string,string,int>> dataInfo = new Dictionary<uint,Tuple<string,string,int>>();
+    private static readonly Dictionary<string,CitySettingsForm.BranchOption> branchOptions = new Dictionary<string,CitySettingsForm.BranchOption>();
 
     internal static void EnableNoticeProbe() { probeRequested = true; }
 
@@ -75,7 +91,7 @@ internal static class PawAssistantRuntime
         byte[][] originals = new byte[Sites.Length][];
         for (int i = 0; i < Sites.Length; i++)
         {
-            originals[i] = i < Originals.Length ? BitConverter.GetBytes(module + Originals[i]) : Encoding.Unicode.GetBytes(OriginalLayout + "\0");
+            originals[i] = OriginalBytes(i,module);
             TerrainPatch.Expect(mem, module + Sites[i], originals[i]);
         }
         uint cave = mem.Allocate(Size);
@@ -92,8 +108,15 @@ internal static class PawAssistantRuntime
             for (int i = 0; i < Sites.Length; i++)
             {
                 TerrainPatch.Expect(mem, module + Sites[i], originals[i]);
-                byte[] replacement = i < Targets.Length ? BitConverter.GetBytes(cave + Targets[i]) : new byte[originals[i].Length];
-                if (i == Targets.Length) Array.Copy(Encoding.Unicode.GetBytes(layout + "\0"), replacement, Encoding.Unicode.GetByteCount(layout + "\0"));
+                byte[] replacement;
+                if(i<Targets.Length) replacement=BitConverter.GetBytes(cave+Targets[i]);
+                else if(i==Targets.Length)
+                { replacement=new byte[originals[i].Length];Array.Copy(Encoding.Unicode.GetBytes(layout+"\0"),replacement,Encoding.Unicode.GetByteCount(layout+"\0")); }
+                else
+                {
+                    replacement=Enumerable.Repeat((byte)0x90,originals[i].Length).ToArray();replacement[0]=0xe9;
+                    Array.Copy(BitConverter.GetBytes(unchecked(cave+(i==10?0x5400u:0x5500u)-(module+Sites[i]+5))),0,replacement,1,4);
+                }
                 attempted = i + 1;
                 mem.WriteCode(module + Sites[i], replacement);
                 mem.Flush(module + Sites[i], replacement.Length);
@@ -129,6 +152,13 @@ internal static class PawAssistantRuntime
             russianUi = russian;
             GuardData(root);
             state = InstallPayload(memory, image, unchecked((uint)signal.ToInt32()), russian);
+            gameProcess = game;
+            policyPath=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"PawsPatch","city-policy.ini");
+            try {
+                policy=CityPolicy.LoadPreferred(policyPath,Path.Combine(Path.GetDirectoryName(policyPath),"city-policy-test-v2.ini"));
+                if(!File.Exists(policyPath)) policy.Save(policyPath);
+            } catch(Exception ex) { log("ASSISTANT preference load: "+ex.Message); }
+            InitializeNativePolicy();
             memory.Write(state, BitConverter.GetBytes(Environment.TickCount));
             logger = log;
             log("ASSISTANT beta installed; cityOrders=true; cooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
@@ -139,7 +169,7 @@ internal static class PawAssistantRuntime
     internal static void GuardData(string root)
     {
         // Both languages are required so later localization switches remain offline.
-        foreach (string file in new[] { @"data\UI\Game\paw_city_en.tgi", @"data\UI\Game\paw_city_ru.tgi" })
+        foreach (string file in new[] { @"data\UI\Game\paw_city_en.tgi", @"data\UI\Game\paw_city_ru.tgi", @"data\Localization\paw_city_policy.tgi" })
             if (!File.Exists(Path.Combine(root, file)))
                 throw new FileNotFoundException("Missing city assistant layout: " + file);
     }
@@ -149,11 +179,36 @@ internal static class PawAssistantRuntime
         if (memory == null || state == 0) return;
         uint now = unchecked((uint)Environment.TickCount);
         memory.Write(state, BitConverter.GetBytes(now));
+        floorsReady=ReadNativeFloors();
+        if(!settingsOpen)
+        {
+            CityPolicy result=null;
+            lock(settingsLock) {result=settingsResult;settingsResult=null;}
+            if(result!=null)
+            {
+                if(settingsEpoch!=policyEpoch) result.ClearCities();
+                // This dialog no longer edits floors. Never replace newer F1
+                // values with the copy captured when the dialog was opened.
+                result.Floors=(float[])policy.Floors.Clone();
+                policy=result;
+                try { policy.Save(policyPath); logger("ASSISTANT preferences applied and saved"); }
+                catch(Exception ex) {logger("ASSISTANT preferences applied; save failed: "+ex.Message);}
+            }
+            // Do not release a new native click's lock before observing it.
+            if(settingsRequest!=0 && Pointer(state+0xac)==settingsRequest)
+                memory.Write(state+0xb4,BitConverter.GetBytes(0));
+        }
         uint count = BitConverter.ToUInt32(memory.Read(state + 24, 4), 0);
         if (count != lastReported)
         {
             lastReported = count;
             logger("ASSISTANT native notice emitted count=" + count + ".");
+        }
+        uint requested=Pointer(state+0xac);
+        if(requested!=settingsRequest && settingsView!=null)
+        {
+            settingsRequest=requested;
+            if(!settingsOpen) OpenSettings();
         }
         byte[] ui = memory.Read(state + 0x40, 0x50);
         uint revision = BitConverter.ToUInt32(ui, 0x14), loads = BitConverter.ToUInt32(ui, 0x1c);
@@ -165,20 +220,23 @@ internal static class PawAssistantRuntime
         }
         if (BitConverter.ToUInt32(ui, 0x40) != 0)
             PublishStatus(BitConverter.ToUInt32(ui, 0x48) != 0
-                ? T("Введите целое число: 0–9999999", "Enter a whole number: 0–9999999")
-                : T("Изменение запаса: Enter — применить", "Editing reserve: Enter to apply"),
+                ? (BitConverter.ToUInt32(ui,0x40)==1 ? T("Введите целое число: 0–9999999", "Enter a whole number: 0–9999999") : T("Введите целое число: 0–9999", "Enter a whole number: 0–9999"))
+                : T("Изменение порога: Enter — применить", "Editing target: Enter to apply"),
                 T("Новые постройки приостановлены. Enter — применить; Esc или клик вне поля — отменить.",
                   "New orders paused. Enter applies; Esc or clicking outside cancels."));
         byte[] snapshot = memory.Read(state + 0x100, 0x180);
         uint serial = BitConverter.ToUInt32(snapshot, 0);
         uint cities = BitConverter.ToUInt32(snapshot, 0x1c), candidates = BitConverter.ToUInt32(snapshot, 0x20);
-        if ((serial & 1) == 0 && BitConverter.ToUInt32(snapshot, 0x28) == 1 && cities <= 256 && candidates <= 512)
+        uint workCount = BitConverter.ToUInt32(snapshot, 0x2c);
+        if ((serial & 1) == 0 && BitConverter.ToUInt32(snapshot, 0x28) == 1 && cities <= 256 && candidates <= 512 && workCount <= 512)
         {
             byte[] records = memory.Read(state + 0x8000, (int)candidates * 128);
             byte[] cityRecords = memory.Read(state + 0x19000, (int)cities * 8);
+            byte[] construction = memory.Read(state + 0x20000, (int)workCount * 128);
+            byte[] forecast = memory.Read(state + 0x1b020, 0x40);
             if (BitConverter.ToUInt32(memory.Read(state + 0x100, 4), 0) == serial)
             {
-                string summary = "epoch=" + BitConverter.ToUInt32(snapshot, 4) + " cities=" + cities + " candidates=" + candidates;
+                string summary = "epoch=" + BitConverter.ToUInt32(snapshot, 4) + " cities=" + cities + " candidates=" + candidates + " construction=" + workCount;
                 if (summary != lastSnapshotSummary)
                 {
                     lastSnapshotSummary = summary;
@@ -195,7 +253,7 @@ internal static class PawAssistantRuntime
                 if (serial != lastSnapshotSerial)
                 {
                     lastSnapshotSerial = serial;
-                    Plan(snapshot, ui, records, cityRecords);
+                    Plan(snapshot, ui, records, cityRecords, construction, forecast);
                 }
             }
         }
@@ -216,26 +274,85 @@ internal static class PawAssistantRuntime
         }
     }
 
-    private static void Plan(byte[] header, byte[] ui, byte[] records, byte[] cityRecords)
+    private static void Plan(byte[] header, byte[] ui, byte[] records, byte[] cityRecords, byte[] construction, byte[] forecast)
     {
         int resourceCount = (int)BitConverter.ToUInt32(header, 0x18);
-        if (resourceCount < 1 || resourceCount > 16) return;
+        if (!CityResourceOrder.Supported(resourceCount)) return;
         CityPlanner.Snapshot s = new CityPlanner.Snapshot {
             Epoch = BitConverter.ToUInt32(header, 4), Time = BitConverter.ToSingle(header, 0x10),
             Gold = BitConverter.ToSingle(header, 0x14), Reserve = BitConverter.ToUInt32(ui, 4),
             Enabled = BitConverter.ToUInt32(ui, 0) == 1,
             Valid = BitConverter.ToUInt32(ui, 0x18) == 1 && unchecked((uint)Environment.TickCount - BitConverter.ToUInt32(ui,0x30)) >= 1000,
             Cities = Enumerable.Range(0, cityRecords.Length / 8).Select(i => BitConverter.ToUInt32(cityRecords,i*8)).ToArray(),
-            Income = Enumerable.Range(0,resourceCount).Select(i => BitConverter.ToSingle(header,0x100+i*4)).ToArray(),
+            Income = CityResourceOrder.Read(header,0x100,resourceCount),
             Candidates = Enumerable.Range(0,records.Length / 128).Select(i => new CityPlanner.Candidate {
                 City=BitConverter.ToUInt32(records,i*128), Actor=BitConverter.ToUInt32(records,i*128+4),
                 CityAddress=BitConverter.ToUInt32(records,i*128+88),
                 Data=BitConverter.ToUInt32(records,i*128+8), Kind=BitConverter.ToUInt32(records,i*128+12),
                 Cost=BitConverter.ToSingle(records,i*128+16),
-                Delta=Enumerable.Range(0,resourceCount).Select(j=>BitConverter.ToSingle(records,i*128+20+j*4)).ToArray()
+                Delta=CityResourceOrder.Read(records,i*128+20,resourceCount)
             }).ToArray()
         };
         for (int i=0;i<s.Cities.Length;i++) if (BitConverter.ToUInt32(cityRecords,i*8+4)!=0) s.Busy.Add(s.Cities[i]);
+        if(s.Epoch!=policyEpoch)
+        {
+            policyEpoch=s.Epoch;policy.ClearCities();cityNames.Clear();dataInfo.Clear();branchOptions.Clear();
+        }
+        s.Policy=policy;
+        s.Valid=s.Valid && !settingsOpen && floorsReady;
+        s.UnknownConstruction=BitConverter.ToUInt32(header,0x30)!=1;
+        s.Forecast=(float[])s.Income.Clone();
+        s.GoalIncome=(float[])s.Income.Clone();
+        for(int i=0;i<Math.Min(5,resourceCount);i++)
+        {
+            s.Forecast[i]+=BitConverter.ToSingle(forecast,i*4);
+            s.GoalIncome[i]+=BitConverter.ToSingle(forecast,0x20+i*4);
+        }
+        s.Construction=Enumerable.Range(0,construction.Length/128).Select(i=>new CityPlanner.Candidate {
+            City=BitConverter.ToUInt32(construction,i*128), Actor=BitConverter.ToUInt32(construction,i*128+4),
+            Data=BitConverter.ToUInt32(construction,i*128+8), Kind=BitConverter.ToUInt32(construction,i*128+12)
+        }).ToArray();
+        // Names must not depend on having an eligible construction candidate:
+        // finished or besieged cities still appear in the exceptions page.
+        try
+        {
+            uint kingdom=BitConverter.ToUInt32(header,0x0c);
+            uint total=Pointer(kingdom+0x2e0), array=Pointer(kingdom+0x2dc);
+            if(total<=256 && array!=0)
+            {
+                byte[] pointers=memory.Read(array,(int)total*4);
+                for(int i=0;i<total;i++)
+                {
+                    uint actor=BitConverter.ToUInt32(pointers,i*4);
+                    if(actor==0) continue;
+                    uint id=Pointer(actor+0x14);
+                    if(s.Cities.Contains(id))
+                    {
+                        string name=CityName(actor,id);
+                        if(name.Length>0) cityNames[id]=name;
+                    }
+                }
+            }
+        }
+        catch { /* Keep already verified names if the world changed mid-read. */ }
+        for(int i=0;i<s.Candidates.Length;i++)
+        {
+            CityPlanner.Candidate c=s.Candidates[i];
+            try
+            {
+                uint old=BitConverter.ToUInt32(records,i*128+84);
+                var source=DataInfo(old);var target=DataInfo(c.Data);
+                c.Name=target.Item2;c.Target=target.Item1;c.SourceName=source.Item2;c.Family=source.Item1;c.BranchCount=source.Item3;
+                uint component=Pointer(c.CityAddress+0x98), center=component==0?0:Pointer(component+0x14);
+                c.IsCityCenter=c.Kind==21 && center!=0 && Pointer(center+0x14)==c.Actor;
+                string cityName=CityName(c.CityAddress,c.City);
+                if(cityName.Length>0) cityNames[c.City]=cityName;
+                if(c.Kind==21)
+                    branchOptions[c.Family+":"+c.Target]=new CitySettingsForm.BranchOption {Family=c.Family,Source=c.SourceName,Target=c.Target,Name=c.Name,Effects=CitySettingsForm.DeltaText(c.Delta,russianUi)};
+            }
+            catch { c.BranchCount=int.MaxValue; c.Family="unavailable"; c.Target="unavailable"; }
+        }
+        foreach(uint city in cityNames.Keys.Where(c=>!s.Cities.Contains(c)).ToArray())cityNames.Remove(city);
         if (pendingRequest != 0)
         {
             byte[] reply = memory.Read(state + 0x15c, 8);
@@ -251,6 +368,8 @@ internal static class PawAssistantRuntime
         }
         CityPlanner.Decision decision = planner.Update(s);
         if (BitConverter.ToUInt32(ui, 0x40) == 0) ShowPlannerStatus(s);
+        settingsView=new CitySettingsForm.View {Epoch=s.Epoch,Income=(float[])s.Income.Clone(),Status=lastStatusText+"\n"+lastStatusTooltip,
+            Cities=s.Cities.ToDictionary(c=>c,c=>cityNames.ContainsKey(c)?cityNames[c]:T("Город ","City ")+c),Options=branchOptions.Values.ToArray()};
         if (decision.Kind == CityPlanner.DecisionKind.Fault)
         {
             logger("ASSISTANT SAFETY STOP " + decision.Reason);
@@ -268,11 +387,88 @@ internal static class PawAssistantRuntime
             requestSerial++; if(requestSerial==0) requestSerial++;
             requestEpoch=s.Epoch; pendingRequest=requestSerial;
             memory.Write(state+0x140,BitConverter.GetBytes(requestSerial));
-            logger("ASSISTANT ORDER request="+requestSerial+" city="+c.City+" actor="+c.Actor+" kind="+c.Kind+" cost="+c.Cost+" gold="+s.Gold+" reserve="+s.Reserve+" time="+s.Time);
+            logger("ASSISTANT ORDER request="+requestSerial+" city="+c.City+" actor="+c.Actor+" kind="+c.Kind+" cost="+c.Cost+" gold="+s.Gold+" reserve="+s.Reserve+" time="+s.Time
+                +" target="+c.Target+" source="+c.Family+" reason="+planner.Explanation+" income=["+Numbers(s.Income)+"] delta=["+Numbers(c.Delta)+"] floors=["+Numbers(Enumerable.Range(0,5).Select(policy.Floor).ToArray())+"] construction="+s.Construction.Length+" safe=["+Numbers(s.Forecast)+"] goals=["+Numbers(s.GoalIncome)+"]");
         }
     }
 
     private static string T(string ru, string en) { return russianUi ? ru : en; }
+    private static string Numbers(float[] values) { return string.Join(";",values.Select(v=>v.ToString("0.###",System.Globalization.CultureInfo.InvariantCulture)).ToArray()); }
+    private static Tuple<string,string,int> DataInfo(uint data)
+    {
+        // New construction has no previous building definition.
+        if(data==0) return Tuple.Create("","",0);
+        Tuple<string,string,int> info;
+        if(dataInfo.TryGetValue(data,out info)) return info;
+        string id=CityPolicy.DefinitionKey(data,Pointer,ReadGameString), name=ReadGameString(Pointer(data+0x10));
+        HashSet<uint> visited=new HashSet<uint>();uint node=Pointer(data+0x4c0);int branches=0;
+        while(node!=0 && visited.Add(node) && branches<512) {branches++;node=Pointer(node+4);}
+        info=Tuple.Create(id,name.Length>0?name:T("Постройка ","Building ")+id,branches);dataInfo[data]=info;return info;
+    }
+    private static string EffectText(CityPlanner.Snapshot s,CityPlanner.Candidate c)
+    {
+        return string.Join(" · ",Enumerable.Range(0,Math.Min(5,c.Delta.Length)).Where(i=>Math.Abs(c.Delta[i])>.0001f)
+            .Select(i=>CitySettingsForm.ResourceName(i,russianUi)+" "+s.Income[i].ToString("0.##")+" → "+(s.Income[i]+c.Delta[i]).ToString("0.##")
+                +" ("+c.Delta[i].ToString("+0.##;-0.##;0")+")").ToArray());
+    }
+    private static void InitializeNativePolicy()
+    {
+        memory.Write(state+0xb8,BitConverter.GetBytes(0));
+        for(int i=1;i<5;i++) policy.Floors[i]=(float)Math.Min(9999,Math.Ceiling(policy.Floor(i)));
+        byte[] floors=new byte[20];for(int i=0;i<5;i++)Array.Copy(BitConverter.GetBytes(policy.Floor(i)),0,floors,i*4,4);
+        memory.Write(state+0x1b000,floors);
+        // Construction aggregates are owned by the native snapshot, never
+        // cleared asynchronously while the dispatcher is checking resources.
+        memory.Write(state+0xb8,BitConverter.GetBytes(1));
+    }
+    private static bool ReadNativeFloors()
+    {
+        uint revision=Pointer(state+0x1c020);
+        if((revision&1)!=0) return false;
+        if(revision==floorRevision) return true;
+        byte[] values=memory.Read(state+0x1b000,20);
+        if(Pointer(state+0x1c020)!=revision) return false;
+        float[] floors=new float[5];
+        for(int i=1;i<5;i++)
+        {
+            float value=BitConverter.ToSingle(values,i*4);
+            if(!CityPlanner.Finite(value) || value<0 || value>9999 || value!=Math.Floor(value)) return false;
+            floors[i]=value;
+        }
+        policy.Floors=floors;floorRevision=revision;
+        // ACK only the coherent revision consumed above. A newer commit keeps
+        // the final native gate locked until the next poll acknowledges it.
+        memory.Write(state+0x1c024,BitConverter.GetBytes(revision));
+        logger("ASSISTANT F1 income targets="+string.Join(",",floors.Skip(1).Select(v=>v.ToString("0")).ToArray()));
+        try { policy.Save(policyPath); }
+        catch(Exception ex) {logger("ASSISTANT F1 targets applied; save failed: "+ex.Message);}
+        return true;
+    }
+    private sealed class GameWindow : IWin32Window {public IntPtr Handle {get;set;} }
+    private static void OpenSettings()
+    {
+        settingsOpen=true;memory.Write(state+0xb4,BitConverter.GetBytes(1));
+        logger("ASSISTANT settings requested");
+        var view=settingsView;var copy=policy.Copy();settingsEpoch=view.Epoch;
+        Thread thread=new Thread(delegate()
+        {
+            try
+            {
+                using(var form=new CitySettingsForm(copy,view,russianUi))
+                using(var timer=new System.Windows.Forms.Timer {Interval=500})
+                {
+                    form.Shown+=delegate { logger("ASSISTANT settings shown"); };
+                    timer.Tick+=delegate {try {if(gameProcess.HasExited)form.Close();}catch {form.Close();}};timer.Start();
+                    gameProcess.Refresh();
+                    if(form.ShowDialog(new GameWindow {Handle=gameProcess.MainWindowHandle})==DialogResult.OK)
+                        lock(settingsLock) settingsResult=form.Result;
+                }
+            }
+            catch(Exception ex) {logger("ASSISTANT settings window: "+ex.Message);}
+            finally {logger("ASSISTANT settings closed");settingsOpen=false;}
+        });
+        thread.IsBackground=true;thread.SetApartmentState(ApartmentState.STA);thread.Start();
+    }
     private static string ReadGameString(uint address)
     {
         if (address < 0x10000) return "";
@@ -281,10 +477,9 @@ internal static class PawAssistantRuntime
         return Encoding.Unicode.GetString(memory.Read(address, (int)count * 2)).Replace("\0", "");
     }
     private static uint Pointer(uint address) { return BitConverter.ToUInt32(memory.Read(address, 4), 0); }
-    private static string CityName(CityPlanner.Candidate c)
+    private static string CityName(uint actor,uint id)
     {
-        uint actor = c.CityAddress;
-        if (actor == 0 || Pointer(actor + 0x14) != c.City) return T("Город", "City");
+        if (actor == 0 || Pointer(actor + 0x14) != id) return "";
         uint settlement = Pointer(actor + 0x98);
         if (settlement != 0) { uint main = Pointer(settlement + 0x14); if (main != 0) actor = main; }
         string name = ReadGameString(Pointer(actor + 0xe0));
@@ -303,18 +498,23 @@ internal static class PawAssistantRuntime
             case CityPlanner.StatusKind.Busy: text=T("Все города заняты", "All cities busy"); break;
             case CityPlanner.StatusKind.NoCities: text=T("Нет доступных городов", "No available cities"); break;
             case CityPlanner.StatusKind.NoChoices: text=T("Нет доступных улучшений", "No available improvements"); break;
+            case CityPlanner.StatusKind.Protected: text=T("Нет улучшений по правилам защиты", "No improvements allowed by protection rules"); break;
+            case CityPlanner.StatusKind.Construction: text=T("Уточнение расходов строек", "Checking construction commitments"); break;
+            case CityPlanner.StatusKind.Editing: text=settingsOpen ? T("Настройка автоулучшения", "Configuring auto-upgrade") : T("Проверка параметров…", "Checking settings…"); break;
             case CityPlanner.StatusKind.Fault: text=T("Остановлено: проверьте город", "Stopped: check the city"); break;
             default: text=T("Проверка городов…", "Checking cities…"); break;
         }
-        string tooltip=T("Приоритет: дефицит ресурсов → золото → другие улучшения.", "Priority: resource deficit → gold → other improvements.");
+        string tooltip=T("Приоритет: целевой доход ресурсов → золото. Новый или более глубокий минус запрещён.", "Priority: resource income targets → gold. Creating or worsening deficits is forbidden.");
+        if(planner.Status==CityPlanner.StatusKind.Construction)tooltip=T("Не удалось надёжно прочитать расходы начатых строек. Новые приказы временно приостановлены для защиты порогов ресурсов.","Outstanding construction effects could not be read reliably. New orders are temporarily paused to protect resource targets.");
+        if(planner.Status==CityPlanner.StatusKind.Protected)tooltip=T("Пороги защищены. Нет доступного полезного действия: лишние ресурсы без будущего прироста золота не наращиваются.","Targets are protected. No useful action is available: surplus resources are not increased without a future gold benefit.");
         CityPlanner.Candidate next = planner.Next;
         if (next != null)
         {
             string city=T("Город", "City"), building=T("Постройка", "Building");
-            try { string n=CityName(next); if(n.Length>0) city=n; n=ReadGameString(Pointer(next.Data+0x10)); if(n.Length>0) building=n; }
+            try { string n=CityName(next.CityAddress,next.City); if(n.Length>0) city=n; n=ReadGameString(Pointer(next.Data+0x10)); if(n.Length>0) building=n; }
             catch { /* A city can disappear while reading presentation hints. */ }
             tooltip=city+" — "+building+"\n"+T("Стоимость: ", "Cost: ")+next.Cost.ToString("0.##")
-                +T(" · Запас: ", " · Reserve: ")+s.Reserve+"\n"+tooltip;
+                +T(" · Запас: ", " · Reserve: ")+s.Reserve+"\n"+EffectText(s,next)+"\n"+tooltip;
         }
         PublishStatus(text,tooltip);
     }
@@ -379,9 +579,16 @@ internal static class PawAssistantRuntime
         return 0;
     }
 
+    private static byte[] OriginalBytes(int index,uint module)
+    {
+        if(index<Originals.Length)return BitConverter.GetBytes(module+Originals[index]);
+        if(index==9)return Encoding.Unicode.GetBytes(OriginalLayout+"\0");
+        if(index==10)return new byte[]{0xb8}.Concat(BitConverter.GetBytes(module+0x43354e)).ToArray();
+        return new byte[]{0x56,0x57,0x33,0xff,0x8b,0xf1};
+    }
     private static void Seed(FakeMemory mem, uint module)
     {
         for (int i = 0; i < Sites.Length; i++)
-            mem.Seed(module + Sites[i], i < Originals.Length ? BitConverter.GetBytes(module + Originals[i]) : Encoding.Unicode.GetBytes(OriginalLayout + "\0"));
+            mem.Seed(module + Sites[i], OriginalBytes(i,module));
     }
 }

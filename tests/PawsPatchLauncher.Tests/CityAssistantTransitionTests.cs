@@ -25,7 +25,7 @@ public static class CityAssistantTransitionTests
             await installer.ReconcileAsync(modules, settings: settings, releaseId: ChannelFingerprint.Create(feed));
             if ((await installer.VerifyAsync()).Count != 0) throw new Exception("Transition payload mismatch.");
             var state = installer.LoadState();
-            if (state.AppliedSettings?.Channel != name || state.Modules["pawpatch-core"].Version != (name == "beta" ? "0.3.0-beta.1" : "0.2.0"))
+            if (state.AppliedSettings?.Channel != name || state.Modules["pawpatch-core"].Version != feed.Packages.Single(p => p.Id == "pawpatch-core").Version)
                 throw new Exception("Installed patch label would report stale version/channel.");
             if ((await File.ReadAllTextAsync(layout) == "preexisting user file") != (name == "stable"))
                 throw new Exception("Assistant layout not installed/restored at channel boundary.");

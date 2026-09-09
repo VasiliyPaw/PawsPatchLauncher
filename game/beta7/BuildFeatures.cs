@@ -14,6 +14,11 @@ internal static class BuildFeatures
 #else
         const bool cityAssistant = false;
 #endif
+#if FAST_SAVE_TRANSFER
+        const bool fastSaveTransfer = true;
+#else
+        const bool fastSaveTransfer = false;
+#endif
 #if SYNC_CONTINUE
         const bool bypass = true;
 #else
@@ -27,7 +32,9 @@ internal static class BuildFeatures
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
-            ",\"commonFixes\":true,\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() + "}");
+            ",\"commonFixes\":true,\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() +
+            ",\"advancedCityPolicy\":" + (cityAssistant && fastSaveTransfer).ToString().ToLowerInvariant() +
+            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + "}");
         return 0;
     }
 }

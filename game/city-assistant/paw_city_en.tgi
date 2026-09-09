@@ -8,9 +8,9 @@
 		        [Child Template=SharedSmallLeftLabelVE]
         {
             L = 41
-            T = 473
+            T = 435
             B = +20
-            text = "Auto-upgrade cities"
+            text = "#paw_city_auto"
             font = tiny
         }
         [Child Template=SharedSmallLeftLabelVE]
@@ -18,7 +18,7 @@
             L = 17
             T = 500
             B = +20
-            text = "Gold reserve"
+            text = "#paw_city_reserve"
             font = tiny
         }
 [Child Template=SharedSmallLeftLabelVE]
@@ -35,7 +35,7 @@
 		[Child Template=SharedSmallLeftLabelVE]
 		{
 			L = 41
-			T = 445
+			T = 407
 			B = +20
 
 			text = "#city_management_display_Child_text_2"
@@ -50,7 +50,7 @@
 			L = 15
 			T = 48
 			R = 10r
-			B = +383
+			B = +345
 		}
 	}
 
@@ -191,17 +191,273 @@
 		[View]
 		{
 			L = 16
-			T = 442
+			T = 404
 		}
 	}
 
     [PawAutoUpgrade Template=GameToggleButtonWidget]
     {
-        tooltip = "Auto-upgrade cities without spending the gold reserve."
+        tooltip = "#paw_city_auto_tip"
         [View]
         {
             L = 16
-            T = 470
+            T = 432
+        }
+    }
+    [PawStoneFloor Template=NumericEditboxWidget]
+    {
+        [View Template=GroupVE]
+        {
+            L = 17
+            T = 465
+            R = +84
+            B = +21
+            [Child Template=SharedSmallLeftLabelVE]
+            {
+                L = 0
+                T = 0
+                R = +21
+                B = +21
+                text = "#paw_city_stone_icon"
+                font = small
+            }
+        }
+        [Editbox Template=GameEditBoxWidget]
+        {
+            tooltip = "#paw_city_stone_floor_tip"
+            max_characters = 4
+            [View]
+            {
+                L = 24
+                T = 0
+                R = +60
+                B = +21
+                [Child Template=SharedChildEditboxPanelVE]
+            }
+        }
+        [UpButton Template=SharedPushButtonWidgetBase]
+        {
+            [View]
+            {
+                L = 0
+                T = 0
+                R = +0
+                B = +0
+            }
+            [Client Template=LabelWidget]
+            {
+                [View Template=NoVE]
+                [Label Template=SharedSmallCenteredLabelVE]
+                text = ""
+            }
+        }
+        [DownButton Template=SharedPushButtonWidgetBase]
+        {
+            [View]
+            {
+                L = 0
+                T = 0
+                R = +0
+                B = +0
+            }
+            [Client Template=LabelWidget]
+            {
+                [View Template=NoVE]
+                [Label Template=SharedSmallCenteredLabelVE]
+                text = ""
+            }
+        }
+    }
+    [PawWoodFloor Template=NumericEditboxWidget]
+    {
+        [View Template=GroupVE]
+        {
+            L = 110
+            T = 465
+            R = +84
+            B = +21
+            [Child Template=SharedSmallLeftLabelVE]
+            {
+                L = 0
+                T = 0
+                R = +21
+                B = +21
+                text = "#paw_city_wood_icon"
+                font = small
+            }
+        }
+        [Editbox Template=GameEditBoxWidget]
+        {
+            tooltip = "#paw_city_wood_floor_tip"
+            max_characters = 4
+            [View]
+            {
+                L = 24
+                T = 0
+                R = +60
+                B = +21
+                [Child Template=SharedChildEditboxPanelVE]
+            }
+        }
+        [UpButton Template=SharedPushButtonWidgetBase]
+        {
+            [View]
+            {
+                L = 0
+                T = 0
+                R = +0
+                B = +0
+            }
+            [Client Template=LabelWidget]
+            {
+                [View Template=NoVE]
+                [Label Template=SharedSmallCenteredLabelVE]
+                text = ""
+            }
+        }
+        [DownButton Template=SharedPushButtonWidgetBase]
+        {
+            [View]
+            {
+                L = 0
+                T = 0
+                R = +0
+                B = +0
+            }
+            [Client Template=LabelWidget]
+            {
+                [View Template=NoVE]
+                [Label Template=SharedSmallCenteredLabelVE]
+                text = ""
+            }
+        }
+    }
+    [PawIronFloor Template=NumericEditboxWidget]
+    {
+        [View Template=GroupVE]
+        {
+            L = 203
+            T = 465
+            R = +84
+            B = +21
+            [Child Template=SharedSmallLeftLabelVE]
+            {
+                L = 0
+                T = 0
+                R = +21
+                B = +21
+                text = "#paw_city_iron_icon"
+                font = small
+            }
+        }
+        [Editbox Template=GameEditBoxWidget]
+        {
+            tooltip = "#paw_city_iron_floor_tip"
+            max_characters = 4
+            [View]
+            {
+                L = 24
+                T = 0
+                R = +60
+                B = +21
+                [Child Template=SharedChildEditboxPanelVE]
+            }
+        }
+        [UpButton Template=SharedPushButtonWidgetBase]
+        {
+            [View]
+            {
+                L = 0
+                T = 0
+                R = +0
+                B = +0
+            }
+            [Client Template=LabelWidget]
+            {
+                [View Template=NoVE]
+                [Label Template=SharedSmallCenteredLabelVE]
+                text = ""
+            }
+        }
+        [DownButton Template=SharedPushButtonWidgetBase]
+        {
+            [View]
+            {
+                L = 0
+                T = 0
+                R = +0
+                B = +0
+            }
+            [Client Template=LabelWidget]
+            {
+                [View Template=NoVE]
+                [Label Template=SharedSmallCenteredLabelVE]
+                text = ""
+            }
+        }
+    }
+    [PawManaFloor Template=NumericEditboxWidget]
+    {
+        [View Template=GroupVE]
+        {
+            L = 296
+            T = 465
+            R = +84
+            B = +21
+            [Child Template=SharedSmallLeftLabelVE]
+            {
+                L = 0
+                T = 0
+                R = +21
+                B = +21
+                text = "#paw_city_mana_icon"
+                font = small
+            }
+        }
+        [Editbox Template=GameEditBoxWidget]
+        {
+            tooltip = "#paw_city_mana_floor_tip"
+            max_characters = 4
+            [View]
+            {
+                L = 24
+                T = 0
+                R = +60
+                B = +21
+                [Child Template=SharedChildEditboxPanelVE]
+            }
+        }
+        [UpButton Template=SharedPushButtonWidgetBase]
+        {
+            [View]
+            {
+                L = 0
+                T = 0
+                R = +0
+                B = +0
+            }
+            [Client Template=LabelWidget]
+            {
+                [View Template=NoVE]
+                [Label Template=SharedSmallCenteredLabelVE]
+                text = ""
+            }
+        }
+        [DownButton Template=SharedPushButtonWidgetBase]
+        {
+            [View]
+            {
+                L = 0
+                T = 0
+                R = +0
+                B = +0
+            }
+            [Client Template=LabelWidget]
+            {
+                [View Template=NoVE]
+                [Label Template=SharedSmallCenteredLabelVE]
+                text = ""
+            }
         }
     }
     [PawGoldReserve Template=NumericEditboxWidget]
@@ -215,7 +471,7 @@
         }
         [Editbox Template=GameEditBoxWidget]
         {
-            tooltip = "Enter applies. Esc or clicking outside cancels."
+            tooltip = "#paw_city_edit_tip"
             max_characters = 7
             [View]
             {
@@ -263,7 +519,7 @@
     }
     [PawAssistantStatus Template=LabelWidget]
     {
-        tooltip = "City auto-upgrade status"
+        tooltip = "#paw_city_status_tip"
         intercept_pick = true
         [View Template=NoVE]
         {
@@ -274,11 +530,40 @@
         }
         [Label]
         {
-            text = "Checking cities..."
+            text = "#paw_city_checking"
             font = tiny
             justify = LEFT
             color = 1,0.85,0.45
         }
     }
 
+
+    [PawCitySettings Template=SharedPushButtonWidgetBase]
+    {
+        tooltip = "#paw_city_rules_tip"
+        [View]
+        {
+            L = 286
+            T = 429
+            R = +94
+            B = +23
+        }
+        [Client Template=LabelWidget]
+        {
+            intercept_pick = false
+            [View Template=NoVE]
+            {
+                L = 0
+                T = 4
+                R = +94
+                B = +18
+            }
+            [Label]
+            {
+                text = "#paw_city_rules"
+                font = tiny
+                justify = CENTER
+            }
+        }
+    }
 }

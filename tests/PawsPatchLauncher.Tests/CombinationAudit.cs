@@ -30,7 +30,7 @@ public static class CombinationAudit
     }
     private static void Require(bool valid, string message) { if (!valid) throw new InvalidDataException(message); }
 
-    public static async Task RunAsync(string repository, string reportRoot, bool cityAssistantOnly = false)
+    public static async Task RunAsync(string repository, string reportRoot, bool cityAssistantOnly = false, string? cityCandidate = null)
     {
         var repo = Path.GetFullPath(repository);
         var output = Path.GetFullPath(reportRoot);
@@ -49,7 +49,7 @@ public static class CombinationAudit
         foreach (var name in new[] { "stable", "beta" })
         {
             if (source == "beta7" && name == "stable") continue;
-            var feedPath = Path.Combine(repo, source == "city" ? $"release_workspace_city_beta1_v2/feed/{name}.local.signed.json" : source == "x2" ? $"release_workspace_059/components-v2/feed/{name}.local.signed.json" : source == "release020" ? $"release_workspace_020/feed/{name}.local.signed.json" : source == "beta7" ? "release_workspace_beta7_v2/feed/beta.local.signed.json"
+            var feedPath = Path.Combine(repo, source == "city" ? Path.Combine(cityCandidate ?? "release_workspace_city_beta1_v2", $"feed/{name}.local.signed.json") : source == "x2" ? $"release_workspace_059/components-v2/feed/{name}.local.signed.json" : source == "release020" ? $"release_workspace_020/feed/{name}.local.signed.json" : source == "beta7" ? "release_workspace_beta7_v2/feed/beta.local.signed.json"
                 : source == "published" ? $"feed/{name}.json" : $"release_workspace_056/{(source == "fixed" ? "combination-fix" : "powers-shards")}/feed/{name}.signed.json");
             var bytes = await File.ReadAllBytesAsync(feedPath);
             var envelope = JsonSerializer.Deserialize(bytes, LauncherJsonContext.Default.SignedFeedEnvelope)!;
@@ -67,7 +67,7 @@ public static class CombinationAudit
                     var url = package.Urls[0];
                     var filename = Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme is "https" or "http" ? Path.GetFileName(uri.AbsolutePath) : Path.GetFileName(url);
                     var candidates = new[] { Path.Combine(repo, "release_workspace_beta7_v2/packages", filename), Path.Combine(repo, "packages", filename), Path.Combine(repo, "release_workspace_20260905/packages", filename), Path.Combine(repo, "release_workspace_056/powers-shards/packages", filename), Path.Combine(repo, "release_workspace_056/combination-fix/packages", filename) };
-                    var archivePath = new[] { Path.Combine(repo, "release_workspace_city_beta1_v2/packages", filename), Path.Combine(repo, "release_workspace_city_beta1/packages", filename), Path.Combine(repo, "release_workspace_059/components-v2/packages", filename), Path.Combine(repo, "release_workspace_020/packages", filename) }.Concat(candidates).FirstOrDefault(File.Exists) ?? throw new FileNotFoundException("No local package: " + filename);
+                    var archivePath = new[] { Path.IsPathFullyQualified(url) && File.Exists(url) ? url : Path.Combine(repo, cityCandidate ?? "release_workspace_city_beta1_v2", "packages", filename), Path.Combine(repo, "release_workspace_city_beta1_v2/packages", filename), Path.Combine(repo, "release_workspace_city_beta1/packages", filename), Path.Combine(repo, "release_workspace_059/components-v2/packages", filename), Path.Combine(repo, "release_workspace_020/packages", filename) }.Concat(candidates).FirstOrDefault(File.Exists) ?? throw new FileNotFoundException("No local package: " + filename);
                     Require(new FileInfo(archivePath).Length == package.Size && (await CryptoAndIO.Sha256Async(archivePath)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase), "Wrong local archive bytes: " + filename);
                     using var archive = ZipFile.OpenRead(archivePath);
                     var entries = archive.Entries.ToDictionary(e => N(e.FullName), StringComparer.OrdinalIgnoreCase);
@@ -158,6 +158,14 @@ public static class CombinationAudit
                     }
                 if (source == "city" && name == "beta")
                 {
+                    if (cityCandidate is not null)
+                    {
+                        foreach (var path in new[] { "data/Localization/paw_city_policy.tgi", "Local_ru/Localization/paw_city_policy.tgi" })
+                            Require(winners.TryGetValue(N(path), out var locale) && locale.Id == "common-ui" && locale.Hash is not null,
+                                "Mandatory policy dictionary lost: " + code);
+                        var expectedOwner = settings.CustomPlayerColors ? "player-colors" : "common-ui";
+                        Require(winners[N(exe)].Id == expectedOwner, "Advanced helper overridden by older module: " + code);
+                    }
                     string Active(string path) => Regex.Replace(modules[winners[N(path)].Id].Text[N(path)], @"/\*.*?\*/", "", RegexOptions.Singleline);
                     var list = Active("data/Game/resource_list.tgi");
                     var definitions = Active("data/Game/resources.tgi");
@@ -169,6 +177,12 @@ public static class CombinationAudit
                         .Select(m => Regex.Match(m.Groups[1].Value, @"(?i)resource_ids\s*=\s*(\w+)").Groups[1].Value.ToLowerInvariant()).ToArray();
                     Require(declared.Length >= 9 && declared.SequenceEqual(registered) && registered.SequenceEqual(produced), "Active resource definitions/scoring order mismatch (comments excluded): " + code);
                     Require(registered.Contains("shards") != settings.DisablePowersAndShards, "Shards resource differs from option: " + code);
+                    var expectedEconomicOrder = settings.DisablePowersAndShards
+                        ? new[] { "gold", "stone", "wood", "iron", "mana" }
+                        : new[] { "gold", "shards", "stone", "wood", "iron", "mana" };
+                    Require(registered.Take(expectedEconomicOrder.Length).SequenceEqual(expectedEconomicOrder)
+                        && registered.Length == (settings.DisablePowersAndShards ? 9 : 10),
+                        "Native assistant resource-index contract changed: " + code);
                 }
                 var startup = modules[winners["startup\\autoexec.txt"].Id].Text["startup\\autoexec.txt"];
                 Require(startup.Contains("adddepot %USERDATA%/data/ 1", StringComparison.OrdinalIgnoreCase), "Writable work depot missing.");

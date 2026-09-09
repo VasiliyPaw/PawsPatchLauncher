@@ -43,9 +43,9 @@ if (args.Length == 3 && args[0] == "--audit-combinations")
     return;
 }
 
-if (args.Length == 3 && args[0] == "--audit-city-assistant")
+if (args.Length is 3 or 4 && args[0] == "--audit-city-assistant")
 {
-    await CombinationAudit.RunAsync(args[1], args[2], cityAssistantOnly: true);
+    await CombinationAudit.RunAsync(args[1], args[2], cityAssistantOnly: true, cityCandidate: args.Length == 4 ? args[3] : null);
     return;
 }
 

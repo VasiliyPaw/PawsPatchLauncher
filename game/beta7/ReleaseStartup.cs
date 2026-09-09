@@ -10,7 +10,11 @@ using System.Threading;
 
 internal static class ReleaseStartup
 {
+#if FAST_SAVE_TRANSFER
+    internal const string Build = "beta.0.3.0-beta.2-1372-city-policy13-transfer-r2-quiet";
+#else
     internal const string Build = "release.0.2.0-1372-terrain-randommap-colors20-independent-quiet";
+#endif
     private static int verifiedPid;
     private static DateTime verifiedStart;
     internal static IntPtr VerifiedImage;
