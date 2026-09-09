@@ -2,6 +2,16 @@
 
 Windows launcher and transactional updater for Kohan II, Arcane Wars and Paw's Patch.
 
+[Download the latest launcher](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/latest).
+
+## Code signing policy
+
+See the [code signing policy](docs/CODE_SIGNING.md) and
+[privacy policy / конфиденциальность](docs/PRIVACY.md).
+SignPath Foundation onboarding is being prepared; current launcher 0.6.4 downloads
+are unsigned. No SignPath approval or immediate removal of SmartScreen warnings
+is claimed. The [setup guide](docs/SIGNPATH_SETUP.md) describes activation.
+
 ## Intended release layout
 
 - `arcane-wars`: required base module.

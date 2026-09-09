@@ -69,6 +69,10 @@ public partial class MainWindow
 
     private void ApplyAccountLanguage()
     {
+        PrivacyPolicyButton.Content = AccountPrivacyButton.Content = T("Конфиденциальность", "Privacy policy");
+        AccountPrivacyText.Text = T(
+            "Вход необязателен. Аккаунт использует сервер для профиля, сообщений и статуса в игре. После входа друзья видят применённые настройки патча. Выход из аккаунта отключает эти функции.",
+            "Signing in is optional. Your account uses a server for your profile, messages and game status. While signed in, friends can see your applied patch settings. Sign out to disable these features.");
         FriendsNav.Content = T("Друзья", "Friends");
         FriendsTitleText.Text = T("Друзья", "Friends");
         FriendsGuestText.Text = T("Друзья доступны после входа в аккаунт. Патч и игру можно использовать без входа.", "Friends are available after signing in. The patch and game can be used without an account.");

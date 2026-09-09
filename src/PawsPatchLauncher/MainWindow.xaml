@@ -317,6 +317,7 @@
                             <Button x:Name="AboutNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Click="AboutNav_Click"/>
                         </StackPanel>
                         <StackPanel Grid.Row="4">
+                            <Button x:Name="PrivacyPolicyButton" Style="{StaticResource GhostButton}" FontSize="12" Padding="8,8" HorizontalContentAlignment="Left" Margin="0,0,0,10" Click="PrivacyPolicy_Click"/>
                             <Button x:Name="AdminNav" Style="{StaticResource GhostButton}" local:LauncherIcon.Kind="Shield" HorizontalContentAlignment="Left" Margin="0,0,0,16" Visibility="Collapsed" Click="AdminNav_Click"/>
                             <TextBlock x:Name="LauncherVersionLabel" Style="{StaticResource SmallMetadataText}" Foreground="#708098"/>
                             <TextBlock x:Name="LauncherVersionText" Foreground="{StaticResource TextMutedBrush}" FontSize="13" Margin="0,3,0,0"/>
@@ -437,6 +438,8 @@
                                             </WrapPanel>
                                             <TextBlock x:Name="AccountFormTitleText" Style="{StaticResource CardTitle}"/>
                                             <TextBlock x:Name="AccountFormHintText" Style="{StaticResource CardDescription}" Margin="0,0,0,16"/>
+                                            <TextBlock x:Name="AccountPrivacyText" Style="{StaticResource CardDescription}" Margin="0,0,0,6"/>
+                                            <Button x:Name="AccountPrivacyButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,0,0,14" Click="PrivacyPolicy_Click"/>
                                             <StackPanel x:Name="AccountFieldsPanel">
                                                 <StackPanel x:Name="AccountNicknamePanel" Visibility="Collapsed">
                                                     <TextBlock x:Name="AccountDisplayNameLabel" Style="{StaticResource FieldTitle}" Margin="0,0,0,6"/>
