@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 import pathlib
 import subprocess
 import urllib.error
@@ -17,17 +18,22 @@ parser.add_argument("--tag", help="Explicit tag for a separately versioned packa
 parser.add_argument("--name", help="Release display name")
 parser.add_argument("--prerelease", action="store_true")
 parser.add_argument("--attach-only", action="store_true", help="Only add immutable assets to an already published, commit-verified release")
+parser.add_argument("--keep-draft", action="store_true", help="Stage verified assets without making the release available")
 args = parser.parse_args()
+if args.attach_only and args.keep_draft:
+    raise RuntimeError("Attach-only and keep-draft are mutually exclusive")
 repo = "VasiliyPaw/PawsPatchLauncher"
 tag = args.tag or "v" + args.version
 if args.tag and (tag.startswith("v") or not args.prerelease and tag != "patch-" + args.version):
     raise RuntimeError("Package releases require patch-<version>, or a prerelease tag outside the launcher v* workflow")
-credential = subprocess.run(
-    ["git", "credential", "fill"], input="protocol=https\nhost=github.com\n\n",
-    text=True, capture_output=True, check=True,
-)
-fields = dict(line.split("=", 1) for line in credential.stdout.splitlines() if "=" in line)
-token = fields.get("password")
+token = os.environ.get("GH_TOKEN")
+if not token:
+    credential = subprocess.run(
+        ["git", "credential", "fill"], input="protocol=https\nhost=github.com\n\n",
+        text=True, capture_output=True, check=True,
+    )
+    fields = dict(line.split("=", 1) for line in credential.stdout.splitlines() if "=" in line)
+    token = fields.get("password")
 if not token:
     raise RuntimeError("No configured GitHub credential")
 
@@ -71,6 +77,8 @@ if args.attach_only or release["target_commitish"] != args.commit:
         raise RuntimeError("Existing release tag targets a different source revision")
 if args.attach_only and release["draft"]:
     raise RuntimeError("Attach-only mode refuses unpublished drafts")
+if args.keep_draft and not release["draft"]:
+    raise RuntimeError("Keep-draft mode refuses an already published release")
 if release["prerelease"] != args.prerelease:
     raise RuntimeError("Existing release has a different prerelease status")
 existing = {asset["name"]: asset for asset in release["assets"]}
@@ -87,7 +95,7 @@ for path in map(pathlib.Path, args.assets):
         if asset["size"] != len(data) or asset.get("digest") != digest:
             raise RuntimeError("Uploaded asset digest mismatch")
     print("ASSET VERIFIED", path.name, len(data), digest, flush=True)
-if release["draft"]:
+if release["draft"] and not args.keep_draft:
     release = request(api + "/releases/" + str(release["id"]), "PATCH", {
         "draft": False, "make_latest": "false" if args.prerelease or args.tag else "true"})
-print("PUBLISHED", release["html_url"], flush=True)
+print("DRAFT STAGED" if args.keep_draft else "PUBLISHED", release["html_url"], flush=True)

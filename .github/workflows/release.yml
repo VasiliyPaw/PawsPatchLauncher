@@ -130,11 +130,10 @@ jobs:
           if (!(Test-Path -LiteralPath $notes)) { throw 'Release notes are missing.' }
           $noteText = (Get-Content -LiteralPath $notes -Raw) + "`n`nCode signing policy: https://github.com/$env:GITHUB_REPOSITORY/blob/main/docs/CODE_SIGNING.md`n"
           $noteText | Set-Content artifacts/release-notes.md -Encoding utf8NoBOM
-          gh release create "$env:GITHUB_REF_NAME" `
+          python tools/PublishLauncherRelease.py "$($env:GITHUB_REF_NAME.Substring(1))" "$env:GITHUB_SHA" `
+            artifacts/release-notes.md `
             artifacts/distribution/PawsPatchLauncher.exe `
             "artifacts/distribution/PawsPatchLauncher-$env:GITHUB_REF_NAME-win-x64.zip" `
             artifacts/distribution/launcher-artifact.json `
-            --repo "$env:GITHUB_REPOSITORY" `
-            --title "Paw's Launcher $env:GITHUB_REF_NAME" `
-            --notes-file artifacts/release-notes.md
+            --name "Paw's Launcher $env:GITHUB_REF_NAME"
           if ($LASTEXITCODE -ne 0) { throw 'Release publication failed.' }
