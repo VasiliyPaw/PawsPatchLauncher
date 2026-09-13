@@ -12,6 +12,8 @@ public partial class MainWindow
         public override string ToString() => Label;
     }
     private bool _syncingLanguages;
+    private bool CanChooseSeparateVoice => GameLanguages.SupportsSeparateVoice(_channel)
+        || _settings.PinnedRelease is null && _offeredModChannel?.Channel == _settings.Channel && GameLanguages.SupportsSeparateVoice(_offeredModChannel);
     private void RefreshLanguageSelection()
     {
         if (_initializing || _syncingLanguages || _busy) return;
@@ -42,8 +44,10 @@ public partial class MainWindow
                 GameVoiceCombo.SelectedItem = voices.First(x => x.Code == GameLanguages.Voice(_settings));
             GameTextLabel.Text = T("Текст", "Text");
             GameVoiceLabel.Text = T("Озвучка", "Speech");
-            GameVoiceCombo.IsEnabled = !_busy && GameLanguages.SupportsSeparateVoice(_channel);
-            GameVoiceCombo.ToolTip = GameLanguages.SupportsSeparateVoice(_channel) ? null : T("Отдельный выбор озвучки появится после обновления файлов режима.", "Separate speech selection requires updated mode files.");
+            GameVoiceCombo.IsEnabled = !_busy && CanChooseSeparateVoice;
+            GameVoiceCombo.ToolTip = GameLanguages.SupportsSeparateVoice(_channel) ? null : CanChooseSeparateVoice
+                ? T("Для раздельного выбора текста и озвучки потребуется обновить файлы мода.", "Separate text and speech choices will require updating the mod files.")
+                : T("Отдельный выбор озвучки появится после обновления файлов режима.", "Separate speech selection requires updated mode files.");
             System.Windows.Automation.AutomationProperties.SetName(GameVoiceCombo, T("Язык озвучки", "Speech language"));
             RussianToggle.IsChecked = _settings.RussianLocalization;
             GameLanguageCombo.IsEnabled = !_busy;
@@ -58,7 +62,7 @@ public partial class MainWindow
         if (_initializing || _syncingLanguages || GameLanguageCombo.SelectedItem is not LanguageChoice language) return;
         if (_busy || ConfirmationActive) { SyncLanguageChoices(); return; }
         if (_settings.RussianLocalization == (language.Code == "ru")) return;
-        _settings.GameVoiceLanguage = GameLanguages.SupportsSeparateVoice(_channel) ? GameLanguages.Voice(_settings) : language.Code;
+        _settings.GameVoiceLanguage = CanChooseSeparateVoice ? GameLanguages.Voice(_settings) : language.Code;
         _settings.RussianLocalization = language.Code == "ru";
         RussianToggle.IsChecked = _settings.RussianLocalization;
         _settingsStore.Save(_settings);

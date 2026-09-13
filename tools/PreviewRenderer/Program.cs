@@ -32,6 +32,7 @@ public static class Program
         var patchVersionChecks = args.Contains("--patch-version-checks");
         var modLibraryChecks = args.Contains("--mod-library-checks");
         var legacyModMigrationChecks = args.Contains("--legacy-mod-migration-checks");
+        var retainedSelectionChecks = args.Contains("--retained-selection-checks");
         var gameExitChecks = args.Contains("--game-exit-checks");
         var uiRoundTwoChecks = args.Contains("--ui-round-two-checks");
         var modNoticeChecks = args.Contains("--mod-notice-checks");
@@ -112,6 +113,7 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (retainedSelectionChecks) { RetainedSelectionChecks.Run(language, guideChannel, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (legacyModMigrationChecks) { LegacyModMigrationChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (connectionPreview) { ConnectionUiChecks.Preview(language); app.Run(); return; }
         if (connectionChecks) { ConnectionUiChecks.Run(language); ChatInteractionChecks.Run(language); ChatPresentationChecks.Run(language); app.Shutdown(); return; }

@@ -10,7 +10,7 @@ public partial class MainWindow
     private void RefreshApplySettingsVisibility()
     {
         // Track the target state so status refreshes do not restart an active fade.
-        var visible = _settingsPending && _patchInstalled;
+        var visible = _settingsPending && _patchInstalled && !_selectionRequiresUpdate;
         ApplySettingsButton.IsHitTestVisible = visible;
         ApplySettingsButton.IsTabStop = visible;
         if (_applySettingsVisible == visible)
@@ -60,7 +60,7 @@ public partial class MainWindow
 
     private async Task ApplySettingsAsync()
     {
-        if (_busy || FeedBlocksActions || ArcaneAccessBlocked || !_patchInstalled || _game is null || (_channel is null && !GameMod.IsVanilla(_settings)) || ConfirmationActive) return;
+        if (_busy || FeedBlocksActions || ArcaneAccessBlocked || _selectionRequiresUpdate || !_patchInstalled || _game is null || (_channel is null && !GameMod.IsVanilla(_settings)) || ConfirmationActive) return;
         try
         {
             EnsureGameClosed();

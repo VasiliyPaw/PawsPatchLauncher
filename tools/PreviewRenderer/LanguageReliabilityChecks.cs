@@ -49,8 +49,9 @@ internal static class LanguageReliabilityChecks
             }
             Field<UserSettings>("_settings").GameVoiceLanguage = "ru";
             Set("_offeredModChannel", legacy); Call("RefreshStatus"); Call("SyncLanguageChoices");
-            Check(!voice.IsEnabled, "old catalog exposed unsupported speech selection");
-            Check(Field<bool>("_settingsPending") && !C<Button>("LaunchButton").IsEnabled && !C<Button>("ApplySettingsButton").IsEnabled && Field<string?>("_installationFailure") is not null, "catalog error allowed Launch or hid pending settings");
+            Check(voice.IsEnabled, "older offered catalog hid supported speech from the retained release");
+            Check(Field<bool>("_settingsPending") && !C<Button>("LaunchButton").IsEnabled && C<Button>("ApplySettingsButton").IsEnabled && Field<string?>("_installationFailure") is null,
+                "older offered catalog blocked a supported retained configuration");
             Set("_offeredModChannel", modern); Call("RefreshStatus"); Call("SyncLanguageChoices");
             Check(voice.IsEnabled && C<Button>("ApplySettingsButton").IsEnabled && !C<Button>("LaunchButton").IsEnabled, "new catalog did not recover mixed languages");
             voice.SelectedIndex = 0;

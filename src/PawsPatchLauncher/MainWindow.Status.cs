@@ -57,6 +57,7 @@ public partial class MainWindow
         if (ArcaneAccessBlocked) return ArcaneAccessReason;
         if (_installationFailure is not null) return T("Не удалось прочитать состояние установки: ", "Cannot read the installation state: ") + _installationFailure;
         if (_fileCheckFailed) return T("Найдены ошибки файлов. Откройте проверку файлов в настройках.", "File errors found. Open file verification in Settings.");
+        if (_selectionRequiresUpdate) return SelectionUpdateText;
         if (_game is not null && !_patchInstalled) return T("Установите выбранный мод с языками и компонентами для работы без интернета.", "Install the selected mod with its languages and components for offline use.");
         if (CompatibilityRelevant && CompatibilityProblem)
             return _compatiblePatchUpdate is not null ? T("Доступен совместимый патч. Нажмите красный значок у версии игры.", "A compatible patch is available. Open the red icon beside the game version.")
@@ -122,7 +123,7 @@ public partial class MainWindow
             OperationFooterHost.Content = OperationStatusPanel;
         }
         OperationStatusPanel.Margin = home ? new Thickness(0,14,0,0) : new Thickness(0,0,0,10);
-        OperationStatusPanel.Visibility = home || _busy || _presentedError is not null && (!_errorFromFeed || !_silentFeedFailure)
+        OperationStatusPanel.Visibility = home || _busy || _selectionRequiresUpdate || _presentedError is not null && (!_errorFromFeed || !_silentFeedFailure)
             ? Visibility.Visible : Visibility.Collapsed;
     }
 }

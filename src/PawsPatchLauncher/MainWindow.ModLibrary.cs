@@ -6,6 +6,27 @@ public partial class MainWindow
     private bool _selectedModStored;
     private ChannelManifest? _selectedInstalledRelease;
     private string? _modLibraryRepairKey;
+    private bool _selectionRequiresUpdate;
+    private bool _selectionUpdateAvailable;
+
+    private bool CatalogSupportsSelection(ChannelManifest channel)
+    {
+        var active = EffectiveSettingsForGame(_settings, channel);
+        try { GamePackageSelector.Select(channel, active, active.RussianLocalization, active.CustomPlayerColors); return true; }
+        catch (InvalidDataException) { return false; }
+    }
+
+    private string SelectionUpdateText => _selectionUpdateAvailable
+        ? GameMod.IsArcaneWars(_settings) && !LiveArcaneAccess
+            ? T("Для выбранных языков или компонентов нужны новые файлы мода. Восстановите подключение к аккаунту для обновления либо выберите настройки сохранённого выпуска.",
+                "The selected languages or components need newer mod files. Reconnect your account to update, or choose settings supported by the stored release.")
+            : T("Для выбранных языков или компонентов нужны новые файлы мода. Нажмите «Обновить и применить». Выбранные языки сохранятся.",
+                "The selected languages or components need newer mod files. Use Update and apply. Your language choices will be kept.")
+        : _settings.PinnedRelease is not null
+            ? T("Выбранный старый выпуск не поддерживает эти языки или компоненты. Выберите последнюю версию патча либо настройки, доступные в этом выпуске.",
+                "The pinned release does not support these languages or components. Select the latest patch release or settings supported by this release.")
+            : T("Сохранённый выпуск не поддерживает эти языки или компоненты. Проверьте обновления при подключении к интернету либо выберите настройки сохранённого выпуска.",
+                "The stored release does not support these languages or components. Check for updates when online, or choose settings supported by the stored release.");
 
     private bool LocallyAvailable(ModuleInstaller installer, PackageRelease package)
         => installer.IsPrepared(package) || _feedClient.IsPackageCached(package);
@@ -38,6 +59,7 @@ public partial class MainWindow
     {
         _selectedModStored = false;
         _selectedInstalledRelease = null;
+        _selectionRequiresUpdate = _selectionUpdateAvailable = false;
         if (_game is null) return;
         if (_modLibraryRepairKey == _settings.Mod + ":" + _settings.Channel)
         {
@@ -60,6 +82,18 @@ public partial class MainWindow
                 // freeze their catalog at the release that first installed it.
                 // Explicit pins and changed gameplay packages keep their own release.
                 _channel = GameLanguages.SelectionCatalog(installed, _offeredModChannel, _settings);
+                // An older offered language catalog must not break a usable retained release.
+                if (!ReferenceEquals(_channel, installed) && !CatalogSupportsSelection(_channel) && CatalogSupportsSelection(installed))
+                    _channel = installed;
+                if (!CatalogSupportsSelection(_channel))
+                {
+                    _selectionRequiresUpdate = true;
+                    _selectionUpdateAvailable = _settings.PinnedRelease is null && _offeredModChannel is { } offered
+                        && offered.Channel == installed.Channel && CatalogSupportsSelection(offered);
+                    // Preview only: the installed release and game files stay unchanged until
+                    // the explicit Update and apply action prepares the complete new release.
+                    if (_selectionUpdateAvailable) _channel = _offeredModChannel;
+                }
                 return;
             }
         }

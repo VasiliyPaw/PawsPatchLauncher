@@ -355,7 +355,7 @@ public partial class MainWindow : Window
         try { SelectLibraryChannel(); }
         catch (Exception ex) { _installationFailure = ex.Message; }
         if ((_channel is not null || GameMod.IsVanilla(_settings)) && state is not null && _installationFailure is null)
-            try { _settingsPending = UpdateDetector.HasSettingsChanges(state, _channel is null ? [] : ResolveSelectedPackages(_channel), GetEffectiveSettings()); }
+            try { _settingsPending = _selectionRequiresUpdate || UpdateDetector.HasSettingsChanges(state, _channel is null ? [] : ResolveSelectedPackages(_channel), GetEffectiveSettings()); }
             catch (FrequencyUnavailableException) { _settingsPending = true; }
             catch (Exception ex) { _settingsPending = true; _installationFailure = ex.Message; }
         RefreshAvailableUpdates(state);
@@ -385,6 +385,9 @@ public partial class MainWindow : Window
         }
         else if (!_settings.PawPatchEnabled && statusKind == "ready")
             ReadyStatusText.Text = T("Arcane Wars готов к игре", "Arcane Wars ready to play");
+        if (_selectionRequiresUpdate && _installationFailure is null && !_fileCheckFailed)
+            ReadyStatusText.Text = T("Нужно обновить файлы мода", "Mod files need an update");
+        ReadyStatusBadge.ToolTip = _selectionRequiresUpdate ? SelectionUpdateText : null;
         ReadyStatusText.Foreground = (Brush)FindResource(statusKind == "danger" ? "DangerBrush" : statusKind == "update" ? "GoldBrightBrush" : "SuccessBrush");
         ReadyStatusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#3B2226" : statusKind == "update" ? "#40351E" : "#193926"));
         ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
@@ -395,7 +398,7 @@ public partial class MainWindow : Window
         RemoveLauncherButton.IsEnabled = !_busy && !FeedBlocksActions;
         RefreshGameFolderButton();
         ApplyGameLaunchState(gameRunning);
-        ApplySettingsButton.IsEnabled = !_busy && !FeedBlocksActions && !ArcaneAccessBlocked && !gameRunning && !FrequencyUnavailable && _installationFailure is null && _game is not null && _patchInstalled && (_channel is not null || GameMod.IsVanilla(_settings)) && _settingsPending;
+        ApplySettingsButton.IsEnabled = !_busy && !FeedBlocksActions && !ArcaneAccessBlocked && !gameRunning && !FrequencyUnavailable && !_selectionRequiresUpdate && _installationFailure is null && _game is not null && _patchInstalled && (_channel is not null || GameMod.IsVanilla(_settings)) && _settingsPending;
         ApplySettingsButton.ToolTip = _installationFailure ?? (FrequencyUnavailable ? FrequencyUnavailableText : _settingsPending || !_patchInstalled
             ? T("Применить выбранные компоненты без запуска игры.", "Apply selected components without starting the game.")
             : T("Выбранные настройки уже применены.", "Selected settings are already applied."));
@@ -433,8 +436,9 @@ public partial class MainWindow : Window
             LauncherUpdateButton.Content = string.Format(_text["button.launcherupdate"], _pendingLauncherUpdate.Version);
 
         _patchInstalled = state is not null && _selectedModStored;
-        _patchUpdateAvailable = false;
-        if (!ArcaneAccessBlocked && _patchInstalled && _channel is not null && _offeredModChannel is not null && state is not null && ModLibrary.IsActive(state, _settings))
+        _patchUpdateAvailable = !ArcaneAccessBlocked && _patchInstalled && _selectionUpdateAvailable;
+        if (!_selectionRequiresUpdate && !ArcaneAccessBlocked && _patchInstalled && _channel is not null && _offeredModChannel is not null
+            && state is not null && ModLibrary.IsActive(state, _settings) && CatalogSupportsSelection(_offeredModChannel))
         {
             try { _patchUpdateAvailable = ModLibrary.HasUpdate(_channel, _offeredModChannel, _settings.Mod)
                 || state.AppliedSettings is { } applied && GameLanguages.HasUpdate(_channel, _offeredModChannel, applied); }
@@ -444,14 +448,18 @@ public partial class MainWindow : Window
 
         var modName = GameMod.Name(_settings.Mod, _text.Language == "ru");
         UpdateNoticeTitleText.Text = _patchInstalled ? T("Доступно обновление: ", "Update available: ") + modName : T("Установите ", "Install ") + modName;
-        UpdateNoticeBodyText.Text = _patchInstalled ? T("Обновление относится к активному моду и его компонентам.", "This update belongs to the active mod and its components.")
+        UpdateNoticeBodyText.Text = _selectionRequiresUpdate ? SelectionUpdateText
+            : _patchInstalled ? T("Обновление относится к активному моду и его компонентам.", "This update belongs to the active mod and its components.")
             : T("Мод и его компоненты сохранятся на компьютере. Скачаются только выбранные текст и озвучка; затем их можно применять без интернета.", "The mod and its components will be stored on this computer. Only the selected text and speech will be downloaded, then reused offline.");
         UpdateNoticeBorder.Visibility = _activePage == "home" && !ArcaneAccessBlocked && (_patchUpdateAvailable || !_patchInstalled && _game is not null) ? Visibility.Visible : Visibility.Collapsed;
         UpdateButton.Content = !_patchInstalled
             ? _text["button.install"]
+            : _selectionRequiresUpdate
+                ? _selectionUpdateAvailable ? T("Обновить и применить", "Update and apply") : T("Нужно обновление", "Update required")
             : _patchUpdateAvailable
                 ? T("Обновить ", "Update ") + modName
                 : _text["button.installed"];
+        UpdateButton.ToolTip = _selectionRequiresUpdate ? SelectionUpdateText : null;
     }
 
     private bool NeedsChannelPreparation(ChannelManifest channel, InstallState state)
@@ -472,7 +480,7 @@ public partial class MainWindow : Window
     private async void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
         var target = _offeredModChannel ?? _channel;
-        if (_game is null || target is null || _busy || ArcaneAccessBlocked) return;
+        if (_game is null || target is null || _busy || ArcaneAccessBlocked || _selectionRequiresUpdate && !_selectionUpdateAvailable) return;
         try
         {
             SetBusy(true, _text["progress.downloading"]);
