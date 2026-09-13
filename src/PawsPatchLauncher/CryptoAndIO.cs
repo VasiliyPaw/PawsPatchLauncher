@@ -56,10 +56,33 @@ public static class CryptoAndIO
 
     public static async Task AtomicWriteTextAsync(string path, string content, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-        var temporary = path + ".tmp";
-        await File.WriteAllTextAsync(temporary, content, new UTF8Encoding(false), cancellationToken);
-        File.Move(temporary, path, true);
+        // Independent writers must never share a staging file. Readers and scanners
+        // can briefly deny replacement on Windows even when the directory is writable.
+        var temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        try
+        {
+            await File.WriteAllTextAsync(temporary, content, new UTF8Encoding(false), cancellationToken).ConfigureAwait(false);
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                try { File.Move(temporary, path, true); break; }
+                catch (Exception error) when (watch.Elapsed < TimeSpan.FromSeconds(2)
+                    && (error is UnauthorizedAccessException || error is IOException && (error.HResult & 0xffff) is 5 or 32 or 33))
+                { await Task.Delay(100, cancellationToken).ConfigureAwait(false); }
+            }
+        }
+        catch (UnauthorizedAccessException error)
+        { throw new UnauthorizedAccessException("Cannot replace the saved file: " + path, error); }
+        catch (IOException error)
+        { throw new IOException("Cannot save the file atomically: " + path, error); }
+        finally
+        {
+            try { File.Delete(temporary); }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException) { }
+        }
     }
 }
 

@@ -12,7 +12,7 @@ public partial class StartupWindow : Window
     private readonly string _language;
     private readonly CancellationTokenSource _cancel = new();
     private readonly TaskCompletionSource<bool> _completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
-    private bool _installing, _finished, _started;
+    private bool _installing, _finished, _started, _downloading;
     private bool _checkingConnection, _connectionFailed;
     private readonly Stopwatch _connectionWatch = new();
     private readonly System.Windows.Threading.DispatcherTimer _connectionTimer = new() { Interval = TimeSpan.FromMilliseconds(200) };
@@ -27,6 +27,8 @@ public partial class StartupWindow : Window
             WindowPlacementPersistence.PositionStartupWindow(this, placementStore ?? new WindowPlacementStore(ActivityStore.Root));
         VersionText.Text = T("Установленная версия · ", "Installed version · ") + SelfUpdater.CurrentVersion.ToString(3);
         ContinueButton.Content = T("Открыть лаунчер", "Open launcher");
+        CancelUpdateButton.Content = T("Отменить", "Cancel");
+        CancelUpdateButton.ToolTip = T("Отменить обновление и открыть установленную версию лаунчера.", "Cancel the update and open the installed launcher.");
         FooterText.Text = T("Обновление лаунчера", "Launcher update");
         StageText.Text = T("Проверяем обновления", "Checking for updates");
         DetailText.Text = T("Ищем последнюю версию лаунчера…", "Looking for the latest launcher version…");
@@ -40,6 +42,13 @@ public partial class StartupWindow : Window
     {
         if (!_installing && ContinueButton.Visibility == Visibility.Visible
             && StartupUpdateCheck.CanOpenInstalled(_connectionWatch.Elapsed, _connectionFailed, _checkingConnection)) _cancel.Cancel();
+    }
+    private void CancelUpdate_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_downloading || _installing || _finished || _cancel.IsCancellationRequested) return;
+        CancelUpdateButton.IsEnabled = false;
+        StageText.Text = T("Отменяем обновление", "Cancelling update");
+        _cancel.Cancel();
     }
     private void RefreshConnectionWait(TimeSpan elapsed)
     {
@@ -76,21 +85,25 @@ public partial class StartupWindow : Window
             if (release is null || !SelfUpdater.IsNewer(release.Version) || SelfUpdater.IsBlocked(release.Sha256)) return;
             StageText.Text = T("Загружаем обновление", "Downloading update");
             DetailText.Text = T("Новая версия · ", "New version · ") + release.Version;
-            FooterText.Text = T("Лаунчер откроется после установки", "The launcher will open after installation");
+            FooterText.Text = T("При отмене откроется текущая версия", "Cancel to open the installed version");
+            _downloading = true;
+            CancelUpdateButton.IsEnabled = true;
+            Motion.Reveal(CancelUpdateButton);
             PercentText.Text = "0%";
             SizeText.Text = Bytes(0) + " / " + Bytes(release.Size);
             using var downloadCancellation = CancellationTokenSource.CreateLinkedTokenSource(_cancel.Token);
             downloadCancellation.CancelAfter(StartupUpdateCheck.OfflineBudget);
             var watch = Stopwatch.StartNew();
-            long previous = 0, lastTick = 0;
+            long previous = 0, lastTick = 0, receivedAtLastReport = 0;
             var progress = new Progress<(long Received, long? Total)>(p =>
             {
                 if (_finished || _installing || _cancel.IsCancellationRequested) return;
                 // A slow transfer may continue indefinitely while bytes arrive. A stalled
                 // connection must fall back to the installed launcher without a long HTTP timeout.
-                downloadCancellation.CancelAfter(StartupUpdateCheck.OfflineBudget);
+                if (p.Received > receivedAtLastReport) downloadCancellation.CancelAfter(StartupUpdateCheck.OfflineBudget);
+                receivedAtLastReport = p.Received;
                 var elapsed = watch.ElapsedMilliseconds;
-                if (elapsed - lastTick < 180 && p.Received != p.Total) return;
+                if (elapsed - lastTick < 180 && p.Received != p.Total && previous > 0) return;
                 var speed = Math.Max(0, p.Received - previous) / Math.Max((elapsed - lastTick) / 1000d, .1);
                 previous = p.Received; lastTick = elapsed;
                 var total = p.Total is > 0 ? p.Total.Value : release.Size;
@@ -108,7 +121,10 @@ public partial class StartupWindow : Window
             var downloaded = await _feed.DownloadLauncherAsync(release, progress, downloadCancellation.Token);
             downloadCancellation.CancelAfter(Timeout.InfiniteTimeSpan);
             _cancel.Token.ThrowIfCancellationRequested();
-            _installing = true; ContinueButton.IsEnabled = false;
+            _downloading = false; _installing = true; ContinueButton.IsEnabled = false;
+            CancelUpdateButton.IsEnabled = false;
+            Motion.Collapse(CancelUpdateButton);
+            FooterText.Text = T("Лаунчер откроется после установки", "The launcher will open after installation");
             StageText.Text = T("Устанавливаем обновление", "Installing update");
             DetailText.Text = T("Лаунчер откроется автоматически. Предыдущая версия сохранена для восстановления.", "The launcher will open automatically. The previous version is retained for recovery.");
             DownloadProgress.IsIndeterminate = false;
@@ -119,7 +135,12 @@ public partial class StartupWindow : Window
         }
         catch (OperationCanceledException) when (_cancel.IsCancellationRequested) { }
         catch (Exception error) { ActivityStore.Log(error); }
-        finally { _finished = true; FinishConnectionCheck(); _completion.TrySetResult(replacement); }
+        finally
+        {
+            _finished = true; _downloading = false; FinishConnectionCheck();
+            CancelUpdateButton.IsEnabled = false; Motion.Collapse(CancelUpdateButton);
+            _completion.TrySetResult(replacement);
+        }
     }
     private static string Bytes(long value) => value >= 1073741824 ? $"{value / 1073741824d:0.00} GB" : value >= 1048576 ? $"{value / 1048576d:0.0} MB" : $"{value / 1024d:0.0} KB";
 }

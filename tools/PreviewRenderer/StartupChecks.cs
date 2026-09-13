@@ -39,11 +39,16 @@ internal static class StartupChecks
                 ((TextBlock)window.FindName("StageText")).Text=stage=="install"?(language=="ru"?"Устанавливаем обновление":"Installing update")
                     :stage=="download"?(language=="ru"?"Загружаем обновление":"Downloading update"):(language=="ru"?"Проверяем обновления":"Checking for updates");
                 ((TextBlock)window.FindName("DetailText")).Text=stage=="install"?(language=="ru"?"Лаунчер откроется автоматически. Предыдущая версия сохранена для восстановления.":"The launcher will open automatically. The previous version is retained for recovery.")
-                    :stage=="download"?"Новая версия · 0.6.5":(language=="ru"?"Сервер пока недоступен. Повторяем попытку · до 30 с":"Server unavailable. Retrying · up to 30 s");
+                    :stage=="download"?(language=="ru"?"Новая версия · 0.7.3":"New version · 0.7.3"):(language=="ru"?"Сервер пока недоступен. Повторяем попытку · до 30 с":"Server unavailable. Retrying · up to 30 s");
                 ((Button)window.FindName("ContinueButton")).Visibility=stage=="offline"?Visibility.Visible:Visibility.Hidden;
-                ((TextBlock)window.FindName("FooterText")).Text=language=="ru"?"Лаунчер откроется после установки":"The launcher will open after installation";
+                ((Button)window.FindName("CancelUpdateButton")).Visibility=stage=="download"?Visibility.Visible:Visibility.Collapsed;
+                ((Button)window.FindName("CancelUpdateButton")).IsEnabled=stage=="download";
+                ((TextBlock)window.FindName("FooterText")).Text=stage=="download"?(language=="ru"?"При отмене откроется текущая версия":"Cancel to open the installed version")
+                    :(language=="ru"?"Лаунчер откроется после установки":"The launcher will open after installation");
                 ((TextBlock)window.FindName("SizeText")).Text="42.5 MB / 68.9 MB";
                 ((TextBlock)window.FindName("PercentText")).Text="62%";
+                ((ProgressBar)window.FindName("DownloadProgress")).IsIndeterminate=false;
+                ((ProgressBar)window.FindName("DownloadProgress")).Value=62;
                 ((TextBlock)window.FindName("SpeedText")).Text=language=="ru"?"8.2 MB/с · осталось 00:03":"8.2 MB/s · remaining 00:03";
                 CheckLayout();if(stage=="download")Save(window,Path.ChangeExtension(output,".download.png"));
             }
@@ -64,6 +69,7 @@ internal static class StartupChecks
             T C<T>(string name) => (T)w.FindName(name);
             Check(C<TextBlock>("VersionText").Text.Contains(SelfUpdater.CurrentVersion.ToString(3)), "Installed launcher version missing");
             Check(C<Button>("ContinueButton").Visibility==Visibility.Hidden&&!C<Button>("ContinueButton").IsEnabled, "Manual opening initially visible");
+            Check(C<Button>("CancelUpdateButton").Visibility==Visibility.Collapsed&&!C<Button>("CancelUpdateButton").IsEnabled, "Cancel update initially visible");
             var watch = Stopwatch.StartNew();
             var run = (Task)typeof(StartupWindow).GetMethod("RunAsync", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(w, null)!;
             await Task.Delay(1300);
@@ -86,32 +92,43 @@ internal static class StartupChecks
             using var key = ECDsa.Create(ECCurve.NamedCurves.nistP256);
             var payload = JsonSerializer.SerializeToUtf8Bytes(new ChannelManifest { Launcher = new() { Version = "99.0.0", Size = 123, Sha256 = new('A',64), Urls = ["https://stall.invalid/update.exe"] } }, LauncherJsonContext.Default.ChannelManifest);
             var signed = JsonSerializer.SerializeToUtf8Bytes(new SignedFeedEnvelope { Payload = Convert.ToBase64String(payload), Signature = Convert.ToBase64String(key.SignData(payload, HashAlgorithmName.SHA256, DSASignatureFormat.IeeeP1363FixedFieldConcatenation)) }, LauncherJsonContext.Default.SignedFeedEnvelope);
-            using var stallHttp = new HttpClient(new Stall(signed));
-            var stallFeed = new FeedClient(new() { FeedUrls = ["https://stall.invalid/feed.json"], BetaFeedUrls = [], PublicKeyPem = key.ExportSubjectPublicKeyInfoPem(), CacheRoot = Path.Combine(ActivityStore.Root, "startup-stall") }, stallHttp);
             async Task StallCase(bool skip)
             {
+                using var stallHttp = new HttpClient(new Stall(signed, skip));
+                var cache = Path.Combine(ActivityStore.Root, "startup-stall-" + skip);
+                var stallFeed = new FeedClient(new() { FeedUrls = ["https://stall.invalid/feed.json"], BetaFeedUrls = [], PublicKeyPem = key.ExportSubjectPublicKeyInfoPem(), CacheRoot = cache }, stallHttp);
                 var stalled = new StartupWindow(stallFeed, language);
                 try
                 {
                     var elapsed = Stopwatch.StartNew();
                     var pending = (Task)typeof(StartupWindow).GetMethod("RunAsync", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(stalled, null)!;
                     await Task.Delay(200);
-                    if (!skip) Check(((TextBlock)stalled.FindName("StageText")).Text.Contains(language == "ru" ? "Загружаем" : "Downloading"), "Valid signed update did not reach download");
+                    if (!skip)
+                    {
+                        Check(((TextBlock)stalled.FindName("StageText")).Text.Contains(language == "ru" ? "Загружаем" : "Downloading"), "Valid signed update did not reach download");
+                        Check(((TextBlock)stalled.FindName("PercentText")).Text=="0%","Download percentage missing before first bytes");
+                    }
                     else
                     {
                         Check(((Button)stalled.FindName("ContinueButton")).Visibility!=Visibility.Visible&&!((Button)stalled.FindName("ContinueButton")).IsEnabled,"Manual opening remained during download");
-                        Check(((TextBlock)stalled.FindName("PercentText")).Text=="0%","Download percentage missing before first bytes");
+                        Check(((TextBlock)stalled.FindName("PercentText")).Text=="33%","The first partial chunk did not update percentage before stalling");
                         ((Button)stalled.FindName("ContinueButton")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                         await Task.Delay(200);Check(!pending.IsCompleted,"Hidden button interrupted a download");
-                        ((CancellationTokenSource)typeof(StartupWindow).GetField("_cancel",BindingFlags.Instance|BindingFlags.NonPublic)!.GetValue(stalled)!).Cancel();
+                        var cancel = (Button)stalled.FindName("CancelUpdateButton");
+                        Check(cancel.Visibility == Visibility.Visible && cancel.IsEnabled && cancel.Background is SolidColorBrush brush && brush.Color.R < 100,
+                            "Download cancellation is missing or uses a bright background");
+                        cancel.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                     }
                     await pending;
                     Check(!await stalled.Completion && (skip ? elapsed.Elapsed.TotalSeconds < 2 : elapsed.Elapsed.TotalSeconds is >= 29.5 and < 35), skip ? "Fixture cancellation failed" : "Stalled download did not fall back after 30 seconds");
+                    if (skip) Check(Directory.GetFiles(cache,"*.download",SearchOption.AllDirectories).SingleOrDefault() is { } partial
+                        && new FileInfo(partial).Length==41 && Directory.GetFiles(cache,"*.exe",SearchOption.AllDirectories).Length==0,
+                        "Cancelling the window lost partial bytes or accepted an incomplete executable");
                 }
                 finally { stalled.Close(); }
             }
             await StallCase(false); await StallCase(true);
-            Console.WriteLine($"STARTUP UI PASS {n} {language}: actual 30-second offline/stalled fallback, button hidden until 10 seconds and throughout downloading, download percentage, installed version and transfer layout");
+            Console.WriteLine($"STARTUP UI PASS {n} {language}: actual 30-second offline/stalled fallback, Continue hidden until 10 seconds/during downloads, dark Cancel button opens installed version, percentage and layout");
         }
         try
         {
@@ -131,12 +148,24 @@ internal static class StartupChecks
     }
     private sealed class Offline : HttpMessageHandler
     { protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token) => throw new HttpRequestException("Simulated offline connection."); }
-    private sealed class Stall(byte[] signed) : HttpMessageHandler
+    private sealed class Stall(byte[] signed, bool partial) : HttpMessageHandler
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token)
         {
-            if (request.RequestUri!.AbsolutePath.EndsWith(".exe")) await Task.Delay(100000, token);
+            if (request.RequestUri!.AbsolutePath.EndsWith(".exe"))
+            {
+                if (partial) return new(HttpStatusCode.OK) { Content = new StreamContent(new PartialStream()) };
+                await Task.Delay(100000, token);
+            }
             return new(HttpStatusCode.OK) { Content = new ByteArrayContent(signed) };
+        }
+    }
+    private sealed class PartialStream() : MemoryStream(new byte[123], false)
+    {
+        public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken token = default)
+        {
+            if (Position > 0) await Task.Delay(100000, token);
+            return await base.ReadAsync(buffer[..Math.Min(41,buffer.Length)], token);
         }
     }
 }

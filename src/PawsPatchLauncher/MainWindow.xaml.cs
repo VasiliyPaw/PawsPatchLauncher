@@ -292,7 +292,7 @@ public partial class MainWindow : Window
             SetFriendlyError(ex, fromFeed: true);
             var friendly = _presentedError!;
             _feedFailure = () => friendly.Title(_text.Language);
-            if (!background) _feedback.Clear();
+            if (!background) { _feedback.Clear(); ShowToast(_feedFailure, true); }
             return false;
         }
         finally
@@ -716,22 +716,28 @@ public partial class MainWindow : Window
         await InstallPendingLauncherUpdateAsync(showErrors: true);
     }
 
+    private bool _launcherRestarting;
+    private Func<Task> _restartLauncher = () => SelfUpdater.RestartThroughStartupAsync();
+    private Action _finishLauncherRestart = () => Application.Current.Shutdown();
+
     private async Task<bool> InstallPendingLauncherUpdateAsync(bool showErrors)
     {
         var release = _pendingLauncherUpdate;
         if (release is null || _busy || ConfirmationActive) return false;
         try
         {
+            _launcherRestarting = true;
             SetBusy(true, _text.Language == "ru" ? $"Обновляю лаунчер до {release.Version}…" : $"Updating launcher to {release.Version}…");
             _settingsStore.Save(_settings);
             _windowPlacement?.SaveOnAcceptedClose();
-            await SelfUpdater.RestartThroughStartupAsync();
+            await _restartLauncher();
             _busy = false;
-            Application.Current.Shutdown();
+            _finishLauncherRestart();
             return true;
         }
         catch (Exception ex)
         {
+            _launcherRestarting = false;
             if (showErrors) ShowError(ex);
             else
             {
@@ -1084,13 +1090,11 @@ public partial class MainWindow : Window
         {
             ShowResult(() => T("Kohan II уже запущен. Закройте игру перед применением настроек, обновлением или новым запуском.",
                 "Kohan II is already running. Close the game before applying settings, updating or launching again."));
-            ShowToast(() => T("Игра уже запущена. Сначала закройте Kohan II.", "The game is running. Close Kohan II first."));
             return;
         }
         if (exception is FrequencyUnavailableException)
         {
             ShowResult(() => exception.Message);
-            ShowToast(() => exception.Message);
             return;
         }
         ActivityStore.Log(exception);

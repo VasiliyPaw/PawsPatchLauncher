@@ -241,8 +241,6 @@ public partial class MainWindow
     {
         _presentedException = exception; _presentedError = FriendlyErrors.Describe(exception); _errorFromFeed = fromFeed;
         RefreshErrorActions();
-        var error = _presentedError;
-        ShowToast(() => error.Title(_text.Language), true);
     }
     private void ClearFriendlyError()
     {

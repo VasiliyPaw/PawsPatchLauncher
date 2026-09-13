@@ -98,7 +98,7 @@ internal static class FeedbackChecks
             Check(Math.Abs(progress.ScaleX-beforeRefresh)<.02,"Refreshing text restarted progress.");
             var stack=(StackPanel)window.FindName("ToastStack");var noticesBefore=stack.Children.Count;
             Invoke("ShowToast",(Func<string>)(()=>"render-clock fixture"),false);
-            Check(progress.ScaleX<.02&&stack.Children.Count==noticesBefore+1,"Repeated toast did not retain the prior notice/reset time.");
+            Check(progress.ScaleX<.02&&stack.Children.Count==noticesBefore,"Repeated toast created a duplicate or did not reset its time.");
             await Task.Delay(260);
             Invoke("ToastCloseButton_Click",toastPanel,new RoutedEventArgs());
             Check(!progress.HasAnimatedProperties,"Closing kept the progress clock alive.");
@@ -122,6 +122,9 @@ internal static class FeedbackChecks
                 Check(Math.Abs(slide.Y-enteringY)<1&&Math.Abs(toastPanel.Opacity-enteringOpacity)<.01,"Dismissing during entrance jumped or flashed.");
             await Task.Delay(300);
             Check(toastPanel.Visibility==Visibility.Collapsed&&!slide.HasAnimatedProperties&&!Motion.IsHiding(toastPanel),"Dismissal left a slide clock or pending operation.");
+            // The earlier clipboard failure can still be visible as an archived notice.
+            // Start the independent layout fixture with a fresh primary notice.
+            Invoke("ClearToastStack");
             Invoke("ShowToast", (Func<string>)(() => language == "ru"
                 ? "Буфер обмена занят. Подождите немного и повторите действие."
                 : "The clipboard is busy. Wait a moment and try again."), true);

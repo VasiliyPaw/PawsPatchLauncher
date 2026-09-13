@@ -32,6 +32,7 @@
                 <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                 <TextBlock x:Name="FooterText" Foreground="#758AA4" FontSize="11" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,12,0"/>
                 <Button x:Name="ContinueButton" Grid.Column="1" Style="{StaticResource GhostButton}" Padding="14,8" Visibility="Hidden" IsEnabled="False" Click="Continue_Click"/>
+                <Button x:Name="CancelUpdateButton" Grid.Column="1" Style="{StaticResource GhostButton}" Padding="14,8" Visibility="Collapsed" IsEnabled="False" Click="CancelUpdate_Click"/>
             </Grid>
         </Grid>
     </Border>

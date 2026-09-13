@@ -206,7 +206,12 @@ internal static class RetainedSelectionChecks
             var bitmap = new RenderTargetBitmap(1440, 900, 96, 96, PixelFormats.Pbgra32); bitmap.Render(content);
             var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
             using (var stream = File.Create(Path.Combine(output, $"retained-{channelName}-{language}.png"))) encoder.Save(stream);
-            C<Button>("UpdateButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            using (var reader = new FileStream(Path.Combine(game, ".pawpatch", "state.json"), FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                C<Button>("UpdateButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                await Task.Delay(400);
+                Check((bool)Field("_busy")! && StateText() == before, "Temporary state-file lock escaped the explicit update transaction.");
+            }
             var deadline = DateTimeOffset.UtcNow.AddSeconds(15);
             while ((bool)Field("_busy")! && DateTimeOffset.UtcNow < deadline) await Task.Delay(20);
             var state = installer.LoadState();

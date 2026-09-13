@@ -45,6 +45,17 @@ public partial class MainWindow
     private void ShowToast(Func<string> message, bool failure = false)
     {
         if (_notificationClosed) return;
+        // Repeated reports of one error renew its notice instead of stacking copies.
+        // Keep different messages and severities as independent notifications.
+        var text = message();
+        var duplicate = _archivedToasts.Append(_primaryToast).FirstOrDefault(notice => notice is { Closing: false }
+            && notice.View.Panel.Visibility == Visibility.Visible && notice.State.Failed == failure && notice.State.Message == text);
+        if (duplicate is not null)
+        {
+            duplicate.State.Show(message, failure, TimeSpan.FromSeconds(5), expireFailure: true);
+            RefreshToast();
+            return;
+        }
         var positions=ToastPositions();
         if(_primaryToast is {Closing:false} && ToastPanel.Visibility==Visibility.Visible&&_toast.Message is not null)
         {

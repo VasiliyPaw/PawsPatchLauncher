@@ -26,6 +26,7 @@ public static class Program
         var polishConfig = args.FirstOrDefault(arg => arg.StartsWith("--polish-config="))?["--polish-config=".Length..];
         var startupChecks = args.Contains("--startup-checks");
         var startupPreview = args.Contains("--startup-preview");
+        var updateExperienceChecks = args.Contains("--update-experience-checks");
         var modModeChecks = args.Contains("--mod-mode-checks");
         var refinementChecks = args.Contains("--refinement-checks");
         var teamChecks = args.Contains("--team-checks");
@@ -113,6 +114,7 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (updateExperienceChecks) { UpdateExperienceChecks.Run(language); app.Shutdown(); return; }
         if (retainedSelectionChecks) { RetainedSelectionChecks.Run(language, guideChannel, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (legacyModMigrationChecks) { LegacyModMigrationChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (connectionPreview) { ConnectionUiChecks.Preview(language); app.Run(); return; }

@@ -143,6 +143,8 @@ passed += await ConnectionTests.RunAsync(root);
 
 try
 {
+        passed += await AtomicStateWriteTests.RunAsync(root);
+        passed += await LauncherDownloadRecoveryTests.RunAsync(root);
         passed += await StartupCompatibilityTests.RunAsync(root);
         passed += await AccountTests.RunAsync(root);
         passed += await AccountModerationTests.RunAsync(root);

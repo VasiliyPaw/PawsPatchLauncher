@@ -86,7 +86,7 @@ public partial class MainWindow
         SetOperationCaption(message ?? (FeedBlocksActions ? _text["progress.checking"] : IdleStatus()));
         OperationText.Foreground = (Brush)FindResource(_feedback.Failed || message is null && (_feedFailure is not null || _installationFailure is not null || _fileCheckFailed)
             ? "DangerBrush" : "TextMainBrush");
-        var progressVisible = _busy && _feedback.Working || FeedBlocksActions && message is null;
+        var progressVisible = !_launcherRestarting && (_busy && _feedback.Working || FeedBlocksActions && message is null);
         // One compact title/measurement row stays fixed through every phase.
         // Detailed transfer statistics and cancellation are expanded on demand.
         OperationText.Height = progressVisible ? 18 : double.NaN;
@@ -123,7 +123,7 @@ public partial class MainWindow
             OperationFooterHost.Content = OperationStatusPanel;
         }
         OperationStatusPanel.Margin = home ? new Thickness(0,14,0,0) : new Thickness(0,0,0,10);
-        OperationStatusPanel.Visibility = home || _busy || _selectionRequiresUpdate || _presentedError is not null && (!_errorFromFeed || !_silentFeedFailure)
+        OperationStatusPanel.Visibility = !_launcherRestarting && (home || _busy || _selectionRequiresUpdate || _presentedError is not null && (!_errorFromFeed || !_silentFeedFailure))
             ? Visibility.Visible : Visibility.Collapsed;
     }
 }
