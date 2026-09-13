@@ -339,7 +339,7 @@ internal static class ModLibraryChecks
             Check(State().Modules["immortals"].Version == "2.1.0" && File.ReadAllText(Path.Combine(game, "data/shared.txt")) == "IMM",
                 "Offline restart could not restore the inactive installed Immortals version.");
             Check(!Flag(reopened, "_patchUpdateAvailable"), "Cached AW-only update leaked into Immortals after restart.");
-            Check(new ModLibrary(game).Load().Mods.Select(entry => entry.Mod).Distinct().Count() == 3, "Switching forgot an installed mode.");
+            Check(new ModLibrary(game).Load().Mods.Select(entry => entry.Mod).Distinct().Count() == 2, "Stored mod entries changed; unmodified Vanilla has no component release.");
             Check(await CryptoAndIO.Sha256Async(Path.Combine(game, "k2.exe")) == originalExe, "UI test altered the base executable.");
             Check((await new ModuleInstaller(game).VerifyAsync()).Count == 0, "Final active game files do not match their signed package payloads.");
             Check(blockedNetwork.Attempts == 0, "Fixture attempted an external network request.");

@@ -29,7 +29,7 @@ public static class GameMod
             || settings.Mod == Immortals && GameExecutableSelector.HasMenuRuntime(channel);
     public static string Name(string mod, bool russian = false) => mod switch
     {
-        Vanilla => russian ? "Ванилла" : "Vanilla",
+        Vanilla => "Vanilla",
         Immortals => "Immortals",
         _ => "Arcane Wars"
     };

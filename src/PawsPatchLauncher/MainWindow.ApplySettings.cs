@@ -68,7 +68,7 @@ public partial class MainWindow
             {
                 SetBusy(true);
                 await ApplyVanillaConfigurationAsync(_settings);
-                ShowResult(() => T("Ванилла готова к запуску.", "Vanilla ready to play."));
+                ShowResult(() => T("Vanilla готова к запуску.", "Vanilla ready to play."));
                 return;
             }
             var state = new ModuleInstaller(_game.Directory).LoadState();

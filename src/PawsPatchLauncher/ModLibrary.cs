@@ -44,14 +44,17 @@ public sealed class ModLibrary(string gameRoot)
     }
 
     public ModLibraryEntry? Find(string mod, string channel)
-        => Load().Mods.LastOrDefault(item => Key(item.Mod, item.Channel) == Key(mod, channel));
+        // 0.7.0 could adopt an empty Vanilla entry from an Arcane Wars-only
+        // catalog. It is the original game, not an installed component release.
+        => Load().Mods.LastOrDefault(item => Key(item.Mod, item.Channel) == Key(mod, channel) && item.Packages.Count > 0);
 
     public async Task RememberAsync(ChannelManifest channel, string mod)
     {
+        var packages = Packages(channel, mod);
+        if (packages.Count == 0) return;
         var library = Load();
         foreach (var language in library.Mods.SelectMany(m => m.Packages).Where(GameLanguages.IsLanguage))
             if (!library.Languages.Any(p => p.Id == language.Id)) library.Languages.Add(language);
-        var packages = Packages(channel, mod);
         var entry = new ModLibraryEntry { Mod = mod, Channel = channel.Channel,
             ReleaseId = ChannelFingerprint.Create(channel), ContentId = ContentId(channel, mod), Packages = packages };
         library.Mods.RemoveAll(item => Key(item.Mod, item.Channel) == Key(mod, channel.Channel));

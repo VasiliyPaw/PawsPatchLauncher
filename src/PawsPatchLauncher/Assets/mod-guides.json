@@ -27,7 +27,7 @@
         {
           "id": "base",
           "category": "always",
-          "titleRu": "Paw's Patch для ваниллы",
+          "titleRu": "Paw's Patch для Vanilla",
           "titleEn": "Paw's Patch for Vanilla",
           "bodyRu": "Набор исправлений для выбранного режима. Включается и выключается компонентом Paw's Patch. Выбор сохраняется отдельно от других модов. Баланс, войска, способности, размеры карт и правила режима сохраняются. Русский язык выбирается независимо от патча.",
           "bodyEn": "A set of fixes for the selected mode, controlled by its Paw's Patch component. The choice is remembered separately for each mod. Balance, units, abilities, map sizes and rules are preserved. Game language is independent of the patch."

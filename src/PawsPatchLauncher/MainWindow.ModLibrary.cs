@@ -30,7 +30,7 @@ public partial class MainWindow
                 List<PackageRelease> packages;
                 try { packages = ModLibrary.Packages(channel, mod); }
                 catch (InvalidDataException) { continue; }
-                if (packages.All(p => LocallyAvailable(installer, p))) await library.RememberAsync(channel, mod);
+                if (packages.Count > 0 && packages.All(p => LocallyAvailable(installer, p))) await library.RememberAsync(channel, mod);
             }
     }
 
@@ -51,7 +51,8 @@ public partial class MainWindow
             if (entry.ContentId != ModLibrary.ContentId(installed, entry.Mod) && entry.ContentId != ModLibrary.LegacyContentId(installed, entry.Mod))
                 throw new InvalidDataException("Installed mod metadata does not match its signed release.");
             var installer = new ModuleInstaller(_game.Directory);
-            _selectedModStored = ModLibrary.Packages(installed, _settings.Mod).All(p => LocallyAvailable(installer, p));
+            var storedPackages = ModLibrary.Packages(installed, _settings.Mod);
+            _selectedModStored = storedPackages.Count > 0 && storedPackages.All(p => LocallyAvailable(installer, p));
             if (_selectedModStored)
             {
                 _selectedInstalledRelease = installed;

@@ -860,7 +860,7 @@
                                 <Border x:Name="ModSelectorCard" Style="{StaticResource Card}" Padding="14" Margin="0,0,0,10" Visibility="Collapsed">
     <StackPanel>
         <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-    <RadioButton x:Name="VanillaModRadio" Grid.Column="0" GroupName="GameMod" Tag="vanilla" Content="Ванилла" Style="{StaticResource ModeRadio}" Padding="10,13" MinHeight="48" FontSize="16" FontWeight="SemiBold" Checked="Mod_Checked"/>
+    <RadioButton x:Name="VanillaModRadio" Grid.Column="0" GroupName="GameMod" Tag="vanilla" Content="Vanilla" Style="{StaticResource ModeRadio}" Padding="10,13" MinHeight="48" FontSize="16" FontWeight="SemiBold" Checked="Mod_Checked"/>
     <RadioButton x:Name="ImmortalsModRadio" Grid.Column="2" GroupName="GameMod" Tag="immortals" Content="Immortals" Style="{StaticResource ModeRadio}" Padding="10,13" MinHeight="48" FontSize="16" FontWeight="SemiBold" Checked="Mod_Checked"/>
 <Grid Grid.Column="4">
     <RadioButton x:Name="ArcaneWarsModRadio" GroupName="GameMod" Tag="arcane-wars" Content="Arcane Wars" Style="{StaticResource ModeRadio}" Padding="10,13,38,13" MinHeight="48" FontSize="16" FontWeight="SemiBold" Checked="Mod_Checked"/>

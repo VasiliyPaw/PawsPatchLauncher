@@ -81,6 +81,25 @@ internal static class ModLibraryTests
         Check(ModLibrary.Packages(channel, GameMod.ArcaneWars).Any(p => p.Id == "aw-siege-balance"), "disabled component was omitted");
         Check(!ModLibrary.Packages(channel, GameMod.Immortals).Any(p => p.Id.Contains("pawpatch")), "AW packages leaked into Immortals");
 
+        var legacy = new ChannelManifest { Packages = channel.Packages.Where(p => p.Id is "arcane-wars" or "startup-base" or "pawpatch-core").ToList() };
+        var legacyRoot = Path.Combine(root, "legacy-game");
+        var legacyLibrary = new ModLibrary(legacyRoot);
+        await legacyLibrary.RememberAsync(legacy, GameMod.Vanilla);
+        Check(legacyLibrary.Find(GameMod.Vanilla, "stable") is null && legacyLibrary.Load().Mods.Count == 0,
+            "AW-only catalog created an installed Vanilla release");
+        Directory.CreateDirectory(Path.Combine(legacyRoot, ".pawpatch"));
+        var emptyEntry = new ModLibraryEntry { Mod = GameMod.Vanilla, Channel = "stable", ReleaseId = ChannelFingerprint.Create(legacy),
+            ContentId = ModLibrary.ContentId(legacy, GameMod.Vanilla), Packages = [] };
+        await File.WriteAllTextAsync(Path.Combine(legacyRoot, ".pawpatch", "mod-library.json"),
+            JsonSerializer.Serialize(new ModLibraryDocument { Mods = [emptyEntry] }, LauncherJsonContext.Default.ModLibraryDocument));
+        Check(legacyLibrary.Find(GameMod.Vanilla, "stable") is null, "0.7.0 empty Vanilla entry survived migration");
+        await legacyLibrary.RememberAsync(channel, GameMod.Vanilla);
+        var repairedVanilla = legacyLibrary.Find(GameMod.Vanilla, "stable");
+        Check(repairedVanilla is not null && repairedVanilla.Packages.Any(p => p.Id == "pure-fixes-data"), "new Vanilla installation did not replace the empty entry");
+        await legacyLibrary.RememberAsync(legacy, GameMod.Vanilla);
+        Check(legacyLibrary.Find(GameMod.Vanilla, "stable")?.ReleaseId == repairedVanilla!.ReleaseId,
+            "an old catalog replaced the real Vanilla component release");
+
         // Remove every download source and cached ZIP. Only the installed local library remains.
         foreach (var file in Directory.GetFiles(sources)) File.Delete(file);
         foreach (var file in Directory.GetFiles(Path.Combine(cache, "downloads"), "*", SearchOption.AllDirectories)) File.Delete(file);

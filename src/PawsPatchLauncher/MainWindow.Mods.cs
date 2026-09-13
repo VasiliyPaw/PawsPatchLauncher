@@ -95,7 +95,7 @@ public partial class MainWindow
             var vanilla = GameMod.IsVanilla(_settings);
             var arcane = GameMod.IsArcaneWars(_settings);
             ModulesTitleText.Text = T("Моды и компоненты", "Mods and components");
-            VanillaModRadio.Content = T("Ванилла", "Vanilla");
+            VanillaModRadio.Content = GameMod.Name(GameMod.Vanilla);
             ImmortalsModRadio.Content = "Immortals";
             ImmortalsModRadio.ToolTip = null;
             ArcaneWarsModRadio.Content = "Arcane Wars";

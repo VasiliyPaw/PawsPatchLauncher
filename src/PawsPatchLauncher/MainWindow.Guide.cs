@@ -32,7 +32,7 @@ public partial class MainWindow
     {
         GuideTitleText.Text = T("Справка", "Guide");
         GuideGeneralTab.Content = T("Общее", "Overview");
-        GuideVanillaTab.Content = T("Ванилла", "Vanilla");
+        GuideVanillaTab.Content = GameMod.Name(GameMod.Vanilla);
         GuideModTab.Content = T("О моде", "About the mod");
         foreach (var button in new[] { GuideGeneralTab, GuideVanillaTab, GuideArcaneTab, GuideImmortalsTab })
             SetChangelogTabState(button, (string)button.Tag == _guideSubject);
@@ -51,7 +51,7 @@ public partial class MainWindow
         {
             AboutTitleText.Text = T("Kohan II, моды и Paw's Patch", "Kohan II, mods and Paw's Patch");
             AboutIntroText.Text = T(
-                "Во вкладке «Компоненты» выберите ваниллу, Arcane Wars или Immortals. Новый мод устанавливается один раз вместе со всеми его компонентами. Языковые пакеты скачиваются только для выбранных текста и озвучки. Сохранённые моды переключаются кнопкой «Применить настройки», в том числе без интернета. Пока настройки не применены, запуск игры недоступен. Для каждого режима доступен свой выключаемый Paw's Patch. Ванилла без него возвращает оригинальную игру с выбранным языком.",
+                "Во вкладке «Компоненты» выберите Vanilla, Arcane Wars или Immortals. Новый мод устанавливается один раз вместе со всеми его компонентами. Языковые пакеты скачиваются только для выбранных текста и озвучки. Сохранённые моды переключаются кнопкой «Применить настройки», в том числе без интернета. Пока настройки не применены, запуск игры недоступен. Для каждого режима доступен свой выключаемый Paw's Patch. Vanilla без него возвращает оригинальную игру с выбранным языком.",
                 "Choose Vanilla, Arcane Wars or Immortals in Components. A new mod is installed once with all its components. Language packages are downloaded only for the selected text and speech. Switch between stored mods with Apply settings, including offline. Launch is unavailable until your settings are applied. Each mode has its own optional Paw's Patch. Vanilla with the patch disabled restores the original game with your selected language.");
             AddGuideCard("language", T("Язык игры и лаунчера", "Game and launcher languages"), T(
                 "Текст и озвучка выбираются независимо в карточке модов и сохраняются при переключении режимов и каналов. English использует оригинальные английские ресурсы, «Русский» — русскую локализацию, дополненную переводами Immortals. Перевод не зависит от включения Paw's Patch. Загруженные языки сохраняются для повторного применения без интернета. Язык самого лаунчера выбирается отдельно в настройках.",
