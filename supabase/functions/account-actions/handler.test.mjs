@@ -58,6 +58,21 @@ test("wrong current password never marks or deletes",async()=>{
  assert.ok(!f.calls.some(c=>c.path.includes("mark_account")||c.path.includes("/admin/")));
  assert.equal(f.calls.find(c=>c.path.endsWith("finish_account_action")).body.succeeded,false);
 });
+
+test("banned self-deletion is denied before password verification or mutation",async()=>{
+ const f=fixture({"/rest/v1/rpc/paw_account_action_allowed":()=>Response.json("account_banned")});
+ assert.equal((await f.run({action:"delete",confirm:"DELETE_MY_ACCOUNT",current_password:"secret"})).status,"account_banned");
+ assert.ok(!f.calls.some(c=>c.path.endsWith("/token")||c.path.includes("mark_account")||c.path.includes("begin_launcher")));
+});
+
+test("ban arriving before deletion commit preserves account and reports restriction",async()=>{
+ let checks=0;
+ const f=fixture({"/rest/v1/rpc/paw_account_action_allowed":()=>Response.json(++checks===1?"ok":"account_banned"),
+  "/rest/v1/rpc/paw_mark_account_deleting":()=>Response.json(false)});
+ assert.equal((await f.run({action:"delete",confirm:"DELETE_MY_ACCOUNT",current_password:"secret"})).status,"account_banned");
+ assert.equal(f.calls.find(c=>c.path.endsWith("finish_account_action")).body.succeeded,false);
+ assert.ok(!f.calls.some(c=>c.path.includes("/admin/users/")||c.path.includes("/storage/")));
+});
 test("delete targets caller and preserves Auth/avatar for seven-day restoration",async()=>{
  const f=fixture();
  assert.equal((await f.run({action:"delete",player:other,confirm:"DELETE_MY_ACCOUNT",current_password:"secret"})).status,"ok");

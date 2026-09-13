@@ -56,11 +56,11 @@ internal static class SocialHubChecks
             Field<PawsPatchLauncher.Localization>(w,"_text").SetLanguage(language);Invoke(w,"ApplyLanguage");
             SocialChecks.Populate(w,"details");
             var friend=Field<IReadOnlyList<SocialPlayer>>(w,"_socialPlayers")[0];
-            var titles=new[]{"CoreTitleText","RussianTitleText","ColorsTitleText","OosTitleText","IndependentTitleText","RoamingSpawnTitleText","AdditionalRoamingTitleText","SiegeBalanceTitleText","PowersShardsTitleText"}.Select(n=>Control<TextBlock>(n).Text);
+            var titles=new[]{"CoreTitleText","ColorsTitleText","OosTitleText","IndependentTitleText","RoamingSpawnTitleText","AdditionalRoamingTitleText","SiegeBalanceTitleText","PowersShardsTitleText"}.Select(n=>n=="CoreTitleText" ? (Field<PawsPatchLauncher.Localization>(w,"_text").Language=="ru" ? "Павс патч" : "Paw's Patch") : Control<TextBlock>(n).Text);
             var displayed=Control<StackPanel>("SocialDetailsComponents").Children.OfType<Grid>().Select(g=>g.Children.OfType<TextBlock>().First().Text);
             Check(displayed.SequenceEqual(titles),"profile components names/order differ from tab");
             Field<PawsPatchLauncher.Localization>(w,"_text").SetLanguage(language=="ru"?"en":"ru");Invoke(w,"ApplyLanguage");
-            titles=new[]{"CoreTitleText","RussianTitleText","ColorsTitleText","OosTitleText","IndependentTitleText","RoamingSpawnTitleText","AdditionalRoamingTitleText","SiegeBalanceTitleText","PowersShardsTitleText"}.Select(n=>Control<TextBlock>(n).Text);
+            titles=new[]{"CoreTitleText","ColorsTitleText","OosTitleText","IndependentTitleText","RoamingSpawnTitleText","AdditionalRoamingTitleText","SiegeBalanceTitleText","PowersShardsTitleText"}.Select(n=>n=="CoreTitleText" ? (Field<PawsPatchLauncher.Localization>(w,"_text").Language=="ru" ? "Павс патч" : "Paw's Patch") : Control<TextBlock>(n).Text);
             displayed=Control<StackPanel>("SocialDetailsComponents").Children.OfType<Grid>().Select(g=>g.Children.OfType<TextBlock>().First().Text);
             Check(displayed.SequenceEqual(titles),"open profile kept previous language labels");
             Field<PawsPatchLauncher.Localization>(w,"_text").SetLanguage(language);Invoke(w,"ApplyLanguage");

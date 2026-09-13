@@ -73,9 +73,8 @@ public partial class MainWindow
         Motion.SetBackground(AccountAvatarBorder, (Brush)new BrushConverter().ConvertFrom(guest ? "#162A45" : "#594724")!);
         Motion.SetBorderBrush(AccountAvatarBorder, (Brush)FindResource(guest ? "TextMutedBrush" : "GoldBrush"));
         RenderAccountAvatar();
-        AccountRememberText.Text = AccountRememberCheck.IsChecked == true
-            ? T("Вход сохранится на этом компьютере. При следующем запуске пароль вводить не нужно.", "Stay signed in on this computer. No password is needed on the next launch.")
-            : T("Вход только на этот запуск. После закрытия лаунчера нужно будет войти снова.", "Sign in for this launch only. You will need to sign in again after closing the launcher.");
+        AccountRememberText.Text = "";
+        AccountRememberText.Visibility = Visibility.Collapsed;
         AccountRememberCheck.IsEnabled = AccountForgotButton.IsEnabled = !_accountBusy;
         AccountForgotButton.Visibility = !_accountRegister ? Visibility.Visible : Visibility.Collapsed;
         AccountCopyUsernameButton.SetContext(_account.UserId+"|"+_account.Nickname);
@@ -84,7 +83,7 @@ public partial class MainWindow
         AccountEditDisplayNameButton.IsEnabled = AccountEditNicknameButton.IsEnabled = AccountEditEmailButton.IsEnabled = AccountEditPasswordButton.IsEnabled = online && !_accountBusy && !_account.Restricted;
         AccountEditorCard.Visibility = !guest && _accountEditor.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
         AccountSignedInCard.Visibility = !guest && _accountEditor.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
-        AccountEditorFieldsPanel.IsEnabled = online && !_accountBusy && (!_account.Restricted||_accountEditor=="delete");
+        AccountEditorFieldsPanel.IsEnabled = online && !_accountBusy && (_accountEditor=="delete" ? _account.CanDeleteAccount : !_account.Restricted);
         AccountEditorCancelButton.IsEnabled = !_accountBusy;
         AccountEditValuePanel.Visibility = _accountEditor is "password" or "delete" ? Visibility.Collapsed : Visibility.Visible;
         AccountCurrentPasswordPanel.Visibility = _accountEditor is "nickname" or "display" ? Visibility.Collapsed : Visibility.Visible;
@@ -123,7 +122,7 @@ public partial class MainWindow
         AccountCooldownText.Text = remaining > 0
             ? T("Следующая смена через ", "Next change in ") + $"{remaining/3600:00}:{remaining/60%60:00}:{remaining%60:00}"
             : T("Изменение доступно. У имени, username, почты и пароля отдельные таймеры.", "Change available. Display name, username, email and password have separate timers.");
-        AccountEditorSubmitButton.IsEnabled = !_accountBusy && _account.State == AccountState.SignedIn && remaining == 0 && (_accountEditor != "nickname" || AccountService.NormalizeUsername(AccountEditValueInput.Text) != _account.Nickname);
+        AccountEditorSubmitButton.IsEnabled = !_accountBusy && _account.State == AccountState.SignedIn && remaining == 0 && (_accountEditor=="delete" ? _account.CanDeleteAccount : !_account.Restricted) && (_accountEditor != "nickname" || AccountService.NormalizeUsername(AccountEditValueInput.Text) != _account.Nickname);
         var resendSeconds = Math.Max(0, (int)Math.Ceiling((_recoveryRequestAfter - DateTimeOffset.UtcNow).TotalSeconds));
         AccountRecoverySubmitButton.IsEnabled = !_accountBusy && (_accountRecoverySent ? RecoveryCode.IsComplete(AccountRecoveryProofInput.Text) : resendSeconds == 0);
         AccountRecoveryResendButton.IsEnabled = !_accountBusy && resendSeconds == 0;
@@ -137,6 +136,7 @@ public partial class MainWindow
     private void ShowAccountEditor(string mode)
     {
         if (_accountBusy || ConfirmationActive || _account.State != AccountState.SignedIn || mode is not ("display" or "nickname" or "email" or "password" or "delete")) return;
+        if (mode=="delete" ? !_account.CanDeleteAccount : _account.Restricted) return;
         _accountEditor = mode; _accountMessage = ""; ClearAccountPasswords();
         AccountEditValueInput.Text = mode == "display"?_account.DisplayName:mode == "nickname" ? _account.Nickname : "";
         RenderAccount(); Motion.Reveal(AccountEditorCard); AccountEditorCard.BringIntoView();
@@ -150,6 +150,7 @@ public partial class MainWindow
     private async Task SubmitAccountEditorAsync()
     {
         if (_accountBusy || _accountEditor.Length == 0) return;
+        if (_accountEditor=="delete" && !_account.CanDeleteAccount) { ClearAccountPasswords(); _accountEditor=""; RenderAccount(); return; }
         var mode = _accountEditor; var value = AccountEditValueInput.Text;
         var current = AccountCurrentPasswordInput.Password; var password = AccountNewPasswordInput.Password; var repeat = AccountNewRepeatInput.Password;
         if (mode == "delete")

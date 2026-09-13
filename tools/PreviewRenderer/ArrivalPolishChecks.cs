@@ -9,7 +9,7 @@ namespace PreviewRenderer;
 
 internal static class ArrivalPolishChecks
 {
-    internal static void Run(string language)
+    internal static void Run(string language, bool chatOnly = false)
     {
         if(!ActivityStore.IsSmokeTest)throw new InvalidOperationException("Smoke fixtures only.");
         var w=new MainWindow {Left=-32000,Top=-32000,Width=1050,Height=680,ShowActivated=false,ShowInTaskbar=false,WindowStartupLocation=WindowStartupLocation.Manual};
@@ -33,6 +33,8 @@ internal static class ArrivalPolishChecks
             Check(snapshot.Observe("chat-b",[],true).Count==0,"removal counted as arrival");
             Check(snapshot.Observe("chat-b",[6],true).SetEquals([6]),"first message in empty chat lost");
             SocialChecks.Populate(w,"chat");w.Show();await Layout();await Task.Delay(250);
+            if (!chatOnly)
+            {
             var main=Control<Grid>("MainBody");var logo=Control<Image>("BrandMark");
             foreach(var width in new[]{1050d,1440d})
             {
@@ -41,9 +43,9 @@ internal static class ArrivalPolishChecks
                 {
                     Invoke("SetActivePage",page);await Layout();
                     var split=page is "home" or "friends";
-                    Check(main.ColumnDefinitions[0].Width.Value==228&&logo.Width==108&&logo.Height==108,"sidebar/logo changed");
+                    Check(main.ColumnDefinitions[0].Width.Value==228&&logo.Width==76&&logo.Height==76,"compact sidebar/logo changed");
                     Check(Control<Border>("ChangelogCard").Visibility==(page=="home"?Visibility.Visible:Visibility.Collapsed),"history visible off Home: "+page);
-                    Check(Grid.GetColumnSpan(Control<ScrollViewer>("MainOptionsScroll"))==(split?1:3),"content did not reclaim width: "+page);
+                    Check(Grid.GetColumnSpan(Control<Grid>("MainOptionsHost"))==(split?1:3),"content did not reclaim width: "+page);
                     if(!split)Check(Control<ScrollViewer>("MainOptionsScroll").ActualWidth>=Control<Grid>("WorkspaceBody").ActualWidth-1,"empty right column: "+page);
                 }
             }
@@ -56,6 +58,7 @@ internal static class ArrivalPolishChecks
             Check(!Control<Border>("OperationStatusPanel").IsVisible,"idle footer wastes height");
             Invoke("SetActivePage","home");await Layout();
             Check(Control<Border>("OperationStatusPanel").Parent==Control<Grid>("ChangelogContentGrid"),"Home status not restored");
+            }
 
             Invoke("SetActivePage","friends");await Layout();await Task.Delay(250);
             var messages=Control<StackPanel>("FriendsMessagesPanel");
@@ -82,19 +85,21 @@ internal static class ArrivalPolishChecks
             Set("_socialLoadedChat",null);Set("_socialMessages",Array.Empty<SocialMessage>());Invoke("RenderSocialMessages");
             Set("_socialLoadedChat",owner+"|"+peer);Invoke("RenderSocialMessages");
             Set("_socialMessages",new[]{added});Invoke("RenderSocialMessages");await Layout();
-            Check(ArrivalMotion.IsRunning((FrameworkElement)messages.Children[0])==SystemParameters.ClientAreaAnimation,"first live message in empty chat stayed quiet");
+            Check(ArrivalMotion.IsRunning(messages.Children.OfType<FrameworkElement>().First(r=>r.Tag is Guid))==SystemParameters.ClientAreaAnimation,"first live message in empty chat stayed quiet");
             await Task.Delay(280);
+            if (chatOnly) { Console.WriteLine($"CHAT MESSAGE ARRIVALS PASS {checks} {language}: first message, quiet history, live arrival, ACK, language refresh"); return; }
             Invoke("SwitchSocialSection","requests");await Layout();await Task.Delay(220);
-            var rows=Control<StackPanel>("FriendsRowsPanel");
+            var rows=Control<StackPanel>("FriendsDialogRows");
             var player=new SocialPlayer(Guid.NewGuid(),"new_request","incoming");
             var players=Field<IReadOnlyList<SocialPlayer>>("_socialPlayers");
             Set("_socialPlayers",players.Append(player).ToArray());Invoke("RenderSocialRows");Invoke("RenderSocialNotifications");await Layout();
-            var request=(FrameworkElement)rows.Children[^1];
+            var request=rows.Children.OfType<FrameworkElement>().Single(r => Equals(r.Tag, player.Id));
             Check(ArrivalMotion.IsRunning(request)==SystemParameters.ClientAreaAnimation,"new request missing entrance");
             Check(!ArrivalMotion.IsRunning((FrameworkElement)rows.Children[0]),"old request reanimated");
             Check(ArrivalMotion.IsRunning(Control<Border>("FriendsRequestsBadge"))==SystemParameters.ClientAreaAnimation,"request badge did not pulse");
             await Task.Delay(400);Invoke("RenderSocialNotifications");Invoke("RenderSocialRows");await Layout();
             Check(!ArrivalMotion.IsRunning(Control<Border>("FriendsRequestsBadge"))&&!ArrivalMotion.IsRunning(request),"identical counters replayed pulse");
+            await (Task)Invoke("CloseFriendsDialogAsync")!;
             Invoke("SetActivePage","home");await Layout();await Task.Delay(220);
             Check(!ArrivalMotion.IsRunning(Control<Border>("FriendsNavBadge")),"navigation pulse without arrival");
             Set("_socialPlayers",players.Append(player).Append(new SocialPlayer(Guid.NewGuid(),"another","incoming")).ToArray());
@@ -110,7 +115,7 @@ internal static class ArrivalPolishChecks
             var faded=new Border {Width=20,Height=20,Opacity=.55};rows.Children.Add(faded);
             Invoke("SetActivePage","friends");await Layout();ArrivalMotion.Enter(faded);await Task.Delay(280);
             Check(Math.Abs(faded.Opacity-.55)<.001,"sending opacity lost");
-            Console.WriteLine($"ARRIVAL POLISH PASS {checks} {language}: Home-only history/full-width pages; sidebar preserved; progress retained; arrivals/empty-history/ACKs/quiet polls; one-shot counters and cleanup; Windows animations={SystemParameters.ClientAreaAnimation}");
+            Console.WriteLine($"{(chatOnly ? "CHAT ARRIVALS" : "ARRIVAL POLISH")} PASS {checks} {language}: arrivals/empty-history/ACKs/quiet polls; one-shot counters and cleanup; Windows animations={SystemParameters.ClientAreaAnimation}");
         }
         try
         {

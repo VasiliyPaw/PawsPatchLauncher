@@ -1,0 +1,42 @@
+# AUTOEXEC.TXT (runs before application is initialized)
+#
+# Use this file to initialize the depots and other application initialization settings.
+# Most systems are not initialized at this point so most steps don't work.  
+# Vars set in this file will be clobbered by the TGIs and command line.
+
+#log 99
+
+# EngineData reference for running from the debugger
+adddepot ../RTSE/EngineData/
+
+# EngineData reference for running from data copied from the build folders (with the EXEs)
+adddepot EngineData/
+
+# Game-specific data in WAD and folder
+adddepot Data.rwd
+adddepot data/ 
+
+
+# Music in WAD and folder
+adddepot Music.rwd
+adddepot music/
+
+
+# Work Depot: "My Documents/Kohan2/Data"
+adddepot %USERDATA%/data/ 1
+adddepot Userdata/ 1
+
+# addautorunpath exists only to tell the localization system
+# where to find the autorun strings.
+addautorunpath ../Tools/Autorun/
+
+# addinstallerpath exists only to tell the localization system
+# where to find the installer strings.
+addinstallerpath ../Tools/Installer/
+
+# addpatcherpath exists only to tell the localization system
+# where to find the patcher strings.
+addpatcherpath ../Tools/Patcher/
+
+# this is an example of how to add a localized depot.
+# addlocaledepot localized/JA/data/

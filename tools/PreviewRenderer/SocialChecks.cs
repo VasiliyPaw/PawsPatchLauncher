@@ -40,7 +40,7 @@ internal static class SocialChecks
             var text=(PawsPatchLauncher.Localization)typeof(MainWindow).GetField("_text",Flags)!.GetValue(w)!;text.SetLanguage(language);Invoke(w,"ApplyLanguage");
             Populate(w,"chat");
             Check(Control<Border>("FriendsChatCard").Visibility==Visibility.Visible,"chat hidden");
-            Check(Control<StackPanel>("FriendsMessagesPanel").Children.Count==3,"confirmed and pending messages inline");
+            Check(Control<StackPanel>("FriendsMessagesPanel").Children.OfType<FrameworkElement>().Count(r=>r.Tag is Guid)==3,"confirmed and pending messages inline");
             Check(Control<StackPanel>("FriendsOutboxPanel").Children.Count==0,"separate queue UI remains");
             Check(Control<StackPanel>("FriendsRowsPanel").Children.Count==1,"chats must contain only friends");
             var row = Control<StackPanel>("FriendsRowsPanel").Children[0];
@@ -53,7 +53,7 @@ internal static class SocialChecks
             Invoke(w,"SetActivePage","home");
             Check(Control<Border>("FriendsNavBadge").Visibility==Visibility.Visible && Control<TextBlock>("FriendsNavBadgeText").Text=="3","background notification count");
             Invoke(w,"SetActivePage","friends");
-            Control<TextBox>("FriendsMessageInput").Text="draft across tabs";
+            Control<ChatComposer>("FriendsMessageInput").Text="draft across tabs";
             Invoke(w,"SwitchSocialSection","requests");
             Check(Control<StackPanel>("FriendsDialogRows").Children.Count==1,"incoming request row isolated");
             Check(Control<StackPanel>("FriendsRequestTabs").Visibility==Visibility.Visible,"request sub-tabs missing");
@@ -63,12 +63,12 @@ internal static class SocialChecks
             Invoke(w,"SwitchSocialRequests","incoming");
             Check(Control<Border>("FriendsChatCard").Visibility==Visibility.Visible,"requests hides background chat");
             Invoke(w,"SwitchSocialSection","chats");
-            Check(Control<TextBox>("FriendsMessageInput").Text=="draft across tabs","tabs cleared chat draft");
+            Check(Control<ChatComposer>("FriendsMessageInput").Text=="draft across tabs","tabs cleared chat draft");
             Check(Control<Border>("FriendsChatCard").Visibility==Visibility.Visible,"return to selected chat");
             Invoke(w,"FriendsShowAdd_Click",Control<Button>("FriendsShowAddButton"),new RoutedEventArgs());
             Check(Control<Border>("FriendsAddPanel").Visibility==Visibility.Visible,"add form did not open");
             Check(Control<System.Windows.Documents.Run>("FriendsChatName").Text.Contains("Huheru"),"peer title");
-            Check(Control<TextBox>("FriendsMessageInput").MaxLength==2000,"input bound");
+            Check(Control<ChatComposer>("FriendsMessageInput").MaxLength==2000,"input bound");
             Check(w.FindName("AccountCancelButton") is null,"back-to-friends control remains");
             Check(Control<Button>("AccountDeleteButton").Background.ToString()=="#FF653A38","delete not red");
             var visibilityPolicy=typeof(MainWindow).GetMethod("SocialViewCanRead",BindingFlags.NonPublic|BindingFlags.Static)!;
@@ -94,14 +94,14 @@ internal static class SocialChecks
                 }
             }
             // Leave a private draft, then switch identity to guest. All private view state must vanish.
-            Control<TextBox>("FriendsMessageInput").Text="private draft";
+            Control<ChatComposer>("FriendsMessageInput").Text="private draft";
             var old=(AccountService)typeof(MainWindow).GetField("_account",Flags)!.GetValue(w)!;
             Set(w,"_account",new AccountService(new AccountSessionStore(Path.Combine(ActivityStore.Root,"guest-fixture-"+Guid.NewGuid()))));old.Dispose();
             Invoke(w,"RenderAccount");
             Check(Control<Border>("FriendsChatCard").Visibility==Visibility.Collapsed,"guest chat visible");
             Check(Control<StackPanel>("FriendsMessagesPanel").Children.Count==0,"guest retained messages");
             Check(Control<StackPanel>("FriendsOutboxPanel").Children.Count==0,"guest retained queue");
-            Check(Control<TextBox>("FriendsMessageInput").Text=="","guest retained draft");
+            Check(Control<ChatComposer>("FriendsMessageInput").Text=="","guest retained draft");
             Invoke(w,"SetActivePage","home");
             Check(Control<Border>("FriendsNavBadge").Visibility==Visibility.Collapsed,"guest retained notification");
             Check(Control<Border>("FriendsRequestsBadge").Visibility==Visibility.Collapsed,"guest retained tab counts");

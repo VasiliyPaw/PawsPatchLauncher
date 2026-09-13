@@ -6,12 +6,14 @@ public partial class MainWindow
     private bool ConfigurationMatches(string? code)
     {
         if(string.IsNullOrEmpty(code))return false;
-        try{code=ConfigurationCode.Create(ConfigurationCode.Parse(code));}catch{return false;}
-        return code==ConfigurationCode.Create(LocalAppliedConfiguration());
+        try { return FriendConfiguration.Matches(ConfigurationCode.Parse(code),LocalAppliedConfiguration()); }
+        catch { return false; }
     }
     private bool CanAcceptOffer(SocialOffer offer)=>!_busy&&!ConfirmationActive&&!_account.Restricted
         && _socialPlayers.FirstOrDefault(p=>p.Id==offer.Sender)?.Available!=false
-        && (offer.Kind!="config"||!IsGameRunning()&&!ConfigurationMatches(offer.Configuration));
+        && (offer.Kind!="config"||!IsGameRunning()&&!ConfigurationMatches(offer.Configuration)
+            && _socialPlayers.FirstOrDefault(p=>p.Id==offer.Sender) is { } sender
+            && FriendVersionStatus(sender with { Configuration=offer.Configuration,Channel=offer.Channel })==PeerVersionStatus.Current);
     private async Task CancelSocialOfferAsync(SocialOffer offer)
     {
         if(_busy||ConfirmationActive||offer.Sender.ToString()!=_account.UserId)return;

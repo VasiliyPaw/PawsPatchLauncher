@@ -1,0 +1,45 @@
+{
+  "literals": {
+    "Beast Trainer Death": "Смерть укротителя зверей",
+    "Reduced Heal Rate": "Замедленное восстановление здоровья",
+    "Diseased Strikes": "Болезнетворные удары",
+    "Infecting Strikes": "Заражающие удары",
+    "beast trainer": "Укротитель зверей",
+    "Beast Trainer Captain Unit": "Капитан — укротитель зверей",
+    "elementalist": "Повелитель стихий",
+    "Elemantalist Capain Unit": "Капитан — повелитель стихий",
+    "savage": "Дикарь",
+    "mechanic": "Механик",
+    "Observer": "Наблюдатель",
+    "treeman": "Древень",
+    "Catapult Fire": "Выстрел катапульты",
+    "Operator": "Оператор",
+    "Imp": "Бес",
+    "Beast Trainer": "Укротитель зверей",
+    "Elementalist": "Повелитель стихий",
+    "Apparition's Cloak": "Покров призрака",
+    "Apparition": "Призрак"
+  },
+  "missing": {
+    "beast_trainer_AbilityDefinition_name": {
+      "en": "Melee Attack",
+      "ru": "Атака ближнего боя"
+    },
+    "company_siege_Slot_name_3": {
+      "en": "Captain",
+      "ru": "Капитан"
+    },
+    "horde_siege_Slot_name_3": {
+      "en": "Captain",
+      "ru": "Капитан"
+    },
+    "sound_spells_k2_sandstorm_name": {
+      "en": "Sandstorm",
+      "ru": "Песчаная буря"
+    }
+  },
+  "help": {
+    "ru": "Текст и озвучку можно выбрать отдельно: English или Русский. Оба выбора сохраняются при переключении модов и применяются вместе с настройками. Скачиваются только выбранные языки; уже загруженные файлы используются повторно, пока не выйдет их обновление.\n\nРусский текст включает оригинальную игру, Arcane Wars, Paw's Patch и добавленные названия и подписи Immortals. Язык лаунчера настраивается отдельно. Локализация не меняет игровые характеристики.",
+    "en": "Choose text and speech separately: English or Русский. Both choices persist across mods and are applied with your settings. Only selected languages are downloaded; cached files are reused until an update is available.\n\nRussian text covers the original game, Arcane Wars, Paw's Patch and added Immortals names and labels. Launcher language is configured separately. Localization does not change gameplay statistics."
+  }
+}

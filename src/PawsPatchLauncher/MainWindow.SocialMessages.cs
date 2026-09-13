@@ -15,14 +15,17 @@ public partial class MainWindow
     }
     private void RenderSocialMessages()
     {
+        RenderChatLoadState();
         RenderHistoryControls();
         RefreshOfferActions();
-        var context = _account.UserId + "|" + _text.Language + "|" + _socialSection + "|" + _socialPeer + "|" + _socialAvatarGeneration + "|" + _account.AvatarChangedAt + "|" +_account.AdminLevel+"|"+ string.Join(";", _socialPlayers.Select(p => p.Id + ":" + p.Nickname + ":" + p.Name + ":" + p.Relation+":"+p.AdminLevel+":"+p.Banned+":"+p.Deleted));
+        var unreadBoundary = ChatUnreadBoundary();
+        var context = _account.UserId + "|" + _text.Language + "|" + _socialSection + "|" + _socialPeer + "|" + _socialAvatarGeneration + "|" + _account.AvatarChangedAt + "|" +_account.AdminLevel+":"+_account.PawsTeam+"|"+ string.Join(";", _socialPlayers.Select(p => p.Id + ":" + p.Nickname + ":" + p.Name + ":" + p.Relation+":"+p.AdminLevel+":"+p.PawsTeam+":"+p.Banned+":"+p.Deleted));
         context += "|" + string.Join(";",_socialOffers.Where(o=>o.Sender==_socialPeer||o.Recipient==_socialPeer).OrderBy(o=>o.Id).Select(o=>o.Id+":"+o.State));
         context += "|" + string.Join(";",_sendingOffers.Values.Select(o=>o.Id+":"+o.State));
         context += "|" + _account.DisplayName;
         context += "|" + _socialLoadedChat;
         context += "|" + _historyViewStart + "|" + _historyRevision;
+        context += "|" + _chatUnreadDivider.Revision + "|" + unreadBoundary;
         if (_socialRenderedContext == context && _socialRenderedMessages.SequenceEqual(_socialMessages) && _socialRenderedPending.SequenceEqual(_socialPending)) return;
         _socialRenderedContext = context; _socialRenderedMessages = _socialMessages; _socialRenderedPending = _socialPending;
         var arrivalVersion=++_messageArrivalVersion;
@@ -33,7 +36,7 @@ public partial class MainWindow
         FriendsChatUsername.Text=chatFriend is null?"":PlayerUsername(chatFriend);
         foreach(var badge in FriendsChatTitle.Inlines.OfType<System.Windows.Documents.InlineUIContainer>().ToArray())FriendsChatTitle.Inlines.Remove(badge);
         FriendsChatMark.Text=chatFriend?.Banned==true?PlayerMarker(chatFriend):"";
-        if(chatFriend is {AdminLevel:>0,Deleted:false})FriendsChatTitle.Inlines.Add(new System.Windows.Documents.InlineUIContainer(AdministratorBadge(chatFriend.AdminLevel)));
+        if(chatFriend is {Deleted:false} && PlayerRoleBadge(chatFriend.AdminLevel,chatFriend.PawsTeam) is { } chatBadge)FriendsChatTitle.Inlines.Add(new System.Windows.Documents.InlineUIContainer(chatBadge));
         FriendsChatMark.Foreground=SocialBrush(chatFriend?.Banned==true?"#FFB1A8":"#F2C867");
         FriendsChatMark.ToolTip=chatFriend?.Banned==true?BanDescription(chatFriend.BannedAt,chatFriend.BanUntil,chatFriend.BanReason):T("Роль подтверждена сервером","Server-verified role");
         FriendsChatTitle.ToolTip=chatFriend is null?null:chatFriend.Name+" · @"+chatFriend.Nickname;
@@ -57,8 +60,13 @@ public partial class MainWindow
         var arrived=_messageArrivals.Observe(scope, timeline.Select(e=>(e.message?.SenderId??e.pending!.Owner,e.message?.MessageId??e.pending!.Id)),_socialLoadedChat==scope);
         if(_historyNavigating)arrived.Clear();
         var entrances=new List<FrameworkElement>();
+        DateTime? previousDay = null;
         foreach (var entry in timeline)
         {
+            var day = entry.time.LocalDateTime.Date;
+            if (day != previousDay) { FriendsMessagesPanel.Children.Add(ChatDivider(ChatDay(day), false)); previousDay = day; }
+            if (entry.message?.MessageId == unreadBoundary && unreadBoundary is not null)
+                FriendsMessagesPanel.Children.Add(ChatDivider(T("НОВОЕ", "NEW"), true));
             var isNew=arrived.Contains((entry.message?.SenderId??entry.pending!.Owner,entry.message?.MessageId??entry.pending!.Id));
             if(entry.message is SocialMessage message && (_sendingOffers.GetValueOrDefault(message.MessageId) ?? _socialOffers.FirstOrDefault(o=>o.Id==message.MessageId&&o.Sender==message.SenderId)) is SocialOffer offer)
             { var card=RenderOfferCard(offer); card.Tag=message.MessageId; FriendsMessagesPanel.Children.Add(card); if(isNew)entrances.Add(card); continue; }
@@ -79,10 +87,12 @@ public partial class MainWindow
                 bubble.HorizontalAlignment=own?HorizontalAlignment.Right:HorizontalAlignment.Left;
             var author=_socialPlayers.FirstOrDefault(p=>p.Id==sender);
             var header=new TextBlock { Text = (own ? T("Вы", "You") : author is not null ? PlayerDisplayName(author)+(author.Deleted?"":" · "+PlayerUsername(author)) : T("Игрок", "Player")) + " · " + ChatTime(entry.time), ToolTip=ChatDate(entry.time), FontSize = 11, Foreground = SocialBrush("#B4C8DC"),VerticalAlignment=VerticalAlignment.Center };
-            var level=own?_account.AdminLevel:author?.AdminLevel??0;if(level>0&&author?.Deleted!=true)header.Inlines.Add(new System.Windows.Documents.InlineUIContainer(AdministratorBadge(level)));
+            var level=own?_account.AdminLevel:author?.AdminLevel??0;var team=own?_account.PawsTeam:author?.PawsTeam==true;if(author?.Deleted!=true&&PlayerRoleBadge(level,team) is { } roleBadge)header.Inlines.Add(new System.Windows.Documents.InlineUIContainer(roleBadge) { BaselineAlignment = BaselineAlignment.Center });
             content.Children.Add(header);
             content.Children.Add(new TextBlock { Tag="message-body",Text = entry.message is {Kind:"offer"}&&author?.Deleted==true?T("Предложение недоступно: аккаунт удалён.","Offer unavailable: account deleted."):entry.message?.Body ?? pending!.Body, TextWrapping = TextWrapping.Wrap, FontSize = 14,
                 Foreground = SocialBrush(pending is not null && !failed ? "#8195AD" : "#F4F1E7"), Margin = new Thickness(0, 4, 0, 0) });
+            var messageBody=content.Children.OfType<TextBlock>().Last();
+            ChatGlyphs.Render(messageBody,messageBody.Text,_text.Language=="ru");
             if(pending is null)AddChatMedia(content,entry.message!.Body);
             if (pending is not null)
             {

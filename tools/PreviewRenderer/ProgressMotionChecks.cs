@@ -53,7 +53,8 @@ internal static class ProgressMotionChecks
                 var current=Begin("new transfer");current.Report((20,1000));await Flush();
                 Check(Target()==2&&bar.Value<=2,"queued old transfer contaminated new progress");
                 Call("FinishTransfer");pending.Report((1000,1000));current.Report((1000,1000));await Flush();
-                Check(Target()==2&&!bar.HasAnimatedProperties&&details.Visibility==Visibility.Collapsed,"completion/cancel allowed late progress");
+                Check(Target()==2&&!bar.HasAnimatedProperties&&details.Visibility==Visibility.Visible
+                    &&!details.Text.Contains("/s")&&!details.Text.Contains("/с"),"verification retained stale speed or allowed late progress");
                 Call("SetBusy",false,null);await Flush();
                 Check(bar.Visibility==Visibility.Collapsed&&bar.Value==0&&!bar.HasAnimatedProperties,"idle status retained progress clock");
             }

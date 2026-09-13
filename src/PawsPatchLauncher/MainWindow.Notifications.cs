@@ -58,7 +58,7 @@ public partial class MainWindow
         while(_archivedToasts.Count>49)
         { var oldest=_archivedToasts[0];StopToast(oldest);_archivedToasts.RemoveAt(0);ToastStack.Children.Remove(oldest.View.Panel); }
         positions.Remove(ToastPanel);
-        _toast.Show(message, failure, TimeSpan.FromSeconds(failure ? 8 : 3), expireFailure: true);
+        _toast.Show(message, failure, TimeSpan.FromSeconds(5), expireFailure: true);
         RefreshToast();
         ToastHost.ScrollToEnd();ReflowToasts(positions);_toastLayoutRevision++;
     }

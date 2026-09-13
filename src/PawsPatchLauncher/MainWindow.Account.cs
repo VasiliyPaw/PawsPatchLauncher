@@ -22,6 +22,7 @@ public partial class MainWindow
     private void InitializeAccountUi()
     {
         _account = new AccountService(new AccountSessionStore(ActivityStore.Root));
+        InitializeConnectionUi();
         InitializeSocialUi();
         InitializePasswordReveal();
         _accountTimer.Interval = TimeSpan.FromSeconds(10);
@@ -35,7 +36,7 @@ public partial class MainWindow
         {
             // Smoke/preview fixtures never read a real session or send Auth requests.
             if (ActivityStore.IsSmokeTest) return;
-            await RestoreAccountAsync(background: false);
+            await RestoreStartupAccountAsync();
             if (!_accountLifetime.IsCancellationRequested) _accountTimer.Start();
         };
         _accountCooldownTimer.Interval = TimeSpan.FromSeconds(1);
@@ -100,9 +101,8 @@ public partial class MainWindow
 
     private void RenderAccount()
     {
+        RenderConnectionUi();
         var guest = _account.State == AccountState.Guest;
-        FriendsGuestPanel.Visibility = guest ? Visibility.Visible : Visibility.Collapsed;
-        FriendsSignedInPanel.Visibility = guest ? Visibility.Collapsed : Visibility.Visible;
         AccountFormCard.Visibility = guest && !_accountRecoveryOpen && !_accountConfirmation ? Visibility.Visible : Visibility.Collapsed;
         SetNavState(AccountShowLoginButton, !_accountRegister);
         SetNavState(AccountShowRegisterButton, _accountRegister);
@@ -110,9 +110,8 @@ public partial class MainWindow
         AccountNicknamePanel.Visibility = AccountRepeatPanel.Visibility = _accountRegister ? Visibility.Visible : Visibility.Collapsed;
         AccountEmailLabel.Text = _accountRegister?T("Почта", "Email"):T("Почта или username","Email or username");
         AccountFormTitleText.Text = _accountRegister ? T("Регистрация", "Register") : T("Вход в аккаунт", "Sign in");
-        AccountFormHintText.Text = _accountRegister
-            ? T("Имя может повторяться. Пароль — от 6 символов.", "Display names can repeat. Password: at least 6 characters.")
-            : T("Введите почту или username и пароль.", "Enter your email or username and password.");
+        AccountFormHintText.Text = "";
+        AccountFormHintText.Visibility = Visibility.Collapsed;
         AccountSubmitButton.Content = _accountRegister ? T("Создать аккаунт", "Create account") : T("Войти", "Sign in");
         AccountProfileNameText.Text = string.IsNullOrWhiteSpace(_account.DisplayName) ? T("Игрок", "Player") : _account.DisplayName;
         AccountProfileEmailText.Text = _account.Email;
@@ -130,11 +129,14 @@ public partial class MainWindow
         RenderEmailConfirmation();
         RenderSocialIdentity();
         RenderModerationState();
+        var access = CanSelectArcaneWars;
+        if (_renderedTeamAccess != access || _renderedLiveTeamAccess != LiveArcaneAccess)
+        { _renderedTeamAccess = access; _renderedLiveTeamAccess = LiveArcaneAccess; RefreshStatus(); }
     }
 
     private async Task AccountOperationAsync(Func<Task> action, bool background = false)
     {
-        if (_accountBusy || ConfirmationActive || _accountLifetime.IsCancellationRequested) return;
+        if (_accountBusy || ConfirmationActive || _accountLifetime.IsCancellationRequested || !background && AccountConnectionBlocked) return;
         var owner = _account.UserId;
         var entered = false;
         if (!background) { _accountBusy = true; _accountMessage = ""; RenderAccount(); }
@@ -156,6 +158,7 @@ public partial class MainWindow
             if (!_accountLifetime.IsCancellationRequested)
             {
                 RenderAccount();
+                if (entered) LoadInitialFriendsAfterAccount();
                 if (!background && _accountMessage.Length > 0)
                 {
                     var code = _accountMessage;

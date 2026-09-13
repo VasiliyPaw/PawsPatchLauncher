@@ -24,7 +24,7 @@ internal static class ChatPresentationChecks
         async Task Scenario()
         {
             Field<PawsPatchLauncher.Localization>("_text").SetLanguage(language);Invoke("ApplyLanguage");SocialChecks.Populate(w,"chat");
-            var input=Control<TextBox>("FriendsMessageInput");var send=Control<Button>("FriendsSendButton");
+            var input=Control<ChatComposer>("FriendsMessageInput");var send=Control<Button>("FriendsSendButton");
             Check(send.Content is LauncherIcon {Kind:IconKind.Send},"send is not an accessible vector icon");
             var keys=typeof(MainWindow).GetMethod("SendOnKey",BindingFlags.NonPublic|BindingFlags.Static)!;
             foreach(var pair in new[]{(ModifierKeys.None,true),(ModifierKeys.Shift,false),(ModifierKeys.Control,true),(ModifierKeys.Shift|ModifierKeys.Control,false)})
@@ -44,7 +44,7 @@ internal static class ChatPresentationChecks
             var row=(StackPanel)Control<StackPanel>("FriendsRowsPanel").Children[0];var grid=(Grid)row.Children[0];
             var more=(Button)grid.Children[0];Check(grid.Children.Count==1,"chat row still has a separate more button");
             var friend=Field<IReadOnlyList<SocialPlayer>>("_socialPlayers").Single(p=>p.Relation=="friend");
-            var friendContent=(DockPanel)((Button)grid.Children[0]).Content;
+            var friendContent=(Grid)((Button)grid.Children[0]).Content;
             var friendAvatar=friendContent.Children.OfType<Grid>().Single();Check(friendAvatar.Children.Count==3,"friend avatar/status badge missing");
             var menu=(ContextMenu)Invoke("CreateSocialMenu",more,friend)!;
             menu.Visibility=Visibility.Visible;menu.ApplyTemplate();menu.Measure(new Size(240,300));menu.Arrange(new Rect(0,0,240,menu.DesiredSize.Height));menu.UpdateLayout();
@@ -57,7 +57,7 @@ internal static class ChatPresentationChecks
                 Motion.SetBackground(surface,new SolidColorBrush(Color.FromRgb(35,60,92)));
                 Check(((SolidColorBrush)surface.Background).Color.A==255,"first hover fades from transparent white");
             }
-            foreach(Grid bubble in Control<StackPanel>("FriendsMessagesPanel").Children)
+            foreach(var bubble in Control<StackPanel>("FriendsMessagesPanel").Children.OfType<Grid>().Where(r=>r.Tag is Guid))
                 Check(bubble.Children.OfType<Grid>().Single().Children.OfType<System.Windows.Shapes.Ellipse>().Any(),"message author avatar missing");
             var owner=Guid.Parse(Field<AccountService>("_account").UserId);
             var box=new SocialOutbox(Path.Combine(ActivityStore.Root,"chat-check-"+Guid.NewGuid()));Set("_socialOutbox",box);
@@ -70,7 +70,7 @@ internal static class ChatPresentationChecks
             Check(failedBody.Children.OfType<WrapPanel>().Single().Children.Count==2,"failed message lacks retry/delete");
             var confirmed=new SocialMessage(owner,expired.Id,friend.Id,expired.Body,"text",DateTimeOffset.UtcNow,42);
             Set("_socialMessages",(IReadOnlyList<SocialMessage>)new[]{confirmed});Invoke("RenderSocialMessages");
-            Check(Control<StackPanel>("FriendsMessagesPanel").Children.Count==1,"late server acknowledgement rendered duplicate");
+            Check(Control<StackPanel>("FriendsMessagesPanel").Children.OfType<FrameworkElement>().Count(r=>r.Tag is Guid)==1,"late server acknowledgement rendered duplicate");
             Set("_socialMessages",(IReadOnlyList<SocialMessage>)Array.Empty<SocialMessage>());Set("_socialDeliveryBusy",true);
             await (Task)Invoke("ChangePendingSocialAsync",failed,true)!;
             var retried=(await box.ReadAsync(owner)).Single();Check(retried.Id==expired.Id && retried.Error=="","UI retry changed UUID/did not reset failure");

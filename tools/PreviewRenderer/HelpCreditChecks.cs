@@ -47,18 +47,25 @@ internal static class HelpCreditChecks
             Set("_openHelpLink", (Func<string, Task>)(url => { opened.Add(url); return Task.CompletedTask; }));
             var navigation = new RequestNavigateEventArgs(new Uri(invite), "") { RoutedEvent = Hyperlink.RequestNavigateEvent };
             link.RaiseEvent(navigation);
+            Check(navigation.Handled && opened.Count == 0 && Control<Border>("ConfirmationOverlay").Visibility == Visibility.Visible,
+                "Invite link bypassed browser confirmation");
+            Control<Button>("ConfirmationDeleteButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Task.Delay(240);
             Check(navigation.Handled && opened.SequenceEqual(new[] { invite }), "Click not routed to exact invite");
             Check(link.IsEnabled, "Successful navigation disabled link");
             foreach (var uri in new[] { new Uri("https://discord.gg/other"), new Uri("file:///C:/test.exe"), new Uri("relative", UriKind.Relative) }) await Open(uri);
             Check(opened.Count == 1, "Unsafe/unrelated URI opened");
             Set("_openHelpLink", (Func<string, Task>)(_ => Task.FromException(new InvalidOperationException("Injected browser failure"))));
-            await Open(new Uri(invite));
+            var failedOpen = Open(new Uri(invite));
+            Control<Button>("ConfirmationDeleteButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await failedOpen;
             Check(error.Visibility == Visibility.Visible && error.Text.Contains(language == "ru" ? "Не удалось открыть браузер" : "Could not open the browser"), "No visible localized browser error inside help");
+            Check(Control<Border>("ToastPanel").Visibility == Visibility.Visible && Control<TextBlock>("ToastText").Text == error.Text,
+                "Browser failure was left inside the closed help dialog");
             Check(link.IsEnabled, "Browser error disabled retry");
             var pending = new TaskCompletionSource();
             var attempts = 0;
             Set("_openHelpLink", (Func<string, Task>)(_ => { attempts++; return pending.Task; }));
             var first = Open(new Uri(invite));
+            Control<Button>("ConfirmationDeleteButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Task.Delay(240);
             Check(!link.IsEnabled && error.Visibility == Visibility.Collapsed, "Retry not busy/error not cleared");
             await Open(new Uri(invite));
             Check(attempts == 1, "Repeated click opened duplicate browser request");

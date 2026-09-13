@@ -4,6 +4,8 @@ namespace PawsPatchLauncher;
 
 public partial class MainWindow
 {
+    private bool _removeModsWithLauncher;
+    private Func<Task> _scheduleLauncherRemoval = LauncherUninstaller.ScheduleAsync;
     private void ApplyRemovalLanguage()
     {
         RemovalTitleText.Text = T("Удаление", "Uninstall");
@@ -13,8 +15,8 @@ public partial class MainWindow
             "Убирает управляемые компоненты, включая установленный лаунчером Arcane Wars, и возвращает сохранённые исходные файлы. Сейвы и посторонние файлы не затрагиваются. Кэш и резервная копия для отката остаются.",
             "Removes managed components, including launcher-installed Arcane Wars, and restores backed-up originals. Saves and unrelated files are untouched. Cache and a rollback backup are retained.");
         RemoveLauncherDescriptionText.Text = T(
-            "Закрывает и удаляет этот EXE лаунчера, его резервные EXE, настройки и стандартный кэш. Игра и установленный патч остаются. Другие копии лаунчера, внешняя конфигурация и нестандартный кэш не удаляются.",
-            "Closes and removes this launcher EXE, its update copies, settings and default cache. The game and installed patch remain. Other launcher copies, external configuration and custom caches are retained.");
+            "Удаляет лаунчер, его настройки и стандартный кеш. В окне подтверждения можно выбрать, удалить ли также установленные им патч и моды. Сохранения игры останутся.",
+            "Removes the launcher, its settings and default cache. The confirmation lets you choose whether to remove its installed patch and mods as well. Game saves are kept.");
     }
 
     private async void RemovePatch_Click(object sender, RoutedEventArgs e)
@@ -48,15 +50,43 @@ public partial class MainWindow
         var started = false;
         try
         {
-            if (!await ConfirmRemovalAsync(true, Environment.ProcessPath ?? T("Текущий лаунчер", "Current launcher"))) return;
+            var gameRoot = _game?.Directory;
+            if (!await ConfirmLauncherRemovalAsync(Environment.ProcessPath ?? T("Текущий лаунчер", "Current launcher"))) return;
             if (_busy || FeedBlocksActions) return;
+            if (_removeModsWithLauncher && gameRoot is not null)
+            {
+                if (_game?.Directory != gameRoot) throw new IOException(T("Папка игры изменилась. Повторите удаление.", "The game folder changed. Start uninstall again."));
+                EnsureGameClosed();
+            }
             started = true; SetBusy(true);
-            await LauncherUninstaller.ScheduleAsync();
+            if (_removeModsWithLauncher && gameRoot is not null)
+            {
+                ShowWorking(() => T("Удаляю патч и моды, восстанавливаю оригинальные файлы…", "Removing patch and mods, restoring original files…"));
+                await new ModuleInstaller(gameRoot).UninstallAsync();
+                _settings.PreparedChannel = _settings.PreparedFeedFingerprint = _settings.PinnedRelease = null;
+                _settingsStore.Save(_settings);
+                InvalidateReadiness();
+            }
+            await _scheduleLauncherRemoval();
             _updateTimer.Stop(); _gameTimer.Stop();
             _busy = false;
             Application.Current.Shutdown();
         }
         catch (Exception ex) { ShowError(ex); }
         finally { if (started) SetBusy(false); }
+    }
+
+    private async Task<bool> ConfirmLauncherRemovalAsync(string path)
+    {
+        var confirmation = ConfirmActionAsync(T("Удалить лаунчер?", "Uninstall launcher?"),
+            RemoveLauncherDescriptionText.Text, T("ЭТОТ ФАЙЛ ЛАУНЧЕРА", "THIS LAUNCHER FILE"), path,
+            T("Удалить лаунчер", "Uninstall launcher"));
+        if (!ConfirmationActive) return false;
+        ConfirmationRemoveModsToggle.Content = T("Удалить патч и моды", "Remove patch and mods");
+        ConfirmationRemoveModsToggle.IsChecked = true;
+        ConfirmationRemoveModsToggle.Visibility = Visibility.Visible;
+        var accepted = await confirmation;
+        _removeModsWithLauncher = accepted && ConfirmationRemoveModsToggle.IsChecked == true;
+        return accepted;
     }
 }

@@ -1,0 +1,3 @@
+# Verified Steam fallback bytes must retain their original line endings.
+src/PawsPatchLauncher/Assets/Vanilla1372/autoexec.txt -text
+src/PawsPatchLauncher/Assets/Vanilla1372/options_dialog.tgi -text

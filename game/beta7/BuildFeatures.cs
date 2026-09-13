@@ -4,6 +4,11 @@ internal static class BuildFeatures
 {
     internal static int Write()
     {
+#if PAW_CORELESS
+        const bool commonFixes = false;
+#else
+        const bool commonFixes = true;
+#endif
 #if PAW_COLORS
         const bool colors = true;
 #else
@@ -32,7 +37,7 @@ internal static class BuildFeatures
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
-            ",\"commonFixes\":true,\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() +
+            ",\"commonFixes\":" + commonFixes.ToString().ToLowerInvariant() + ",\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"advancedCityPolicy\":" + (cityAssistant && fastSaveTransfer).ToString().ToLowerInvariant() +
             ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + "}");
         return 0;

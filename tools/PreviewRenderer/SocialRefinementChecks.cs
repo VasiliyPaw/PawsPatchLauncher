@@ -29,6 +29,12 @@ internal static class SocialRefinementChecks
         void Finish(Task<bool> task,bool accept,bool expected)
         {
             var close=(Task)Invoke("CompleteConfirmationAsync",accept)!;
+            if (accept && !expected)
+            {
+                PumpUntil(close);
+                Check(!task.IsCompleted, "Disabled acceptance closed the prompt");
+                close = (Task)Invoke("CompleteConfirmationAsync",false)!;
+            }
             PumpUntil(Task.WhenAll(close,task));
             Check(task.Result==expected,"confirmation result / disabled bypass");
             Check(Control<Border>("ConfirmationOverlay").Visibility==Visibility.Collapsed,"confirmation did not close");
@@ -61,7 +67,7 @@ internal static class SocialRefinementChecks
                 Check(!task.IsCompleted&&Control<Button>("ConfirmationDeleteButton").IsEnabled,"different config not confirmable");
                 var text=Control<TextBlock>("ConfirmationPathText").Text;
                 Check(text.Contains("Mixed Display · @mixeduser")&&text.Contains("×4"),"recipient/diff missing");
-                Check(Control<CheckBox>("ConfirmationLocalizationToggle").Visibility==Visibility.Collapsed,"send confused with apply-localization choice");
+                Check(w.FindName("ConfirmationLocalizationToggle") is null,"localization copying option remains");
                 Finish(task,accept,accept);
             }
             Check(Field<IReadOnlyList<SocialOffer>>("_socialOffers").Count==0,"confirmation mutated conversation");

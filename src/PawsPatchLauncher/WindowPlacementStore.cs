@@ -62,8 +62,9 @@ public sealed class WindowPlacementStore(string directory)
 
 public static class WindowPlacementPolicy
 {
-    public static WindowMonitor? FindMonitor(SavedWindowPlacement saved, IReadOnlyList<WindowMonitor> monitors)
+    public static WindowMonitor? FindMonitor(SavedWindowPlacement? saved, IReadOnlyList<WindowMonitor> monitors)
     {
+        if (saved is null) return monitors.FirstOrDefault(m => m.Primary) ?? monitors.FirstOrDefault();
         // Interface IDs distinguish even identical monitor models and survive DISPLAY1/2 renumbering.
         var identity = monitors.FirstOrDefault(m => !string.IsNullOrEmpty(saved.MonitorId)
             ? m.Id.Equals(saved.MonitorId, StringComparison.OrdinalIgnoreCase)
@@ -71,6 +72,40 @@ public static class WindowPlacementPolicy
         if (identity is not null) return identity;
         // Disconnected/reconnected topology: nearest remaining work area, with a deterministic primary tie-break.
         return monitors.OrderBy(m => DistanceSquared(saved.NormalBounds, m.WorkArea)).ThenByDescending(m => m.Primary).FirstOrDefault();
+    }
+
+    public static WindowPixelRect InitialBounds(WindowMonitor monitor, uint dpi)
+    {
+        var work = monitor.WorkArea;
+        var width = (int)Math.Min(1600d * dpi / 96, Math.Max(1, work.Width - 32d * dpi / 96));
+        var height = (int)Math.Min(1000d * dpi / 96, Math.Max(1, work.Height - 32d * dpi / 96));
+        var left = work.Left + (int)(work.Width - width) / 2;
+        var top = work.Top + (int)(work.Height - height) / 2;
+        return new(left, top, left + width, top + height);
+    }
+
+    public static WindowPixelRect LauncherBounds(SavedWindowPlacement? saved, WindowMonitor monitor,
+        IReadOnlyList<WindowMonitor> monitors, uint dpi)
+        => saved is null || saved.LayoutRevision < WindowPlacementStore.CurrentLayoutRevision
+            ? InitialBounds(monitor, dpi) : RestoreBounds(saved, monitor, monitors, dpi);
+
+    public static WindowPixelRect StartupBounds(SavedWindowPlacement? saved, WindowMonitor monitor,
+        IReadOnlyList<WindowMonitor> monitors, uint dpi, double width = 570, double height = 390)
+    {
+        if (dpi is < 48 or > 768 || !monitor.WorkArea.IsValid || !double.IsFinite(width)
+            || !double.IsFinite(height) || width <= 0 || height <= 0)
+            throw new InvalidDataException("Invalid startup window placement geometry.");
+        // Match the visible main window, rather than the normal restore rectangle behind a maximized one.
+        var launcher = saved is { Maximized: true, LayoutRevision: >= WindowPlacementStore.CurrentLayoutRevision }
+            ? monitor.WorkArea : LauncherBounds(saved, monitor, monitors, dpi);
+        var work = monitor.WorkArea;
+        var pixelWidth = (int)Math.Min(work.Width, Math.Max(1, Math.Round(width * dpi / 96d)));
+        var pixelHeight = (int)Math.Min(work.Height, Math.Max(1, Math.Round(height * dpi / 96d)));
+        // A deliberately spanning launcher can put its center outside its owning monitor.
+        // Keep the smaller startup window visible on that same monitor.
+        var left = (int)Math.Clamp(Math.Round(launcher.Left + (launcher.Width - pixelWidth) / 2d), work.Left, work.Right - pixelWidth);
+        var top = (int)Math.Clamp(Math.Round(launcher.Top + (launcher.Height - pixelHeight) / 2d), work.Top, work.Bottom - pixelHeight);
+        return new(left, top, left + pixelWidth, top + pixelHeight);
     }
 
     public static WindowPixelRect RestoreBounds(SavedWindowPlacement saved, WindowMonitor target,

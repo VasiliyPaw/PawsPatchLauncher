@@ -25,7 +25,9 @@ public sealed class LastWorkingConfiguration
 
 public static class ActivityStore
 {
-    public static string Root => IsSmokeTest
+    public static string? LocalTestProfile => Environment.GetCommandLineArgs().FirstOrDefault(a => a.StartsWith("--test-profile=", StringComparison.Ordinal))?["--test-profile=".Length..]
+        ?? (File.Exists(Path.Combine(AppContext.BaseDirectory, "launcher.test-mode")) ? Path.Combine(AppContext.BaseDirectory, "test-profile") : null);
+    public static string Root => LocalTestProfile is { Length: > 0 } profile ? Path.GetFullPath(profile) : IsSmokeTest
         ? Path.Combine(Path.GetTempPath(), "PawsPatchLauncherSmoke", Environment.ProcessId.ToString())
         : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher");
     public static bool IsSmokeTest => Environment.GetCommandLineArgs().Contains("--smoke-test");
@@ -50,6 +52,7 @@ public static class ActivityStore
     public static RunRecord ForProcess(Process process) => new() { ProcessId = process.Id, StartTicks = process.StartTime.ToUniversalTime().Ticks };
     public static void Log(Exception error)
     {
+        ActionJournal.Record("error", error.GetType().Name);
         try { Directory.CreateDirectory(Root); File.AppendAllText(Path.Combine(Root, "launcher-errors.log"), $"{DateTimeOffset.UtcNow:O} {error}\n"); } catch { }
     }
     public static LastWorkingConfiguration? Working(string game)

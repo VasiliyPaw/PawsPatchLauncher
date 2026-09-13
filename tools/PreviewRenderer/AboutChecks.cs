@@ -16,16 +16,19 @@ internal static class AboutChecks
         void Require(bool valid, string message) { if (!valid) throw new InvalidOperationException(message); }
         var nav = Named<Button>("AboutNav");
         var settings = Named<Button>("SettingsNav");
+        var mods = Named<Button>("AboutModsNav");
         var footer = Named<TextBlock>("LauncherVersionLabel");
-        Require(nav.Parent == settings.Parent && ((Panel)nav.Parent).Children[^1] == nav,
-            "About must be the final navigation item, after Settings.");
+        Require(nav.Parent == settings.Parent && mods.Visibility == Visibility.Collapsed
+            && ((Panel)nav.Parent).Children.OfType<FrameworkElement>().Last(c => c.Visibility == Visibility.Visible) == nav,
+            "The unified guide must follow Settings without a separate About mods link.");
         Require(nav.TranslatePoint(new Point(), content).Y >= settings.TranslatePoint(new Point(0, settings.ActualHeight), content).Y + 7
             && nav.TranslatePoint(new Point(0, nav.ActualHeight), content).Y < footer.TranslatePoint(new Point(), content).Y - 10,
             "About navigation overlaps Settings or the launcher footer.");
         if (Named<StackPanel>("AboutPatchPanel").Visibility != Visibility.Visible) return;
         var tabs = Named<WrapPanel>("AboutTabsPanel");
-        Require(tabs.Children.Count == 3 && tabs.Children.OfType<Button>().Count() == 3, "Guide must use three history-style buttons, not setting radios.");
-        foreach (var tab in tabs.Children.OfType<Button>())
+        if (tabs.Visibility == Visibility.Visible)
+            Require(tabs.Children.Count == 3 && tabs.Children.OfType<Button>().Count() == 3, "Patch guide must use three history-style buttons, not setting radios.");
+        foreach (var tab in tabs.Children.OfType<Button>().Where(_ => tabs.Visibility == Visibility.Visible))
         {
             var position = tab.TranslatePoint(new Point(), tabs);
             Require(position.X >= 0 && position.X + tab.ActualWidth <= tabs.ActualWidth + 1
@@ -36,10 +39,10 @@ internal static class AboutChecks
         foreach (var card in Named<StackPanel>("AboutEntriesPanel").Children.OfType<Border>())
         {
             var text = ((StackPanel)card.Child).Children.OfType<TextBlock>().ToArray();
-            Require(text.Length == 3 && text[0].FontSize == 11 && text[1].FontSize == 18
-                && text[1].FontWeight == FontWeights.Bold && text[2].FontSize == 13 && text[2].LineHeight == 19,
+            Require(text.Length is 2 or 3 && (text.Length != 3 || text[0].FontSize == 11) && text[^2].FontSize == 18
+                && text[^2].FontWeight == FontWeights.Bold && text[^1].FontSize == 13 && text[^1].LineHeight == 19,
                 "About feature typography differs from the shared styles.");
-            Require(text[1].TextWrapping == TextWrapping.Wrap && text[2].TextWrapping == TextWrapping.Wrap
+            Require(text[^2].TextWrapping == TextWrapping.Wrap && text[^1].TextWrapping == TextWrapping.Wrap
                 && text.All(t => t.ActualWidth <= card.ActualWidth), "About text is clipped horizontally.");
         }
         Console.WriteLine("ABOUT LAYOUT PASS: final navigation, footer clearance, wrapped tabs and consistent feature typography");
@@ -63,8 +66,11 @@ internal static class AboutChecks
         async Task Scenario()
         {
             // Never borrow a persisted smoke fixture's older guide.
-            typeof(MainWindow).GetField("_channel", flags)!.SetValue(window,
-                new ChannelManifest { Channel = "beta", ColorDesyncContinue = true, PatchGuide = PatchGuide.Current() });
+            var fixture = new ChannelManifest { Channel = "beta", ColorDesyncContinue = true, PatchGuide = PatchGuide.Current() };
+            typeof(MainWindow).GetField("_channel", flags)!.SetValue(window, fixture);
+            typeof(MainWindow).GetField("_latestChannel", flags)!.SetValue(window, fixture);
+            Field<UserSettings>("_settings").Channel = "beta";
+            Field<UserSettings>("_settings").PinnedRelease = null;
             var localization = Field<PawsPatchLauncher.Localization>("_text");
             localization.SetLanguage(language); Invoke("ApplyLanguage");
             Invoke("ShowWorking", (Func<string>)(() => "isolated operation"));
@@ -94,8 +100,13 @@ internal static class AboutChecks
                 && (language == "ru" ? desyncText.Contains("не исправляет") || desyncText.Contains("не устраняет") : desyncText.Contains("does not repair"))
                 && desyncText.Contains(language == "ru" ? "серьёзные" : "serious"), "Desync warning lost scope, severity or divergent-state warning.");
             Named<Button>("AboutNav").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Named<Button>("GuideArcaneTab").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Named<Button>("GuidePatchTab").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             await Task.Delay(230); window.UpdateLayout();
-            Check(Field<string>("_activePage") == "about" && entries.Children.Count == 9 && FirstId() == "base", "About navigation does not open Always included.");
+            Check(Field<string>("_activePage") == "about" && entries.Children.Count == 8 && FirstId() == "kingdoms", "About navigation does not open Always included.");
+            Check(Named<TextBlock>("AboutIntroText").Text.Contains(PatchGuide.Entries.Single(e => e.Id == "base").Body(language))
+                && Named<TextBlock>("AboutTitleText").Text == PatchGuide.Entries.Single(e => e.Id == "base").Title(language),
+                "The base introduction was not merged into the patch header in full.");
             foreach (var name in new[] { "SettingsPanel", "GameInfoCard", "ConfigurationCodeCard", "DiagnosticsCard", "ColorsModuleCard", "RemovalCard" })
                 Check(Named<FrameworkElement>(name).Visibility == Visibility.Collapsed, "Unrelated block remains visible in About: " + name);
             Layout(window, (FrameworkElement)window.Content);
@@ -103,7 +114,7 @@ internal static class AboutChecks
             var switching = Switch("optional");
             if (moving)
             {
-                Check(FirstId() == "base", "About text changed before fading out.");
+                Check(FirstId() == "kingdoms", "About text changed before fading out.");
                 await Task.Delay(35);
                 Check(entries.Opacity is > 0 and < 1, "About has no intermediate fade-out frame.");
             }
@@ -130,16 +141,16 @@ internal static class AboutChecks
             Check(FirstId() == "empty-beta" && entries.Children.Count == 1 && entries.Opacity == 1 && scroll.VerticalOffset == 0,
                 $"Rapid category changes show stale contents or scroll: {FirstId()}, count={entries.Children.Count}, opacity={entries.Opacity}, offset={scroll.VerticalOffset}.");
             var betaTab = Named<Button>("AboutBetaTab");
-            Check(betaTab.Style == Named<Button>("PatchChangelogButton").Style, "Guide tab differs from the history tab style.");
+            Check(betaTab.Style == (Style)window.FindResource("GhostButton"), "Guide tab differs from the shared button style.");
             var selectedSurface = (Border)betaTab.Template.FindName("Border", betaTab);
             Check(((SolidColorBrush)selectedSurface.Background).Color == (Color)ColorConverter.ConvertFromString("#5B451D"),
                 "Selected guide tab has no settled gold highlight.");
-            Check(Named<RadioButton>("HeaderReleaseRadio").IsChecked == (Field<UserSettings>("_settings").Channel == "stable")
-                && Named<RadioButton>("HeaderBetaRadio").IsChecked == (Field<UserSettings>("_settings").Channel == "beta"),
+            Check(Named<RadioButton>("ModReleaseRadio").IsChecked == (Field<UserSettings>("_settings").Channel == "stable")
+                && Named<RadioButton>("ModBetaRadio").IsChecked == (Field<UserSettings>("_settings").Channel == "beta"),
                 "Guide tab selection changed the patch-channel selector.");
             Named<Button>("AboutAlwaysTab").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             await Task.Delay(340);
-            Check(FirstId() == "base" && Field<string>("_aboutCategory") == "always", "Real category Click handler is not wired.");
+            Check(FirstId() == "kingdoms" && Field<string>("_aboutCategory") == "always", "Real category Click handler is not wired.");
             switching = Switch("optional");
             localization.SetLanguage(language == "ru" ? "en" : "ru"); Invoke("ApplyLanguage");
             await switching; await Task.Delay(220);
@@ -158,9 +169,10 @@ internal static class AboutChecks
             selectedGuide.Entries[0] = selectedGuide.Entries[0] with { TitleRu = "Автообновлённая справка", TitleEn = "Refreshed guide" };
             Invoke("RefreshAboutFeed");
             await Switch("always"); await Task.Delay(230);
-            var refreshedTitle = ((StackPanel)((Border)entries.Children[0]).Child).Children.OfType<TextBlock>().ElementAt(1).Text;
+            var refreshedTitle = Named<TextBlock>("AboutTitleText").Text;
             Check(refreshedTitle == selectedGuide.Entries[0].Title(localization.Language), "Downloaded guide not displayed.");
             Check(JsonSerializer.Serialize(Field<UserSettings>("_settings")) == settingsBefore, "Guide refresh changed settings.");
+            checks += CheckGuideIntroductions(window, localization.Language);
             foreach (var available in new[] { true, false, true })
             {
                 var channel = new ChannelManifest { Channel = available ? "beta" : "stable" };
@@ -173,7 +185,7 @@ internal static class AboutChecks
             }
             switching = Switch("always"); window.Close(); await switching;
             Check(entries.Opacity == 1, "Closing About left a pending animation.");
-            Console.WriteLine($"ABOUT PASS {checks} {language}: catalog, read-only navigation, 49 colors, desync warning, deferred hotkey, typography, smooth/rapid tabs and cancellation");
+            Console.WriteLine($"ABOUT PASS {checks} {language}: catalog, merged bilingual introductions, latest/pinned documentation, read-only navigation, 49 colors, typography, smooth/rapid tabs and cancellation");
         }
         try
         {
@@ -188,5 +200,93 @@ internal static class AboutChecks
             task.GetAwaiter().GetResult();
         }
         finally { window.Close(); }
+    }
+
+    private static int CheckGuideIntroductions(MainWindow window, string language)
+    {
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        object? Invoke(string name, params object?[] values) => typeof(MainWindow).GetMethod(name, flags)!.Invoke(window, values);
+        T Field<T>(string name) => (T)typeof(MainWindow).GetField(name, flags)!.GetValue(window)!;
+        void Set(string name, object? value) => typeof(MainWindow).GetField(name, flags)!.SetValue(window, value);
+        T Named<T>(string name) => (T)window.FindName(name);
+        var settings = Field<UserSettings>("_settings");
+        var savedChannel = Field<ChannelManifest?>("_channel");
+        var savedLatest = Field<ChannelManifest?>("_latestChannel");
+        var savedSubject = Field<string>("_guideSubject");
+        var savedVariant = Field<string>("_guideVariant");
+        var savedPinned = settings.PinnedRelease;
+        var entries = Named<StackPanel>("AboutEntriesPanel");
+        var introText = Named<TextBlock>("AboutIntroText");
+        var checks = 0;
+        void Check(bool valid, string message) { if (!valid) throw new InvalidOperationException(message); checks++; }
+        try
+        {
+            Named<Button>("GuideGeneralTab").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(entries.Children.Count == 3 && ((Border)entries.Children[0]).Tag is "language"
+                && introText.Text.Contains(language == "ru" ? "Применить настройки" : "Apply settings"),
+                "The general introduction still has a separate repeated mode-selection card.");
+            foreach (var (mod, tab) in new[] { (GameMod.Vanilla, "GuideVanillaTab"), (GameMod.ArcaneWars, "GuideArcaneTab"), (GameMod.Immortals, "GuideImmortalsTab") })
+            {
+                var document = GuideCatalog.Resolve(null, mod)!;
+                Check(GuideCatalog.IsValid(document), "Invalid embedded bilingual guide: " + mod);
+                var introduction = GuideCatalog.IntroductionSection(document)!;
+                Named<Button>(tab).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                window.UpdateLayout();
+                Check(entries.Children.Count == document.Sections.Count - 1
+                    && entries.Children.OfType<Border>().All(card => (string)card.Tag != introduction.Id),
+                    "The mod introduction was duplicated or an unrelated feature disappeared: " + mod);
+                Check(introText.Text.Contains(document.Description.Get(language)) && introText.Text.Contains(introduction.Body.Get(language))
+                    && introText.Text.Contains(document.Version) && introText.Text.Contains(document.Author),
+                    "Merged mod introduction lost text or attribution: " + mod);
+                var remaining = entries.Children.OfType<Border>().Select(card => ((StackPanel)card.Child).Children.OfType<TextBlock>().Last().Text).ToArray();
+                Check(remaining.SequenceEqual(document.Sections.Skip(1).Select(section => section.Body.Get(language))),
+                    "Merging the introduction changed the ordered feature descriptions: " + mod);
+                Layout(window, (FrameworkElement)window.Content);
+            }
+            var installed = savedChannel!;
+            var latest = new ChannelManifest { Channel = settings.Channel,
+                Packages = [new PackageRelease { Id = "offline-guide-fixture", Version = "2.0", Size = 10, Sha256 = new string('B', 64) }],
+                ModGuides = [new ModGuideDocument
+            {
+                Id = GameMod.Immortals, Version = "same-version", Author = "MartialDoctor",
+                Description = new LocalizedText { Ru = "Новая справка", En = "New guide" },
+                Sections = [new ModGuideSection { Id = "recovery", Title = new LocalizedText { Ru = "Восстановление", En = "Recovery" },
+                    Body = new LocalizedText { Ru = "Независимая механика: 2.1", En = "Unrelated mechanic: 2.1" } }]
+            }] };
+            Set("_latestChannel", latest);
+            Invoke("RefreshAboutFeed");
+            Check(ReferenceEquals(Invoke("GuideChannel"), latest) && introText.Text.Contains(latest.ModGuides[0].Description.Get(language)),
+                "An installed offline mod hid newer unpinned documentation.");
+            Check(entries.Children.Count == 1 && ((Border)entries.Children[0]).Tag is "recovery"
+                && !introText.Text.Contains(latest.ModGuides[0].Sections[0].Body.Get(language)),
+                "A remote guide's unrelated first mechanic was merged into its introduction.");
+            latest.ModGuides[0].Description = new LocalizedText { Ru = "Исправленная справка", En = "Corrected guide" };
+            Invoke("RefreshAboutFeed");
+            Check(introText.Text.Contains(latest.ModGuides[0].Description.Get(language)),
+                "Same-version documentation corrections were not refreshed.");
+            settings.PinnedRelease = ChannelFingerprint.Create(installed);
+            Check(settings.PinnedRelease != ChannelFingerprint.Create(latest), "The newer-release fixture must have different installable content.");
+            Check(ReferenceEquals(Invoke("GuideChannel"), installed), "Latest documentation replaced an explicitly pinned release.");
+            var key = settings.Channel + ":" + settings.PinnedRelease;
+            var cached = Field<Dictionary<string, ChannelManifest?>>("_cachedGuideChannels");
+            var hadCached = cached.TryGetValue(key, out var savedCached);
+            cached[key] = installed;
+            try
+            {
+                Set("_channel", latest);
+                Invoke("RefreshAboutFeed");
+                Check(ReferenceEquals(Invoke("GuideChannel"), installed) && ReferenceEquals(cached[key], installed),
+                    "A mismatched installed release replaced the pinned guide archive.");
+            }
+            finally { if (hadCached) cached[key] = savedCached; else cached.Remove(key); }
+            return checks;
+        }
+        finally
+        {
+            settings.PinnedRelease = savedPinned;
+            Set("_channel", savedChannel); Set("_latestChannel", savedLatest);
+            Set("_guideSubject", savedSubject); Set("_guideVariant", savedVariant);
+            Invoke("RefreshAboutPage");
+        }
     }
 }

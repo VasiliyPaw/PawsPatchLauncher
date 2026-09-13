@@ -39,7 +39,9 @@ internal static class StorageConfirmationChecks
             var before = Element<TextBlock>("OperationText").Text;
             var pending = Confirm(true, true); w.UpdateLayout();
             Check(!pending.IsCompleted && !Field<bool>("_busy"), "Cleanup prompt started an operation.");
-            Check(!Element<Grid>("MainBody").IsEnabled && !Element<Grid>("TitleBar").IsEnabled, "Cleanup background is interactive.");
+            Check(Element<Grid>("MainBody").IsEnabled && Element<Grid>("TitleBar").IsEnabled
+                && !Element<Grid>("MainBody").IsHitTestVisible && !Element<Grid>("TitleBar").IsHitTestVisible,
+                "Cleanup lost its input shield or toggled background enabled appearance.");
             Check(Element<Button>("ConfirmationCancelButton").IsDefault && !Element<Button>("ConfirmationDeleteButton").IsDefault, "Cleanup is the default action.");
             Check(Element<TextBlock>("ConfirmationTitleText").Text == (language == "ru" ? "Очистить устаревшие данные?" : "Clean up obsolete data?"), "Wrong cleanup title.");
             Check(Element<TextBlock>("ConfirmationPathText").Text.Split('\n').Length == 3, "Selected categories/total not shown.");

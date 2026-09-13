@@ -42,7 +42,7 @@ internal static class WindowExperienceChecks
                 return (int)SendMessage(handle, 0x84, IntPtr.Zero, (IntPtr)packed); // WM_NCHITTEST, own hidden-window HWND only.
             }
             Check(Hit(Element<Grid>("TitleBar"), 330, 24) == 2, "Titlebar does not return HTCAPTION for native drag/restore.");
-            foreach (var name in new[] { "LanguageButton", "MinimizeWindowButton", "CloseWindowButton", "HeaderReleaseRadio", "HeaderBetaRadio" })
+            foreach (var name in new[] { "ModsDiscordButton", "MinimizeWindowButton", "CloseWindowButton" })
             {
                 var control = Element<FrameworkElement>(name);
                 Check(Hit(control, control.ActualWidth / 2, control.ActualHeight / 2) == 1, name + " no longer clickable in native caption.");
@@ -50,7 +50,9 @@ internal static class WindowExperienceChecks
             var before = Element<TextBlock>("OperationText").Text;
             var pending = Confirm(false); w.UpdateLayout();
             Check(!pending.IsCompleted && !Field<bool>("_busy"), "Confirmation started a destructive/busy operation early.");
-            Check(!Element<Grid>("MainBody").IsEnabled && !Element<Grid>("TitleBar").IsEnabled, "Background accepts input during confirmation.");
+            Check(Element<Grid>("MainBody").IsEnabled && Element<Grid>("TitleBar").IsEnabled
+                && !Element<Grid>("MainBody").IsHitTestVisible && !Element<Grid>("TitleBar").IsHitTestVisible,
+                "Confirmation lost its input shield or toggled background enabled appearance.");
             Check(Element<Button>("ConfirmationCancelButton").IsDefault && !Element<Button>("ConfirmationDeleteButton").IsDefault, "Destructive action is the default.");
             Check(Element<TextBlock>("ConfirmationBodyText").Text == Element<TextBlock>("RemovePatchDescriptionText").Text, "Patch consequences differ from settings.");
             Check(Hit(Element<Grid>("TitleBar"), 330, 24) == 1, "Dimmed titlebar bypasses modal input block.");

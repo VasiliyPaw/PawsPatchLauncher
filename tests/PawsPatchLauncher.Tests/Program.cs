@@ -5,6 +5,31 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 3 && args[0] == "--verify-split-languages")
+{
+    await SplitLanguageTests.RunAsync(args[1], args[2]);
+    return;
+}
+if (args.Length == 5 && args[0] == "--verify-data-only")
+{
+    await StartupCompatibilityTests.PackagesAsync(args[1], args[2], args[3], args[4]);
+    return;
+}
+if (args.Length == 2 && args[0] == "--verify-steam-baseline")
+{
+    await VanillaBootstrapTests.RunSteamAsync(args[1]);
+    return;
+}
+if (args.Length == 1 && args[0] == "--verify-vanilla-bootstrap")
+{
+    await VanillaBootstrapTests.RunAsync();
+    return;
+}
+if (args.Length == 4 && args[0] == "--verify-mod-modes")
+{
+    await ModModeTests.RunAsync(args[1], args[2], args[3]);
+    return;
+}
 if (args.Length == 1 && args[0] == "--exit-code-probe")
 {
     Environment.ExitCode = int.Parse(Console.ReadLine()!);
@@ -113,13 +138,19 @@ if (args.Length == 3 && args[0] == "--verify-gameplay-profiles")
 var root = Path.Combine(Path.GetTempPath(), "PawsPatchLauncherTests", Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(root);
 var passed = 0;
+passed += ChatMemoryCacheTests.Run();
+passed += await ConnectionTests.RunAsync(root);
 
 try
 {
+        passed += await StartupCompatibilityTests.RunAsync(root);
         passed += await AccountTests.RunAsync(root);
         passed += await AccountModerationTests.RunAsync(root);
+        passed += await AccountTeamTests.RunAsync(root);
         passed += await HistoryNetworkTests.RunAsync(root);
         passed += ChatActivityTests.Run();
+        passed += ChatDividerTests.Run();
+        passed += LanguageCatalogTests.Run();
         passed += await CompatibilityModerationTests.RunAsync(root);
         passed += await LauncherSessionTests.RunAsync(root);
         passed += await AccountProfileTests.RunAsync(root);
@@ -130,17 +161,24 @@ try
     passed += await EnhancementTests.RunAsync(root);
     passed += await SocialHubTests.RunAsync(root);
     passed += PromotedReleaseTests.Run();
+    passed += OfficialFeedConfigurationTests.Run();
     passed += await ClipboardRetryTests.RunAsync();
     passed += await WindowsClipboardTests.RunAsync();
     passed += DiagnosticArchiveHistoryTests.Run(root);
+    passed += await LauncherEvolutionTests.RunAsync(root);
     passed += ChannelPresentationTests.Run();
     passed += WindowPlacementTests.Run(root);
     passed += PowersShardsTests.Run();
     passed += EffectiveSettingsTests.Run();
     passed += FriendConfigurationTests.Run();
+    passed += FriendCopyPlanTests.Run();
+    passed += await SocialVersionTests.RunAsync(root);
     passed += await PatchGuideTests.RunAsync(root);
     passed += await LauncherUpdateTests.RunAsync(root);
     passed += ComponentSettingsTests.Run();
+    passed += await ModChannelTests.RunAsync(root);
+    passed += PawPatchVersionTests.Run();
+    passed += PawsPatchLauncher.Tests.ChangelogTimelineTests.Run();
     ExpectThrows<InvalidDataException>(() => CryptoAndIO.SafeChildPath(root, "..\\escape.txt"));
     passed++;
 
@@ -359,6 +397,8 @@ try
 
     passed += await ReliabilityTests.RunAsync(root);
     passed += await RemovalTests.RunAsync(root);
+    passed += await ModLibraryTests.RunAsync(root);
+    passed += PureFixesModeTests.Run();
     Console.WriteLine($"PASS {passed}");
 }
 finally

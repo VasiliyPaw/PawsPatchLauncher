@@ -1,0 +1,66 @@
+using PawsPatchLauncher;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace PreviewRenderer;
+
+internal static class ModModeChecks
+{
+    internal static void Run(string language)
+    {
+        if (!ActivityStore.IsSmokeTest) throw new Exception("Smoke isolation required");
+        var w = new MainWindow(new LauncherConfiguration { FeedUrls = [], BetaFeedUrls = [] }, null) {
+            Left=-30000,Top=-30000,ShowActivated=false,ShowInTaskbar=false,WindowStartupLocation=WindowStartupLocation.Manual };
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        object? Call(string name, params object[] args) => typeof(MainWindow).GetMethod(name, flags)!.Invoke(w, args);
+        void Set(string name,object value) => typeof(MainWindow).GetField(name,flags)!.SetValue(w,value);
+        T Control<T>(string name) => (T)w.FindName(name);
+        var settings=(UserSettings)typeof(MainWindow).GetField("_settings",flags)!.GetValue(w)!;
+        ConfigurationCode.Apply(new UserSettings(),settings);
+        FixtureAccess.AllowArcaneWars(w);
+        ((PawsPatchLauncher.Localization)typeof(MainWindow).GetField("_text",flags)!.GetValue(w)!).SetLanguage(language);
+        var checks=0;
+        void Check(bool ok,string reason) { checks++;if(!ok)throw new Exception(reason); }
+        try
+        {
+            Call("ApplyLanguage"); Call("SetActivePage","modules");
+            w.Show(); w.UpdateLayout();
+            var vanilla=Control<RadioButton>("VanillaModRadio");var arcane=Control<RadioButton>("ArcaneWarsModRadio");
+            var core=Control<CheckBox>("PawPatchToggle");
+            Check(arcane.IsChecked==true&&Control<RadioButton>("ImmortalsModRadio").IsEnabled,"Initial mode/Immortals");
+            Check(Control<TextBlock>("CoreTitleText").Text=="Paw's Patch" && core.IsEnabled,"Core title or disabled switch");
+            Set("_channel",new ChannelManifest { PatchGuide = new PatchGuideDocument {
+                Entries = [new PatchGuideEntry("fixture","beta","beta-only-fixture","beta-only-fixture",""," ")] } });
+            settings.Channel="stable";
+            Check(!((string)Call("CoreHelpText")!).Contains("beta-only-fixture"),"Stable tooltip promised Beta-only features");
+            settings.Channel="beta";
+            Check(((string)Call("CoreHelpText")!).Contains("beta-only-fixture"),"Beta tooltip omitted its base features");
+            settings.Channel="stable"; Set("_channel",null!);
+            Check(Control<Border>("ModSelectorCard").TranslatePoint(new Point(), w).Y<Control<Border>("CoreModuleCard").TranslatePoint(new Point(), w).Y,"Tabs are not above components");
+            core.IsChecked=false;Call("PawPatchChanged",core,new RoutedEventArgs());
+            Check(!settings.PawPatchEnabled && settings.RussianLocalization,"Core switch altered another option");
+            vanilla.IsChecked=true;
+            Check(settings.Mod==GameMod.Vanilla && Control<Border>("VanillaEmptyCard").Visibility==Visibility.Visible,"Vanilla tab inactive");
+            foreach(var name in new[]{"CoreModuleCard","ColorsModuleCard","OosModuleCard","IndependentHostilityCard","RoamingSpawnCard","AdditionalRoamingCard","SiegeBalanceCard","PowersShardsCard"})
+                Check(Control<Border>(name).Visibility==Visibility.Collapsed,"Vanilla leaked component "+name);
+            Check(Control<Border>("RussianModuleCard").IsVisible,"Vanilla lost its shared language selection");
+            Check(settings.RussianLocalization && !settings.PawPatchEnabled,"Vanilla erased AW preferences");
+            arcane.IsChecked=true;
+            Check(settings.Mod==GameMod.ArcaneWars&&!settings.PawPatchEnabled&&core.IsChecked==false,"AW preference restoration");
+            Set("_busy",true);Call("RefreshStatus");
+            Check(!core.IsEnabled&&!vanilla.IsEnabled&&!arcane.IsEnabled,"Mode changed during install");
+            Set("_busy",false);Call("RefreshStatus");
+            Call("SetActivePage","home");
+            Check(Control<Border>("ModSelectorCard").Visibility==Visibility.Collapsed,"Tabs leaked onto Home");
+            Call("SetActivePage","modules");
+            foreach(var size in new[]{(1050d,680d),(1280d,800d),(1600d,1000d)})
+            {
+                w.Width=size.Item1;w.Height=size.Item2;w.Measure(new Size(w.Width,w.Height));w.Arrange(new Rect(0,0,w.Width,w.Height));w.UpdateLayout();
+                Check(arcane.ActualWidth>100&&vanilla.ActualWidth>100,"Mod tab clipped at "+size);
+            }
+            Console.WriteLine($"MOD UI PASS {checks} {language}: tabs, empty state, preserved preferences, independent core switch, busy lock, three widths.");
+        }
+        finally { Set("_busy",false);ConfigurationCode.Apply(new UserSettings(),settings);new SettingsStore().Save(settings);w.Close(); }
+    }
+}

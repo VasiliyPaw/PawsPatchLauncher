@@ -73,7 +73,8 @@ internal static class AppearanceChecks
             Check(icon.Kind == IconKind.Multiplayer && icon.ActualWidth == 18 && icon.IsVisible, "Navigation vector icon missing after language change.");
             Check(nav.Content is string label && !label.Contains('⚔'), "Navigation still relies on font symbols.");
             Check(!icon.IsHitTestVisible && !icon.Focusable, "Decorative icon takes input/focus.");
-            Check(Control<Button>("LanguageButton").Template.FindName("ActionIcon", Control<Button>("LanguageButton")) is LauncherIcon { Visibility: Visibility.Collapsed }, "Button without icon retained its icon gap.");
+            Check(!Control<Button>("LanguageButton").IsVisible && Control<ComboBox>("LauncherLanguageCombo").IsVisible,
+                "Launcher language must use the settings selector, not the removed header button.");
             Invoke("SetActivePage", "modules"); window.UpdateLayout(); await Task.Delay(240);
             CardHighlight.Pulse(card); window.Content = null; await Task.Delay(40);
             Check(Pulses(card).Length == 0, "Unloaded card leaked an adorner.");

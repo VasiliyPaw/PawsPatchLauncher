@@ -17,6 +17,7 @@ internal static class PlacementChecks
         var root = Path.Combine(ActivityStore.Root, "placement-fixture", Guid.NewGuid().ToString("N"));
         var store = new WindowPlacementStore(root);
         var windows = new List<MainWindow>();
+        var startupWindows = new List<StartupWindow>();
         int checks = 0;
         void Check(bool value, string message) { if (!value) throw new InvalidOperationException(message); checks++; }
         MainWindow NewWindow()
@@ -24,6 +25,34 @@ internal static class PlacementChecks
             var window = new MainWindow(null, null, store)
             { ShowActivated = false, ShowInTaskbar = false, Opacity = 0, IsHitTestVisible = false };
             windows.Add(window); return window;
+        }
+        StartupWindow NewStartup()
+        {
+            var window = new StartupWindow(new FeedClient(new() { FeedUrls = [], BetaFeedUrls = [] }), "ru", store)
+            { ShowActivated = false, ShowInTaskbar = false, Opacity = 0, IsHitTestVisible = false };
+            // Geometry checks never access a feed or begin an update.
+            typeof(StartupWindow).GetField("_started", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(window, true);
+            typeof(StartupWindow).GetField("_finished", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(window, true);
+            startupWindows.Add(window);
+            new WindowInteropHelper(window).EnsureHandle();
+            Check(!window.IsVisible, "Startup placement displayed a window before Show.");
+            return window;
+        }
+        void CheckStartupCenter(StartupWindow startup, MainWindow main)
+        {
+            var small = WindowPlacementPersistence.Capture(startup);
+            var large = WindowPlacementPersistence.Capture(main);
+            Check(small.MonitorId == large.MonitorId && small.DeviceName == large.DeviceName,
+                "Startup and main window selected different native monitors.");
+            var visibleMain = large.Maximized ? large.WorkArea : large.NormalBounds;
+            Check(Math.Abs(small.NormalBounds.Left + small.NormalBounds.Width / 2d - (visibleMain.Left + visibleMain.Width / 2d)) <= 1
+                && Math.Abs(small.NormalBounds.Top + small.NormalBounds.Height / 2d - (visibleMain.Top + visibleMain.Height / 2d)) <= 1,
+                $"Startup is not centered on the main window: {small.NormalBounds} vs {visibleMain}.");
+            Check(small.Dpi == large.Dpi, "Startup and main window used different effective DPI.");
+            var saved = File.ReadAllText(Path.Combine(root, "window-placement.json"));
+            startup.Close();
+            Check(File.ReadAllText(Path.Combine(root, "window-placement.json")) == saved,
+                "Closing startup overwrote the main window placement.");
         }
         void Pump(int ms = 180)
         {
@@ -37,11 +66,13 @@ internal static class PlacementChecks
             Check(monitors.Count > 0 && monitors.All(m => m.WorkArea.IsValid), "Native monitor enumeration failed.");
             Check(monitors.Where(m => m.Id.Length > 0).Select(m => m.Id).Distinct(StringComparer.OrdinalIgnoreCase).Count() == monitors.Count(m => m.Id.Length > 0), "Active extended monitors have duplicate interface IDs.");
             Console.WriteLine($"PLACEMENT MONITORS: {monitors.Count}, interface IDs available for {monitors.Count(m => m.Id.Length > 0)}; model names are not used");
+            var firstStartup = NewStartup(); firstStartup.Show(); Pump();
             var first = NewWindow();
-            Check(first.WindowStartupLocation == WindowStartupLocation.CenterScreen, "Fresh install no longer uses normal centered default.");
+            Check(first.WindowStartupLocation == WindowStartupLocation.Manual, "Fresh install bypasses the shared startup/main placement policy.");
             first.Show(); Pump();
             var baseline = WindowPlacementPersistence.Capture(first);
             Check(baseline.IsValid, "Native captured placement invalid.");
+            CheckStartupCenter(firstStartup, first);
             first.Close();
             var saved = store.Read();
             Check(saved is not null && saved.NormalBounds == baseline.NormalBounds, "Accepted close did not persist exact native normal bounds.");
@@ -83,17 +114,21 @@ internal static class PlacementChecks
                         screen.WorkArea.Left + (int)Math.Min(screen.WorkArea.Width - 16, 1250),
                         screen.WorkArea.Top + (int)Math.Min(screen.WorkArea.Height - 16, 850))
                 });
+                var startup = NewStartup(); startup.Show(); Pump();
                 var probe = NewWindow(); probe.Show(); Pump();
                 var placed = WindowPlacementPersistence.Capture(probe);
                 Check(placed.DeviceName == screen.DeviceName && placed.MonitorId == screen.Id, "Native restore selected a different monitor.");
+                CheckStartupCenter(startup, probe);
                 probe.Close();
                 var reopened = NewWindow(); reopened.Show(); Pump();
                 var repeated = WindowPlacementPersistence.Capture(reopened);
                 Check(repeated.NormalBounds == placed.NormalBounds && repeated.DeviceName == screen.DeviceName, "Repeated restore creeps or switches monitor.");
                 reopened.WindowState = WindowState.Maximized; Pump(); reopened.Close();
+                var maximizedStartup = NewStartup(); maximizedStartup.Show(); Pump();
                 var maximized = NewWindow(); maximized.Show(); Pump();
                 Check(maximized.WindowState == WindowState.Maximized && WindowPlacementPersistence.Capture(maximized).MonitorId == screen.Id,
                     "Maximized reopen lost its chosen monitor.");
+                CheckStartupCenter(maximizedStartup, maximized);
                 maximized.Close();
             }
             // A legacy maximized/small placement is reset once, even before first close.
@@ -104,12 +139,14 @@ internal static class PlacementChecks
             baseline.NormalBounds = new(target.WorkArea.Left + 20, target.WorkArea.Top + 20,
                 target.WorkArea.Left + 1100, target.WorkArea.Top + 720);
             store.Save(baseline);
+            var migratedStartup = NewStartup(); migratedStartup.Show(); Pump();
             var migrated = NewWindow(); migrated.Show(); Pump();
             var migration = WindowPlacementPersistence.Capture(migrated);
             Check(!migration.Maximized && migration.NormalBounds == WindowPlacementPersistence.InitialBounds(target, migration.Dpi),
                 $"Legacy placement did not reset to new centered default: {migration.NormalBounds}, expected {WindowPlacementPersistence.InitialBounds(target, migration.Dpi)}, maximized={migration.Maximized}.");
             Check(store.Read()?.LayoutRevision == WindowPlacementStore.CurrentLayoutRevision,
                 "Migration was not committed on first display.");
+            CheckStartupCenter(migratedStartup, migrated);
             migrated.Width = Math.Min(1200, migrated.Width - 100);
             migrated.Height = Math.Min(800, migrated.Height - 70);
             Pump();
@@ -120,8 +157,12 @@ internal static class PlacementChecks
                 "Second launch reset the user's custom size again.");
             afterMigration.Close();
             Check(store.Read()?.IsValid == true, "Final persisted state is invalid.");
-            Console.WriteLine($"WINDOW PLACEMENT UI PASS {checks}: native save/reopen, hidden initialization, accepted/cancelled close, normal/maximized/minimized roundtrips; invisible isolated windows only");
+            Console.WriteLine($"WINDOW PLACEMENT UI PASS {checks}: native startup/main centers on all monitors, save/reopen, hidden initialization, accepted/cancelled close, normal/maximized/minimized roundtrips; invisible isolated windows only");
         }
-        finally { foreach (var window in windows.Where(w => w.IsLoaded)) window.Close(); }
+        finally
+        {
+            foreach (var window in startupWindows.Where(w => w.IsLoaded)) window.Close();
+            foreach (var window in windows.Where(w => w.IsLoaded)) window.Close();
+        }
     }
 }

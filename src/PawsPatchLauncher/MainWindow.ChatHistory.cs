@@ -17,17 +17,21 @@ public partial class MainWindow
 
     private void ResetSocialHistory()
     {
+        ResetChatLoad();
+        _chatUnreadDivider.End();
         _historyScope = null; _historyRevision = 0; _historyMore = _historyTrimmed = false;
         _historyViewStart = 0; _historyGeneration++;
         _historyScrollDirection = 0;
+        _historyNavigating = _historyPreserveScroll = false;
     }
     private void EnsureHistoryScope()
     {
         if (_historyScope == ChatArrivalScope) return;
         ResetSocialHistory(); _historyScope = ChatArrivalScope;
     }
-    private Task<SocialMessagePage> ReadHistoryPageAsync(Guid peer, SocialMessage? before = null)
-        => _historyReadOverride is not null ? _historyReadOverride(peer, before) : _account.GetMessagePageAsync(peer, before, _accountLifetime.Token);
+    private Task<SocialMessagePage> ReadHistoryPageAsync(Guid peer, SocialMessage? before = null, CancellationToken ct = default)
+        => _historyReadOverride is not null ? _historyReadOverride(peer, before).WaitAsync(ct)
+            : _account.GetMessagePageAsync(peer, before, ct == default ? _accountLifetime.Token : ct);
 
     private bool HistoryAtNewest => _historyViewStart+HistoryVisibleLimit>=_socialMessages.Count;
     private void AppendSentHistoryMessage(SocialMessage sent)
@@ -66,7 +70,7 @@ public partial class MainWindow
             if (_sendingOffers.TryGetValue(offer.Id,out var local) && local.State != "sending") _sendingOffers.Remove(offer.Id);
         return true;
     }
-    private async Task RefreshCachedOfferStatesAsync(Guid owner,Guid peer,int generation)
+    private async Task RefreshCachedOfferStatesAsync(Guid owner,Guid peer,int generation,CancellationToken ct)
     {
         var ids=_socialOffers.Where(o=>o.State is "pending" or "uploading" or "applying")
             .Select(o=>o.Id).Distinct().ToArray();
@@ -74,7 +78,7 @@ public partial class MainWindow
         var newest=_socialMessages.TakeLast(50).Select(m=>m.MessageId).ToHashSet();
         ids=ids.Where(id=>!newest.Contains(id)).Take(200).ToArray();
         if(ids.Length==0)return;
-        var offers=await _account.GetOfferStatesAsync(peer,ids,_accountLifetime.Token);
+        var offers=await _account.GetOfferStatesAsync(peer,ids,ct);
         if(_account.UserId!=owner.ToString()||_socialPeer!=peer||generation!=_historyGeneration)return;
         _socialOffers=_socialOffers.Concat(offers).GroupBy(o=>o.Id).Select(g=>g.Last()).ToArray();
     }
@@ -129,10 +133,11 @@ public partial class MainWindow
 
     private async Task NavigateHistoryAsync(bool older)
     {
-        if (_historyNavigating || _socialBusy || ConfirmationActive || _socialPeer is not Guid peer || _account.Restricted
+        if (_historyNavigating || _chatLoading || _socialBusy || ConfirmationActive || _socialPeer is not Guid peer || _account.Restricted
             || !Guid.TryParse(_account.UserId,out var owner) || _historyScope != ChatArrivalScope) return;
         if (older ? !_historyMore && _historyViewStart == 0 : _historyViewStart + HistoryVisibleLimit >= _socialMessages.Count) return;
         var generation = _historyGeneration;
+        var ct = _chatViewLifetime?.Token ?? _accountLifetime.Token;
         var anchor = FriendsMessagesPanel.Children.OfType<FrameworkElement>()
             .FirstOrDefault(row => row.Tag is Guid && row.TranslatePoint(new Point(),FriendsChatScroll).Y + row.ActualHeight > 0);
         var anchorId = anchor?.Tag; var anchorY = anchor?.TranslatePoint(new Point(),FriendsChatScroll).Y ?? 0;
@@ -141,21 +146,24 @@ public partial class MainWindow
         {
             await SocialOperationAsync(async current =>
             {
+                try
+                {
                 if (current != owner || generation != _historyGeneration || _socialPeer != peer) return;
                 if (older && _historyViewStart == 0)
                 {
                     var before = _socialMessages.FirstOrDefault();
                     if (before is null) return;
-                    var page = await ReadHistoryPageAsync(peer,before);
+                    var page = await ReadHistoryPageAsync(peer,before,ct);
                     if (_account.UserId != owner.ToString() || generation != _historyGeneration || _socialPeer != peer) return;
                     if (!MergeHistoryPage(page,true))
                     {
-                        var latest = await ReadHistoryPageAsync(peer);
+                        var latest = await ReadHistoryPageAsync(peer,ct:ct);
                         if (_account.UserId != owner.ToString() || generation != _historyGeneration || _socialPeer != peer) return;
                         MergeHistoryPage(latest,false);
                     }
                 }
                 else _historyViewStart = Math.Clamp(_historyViewStart + (older ? -50 : 50),0,Math.Max(0,_socialMessages.Count-HistoryVisibleLimit));
+                SaveCurrentChat();
                 _historyPreserveScroll = true;
                 try
                 {
@@ -164,9 +172,12 @@ public partial class MainWindow
                     if (restored is not null) FriendsChatScroll.ScrollToVerticalOffset(FriendsChatScroll.VerticalOffset + restored.TranslatePoint(new Point(),FriendsChatScroll).Y-anchorY);
                 }
                 finally { _historyPreserveScroll = false; }
+                }
+                catch (OperationCanceledException) when (ct.IsCancellationRequested) { }
+                catch (Exception) when (!CurrentChatLoad(owner, peer, generation)) { }
             },background:true);
             await Dispatcher.InvokeAsync(() => { },DispatcherPriority.Background);
         }
-        finally { _historyNavigating = false; RenderHistoryControls(); }
+        finally { if (generation == _historyGeneration) { _historyNavigating = false; RenderHistoryControls(); } }
     }
 }

@@ -16,6 +16,7 @@ public sealed class AccountSession
     public DateTimeOffset? AvatarChangedAt { get; set; }
     public bool DeletionPending { get; set; }
     public int AdminLevel { get; set; }
+    public bool PawsTeam { get; set; }
     public bool ProtectedAdmin { get; set; }
     public DateTimeOffset? BannedAt { get; set; }
     public DateTimeOffset? BanUntil { get; set; }

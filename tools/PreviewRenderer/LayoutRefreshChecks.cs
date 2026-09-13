@@ -25,7 +25,7 @@ internal static class LayoutRefreshChecks
         async Task Scenario()
         {
             Field<PawsPatchLauncher.Localization>("_text").SetLanguage(language); Call("ApplyLanguage");
-            Check(Field<string>("_changelogCategory")=="launcher","startup history not launcher");
+            Check(Field<string>("_historySubject")==Field<UserSettings>("_settings").Mod,"startup history not active mod");
             Check(w.FindName("FriendsChatsTab") is null && w.FindName("FriendsSearchButton") is null && w.FindName("FriendsClearSearchButton") is null,"obsolete navigation remains");
             Check(C<StackPanel>("FriendsToolbar").Children.OfType<Button>().Select(b=>b.Name).SequenceEqual(
                 new[]{"FriendsShowAddButton","FriendsRequestsTab","FriendsBroadcastButton","FriendsBlockedTab"}),"toolbar action order");
@@ -36,7 +36,7 @@ internal static class LayoutRefreshChecks
             Check(rows.Children.Count==1 && C<TextBlock>("FriendsSearchPlaceholder").Visibility==Visibility.Collapsed,"live search placeholder");
             input.Clear(); friendRow=rows.Children[0];
             var peer=Field<Guid?>("_socialPeer");
-            C<TextBox>("FriendsMessageInput").Text="preserved draft";
+            C<ChatComposer>("FriendsMessageInput").Text="preserved draft";
             foreach(var size in new[]{new Size(1050,680),new Size(1600,1000)})
             {
                 w.Width=size.Width; w.Height=size.Height; w.UpdateLayout();
@@ -45,7 +45,7 @@ internal static class LayoutRefreshChecks
                 {
                     Call("OpenFriendsDialog",kind); w.UpdateLayout(); await Task.Delay(210);
                     Check(Field<string>("_socialSection")=="chats" && Field<Guid?>("_socialPeer")==peer,"dialog replaced chat selection");
-                    Check(ReferenceEquals(friendRow,rows.Children[0]) && C<TextBox>("FriendsMessageInput").Text=="preserved draft","dialog rebuilt chat/draft");
+                    Check(ReferenceEquals(friendRow,rows.Children[0]) && C<ChatComposer>("FriendsMessageInput").Text=="preserved draft","dialog rebuilt chat/draft");
                     var card=C<Border>("FriendsDialogCard"); var content=(FrameworkElement)w.Content;
                     var rect=card.TransformToAncestor(content).TransformBounds(new Rect(card.RenderSize));
                     Check(rect.Left>=0 && rect.Right<=content.ActualWidth+1 && rect.Top>=0 && rect.Bottom<=content.ActualHeight+1,"dialog clips: "+kind);
@@ -130,8 +130,8 @@ internal static class LayoutRefreshChecks
                 Set("_channel",channel);Set("_latestChannel",channel);
                 foreach(var category in new[]{"patch","beta"})
                 {
-                    await (Task)Call("SwitchChangelogAsync",category)!;Call("RefreshNews");
-                    var title=((StackPanel)C<StackPanel>("NewsEntriesPanel").Children[0]).Children.OfType<TextBlock>().First().Text;
+                    await (Task)Call("SwitchHistoryAsync",GameMod.ArcaneWars,"patch",category=="beta"?"beta":"stable")!;Call("RefreshNews");
+                    var title=((StackPanel)((Border)C<StackPanel>("NewsEntriesPanel").Children[0]).Child).Children.OfType<TextBlock>().Skip(1).First().Text;
                     Check(title==(category=="beta"?"Beta-only":"Release-only"),"history follows selected channel");
                 }
             }

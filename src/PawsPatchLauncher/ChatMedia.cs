@@ -17,8 +17,8 @@ public sealed class ChatMedia : IDisposable
     private bool _disposed;
     public ChatMedia(HttpMessageHandler? transport=null)
     {
-        var handler=transport??new SocketsHttpHandler{AllowAutoRedirect=false,UseCookies=false,UseProxy=false,AutomaticDecompression=DecompressionMethods.None,
-            ConnectCallback=ConnectPublicAsync,MaxConnectionsPerServer=2,ConnectTimeout=TimeSpan.FromSeconds(8)};
+        var handler=transport??LocalTestNetwork.Handler(()=>new SocketsHttpHandler{AllowAutoRedirect=false,UseCookies=false,UseProxy=false,AutomaticDecompression=DecompressionMethods.None,
+            ConnectCallback=ConnectPublicAsync,MaxConnectionsPerServer=2,ConnectTimeout=TimeSpan.FromSeconds(8)});
         _http=new HttpClient(handler){Timeout=TimeSpan.FromSeconds(20)};
     }
     public static bool IsPublic(IPAddress ip)

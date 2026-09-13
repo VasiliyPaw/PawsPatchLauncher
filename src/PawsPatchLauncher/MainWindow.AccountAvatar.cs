@@ -25,7 +25,13 @@ public partial class MainWindow
         AccountPersonalSectionText.Text = T("ПРОФИЛЬ", "PROFILE");
         AccountSecuritySectionText.Text = T("БЕЗОПАСНОСТЬ", "SECURITY");
         AccountDeleteButton.Content = T("Удалить аккаунт", "Delete account");
-        AccountDeleteButton.IsEnabled = _account.State == AccountState.SignedIn && !_accountBusy && !_account.ProtectedAdmin;
+        AccountDeleteButton.IsEnabled = _account.CanDeleteAccount && !_accountBusy;
+        AccountDeleteButton.ToolTip = _account.Banned
+            ? T("Удаление аккаунта недоступно до окончания или снятия блокировки.", "Account deletion is unavailable until the ban expires or is lifted.")
+            : _account.ProtectedAdmin ? T("Это защищённый аккаунт администратора. Его удаление запрещено, чтобы сохранить управление лаунчером.", "This administrator account is protected against deletion to retain access to launcher administration.")
+            : _account.State == AccountState.Offline ? T("Для удаления аккаунта нужно восстановить соединение.", "Reconnect to delete your account.") : null;
+        System.Windows.Automation.AutomationProperties.SetHelpText(AccountDeleteButton, AccountDeleteButton.ToolTip?.ToString() ?? "");
+        ToolTipService.SetShowOnDisabled(AccountDeleteButton, true);
     }
 
     private void AccountAvatarEdit_Click(object sender, RoutedEventArgs e)

@@ -17,12 +17,17 @@ public static class ConfigurationChanges
   string Channel(string value)=>value=="beta"?(ru?"Бета":"Beta"):(ru?"Релиз":"Release");
   string Spawn(string value)=>value=="x2"?"×2":value=="x4"?"×4":"×1";
   Change(ru?"Канал":"Channel",Channel(before.Channel),Channel(after.Channel));
+  Change(ru?"Мод":"Mod",GameMod.Name(before.Mod,ru),GameMod.Name(after.Mod,ru));
+  Change("Paw's Patch",Flag(GameMod.PawPatchSelected(before)),Flag(GameMod.PawPatchSelected(after)));
+  Change(ru?"Только файловые изменения":"File changes only",Flag(before.DataOnly),Flag(after.DataOnly));
   Change(ru?"Частота отрядов":"Roaming frequency",Spawn(before.RoamingSpawnMode),Spawn(after.RoamingSpawnMode));
   Change(ru?"Враждебность независимых":"Independent hostility",Flag(before.IndependentHostility),Flag(after.IndependentHostility));
   Change(ru?"Дополнительные отряды":"Additional roaming",Flag(before.AdditionalRoamingCompanies),Flag(after.AdditionalRoamingCompanies));
   Change(ru?"Баланс осады":"Siege balance",Flag(before.SiegeBalance),Flag(after.SiegeBalance));
   Change(ru?"Большие карты":"Large maps",Flag(before.LargeMapSizes),Flag(after.LargeMapSizes));
   Change(ru?"Русская локализация":"Russian localization",Flag(before.RussianLocalization),Flag(after.RussianLocalization));
+  if (before.GameVoiceLanguage is not null || after.GameVoiceLanguage is not null)
+   Change(ru?"Озвучка":"Speech",GameLanguages.Voice(before)=="ru"?"Русский":"English",GameLanguages.Voice(after)=="ru"?"Русский":"English");
   Change(ru?"Цвета игроков":"Player colors",Flag(before.CustomPlayerColors),Flag(after.CustomPlayerColors));
   Change(ru?"Пропуск рассинхронизации":"Continue after desync",Flag(before.DesyncMode=="continue"),Flag(after.DesyncMode=="continue"));
   Change(ru?"Отключение способностей и осколков":"Disable powers and shards",Flag(before.DisablePowersAndShards),Flag(after.DisablePowersAndShards));

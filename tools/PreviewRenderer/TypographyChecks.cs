@@ -29,7 +29,7 @@ internal static class TypographyChecks
         Require(modulesTitle.FontSize == 18 && modulesTitle.FontWeight == FontWeights.Bold,
             "Components page heading must match the compact card title style.");
 
-        foreach (var name in new[] { "SettingsLanguageTitleText", "SettingsRepairTitleText", "CoreTitleText", "RussianTitleText", "ColorsTitleText", "OosTitleText", "IndependentTitleText", "RoamingSpawnTitleText", "AdditionalRoamingTitleText", "SiegeBalanceTitleText" })
+        foreach (var name in new[] { "SettingsLanguageTitleText", "SettingsRepairTitleText", "CoreTitleText", "ColorsTitleText", "OosTitleText", "IndependentTitleText", "RoamingSpawnTitleText", "AdditionalRoamingTitleText", "SiegeBalanceTitleText" })
         {
             var fieldTitle = Named<TextBlock>(window, name);
             Require(fieldTitle.FontSize == 15 && fieldTitle.FontWeight == FontWeights.SemiBold,
@@ -42,7 +42,7 @@ internal static class TypographyChecks
         var descriptions = new List<TextBlock>();
         foreach (var name in new[] { "SettingsLanguageDescriptionText", "LauncherUpdatesDescriptionText", "PatchChannelDescriptionText",
                      "SettingsRepairDescriptionText", "SettingsUpdatesDescriptionText", "ConfigurationDescriptionText", "DiagnosticsDescriptionText",
-                     "HomeWelcomeBodyText", "UpdateNoticeBodyText", "CoreDescriptionText", "RussianDescriptionText", "ColorsDescriptionText",
+                     "HomeWelcomeBodyText", "UpdateNoticeBodyText", "CoreDescriptionText", "ColorsDescriptionText",
                      "IndependentDescriptionText", "AdditionalRoamingDescriptionText", "SiegeBalanceDescriptionText",
                      "RemovePatchDescriptionText", "RemoveLauncherDescriptionText", "MultiplayerNoteText" })
             descriptions.Add(Named<TextBlock>(window, name));
@@ -59,7 +59,7 @@ internal static class TypographyChecks
                 Require(Math.Abs(description.ActualHeight / 19 - Math.Round(description.ActualHeight / 19)) < 0.05,
                     $"Description line spacing is not 19px: {description.Text}");
         }
-        foreach (var name in new[] { "DiagnosticsArchiveInfoText", "GameVersionLabel", "PatchVersionLabel", "TransferText", "PatchChannelLabel", "ConfirmationEyebrowText", "ConfirmationPathLabel" })
+        foreach (var name in new[] { "DiagnosticsArchiveInfoText", "GameVersionLabel", "PatchVersionLabel", "TransferText", "ModPatchVersionText", "ConfirmationEyebrowText", "ConfirmationPathLabel" })
             Require(Named<TextBlock>(window, name).FontSize == 12, $"Metadata was not raised from 11 to 12px: {name}");
         foreach (var name in new[] { "LastCheckedText", "LauncherVersionLabel" })
             Require(Named<TextBlock>(window, name).FontSize == 11, $"Small metadata was not raised from 10 to 11px: {name}");
@@ -87,8 +87,8 @@ internal static class TypographyChecks
             else
             {
                 var index = parent.Children.IndexOf(title);
-                if (index + 1 == parent.Children.Count) continue;
-                var next = (FrameworkElement)parent.Children[index + 1];
+                var next = parent.Children.OfType<FrameworkElement>().Skip(index + 1).FirstOrDefault(child => child.Visibility == Visibility.Visible);
+                if (next is null) continue;
                 var gap = next.TranslatePoint(new Point(), content).Y - title.TranslatePoint(new Point(0, title.ActualHeight), content).Y;
                 Require(Math.Abs(gap - 8) < 0.6, $"Heading does not leave an 8px gap: {title.Text}, {gap}");
             }
@@ -104,6 +104,7 @@ internal static class TypographyChecks
             foreach (var name in new[] { "ImportActions" })
             {
                 var row = Named<WrapPanel>(window, name);
+                if (!row.IsVisible) continue;
                 var buttons = row.Children.OfType<Button>().ToArray();
                 Require(buttons.Length == 2, "Action pair lost a button.");
                 var sameLine = Math.Abs(buttons[0].TranslatePoint(new Point(), row).Y - buttons[1].TranslatePoint(new Point(), row).Y) < 0.6;
@@ -114,6 +115,7 @@ internal static class TypographyChecks
             foreach (var field in new[] { "_importInput" })
             {
                 var input = Field<TextBox>(window, field);
+                if (!input.IsVisible) continue;
                 var border = (Border)input.Template.FindName("InputBorder", input);
                 Require(border.CornerRadius == new CornerRadius(5) && input.ActualHeight is >= 30 and <= 40,
                     "Input lost its compact rounded shape (or has doubled padding).");
@@ -160,21 +162,22 @@ internal static class TypographyChecks
         {
             Field<PawsPatchLauncher.Localization>(window, "_text").SetLanguage(language);
             typeof(MainWindow).GetMethod("ApplyLanguage", Fields)!.Invoke(window, null);
-            typeof(MainWindow).GetMethod("SetActivePage", Fields)!.Invoke(window, ["settings"]);
+            typeof(MainWindow).GetMethod("ShowAccountForm", Fields)!.Invoke(window, [true]);
+            typeof(MainWindow).GetMethod("SetActivePage", Fields)!.Invoke(window, ["account"]);
             window.Show(); Pump(); window.UpdateLayout();
-            foreach (var field in new[] { "_importInput" })
+            foreach (var field in new[] { "AccountNicknameInput" })
             {
-                var input = Field<TextBox>(window, field);
+                var input = Named<TextBox>(window, field);
                 Check(input.Template.FindName("PART_ContentHost", input) is ScrollViewer, "Text editor host missing.");
-                Check(input.MaxLength == 256 && input.TextWrapping == TextWrapping.Wrap && input.IsUndoEnabled && !input.AcceptsReturn, "Editing behavior changed.");
-                Check(System.Windows.Automation.AutomationProperties.GetName(input).Length > 8, "Accessible input name is missing.");
+                Check(input.MaxLength > 0 && input.TextWrapping == TextWrapping.NoWrap && input.IsUndoEnabled && !input.AcceptsReturn, "Single-line account input behavior changed.");
+                Check(System.Windows.Automation.AutomationProperties.GetName(input).Length > 0, "Accessible input name is missing.");
                 input.Text = "PAW-TEST"; input.Select(4, 4);
                 Check(input.SelectedText == "TEST", "Selection is broken.");
                 input.SelectedText = "BETA";
                 Check(input.Text == "PAW-BETA" && input.CanUndo, "Replacing selected text/undo is broken.");
                 input.Undo(); Check(input.Text == "PAW-TEST", "Native undo did not restore the input.");
                 input.Text = new string('W', 200); window.UpdateLayout();
-                Check(input.GetLineIndexFromCharacterIndex(199) > 0, "Long code does not wrap.");
+                Check(input.GetLineIndexFromCharacterIndex(199) == 0, "A username expanded into multiple lines.");
                 input.Clear(); window.UpdateLayout();
                 Check(input.ActualHeight is >= 30 and <= 40, "Empty text field retained excess height.");
                 var focus = input.Template.Triggers.OfType<Trigger>().Single(t => t.Property == UIElement.IsKeyboardFocusWithinProperty);
@@ -185,20 +188,10 @@ internal static class TypographyChecks
                 input.IsEnabled = false; Pump(); Check(Math.Abs(border.Opacity - 0.45) < 0.01, "Disabled input isn't visually disabled.");
                 input.IsEnabled = true; Pump(); Check(Math.Abs(border.Opacity - 1) < 0.01, "Re-enabled input remains faded.");
             }
-            foreach (var name in new[] { "ImportActions" })
-            {
-                var row = Named<WrapPanel>(window, name); var buttons = row.Children.OfType<Button>().ToArray();
-                row.Width = buttons.Max(b => b.ActualWidth + b.Margin.Right) + 1; window.UpdateLayout();
-                Check(buttons[1].TranslatePoint(new Point(), row).Y >= buttons[0].ActualHeight + 7.5, "Narrow action pair did not wrap with spacing.");
-                row.Width = double.NaN;
-            }
+            Check(!Field<TextBox>(window, "_importInput").IsVisible, "Removed settings import is visible.");
             window.Width = 1440; window.UpdateLayout();
-            foreach (var name in new[] { "ImportActions" })
-            {
-                var row = Named<WrapPanel>(window, name); var buttons = row.Children.OfType<Button>().ToArray();
-                Check(Math.Abs(buttons[1].TranslatePoint(new Point(), row).Y - buttons[0].TranslatePoint(new Point(), row).Y) < 0.5, "Wide action pair remained stacked.");
-            }
-            Console.WriteLine($"TYPOGRAPHY UI PASS {checks} {language}: native selection/edit/undo/wrapping, accessibility, compact height, focus/hover transition wiring, disabled states and action-row reflow; no keyboard focus or real clipboard used");
+            Check(Named<TextBox>(window, "AccountNicknameInput").ActualHeight is >= 30 and <= 40, "Wide layout changed the compact input height.");
+            Console.WriteLine($"TYPOGRAPHY UI PASS {checks} {language}: native selection/edit/undo, accessibility, compact height, focus/hover transitions and disabled states; no keyboard focus or real clipboard used");
         }
         finally { window.Close(); }
     }

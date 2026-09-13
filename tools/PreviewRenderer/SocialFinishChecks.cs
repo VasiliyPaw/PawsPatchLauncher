@@ -37,7 +37,7 @@ internal static class SocialFinishChecks
             Check(line.Children.Count==1,"trailing chat action button remains");
             Press((Button)line.Children[0],true);
             Check(menus==1&&Field<ContextMenu>("_socialMenu").Items.Count==3,"friend-row right-click lost actions");Invoke("CloseSocialMenu");
-            var message=(Grid)Control<StackPanel>("FriendsMessagesPanel").Children[0];
+            var message=Control<StackPanel>("FriendsMessagesPanel").Children.OfType<Grid>().First(r => r.Tag is Guid);
             var bubble=message.Children.OfType<Border>().Single();var textPanel=(StackPanel)bubble.Child;
             Press(message,true);Press(textPanel,true);Press(textPanel.Children.OfType<TextBlock>().Last(),true);
             Check(menus==1,"ordinary message/background opens player menu");
@@ -120,7 +120,7 @@ internal static class SocialFinishChecks
             Check(Control<StackPanel>("ConfirmationChangesPanel").Visibility==Visibility.Collapsed&&Control<TextBlock>("ConfirmationPathText").Visibility==Visibility.Visible,"pretty preview leaks into other confirmations");
             Press(Control<Border>("ConfirmationOverlay"));await confirmation;
             OfferUiChecks.Populate(w);
-            foreach(Border offer in Control<StackPanel>("FriendsMessagesPanel").Children)
+            foreach(var offer in Control<StackPanel>("FriendsMessagesPanel").Children.OfType<Border>())
             {
                 var header=((StackPanel)offer.Child).Children.OfType<DockPanel>().Single();
                 Check(header.Children.OfType<TextBlock>().Any(t=>t.Tag as string=="offer-time"&&t.Text.Count(c=>c==':')==2),"offer time missing");

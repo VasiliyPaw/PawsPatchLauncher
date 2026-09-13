@@ -47,7 +47,7 @@ internal static class UpdateRefreshChecks
             var rows=Control<StackPanel>("FriendsRowsPanel"); var messages=Control<StackPanel>("FriendsMessagesPanel");
             var row=rows.Children[0]; var message=messages.Children[0];
             var chat=Control<Border>("FriendsChatCard"); var height=chat.ActualHeight;
-            var composer=Control<TextBox>("FriendsMessageInput"); composer.Text="draft stays"; composer.CaretIndex=5;
+            var composer=Control<ChatComposer>("FriendsMessageInput"); composer.Text="draft stays"; composer.CaretPosition=composer.Document.ContentStart.GetPositionAtOffset(7)!; var caret=composer.CaretPosition;
             var inputChanges=0; var socialChanges=0; var logoutChanges=0;
             composer.IsEnabledChanged+=(_,_)=>inputChanges++;
             Control<Button>("FriendsSendButton").IsEnabledChanged+=(_,_)=>socialChanges++;
@@ -63,7 +63,7 @@ internal static class UpdateRefreshChecks
                 Check(success==(i==0),"unexpected feed outcome");
                 Check(ReferenceEquals(row,rows.Children[0])&&ReferenceEquals(message,messages.Children[0]),"background update rebuilt chat");
                 Check(Math.Abs(chat.ActualHeight-height)<.1,"chat resized after check");
-                Check(composer.Text=="draft stays"&&composer.CaretIndex==5,"draft/caret lost");
+                Check(composer.Text=="draft stays"&&composer.CaretPosition.CompareTo(caret)==0,"draft/caret lost");
             }
             Check(inputChanges==0&&socialChanges==0,"chat enabled state toggled");
             Check(logoutChanges==0,"background check dimmed sign-out");

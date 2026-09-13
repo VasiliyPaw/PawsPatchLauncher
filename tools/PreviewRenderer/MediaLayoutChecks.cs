@@ -34,7 +34,7 @@ internal static class MediaLayoutChecks
         var frame=new DispatcherFrame();var timer=new DispatcherTimer {Interval=TimeSpan.FromMilliseconds(150)};
         timer.Tick+=(_,_)=>{timer.Stop();frame.Continue=false;};timer.Start();Dispatcher.PushFrame(frame);
     }
-    private static Border[] Bubbles(MainWindow w)=>((StackPanel)w.FindName("FriendsMessagesPanel")).Children.OfType<Grid>().Select(g=>g.Children.OfType<Border>().Single()).ToArray();
+    private static Border[] Bubbles(MainWindow w)=>((StackPanel)w.FindName("FriendsMessagesPanel")).Children.OfType<Grid>().Where(g => g.Tag is Guid).Select(g=>g.Children.OfType<Border>().Single()).ToArray();
     internal static void Run(string language)
     {
         var w=new MainWindow();int checks=0;

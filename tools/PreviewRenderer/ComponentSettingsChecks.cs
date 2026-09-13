@@ -19,7 +19,7 @@ internal static class ComponentSettingsChecks
         var root = Path.Combine(ActivityStore.Root, "component-settings", Guid.NewGuid().ToString("N"));
         var game = Path.Combine(root, "игра & тест"); Directory.CreateDirectory(game);
         var exe = Path.Combine(game, "k2.exe"); File.WriteAllText(exe, "inert fixture, never launched");
-        var config = new LauncherConfiguration { FeedUrls = [], BetaFeedUrls = [], CacheRoot = Path.Combine(root, "cache") };
+        var config = new LauncherConfiguration { FeedUrls = [], BetaFeedUrls = [], CacheRoot = Path.Combine(root, "cache"), RequireSignedRemoteFeed = false };
         var feed = new ChannelManifest { ColorDesyncContinue = true, IndependentColorHostility = true };
         var ids = new[] { "arcane-wars", "pawpatch-core", "desync-continue", "roaming-profile-x2-with-new", "roaming-profile-x2-no-new",
             "roaming-profile-standard-with-new", "roaming-profile-standard-no-new", "roaming-profile-x4-no-new" };
@@ -46,6 +46,7 @@ internal static class ComponentSettingsChecks
         void Set(string name, object? value) => typeof(MainWindow).GetField(name, flags)!.SetValue(window, value);
         T Control<T>(string name) => (T)window.FindName(name);
         var settings = Field<UserSettings>("_settings");
+        FixtureAccess.AllowArcaneWars(window);
         ConfigurationCode.Apply(new UserSettings { RussianLocalization = false }, settings);
         Set("_game", new GameInstallation(game, exe, "test", "test")); Set("_channel", feed); Set("_latestChannel", feed);
         Set("_lastChecked", DateTimeOffset.Now); Set("_gameRunningProbe", (Func<bool>)(() => false));
@@ -64,7 +65,13 @@ internal static class ComponentSettingsChecks
         }
         async Task Scenario()
         {
-            await Apply();
+            await (Task)typeof(FeedClient).GetMethod("ArchiveAsync", flags)!.Invoke(Field<FeedClient>("_feedClient"),
+                [JsonSerializer.SerializeToUtf8Bytes(feed, LauncherJsonContext.Default.ChannelManifest), feed, CancellationToken.None])!;
+            Check(!apply.IsEnabled, "Uninstalled mod allows Apply before installation");
+            Control<Button>("UpdateButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            var installDeadline = DateTimeOffset.UtcNow.AddSeconds(15);
+            while (Field<bool>("_busy") && DateTimeOffset.UtcNow < installDeadline) await Task.Delay(20);
+            Check(!Field<bool>("_busy"), "Initial installation did not finish");
             Check(File.Exists(Path.Combine(game, "data", "pawpatch-core.txt")), "Apply failed to install fixture files");
             Check(!apply.IsEnabled && !Field<bool>("_settingsPending"), "Applied state remains pending");
             await Hidden("Apply did not hide after installation on Components");
@@ -113,12 +120,12 @@ internal static class ComponentSettingsChecks
             Check(runningCalls > afterApply, "Update did not check game running");
             var afterUpdate=runningCalls;
             Invoke("LaunchButton_Click", Control<Button>("LaunchButton"), new RoutedEventArgs());
-            Check(runningCalls > afterUpdate, "Launch did not check game running");
+            Check(!Control<Button>("LaunchButton").IsEnabled && Field<bool>("_settingsPending"), "Pending configuration allowed launch");
             Check(appliedBytes.SequenceEqual(File.ReadAllBytes(Path.Combine(game, ".pawpatch", "state.json"))), "Running game changed installation");
             Check(Field<object?>("_presentedError") is null, "Running game opened generic error/diagnostics");
             Check(!Field<bool>("_busy"), "Running guard left launcher busy");
             await Task.Delay(180);
-            Check(apply.Visibility == Visibility.Visible && apply.IsEnabled && Field<bool>("_settingsPending"), "Blocked application discarded pending Apply");
+            Check(apply.Visibility == Visibility.Visible && !apply.IsEnabled && Field<bool>("_settingsPending"), "Running game discarded pending Apply or left it enabled");
             // Also block a game started during the download/prepare phase.
             bool InLaunchGuard() => new System.Diagnostics.StackTrace().GetFrames().Any(frame=>frame.GetMethod()?.Name=="EnsureGameClosed");
             var probes = 0; Set("_gameRunningProbe", (Func<bool>)(() => { if(InLaunchGuard())probes++; return probes>=3; }));
@@ -126,8 +133,8 @@ internal static class ComponentSettingsChecks
             Check(probes == 3 && appliedBytes.SequenceEqual(File.ReadAllBytes(Path.Combine(game, ".pawpatch", "state.json"))), "Late game start allowed reconciliation");
             Set("_gameRunningProbe", (Func<bool>)(() => false));
             settings.IndependentHostility = false;
-            settings.Channel = feed.Channel = "beta"; Invoke("RefreshStatus");
-            Check(!Control<Button>("UpdateButton").IsEnabled && !apply.IsEnabled, "Identical channel asks for update/application");
+            Invoke("RefreshStatus");
+            Check(!Control<Button>("UpdateButton").IsEnabled && !apply.IsEnabled, "Reverted settings ask for update/application");
             settings.AdditionalRoamingCompanies = false; Invoke("RefreshStatus");
             Check(!Control<Button>("UpdateButton").IsEnabled && apply.IsEnabled, "Cached profile requires redownload");
             Invoke("SetActivePage", "home");
@@ -135,12 +142,8 @@ internal static class ComponentSettingsChecks
             Check(!File.Exists(Path.Combine(game, "data", "roaming-profile-x2-with-new.txt")) && File.Exists(Path.Combine(game, "data", "roaming-profile-x2-no-new.txt")), "Profile switch left previous files");
             Check(!apply.IsEnabled, "Apply still active after profile switch");
             await Hidden("Apply outside Components did not hide after success");
-            var x2Packages = feed.Packages.Where(p => p.Id.StartsWith("roaming-profile-x2")).ToArray();
-            feed.Packages.RemoveAll(p => x2Packages.Contains(p));
-            Invoke("RefreshStatus"); await Apply();
-            Check(!x2.IsEnabled && Field<object?>("_presentedError") is null, "Older feed did not explain missing x2 safely");
-            Check(new ModuleInstaller(game).LoadState().AppliedSettings?.RoamingSpawnMode == "x2", "Older feed silently replaced applied x2");
-            feed.Packages.AddRange(x2Packages); Invoke("RefreshStatus");
+            // PerModChannelChecks covers signed release changes; this fixture
+            // keeps its installed release immutable while testing component edits.
             var saves = Path.Combine(root, "сейвы"); string? opened = null;
             Set("_savesDirectory", (Func<string>)(() => saves));
             Set("_openGameFolder", (Func<string, Task>)(path => { opened = path; return Task.CompletedTask; }));
@@ -172,13 +175,17 @@ internal static class ComponentSettingsChecks
             // Use the actual launch preparation path with inert local files. The final
             // running-game guard stops it before Process.Start; no real game is opened.
             settings.AdditionalRoamingCompanies = true; Invoke("RefreshStatus");
-            var launchExe = (string)Invoke("ResolveLaunchExecutable", game)!;
-            File.WriteAllText(launchExe, "inert pre-launch fixture, never launched");
-            var launchProbes = 0;
-            Set("_gameRunningProbe", (Func<bool>)(() => { if(InLaunchGuard())launchProbes++; return launchProbes>=4; }));
+            var beforeBlockedLaunch = File.ReadAllBytes(Path.Combine(game, ".pawpatch", "state.json"));
             await (Task)Invoke("LaunchGameAsync")!;
-            Check(launchProbes == 4, "Launch test did not reach the final pre-process guard");
-            Check(new ModuleInstaller(game).LoadState().AppliedSettings?.IndependentHostility == true && !Field<bool>("_settingsPending"), "Launch did not apply pending settings");
+            Check(!Control<Button>("LaunchButton").IsEnabled && File.ReadAllBytes(Path.Combine(game, ".pawpatch", "state.json")).SequenceEqual(beforeBlockedLaunch),
+                "Launch applied pending settings without explicit Apply");
+            await Apply();
+            var launchProbes = 0;
+            Set("_gameRunningProbe", (Func<bool>)(() => { launchProbes++; return true; }));
+            await (Task)Invoke("LaunchGameAsync")!;
+            Check(launchProbes > 0, "Launch did not check the running game");
+            Set("_gameRunningProbe", (Func<bool>)(() => false)); Invoke("RefreshStatus");
+            Check(new ModuleInstaller(game).LoadState().AppliedSettings?.IndependentHostility == true && !Field<bool>("_settingsPending"), "Explicit Apply did not preserve settings before launch");
             Check(File.Exists(Path.Combine(game, "data", "roaming-profile-x2-with-new.txt")) && !File.Exists(Path.Combine(game, "data", "roaming-profile-x2-no-new.txt")), "Launch did not reconcile selected component packages");
             await Hidden("Apply remained visible after launch applied settings");
             Invoke("SetActivePage", "modules"); Invoke("RefreshStatus");

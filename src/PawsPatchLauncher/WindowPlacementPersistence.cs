@@ -16,7 +16,7 @@ public sealed class WindowPlacementPersistence
     public WindowPlacementPersistence(Window window, WindowPlacementStore store)
     {
         _window = window; _store = store; _saved = store.Read();
-        if (_saved is not null) window.WindowStartupLocation = WindowStartupLocation.Manual;
+        window.WindowStartupLocation = WindowStartupLocation.Manual;
         window.SourceInitialized += (_, _) => Restore();
         window.ContentRendered += (_, _) =>
         {
@@ -37,45 +37,50 @@ public sealed class WindowPlacementPersistence
 
     private void Restore()
     {
-        if (_saved is null) return;
         try
         {
             var handle = new WindowInteropHelper(_window).Handle;
             var monitors = ReadMonitors();
             var target = WindowPlacementPolicy.FindMonitor(_saved, monitors);
             if (target is null) return;
-            if (_saved.LayoutRevision < WindowPlacementStore.CurrentLayoutRevision)
-            {
-                ApplyBounds(handle, target, target.WorkArea);
-                var firstDpi = GetDpiForWindow(handle);
-                if (firstDpi == 0) firstDpi = 96;
-                _window.MinWidth = Math.Min(1050, target.WorkArea.Width * 96d / firstDpi);
-                _window.MinHeight = Math.Min(680, target.WorkArea.Height * 96d / firstDpi);
-                ApplyBounds(handle, target, InitialBounds(target, firstDpi));
-                return;
-            }
             // Move the still-hidden HWND to the target first. Then ask that HWND for its effective DPI;
             // do not guess monitor scaling or mix WPF DIPs with native desktop coordinates.
-            ApplyBounds(handle, target, WindowPlacementPolicy.RestoreBounds(_saved, target, monitors, _saved.Dpi));
+            ApplyBounds(handle, target, WindowPlacementPolicy.LauncherBounds(_saved, target, monitors, _saved?.Dpi ?? 96));
             var dpi = GetDpiForWindow(handle);
             if (dpi == 0) dpi = 96;
             _window.MinWidth = Math.Min(1050, target.WorkArea.Width * 96d / dpi);
             _window.MinHeight = Math.Min(680, target.WorkArea.Height * 96d / dpi);
-            ApplyBounds(handle, target, WindowPlacementPolicy.RestoreBounds(_saved, target, monitors, dpi));
-            if (_saved.Maximized) _window.WindowState = WindowState.Maximized;
+            ApplyBounds(handle, target, WindowPlacementPolicy.LauncherBounds(_saved, target, monitors, dpi));
+            if (_saved is { Maximized: true, LayoutRevision: >= WindowPlacementStore.CurrentLayoutRevision })
+                _window.WindowState = WindowState.Maximized;
         }
         catch (Exception error) { ActivityStore.Log(error); } // Corrupt/unavailable geometry falls back to a normal window.
     }
 
-    public static WindowPixelRect InitialBounds(WindowMonitor monitor, uint dpi)
+    public static void PositionStartupWindow(Window window, WindowPlacementStore store)
     {
-        var work = monitor.WorkArea;
-        var width = (int)Math.Min(1600d * dpi / 96, Math.Max(1, work.Width - 32d * dpi / 96));
-        var height = (int)Math.Min(1000d * dpi / 96, Math.Max(1, work.Height - 32d * dpi / 96));
-        var left = work.Left + (int)(work.Width - width) / 2;
-        var top = work.Top + (int)(work.Height - height) / 2;
-        return new(left, top, left + width, top + height);
+        var saved = store.Read();
+        window.WindowStartupLocation = WindowStartupLocation.Manual;
+        window.SourceInitialized += (_, _) =>
+        {
+            try
+            {
+                var handle = new WindowInteropHelper(window).Handle;
+                var monitors = ReadMonitors();
+                var target = WindowPlacementPolicy.FindMonitor(saved, monitors);
+                if (target is null) return;
+                var width = window.Width; var height = window.Height;
+                ApplyBounds(handle, target, WindowPlacementPolicy.StartupBounds(saved, target, monitors, saved?.Dpi ?? 96, width, height));
+                var dpi = GetDpiForWindow(handle);
+                if (dpi == 0) dpi = 96;
+                ApplyBounds(handle, target, WindowPlacementPolicy.StartupBounds(saved, target, monitors, dpi, width, height));
+            }
+            catch (Exception error) { ActivityStore.Log(error); }
+        };
     }
+
+    public static WindowPixelRect InitialBounds(WindowMonitor monitor, uint dpi)
+        => WindowPlacementPolicy.InitialBounds(monitor, dpi);
 
     private static void ApplyBounds(IntPtr handle, WindowMonitor monitor, WindowPixelRect screen)
     {

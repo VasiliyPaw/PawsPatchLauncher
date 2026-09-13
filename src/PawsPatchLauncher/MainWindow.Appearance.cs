@@ -8,6 +8,11 @@ public partial class MainWindow
     private void InitializeAppearance()
     {
         var components = (Panel)CoreModuleCard.Parent;
+        foreach (var header in new FrameworkElement[] { ModulesHeader, CompatibilityBanner, ModSelectorCard })
+        {
+            components.Children.Remove(header);
+            PinnedComponentsHost.Children.Add(header);
+        }
         components.Children.Remove(OosModuleCard);
         components.Children.Insert(components.Children.IndexOf(CoreModuleCard) + 1, OosModuleCard);
         components.Children.Remove(RoamingSpawnCard);
@@ -16,7 +21,7 @@ public partial class MainWindow
         RefreshActionLayout();
         foreach (var (button, kind) in new (Button, IconKind)[]
         {
-            (HomeNav, IconKind.Home), (ModulesNav, IconKind.Components), (FriendsNav, IconKind.Multiplayer), (SettingsNav, IconKind.Settings), (AboutNav, IconKind.Help),
+            (HomeNav, IconKind.Home), (ModulesNav, IconKind.Components), (FriendsNav, IconKind.Multiplayer), (SettingsNav, IconKind.Settings), (AboutNav, IconKind.Help), (AboutModsNav, IconKind.Components),
             (BrowseButton, IconKind.Folder), (OpenGameFolderButton, IconKind.Folder), (OpenSavesFolderButton, IconKind.Folder), (ApplySettingsButton, IconKind.Check), (DiagnosticsButton, IconKind.Diagnostics), (ShowDiagnosticsArchiveButton, IconKind.Folder), (CopyConfigurationButton, IconKind.Copy),
             (CheckUpdatesButton, IconKind.Sync), (LaunchButton, IconKind.Play), (LauncherUpdateButton, IconKind.Download),
             (SettingsRepairButton, IconKind.Shield), (RemovePatchButton, IconKind.Trash), (RemoveLauncherButton, IconKind.Trash)
@@ -29,7 +34,8 @@ public partial class MainWindow
     // initial load, rejected edits and clicking an already-selected mode must not flash.
     private Dictionary<Border, string> CaptureAppearance() => new()
     {
-        [RussianModuleCard] = _settings.RussianLocalization.ToString(),
+        [CoreModuleCard] = GameMod.PawPatchSelected(_settings).ToString(),
+        [RussianModuleCard] = _settings.RussianLocalization + ":" + GameLanguages.Voice(_settings),
         [ColorsModuleCard] = _settings.CustomPlayerColors.ToString(),
         [IndependentHostilityCard] = _settings.IndependentHostility.ToString(),
         [AdditionalRoamingCard] = _settings.AdditionalRoamingCompanies.ToString(),

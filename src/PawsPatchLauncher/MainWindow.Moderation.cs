@@ -16,6 +16,17 @@ public partial class MainWindow
         badge.ToolTip=T("Администратор площадки · роль подтверждена сервером","Platform administrator · server-verified role");
         System.Windows.Automation.AutomationProperties.SetName(badge,badge.ToolTip.ToString());return badge;
     }
+    private Border? PlayerRoleBadge(int level, bool team, bool inline = true)
+    {
+        if (level > 0) return AdministratorBadge(level, inline);
+        if (!team) return null;
+        var badge = StatusPill("Paw's Team", "#1E4045", "#9BE1DA");
+        badge.HorizontalAlignment = HorizontalAlignment.Left;
+        if (!inline) badge.Margin = new Thickness(0,5,0,2);
+        badge.ToolTip = T("Команда Paw's Patch · без прав администратора", "Paw's Patch team · no administrator privileges");
+        System.Windows.Automation.AutomationProperties.SetName(badge, "Paw's Team");
+        return badge;
+    }
     private string BanDescription(DateTimeOffset? start,DateTimeOffset? until,string reason)
     {
         if(start is null)return "";
@@ -43,11 +54,11 @@ public partial class MainWindow
             if(_activePage=="admin")SetActivePage("home");
         }
         if(_activePage=="admin"&&_adminLanguage!=_text.Language){BuildAdminLayout();_ = LoadAdminAsync();}
-        if(restricted&&_accountEditor is not ("" or "delete")){_accountEditor="";ClearAccountPasswords();RenderAccountProfile();}
-        var key=$"{_account.UserId}|{_account.AdminLevel}|{_account.Banned}|{_account.DeletionPending}|{_account.BannedAt}|{_account.BanUntil}|{_account.BanReason}|{_text.Language}";
+        if(_accountEditor.Length>0 && (restricted && _accountEditor!="delete" || _accountEditor=="delete" && !_account.CanDeleteAccount)){_accountEditor="";ClearAccountPasswords();RenderAccountProfile();}
+        var key=$"{_account.UserId}|{_account.AdminLevel}|{_account.PawsTeam}|{_account.Banned}|{_account.DeletionPending}|{_account.BannedAt}|{_account.BanUntil}|{_account.BanReason}|{_text.Language}";
         if(_moderationKey!=key)
         {
-            _moderationKey=key;AccountAdminBadge.Content=_account.AdminLevel>0?AdministratorBadge(_account.AdminLevel):null;
+            _moderationKey=key;AccountAdminBadge.Content=PlayerRoleBadge(_account.AdminLevel,_account.PawsTeam);
             var text=_account.Banned?T("Аккаунт заблокирован на площадке","Account banned on the platform")+"\n"+BanDescription(_account.BannedAt,_account.BanUntil,_account.BanReason):
                 T("Аккаунт удалён. Восстановление через администратора доступно 7 дней.","Account deleted. An administrator can restore it within 7 days.");
             AccountModerationNotice.Content=restricted?RestrictionCard(text):null;
@@ -87,5 +98,5 @@ public partial class MainWindow
     private static bool SocialContactAvailable(SocialPlayer? player)=>player?.Available==true;
     private string PlayerDisplayName(SocialPlayer p)=>p.Deleted?T("Удалённый аккаунт","Deleted account"):p.Name;
     private string PlayerUsername(SocialPlayer p)=>p.Deleted?"":"@"+p.Nickname;
-    private string PlayerMarker(SocialPlayer p)=>p.Deleted?"":p.Banned?T(" · Заблокирован на площадке"," · Banned on platform"):p.AdminLevel>0?T(" · Администратор"," · Administrator"):"";
+    private string PlayerMarker(SocialPlayer p)=>p.Deleted?"":p.Banned?T(" · Заблокирован на площадке"," · Banned on platform"):p.AdminLevel>0?T(" · Администратор"," · Administrator"):p.PawsTeam?" · Paw's Team":"";
 }

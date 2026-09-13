@@ -15,13 +15,23 @@ public sealed class LauncherConfiguration
 
 public sealed class UserSettings
 {
+    public string Mod { get; set; } = GameMod.ArcaneWars;
+    public bool PawPatchEnabled { get; set; } = true;
+    public bool VanillaPawPatchEnabled { get; set; }
+    public bool ImmortalsPawPatchEnabled { get; set; }
+    public bool ModNoticeSeen { get; set; }
+    public bool DataOnly { get; set; }
+    public string CompatibilityNoticeRead { get; set; } = "";
     public bool NotificationSoundEnabled { get; set; } = true;
     public int NotificationVolume { get; set; } = 100;
     public string NotificationSoundName { get; set; } = "";
     public string Language { get; set; } = "ru";
     public string? GamePath { get; set; }
     public string Channel { get; set; } = "stable";
+    public Dictionary<string, ModChannelPreference> ModChannels { get; set; } = new();
+    public List<string> BetaNoticesSeen { get; set; } = [];
     public bool RussianLocalization { get; set; } = true;
+    public string? GameVoiceLanguage { get; set; }
     public bool CustomPlayerColors { get; set; }
     public string DesyncMode { get; set; } = "official";
     public bool IndependentHostility { get; set; } = true;
@@ -50,6 +60,7 @@ public sealed class ChannelManifest
     public string PublishedAt { get; set; } = "";
     public LauncherRelease Launcher { get; set; } = new();
     public GameRequirement Game { get; set; } = new();
+    public Dictionary<string, GameRequirement> ModGames { get; set; } = new();
     public List<PackageRelease> Packages { get; set; } = [];
     public LocalizedText NewsTitle { get; set; } = new();
     public LocalizedText NewsBody { get; set; } = new();
@@ -58,6 +69,25 @@ public sealed class ChannelManifest
     public bool ColorDesyncContinue { get; set; }
     public bool IndependentColorHostility { get; set; }
     public PatchGuideDocument? PatchGuide { get; set; }
+    public List<ModGuideDocument> ModGuides { get; set; } = [];
+}
+
+public sealed class ModGuideDocument
+{
+    public string Id { get; set; } = "";
+    public string Version { get; set; } = "";
+    public string Author { get; set; } = "";
+    public LocalizedText Description { get; set; } = new();
+    public List<ModGuideSection> Sections { get; set; } = [];
+    public List<ChangelogEntry> Changelog { get; set; } = [];
+    public PatchGuideDocument? PatchGuide { get; set; }
+}
+
+public sealed class ModGuideSection
+{
+    public string Id { get; set; } = "";
+    public LocalizedText Title { get; set; } = new();
+    public LocalizedText Body { get; set; } = new();
 }
 
 public sealed class PatchGuideDocument
@@ -75,6 +105,7 @@ public sealed class ReleaseReference
 
 public sealed class ChangelogEntry
 {
+    public List<string> Mods { get; set; } = [];
     public string Category { get; set; } = "patch";
     public string Version { get; set; } = "";
     public string PublishedAt { get; set; } = "";
@@ -99,6 +130,8 @@ public sealed class GameRequirement
 
 public sealed class PackageRelease
 {
+    public List<string> Mods { get; set; } = [];
+    public bool ExecutableIndependent { get; set; }
     public string Id { get; set; } = "";
     public string Version { get; set; } = "0.0.0";
     public int Priority { get; set; }
@@ -143,6 +176,8 @@ public sealed class InstallState
     public string LastSuccessfulUpdate { get; set; } = "";
     public UserSettings? AppliedSettings { get; set; }
     public string? ReleaseId { get; set; }
+    public GameRequirement? GameRequirement { get; set; }
+    public string? BaseGameSha256 { get; set; }
 }
 
 public sealed class InstalledModule
@@ -176,4 +211,6 @@ public sealed class OriginalFile
 [JsonSerializable(typeof(MultiplayerManifest))]
 [JsonSerializable(typeof(DiagnosticArchiveReference))]
 [JsonSerializable(typeof(SavedWindowPlacement))]
+[JsonSerializable(typeof(List<ModGuideDocument>))]
+[JsonSerializable(typeof(ModLibraryDocument))]
 public partial class LauncherJsonContext : JsonSerializerContext;

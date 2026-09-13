@@ -2,7 +2,7 @@ using System.Text.Json;
 namespace PawsPatchLauncher;
 
 public sealed record AdminPlayer(Guid Id,string Nickname,string DisplayName,DateTimeOffset CreatedAt,int AdminLevel,bool Protected,
-    DateTimeOffset? BannedAt,DateTimeOffset? BanUntil,string BanReason,DateTimeOffset? DeletedAt,bool Purging,bool IsNew);
+    DateTimeOffset? BannedAt,DateTimeOffset? BanUntil,string BanReason,DateTimeOffset? DeletedAt,bool Purging,bool IsNew,bool PawsTeam=false);
 public sealed record AdminBan(Guid Id,string Email,DateTimeOffset CreatedAt,DateTimeOffset? Until,string Reason);
 public sealed record AdminPage(IReadOnlyList<AdminPlayer> Users,IReadOnlyList<AdminBan> Bans,bool More,DateTimeOffset ServerTime);
 
@@ -10,6 +10,12 @@ public sealed partial class AccountService
 {
     // Cached presentation state is never used as server authorization.
     public int AdminLevel => State==AccountState.SignedIn&&!Restricted ? _session?.AdminLevel??0 : 0;
+    public bool PawsTeam => State==AccountState.SignedIn&&!Restricted && _session?.PawsTeam==true;
+    public bool CanUseArcaneWars => AdminLevel>0 || PawsTeam;
+    // Remembered, protected profile data permits local play only. It never grants
+    // offline administration or permission to download a new Arcane Wars release.
+    public bool CanUseStoredArcaneWars => State is AccountState.SignedIn or AccountState.Offline
+        && !Restricted && (_session?.AdminLevel > 0 || _session?.PawsTeam == true);
     public bool ProtectedAdmin => _session?.ProtectedAdmin==true;
     public DateTimeOffset? BannedAt => _session?.BannedAt;
     public DateTimeOffset? BanUntil => _session?.BanUntil;
@@ -17,6 +23,7 @@ public sealed partial class AccountService
     public DateTimeOffset? DeletedAt => _session?.DeletedAt;
     public bool Banned => BannedAt is not null && (BanUntil is null||BanUntil>_clock());
     public bool Restricted => Banned||DeletionPending;
+    public bool CanDeleteAccount => State == AccountState.SignedIn && !Banned && !ProtectedAdmin;
     private void EnsureAccountEditable()
     {
         if(Restricted)throw new AccountException(DeletionPending?"account_deletion_pending":"account_banned");
@@ -47,7 +54,7 @@ public sealed partial class AccountService
                 if(section=="bans")bans.Add(new(row.GetProperty("id").GetGuid(),Text(row,"email"),ModerationDate(row,"created_at")??time,ModerationDate(row,"until_at"),Text(row,"reason")));
                 else users.Add(new(row.GetProperty("id").GetGuid(),Text(row,"nickname"),Text(row,"display_name"),ModerationDate(row,"created_at")??time,
                     ModerationInt(row,"admin_level"),ModerationBool(row,"protected_admin"),ModerationDate(row,"banned_at"),ModerationDate(row,"ban_until"),Text(row,"ban_reason"),ModerationDate(row,"deleted_at"),
-                    ModerationDate(row,"purge_started_at") is not null,ModerationBool(row,"is_new")));
+                    ModerationDate(row,"purge_started_at") is not null,ModerationBool(row,"is_new"),ModerationBool(row,"paws_team")));
             return new AdminPage(users,bans,items.GetArrayLength()>50,time);
         },ct);
     public Task AdminActionAsync(string action,Guid target,string reason="",DateTimeOffset? until=null,int? level=null,CancellationToken ct=default)

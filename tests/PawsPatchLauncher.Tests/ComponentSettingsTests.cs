@@ -33,7 +33,9 @@ internal static class ComponentSettingsTests
             Check(UpdateDetector.HasSettingsChanges(state, selected, changed), "Native-only hostility lost");
             changed.IndependentHostility = settings.IndependentHostility; changed.Channel = channel == "stable" ? "beta" : "stable";
             changed.Language = "en"; changed.PreparedChannel = "old";
-            Check(!UpdateDetector.HasSettingsChanges(state, selected, changed), "Revert/channel/UI preference marked pending");
+            Check(UpdateDetector.HasSettingsChanges(state, selected, changed), "Changed branch must be applied even with identical packages");
+            changed.Channel = channel;
+            Check(!UpdateDetector.HasSettingsChanges(state, selected, changed), "Launcher-only preferences marked pending");
             Check(!UpdateDetector.NeedsDownload(state, selected, _ => false), "Identical installed files need download");
             if (spawn == "x2")
                 Check(selected.Count(p => p.Id.StartsWith("roaming-profile-")) == 1

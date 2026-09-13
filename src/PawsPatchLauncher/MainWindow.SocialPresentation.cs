@@ -100,32 +100,31 @@ public partial class MainWindow
 
     private async Task OpenSocialChatAsync(SocialPlayer player)
     {
-        if (_socialBusy || _accountBusy || ConfirmationActive) return;
-        if (_socialPeer == player.Id)
+        if (_socialBusy || _accountBusy || ConfirmationActive || _account.Restricted || _account.State == AccountState.Guest
+            || _accountLifetime.IsCancellationRequested || !Guid.TryParse(_account.UserId, out var owner)) return;
+        SaveCurrentChat();
+        var close = _socialPeer == player.Id;
+        ResetSocialHistory();
+        _socialMessages = []; _socialOffers = []; _socialLoadedChat = null;
+        FriendsMessageInput.Clear(); CloseSocialMenu();
+        if (close)
         {
             _socialPeer = null;
-            ResetSocialHistory();
-            _socialMessages = [];
-            _socialLoadedChat = null;
-            FriendsMessageInput.Clear();
-            CloseSocialMenu();
             RenderSocialRows();
             RenderSocialMessages();
             RenderSocialIdentity();
             return;
         }
-        await SocialOperationAsync(async owner =>
-    {
-        if (_socialPeer != player.Id) { _socialMessages = []; _socialOffers = []; ResetSocialHistory(); FriendsMessageInput.Clear(); }
         _socialPeer = player.Id;
-        await LoadSocialChatAsync(owner);
-        if (_account.UserId != owner.ToString()) return;
-        RenderSocialRows();
+        RestoreChat(owner, player.Id);
+        var generation = _historyGeneration;
+        RenderSocialRows(); RenderSocialMessages(); RenderSocialIdentity();
         if (_activePage == "friends" && _socialSection == "chats") Motion.Reveal(FriendsChatCard);
         FriendsChatScroll.ScrollToEnd();
         SetSocialStatus("");
-        await AcknowledgeSocialAsync(owner);
-        });
+        await LoadSocialChatAsync(owner);
+        if (CurrentChatLoad(owner, player.Id, generation))
+            await SocialOperationAsync(AcknowledgeSocialAsync, background: true);
     }
 
     private void RenderSocialRows()
@@ -144,8 +143,7 @@ public partial class MainWindow
         foreach(var id in _chatRows.Keys.Where(id=>!_socialPlayers.Any(p=>p.Id==id&&p.Relation=="friend")).ToArray())_chatRows.Remove(id);
         var friends = _chatActivity.Sort(_account.UserId,_socialPlayers,_socialMessages,_socialPending,_sendingOffers.Values)
             .Where(Matches).ToArray();
-        FriendsListEmptyText.Text = query.Length > 0 ? T("Никого не найдено", "No matches") : T("Друзей пока нет", "No friends yet");
-        FriendsListEmptyText.Visibility = friends.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+        RenderSocialListState(friends.Length == 0);
         var rows=friends.Select(RenderSocialFriend).Cast<FrameworkElement>().ToArray();
         var scope=_account.UserId+"|"+_text.Language+"|"+query;
         if(!FriendsRowsPanel.Children.OfType<FrameworkElement>().SequenceEqual(rows))CloseSocialMenu();
@@ -170,17 +168,39 @@ public partial class MainWindow
         var open=cached.Open;
         var selected=_socialPeer==player.Id;
         if(cached.Selected!=selected) { SetNavState(open,selected);cached.Selected=selected; }
-        var signature=$"{_text.Language}:{player.Nickname}:{player.Name}:{VisibleUnread(player)}:{player.Presence}:{player.AvatarRevision}:{player.AdminLevel}:{player.Banned}:{player.Deleted}:{_socialAvatarGeneration}";
+        var signature=$"{_text.Language}:{player.Nickname}:{player.Name}:{VisibleUnread(player)}:{player.Presence}:{player.AvatarRevision}:{player.AdminLevel}:{player.PawsTeam}:{player.Banned}:{player.Deleted}:{player.IsFriend}:{_socialAvatarGeneration}";
         if(cached.Signature==signature) { _chatRows[player.Id]=cached;return cached.Row; }
         cached.Signature=signature;
-        AutomationProperties.SetName(open, player.Nickname);
-        var content = new DockPanel();
+        var notFriend = !player.IsFriend && !player.Deleted;
+        AutomationProperties.SetName(open, player.Nickname + (notFriend ? " · " + T("Не в друзьях", "Not a friend") : ""));
+        var content = new Grid();
+        content.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        content.ColumnDefinitions.Add(new ColumnDefinition());
         var badgeText = new TextBlock { FontSize = 11, Foreground = Brushes.White, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center };
         var badge = new Border { Background = new SolidColorBrush(Color.FromRgb(185, 71, 87)), CornerRadius = new CornerRadius(9), MinWidth = 18, Height = 18, Padding = new Thickness(4, 0, 4, 0), Margin = new Thickness(8, 0, 0, 0), Child = badgeText };
         SocialBadge(badge, badgeText, VisibleUnread(player));
-        DockPanel.SetDock(badge, Dock.Right); content.Children.Add(badge);
-        var avatar=SocialAvatar(player.Id,36,true);avatar.Margin=new Thickness(0,0,10,0);DockPanel.SetDock(avatar,Dock.Left);content.Children.Add(avatar);
-        content.Children.Add(SocialNameLabel(player));
+        var avatar=SocialAvatar(player.Id,36,true);avatar.Margin=new Thickness(0,0,10,0);content.Children.Add(avatar);
+        var identity=(StackPanel)SocialNameLabel(player);
+        if (notFriend)
+        {
+            var displayName=identity.Children[0]; identity.Children.RemoveAt(0);
+            var nameLine=new SocialIdentityLine { AllowWrap=false, Tag="not-friend-line" };
+            nameLine.Children.Add(displayName);
+            nameLine.Children.Add(new Border
+            {
+                Tag = "not-friend", Background = SocialBrush("#263C50"), CornerRadius = new CornerRadius(4),
+                HorizontalAlignment = HorizontalAlignment.Left, Padding = new Thickness(5,1,5,1),
+                Child = new TextBlock { Text = T("Не в друзьях", "Not a friend"), FontSize = 10, Foreground = SocialBrush("#BDCEDD") }
+            });
+            identity.Children.Insert(0,nameLine);
+        }
+        // Unread count belongs to the name line. The username/role line can use
+        // the full remaining width, keeping the role immediately after @username.
+        if (badge.Visibility == Visibility.Visible && identity.Children[0] is FrameworkElement nameLineElement)
+            nameLineElement.Margin = new Thickness(0,0,26,0);
+        Grid.SetColumn(identity,1);content.Children.Add(identity);
+        badge.HorizontalAlignment=HorizontalAlignment.Right;badge.VerticalAlignment=VerticalAlignment.Top;
+        Grid.SetColumn(badge,1);content.Children.Add(badge);
         open.Content = content;
         _chatRows[player.Id]=cached;
         return cached.Row;
@@ -230,7 +250,7 @@ public partial class MainWindow
         await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Background);
         if (!SocialViewCanRead(IsActive, WindowState == WindowState.Minimized, _activePage, _socialSection,
                 FriendsChatCard.Visibility == Visibility.Visible, FriendsChatScroll.ScrollableHeight - FriendsChatScroll.VerticalOffset,
-                ConfirmationActive || SocialDetailsOverlay.Visibility == Visibility.Visible || HelpOverlay.Visibility == Visibility.Visible || BroadcastOverlay.Visibility == Visibility.Visible || FriendsDialogOverlay.Visibility == Visibility.Visible)
+                ConfirmationActive || ModNoticeOverlay.Visibility == Visibility.Visible || SocialDetailsOverlay.Visibility == Visibility.Visible || HelpOverlay.Visibility == Visibility.Visible || BroadcastOverlay.Visibility == Visibility.Visible || FriendsDialogOverlay.Visibility == Visibility.Visible)
             || !HistoryAtNewest || _historyNavigating
             || SmoothScroll.IsAnimating(FriendsChatScroll) || _account.UserId != owner.ToString() || _socialPeer is not Guid peer
             || !_socialPlayers.Any(p => p.Id == peer && p.Unread > 0)) return;

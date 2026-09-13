@@ -31,7 +31,7 @@ public partial class MainWindow
         _socialTimer.Interval=TimeSpan.FromSeconds(1);
         _socialTimer.Tick+=async (_,_)=> await SocialTickAsync();
         Loaded+=(_,_)=>{if(!ActivityStore.IsSmokeTest)_socialTimer.Start();};
-        Closed+=(_,_)=>{_socialTimer.Stop();_socialScrollReadTimer.Stop();};
+        Closed+=(_,_)=>{_socialTimer.Stop();_socialScrollReadTimer.Stop();ResetChatLoad();_chatMemory.Clear();};
         Activated+=async (_,_)=>{if(!ActivityStore.IsSmokeTest && _activePage=="friends")await RefreshSocialAsync();};
         _socialScrollReadTimer.Tick+=async (_,_)=>{
             _socialScrollReadTimer.Stop();
@@ -74,18 +74,23 @@ public partial class MainWindow
         FriendsSendButton.ToolTip=T("Отправить · Enter", "Send · Enter");
         System.Windows.Automation.AutomationProperties.SetName(FriendsSendButton,T("Отправить", "Send"));
         FriendsMessageInput.ToolTip=T("Enter — отправить · Shift+Enter — новая строка", "Enter — send · Shift+Enter — new line");
+        FriendsMessageInput.Russian = _text.Language == "ru";
+        FriendsGlyphButton.ToolTip = T("Значки Kohan II", "Kohan II glyphs");
+        System.Windows.Automation.AutomationProperties.SetName(FriendsGlyphButton, (string)FriendsGlyphButton.ToolTip);
         FriendsChatEmptyTitle.Text=T("Чат", "Chat");
         FriendsChatEmptyText.Text=T("Выберите друга", "Choose a friend");
         RenderSocialRows(); RenderSocialMessages(); RenderSocialNotifications();
     }
     private void RenderSocialIdentity()
     {
+        RenderConnectionUi();
         if(_socialIdentity!=_account.UserId) {
             ResetBroadcast();
             ClearToastStack();
             FriendsSearchInput.Clear(); ResetFriendsDialog();
             _socialIdentity=_account.UserId; _socialPeer=null; _socialPlayers=[]; _socialMessages=[]; _socialPending=[];
             ResetSocialHistory();
+            _chatMemory.Clear();
             ClearSocialProfiles();
             _socialLoadedChat=null;
             _socialOffers=[];_sendingOffers.Clear();_soundOwner=null;_soundPlayers=[];ResetChatMedia(dispose:true);
@@ -94,20 +99,26 @@ public partial class MainWindow
             FriendsNicknameInput.Clear();FriendsMessageInput.Clear();FriendsStatusText.Text="";
             RenderSocialRows();RenderSocialMessages();
         }
-        var ready=!_socialBusy && !_accountBusy && _account.State!=AccountState.Guest && !_account.Restricted;
+        if (_account.Restricted && (_chatMemory.Count > 0 || _socialMessages.Count > 0 || _chatViewLifetime is not null))
+        {
+            ResetSocialHistory(); _chatMemory.Clear(); _socialMessages = []; _socialOffers = []; _socialLoadedChat = null;
+            RenderSocialMessages();
+        }
+        var ready=!_socialBusy && !_accountBusy && _account.State!=AccountState.Guest && !_account.Restricted && _socialListReceived!=default;
         FriendsToolbar.Visibility=_account.State==AccountState.Guest?Visibility.Collapsed:Visibility.Visible;
         FriendsAddButton.IsEnabled=FriendsShowAddButton.IsEnabled=FriendsRowsPanel.IsEnabled=FriendsDialogRows.IsEnabled=ready;
-        FriendsRequestsTab.IsEnabled = ready;
+        FriendsRequestsTab.IsEnabled = FriendsBlockedTab.IsEnabled = ready;
         RenderSocialNotifications();
         var contact=SocialContactAvailable(_socialPlayers.FirstOrDefault(p=>p.Id==_socialPeer));
         FriendsSendButton.IsEnabled=ready && contact;
         FriendsMessageInput.IsEnabled=ready&&contact;
         FriendsComposerMoreButton.IsEnabled=ready && contact && !_offerSending && !_busy;
         SendSaveBroadcastButton.IsEnabled=FriendsBroadcastButton.IsEnabled=ready && !_offerSending && !_busy && _socialPlayers.Any(p=>p.Relation=="friend"&&p.Available);
+        RenderSocialListState();
     }
     private async Task SocialOperationAsync(Func<Guid,Task> action, bool background = false)
     {
-        if(_socialBusy || _accountBusy || ConfirmationActive || _accountLifetime.IsCancellationRequested || _account.State==AccountState.Guest || _account.Restricted)return;
+        if(_socialBusy || _accountBusy || ConfirmationActive || _accountLifetime.IsCancellationRequested || _account.State==AccountState.Guest || _account.Restricted || !background && AccountConnectionBlocked)return;
         if(!Guid.TryParse(_account.UserId,out var owner))return;
         var entered=false;
         if(!background){_socialBusy=true;RenderSocialIdentity();}
@@ -116,7 +127,7 @@ public partial class MainWindow
             else {await _socialGate.WaitAsync(_accountLifetime.Token);entered=true;}
             if(_account.UserId!=owner.ToString() || _account.State==AccountState.Guest || ConfirmationActive)return;
             await action(owner);
-            if(_account.UserId==owner.ToString()){_socialFailures=0;_socialRetryAfter=default;}
+            if(_account.UserId==owner.ToString() && _chatLoadError is null){_socialFailures=0;_socialRetryAfter=default;}
         }
         catch(OperationCanceledException)when(_accountLifetime.IsCancellationRequested){}
         catch(AccountException error) {
@@ -159,44 +170,35 @@ public partial class MainWindow
         _=>AccountMessage(code)
     };
     private async Task RefreshSocialAsync()=>await SocialOperationAsync(async owner=> {
+        _socialListLoading = true; _socialListFailed = false;
+        RenderSocialListState();
+        try {
         await PublishSocialPresenceAsync(owner);
         var players=await _account.GetFriendsAsync(_accountLifetime.Token);
         if(_account.UserId!=owner.ToString())return;
         NotifySocialArrival(owner, players);
         _socialPlayers=players;
+        PruneChatMemory();
         _socialListReceived=DateTimeOffset.UtcNow;
         if(_socialPeer is not null && !players.Any(p=>p.Id==_socialPeer && p.Relation=="friend")){_socialPeer=null;_socialMessages=[];_socialOffers=[];ResetSocialHistory();FriendsMessageInput.Clear();}
-        RenderSocialRows();RenderSocialMessages();
+        RenderSocialRows();RenderSocialMessages();RenderSocialIdentity();
         await RefreshSocialProfilesAsync(owner);
         if(_account.UserId!=owner.ToString())return;
         if(_activePage=="friends" && _socialSection=="chats" && WindowState!=WindowState.Minimized)await LoadSocialChatAsync(owner);
         await AcknowledgeSocialAsync(owner);
         RenderSocialRows();RenderSocialNotifications();
         SetSocialStatus("");
-    }, background:true);
-    private async Task LoadSocialChatAsync(Guid owner)
-    {
-        if(_socialPeer is Guid peer) {
-            EnsureHistoryScope(); var generation = _historyGeneration;
-            if(!ActivityStore.IsSmokeTest || _historyReadOverride is not null)
-            {
-                var page=await ReadHistoryPageAsync(peer);
-                if(_account.UserId!=owner.ToString()||_socialPeer!=peer||generation!=_historyGeneration)return;
-                MergeHistoryPage(page,false);
-                if(!ActivityStore.IsSmokeTest)await RefreshCachedOfferStatesAsync(owner,peer,generation);
-            }
-            else
-            {
-                var messages=await _account.GetMessagesAsync(peer,_accountLifetime.Token);
-                if(_account.UserId!=owner.ToString() || _socialPeer!=peer)return;
-                _socialMessages=messages;
-            }
-            _socialLoadedChat=ChatArrivalScope;
         }
-        var pending=await _socialOutbox.ReadAsync(owner,_accountLifetime.Token);
-        if(_account.UserId!=owner.ToString())return;
-        _socialPending=pending;RenderSocialRows();RenderSocialMessages();
-    }
+        catch
+        {
+            if (_account.UserId == owner.ToString() && _socialListReceived == default) _socialListFailed = true;
+            throw;
+        }
+        finally
+        {
+            if (_account.UserId == owner.ToString()) { _socialListLoading = false; RenderSocialListState(); }
+        }
+    }, background:true);
     private async void FriendsAdd_Click(object sender,RoutedEventArgs e)
     {
         var raw=FriendsNicknameInput.Text;var nickname=raw.Trim().TrimStart('@');
@@ -231,6 +233,8 @@ public partial class MainWindow
             var players=await _account.GetFriendsAsync(_accountLifetime.Token);
             if(_account.UserId!=owner.ToString())return;
             _socialPlayers=players;
+            PruneChatMemory();
+            if (action is "remove" or "block" or "hide_chat") _chatMemory.Remove(player.Id);
             if(_socialPeer==player.Id && action is "remove" or "block" or "hide_chat"){_socialPeer=null;_socialMessages=[];_socialOffers=[];ResetSocialHistory();FriendsMessageInput.Clear();}
             RenderSocialRows();RenderSocialMessages();RenderSocialNotifications();SetSocialStatus("");
             ShowToast(()=>SocialActionResult(action));

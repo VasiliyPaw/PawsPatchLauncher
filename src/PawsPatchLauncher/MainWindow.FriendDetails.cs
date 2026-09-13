@@ -22,7 +22,7 @@ public partial class MainWindow
     {
         _socialDetailsGeneration++;
         Motion.Collapse(SocialDetailsOverlay);
-        SocialDetailsCard.IsEnabled=true;
+        SocialDetailsCard.IsHitTestVisible=true;
         _socialDetailsPeer = null; _socialDetailsLayoutKey = null;
         _adminViewedPlayer=null;
         SocialDetailsCopyUsernameButton.SetContext("");
@@ -36,7 +36,7 @@ public partial class MainWindow
     {
         if(ConfirmationActive)return;
         var generation=_socialDetailsGeneration;
-        SocialDetailsCard.IsEnabled=false;
+        SocialDetailsCard.IsHitTestVisible=false;
         if(await Motion.HideAsync(SocialDetailsOverlay) && generation==_socialDetailsGeneration)CloseSocialDetails();
     }
 
@@ -45,16 +45,17 @@ public partial class MainWindow
         if (player.Deleted || (player.Relation != "friend" || !_socialPlayers.Any(p => p.Id == player.Id && p.Relation == "friend"))&& !(_account.AdminLevel>0&&_adminViewedPlayer?.Id==player.Id)) return;
         _socialDetailsGeneration++;
         _socialDetailsPeer = player.Id; RenderSocialDetails(player);
-        SocialDetailsCard.IsEnabled=true;
+        SocialDetailsCard.IsHitTestVisible=true;
         SocialDetailsOverlay.Visibility = Visibility.Visible;
         SocialDetailsOverlay.UpdateLayout(); Motion.Reveal(SocialDetailsOverlay);
+        RevealDialogCard(SocialDetailsCard);
         SocialDetailsClose.Focus();
     }
 
     private void RenderSocialDetails(SocialPlayer player)
     {
         SocialDetailsName.Text = player.Name;
-        SocialDetailsAdminBadge.Content=player.AdminLevel>0?AdministratorBadge(player.AdminLevel,inline:false):null;
+        SocialDetailsAdminBadge.Content=player.Deleted?null:PlayerRoleBadge(player.AdminLevel,player.PawsTeam,inline:false);
         SocialDetailsModerationText.Text=player.Banned?BanDescription(player.BannedAt,player.BanUntil,player.BanReason):player.CreatedAt is DateTimeOffset registered?T("Регистрация: ","Registered: ")+ChatDate(registered):"";
         SocialDetailsModerationText.Foreground=SocialBrush(player.Banned?"#FFB6B6":"#A8BBD2");
         SocialDetailsModerationText.Visibility=SocialDetailsModerationText.Text.Length>0?Visibility.Visible:Visibility.Collapsed;
@@ -73,11 +74,20 @@ public partial class MainWindow
         }
         else if (presence == "offline")
             SocialDetailsActivity.Text = player.LastSeen is DateTimeOffset seen ? T("Был в сети: ", "Last seen: ") + ChatDate(seen) : T("Время последнего входа неизвестно", "Last seen time unavailable");
-        SocialDetailsChannelLabel.Text = T("Канал патча", "Patch channel");
+        SocialDetailsChannelLabel.Text = T("Мод и канал патча", "Mod and patch channel");
         SocialDetailsChannel.Text = player.Channel == "beta" ? T("Бета", "Beta") : player.Channel == "stable" ? T("Релиз", "Release") : T("Неизвестен", "Unknown");
+        if (FriendConfiguration.TryParse(player.Configuration,player.Channel,out var gameSettings))
+            SocialDetailsChannel.Text = GameMod.Name(gameSettings.Mod, _text.Language == "ru") + " · " + SocialDetailsChannel.Text;
         SocialDetailsComponentsLabel.Text = T(player.Presence == "offline" ? "ПОСЛЕДНИЕ НАСТРОЙКИ" : "КОМПОНЕНТЫ", player.Presence == "offline" ? "LAST KNOWN SETTINGS" : "COMPONENTS");
         SocialDetailsCopyButton.Content = T("Скопировать конфигурацию", "Copy configuration");
-        SocialDetailsRemoveButton.Content=T("Удалить из друзей","Remove friend");
+        SocialDetailsRelationshipText.Text = T("Чат без добавления в друзья", "Chat without a friendship");
+        SocialDetailsRelationshipText.Visibility = !player.IsFriend && !player.Deleted ? Visibility.Visible : Visibility.Collapsed;
+        SocialDetailsRemoveButton.Content = player.IsFriend ? T("Удалить из друзей", "Remove friend") : T("Не в друзьях", "Not a friend");
+        LauncherIcon.SetKind(SocialDetailsRemoveButton, player.IsFriend ? IconKind.Trash : IconKind.Person);
+        SocialDetailsRemoveButton.ToolTip = !player.IsFriend
+            ? T("Этот игрок не добавлен в друзья. Чат доступен через функции администрации.", "This player is not on your friends list. This chat is available through administrator features.") : null;
+        ToolTipService.SetShowOnDisabled(SocialDetailsRemoveButton, true);
+        System.Windows.Automation.AutomationProperties.SetHelpText(SocialDetailsRemoveButton, SocialDetailsRemoveButton.ToolTip?.ToString() ?? "");
         SocialDetailsBlockButton.Content=T("Заблокировать","Block");
         SocialDetailsClose.ToolTip = T("Закрыть", "Close");
         System.Windows.Automation.AutomationProperties.SetName(SocialDetailsClose, T("Закрыть", "Close"));
@@ -89,16 +99,17 @@ public partial class MainWindow
             SocialDetailsComponents.Children.Clear();
             var exact = FriendConfiguration.TryParse(player.Configuration, player.Channel, out var settings);
             using var data = JsonDocument.Parse(player.Components);
+            var values = exact ? FriendConfiguration.Components(settings) : data.RootElement.EnumerateObject()
+                .Where(p => p.Value.ValueKind is JsonValueKind.True or JsonValueKind.False).ToDictionary(p => p.Name, p => p.Value.GetBoolean());
             // Use the actual Components tab labels and its visual order, not JSON property order.
             foreach (var (name, title) in new[] {
-                ("core", CoreTitleText), ("russian", RussianTitleText), ("colors", ColorsTitleText),
+                ("core", CoreTitleText), ("colors", ColorsTitleText),
                 ("desync", OosTitleText), ("hostility", IndependentTitleText), ("roaming", RoamingSpawnTitleText),
                 ("additional_roaming", AdditionalRoamingTitleText), ("siege", SiegeBalanceTitleText),
                 ("powers_shards", PowersShardsTitleText) })
             {
-                if (!data.RootElement.TryGetProperty(name, out var item) || item.ValueKind is not (JsonValueKind.True or JsonValueKind.False)) continue;
-                var label = title.Text;
-                var enabled = item.GetBoolean();
+                if (!values.TryGetValue(name, out var enabled)) continue;
+                var label = name == "core" ? T("Павс патч", "Paw's Patch") : title.Text;
                 var value = exact && name == "roaming" ? settings.RoamingSpawnMode switch { "x2" => "×2", "x4" => "×4", _ => "×1" } : T(enabled ? "Вкл." : "Выкл.", enabled ? "On" : "Off");
                 var row = new Grid { Margin = new Thickness(0, 0, 0, 4) };
                 row.ColumnDefinitions.Add(new ColumnDefinition());
@@ -116,6 +127,7 @@ public partial class MainWindow
                 SocialDetailsComponents.Children.Add(new TextBlock { Text = T("Пока нет данных", "No data yet"), Foreground = SocialBrush("#A8BBD2") });
         }
         RefreshSocialCopyAvailability();
+        _ = RefreshPeerVersionsAsync(player);
         SocialDetailsComponents.Visibility=SocialDetailsChannel.Visibility=SocialDetailsChannelLabel.Visibility=SocialDetailsComponentsLabel.Visibility=player.Available?Visibility.Visible:Visibility.Collapsed;
     }
 
@@ -124,14 +136,20 @@ public partial class MainWindow
         var player = _socialPlayers.FirstOrDefault(p => p.Id == _socialDetailsPeer && p.Relation == "friend");
         var exact = player is not null && FriendConfiguration.TryParse(player.Configuration, player.Channel, out _);
         var available = player?.Available == true && !_account.Restricted;
-        var hint = !available ? "" : !exact ? T("Другу нужно открыть новую версию лаунчера с установленным патчем.", "Your friend needs to open the new launcher with the patch installed.")
-            : ConfigurationMatches(player!.Configuration) ? T("Конфигурация уже совпадает.", "Configuration already matches.")
+        var versionStatus=player is null?PeerVersionStatus.Unknown:FriendVersionStatus(player);
+        var hint = !available ? "" : !exact ? T("Игроку нужно открыть новую версию лаунчера с установленным патчем.", "The player needs to open the new launcher with the patch installed.")
+            : versionStatus!=PeerVersionStatus.Current ? FriendVersionWarning(versionStatus)
             : _game is null ? T("Сначала выберите папку игры.", "Select the game folder first.")
             : IsGameRunning() ? T("Закройте игру, чтобы применить настройки.", "Close the game to apply settings.")
             : _account.State != AccountState.SignedIn ? T("Для копирования нужно подключение к аккаунту.", "Connect to your account to copy settings.") : "";
-        SocialDetailsCopyHint.Text = hint;
+        var matches = available && exact && ConfigurationMatches(player!.Configuration);
+        SocialDetailsCopyHint.Text = hint.Length == 0 && matches
+            ? T("Настройки совпадают. При копировании проверим обновление нужного мода.", "Settings match. Copying will check for an update to the required mod.") : hint;
         SocialDetailsCopyButton.Visibility = available ? Visibility.Visible : Visibility.Collapsed;
-        SocialDetailsCopyHint.Visibility = hint.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+        SocialDetailsCopyHint.Visibility = SocialDetailsCopyHint.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+        SocialDetailsCopyHint.Foreground=SocialBrush(versionStatus is not (PeerVersionStatus.Current or PeerVersionStatus.Checking)?"#FFB1A8":"#A8BBD2");
+        SocialDetailsCopyButton.ToolTip=hint.Length==0?null:hint;
+        ToolTipService.SetShowOnDisabled(SocialDetailsCopyButton,true);
         SocialDetailsCopyButton.IsEnabled = exact && player?.Available==true && !_account.Restricted && hint.Length == 0 && !_busy && !FeedBlocksActions && !_accountBusy && !_socialBusy && !ConfirmationActive;
         SocialDetailsRemoveButton.IsEnabled=SocialDetailsBlockButton.IsEnabled=player is not null&&_account.State==AccountState.SignedIn
             &&!_busy&&!FeedBlocksActions&&!_accountBusy&&!_socialBusy&&!ConfirmationActive;
@@ -164,80 +182,107 @@ public partial class MainWindow
         if (player is null || !FriendConfiguration.TryParse(player.Configuration, player.Channel, out var imported)
             || _game is null || _busy || FeedBlocksActions || _accountBusy || _socialBusy || ConfirmationActive || _account.State != AccountState.SignedIn) return;
         var owner = _account.UserId;
+        var game = _game;
         var originalCode = player.Configuration;
-        OfferReceipt? receipt = null; var succeeded = false;
-        RoutedEventHandler? localizationChanged = null;
+        OfferReceipt? receipt = null; var succeeded = false; var ownsOperation = false;
+        Task<bool>? confirmation = null;
+        using var preparationCancellation = CancellationTokenSource.CreateLinkedTokenSource(_accountLifetime.Token);
+        void CheckContext()
+        {
+            if (_account.UserId != owner || _account.State != AccountState.SignedIn) throw new AccountException("session_expired");
+            if (_game?.Directory != game.Directory)
+                throw new FriendCopyException(() => T("Папка игры изменилась. Откройте профиль и повторите.", "The game folder changed. Open the profile and try again."));
+            EnsureGameClosed();
+            var versionStatus=FriendVersionStatus(player);
+            if(versionStatus is not (PeerVersionStatus.Current or PeerVersionStatus.Checking))
+                throw new FriendCopyException(()=>FriendVersionWarning(versionStatus));
+        }
         try
         {
-            EnsureGameClosed();
-            if(ConfigurationMatches(originalCode)) return;
+            CheckContext();
+            if(offer is not null && ConfigurationMatches(originalCode)) return;
             var baseline=LocalAppliedConfiguration();
-            var incomingLocalization = imported.RussianLocalization;
-            var changeLocalization = incomingLocalization != baseline.RussianLocalization;
-            var confirmation = ConfirmActionAsync(T("Скопировать конфигурацию?", "Copy configuration?"),
-                T("Изменения будут сразу применены к игре. Сохранения останутся на месте.", "Changes will be applied to the game immediately. Saves will be kept."),
-                T("ЧТО ИЗМЕНИТСЯ", "WHAT WILL CHANGE"), "", T("Скопировать и применить", "Copy and apply"));
-            ConfirmationLocalizationToggle.Content = T("Менять локализацию", "Change localization");
-            ConfirmationLocalizationToggle.Visibility = changeLocalization ? Visibility.Visible : Visibility.Collapsed;
-            void UpdateChanges()
-            {
-                imported.RussianLocalization = !changeLocalization || ConfirmationLocalizationToggle.IsChecked == true ? incomingLocalization : baseline.RussianLocalization;
-                RenderConfigurationChanges(baseline,imported);
-                ConfirmationDeleteButton.IsEnabled = !ConfigurationMatches(ConfigurationCode.Create(imported));
-            }
-            localizationChanged = (_,_) => UpdateChanges();
-            ConfirmationLocalizationToggle.Checked += localizationChanged;
-            ConfirmationLocalizationToggle.Unchecked += localizationChanged;
-            UpdateChanges();
+            imported = FriendConfiguration.WithLocalLanguages(imported, baseline);
+            // Freeze the intended options before checking the destination release.
+            var snapshot = JsonSerializer.Deserialize<UserSettings>(JsonSerializer.Serialize(_settings))!;
+            ConfigurationCode.Apply(imported, snapshot);
+            snapshot.PinnedRelease = snapshot.PreparedChannel = snapshot.PreparedFeedFingerprint = null;
+            EnsureModAccess(snapshot.Mod);
+            confirmation = ConfirmActionAsync(T("Применить конфигурацию игрока?", "Apply player's configuration?"),
+                T("Проверяем доступный выпуск и сохранённые файлы нужного мода…", "Checking the available release and the required mod's saved files…"),
+                T("ЧТО ИЗМЕНИТСЯ", "WHAT WILL CHANGE"), "", T("Проверяем…", "Checking…"));
+            if (confirmation.IsCompleted) return;
+            ConfirmationDeleteButton.IsEnabled = false;
+            RenderConfigurationChanges(baseline,imported);
             LauncherIcon.SetKind(ConfirmationDeleteButton, IconKind.Copy); ConfirmationActionIcon.Kind = IconKind.Copy;
+            ConfirmationIconBadge.Background = SocialBrush("#403A28"); ConfirmationIconBadge.BorderBrush = SocialBrush("#80662F");
+            ConfirmationActionIcon.Foreground = SocialBrush("#E8C879");
             ConfirmationDeleteButton.Background = SocialBrush("#80662F"); ConfirmationDeleteButton.BorderBrush = SocialBrush("#D5AE52");
             Motion.SetHoverBackground(ConfirmationDeleteButton, SocialBrush("#A3833D")); Motion.SetPressedBackground(ConfirmationDeleteButton, SocialBrush("#695425"));
+            preparationCancellation.CancelAfter(TimeSpan.FromSeconds(12));
+            var preparation = PrepareFriendCopyAsync(snapshot, game, player, preparationCancellation.Token);
+            if (await Task.WhenAny(preparation, confirmation) == confirmation)
+            {
+                preparationCancellation.Cancel();
+                // Observe a late failure without touching a newer dialog or operation.
+                _ = preparation.ContinueWith(t => { _ = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
+                return;
+            }
+            var (channel, plan) = await preparation;
+            if (_confirmation?.Task != confirmation || _confirmationFinishing) { await confirmation; return; }
+            CheckContext();
+            RenderFriendCopyPlan(channel, snapshot, plan);
             if (!await confirmation) return;
+            CheckContext();
             CloseSocialDetails();
+            ownsOperation = true;
             SetBusy(true, T("Применяю конфигурацию…", "Applying configuration…"));
             ShowToast(() => T("Началось применение конфигурации друга.", "Applying your friend's configuration."));
             if (offer is not null) receipt = await BeginOfferApplicationAsync(offer);
             async Task Revalidate()
             {
-                if (_account.UserId != owner || _account.State != AccountState.SignedIn) throw new AccountException("session_expired");
+                CheckContext();
                 var friends = _friendSettingsReadOverride is not null ? await _friendSettingsReadOverride() : await _account.GetFriendsAsync(_accountLifetime.Token);
-                if (_account.UserId != owner || _account.State != AccountState.SignedIn) throw new AccountException("session_expired");
+                CheckContext();
                 var fresh = friends.FirstOrDefault(p => p.Id == player.Id && p.Relation == "friend");
                 if (fresh is null || offer is null && (fresh.Configuration != originalCode || fresh.Channel != player.Channel))
                     throw new FriendCopyException(() => T("Данные друга изменились. Откройте профиль и повторите.", "Your friend's details changed. Open their profile and try again."));
+                RequireCurrentPeerVersions(fresh with {Configuration=originalCode,Channel=player.Channel},_friendVersionCatalogs[channel.Channel]);
                 if (receipt is not null) await VerifyOfferApplicationAsync(receipt);
                 EnsureGameClosed();
             }
             await Revalidate();
-            var channel = _friendSettingsFeedOverride is not null ? await _friendSettingsFeedOverride(imported.Channel) : await _feedClient.GetChannelAsync(imported.Channel, _accountLifetime.Token);
-            if (channel is null) throw new FriendCopyException(() => T("Не удалось получить выпуск патча.", "The patch release is unavailable."));
-            if (imported.RoamingSpawnMode == "x2" && !SupportsX2(channel))
-                throw new FriendCopyException(() => T("В доступном выпуске патча пока нет частоты ×2. Ваши настройки не изменены.", "The available patch release does not include ×2 yet. Your settings were not changed."));
-            try { FriendConfiguration.ValidateFeed(imported, channel); }
-            catch (InvalidDataException) { throw new FriendCopyException(() => T("Этот выпуск патча не поддерживает настройки друга. Ваши настройки не изменены.", "This patch release does not support your friend's settings. Your settings were not changed.")); }
-            // Freeze gameplay options; keep this device's paths, language and personal preferences.
-            var snapshot = JsonSerializer.Deserialize<UserSettings>(JsonSerializer.Serialize(_settings))!;
-            ConfigurationCode.Apply(imported, snapshot);
-            snapshot.PinnedRelease = snapshot.PreparedChannel = snapshot.PreparedFeedFingerprint = null;
+            // Apply exactly the signed release shown in the confirmation.
+            await ValidateFriendCopyGameAsync(channel, snapshot, game, _accountLifetime.Token);
             await Revalidate();
             if (_friendSettingsApplyOverride is not null) await _friendSettingsApplyOverride(channel, snapshot, Revalidate);
-            else await ApplyConfigurationSnapshotAsync(channel, false, snapshot, Revalidate);
+            else await ApplyConfigurationSnapshotAsync(channel, true, snapshot, Revalidate, requireExactConfiguration: true);
             // The install transaction succeeded. Only now persist the new selection.
             try { RestoreSettings(snapshot, null); }
             catch (Exception error) { ActivityStore.Log(error); throw new FriendCopyException(() => T("Настройки применены к игре, но не удалось сохранить выбор в лаунчере.", "Settings were applied to the game, but the launcher could not save the selection.")); }
-            finally { _channel = channel; _latestChannel = channel; }
+            finally { _channel = channel; _latestChannel = channel; _offeredModChannel = channel; }
             succeeded = true;
             CloseSocialDetails(); ApplyLanguage();
             ShowToast(() => T("Конфигурация друга применена.", "Friend's configuration applied."));
             _socialPresenceNext = default;
         }
-        catch (FriendCopyException error) { ShowResult(error.LocalizedMessage, failure: true); }
-        catch (Exception error) { ShowError(error); }
+        catch (Exception error)
+        {
+            var cancelled = !ownsOperation && confirmation is not null
+                && (_confirmation?.Task != confirmation || _confirmationFinishing);
+            if (confirmation is not null && _confirmation?.Task == confirmation) await CompleteConfirmationAsync(false);
+            if (!cancelled)
+            {
+                if (error is FriendCopyException friendError) ShowResult(friendError.LocalizedMessage, failure: true);
+                else if (error is OperationCanceledException) ShowResult(() => T("Не удалось завершить проверку. Проверьте подключение и повторите. Настройки не изменены.", "The check could not finish. Check your connection and try again. Settings were not changed."), failure: true);
+                else ShowError(error);
+            }
+        }
         finally
         {
-            if (localizationChanged is not null) { ConfirmationLocalizationToggle.Checked -= localizationChanged; ConfirmationLocalizationToggle.Unchecked -= localizationChanged; }
+            preparationCancellation.Cancel();
             if (receipt is not null) await FinishOfferApplicationAsync(receipt, succeeded);
-            SetBusy(false); RefreshStatus();
+            if (ownsOperation) { SetBusy(false); RefreshStatus(); }
         }
     }
 }

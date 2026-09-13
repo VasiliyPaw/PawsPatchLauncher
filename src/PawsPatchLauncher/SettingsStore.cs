@@ -12,15 +12,20 @@ public sealed class SettingsStore
         try
         {
             if (File.Exists(SettingsPath))
-                return JsonSerializer.Deserialize(File.ReadAllText(SettingsPath), LauncherJsonContext.Default.UserSettings) ?? new UserSettings();
+            {
+                var saved = JsonSerializer.Deserialize(File.ReadAllText(SettingsPath), LauncherJsonContext.Default.UserSettings);
+                if (saved is not null) { ModChannelSelection.Remember(saved); return saved; }
+            }
         }
         catch { }
 
-        return new UserSettings { Language = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru" ? "ru" : "en" };
+        // Fresh installs start with the original game; legacy profiles keep their Arcane Wars defaults.
+        return new UserSettings { Mod = GameMod.Vanilla, Language = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru" ? "ru" : "en" };
     }
 
     public void Save(UserSettings settings)
     {
+        ModChannelSelection.Remember(settings);
         Directory.CreateDirectory(_directory);
         var temporary = SettingsPath + ".tmp";
         File.WriteAllText(temporary, JsonSerializer.Serialize(settings, LauncherJsonContext.Default.UserSettings));
@@ -34,9 +39,9 @@ public sealed class SettingsStore
         {
             using var embedded = typeof(SettingsStore).Assembly.GetManifestResourceStream("PawsPatchLauncher.launcher.config.json")
                 ?? throw new InvalidDataException("Launcher configuration is missing.");
-            return JsonSerializer.Deserialize(embedded, LauncherJsonContext.Default.LauncherConfiguration) ?? throw new InvalidDataException("Launcher configuration is invalid.");
+            return OfficialFeedConfiguration.Upgrade(JsonSerializer.Deserialize(embedded, LauncherJsonContext.Default.LauncherConfiguration) ?? throw new InvalidDataException("Launcher configuration is invalid."));
         }
-        return JsonSerializer.Deserialize(File.ReadAllText(path), LauncherJsonContext.Default.LauncherConfiguration)
-               ?? new LauncherConfiguration();
+        return OfficialFeedConfiguration.Upgrade(JsonSerializer.Deserialize(File.ReadAllText(path), LauncherJsonContext.Default.LauncherConfiguration)
+               ?? new LauncherConfiguration());
     }
 }

@@ -4,9 +4,9 @@ using System.Windows.Media;
 
 namespace PawsPatchLauncher;
 
-public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera, AddFriend, Requests, BlockedUsers }
+public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera, AddFriend, Requests, BlockedUsers, Discord, Smile, ChevronUp }
 
-/// <summary>Original, font-independent line icons on a shared 24-unit grid.</summary>
+/// <summary>Font-independent vector icons on a shared 24-unit grid.</summary>
 public sealed class LauncherIcon : FrameworkElement
 {
     public static readonly DependencyProperty KindProperty = DependencyProperty.RegisterAttached("Kind", typeof(IconKind), typeof(LauncherIcon),
@@ -23,6 +23,9 @@ public sealed class LauncherIcon : FrameworkElement
     {
         var paths = new Dictionary<IconKind, string>
         {
+            [IconKind.ChevronUp] = "M4,16 L12,8 20,16",
+            [IconKind.Smile] = "M12,2 A10,10 0 1 1 11.99,2 M8,8 L8,9 M16,8 L16,9 M7,13 C8,19 16,19 17,13",
+            [IconKind.Discord] = "F0 M20.2,4.6 C18.7,3.9 17.2,3.5 15.6,3.3 L15,4.6 C13,4.3 11,4.3 9,4.6 L8.4,3.3 C6.8,3.5 5.3,3.9 3.8,4.6 C1.5,8.1 0.6,11.7 0.8,15.3 C2.5,16.6 4.3,17.5 6.4,18.1 L7.5,16.3 L6.1,15.6 L6.5,15.3 C10,16.9 14,16.9 17.5,15.3 L17.9,15.6 L16.5,16.3 L17.6,18.1 C19.7,17.5 21.5,16.6 23.2,15.3 C23.4,11.7 22.5,8.1 20.2,4.6 Z M9.6,11.7 A1.7,1.9 0 1 1 6.2,11.7 A1.7,1.9 0 1 1 9.6,11.7 Z M17.8,11.7 A1.7,1.9 0 1 1 14.4,11.7 A1.7,1.9 0 1 1 17.8,11.7 Z",
             [IconKind.Camera] = "M3,7 L7,7 9,4 15,4 17,7 21,7 21,20 3,20 Z M12,9 A4,4 0 1 1 11.99,9",
             [IconKind.Profile] = "M3,4 L21,4 21,20 3,20 Z M8,7 A2,2 0 1 1 7.99,7 M5,16 C5,12 11,12 11,16 M14,9 L18,9 M14,13 L18,13 M14,17 L17,17",
             [IconKind.More] = "M5,11 A1,1 0 1 1 4.99,11 M12,11 A1,1 0 1 1 11.99,11 M19,11 A1,1 0 1 1 18.99,11",
@@ -73,7 +76,7 @@ public sealed class LauncherIcon : FrameworkElement
         var pen = new Pen(Foreground, 1.7) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round, LineJoin = PenLineJoin.Round };
         dc.PushTransform(new TranslateTransform((ActualWidth - 24 * scale) / 2, (ActualHeight - 24 * scale) / 2));
         dc.PushTransform(new ScaleTransform(scale, scale));
-        dc.DrawGeometry(null, pen, geometry);
+        dc.DrawGeometry(Kind == IconKind.Discord ? Foreground : null, Kind == IconKind.Discord ? null : pen, geometry);
         dc.Pop(); dc.Pop();
     }
 }

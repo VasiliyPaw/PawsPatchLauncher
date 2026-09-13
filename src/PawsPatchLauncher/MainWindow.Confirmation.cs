@@ -51,16 +51,16 @@ public partial class MainWindow
     private Task<bool> ConfirmActionAsync(string title, string body, string detailsLabel, string details, string action)
     {
         // Confirmation reserves the UI, but is not an installation/removal operation.
-        if (ConfirmationActive || _busy || FeedBlocksActions) return Task.FromResult(false);
+        if (ConfirmationActive || _busy || FeedBlocksActions || ModNoticeOverlay.Visibility == Visibility.Visible) return Task.FromResult(false);
         CancelBackgroundFeed();
         _confirmation = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         _confirmationPreviousFocus = Keyboard.FocusedElement;
         Motion.Hide(HelpOverlay);
-        SocialDetailsOverlay.IsEnabled = false;
-        ConfirmationLocalizationToggle.Visibility = Visibility.Collapsed;
-        ConfirmationLocalizationToggle.IsChecked = false;
-        MainBody.IsEnabled = TitleBar.IsEnabled = false;
-        ConfirmationCard.IsEnabled = true;
+        SocialDetailsOverlay.IsHitTestVisible = false;
+        ConfirmationRemoveModsToggle.Visibility = Visibility.Collapsed;
+        ConfirmationRemoveModsToggle.IsChecked = true;
+        MainBody.IsHitTestVisible = TitleBar.IsHitTestVisible = false;
+        ConfirmationCard.IsHitTestVisible = true;
         ConfirmationEyebrowText.Text = T("ПОДТВЕРЖДЕНИЕ ДЕЙСТВИЯ", "CONFIRM ACTION");
         ConfirmationTitleText.Text = title;
         ConfirmationBodyText.Text = body;
@@ -83,20 +83,21 @@ public partial class MainWindow
         ConfirmationCloseButton.ToolTip = T("Отмена", "Cancel");
         System.Windows.Automation.AutomationProperties.SetName(ConfirmationCloseButton, T("Отмена", "Cancel"));
         Motion.Reveal(ConfirmationOverlay);
+        RevealDialogCard(ConfirmationCard);
         ConfirmationCancelButton.Focus();
         return _confirmation.Task;
     }
 
     private async Task CompleteConfirmationAsync(bool accepted)
     {
-        if (_confirmation is null || _confirmationFinishing) return;
+        if (_confirmation is null || _confirmationFinishing || accepted && !ConfirmationDeleteButton.IsEnabled) return;
         var completion = _confirmation;
         _confirmationFinishing = true;
-        ConfirmationCard.IsEnabled = false;
+        ConfirmationCard.IsHitTestVisible = false;
         await Motion.HideAsync(ConfirmationOverlay);
         if(!ReferenceEquals(_confirmation,completion)) { _confirmationFinishing=false;return; }
-        MainBody.IsEnabled = TitleBar.IsEnabled = true;
-        SocialDetailsOverlay.IsEnabled = true;
+        MainBody.IsHitTestVisible = TitleBar.IsHitTestVisible = true;
+        SocialDetailsOverlay.IsHitTestVisible = true;
         _confirmation = null;
         RefreshOfferActions();
         RefreshSocialCopyAvailability();

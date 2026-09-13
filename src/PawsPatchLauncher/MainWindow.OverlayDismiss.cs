@@ -40,7 +40,7 @@ public partial class MainWindow
         else if(!ConfirmationActive)
         {
             if(ReferenceEquals(overlay,SocialDetailsOverlay))await DismissSocialDetailsAsync();
-            else Motion.Hide(HelpOverlay);
+            else await CloseHelpAsync();
         }
     }
 }

@@ -95,7 +95,7 @@ internal static class SmoothExperienceChecks
             var dismissal=(Task)Invoke("DismissSocialDetailsAsync")!;
             if(moving)
             {
-                Check(Control<Border>("SocialDetailsOverlay").Visibility==Visibility.Visible&&!Control<Border>("SocialDetailsCard").IsEnabled,"profile did not retain blocking layer while fading");
+                Check(Control<Border>("SocialDetailsOverlay").Visibility==Visibility.Visible&&!Control<Border>("SocialDetailsCard").IsHitTestVisible&&Control<Border>("SocialDetailsCard").IsEnabled,"profile did not retain blocking layer while fading");
                 await Task.Delay(65);var alpha=Control<Border>("SocialDetailsOverlay").Opacity;
                 Check(alpha>0&&alpha<1&&Control<TextBlock>("SocialDetailsName").Text==friend.Name,"profile content disappeared before fade");
             }
@@ -107,7 +107,7 @@ internal static class SmoothExperienceChecks
             var cancel=(Task)Invoke("CompleteConfirmationAsync",false)!;
             if(moving)
             {
-                Check(!confirmation.IsCompleted&&!Control<Grid>("MainBody").IsEnabled&&Control<Border>("ConfirmationOverlay").Visibility==Visibility.Visible,"confirmation unlocked background before fade");
+                Check(!confirmation.IsCompleted&&Control<Grid>("MainBody").IsEnabled&&Control<Border>("ConfirmationOverlay").Visibility==Visibility.Visible,"confirmation removed its blocking overlay before fade");
                 await Task.Delay(65);Check(Control<Border>("ConfirmationOverlay").Opacity is >0 and <1,"confirmation has no intermediate fade");
             }
             await cancel;Check(!await confirmation&&Control<Border>("ConfirmationOverlay").Visibility==Visibility.Collapsed&&Control<Border>("SocialDetailsOverlay").Visibility==Visibility.Visible,"confirmation close lost underlying profile");

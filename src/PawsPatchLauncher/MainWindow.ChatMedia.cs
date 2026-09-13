@@ -42,8 +42,9 @@ public partial class MainWindow
         void RefreshBody()
         {
             if(bodyText is null)return;
-            bodyText.Text=ChatMedia.WithoutLoadedLinks(body,loaded);
-            bodyText.Visibility=string.IsNullOrWhiteSpace(bodyText.Text)?Visibility.Collapsed:Visibility.Visible;
+            var visibleText=ChatMedia.WithoutLoadedLinks(body,loaded);
+            ChatGlyphs.Render(bodyText,visibleText,_text.Language=="ru");
+            bodyText.Visibility=string.IsNullOrWhiteSpace(visibleText)?Visibility.Collapsed:Visibility.Visible;
         }
         foreach(var uri in ChatMedia.Find(body))
         {

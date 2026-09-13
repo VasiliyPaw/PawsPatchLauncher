@@ -28,6 +28,10 @@ internal static class OfferUiChecks
   T Field<T>(string name)=>(T)typeof(MainWindow).GetField(name,Flags)!.GetValue(w)!;
   void Set(string name,object value)=>typeof(MainWindow).GetField(name,Flags)!.SetValue(w,value);
   var peer=Field<IReadOnlyList<SocialPlayer>>("_socialPlayers").First(p=>p.Relation=="friend");
+  var channel=new ChannelManifest {Channel=peer.Channel,Packages=[new(){Id="arcane-wars",Version="1"},new(){Id="pawpatch-core",Version="1",Required=true}]};
+  var catalog=(FriendVersionCatalog)typeof(MainWindow).GetMethod("ObserveFriendVersionCatalog",Flags)!.Invoke(w,new object[]{channel,SelfUpdater.CurrentVersion.ToString()})!;
+  peer=peer with {Versions=new SocialVersions(SelfUpdater.CurrentVersion.ToString(),GameMod.ArcaneWars,peer.Channel,catalog.ContentIds[GameMod.ArcaneWars],"1")};
+  Set("_socialPlayers",(IReadOnlyList<SocialPlayer>)new[]{peer});
   var owner=Guid.Parse(Field<AccountService>("_account").UserId);var now=DateTimeOffset.UtcNow;
   var config=new SocialOffer(Guid.NewGuid(),peer.Id,owner,"config",peer.Configuration,null,null,null,"pending",now,now.AddMinutes(10),null,null);
   var save=config with{Id=Guid.NewGuid(),Kind="save",Configuration=null,FileName="Великая война.rsg",FileSize=102400,Sha256=new string('a',64)};
@@ -47,16 +51,30 @@ internal static class OfferUiChecks
   void Check(bool value,string why){checks++;if(!value)throw new Exception("Offer UI: "+why);}
   try {
    Field<PawsPatchLauncher.Localization>("_text").SetLanguage(language);Invoke("ApplyLanguage");Populate(w);
+   Field<UserSettings>("_settings").Mod=GameMod.Vanilla;
+   Set("_gameRunningProbe",(Func<bool>)(()=>false));Invoke("RefreshOfferActions");
    var rows=Control<StackPanel>("FriendsMessagesPanel");
-   Check(rows.Children.Count==3 && rows.Children.OfType<Border>().Count()==3,"offers not distinct inline cards");
-   var first=(Border)rows.Children[0];var peer=Field<IReadOnlyList<SocialPlayer>>("_socialPlayers").First(p=>p.Relation=="friend");
+   Border FirstCard()=>rows.Children.OfType<Border>().First(b=>b.Tag is Guid);
+   Check(rows.Children.OfType<Border>().Count(b=>b.Tag is Guid)==3,"offers not distinct inline cards");
+   var first=FirstCard();var peer=Field<IReadOnlyList<SocialPlayer>>("_socialPlayers").First(p=>p.Relation=="friend");
    ((Task)Invoke("OpenSocialChatAsync",peer)!).GetAwaiter().GetResult();
    Check(Control<Border>("FriendsChatCard").Visibility==Visibility.Collapsed&&!Field<bool>("_socialBusy"),"active chat click did not close chat");
-   Populate(w); first=(Border)rows.Children[0];
+   Populate(w); first=FirstCard();peer=Field<IReadOnlyList<SocialPlayer>>("_socialPlayers").First(p=>p.Relation=="friend");
    var accept=((StackPanel)first.Child).Children.OfType<WrapPanel>().Single().Children.OfType<Button>().First();
-   Set("_busy",true);Invoke("RenderSocialMessages");Check(!accept.IsEnabled&&ReferenceEquals(first,rows.Children[0]),"busy action refresh rebuilds cards");
+   Set("_busy",true);Invoke("RenderSocialMessages");Check(!accept.IsEnabled&&ReferenceEquals(first,FirstCard()),"busy action refresh rebuilds cards");
    Set("_busy",false);Invoke("RenderSocialMessages");
-   Check(accept.IsEnabled==!(bool)Invoke("ConfigurationMatches",peer.Configuration)!&&ReferenceEquals(first,rows.Children[0]),"identical configuration / action refresh");
+   Check(accept.IsEnabled==!(bool)Invoke("ConfigurationMatches",peer.Configuration)!&&ReferenceEquals(first,FirstCard()),"identical configuration / action refresh");
+   foreach(var version in new SocialVersions?[]{null,peer.Versions! with {Launcher="0.1.0"},peer.Versions! with {ContentId=new string('0',64)}})
+   {
+    Set("_socialPlayers",(IReadOnlyList<SocialPlayer>)new[]{peer with {Versions=version}});Invoke("RefreshOfferActions");
+    var offered=Field<IReadOnlyList<SocialOffer>>("_socialOffers")[0];
+    Check(!accept.IsEnabled && accept.ToolTip is string {Length:>30} && ReferenceEquals(first,FirstCard()),"stale version offer enabled or warning missing");
+    Check(!(bool)Invoke("CanAcceptOffer",offered)!,"direct offer guard allows stale versions");
+    ((Task)Invoke("AcceptSocialOfferAsync",offered)!).GetAwaiter().GetResult();
+    Check(Field<TaskCompletionSource<bool>?>("_confirmation") is null,"blocked offer opened application confirmation");
+   }
+   Set("_socialPlayers",(IReadOnlyList<SocialPlayer>)new[]{peer});Invoke("RefreshOfferActions");
+   Check(accept.IsEnabled && accept.ToolTip is null,$"updated peer did not re-enable existing offer button: enabled={accept.IsEnabled}, tooltip={accept.ToolTip}, matches={Invoke("ConfigurationMatches",peer.Configuration)}, status={Invoke("FriendVersionStatus",peer)}, busy={Field<bool>("_busy")}, peer={Field<Guid?>("_socialPeer")}");
    Check(Control<Button>("FriendsComposerMoreButton").Content is LauncherIcon{Kind:IconKind.More},"composer menu icon");
    var sample=Field<IReadOnlyList<SocialOffer>>("_socialOffers")[0];
    foreach(var own in new[]{false,true})foreach(var kind in new[]{"config","save"})foreach(var state in new[]{"pending","applying","accepted","declined","failed","expired","cancelled","sending"})

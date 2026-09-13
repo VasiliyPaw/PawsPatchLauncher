@@ -28,7 +28,9 @@ public static class EffectiveSettingsTests
         preferences.LargeMapSizes = false;
         Check(EffectiveSettings.ForFeed(preferences, beta).LargeMapSizes && !preferences.LargeMapSizes, "Permanent map option was not normalized independently.");
         var siege = PatchGuide.Entries.Single(e => e.Id == "siege");
-        Check(siege.BodyRu.Contains("урон") && siege.BodyRu.Contains("не только") && siege.BodyEn.Contains("damage"), "Siege guide still describes cost only.");
+        Check(siege.BodyRu.Contains("0,75") && siege.BodyRu.Contains("параметры атак остаются")
+            && siege.BodyEn.Contains("0.75") && siege.BodyEn.Contains("attack parameters remain"),
+            "Siege guide attributes the original Arcane Wars attack changes to the upkeep component.");
         Console.WriteLine($"EFFECTIVE SETTINGS PASS {count}: active/remembered isolation, channel/package masking, importable codes, option preservation and siege scope");
         return count;
     }

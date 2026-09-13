@@ -6,13 +6,14 @@ internal static class AccountModerationTests
     {
         int n=0;void Check(bool ok,string why){n++;if(!ok)throw new Exception("Moderation: "+why);}
         var id=Guid.NewGuid();var now=DateTimeOffset.UtcNow;var time=now;
-        int role=0,socialCalls=0;DateTimeOffset? banned=null,until=null,deleted=null;string actionStatus="ok";
+        int role=0,socialCalls=0,deleteCalls=0;DateTimeOffset? banned=null,until=null,deleted=null;string actionStatus="ok";
         var handler=new AccountTests.FakeAuth(request=>
         {
             var path=request.RequestUri!.AbsolutePath;
             if(path.EndsWith("paw_profiles"))return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(new[]{new{id,nickname="Paw",display_name="Paw",admin_level=role,protected_admin=role==2,banned_at=banned,ban_until=until,ban_reason="Test reason",deletion_pending=deleted is not null,deleted_at=deleted}})));
             if(path.EndsWith("paw_admin_list"))return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(new{status="ok",server_time=now,items=new[]{new{id,nickname="paw",display_name="Paw",created_at=now,admin_level=2,protected_admin=true,is_new=true}}})));
             if(path.EndsWith("paw_admin_action"))return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(new{status=actionStatus})));
+            if(path.EndsWith("account-actions")){deleteCalls++;return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(new{status=actionStatus})));}
             if(path.EndsWith("paw_social_list")){socialCalls++;return Task.FromResult(AccountTests.Ok("{\"status\":\"ok\",\"players\":[]}"));}
             var user=new{id,email="paw@example.invalid",user_metadata=new{nickname="Forged",admin_level=2,protected_admin=true}};
             return Task.FromResult(AccountTests.Ok(path.EndsWith("/token")?JsonSerializer.Serialize(new{access_token="fixture-access",refresh_token="fixture-refresh",expires_in=3600,user}):JsonSerializer.Serialize(user)));
@@ -28,10 +29,21 @@ internal static class AccountModerationTests
         var before=socialCalls;denied=false;try{await account.GetFriendsAsync();}catch(AccountException e){denied=e.Code=="account_banned";}Check(denied,"banned social call allowed");Check(socialCalls==before,"blocked social RPC reached network");
         denied=false;try{await account.ChangeNicknameAsync("newusername");}catch(AccountException e){denied=e.Code=="account_banned";}
         Check(denied&&account.State==AccountState.SignedIn,"rejected rename signed banned player out");
+        Check(!account.CanDeleteAccount,"banned account exposes deletion");
+        denied=false;try{await account.DeleteAccountAsync("fixture-password");}catch(AccountException e){denied=e.Code=="account_banned";}
+        Check(denied&&deleteCalls==0&&account.State==AccountState.SignedIn,"banned deletion reached server or cleared session");
         time=now.AddMinutes(2);Check(!account.Banned&&!account.Restricted,"temporary ban did not expire");
+        Check(account.CanDeleteAccount,"expired ban still blocks deletion");
         until=null;await account.RestoreAsync();Check(account.Banned,"permanent ban expired");
+        denied=false;try{await account.DeleteAccountAsync("fixture-password");}catch(AccountException e){denied=e.Code=="account_banned";}
+        Check(denied&&!account.CanDeleteAccount&&deleteCalls==0,"permanent ban permits deletion");
         banned=null;deleted=now;await account.RestoreAsync();Check(account.DeletionPending&&account.Restricted&&account.DeletedAt==now,"retained deletion missing");
+        Check(account.CanDeleteAccount,"unbanned incomplete deletion cannot be retried");
         deleted=null;await account.RestoreAsync();Check(!account.Restricted,"restored account stayed restricted");
+        actionStatus="account_banned";denied=false;try{await account.DeleteAccountAsync("fixture-password");}catch(AccountException e){denied=e.Code=="account_banned";}
+        Check(denied&&deleteCalls==1&&account.State==AccountState.SignedIn,"server ban arriving after local check was ignored");
+        actionStatus="ok";await account.DeleteAccountAsync("fixture-password");
+        Check(deleteCalls==2&&account.State==AccountState.Guest,"unbanned deletion did not complete normally");
         bool signup=false;
         using var registration=new AccountService(new AccountSessionStore(Path.Combine(root,"moderation-registration")),new AccountTests.FakeAuth(request=>
         {

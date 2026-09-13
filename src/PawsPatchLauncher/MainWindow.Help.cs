@@ -6,6 +6,8 @@ namespace PawsPatchLauncher;
 
 public partial class MainWindow
 {
+    private string BrowserOpenError() => T("Не удалось открыть браузер. Попробуйте ещё раз или откройте ссылку вручную.",
+        "Could not open the browser. Try again or open the link manually.");
     private const string ArcaneWarsDiscordInvite = "https://discord.gg/krCK7DDwyz";
     private string ArcaneWarsAuthorText => T("Автор Arcane Wars: ", "Arcane Wars author: ") + "Darquan Mortis";
     private bool _openingHelpLink;
@@ -17,7 +19,7 @@ public partial class MainWindow
     private void RenderArcaneWarsCredit(string helpKey)
     {
         HelpLinkErrorText.Visibility = Visibility.Collapsed;
-        ArcaneWarsCreditPanel.Visibility = helpKey == "modules.core" ? Visibility.Visible : Visibility.Collapsed;
+        ArcaneWarsCreditPanel.Visibility = helpKey == "modules.core" && GameMod.IsArcaneWars(_settings) ? Visibility.Visible : Visibility.Collapsed;
         ArcaneWarsAuthorLabel.Text = T("Автор Arcane Wars: ", "Arcane Wars author: ");
         ArcaneWarsDistributionText.Text = T("Автор распространяет мод на этом Discord-сервере.",
             "The author distributes the mod on this Discord server.");
@@ -37,13 +39,13 @@ public partial class MainWindow
         _openingHelpLink = true;
         HelpLinkErrorText.Visibility = Visibility.Collapsed;
         ArcaneWarsDiscordLink.IsEnabled = false;
-        try { await _openHelpLink(ArcaneWarsDiscordInvite); }
+        try { await OpenConfirmedLinkAsync(ArcaneWarsDiscordInvite); }
         catch (Exception error)
         {
             ActivityStore.Log(error);
-            HelpLinkErrorText.Text = T("Не удалось открыть браузер. Попробуйте ещё раз или откройте ссылку вручную.",
-                "Could not open the browser. Try again or open the link manually.");
+            HelpLinkErrorText.Text = BrowserOpenError();
             HelpLinkErrorText.Visibility = Visibility.Visible;
+            ShowToast(BrowserOpenError, true);
         }
         finally { _openingHelpLink = false; ArcaneWarsDiscordLink.IsEnabled = true; }
     }

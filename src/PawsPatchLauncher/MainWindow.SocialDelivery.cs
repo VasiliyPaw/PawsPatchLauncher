@@ -80,6 +80,7 @@ public partial class MainWindow
                 if (_account.UserId != owner.ToString()) return;
                 if (_socialPeer == pending.Target && !_socialMessages.Any(m => m.SenderId == owner && m.MessageId == sent.MessageId))
                     AppendSentHistoryMessage(sent);
+                _chatMemory.AppendSent(owner, pending.Target, sent);
             }
             catch (OperationCanceledException) when (!_accountLifetime.IsCancellationRequested)
             { await _socialOutbox.FailAttemptAsync(pending, "delivery_timeout", _accountLifetime.Token); }
@@ -112,8 +113,10 @@ public partial class MainWindow
         {
             AccountService.ValidateMessage(text, "text");
             await _socialOutbox.AddAsync(new PendingSocialMessage(owner, peer, Guid.NewGuid(), text, "text"), _accountLifetime.Token);
+            ActionJournal.Record("chat.message.queued", "text");
             if (_account.UserId != owner.ToString()) return;
             if (_socialPeer == peer && FriendsMessageInput.Text.Trim() == text) FriendsMessageInput.Clear();
+            _chatUnreadDivider.Dismiss();
             await ReloadSocialPendingAsync(owner);
             ShowNewestCachedHistory();
         }

@@ -19,7 +19,7 @@ public partial class MainWindow
 
     private void OpenFriendsDialog(string kind)
     {
-        if (_account.State != AccountState.SignedIn || _account.Restricted || _socialBusy || _accountBusy || ConfirmationActive) return;
+        if (_account.State != AccountState.SignedIn || _account.Restricted || _socialBusy || _accountBusy || ConfirmationActive || _socialListReceived == default) return;
         CloseSocialMenu();
         _friendsDialogPreviousFocus = Keyboard.FocusedElement;
         _friendsDialog = kind; _friendsDialogSignature = "";
@@ -28,6 +28,7 @@ public partial class MainWindow
         FriendsDialogScroll.Visibility = kind == "add" ? Visibility.Collapsed : Visibility.Visible;
         RenderFriendsDialogRows(); RenderSocialNotifications();
         Motion.Reveal(FriendsDialogOverlay);
+        RevealDialogCard(FriendsDialogCard);
         if (kind == "add") FriendsNicknameInput.Focus(); else FriendsDialogClose.Focus();
     }
 
@@ -42,7 +43,7 @@ public partial class MainWindow
         var scope = _account.UserId + "|" + _friendsDialog + "|" + relation;
         var arrived = _requestArrivals.Observe(scope, players.Select(p => p.Id), _socialListReceived != default);
         var signature = scope + "|" + _text.Language + "|" + _socialAvatarGeneration + "|" +
-            string.Join(";", players.Select(p => $"{p.Id}:{p.Name}:{p.Nickname}:{p.AvatarRevision}:{p.AdminLevel}:{p.Banned}:{p.Deleted}"));
+            string.Join(";", players.Select(p => $"{p.Id}:{p.Name}:{p.Nickname}:{p.AvatarRevision}:{p.AdminLevel}:{p.PawsTeam}:{p.Banned}:{p.Deleted}"));
         if (signature == _friendsDialogSignature) return;
         _friendsDialogSignature = signature;
         var generation = ++_requestArrivalVersion;

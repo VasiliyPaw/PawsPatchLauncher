@@ -69,8 +69,8 @@ public partial class MainWindow
         ResetBroadcast(); CloseSocialMenu();
         _broadcastOwner=owner; _broadcastClosing=false; _broadcastConfig=false;
         var state=_game is null?null:new ModuleInstaller(_game.Directory).LoadState();
-        if (state?.AppliedSettings is UserSettings applied && state.Modules.GetValueOrDefault("pawpatch-core")?.Enabled==true)
-            _broadcastCode=ConfigurationCode.Create(applied);
+        if (state?.AppliedSettings is UserSettings applied)
+            _broadcastCode=FriendConfiguration.Create(applied);
         BroadcastTitle.Text=T("Отправить друзьям","Send to friends");
         BroadcastConfigTab.Content=T("Конфигурация","Configuration");
         BroadcastSaveTab.Content=T("Сейв","Save");
@@ -91,7 +91,7 @@ public partial class MainWindow
         }
         if (_broadcastEntries.Count == 0) BroadcastHint.Text=T("Друзей пока нет","No friends yet");
         RefreshBroadcastKind();
-        Motion.Reveal(BroadcastOverlay); BroadcastSaveTab.Focus();
+        Motion.Reveal(BroadcastOverlay); RevealDialogCard(BroadcastCard); BroadcastSaveTab.Focus();
     }
 
     private string? BroadcastIneligible(SocialPlayer friend)
@@ -101,7 +101,7 @@ public partial class MainWindow
         if (_broadcastCode is null) return T("Патч ещё не установлен","Patch not installed yet");
         if (!FriendConfiguration.TryParse(friend.Configuration,friend.Channel,out var theirs))
             return T("Конфигурация друга неизвестна","Friend's configuration unavailable");
-        return ConfigurationCode.Create(theirs)==_broadcastCode ? T("Конфигурации совпадают","Configurations already match") : null;
+        return FriendConfiguration.Matches(theirs,ConfigurationCode.Parse(_broadcastCode)) ? T("Конфигурации совпадают","Configurations already match") : null;
     }
 
     private void RefreshBroadcastKind()
@@ -113,6 +113,7 @@ public partial class MainWindow
         BroadcastPayloadText.Text=_broadcastConfig
             ? _broadcastCode is null ? T("Сначала установите и примените патч.","Install and apply the patch first.")
                 : T("Ваша установленная конфигурация","Your installed configuration")+" · "+
+                    GameMod.Name(ConfigurationCode.Parse(_broadcastCode).Mod,_text.Language=="ru")+" · "+
                     (ConfigurationCode.Parse(_broadcastCode).Channel=="beta"?T("Бета","Beta"):T("Релиз","Release"))
             : _broadcastSave is null ? T("Один выбранный файл для всех получателей.","One selected file for all recipients.")
                 : _broadcastSave.FileName+" · "+FormatBytes(_broadcastSave.Size);
@@ -122,8 +123,9 @@ public partial class MainWindow
             var reason=BroadcastIneligible(entry.Player);
             entry.Status.Text=reason??T("Готово к отправке","Ready to send");
             entry.Status.Foreground=SocialBrush(reason is null?"#9EB5CE":"#D5AE52");
+            var before = _broadcastConfig && reason is null ? ConfigurationCode.Parse(entry.Player.Configuration!) : null;
             entry.Select.ToolTip=_broadcastConfig && reason is null
-                ? string.Join("\n",ConfigurationChanges.Describe(ConfigurationCode.Parse(entry.Player.Configuration!),ConfigurationCode.Parse(_broadcastCode!),_text.Language=="ru")) : reason;
+                ? string.Join("\n",ConfigurationChanges.Describe(before!,FriendConfiguration.WithLocalLanguages(ConfigurationCode.Parse(_broadcastCode!),before!),_text.Language=="ru")) : reason;
         }
         RefreshBroadcastSelection();
     }

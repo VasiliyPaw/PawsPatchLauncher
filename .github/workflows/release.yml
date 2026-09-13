@@ -135,6 +135,6 @@ jobs:
             "artifacts/distribution/PawsPatchLauncher-$env:GITHUB_REF_NAME-win-x64.zip" `
             artifacts/distribution/launcher-artifact.json `
             --repo "$env:GITHUB_REPOSITORY" `
-            --title "Paw's Patch Launcher $env:GITHUB_REF_NAME" `
+            --title "Paw's Launcher $env:GITHUB_REF_NAME" `
             --notes-file artifacts/release-notes.md
           if ($LASTEXITCODE -ne 0) { throw 'Release publication failed.' }

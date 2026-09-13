@@ -8,7 +8,7 @@ public sealed record SocialPlayer(Guid Id, string Nickname, string Relation, int
     string Presence="offline", DateTimeOffset? LastSeen=null, DateTimeOffset? PlayingSince=null,
     string Channel="unknown", string Components="{}", DateTimeOffset? AvatarRevision=null, string? Configuration=null,string? DisplayName=null,
     int AdminLevel=0,DateTimeOffset? BannedAt=null,DateTimeOffset? BanUntil=null,string BanReason="",DateTimeOffset? DeletedAt=null,DateTimeOffset? CreatedAt=null,bool IsFriend=true,
-    DateTimeOffset? LastMessageAt=null,long LastMessageOrdinal=0)
+    DateTimeOffset? LastMessageAt=null,long LastMessageOrdinal=0,bool PawsTeam=false,SocialVersions? Versions=null)
 {
     public string Name=>Deleted?"Удалённый аккаунт":string.IsNullOrEmpty(DisplayName)?Nickname:DisplayName;
     public bool Deleted=>DeletedAt is not null;
@@ -39,7 +39,7 @@ public sealed partial class AccountService
             var status = await ResolveRestrictionAsync(Text(response.RootElement,"status"),ct).ConfigureAwait(false);
             if (status != "ok") throw new AccountException(status switch {
                 "session_expired" or "session_replaced" or "player_unavailable" or "friend_limit" or "request_missing" or "friend_required"
-                or "invalid_message" or "message_conflict" or "rate_limit" or "message_limit"
+                or "invalid_message" or "invalid_presence" or "message_conflict" or "rate_limit" or "message_limit"
                 or "offer_expired" or "offer_unavailable" or "invalid_offer" or "invalid_save" or "storage_limit" or "configuration_matches" => status,
                 "admin_required" or "higher_role_required" or "protected_account" or "self_moderation" or "invalid_ban" or "restore_expired"
                 or "account_banned" or "account_deletion_pending" or "admin_cannot_block" or "account_busy" => status,
@@ -77,7 +77,8 @@ public sealed partial class AccountService
                     FriendConfiguration.TryParse(configuration,channel,out _) ? configuration : null,displayName,
                     ModerationInt(p,"admin_level"),Date("banned_at"),Date("ban_until"),Text(p,"ban_reason"),Date("deleted_at"),Date("created_at"),
                     !p.TryGetProperty("is_friend",out var friendship)||friendship.ValueKind==JsonValueKind.True,
-                    Date("last_message_at"),lastOrdinal);
+                    Date("last_message_at"),lastOrdinal,ModerationBool(p,"paws_team"),
+                    p.TryGetProperty("versions",out var versions)?SocialVersions.Read(versions):null);
     }
 
     public Task FriendActionAsync(string action, Guid? target=null, string? nickname=null, CancellationToken ct=default)
@@ -91,8 +92,29 @@ public sealed partial class AccountService
     public Task PublishPresenceAsync(bool playing,string channel,IReadOnlyDictionary<string,bool> components,CancellationToken ct=default)
         => SocialRpcAsync("paw_presence",new{playing,channel,components},_=>true,ct);
 
-    public Task PublishConfigurationPresenceAsync(bool playing,string channel,IReadOnlyDictionary<string,bool> components,string? configuration,CancellationToken ct=default)
-        => SocialRpcAsync("paw_presence",new{playing,channel,components,configuration},_=>true,ct);
+    public async Task PublishConfigurationPresenceAsync(bool playing,string channel,IReadOnlyDictionary<string,bool> components,string? configuration,CancellationToken ct=default,SocialVersions? versions=null)
+    {
+        if(versions is not null)
+        {
+            var enriched=components.ToDictionary(pair=>pair.Key,pair=>(object)pair.Value);
+            enriched["_versions"]=versions;
+            try { await SocialRpcAsync("paw_presence",new{playing,channel,components=enriched,configuration},_=>true,ct); return; }
+            catch(AccountException error) when(error.Code=="invalid_presence")
+            {
+                // Older servers reject the optional envelope. Keep chat/presence working,
+                // but readers will block configuration copy until version data is available.
+            }
+        }
+        try { await SocialRpcAsync("paw_presence",new{playing,channel,components,configuration},_=>true,ct); }
+        catch (AccountException error) when (error.Code == "invalid_presence" && configuration is not null
+            && (configuration.EndsWith("-PP0",StringComparison.Ordinal) || configuration.Contains("-VANILLA",StringComparison.Ordinal)
+                || configuration.Contains("-IMMORTALS",StringComparison.Ordinal) || configuration.EndsWith("-DATA",StringComparison.Ordinal)))
+        {
+            // During rollout, older servers can still show accurate component flags.
+            // They must never advertise a new mode as a legacy Paw's Patch configuration.
+            await PublishPresenceAsync(playing,channel,components,ct);
+        }
+    }
 
     public Task<int> MarkMessagesReadAsync(Guid target,Guid lastMessage,CancellationToken ct=default)
     {

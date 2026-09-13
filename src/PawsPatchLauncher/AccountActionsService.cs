@@ -60,6 +60,8 @@ public sealed partial class AccountService
     {
         ValidateCurrentPassword(currentPassword);
         await WithAccountAsync(async () => {
+            if (Banned) throw new AccountException("account_banned");
+            if (ProtectedAdmin) throw new AccountException("protected_account");
             using var result = await RequestAsync(HttpMethod.Post, "account-actions",
                 new { action = "delete", current_password = currentPassword, confirm = "DELETE_MY_ACCOUNT" },
                 _session!.AccessToken, cancellationToken, portal: true).ConfigureAwait(false);

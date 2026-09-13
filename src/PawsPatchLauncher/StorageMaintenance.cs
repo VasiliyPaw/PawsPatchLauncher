@@ -99,6 +99,10 @@ public static class StorageMaintenance
             var control = CryptoAndIO.SafeChildPath(game, ".pawpatch");
             RemovalSafety.CheckNoLinks(control);
             Protect(new ModuleInstaller(game).LoadState());
+            // Installed inactive mods and all their component variants stay available offline.
+            foreach (var mod in new ModLibrary(game).Load().Mods)
+                foreach (var package in mod.Packages) protectedVersions.Add(Key(package.Id, package.Version));
+            foreach (var package in new ModLibrary(game).Load().Languages) protectedVersions.Add(Key(package.Id, package.Version));
             var transactions = CryptoAndIO.SafeChildPath(control, "transactions");
             var pointerPath = CryptoAndIO.SafeChildPath(control, "rollback.txt");
             RemovalSafety.CheckNoLinks(pointerPath);

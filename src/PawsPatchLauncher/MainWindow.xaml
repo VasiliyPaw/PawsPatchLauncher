@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:PawsPatchLauncher"
-        Title="Paw's Patch Launcher" Width="1600" Height="1000" MinWidth="1050" MinHeight="680"
+        Title="Paw's Launcher" Width="1600" Height="1000" MinWidth="1050" MinHeight="680"
         FontFamily="Arial" Icon="Assets/PawsPatch.ico"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip"
         Background="{StaticResource NightBrush}">
@@ -141,6 +141,40 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ChatComposerInput" TargetType="local:ChatComposer">
+            <Setter Property="Background" Value="#0A1729"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMainBrush}"/>
+            <Setter Property="BorderBrush" Value="#405878"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="9"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CaretBrush" Value="{StaticResource TextMainBrush}"/>
+            <Setter Property="SelectionBrush" Value="{StaticResource GoldBrush}"/>
+            <Setter Property="SelectionOpacity" Value="0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="local:ChatComposer">
+                        <Border x:Name="InputBorder" CornerRadius="5"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                local:Motion.Background="{TemplateBinding Background}" local:Motion.BorderBrush="{TemplateBinding BorderBrush}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="InputBorder" Property="local:Motion.BorderBrush" Value="#7892B3"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="InputBorder" Property="local:Motion.BorderBrush" Value="{StaticResource GoldBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="InputBorder" Property="local:Motion.Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="AccountPasswordInput" TargetType="PasswordBox">
             <Setter Property="Height" Value="36"/>
             <Setter Property="Background" Value="#0A1729"/>
@@ -206,8 +240,8 @@
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                             </ToggleButton>
-                            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
-                                <Border Background="#162A45" BorderBrush="#60738D" BorderThickness="1" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                                <Border Background="#162A45" BorderBrush="#60738D" BorderThickness="1" CornerRadius="8" Padding="4" Margin="0,5,0,0" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ScrollViewer MaxHeight="200"><ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/></ScrollViewer>
                                 </Border>
                             </Popup>
@@ -261,7 +295,7 @@
     </Window.Resources>
 
     <Border BorderBrush="#594A2A" BorderThickness="1" Background="{StaticResource WindowBackground}">
-        <Grid>
+        <Grid x:Name="WindowLayers">
             <Grid.RowDefinitions>
                 <RowDefinition Height="46"/>
                 <RowDefinition Height="*"/>
@@ -273,15 +307,16 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="18,0">
-                    <TextBlock Text="P A W ' S   P A T C H" FontWeight="Bold" FontSize="12" Foreground="{StaticResource GoldBrightBrush}"/>
+                    <TextBlock Text="P A W ' S   L A U N C H E R" FontWeight="Bold" FontSize="12" Foreground="{StaticResource GoldBrightBrush}"/>
                     <TextBlock Text="  /  KOHAN II" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/>
                 </StackPanel>
+                <Border x:Name="ConnectionNotice" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="330,0,18,0" MaxWidth="450" Padding="16,7" CornerRadius="8" Background="#542F3D" BorderBrush="#99556A" BorderThickness="1" Visibility="Collapsed" IsHitTestVisible="False">
+                    <TextBlock x:Name="ConnectionNoticeText" FontSize="14" FontWeight="SemiBold" Foreground="#FFD3D9" TextTrimming="CharacterEllipsis"/>
+                </Border>
                 <StackPanel x:Name="TitleActions" Grid.Column="1" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True">
                     <Button x:Name="LauncherUpdateButton" Visibility="Collapsed" Height="32" Margin="0,7,12,7" Style="{StaticResource GoldButton}" Padding="12,4" Click="LauncherUpdateButton_Click"/>
-                    <TextBlock x:Name="PatchChannelLabel" Style="{StaticResource MetadataText}" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <RadioButton x:Name="HeaderReleaseRadio" GroupName="HeaderPatchChannel" Tag="stable" Style="{StaticResource PatchChannelChoice}" Checked="PatchChannel_Checked"/>
-                    <RadioButton x:Name="HeaderBetaRadio" GroupName="HeaderPatchChannel" Tag="beta" Style="{StaticResource PatchChannelChoice}" Margin="4,0,14,0" Checked="PatchChannel_Checked"/>
-                    <Button x:Name="LanguageButton" Width="58" Height="32" Margin="0,7,6,7" Style="{StaticResource GhostButton}" Padding="4" Click="LanguageButton_Click">EN</Button>
+                    <Button x:Name="LanguageButton" Visibility="Collapsed" Width="58" Height="32" Margin="0,7,6,7" Style="{StaticResource GhostButton}" Padding="4" Click="LanguageButton_Click">EN</Button>
+                    <Button x:Name="ModsDiscordButton" Style="{StaticResource TitleButton}" Width="42" Height="34" Margin="0,6,12,6" Padding="8,6" Foreground="#B9C2FF" local:Motion.HoverBackground="#3A416F" Click="ModsDiscord_Click"><local:LauncherIcon Kind="Discord" Width="23" Height="23"/></Button>
                     <Button x:Name="MinimizeWindowButton" Style="{StaticResource TitleButton}" Width="42" Height="46" Click="MinimizeButton_Click"><local:LauncherIcon Kind="Minimize"/></Button>
                     <Button x:Name="CloseWindowButton" Style="{StaticResource TitleButton}" local:Motion.HoverBackground="#753B43" local:Motion.PressedBackground="#512730" Width="46" Height="46" Click="CloseButton_Click"><local:LauncherIcon Kind="Close"/></Button>
                 </StackPanel>
@@ -297,16 +332,21 @@
                     <Grid Margin="18,26,18,20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="36"/>
+                            <RowDefinition x:Name="BrandGapRow" Height="36"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Image x:Name="BrandMark" Source="{StaticResource PawAppMark}" Width="108" Height="108" HorizontalAlignment="Center"
-                               AutomationProperties.Name="Paw's Patch"/>
+                               AutomationProperties.Name="Paw's Launcher"/>
                         <StackPanel Grid.Row="2">
                             <Button x:Name="HomeNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Margin="0,0,0,8" Click="HomeNav_Click"/>
-                            <Button x:Name="ModulesNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Margin="0,0,0,8" Click="ModulesNav_Click"/>
+                            <Grid Margin="0,0,0,8">
+                                <Button x:Name="ModulesNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Click="ModulesNav_Click"/>
+                                <Border x:Name="ModulesNavBadge" Background="#B94757" CornerRadius="9" Width="18" Height="18" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" IsHitTestVisible="False" Visibility="Collapsed">
+                                    <TextBlock Text="!" FontSize="12" FontWeight="Bold" Foreground="White" TextAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
                             <Grid Margin="0,0,0,8">
                                 <Button x:Name="FriendsNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Click="FriendsNav_Click"/>
                                 <Border x:Name="FriendsNavBadge" Background="#B94757" CornerRadius="9" MinWidth="18" Height="18" Padding="4,0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" IsHitTestVisible="False" Visibility="Collapsed">
@@ -314,7 +354,8 @@
                                 </Border>
                             </Grid>
                             <Button x:Name="SettingsNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Margin="0,0,0,8" Click="SettingsNav_Click"/>
-                            <Button x:Name="AboutNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Click="AboutNav_Click"/>
+                            <Button x:Name="AboutNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Margin="0,0,0,8" Click="AboutNav_Click"/>
+                            <Button x:Name="AboutModsNav" Visibility="Collapsed" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Click="AboutModsNav_Click"/>
                         </StackPanel>
                         <StackPanel Grid.Row="4">
                             <Button x:Name="PrivacyPolicyButton" Style="{StaticResource GhostButton}" FontSize="12" Padding="8,8" HorizontalContentAlignment="Left" Margin="0,0,0,10" Click="PrivacyPolicy_Click"/>
@@ -323,6 +364,11 @@
                             <TextBlock x:Name="LauncherVersionText" Foreground="{StaticResource TextMutedBrush}" FontSize="13" Margin="0,3,0,0"/>
                             <TextBlock x:Name="InstalledPatchLabel" Style="{StaticResource SmallMetadataText}" Foreground="#708098" Margin="0,12,0,0"/>
                             <TextBlock x:Name="InstalledPatchText" Foreground="{StaticResource TextMutedBrush}" FontSize="13" Margin="0,3,0,0" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="InstalledGameLabel" Style="{StaticResource SmallMetadataText}" Foreground="#708098" Margin="0,12,0,0"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                <TextBlock x:Name="InstalledGameText" FontSize="13" VerticalAlignment="Center"/>
+                                <Button x:Name="GameCompatibilityButton" Style="{StaticResource GhostButton}" Foreground="#FFD0D8" Background="#542E3A" Width="24" Height="24" Padding="0" Margin="8,0,0,0" Visibility="Collapsed" Click="GameCompatibility_Click"><TextBlock Text="!" FontWeight="Bold" FontSize="16"/></Button>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -381,7 +427,10 @@
                             </ScrollViewer>
                         </Grid>
 
-                        <ScrollViewer x:Name="MainOptionsScroll" Grid.Column="0" VerticalScrollBarVisibility="Auto"
+                        <Grid x:Name="MainOptionsHost" Grid.Column="0">
+                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                            <StackPanel x:Name="PinnedComponentsHost" Visibility="Collapsed" Margin="0,0,12,0"/>
+                        <ScrollViewer x:Name="MainOptionsScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled" ClipToBounds="True">
                             <StackPanel Margin="0,0,12,0">
                                 <StackPanel x:Name="FriendsPanel" Visibility="Collapsed">
@@ -415,7 +464,9 @@
                                                     </Grid>
                                                 </Border>
                                                 <TextBlock x:Name="FriendsStatusText" Style="{StaticResource CardDescription}" Foreground="#F3CF7B" Margin="0,0,0,8" Visibility="Collapsed"/>
-                                                <TextBlock x:Name="FriendsListEmptyText" Style="{StaticResource CardDescription}" Margin="0,10,0,10"/>
+                                                <TextBlock x:Name="FriendsListEmptyText" Style="{StaticResource CardDescription}" Margin="0,10,0,10" AutomationProperties.LiveSetting="Polite"/>
+                                                <ProgressBar x:Name="FriendsListLoadingIndicator" Height="3" IsIndeterminate="True" Margin="0,0,0,10" Visibility="Collapsed"/>
+                                                <Button x:Name="FriendsListRetryButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,0,0,10" Visibility="Collapsed" Click="FriendsListRetry_Click"/>
                                                 <StackPanel x:Name="FriendsRowsPanel"/>
                                                 <StackPanel x:Name="FriendsOtherOutboxPanel" Margin="0,10,0,0"/>
                                             </StackPanel>
@@ -628,7 +679,40 @@
                                         </StackPanel>
                                     </Border>
                                 </StackPanel>
+                                <StackPanel x:Name="AboutModsPanel" Visibility="Collapsed">
+                                    <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                                        <StackPanel>
+                                            <TextBlock x:Name="AboutModsTitleText" Style="{StaticResource CardTitle}"/>
+                                            <WrapPanel x:Name="AboutModsTabsPanel" Margin="0,6,0,0">
+                                                <Button x:Name="AboutImmortalsTab" Content="Immortals" Tag="immortals" Style="{StaticResource GhostButton}" Padding="14,6" Margin="0,0,8,0" Click="AboutMod_Click"/>
+                                                <Button x:Name="AboutArcaneWarsTab" Content="Arcane Wars" Tag="arcane-wars" Style="{StaticResource GhostButton}" Padding="14,6" Click="AboutMod_Click"/>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border x:Name="AboutModContentCard" Style="{StaticResource Card}" Padding="30">
+                                        <StackPanel Margin="0,20">
+                                            <local:LauncherIcon Kind="Components" Width="42" Height="42" Foreground="{StaticResource GoldBrightBrush}" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                                            <TextBlock x:Name="AboutModNameText" Style="{StaticResource CardTitle}" TextAlignment="Center"/>
+                                            <TextBlock x:Name="AboutModEmptyText" Style="{StaticResource CardDescription}" TextAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
                                 <StackPanel x:Name="AboutPatchPanel" Visibility="Collapsed">
+                                    <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                                        <StackPanel>
+                                            <TextBlock x:Name="GuideTitleText" Style="{StaticResource CardTitle}"/>
+                                            <WrapPanel Margin="0,4,0,0">
+                                                <Button x:Name="GuideGeneralTab" Tag="general" Style="{StaticResource GhostButton}" Padding="14,7" Margin="0,0,8,8" Click="GuideSubject_Click"/>
+                                                <Button x:Name="GuideVanillaTab" Tag="vanilla" Style="{StaticResource GhostButton}" Padding="14,7" Margin="0,0,8,8" Click="GuideSubject_Click"/>
+                                                <Button x:Name="GuideArcaneTab" Tag="arcane-wars" Content="Arcane Wars" Style="{StaticResource GhostButton}" Padding="14,7" Margin="0,0,8,8" Click="GuideSubject_Click"/>
+                                                <Button x:Name="GuideImmortalsTab" Tag="immortals" Content="Immortals" Style="{StaticResource GhostButton}" Padding="14,7" Margin="0,0,0,8" Click="GuideSubject_Click"/>
+                                            </WrapPanel>
+                                            <WrapPanel x:Name="GuideVariantTabs" Visibility="Collapsed" Margin="0,8,0,0">
+                                                <Button x:Name="GuideModTab" Tag="mod" Style="{StaticResource GhostButton}" Padding="13,6" Margin="0,0,8,0" Click="GuideVariant_Click"/>
+                                                <Button x:Name="GuidePatchTab" Tag="patch" Content="Paw's Patch" Style="{StaticResource GhostButton}" Padding="13,6" Click="GuideVariant_Click"/>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Border>
                                     <Border x:Name="AboutIntroCard" Style="{StaticResource Card}" Margin="0,0,0,14">
                                         <StackPanel>
                                             <TextBlock x:Name="AboutTitleText" Style="{StaticResource CardTitle}"/>
@@ -652,7 +736,7 @@
                                                 <TextBlock x:Name="SettingsLanguageTitleText" Style="{StaticResource FieldTitle}"/>
                                                 <TextBlock x:Name="SettingsLanguageDescriptionText" Style="{StaticResource CardDescription}" Margin="0,4,12,0"/>
                                             </StackPanel>
-                                            <Button x:Name="SettingsLanguageButton" Grid.Column="1" Style="{StaticResource GhostButton}" Padding="14,7" Click="LanguageButton_Click"/>
+                                            <StackPanel Grid.Column="1"><Button x:Name="SettingsLanguageButton" Visibility="Collapsed" Click="LanguageButton_Click"/><ComboBox x:Name="LauncherLanguageCombo" Width="190" Style="{StaticResource ReleaseCombo}" DisplayMemberPath="Label" SelectionChanged="LauncherLanguage_Changed"/></StackPanel>
                                         </Grid>
                                         <TextBlock x:Name="LauncherUpdatesDescriptionText" Style="{StaticResource CardDescription}" Margin="0,16,0,0"/>
                                         <Separator Margin="0,16,0,12" Background="#40536E"/>
@@ -673,11 +757,7 @@
                                 <Border x:Name="PatchUpdatesCard" Style="{StaticResource Card}" Margin="0,0,0,14" Visibility="Collapsed">
                                     <StackPanel>
                                         <TextBlock x:Name="PatchUpdatesTitleText" Style="{StaticResource CardTitle}"/>
-                                        <TextBlock x:Name="PatchChannelDescriptionText" Style="{StaticResource CardDescription}" Margin="0,0,0,12"/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <RadioButton x:Name="SettingsReleaseRadio" GroupName="SettingsPatchChannel" Tag="stable" Style="{StaticResource PatchChannelChoice}" Checked="PatchChannel_Checked"/>
-                                            <RadioButton x:Name="SettingsBetaRadio" GroupName="SettingsPatchChannel" Tag="beta" Style="{StaticResource PatchChannelChoice}" Margin="6,0,0,0" Checked="PatchChannel_Checked"/>
-                                        </StackPanel>
+                                        <TextBlock x:Name="PatchChannelDescriptionText" Style="{StaticResource CardDescription}" Margin="0,0,0,4"/>
                                         <Separator Margin="0,16,0,13" Background="#40536E"/>
                                         <TextBlock x:Name="SettingsRepairTitleText" Style="{StaticResource FieldTitle}"/>
                                         <TextBlock x:Name="SettingsRepairDescriptionText" Style="{StaticResource CardDescription}" Margin="0,4,0,0"/>
@@ -766,7 +846,63 @@
                                     </Grid>
                                 </Border>
 
-                                <TextBlock x:Name="ModulesTitleText" Style="{StaticResource CardTitle}" Margin="2,0,0,10" Visibility="Collapsed"/>
+                                <Grid x:Name="ModulesHeader" Margin="2,0,0,10" Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="ModulesTitleText" Style="{StaticResource CardTitle}" Margin="0" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                </Grid>
+
+                                <Border x:Name="CompatibilityBanner" CornerRadius="10" Padding="14" Background="#532732" BorderBrush="#A55462" BorderThickness="1" Margin="0,0,0,12" Visibility="Collapsed">
+                                    <DockPanel>
+                                        <Button DockPanel.Dock="Right" Style="{StaticResource GhostButton}" Foreground="#FFD0D8" Width="30" Height="30" Padding="0" Margin="12,0,0,0" Click="GameCompatibility_Click" AutomationProperties.Name="Game compatibility"><TextBlock Text="!" FontWeight="Bold" FontSize="20"/></Button>
+                                        <TextBlock x:Name="CompatibilityBannerText" Foreground="#FFD0D8" TextWrapping="Wrap" FontSize="13" VerticalAlignment="Center"/>
+                                    </DockPanel>
+                                </Border>
+                                <Border x:Name="ModSelectorCard" Style="{StaticResource Card}" Padding="14" Margin="0,0,0,10" Visibility="Collapsed">
+    <StackPanel>
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <RadioButton x:Name="VanillaModRadio" Grid.Column="0" GroupName="GameMod" Tag="vanilla" Content="Ванилла" Style="{StaticResource ModeRadio}" Padding="10,13" MinHeight="48" FontSize="16" FontWeight="SemiBold" Checked="Mod_Checked"/>
+    <RadioButton x:Name="ImmortalsModRadio" Grid.Column="2" GroupName="GameMod" Tag="immortals" Content="Immortals" Style="{StaticResource ModeRadio}" Padding="10,13" MinHeight="48" FontSize="16" FontWeight="SemiBold" Checked="Mod_Checked"/>
+<Grid Grid.Column="4">
+    <RadioButton x:Name="ArcaneWarsModRadio" GroupName="GameMod" Tag="arcane-wars" Content="Arcane Wars" Style="{StaticResource ModeRadio}" Padding="10,13,38,13" MinHeight="48" FontSize="16" FontWeight="SemiBold" Checked="Mod_Checked"/>
+    <Button x:Name="ArcaneAccessButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0" Width="22" Height="22" Padding="0" Style="{StaticResource GhostButton}" Background="#652E3D" BorderBrush="#D26A80" Foreground="#FFD4DC" local:Motion.HoverBackground="#8B4054" Click="ArcaneAccess_Click"><TextBlock Text="!" FontSize="16" FontWeight="Bold"/></Button>
+</Grid>
+        </Grid>
+        <Grid x:Name="ModePreferencesRow" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="20"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <Border x:Name="RussianModuleCard" CornerRadius="6" Padding="0" BorderThickness="0" Background="Transparent">
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                    <StackPanel Visibility="Collapsed"><TextBlock x:Name="RussianTitleText"/><TextBlock x:Name="RussianDescriptionText"/><CheckBox x:Name="RussianToggle" Click="OptionChanged"/></StackPanel>
+                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock x:Name="GameTextLabel" VerticalAlignment="Center" Margin="0,0,8,0" Style="{StaticResource MetadataText}"/>
+                        <ComboBox x:Name="GameLanguageCombo" Grid.Column="1" MinWidth="115" Style="{StaticResource ReleaseCombo}" DisplayMemberPath="Label" SelectionChanged="GameLanguage_Changed"/>
+                    </Grid>
+                    <Grid Grid.Column="2"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock x:Name="GameVoiceLabel" VerticalAlignment="Center" Margin="0,0,8,0" Style="{StaticResource MetadataText}"/>
+                        <ComboBox x:Name="GameVoiceCombo" Grid.Column="1" MinWidth="115" Style="{StaticResource ReleaseCombo}" DisplayMemberPath="Label" SelectionChanged="GameVoice_Changed"/>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Border x:Name="PatchChannelCard" Grid.Column="2" Padding="0" BorderThickness="0" Background="Transparent" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock x:Name="PatchChannelLabelText" Style="{StaticResource MetadataText}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock x:Name="ModPatchVersionText" Visibility="Collapsed"/>
+                    <RadioButton x:Name="ModReleaseRadio" GroupName="ModPatchChannel" Tag="stable" Style="{StaticResource PatchChannelChoice}" Checked="PatchChannel_Checked"/>
+                    <RadioButton x:Name="ModBetaRadio" GroupName="ModPatchChannel" Tag="beta" Style="{StaticResource PatchChannelChoice}" Margin="6,0,6,0" Checked="PatchChannel_Checked"/>
+                    <Button x:Name="BetaDetailsButton" Style="{StaticResource HelpButton}" Content="?" Click="BetaDetails_Click"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </StackPanel>
+</Border>
+
+                                <Border x:Name="VanillaEmptyCard" Style="{StaticResource Card}" Padding="30" Margin="0,0,0,10" Visibility="Collapsed">
+                                    <StackPanel HorizontalAlignment="Center" Margin="0,20">
+                                        <local:LauncherIcon Kind="Shield" Width="42" Height="42" Foreground="{StaticResource GoldBrightBrush}" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+                                        <TextBlock x:Name="VanillaTitleText" Style="{StaticResource CardTitle}" TextAlignment="Center"/>
+                                        <TextBlock x:Name="VanillaDescriptionText" Style="{StaticResource CardDescription}" MaxWidth="650" TextAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
 
                                 <Border x:Name="MultiplayerNoteCard" CornerRadius="6" Background="#B238301D" BorderBrush="#8C7137" BorderThickness="1" Padding="12" Margin="0,0,0,10" Visibility="Collapsed">
                                     <Grid x:Name="MultiplayerNoteContent" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -783,26 +919,12 @@
                                         <StackPanel Grid.Column="1" Margin="10,0,12,0">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock x:Name="CoreTitleText" Style="{StaticResource FieldTitle}" VerticalAlignment="Center"/>
-                                                <Button Style="{StaticResource HelpButton}" Tag="modules.core" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                                <Button x:Name="PawCompatibilityButton" Style="{StaticResource GhostButton}" Foreground="#FFD0D8" Background="#542E3A" Width="26" Height="26" Padding="0" Margin="8,0,0,0" Visibility="Collapsed" Click="PawCompatibility_Click"><TextBlock Text="!" FontWeight="Bold" FontSize="16"/></Button>
+                                                <Button x:Name="CoreHelpButton" Style="{StaticResource HelpButton}" Tag="modules.core" Margin="8,0,0,0" Click="HelpButton_Click"/>
                                             </StackPanel>
                                             <TextBlock x:Name="CoreDescriptionText" Style="{StaticResource CardDescription}" Margin="0,4,0,0"/>
                                         </StackPanel>
-                                        <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitch}" IsChecked="True" IsEnabled="False" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </Border>
-
-                                <Border x:Name="RussianModuleCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                        <Border Width="34" Height="34" CornerRadius="10" Background="#24394B" BorderBrush="#566477" BorderThickness="1"><local:LauncherIcon Kind="Language" Width="21" Height="21" Foreground="{StaticResource GoldBrightBrush}"/></Border>
-                                        <StackPanel Grid.Column="1" Margin="10,0,12,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock x:Name="RussianTitleText" Style="{StaticResource FieldTitle}" VerticalAlignment="Center"/>
-                                                <Button Style="{StaticResource HelpButton}" Tag="modules.ru" Margin="8,0,0,0" Click="HelpButton_Click"/>
-                                            </StackPanel>
-                                            <TextBlock x:Name="RussianDescriptionText" Style="{StaticResource CardDescription}" Margin="0,4,0,0"/>
-                                        </StackPanel>
-                                        <CheckBox x:Name="RussianToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="OptionChanged"/>
+                                        <CheckBox x:Name="PawPatchToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="PawPatchChanged"/>
                                     </Grid>
                                 </Border>
 
@@ -919,15 +1041,16 @@
                                 <Border x:Name="RemovalCard" Style="{StaticResource Card}" Margin="0,0,0,14" Visibility="Collapsed">
                                     <StackPanel>
                                         <TextBlock x:Name="RemovalTitleText" Style="{StaticResource CardTitle}" Foreground="#F2B6A9"/>
-                                        <TextBlock x:Name="RemovePatchDescriptionText" Style="{StaticResource CardDescription}" Margin="0,0,0,8"/>
-                                        <Button x:Name="RemovePatchButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Padding="14,7" BorderBrush="#986A60" Click="RemovePatch_Click"/>
-                                        <TextBlock x:Name="RemoveLauncherDescriptionText" Style="{StaticResource CardDescription}" Margin="0,17,0,8"/>
+                                        <TextBlock x:Name="RemovePatchDescriptionText" Visibility="Collapsed" Style="{StaticResource CardDescription}" Margin="0,0,0,8"/>
+                                        <Button x:Name="RemovePatchButton" Visibility="Collapsed" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Padding="14,7" BorderBrush="#986A60" Click="RemovePatch_Click"/>
+                                        <TextBlock x:Name="RemoveLauncherDescriptionText" Style="{StaticResource CardDescription}" Margin="0,0,0,12"/>
                                         <Button x:Name="RemoveLauncherButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Padding="14,7" BorderBrush="#986A60" Click="RemoveLauncher_Click"/>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
                         </ScrollViewer>
 
+                        </Grid>
                         <Grid x:Name="FriendsConversationScroll" Grid.Column="2" Visibility="Collapsed">
                                 <Border x:Name="FriendsChatEmptyCard" Style="{StaticResource Card}">
                                     <StackPanel>
@@ -968,12 +1091,14 @@
                                             <Button.Template><ControlTemplate TargetType="Button"><Border x:Name="Shell" Background="#244361" BorderBrush="#607C96" BorderThickness="1" CornerRadius="20"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Shell" Property="Background" Value="#365B7D"/></Trigger><Trigger Property="IsPressed" Value="True"><Setter TargetName="Shell" Property="Background" Value="#18334C"/></Trigger><Trigger Property="IsEnabled" Value="False"><Setter TargetName="Shell" Property="Opacity" Value="0.55"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Shell" Property="BorderBrush" Value="#E8C36E"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Button.Template>
                                             <Path Data="M 0,0 L 0,15 M -6,9 L 0,15 L 6,9" Stroke="#F4F1E7" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Width="14" Height="18" Stretch="Uniform"/>
                                         </Button>
+                                        <TextBlock x:Name="FriendsChatLoadState" Grid.Row="1" Panel.ZIndex="3" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="12" Padding="8,4" Background="#13273D" Foreground="#A8BBD2" FontSize="12" TextWrapping="Wrap" IsHitTestVisible="False"/>
                                         <StackPanel x:Name="FriendsOutboxPanel" Visibility="Collapsed"/>
                                         <Grid Grid.Row="2">
-                                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                            <TextBox x:Name="FriendsMessageInput" Style="{StaticResource ConfigurationInput}" Margin="0" MinHeight="38" MaxHeight="132" Padding="10,8" MaxLength="2000" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" PreviewKeyDown="FriendsMessage_KeyDown"/>
+                                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <local:ChatComposer x:Name="FriendsMessageInput" Style="{StaticResource ChatComposerInput}" Margin="0" MinHeight="38" MaxHeight="132" Padding="10,8" MaxLength="2000" VerticalScrollBarVisibility="Auto" PreviewKeyDown="FriendsMessage_KeyDown"/>
                                             <Button x:Name="FriendsSendButton" Grid.Column="1" Width="40" Height="38" Padding="0" VerticalAlignment="Bottom" Style="{StaticResource GoldButton}" Margin="8,0,0,0" Click="FriendsSend_Click"><local:LauncherIcon Kind="Send" Width="20" Height="20"/></Button>
-                                            <Button x:Name="FriendsComposerMoreButton" Grid.Column="2" Width="34" Height="38" Padding="0" VerticalAlignment="Bottom" Style="{StaticResource GhostButton}" Margin="6,0,0,0" Click="FriendsComposerMore_Click"><local:LauncherIcon Kind="More" Width="20" Height="20"/></Button>
+                                            <Button x:Name="FriendsComposerMoreButton" Grid.Column="3" Width="34" Height="38" Padding="0" VerticalAlignment="Bottom" Style="{StaticResource GhostButton}" Margin="6,0,0,0" Click="FriendsComposerMore_Click"><local:LauncherIcon Kind="More" Width="20" Height="20"/></Button>
+                                            <Button x:Name="FriendsGlyphButton" Grid.Column="2" Width="34" Height="38" Padding="0" VerticalAlignment="Bottom" Style="{StaticResource GhostButton}" Margin="6,0,0,0" IsEnabled="{Binding IsEnabled, ElementName=FriendsMessageInput}" Click="FriendsGlyph_Click"><local:LauncherIcon Kind="Smile" Width="20" Height="20"/></Button>
                                         </Grid>
                                     </Grid>
                                 </Border>
@@ -988,11 +1113,26 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock x:Name="NewsTitleText" Style="{StaticResource CardTitle}" Margin="0"/>
-                                <StackPanel Grid.Row="2" Orientation="Horizontal">
-                                    <Button x:Name="LauncherChangelogButton" Style="{StaticResource GhostButton}" Tag="launcher" Padding="12,6" Click="ChangelogTab_Click"/>
-                                    <Button x:Name="PatchChangelogButton" Style="{StaticResource GhostButton}" Tag="patch" Padding="12,6" Margin="6,0,0,0" Click="ChangelogTab_Click"/>
-                                    <Button x:Name="BetaChangelogButton" Style="{StaticResource GhostButton}" Tag="beta" Padding="12,6" Margin="6,0,0,0" Click="ChangelogTab_Click"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="NewsTitleText" Style="{StaticResource CardTitle}" Margin="0"/>
+                                    <Border x:Name="HistoryUnreadBadge" Grid.Column="1" Width="8" Height="8" Background="#E55E71" CornerRadius="4" Margin="8,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                </Grid>
+                                <StackPanel Grid.Row="2">
+                                    <StackPanel.Resources>
+                                        <DataTemplate x:Key="HistoryChoiceTemplate">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Label}" VerticalAlignment="Center"/>
+                                                <Border Width="8" Height="8" Background="#E55E71" CornerRadius="4" Margin="8,0,0,0" VerticalAlignment="Center" Visibility="{Binding UnreadVisibility}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </StackPanel.Resources>
+                                    <ComboBox x:Name="HistorySubjectCombo" Style="{StaticResource ReleaseCombo}" ItemTemplate="{StaticResource HistoryChoiceTemplate}" SelectionChanged="HistoryFilter_Changed"/>
+                                    <Grid Margin="0,6,0,0">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <ComboBox x:Name="HistorySourceCombo" Style="{StaticResource ReleaseCombo}" ItemTemplate="{StaticResource HistoryChoiceTemplate}" SelectionChanged="HistoryFilter_Changed"/>
+                                        <ComboBox x:Name="HistoryBranchCombo" Grid.Column="1" MinWidth="114" Margin="6,0,0,0" Style="{StaticResource ReleaseCombo}" ItemTemplate="{StaticResource HistoryChoiceTemplate}" SelectionChanged="HistoryFilter_Changed"/>
+                                    </Grid>
                                 </StackPanel>
                                 <ScrollViewer x:Name="NewsScrollViewer" Grid.Row="4" ClipToBounds="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly" Padding="0,0,10,0">
                                     <StackPanel x:Name="NewsEntriesPanel"/>
@@ -1000,10 +1140,29 @@
                                 <Border x:Name="OperationStatusPanel" Grid.Row="5" Margin="0,14,0,0" Padding="12,11"
                                         Background="#182D46" BorderBrush="#617C9D" BorderThickness="1" CornerRadius="6">
                                     <StackPanel>
-                                        <TextBlock x:Name="OperationText" Foreground="{StaticResource TextMainBrush}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap"/>
-                                        <ProgressBar x:Name="OperationProgress" Minimum="0" Maximum="100" Value="0" Height="6" Margin="0,10,0,0" Visibility="Collapsed"/>
-                                        <TextBlock x:Name="TransferText" Style="{StaticResource MetadataText}" Visibility="Collapsed" Margin="0,8,0,0"/>
-                                        <Button x:Name="CancelDownloadButton" Visibility="Collapsed" Style="{StaticResource GhostButton}" Padding="9,5" Margin="0,9,0,0" Click="CancelDownload_Click"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <TextBlock x:Name="OperationText" Foreground="{StaticResource TextMainBrush}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap"
+                                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" LineHeight="18"/>
+                                            <TextBlock x:Name="TransferSummaryText" Grid.ColumnSpan="2" FontSize="12" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,8,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Visibility="Collapsed" ToolTip="{Binding Text, ElementName=OperationText}"/>
+                                            <Button x:Name="OperationDetailsButton" Grid.Column="2" Style="{StaticResource GhostButton}" Width="32" Height="26" Padding="0" VerticalAlignment="Center" Visibility="Collapsed" Click="OperationDetails_Click">
+                                                <local:LauncherIcon Kind="ChevronUp" Width="22" Height="22" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                                                    <local:LauncherIcon.RenderTransform><RotateTransform x:Name="OperationDetailsChevronRotation"/></local:LauncherIcon.RenderTransform>
+                                                </local:LauncherIcon>
+                                            </Button>
+                                        </Grid>
+                                        <StackPanel x:Name="OperationWorkDetails" Visibility="Collapsed">
+                                            <ProgressBar x:Name="OperationProgress" Minimum="0" Maximum="100" Value="0" Height="6" Margin="0,8,0,0" Visibility="Collapsed"/>
+                                            <Border x:Name="OperationExpandedDetails" Height="0" Visibility="Collapsed" ClipToBounds="True">
+                                                <Grid Height="78" Margin="0,6,0,0" VerticalAlignment="Top">
+                                                    <Grid.RowDefinitions><RowDefinition Height="18"/><RowDefinition Height="60"/></Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="96"/></Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.ColumnSpan="2" Text="{Binding Text, ElementName=OperationText}" ToolTip="{Binding Text, ElementName=OperationText}" Foreground="{StaticResource TextMainBrush}" FontSize="12" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock x:Name="TransferText" Grid.Row="1" Style="{StaticResource MetadataText}" Visibility="Collapsed" VerticalAlignment="Center" TextWrapping="Wrap" LineHeight="17" TextTrimming="CharacterEllipsis" Margin="0,0,10,0"/>
+                                                    <Button x:Name="CancelDownloadButton" Grid.Row="1" Grid.Column="1" Visibility="Collapsed" Style="{StaticResource GhostButton}" VerticalAlignment="Center" Padding="9,5" Click="CancelDownload_Click"/>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
                                         <StackPanel x:Name="ErrorActionsPanel" Visibility="Collapsed" Margin="0,10,0,0">
                                             <Button x:Name="ErrorActionButton" Style="{StaticResource GhostButton}" FontSize="12" Padding="8,6" Click="ErrorAction_Click"/>
                                             <Button x:Name="ErrorDetailsButton" Style="{StaticResource GhostButton}" FontSize="11" Padding="8,6" Margin="0,7,0,0" Click="ErrorDetails_Click"/>
@@ -1022,16 +1181,49 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <Button x:Name="UpdateButton" Grid.Row="1" Style="{StaticResource GoldButton}" Click="UpdateButton_Click"/>
                         <Button x:Name="CheckUpdatesButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource GhostButton}" Margin="10,0,0,0" Click="CheckUpdatesButton_Click"/>
-                        <Button x:Name="ApplySettingsButton" Grid.Row="1" Grid.Column="3" Style="{StaticResource GhostButton}" Margin="10,0,10,0" Visibility="Collapsed" Click="ApplySettingsButton_Click"/>
+                        <Button x:Name="ApplySettingsButton" Grid.Row="1" Grid.Column="3" Style="{StaticResource GoldButton}" Margin="10,0,10,0" Visibility="Collapsed" Click="ApplySettingsButton_Click"/>
                         <Button x:Name="LaunchButton" Grid.Row="1" Grid.Column="4" Style="{StaticResource GoldButton}" Padding="30,11" Click="LaunchButton_Click"/>
                     </Grid>
                     </StackPanel>
                 </Grid>
             </Grid>
 
-            <Border x:Name="HelpOverlay" Grid.RowSpan="2" Panel.ZIndex="100" Background="#D907101F" Visibility="Collapsed" PreviewMouseDown="Overlay_MouseDown" WindowChrome.IsHitTestVisibleInChrome="True">
+            <Border x:Name="ModNoticeOverlay" Grid.RowSpan="2" Panel.ZIndex="150" Background="#D907101F" Visibility="Collapsed" PreviewMouseDown="ModNotice_MouseDown" PreviewKeyDown="ModNotice_KeyDown" WindowChrome.IsHitTestVisibleInChrome="True">
+                <Border x:Name="ModNoticeCard" MaxWidth="580" MaxHeight="580" Margin="24" Background="#132541" BorderBrush="#B75F70" BorderThickness="1" CornerRadius="12" Padding="26" HorizontalAlignment="Stretch" VerticalAlignment="Center" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle">
+                    <Grid>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Border Width="38" Height="38" CornerRadius="19" Background="#542E3A" BorderBrush="#B75F70" BorderThickness="1" Margin="0,0,14,0">
+                                <TextBlock Text="!" Foreground="#FFD0D8" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock x:Name="ModNoticeTitleText" Grid.Column="1" FontSize="22" FontWeight="Bold" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel>
+                                <TextBlock x:Name="ModNoticeBodyText" Foreground="#D5DDE8" FontSize="14" LineHeight="22" TextWrapping="Wrap"/>
+                                <Border Background="#0D1D32" BorderBrush="#3D5473" BorderThickness="1" CornerRadius="7" Padding="16" Margin="0,20,0,18">
+                                    <StackPanel>
+                                        <TextBlock Text="Immortals" FontSize="16" FontWeight="Bold" Foreground="{StaticResource GoldBrightBrush}"/>
+                                        <TextBlock x:Name="ImmortalsAuthorText" Style="{StaticResource CardDescription}" Margin="0,5,0,16"/>
+                                        <TextBlock Text="Arcane Wars" FontSize="16" FontWeight="Bold" Foreground="{StaticResource GoldBrightBrush}"/>
+                                        <TextBlock x:Name="ModNoticeArcaneAuthorText" Style="{StaticResource CardDescription}" Margin="0,5,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <TextBlock x:Name="ModsDistributionText" Style="{StaticResource CardDescription}" Margin="0,0,0,8"/>
+                                <TextBlock FontSize="14" TextWrapping="Wrap">
+                                    <Hyperlink x:Name="ModsDiscordLink" NavigateUri="https://discord.gg/krCK7DDwyz" ToolTip="https://discord.gg/krCK7DDwyz" Foreground="{StaticResource GoldBrightBrush}" RequestNavigate="ModsDiscord_RequestNavigate">discord.gg/krCK7DDwyz</Hyperlink>
+                                </TextBlock>
+                                <TextBlock x:Name="ModNoticeLinkErrorText" Style="{StaticResource CardDescription}" Foreground="#F4B7AA" Margin="0,10,0,0" Visibility="Collapsed"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                        <Button x:Name="ModNoticeCloseButton" Grid.Row="2" Style="{StaticResource GoldButton}" HorizontalAlignment="Right" Padding="22,9" Margin="0,24,0,0" Click="ModNoticeClose_Click"/>
+                    </Grid>
+                </Border>
+            </Border>
+            <Border x:Name="HelpOverlay" Grid.RowSpan="2" Panel.ZIndex="100" Background="#D907101F" Visibility="Collapsed" PreviewMouseDown="Overlay_MouseDown" PreviewKeyDown="HelpOverlay_KeyDown" WindowChrome.IsHitTestVisibleInChrome="True">
                 <Grid>
-                    <Border x:Name="HelpCard" Width="520" MaxWidth="520" Background="#132541" BorderBrush="{StaticResource GoldBrush}" BorderThickness="1" CornerRadius="9" Padding="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border x:Name="HelpCard" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle" Width="520" MaxWidth="520" Background="#132541" BorderBrush="{StaticResource GoldBrush}" BorderThickness="1" CornerRadius="9" Padding="24" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Border Width="30" Height="30" CornerRadius="15" Background="#3B5375" BorderBrush="{StaticResource GoldBrightBrush}" BorderThickness="1" Margin="0,0,12,0">
@@ -1073,7 +1265,7 @@
                     WindowChrome.IsHitTestVisibleInChrome="True" PreviewMouseDown="Overlay_MouseDown">
                 <Border x:Name="SocialDetailsCard" MaxWidth="580" MaxHeight="590" Margin="24" Padding="24" CornerRadius="14" Background="#11243B"
                         BorderBrush="#536F8E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                        KeyboardNavigation.TabNavigation="Cycle">
+                        KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle">
                     <Grid>
                         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
                         <Grid Margin="0,0,0,20">
@@ -1091,6 +1283,7 @@
                                 </StackPanel>
                                 <TextBlock x:Name="SocialDetailsStatus" FontSize="13" Foreground="#62DCA6" Margin="0,6,0,0" TextWrapping="Wrap"/>
                                 <TextBlock x:Name="SocialDetailsActivity" FontSize="12" Foreground="#A8BBD2" Margin="0,4,0,0" TextWrapping="Wrap"/>
+                                <TextBlock x:Name="SocialDetailsRelationshipText" FontSize="12" Foreground="#E0C381" TextWrapping="Wrap" Margin="0,6,0,0" Visibility="Collapsed"/>
                             </StackPanel>
                             <Button Grid.Column="2" x:Name="SocialDetailsClose" Style="{StaticResource TitleButton}" Width="30" Height="30" Padding="0"
                                     VerticalAlignment="Top" Click="SocialDetailsClose_Click"><local:LauncherIcon Kind="Close" Width="18" Height="18"/></Button>
@@ -1152,7 +1345,7 @@
                                             <StackPanel x:Name="ConfirmationChangesPanel" Visibility="Collapsed"/>
                                         </StackPanel>
                                     </ScrollViewer>
-                                    <CheckBox x:Name="ConfirmationLocalizationToggle" Visibility="Collapsed" Margin="0,12,0,0"/>
+                                    <CheckBox x:Name="ConfirmationRemoveModsToggle" Visibility="Collapsed" Margin="0,14,0,0"/>
                                 </StackPanel>
                             </Border>
                             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,22,0,0">
@@ -1166,7 +1359,7 @@
             </Border>
             <Border x:Name="FriendsDialogOverlay" Grid.RowSpan="2" Panel.ZIndex="105" Visibility="Collapsed" Background="#D907101F" PreviewMouseDown="FriendsDialog_MouseDown" PreviewKeyDown="FriendsDialog_KeyDown">
                 <Border x:Name="FriendsDialogCard" MaxWidth="590" Margin="24" Padding="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#12263C" BorderBrush="#45617D" BorderThickness="1" CornerRadius="14">
-                    <Grid KeyboardNavigation.TabNavigation="Cycle">
+                    <Grid KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle">
                         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
                         <DockPanel Margin="0,0,0,18">
                             <Button x:Name="FriendsDialogClose" DockPanel.Dock="Right" Style="{StaticResource TitleButton}" Width="28" Height="28" Padding="0" Click="FriendsCancelAdd_Click"><local:LauncherIcon Kind="Close" Width="17" Height="17"/></Button>
@@ -1195,7 +1388,7 @@
                     PreviewMouseDown="BroadcastOverlay_MouseDown" PreviewKeyDown="BroadcastOverlay_KeyDown">
                 <Border x:Name="BroadcastCard" Width="580"
                         Margin="32" VerticalAlignment="Center" Background="#11243C" BorderBrush="#526A88" BorderThickness="1" CornerRadius="14"
-                        Padding="22" KeyboardNavigation.TabNavigation="Cycle">
+                        Padding="22" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle">
                     <Grid>
                         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
                         <Grid>

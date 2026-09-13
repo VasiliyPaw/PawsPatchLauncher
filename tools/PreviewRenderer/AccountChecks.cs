@@ -190,7 +190,8 @@ internal static class AccountChecks
             var beforeDeleteRequests = requests;
             var deletion = (Task)Invoke("SubmitAccountEditorAsync")!;
             Check(Control<FrameworkElement>("ConfirmationOverlay").Visibility == Visibility.Visible, "delete confirmation overlay missing");
-            Check(!Control<FrameworkElement>("MainBody").IsEnabled && !Control<FrameworkElement>("TitleBar").IsEnabled, "delete confirmation did not reserve UI");
+            Check(Control<FrameworkElement>("MainBody").IsEnabled && Control<FrameworkElement>("TitleBar").IsEnabled
+                && Control<FrameworkElement>("ConfirmationOverlay").IsHitTestVisible, "delete confirmation lost its input-blocking overlay");
             await (Task)Invoke("CompleteConfirmationAsync", false)!; await deletion;
             Check(requests == beforeDeleteRequests, "cancelled deletion reached server");
             Check(Control<PasswordBox>("AccountCurrentPasswordInput").Password == "", "cancelled deletion retained password");
@@ -212,7 +213,8 @@ internal static class AccountChecks
             Invoke("RenderAccount"); Invoke("ShowAccountForm", false);
             Check(Control<Button>("AccountForgotButton").Visibility == Visibility.Visible, "forgot password absent from login");
             Control<CheckBox>("AccountRememberCheck").IsChecked = false;
-            Check(Control<TextBlock>("AccountRememberText").Text.Contains(language == "ru" ? "на этот запуск" : "this launch only"), "remember explanation not switched");
+            Check(!Control<TextBlock>("AccountRememberText").IsVisible && Control<CheckBox>("AccountRememberCheck").IsChecked == false,
+                "Removed sign-in hint returned or remember choice was lost");
             Invoke("ShowAccountForm", true);
             Check(Control<Button>("AccountForgotButton").Visibility == Visibility.Collapsed && Control<CheckBox>("AccountRememberCheck").Visibility == Visibility.Visible, "registration mode controls wrong");
             Invoke("ShowAccountForm", false);

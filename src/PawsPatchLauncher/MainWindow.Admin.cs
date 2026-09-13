@@ -19,6 +19,7 @@ public partial class MainWindow
     private Button? _adminPrevious,_adminNext;
     private readonly DispatcherTimer _adminSearchTimer=new(){Interval=TimeSpan.FromMilliseconds(280)};
     private bool _adminInitialized;
+    private string _adminReturnPage="home";
     private SocialPlayer? _adminViewedPlayer;
     // Smoke-only transport seam: exercises confirmations without changing real accounts.
     private Func<string,Guid,string,DateTimeOffset?,int?,Task>? _adminActionOverride = null;
@@ -26,6 +27,14 @@ public partial class MainWindow
     private async void AdminNav_Click(object sender,RoutedEventArgs e)
     {
         if(_account.AdminLevel<1||ConfirmationActive)return;
+        if(_activePage=="admin")
+        {
+            _adminSearchTimer.Stop();
+            _adminRequest++; // Late responses from the closed panel must not update it.
+            SetActivePage(_adminReturnPage);
+            return;
+        }
+        _adminReturnPage=_activePage;
         SetActivePage("admin");BuildAdminLayout();await LoadAdminAsync();
     }
     private void BuildAdminLayout()
@@ -49,10 +58,10 @@ public partial class MainWindow
         }
         var tabBar=new DockPanel();tabBar.Children.Add(tabs);AdminHeaderPanel.Children.Add(tabBar);
         var searchRow=new DockPanel{Margin=new Thickness(0,0,0,12)};
-        var refresh=SocialButton(T("Обновить","Refresh"),LoadAdminAsync);refresh.Height=36;refresh.Margin=new Thickness(8,0,0,0);DockPanel.SetDock(refresh,Dock.Right);
+        var refresh=SocialButton(T("Обновить","Refresh"),LoadAdminAsync);refresh.Height=36;refresh.Margin=new Thickness(8,0,0,0);refresh.VerticalAlignment=VerticalAlignment.Center;DockPanel.SetDock(refresh,Dock.Right);
         if(_adminSection is "status" or "resources"){tabBar.Children.Insert(0,refresh);refresh.VerticalAlignment=VerticalAlignment.Top;searchRow.Visibility=Visibility.Collapsed;}
         else searchRow.Children.Add(refresh);
-        _adminSearch=new TextBox{Style=(Style)FindResource("ConfigurationInput"),Text=_adminQuery,MaxLength=64,Height=36,VerticalContentAlignment=VerticalAlignment.Center,
+        _adminSearch=new TextBox{Style=(Style)FindResource("ConfigurationInput"),Text=_adminQuery,MaxLength=64,Height=36,Margin=new Thickness(0),VerticalAlignment=VerticalAlignment.Center,VerticalContentAlignment=VerticalAlignment.Center,
             ToolTip=_adminSection=="bans"?T("Поиск по почте","Search by email"):T("Имя или username","Display name or username"),Visibility=_adminSection is "status" or "resources"?Visibility.Collapsed:Visibility.Visible};
         System.Windows.Automation.AutomationProperties.SetName(_adminSearch,_adminSearch.ToolTip.ToString());
         _adminSearch.TextChanged+=(_,_)=>{_adminQuery=_adminSearch.Text;_adminPage=0;_adminRequest++;_adminData=null;_adminSearchTimer.Stop();_adminSearchTimer.Start();};
@@ -133,7 +142,7 @@ public partial class MainWindow
             var body=new StackPanel();
             var name=new WrapPanel();name.Children.Add(new TextBlock{Text=user.DisplayName,FontSize=18,FontWeight=FontWeights.SemiBold,VerticalAlignment=VerticalAlignment.Center,Margin=new Thickness(0,0,8,0)});
             name.Children.Add(new TextBlock{Text="@"+user.Nickname,Foreground=SocialBrush("#A8BBD2"),VerticalAlignment=VerticalAlignment.Center});
-            if(user.AdminLevel>0)name.Children.Add(AdministratorBadge(user.AdminLevel));body.Children.Add(name);
+            if(user.DeletedAt is null && PlayerRoleBadge(user.AdminLevel,user.PawsTeam) is { } userBadge)name.Children.Add(userBadge);body.Children.Add(name);
             var time=new WrapPanel{Margin=new Thickness(0,7,0,0)};
             time.Children.Add(new TextBlock{Text=T("Регистрация: ","Registered: ")+ChatDate(user.CreatedAt),Foreground=SocialBrush("#A8BBD2"),FontSize=12,VerticalAlignment=VerticalAlignment.Center});
             if(user.IsNew)time.Children.Add(StatusPill(T("Новый пользователь","New user"),"#193F34","#83E5B3"));body.Children.Add(time);
@@ -215,8 +224,8 @@ public partial class MainWindow
         if(_adminBusy||_account.AdminLevel<1||ConfirmationActive)return;
         if(action=="ban"&&user.BannedAt is not null&&(user.BanUntil is null||user.BanUntil>DateTimeOffset.UtcNow))return;
         var owner=_account.UserId;
-        var title=action switch{"ban"=>T("Заблокировать почту?","Ban email?"),"delete"=>T("Удалить аккаунт?","Delete account?"),"restore"=>T("Восстановить аккаунт?","Restore account?"),_=>T("Права администратора","Administrator privileges")};
-        var details=action switch{"ban"=>T("Аккаунт останется. Общение и изменение профиля будут недоступны; игра и обновления продолжат работать.","The account remains. Social features and profile editing will be disabled; local game and updates remain available."),"delete"=>T("Профиль скроется, в чатах останется «Удалённый аккаунт». Восстановление доступно 7 дней. После этого удаление необратимо.","The profile is hidden and chats show a deleted account. Recoverable for 7 days, then permanently deleted."),"restore"=>T("Вернутся профиль и доступ к аккаунту. Если почта заблокирована, блокировка сохранится.","Restores the profile and account. Any email ban remains in force."),_=>T("Обычный администратор модерирует пользователей. Главный также назначает и снимает администраторов.","Administrators moderate users. Senior administrators also grant and revoke roles.")};
+        var title=action switch{"ban"=>T("Заблокировать почту?","Ban email?"),"delete"=>T("Удалить аккаунт?","Delete account?"),"restore"=>T("Восстановить аккаунт?","Restore account?"),_=>T("Роль пользователя","User role")};
+        var details=action switch{"ban"=>T("Аккаунт останется. Общение и изменение профиля будут недоступны; игра и обновления продолжат работать.","The account remains. Social features and profile editing will be disabled; local game and updates remain available."),"delete"=>T("Профиль скроется, в чатах останется «Удалённый аккаунт». Восстановление доступно 7 дней. После этого удаление необратимо.","The profile is hidden and chats show a deleted account. Recoverable for 7 days, then permanently deleted."),"restore"=>T("Вернутся профиль и доступ к аккаунту. Если почта заблокирована, блокировка сохранится.","Restores the profile and account. Any email ban remains in force."),_=>T("Paw's Team получает доступ к Arcane Wars и плашку команды, без прав модератора. Администратор модерирует пользователей. Главный администратор также назначает роли.","Paw's Team gets Arcane Wars access and a team badge without moderation privileges. Administrators moderate users. Senior administrators also assign roles.")};
         var pending=ConfirmActionAsync(title,details,T("ПОЛЬЗОВАТЕЛЬ","USER"),user.DisplayName+" · @"+user.Nickname,action=="role"?T("Сохранить права","Save privileges"):title.TrimEnd('?'));
         if(!ConfirmationActive)return;
         var reason=new TextBox{Style=(Style)FindResource("ConfigurationInput"),MaxLength=500,Height=60,TextWrapping=TextWrapping.Wrap,AcceptsReturn=false};
@@ -232,7 +241,8 @@ public partial class MainWindow
             System.Windows.Automation.AutomationProperties.SetName(input,T(ru,en));
             durationFields.Add(input);cell.Children.Add(input);Grid.SetColumn(cell,index);duration.Children.Add(cell);
         }
-        var level=user.AdminLevel;
+        var originalRole=user.AdminLevel>0?user.AdminLevel:user.PawsTeam?-1:0;
+        var level=originalRole;
         DateTimeOffset? end=null;
         if(action is "ban" or "role")
         {
@@ -256,13 +266,14 @@ public partial class MainWindow
             else
             {
                 var choices=new StackPanel{Margin=new Thickness(0,10,0,2)};
-                var labels=new[]{T("Пользователь · без прав","User · no privileges"),T("Администратор","Administrator"),T("Главный администратор","Senior administrator")};
+                var labels=new[]{T("Пользователь · без прав","User · no privileges"),"Paw's Team",T("Администратор","Administrator"),T("Главный администратор","Senior administrator")};
+                var values=new[]{0,-1,1,2};
                 var buttons=new List<Button>();
-                void Select(int value){level=value;foreach(var b in buttons)SetNavState(b,Equals(b.Tag,value));ConfirmationDeleteButton.IsEnabled=level!=user.AdminLevel;}
+                void Select(int value){level=value;foreach(var b in buttons)SetNavState(b,Equals(b.Tag,value));ConfirmationDeleteButton.IsEnabled=level!=originalRole;}
                 for(var i=0;i<labels.Length;i++)
                 {
-                    var value=i;var b=SocialButton(labels[i],()=>{Select(value);return Task.CompletedTask;});
-                    b.Tag=i;b.HorizontalAlignment=HorizontalAlignment.Stretch;b.HorizontalContentAlignment=HorizontalAlignment.Left;b.Margin=new Thickness(0,0,0,7);b.Foreground=SocialBrush("#F1F5FC");
+                    var value=values[i];var b=SocialButton(labels[i],()=>{Select(value);return Task.CompletedTask;});
+                    b.Tag=value;b.HorizontalAlignment=HorizontalAlignment.Stretch;b.HorizontalContentAlignment=HorizontalAlignment.Left;b.Margin=new Thickness(0,0,0,7);b.Foreground=SocialBrush("#F1F5FC");
                     buttons.Add(b);choices.Children.Add(b);
                 }
                 ConfirmationChangesPanel.Children.Add(choices);Select(level);

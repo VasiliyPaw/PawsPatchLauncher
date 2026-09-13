@@ -1,6 +1,10 @@
-# Paw's Patch Launcher
+# Paw's Launcher
 
-Windows launcher and transactional updater for Kohan II, Arcane Wars and Paw's Patch.
+Windows launcher and transactional updater for Kohan II, Immortals, Arcane Wars and optional Paw's Patch components.
+
+Version **0.7.0** introduces a retained mod library, separate game text/voice choices,
+per-mod patch channels, startup updating and unified help/history. See the
+[release notes](docs/release-0.7.0.md).
 
 [Download the latest launcher](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/latest).
 
@@ -12,7 +16,26 @@ SignPath Foundation onboarding is being prepared; current launcher 0.6.4 downloa
 are unsigned. No SignPath approval or immediate removal of SmartScreen warnings
 is claimed. The [setup guide](docs/SIGNPATH_SETUP.md) describes activation.
 
-## Intended release layout
+## Mod library (0.7.0)
+
+Vanilla is selected on a fresh installation. Each mod retains its installed releases
+and available patch components. Selection does not modify the game; Apply performs
+the verified local overlay operation. Only selected localization packages download.
+The launcher keeps English/Russian text and speech choices independently of mods.
+
+Vanilla and Immortals have optional Paw's Patch 0.1.0 fixes. Arcane Wars uses Release
+0.2.0 or Beta 0.3.0-beta.2 and supports disabling Paw's Patch entirely. Its access
+policy is described in [Paw's Team](docs/paws-team.md). Mod authorship is separate
+from this launcher and its patch.
+
+The current signed catalogs are `feed/v2/stable.json` and `feed/v2/beta.json`.
+Legacy `feed/stable.json` and `feed/beta.json` retain the previous game packages and
+only advertise the new launcher. Updating an older standalone EXE/ZIP migrates the
+official sidecar URLs in memory; custom feeds and signing keys remain unchanged.
+Both catalog generations must receive future launcher updates. Publish assets and
+verify them before promoting any signed catalog.
+
+## Legacy release layout (before 0.7.0)
 
 - `arcane-wars`: required base module.
 - `pawpatch-core`: required Paw's Patch data and the default runtime launcher.

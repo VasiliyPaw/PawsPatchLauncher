@@ -59,12 +59,31 @@ internal static class PawGamePresentation
             int split=line.IndexOf('=');
             if(split<1) throw new InvalidDataException("Invalid version metadata line");
             string key=line.Substring(0,split).Trim(),value=line.Substring(split+1).Trim();
-            if((key!="ArcaneWars" && key!="PawPatch") || values.ContainsKey(key) ||
-                !Regex.IsMatch(value,@"\A[0-9A-Za-z.+_-]{1,64}\z"))
+            if((key!="ArcaneWars" && key!="PawPatch" && key!="Mod" && key!="ModVersion" && key!="PatchChannel") || values.ContainsKey(key) ||
+                !Regex.IsMatch(value,@"\A[0-9A-Za-z.+_ -]{1,64}\z"))
                 throw new InvalidDataException("Invalid version metadata value");
             values.Add(key,value);
         }
-        if(!values.ContainsKey("ArcaneWars") || !values.ContainsKey("PawPatch"))
+        if(values.ContainsKey("Mod"))
+        {
+            if(values.ContainsKey("ArcaneWars") || (values["Mod"]!="vanilla" && values["Mod"]!="immortals" && values["Mod"]!="arcane-wars"))
+                throw new InvalidDataException("Invalid game mode metadata");
+            string suffix="";
+            if(values["Mod"]!="vanilla")
+            {
+                if(!values.ContainsKey("ModVersion")) throw new InvalidDataException("Missing mod version");
+                suffix="\n"+(values["Mod"]=="immortals"?"Immortals":"Arcane Wars")+" "+values["ModVersion"];
+            }
+            if(values.ContainsKey("PawPatch"))
+            {
+                if(!values.ContainsKey("PatchChannel") || (values["PatchChannel"]!="stable" && values["PatchChannel"]!="beta"))
+                    throw new InvalidDataException("Invalid patch channel");
+                suffix+="\nPaw's Patch "+values["PawPatch"];
+            }
+            if(suffix.Length==0) throw new InvalidDataException("Empty menu label");
+            return suffix;
+        }
+        if(!values.ContainsKey("ArcaneWars") || !values.ContainsKey("PawPatch") || values.Count!=2)
             throw new InvalidDataException("Version metadata is incomplete");
         return "\nArcane Wars "+values["ArcaneWars"]+"\nPaw's Patch "+values["PawPatch"];
     }
@@ -128,15 +147,21 @@ internal static class PawGamePresentation
         if(!FlushInstructionCache(process,address,bytes.Length)) throw new Win32Exception();
     }
     public static void Install(IntPtr process,IntPtr image,string logPath)
+    { InstallPresentation(process,image,logPath,AppDomain.CurrentDomain.BaseDirectory,false); }
+
+    public static void InstallMenuOnly(IntPtr process,IntPtr image,string logPath,string root)
+    { InstallPresentation(process,image,logPath,root,true); }
+
+    static void InstallPresentation(IntPtr process,IntPtr image,string logPath,string root,bool menuOnly)
     {
         VerifyOffline();
-        string root=AppDomain.CurrentDomain.BaseDirectory;
-        string suffix=VersionSuffix(File.ReadAllText(Path.Combine(root,"paws_patch_versions.ini"),Encoding.UTF8));
+        string suffix=VersionSuffix(File.ReadAllText(Path.Combine(root,menuOnly?"paws_launch_versions.ini":"paws_patch_versions.ini"),Encoding.UTF8));
         if(!File.Exists(Path.Combine(root,"data","UI","Menus","main.tgi")))
             throw new FileNotFoundException("Missing common UI main menu layout");
         // Steam decrypts code during boot. Validate BOTH sites before any writes.
         var timer=System.Diagnostics.Stopwatch.StartNew();
-        for(int i=0;i<Sites.Length;i++)
+        int firstSite=menuOnly?1:0;
+        for(int i=firstSite;i<Sites.Length;i++)
         {
             while(true)
             {
@@ -149,7 +174,7 @@ internal static class PawGamePresentation
         }
         IntPtr cave=VirtualAllocEx(process,IntPtr.Zero,Size,0x3000,0x40);
         if(cave==IntPtr.Zero) throw new Win32Exception();
-        int attempted=0;
+        int attempted=firstSite;
         try
         {
             byte[] payload=Relocate((uint)image.ToInt64(),(uint)cave.ToInt64());
@@ -158,20 +183,20 @@ internal static class PawGamePresentation
             Buffer.BlockCopy(label,0,payload,0x800,label.Length);
             Write(process,cave,payload);
             if(!FlushInstructionCache(process,cave,Size)) throw new Win32Exception();
-            for(int i=0;i<Sites.Length;i++)
+            for(int i=firstSite;i<Sites.Length;i++)
             {
                 byte[] branch=new byte[5]; branch[0]=(byte)(i==0?0xe8:0xe9);
                 int relative=unchecked((int)(cave.ToInt64()+Targets[i]-image.ToInt64()-Sites[i]-5));
                 Buffer.BlockCopy(BitConverter.GetBytes(relative),0,branch,1,4);
                 attempted=i+1; Patch(process,Add(image,Sites[i]),branch);
             }
-            File.AppendAllText(logPath,DateTime.Now.ToString("O")+" COMMON_UI r1; versions="+suffix.Replace('\n',';')+
-                "; negativeZero=display-only; allLaunchModes=true; simulationUntouched=true; cave=0x"+cave.ToInt64().ToString("X8")+Environment.NewLine);
+            File.AppendAllText(logPath,DateTime.Now.ToString("O")+(menuOnly?" MENU_ONLY r1; versions=":" COMMON_UI r1; versions=")+suffix.Replace('\n',';')+
+                "; negativeZero="+(menuOnly?"untouched":"display-only")+"; simulationUntouched=true; cave=0x"+cave.ToInt64().ToString("X8")+Environment.NewLine);
         }
         catch
         {
             bool restored=true;
-            for(int i=attempted-1;i>=0;i--) try { Patch(process,Add(image,Sites[i]),ExpectedAt(i,(uint)image.ToInt64())); } catch { restored=false; }
+            for(int i=attempted-1;i>=firstSite;i--) try { Patch(process,Add(image,Sites[i]),ExpectedAt(i,(uint)image.ToInt64())); } catch { restored=false; }
             if(restored) VirtualFreeEx(process,cave,0,0x8000);
             throw;
         }

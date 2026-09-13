@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Pipes;
 using System.Reflection;
 using System.Text;
 
@@ -14,6 +15,88 @@ public static class SelfUpdater
 
     public static bool IsBlocked(string hash) => File.Exists(BlockedPath) && File.ReadAllText(BlockedPath).Trim().Equals(hash, StringComparison.OrdinalIgnoreCase);
     public static string BlockedPath => Path.Combine(ActivityStore.Root, "failed-launcher-sha256.txt");
+
+    /// <summary>The caller saves its settings and placement, then closes only after this handshake succeeds.</summary>
+    public static async Task RestartThroughStartupAsync(CancellationToken cancellationToken = default)
+    {
+        var executable = Environment.ProcessPath ?? throw new InvalidOperationException("The launcher executable path is unavailable.");
+        using var current = Process.GetCurrentProcess();
+        var token = Guid.NewGuid().ToString("N");
+        using var ready = new NamedPipeServerStream(RestartPipeName(token), PipeDirection.In, 1,
+            PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(TimeSpan.FromSeconds(15));
+        using var next = Process.Start(BuildRestartStartInfo(executable, current.Id, current.StartTime.ToUniversalTime().Ticks,
+            token, ActivityStore.LocalTestProfile)) ?? throw new IOException("Cannot restart the launcher.");
+        try
+        {
+            var connection = ready.WaitForConnectionAsync(timeout.Token);
+            var exited = next.WaitForExitAsync(timeout.Token);
+            if (await Task.WhenAny(connection, exited) == exited)
+            {
+                await exited;
+                throw new IOException("The restarted launcher exited before it was ready.");
+            }
+            await connection;
+            var response = new byte[1];
+            if (await ready.ReadAsync(response, timeout.Token) != 1 || response[0] != 0x52 || next.HasExited)
+                throw new IOException("The restarted launcher did not confirm readiness.");
+        }
+        catch (Exception error)
+        {
+            // This is only the child we just started. The original launcher remains open on failure.
+            try { if (!next.HasExited) next.Kill(); } catch { }
+            if (error is OperationCanceledException && !cancellationToken.IsCancellationRequested)
+                throw new IOException("The restarted launcher did not become ready in time.", error);
+            throw;
+        }
+        finally { timeout.Cancel(); }
+    }
+
+    public static ProcessStartInfo BuildRestartStartInfo(string executable, int parentId, long parentStartTicks,
+        string token, string? testProfile)
+    {
+        if (parentId <= 0 || parentStartTicks <= 0 || !Guid.TryParseExact(token, "N", out _))
+            throw new ArgumentException("Invalid launcher restart identity.");
+        var path = Path.GetFullPath(executable);
+        var start = new ProcessStartInfo(path)
+        {
+            WorkingDirectory = Path.GetDirectoryName(path)!, UseShellExecute = false, CreateNoWindow = true
+        };
+        start.ArgumentList.Add("--restart-parent=" + parentId + ":" + parentStartTicks);
+        start.ArgumentList.Add("--restart-token=" + token);
+        if (!string.IsNullOrWhiteSpace(testProfile)) start.ArgumentList.Add("--test-profile=" + Path.GetFullPath(testProfile));
+        // In particular, never forward --skip-startup-update or an obsolete --update-health token.
+        return start;
+    }
+
+    /// <summary>Runs before the single-instance mutex so the replacement can wait for its predecessor.</summary>
+    public static async Task<bool> WaitForRestartHandoffAsync(string[] arguments)
+    {
+        var parentArgument = arguments.FirstOrDefault(a => a.StartsWith("--restart-parent=", StringComparison.Ordinal));
+        var tokenArgument = arguments.FirstOrDefault(a => a.StartsWith("--restart-token=", StringComparison.Ordinal));
+        if (parentArgument is null && tokenArgument is null) return true;
+        var identity = parentArgument?["--restart-parent=".Length..].Split(':');
+        var token = tokenArgument?["--restart-token=".Length..];
+        if (identity?.Length != 2 || !int.TryParse(identity[0], out var parentId) || parentId <= 0
+            || !long.TryParse(identity[1], out var parentTicks) || parentTicks <= 0 || token is null
+            || !Guid.TryParseExact(token, "N", out _))
+            throw new InvalidDataException("Invalid launcher restart handoff.");
+        using var parent = Process.GetProcessById(parentId);
+        if (parent.HasExited || parent.StartTime.ToUniversalTime().Ticks != parentTicks ||
+            !string.Equals(Path.GetFullPath(parent.MainModule!.FileName), Environment.ProcessPath, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException("The launcher restart predecessor does not match.");
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+        using var ready = new NamedPipeClientStream(".", RestartPipeName(token), PipeDirection.Out,
+            PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+        await ready.ConnectAsync(10000, timeout.Token);
+        await ready.WriteAsync(new byte[] { 0x52 }, timeout.Token);
+        await ready.FlushAsync(timeout.Token);
+        await parent.WaitForExitAsync(timeout.Token);
+        return true;
+    }
+
+    private static string RestartPipeName(string token) => "PawsPatchLauncher-Restart-" + token;
 
     public static void AcknowledgeStartup()
     {
@@ -33,7 +116,10 @@ public static class SelfUpdater
         File.Copy(downloadedExecutable, staged, true);
 
         Directory.CreateDirectory(ActivityStore.Root);
-        var script = BuildScript(current, staged, Environment.ProcessId, hash, ActivityStore.Root, Guid.NewGuid().ToString("N"));
+        var profile = ActivityStore.LocalTestProfile;
+        var profilePath = profile is null ? null : Path.GetFullPath(profile);
+        var arguments = profilePath is null ? "" : " --test-profile=\"" + profilePath + (profilePath.EndsWith('\\') ? "\\" : "") + "\"";
+        var script = BuildScript(current, staged, Environment.ProcessId, hash, ActivityStore.Root, Guid.NewGuid().ToString("N"), startupArguments: arguments);
         var start = new ProcessStartInfo("powershell.exe") { UseShellExecute = false, CreateNoWindow = true, WindowStyle = ProcessWindowStyle.Hidden };
         start.ArgumentList.Add("-NoProfile");
         start.ArgumentList.Add("-NonInteractive");
@@ -42,7 +128,7 @@ public static class SelfUpdater
         _ = Process.Start(start) ?? throw new IOException("Cannot start the update recovery helper.");
     }
 
-    public static string BuildScript(string current, string staged, int pid, string hash, string logRoot, string token, int timeoutSeconds = 60)
+    public static string BuildScript(string current, string staged, int pid, string hash, string logRoot, string token, int timeoutSeconds = 60, string startupArguments = "")
     {
         static string Q(string value) => "'" + value.Replace("'", "''") + "'";
         // Windows PowerShell uses .NET Framework: File.Exists silently returns
@@ -70,7 +156,7 @@ public static class SelfUpdater
             $info = New-Object System.Diagnostics.ProcessStartInfo
             $info.FileName = $launchTarget
             $info.WorkingDirectory = $launchFolder
-            $info.Arguments = $arguments
+            $info.Arguments = $arguments + {{Q(" --skip-startup-update" + startupArguments)}}
             $info.UseShellExecute = $false
             $info.CreateNoWindow = $true
             return [Diagnostics.Process]::Start($info)
@@ -108,6 +194,9 @@ public static class SelfUpdater
                 [IO.File]::Replace($backup, $target, $failed)
                 [IO.File]::WriteAllText([IO.Path]::Combine($logRoot, 'failed-launcher-sha256.txt'), {{Q(hash)}})
                 [IO.File]::WriteAllText([IO.Path]::Combine($logRoot, 'update-rollback.txt'), 'The launcher update failed. The previous executable was restored.')
+                [void](Start-Launcher '')
+            } else {
+                # A staging/replacement failure must not leave the user without a launcher.
                 [void](Start-Launcher '')
             }
         }

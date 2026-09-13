@@ -48,7 +48,7 @@ public sealed partial class AccountService : IDisposable
     {
         _store = store;
         _clock = clock ?? (() => DateTimeOffset.UtcNow);
-        _http = new HttpClient(handler ?? new HttpClientHandler { AllowAutoRedirect = false }) { Timeout = Timeout.InfiniteTimeSpan };
+        _http = new HttpClient(handler ?? LocalTestNetwork.Handler(() => new HttpClientHandler { AllowAutoRedirect = false })) { Timeout = Timeout.InfiniteTimeSpan };
     }
 
     public static string ValidateEmail(string value)
@@ -90,10 +90,10 @@ public sealed partial class AccountService : IDisposable
 
     private async Task LoadProfileAsync(CancellationToken cancellationToken)
     {
-        using var response = await RequestAsync(HttpMethod.Get, "paw_profiles?select=id,nickname,display_name,display_name_changed_at,created_at,nickname_changed_at,email_changed_at,password_changed_at,avatar_changed_at,deletion_pending,admin_level,protected_admin,banned_at,ban_until,ban_reason,deleted_at&id=eq." + _session!.UserId, null, _session.AccessToken, cancellationToken, database: true).ConfigureAwait(false);
+        using var response = await ReadTeamProfileAsync(cancellationToken).ConfigureAwait(false);
         if (response.RootElement.ValueKind != JsonValueKind.Array || response.RootElement.GetArrayLength() != 1) throw new AccountException("profile_missing");
         var profile = response.RootElement[0];
-        if (Text(profile, "id") != _session.UserId) throw new AccountException("invalid_response");
+        if (Text(profile, "id") != _session!.UserId) throw new AccountException("invalid_response");
         var nickname = Text(profile, "nickname"); ValidateNickname(nickname);
         _session.Nickname = NormalizeUsername(nickname);
         _session.DisplayName=Text(profile,"display_name");if(_session.DisplayName.Length==0)_session.DisplayName=nickname;
@@ -106,6 +106,7 @@ public sealed partial class AccountService : IDisposable
         _session.AvatarChangedAt = DateTimeOffset.TryParse(Text(profile, "avatar_changed_at"), out var avatarChanged) ? avatarChanged : null;
         _session.DeletionPending = profile.TryGetProperty("deletion_pending", out var deleting) && deleting.ValueKind == JsonValueKind.True;
         _session.AdminLevel = ModerationInt(profile,"admin_level");
+        _session.PawsTeam = ModerationBool(profile,"paws_team");
         _session.ProtectedAdmin = ModerationBool(profile,"protected_admin");
         _session.BannedAt = ModerationDate(profile,"banned_at");
         _session.BanUntil = ModerationDate(profile,"ban_until");
@@ -313,6 +314,7 @@ public sealed partial class AccountService : IDisposable
 
     private async Task<JsonDocument> RequestAsync(HttpMethod method, string route, object? body, string? accessToken, CancellationToken cancellationToken, bool database = false, bool portal = false)
     {
+        var connectionObservation = Connection.Begin();
         using var request = new HttpRequestMessage(method, new Uri(ProjectUrl + (portal ? "/functions/v1/" : database ? "/rest/v1/" : "/auth/v1/") + route));
         request.Headers.Add("apikey", PublishableKey);
         if (accessToken is not null && (database || portal)) request.Headers.Add("x-paw-launcher", _launcherId.ToString());
@@ -323,6 +325,7 @@ public sealed partial class AccountService : IDisposable
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             timeout.CancelAfter(TimeSpan.FromSeconds(portal ? 90 : 15));
             using var response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, timeout.Token).ConfigureAwait(false);
+            if ((int)response.StatusCode >= 500) Connection.Complete(connectionObservation, false);
             if (!portal && (int)response.StatusCode >= 500) throw new AccountException("network");
             await using var source = await response.Content.ReadAsStreamAsync(timeout.Token).ConfigureAwait(false);
             using var output = new MemoryStream();
@@ -333,6 +336,7 @@ public sealed partial class AccountService : IDisposable
                 if (output.Length + count > (portal ? 350000 : database && route is "rpc/paw_read_messages" or "rpc/paw_read_message_page" or "rpc/paw_read_offer_states" ? 768000 : database&&route=="rpc/paw_social_list"?2097152:database&&route=="rpc/paw_admin_list"?262144:65536)) throw new AccountException("invalid_response");
                 output.Write(buffer, 0, count);
             }
+            if ((int)response.StatusCode < 500) Connection.Complete(connectionObservation, true);
             JsonDocument json;
             try { json = output.Length == 0 ? JsonDocument.Parse("{}") : JsonDocument.Parse(output.ToArray()); }
             catch (JsonException) when ((int)response.StatusCode == 429) { throw new AccountException("rate_limit"); }
@@ -359,6 +363,10 @@ public sealed partial class AccountService : IDisposable
             if (response.IsSuccessStatusCode) return json;
             using (json)
             {
+                if (database && route.StartsWith("paw_profiles?select=", StringComparison.Ordinal)
+                    && Text(json.RootElement, "code") is "42703" or "PGRST204"
+                    && Text(json.RootElement, "message").Contains("paws_team", StringComparison.Ordinal))
+                    throw new AccountException("team_role_unavailable");
                 var code = Text(json.RootElement, "error_code");
                 // Never expose/log raw server bodies: these can contain personal input or credentials.
                 throw new AccountException(code switch
@@ -382,8 +390,10 @@ public sealed partial class AccountService : IDisposable
                 });
             }
         }
-        catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested) { throw new AccountException(portal ? "outcome_unknown" : "network"); }
-        catch (HttpRequestException) { throw new AccountException(portal ? "outcome_unknown" : "network"); }
+        catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested) { Connection.Complete(connectionObservation, false); throw new AccountException(portal ? "outcome_unknown" : "network"); }
+        catch (HttpRequestException) { Connection.Complete(connectionObservation, false); throw new AccountException(portal ? "outcome_unknown" : "network"); }
+        catch (IOException) { Connection.Complete(connectionObservation, false); throw new AccountException(portal ? "outcome_unknown" : "network"); }
+        catch (AccountException error) when (error.Code == "network") { Connection.Complete(connectionObservation, false); throw; }
         catch (JsonException) { throw new AccountException("invalid_response"); }
     }
 

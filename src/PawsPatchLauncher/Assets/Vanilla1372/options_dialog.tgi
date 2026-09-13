@@ -1,0 +1,1677 @@
+
+;; ---------------------------- Options Menu ----------------------------
+
+[Template OptionsCheckboxGroupVE  Template=GroupVE]
+{
+   	L = 10
+   	;; Clients should specify the T field, all others are the same
+ 	R = 10r
+   	B = +20
+}
+
+[Template OptionsCheckboxSharedMediumLeftLabelVE Template=SharedMediumLeftLabelVE]
+{
+	L = 26
+	T = 2
+   	R = 4r
+}
+
+[Template OptionsBoundsSliderAdvancedWidget Template=SharedSliderAdvancedWidget]
+{
+	show_current_val = false
+	usage_area_absolute = 55, -55
+	
+	[View]
+	{
+		L = 0
+		R = 0r
+		B = +20
+	}
+
+	[MaxBoundLabel]
+	{
+		[View]
+		L = 50r
+	}	
+}
+
+[Template OptionsCurrentSliderAdvancedWidget Template=SharedSliderAdvancedWidget]
+{
+	show_minmax = false
+	usage_area_absolute = 55, -55
+	
+	[View Template = GroupVE]
+	{
+		L = 0
+		R = 0r
+		B = +20
+		
+		[Child Template = DecalVE]
+		{
+			L = 50r
+			T = 2
+			R = +39
+			B = +15
+			
+			texture = /UI/Default/SliderBar/valueslot.png
+		}
+	}
+	
+	[CurrentValueLabel]
+	{
+		[View]
+		{
+			L = 44r
+		}
+	}
+}
+
+[Template OptionsPsuedoTabLabelWidget Template=LabelWidget]
+{
+	[View Template=DecalVETiledHorizontal]
+	{
+		R = +175
+		B = +40
+		
+		center_texture = /UI/%s/Default/Tabs/paneltabcenter.png
+		ends_texture = /UI/%s/Default/Tabs/paneltabends.png				
+	}
+			
+	[Label Template=SharedMediumLeftLabelVE]
+	{
+		L = 13
+		T = 8
+	}
+}
+
+[Template OptionsLeftPsuedoTabLabelWidget Template=OptionsPsuedoTabLabelWidget]
+{
+	[View]
+	L = 15
+}
+
+[Template OptionsRightPsuedoTabLabelWidget Template=OptionsPsuedoTabLabelWidget]
+{
+	[View]
+	L = 347
+}
+
+[Template OptionsColumnPanel Template=SharedSmallPanelWidget]
+{
+	[View]
+	{
+		;; cwp040804 - children no longer being defined in template, so must be defined here
+		[Child Template = SharedChildSmallPanelVE]
+		alpha_blending = false
+	}
+}
+
+[Template OptionsLeftColumnPanel Template=OptionsColumnPanel]
+{
+	[View]
+	{
+		L = 14
+		R = +317
+	}
+}
+
+[Template OptionsRightColumnPanel Template=OptionsColumnPanel]
+{
+   	[View]
+   	{
+   		L = 346
+   		R = 15r
+   	}
+}
+
+[OptionsDialog Inherit=PanelWidget]
+{
+	[RenderThreshold]
+	render_threshold = 20
+
+	[View Template=GroupVE]
+	{
+		L = 150
+		T = 87
+		R = 150r
+		B = 87b
+		
+		validate_decal_children = false
+		
+		[Child Template = SharedChildLargePanelVE]
+		{
+			alpha_blending = false
+		}
+		
+		[Child Template = DecalVETiledHorizontal]
+		{
+			L = 23
+			T = 19
+			R = 23r
+			B = +50
+
+			alpha_blending = true
+			
+			center_texture = /UI/%s/Default/Tabs/topTabbarCenter.tga
+			ends_texture = /UI/%s/Default/Tabs/topTabbarEnds.tga
+		}
+	
+		[Child Template = DecalVETiledHorizontal]
+		{
+			L = 23
+			T = 98b
+			R = 23r
+			B = +19
+
+			alpha_blending = true
+			
+			ends_texture = /UI/Default/Panel/paneldividerends.tga
+			center_texture = /UI/Default/Panel/paneldividercenter.tga
+		}
+	}
+
+	
+	[OptionsButtonDefaults Template=MenuPushButtonWidget]
+	{
+		[Client]
+		{
+			[View]
+			text = "#options_dialog_OptionsButtonDefaults_Client_View_text"
+		}
+
+		[View]
+		{
+			L = 542r
+			T = 78b
+		}
+	}
+	
+	[OptionsButtonOK Template=MenuPushButtonWidget]
+	{
+		[Client]
+		{
+			[View]
+			text = "#options_dialog_OptionsButtonOK_Client_View_text"
+		}
+
+		[View]
+		{
+			L = 371r
+			T = 78b
+		}
+	}
+
+	[OptionsButtonCancel Template=MenuPushButtonWidget]
+	{
+		[Client]
+		{
+			[View]
+			text = "#options_dialog_OptionsButtonCancel_Client_View_text"
+		}
+
+		[View]
+		{
+			L = 200r
+			T = 78b
+		}
+	}
+	
+	[ShowGameplayButton Template=ToggleButtonWidget]
+	{
+		[View Template = GroupVE]
+		{
+			L = 69
+			T = 19
+			R = +52
+			B = +39
+			
+			[Child Template=DecalVE]
+			{
+				when = ENABLED + UNSELECTED
+				texture = /UI/%s/Default/Tabs/GeneralTabUnpressed.png
+			}	
+				
+			[Child Template=DecalVE]
+			{	
+				when = ENABLED + SELECTED
+				texture = /UI/%s/Default/Tabs/GeneralTabPressed.png
+			}
+		}
+		
+		Tooltip = "#options_dialog_ShowGameplayButton_Tooltip"
+	}
+	
+	[ShowVideoButton Template=ToggleButtonWidget]
+	{
+		[View Template = GroupVE]
+		{
+			L = 126
+			T = 19
+			R = +52
+			B = +39
+			
+			[Child Template=DecalVE]
+			{
+				when = ENABLED + UNSELECTED
+				texture = /UI/%s/Default/Tabs/GraphicsUnpressed.png
+			}	
+				
+			[Child Template=DecalVE]
+			{
+				when = ENABLED + SELECTED
+				texture = /UI/%s/Default/Tabs/GraphicsPressed.png
+			}
+		}
+		
+		Tooltip = "#options_dialog_ShowVideoButton_Tooltip"
+	}
+	
+	[ShowAudioButton Template=ToggleButtonWidget]
+	{
+		[View Template = GroupVE]
+		{
+			L = 184
+			T = 19
+			R = +52
+			B = +39
+			
+			[Child Template=DecalVE]
+			{
+				when = ENABLED + UNSELECTED
+				texture = /UI/%s/Default/Tabs/SoundUnpressed.png
+			}	
+			
+			[Child Template=DecalVE]
+			{	
+				when = ENABLED + SELECTED
+				texture = /UI/%s/Default/Tabs/SoundPressed.png
+			}
+		}
+
+		Tooltip = "#options_dialog_ShowAudioButton_Tooltip"
+	}
+
+	[ShowNetworkButton Template=ToggleButtonWidget]
+	{
+		[View Template = GroupVE]
+		{
+			L = 240
+			T = 19
+			R = +52
+			B = +39
+			
+			[Child Template=DecalVE]
+			{
+				when = ENABLED + UNSELECTED
+				texture = /UI/%s/Default/Tabs/NetworkUnpressed.png
+			}
+			
+			[Child Template=DecalVE]
+			{	
+				when = ENABLED + SELECTED
+				texture = /UI/%s/Default/Tabs/NetworkPressed.png
+			}
+		}
+		
+		Tooltip = "#options_dialog_ShowNetworkButton_Tooltip"
+	}
+	
+	[GamePlayPage Inherit=PanelWidget]
+	{
+		[View Template=GroupVE]
+		{
+			L = 23
+			T = 59
+			R = 23r
+			B = 90b
+		}
+
+		[MessageLogOptionsPanel Inherit = OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 37
+				B = +124
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 18
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text"
+				}
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 67
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_2"
+				}
+			}	
+			
+			[MessageLogFadeTimeSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 40
+				}
+
+				step_size = 1
+				page_size = 8
+			}
+			
+			[MessageLogMaximumLinesSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 89
+				}
+
+				step_size = 1
+				page_size = 8
+			}
+		} ;; end message log options panel
+		
+		[AutoSaveOptionsPanel Inherit = OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 186
+				B = +124
+
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 58
+					R = 4r
+					B = +20
+
+					text = "Save every (min)"
+				}
+			}
+
+			[ToggleAutoSave Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 16
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "Auto-Save (single-player)"
+				}
+			}
+
+			[AutoSaveIntervalSlider Template=OptionsCurrentSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 80
+				}
+
+				step_size = 1
+				page_size = 4
+			}
+		} ;; end AutoSaveOptionsPanel
+		
+		[GameSpeedOptionsPanel Inherit = OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 335
+				B = +99
+
+
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 17
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_5"
+				}
+
+				[Child Template = SharedMediumLeftLabelVE]
+				{
+					L = 16
+					T = 71
+					R = 130
+					B = +15				
+					text = "#options_dialog_Child_text_6"
+				}
+			}
+			
+			[GameSpeedSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 37
+				}
+
+				step_size = 1
+				page_size = 16
+				float min_value = -4
+				float max_value = 4
+				show_current_val = true
+				
+				usage_area_absolute = 55, -95
+				
+				[MaxBoundLabel]
+				{
+					[View]
+					L = 90r
+				}	
+				
+				;; Current value label
+				[CurrentValueLabel Template=LabelWidget]
+				{
+					[View Template=GroupVE]
+					{
+						[Child Template = DecalVE]
+						{
+							L = 56r
+							T = 2
+							R = +39
+							B = +15
+							
+							texture = /UI/Default/SliderBar/valueslot.png
+						}
+					}
+
+					[Label Template=SharedTinyLeftLabelVE]
+					{
+						L = 52r
+						T = 3
+						R = +50
+
+						text = ""
+					}
+				}
+			}
+
+			[DropDownHotkeySelect Template=SharedDropDownWidget]
+			{
+				[View] 		
+   				{
+  					L = 135
+  					T = 68
+  					R = 15r
+   				}
+   			}
+		} ;; end GameSpeedOptionsPanel
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; END COLUMN
+   		
+   		[UIOptionsPanel Inherit = OptionsRightColumnPanel]
+   		{
+   			[View]
+   			{
+   				T = 37
+   				B = +116
+   			}
+   			
+			[ToggleCameraRotate Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 19
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_7"
+				}
+
+				Tooltip = "@Set by code"
+			}	   			
+			
+			[ToggleToolTips Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 41
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_8"
+				}
+			}			
+			
+			[ToggleConfirmationDialog Template = ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 63
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_9"
+				}
+			}
+			
+			[ToggleStructureAutoPlace Template = ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 85
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_10"
+				}
+			}
+
+			[ToggleShowVFXObjectName Template=ToggleButtonWidget]
+			{
+				visible = false
+
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 107
+
+					[Child Template=SharedToggleButtonGroupVE]
+	
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_16"
+				}
+			}
+
+   		} ;; end UIOptionsPanel
+			
+   		[MessageOptionsPanel Inherit = OptionsRightColumnPanel]
+   		{
+   			[View]
+   			{
+   				T = 178
+   				B = +130
+   			}
+			
+   			[ToggleEventFilterEngagement Template=ToggleButtonWidget]
+   			{
+				;ToolTip = "Enable or disable message alerts of enemy engagement."
+				
+   				[View Template=OptionsCheckboxGroupVE]
+   				{
+   					T = 19
+   					
+	   				[Child Template=SharedToggleButtonGroupVE]
+	   
+   					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_11"
+   				}
+   			}
+
+   			[ToggleEventFilterEngagementAudioOnly Template=ToggleButtonWidget]
+   			{
+   				[View Template=OptionsCheckboxGroupVE]
+   				{
+   					T = 41
+					L = 50  ;; indent
+   					
+	   				[Child Template=SharedToggleButtonGroupVE]
+	   
+   					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_45"
+   				}
+   			}
+   			
+			[ToggleEventFilterSiege Template=ToggleButtonWidget]
+   			{
+   				[View Template=OptionsCheckboxGroupVE]
+   				{
+ 					T = 63
+	   
+	   				[Child Template=SharedToggleButtonGroupVE]
+	   
+   					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_12"
+   				}
+   			}
+
+			[ToggleEventFilterProduction Template=ToggleButtonWidget]
+   			{
+				visible = false
+
+   				[View Template=OptionsCheckboxGroupVE]
+   				{
+   					T = 85
+   					
+	   				[Child Template=SharedToggleButtonGroupVE]
+	   
+   					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_47"
+   				}
+   			}	
+	
+   		} ;; end MessagesOptionsPanel
+
+		[MapOptionsPanel Inherit = OptionsRightColumnPanel]
+		{
+			[View]
+			{
+				T = 334
+				B = +100
+			}
+			
+			[ToggleDamageNumbers Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 19
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_13"
+				}
+			}			
+						
+			[ToggleZoneSupply Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 41
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_14"
+				}
+			}
+			
+			[ToggleElapsedGameTime Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 63
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_15"
+				}
+			}			
+		} ;; end MapOptionsPanel
+		
+		[MessageLogTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{			
+			[View]
+			{
+				T = 16
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_GamePlayPage_MessageLogTitle_Label_Text"
+			}
+		}
+		
+		[AutoSaveTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 165
+			}
+
+			[Label]
+			{
+				Text = "Auto-Save"
+			}
+		}
+		
+		[GameTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 314
+			}
+
+			[Label]
+			{
+				Text = "#options_dialog_GamePlayPage_GameTitle_Label_Text"
+			}	
+		}
+
+		[UITitle Template=OptionsRightPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 16
+			}
+
+			[Label]
+			{
+				Text = "#options_dialog_GamePlayPage_UITitle_Label_Text"
+			}
+		}
+
+		[MessagesTitle Template=OptionsRightPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 157
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_GamePlayPage_MessagesTitle_Label_Text"
+			}
+		}
+
+		[MapTitle Template=OptionsRightPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 313
+			}
+
+			[Label]
+			{
+				Text = "#options_dialog_GamePlayPage_MapTitle_Label_Text"
+			}
+		}
+	}
+
+	[VideoPage Inherit=PanelWidget]
+	{
+		localized custom_preset_string = "#options_dialog_VideoPage_custom_preset_string"
+	
+		[View Template=NoVE]
+		{
+			L = 23
+			T = 59
+			R = 23r
+			B = 90b
+		}
+		
+		[ResolutionOptionsPanel Inherit = OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 37
+				B = +110
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 16
+					T = 28
+					R = 130
+					B = +20
+					
+					text = "#options_dialog_Child_text_17"
+				}
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 16
+					T = 74
+					R = 130
+					B = +20
+					
+					text = "#options_dialog_Child_text_18"
+				}				
+			}
+						
+			[DropDownResolution Template=SharedDropDownWidget]
+			{
+				[Listbox]
+				sorted = false
+				
+				[View]
+				{
+  					L = 135
+  					T = 25
+  					R = 15r
+				}
+			}
+			
+			[DropDownGraphicsPreset Template=SharedDropDownWidget]
+			{
+				[Listbox]
+				sorted = false
+				
+				[View]
+				{
+					L = 135
+					T = 71
+					R = 15r
+				}
+			}
+		}
+		
+		[GraphicsOptionsPanel Inherit = OptionsRightColumnPanel]
+		{
+			[View]
+			{
+				T = 37
+				B = +397
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 171
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_19"
+				}
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 221
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_48"
+				}
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 269
+					R = 4r
+					B = +20
+					text = "Frame rate limit"
+				}
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 317
+					R = 4r
+					B = +20
+					text = "Display mode"
+				}
+			}
+			
+			[ToggleRenderFootsteps Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 19
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_20"
+				}
+			}
+			
+			[ToggleTerrainHighQuality Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 41
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_21"
+				}
+			}
+			
+			[ToggleTerrainTrilinearFiltering Template = ToggleButtonWidget]
+			{
+				[View Template = OptionsCheckboxGroupVE]
+				{
+					T = 63
+					
+					[Child Template = SharedToggleButtonGroupVE]
+					
+					[Child Template = OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_22"
+				}
+			}
+
+			[ToggleTerrainDoubleDensity Template = ToggleButtonWidget]
+			{
+				[View Template = OptionsCheckboxGroupVE]
+				{
+					T = 85
+					
+					[Child Template = SharedToggleButtonGroupVE]
+					
+					[Child Template = OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_23"
+				}
+			}
+			
+			[ToggleRenderUnitFog Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 107
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_24"
+				}
+			}
+			
+			[ToggleRenderHighQualityTextures Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 129
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_46"
+				}
+			}
+			
+			[ToggleRenderDecals Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 151
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_49"
+				}
+			}			
+	
+			
+			[RenderLODShadowsSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 193
+				}
+				
+				step_size = 1
+				page_size = 4
+			}
+			
+			[ParticlesSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				tooltip = "#options_dialog_VideoPage_GraphicsOptionsPanel_ParticlesSlider_tooltip"
+
+				[View]
+				{
+					T = 241
+				}
+
+				float min_value = 0
+				float max_value = 1
+				page_size = 4
+			}
+			
+			[DropDownFPSCap Template=SharedDropDownWidget]
+			{
+				[Listbox]
+				sorted = false
+
+				[View]
+				{
+					L = 55
+					T = 289
+					R = 15r
+				}
+			}
+
+			[DropDownDisplayMode Template=SharedDropDownWidget]
+			{
+				[Listbox]
+				sorted = false
+
+				[View]
+				{
+					L = 55
+					T = 337
+					R = 15r
+				}
+			}
+
+		} ;; end of graphicsoptionspanel
+
+		[CameraTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{		
+			[View]
+			{
+				T = 165
+			}
+
+			[Label]
+			{
+				Text = "#options_dialog_GamePlayPage_CameraTitle_Label_Text"
+			}	
+		}
+	
+		[CameraOptionsPanel Inherit = OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 186
+				B = +124
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 19
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_3"
+				}
+
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 63
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_4"
+				}
+			}
+			
+			[CameraScrollSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 38
+				}
+
+				step_size = 0.1
+				page_size = 8
+			}
+			
+			[CameraZoomSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 82
+				}
+
+				step_size = 0.01
+				page_size = 8
+			}
+		} ;; end CameraOptionsPanel
+
+		[MinimapOptionsPanel Inherit = OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 335
+				B = +60
+			}
+
+			[ToggleMinimapColorByKingdom Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 19
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "Color minimap by kingdom"
+				}
+			}
+		} ;; end MinimapOptionsPanel
+
+		[MinimapTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 314
+			}
+
+			[Label]
+			{
+				Text = "Minimap"
+			}
+		}
+
+		[BasicTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 16
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_VideoPage_BasicTitle_Label_Text"
+			}
+		}
+		
+		[AdvancedTitle Template=OptionsRightPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 16
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_VideoPage_AdvancedTitle_Label_Text"
+			}
+		}
+	} ;; end of video page
+
+	[AudioPage Inherit=PanelWidget]
+	{
+		string fx_test = test_volume
+		string speech_test = test_speech
+
+		[View Template=NoVE]
+		{
+			L = 23
+			T = 59
+			R = 23r
+			B = 90b
+		}
+		
+		[VolumeOptionsPanel Inherit = OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 37
+				B = +397
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 18
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_25"
+				}
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 67
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_26"
+				}
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 116
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_27"
+				}
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 165
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_28"
+				}												
+			}
+			
+			[AudioMainVolumeSlider Template=OptionsCurrentSliderAdvancedWidget]
+			{
+				sound_clicked = null
+
+				[View]
+				{
+					T = 40
+				}
+
+				step_size = 0
+				page_size = 8
+			}
+			
+			[AudioFXVolumeSlider Template=OptionsCurrentSliderAdvancedWidget]
+			{
+				sound_clicked = null
+
+				[View]
+				{
+					T = 89
+				}
+
+				step_size = 0
+				page_size = 8
+			}
+			
+			[AudioSpeechVolumeSlider Template=OptionsCurrentSliderAdvancedWidget]
+			{
+				sound_clicked = null
+
+				[View]
+				{
+					T = 138
+				}
+
+				step_size = 0
+				page_size = 8
+			}
+			
+			[AudioMusicVolumeSlider Template=OptionsCurrentSliderAdvancedWidget]
+			{
+				sound_clicked = null
+
+				[View]
+				{
+					T = 187
+				}
+
+				step_size = 0
+				page_size = 8
+			}
+		} ;; end of volume options panel
+		
+		[SoundsFilterOptionsPanel Inherit = OptionsRightColumnPanel]
+		{
+			[View]
+			{
+				T = 37
+				B = +397
+			}
+			
+			[ToggleChatSounds Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 19
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_29"
+				}
+			}	
+			
+			[ToggleUnitAcknowledgement Template=ToggleButtonWidget]
+			{
+				[View Template = OptionsCheckboxGroupVE]
+				{
+					T = 41
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_30"
+				}
+			}
+		} ;; end sound filter options panel
+		
+		[VolumeTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 16
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_AudioPage_VolumeTitle_Label_Text"
+			}
+		}
+		
+		[SoundsTitle Template=OptionsRightPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 16
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_AudioPage_SoundsTitle_Label_Text"
+			}
+		}
+	} ;; end audio page
+	
+	[NetworkPage Inherit=PanelWidget]
+	{
+		[View Template=GroupVE]
+		{
+			L = 23
+			T = 59
+			R = 23r
+			B = 90b
+		}
+
+		[InternetOptionsPanel Inherit=OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 37
+				B = +109
+
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 16
+					T = 68
+					R = 130
+					B = +20
+				
+					text = "#options_dialog_Child_text_31"
+				}
+				
+			}
+
+			[NetworkConnectionDropdown Template=SharedDropdownWidget]
+			{
+				[View]
+				{
+					L = 135
+					T = 65
+					R = 15r
+					B = +20
+				}
+			}
+			
+			[NetworkReportGameInProgressToggle Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 19
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_32"
+				}
+
+				Tooltip = "#options_dialog_NetworkPage_InternetOptionsPanel_NetworkReportGameInProgressToggle_Tooltip"
+			}
+		}
+
+		[ChatOptionsPanel Inherit=OptionsLeftColumnPanel]
+		{
+			[View]
+			{
+				T = 171
+				B = +263
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 55
+					T = 129
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_33"
+				}
+			}
+
+			[NetworkAFKTimeSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 151
+				}
+
+				step_size = 0.1
+				page_size = 8
+			}
+			
+			[ToggleMessageFilterChat Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 19
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_34"
+				}
+			}
+			
+			[ToggleMessageFilterBuddy Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 41
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_35"
+				}
+			}
+			
+			[ToggleMessageFilterAFK Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 63
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_36"
+				}
+			}
+			
+			[ToggleMessageFilterPlayerJoinLeave Template = ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 85
+					
+					[Child Template=SharedToggleButtonGroupVE]
+					
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_37"
+				}
+			}
+		}	
+
+		[LANOptionsPanel Inherit=OptionsRightColumnPanel]
+		{
+			[View]
+			{
+				T = 296
+				B = +138
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 11
+					T = 25
+					R = 130
+					B = +20
+
+					text = "#options_dialog_Child_text_38"
+				}
+			}
+
+			[NetworkLanNicknameEditbox Template=SharedEditboxWidget]
+			{
+				[View]
+				{
+					L = 130
+					T = 22
+					R = 15r
+					B = +20
+					
+					[Child Template = SharedChildEditboxPanelVE]
+				}
+			}
+		}
+
+		[InternetGameBrowserOptionsPanel Inherit = OptionsRightColumnPanel]
+		{
+			[View]
+			{
+				T = 37
+				B = +230
+				
+				[Child Template=SharedMediumLeftLabelVE]
+				{
+					L = 56
+					T = 161
+					R = 4r
+					B = +20
+
+					text = "#options_dialog_Child_text_39"
+				}
+			}
+			
+			[NetworkGamesDifferentVersionToggle Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 19
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_40"
+				}
+			}
+			
+			[NetworkGamesDifferentGroupRoomToggle Template=ToggleButtonWidget]
+			{
+				;;Tooltip = "Show all games that are not hosted in the same room as you"
+				
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 41
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_41"
+				}
+			}
+
+			[NetworkGamesDifferentLanguageToggle Template=ToggleButtonWidget]
+			{
+				;;Tooltip = "Show all games that are not the same language"
+				
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 63
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_50"
+				}
+			}
+
+			[NetworkGamesFullGamesToggle Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 85
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_42"
+				}
+			}
+			
+			[NetworkGamesInProgressToggle Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 107
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_43"
+				}
+			}
+			
+			[NetworkAutoRefreshToggle Template=ToggleButtonWidget]
+			{
+				[View Template=OptionsCheckboxGroupVE]
+				{
+					T = 129
+
+					[Child Template=SharedToggleButtonGroupVE]
+
+					[Child Template=OptionsCheckboxSharedMediumLeftLabelVE]
+					text = "#options_dialog_Child_text_44"
+				}
+			}
+
+			[NetworkRefreshTimeSlider Template=OptionsBoundsSliderAdvancedWidget]
+			{
+				[View]
+				{
+					T = 183
+				}
+
+				step_size = 0.1
+				page_size = 8
+			}
+		}
+		
+		[InternetTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 16
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_NetworkPage_InternetTitle_Label_Text"
+			}
+		}
+		
+		[ChatTitle Template=OptionsLeftPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 150
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_NetworkPage_ChatTitle_Label_Text"
+			}
+		}
+		
+		[LANTitle Template=OptionsRightPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 275
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_NetworkPage_LANTitle_Label_Text"
+			}
+		}		
+		
+		[GameBrowserTitle Template=OptionsRightPsuedoTabLabelWidget]
+		{
+			[View]
+			{
+				T = 16
+			}
+			
+			[Label]
+			{
+				Text = "#options_dialog_NetworkPage_GameBrowserTitle_Label_Text"
+			}
+		}			
+	}
+}

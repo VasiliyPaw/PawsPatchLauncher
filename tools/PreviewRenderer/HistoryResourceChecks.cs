@@ -77,7 +77,7 @@ internal static class HistoryResourceChecks
             Check(Math.Abs(row.TranslatePoint(new Point(),C<ScrollViewer>("FriendsChatScroll")).Y-beforeY)<3,"prepend changed visible anchor");
             for(var i=0;i<5;i++)await (Task)Call(w,"NavigateHistoryAsync",true)!;
             Check(Field<IReadOnlyList<SocialMessage>>(w,"_socialMessages").Count==350,"history cache lost pages");
-            Check(C<StackPanel>("FriendsMessagesPanel").Children.Count<=200,"unbounded WPF message elements");
+            Check(C<StackPanel>("FriendsMessagesPanel").Children.OfType<FrameworkElement>().Count(r=>r.Tag is Guid)<=200,"unbounded WPF message elements");
             Check(C<Button>("FriendsHistoryNewer").Visibility==Visibility.Visible,"no route back through cached pages");
             Check(!(bool)typeof(MainWindow).GetProperty("HistoryAtNewest",Flags)!.GetValue(w)!,"old window eligible for read acknowledgement");
             C<ScrollViewer>("FriendsChatScroll").ScrollToTop();w.UpdateLayout();Call(w,"RefreshHistoryJump");

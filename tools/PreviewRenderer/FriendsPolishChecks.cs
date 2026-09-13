@@ -30,10 +30,10 @@ internal static class FriendsPolishChecks
             Check(C<Border>("FriendsSearchPanel").Visibility==Visibility.Visible,"search toggle did not reveal field");
             input.Text="@FRIEND0";Check(rows.Children.Count==1,"case-insensitive @username search");
             input.Text="ЛЕСНОЙ";Check(rows.Children.Count==1,"case-insensitive display name search");
-            Set("_socialPeer",players[0].Id);C<TextBox>("FriendsMessageInput").Text="draft";
+            Set("_socialPeer",players[0].Id);C<ChatComposer>("FriendsMessageInput").Text="draft";
             input.Text="__absent__";
             Check(rows.Children.Count==0&&C<TextBlock>("FriendsListEmptyText").Text==(language=="ru"?"Никого не найдено":"No matches"),"empty search result");
-            Check(Field<Guid?>("_socialPeer")==players[0].Id&&C<TextBox>("FriendsMessageInput").Text=="draft","filter destroyed selected chat/draft");
+            Check(Field<Guid?>("_socialPeer")==players[0].Id&&C<ChatComposer>("FriendsMessageInput").Text=="draft","filter destroyed selected chat/draft");
             input.Text="friend0";var row=rows.Children[0];Invoke("RenderSocialRows");
             Check(ReferenceEquals(row,rows.Children[0]),"identical poll rebuilt filtered row");
             input.Clear();
@@ -75,7 +75,9 @@ internal static class FriendsPolishChecks
             Check(stack.Children.Count==5,"burst notices overwritten");Invoke("ClearToastStack");
             Check(stack.Children.Count==1&&last.Visibility==Visibility.Collapsed&&!Field<DispatcherTimer>("_toastTimer").IsEnabled,"stack clear leaked entries/timer");
             input.Text="private search";Set("_socialIdentity","different-owner");Invoke("RenderSocialIdentity");
-            Check(input.Text==""&&C<Border>("FriendsSearchPanel").Visibility==Visibility.Visible,"account switch retained search or removed permanent field");
+            Check(input.Text==""&&C<Border>("FriendsSearchPanel").Visibility==Visibility.Collapsed
+                &&C<TextBlock>("FriendsListEmptyText").Text==(language=="ru"?"Загружаю друзей…":"Loading friends…"),
+                "account switch retained private search or skipped first-list loading state");
             AccountChecks.Populate(w,"nickname");Invoke("RenderAccountCooldown");
             Check(C<TextBlock>("AccountCooldownText").Text.Contains("23:")&&!C<Button>("AccountEditorSubmitButton").IsEnabled,"daily cooldown lost hours or enabled rename");
         }

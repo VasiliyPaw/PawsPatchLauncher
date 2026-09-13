@@ -57,6 +57,46 @@ internal static class WindowPlacementTests
         Check(WindowPlacementPolicy.FindMonitor(saved, monitors) == left, "Missing interface ID broke GDI fallback.");
         Check(WindowPlacementPolicy.FindMonitor(saved, []) is null, "Empty monitor list did not fall back cleanly.");
 
+        saved = Saved(left, original); saved.LayoutRevision = WindowPlacementStore.CurrentLayoutRevision;
+        var startup = WindowPlacementPolicy.StartupBounds(saved, left, monitors, 96);
+        Check(startup.Width == 570 && startup.Height == 390 && startup.Left == -1535 && startup.Top == 250,
+            "Startup window is not centered on the saved secondary-monitor launcher.");
+        Check(WindowPlacementPolicy.FindMonitor(null, [left, primary, above]) == primary,
+            "First launch chose a different monitor from the launcher default.");
+        var firstStartup = WindowPlacementPolicy.StartupBounds(null, primary, monitors, 96);
+        Check(firstStartup.Left == 995 && firstStartup.Top == 505, "First-launch startup is not centered on the initial main window.");
+        saved.Maximized = true;
+        var maximizedStartup = WindowPlacementPolicy.StartupBounds(saved, left, monitors, 96);
+        Check(maximizedStartup.Left == -1245 && maximizedStartup.Top == 325,
+            "Maximized launcher startup used the hidden normal restore rectangle.");
+        saved.Maximized = false;
+        var scaledStartup = WindowPlacementPolicy.StartupBounds(saved, large, [large], 144);
+        var futureScaledLauncher = WindowPlacementPolicy.LauncherBounds(saved, large, [large], 144);
+        Check(scaledStartup.Width == 855 && scaledStartup.Height == 585,
+            "Startup window did not use the target monitor's effective DPI.");
+        Check(Math.Abs(scaledStartup.Left + scaledStartup.Width / 2d - (futureScaledLauncher.Left + futureScaledLauncher.Width / 2d)) <= .5
+            && Math.Abs(scaledStartup.Top + scaledStartup.Height / 2d - (futureScaledLauncher.Top + futureScaledLauncher.Height / 2d)) <= .5,
+            "DPI-adjusted startup and launcher have different centers.");
+        var disconnectedStartup = WindowPlacementPolicy.StartupBounds(saved, primary, [primary], 96);
+        var futureFallbackLauncher = WindowPlacementPolicy.LauncherBounds(saved, primary, [primary], 96);
+        Check(disconnectedStartup.Left + disconnectedStartup.Width / 2d == futureFallbackLauncher.Left + futureFallbackLauncher.Width / 2d
+            && disconnectedStartup.Top + disconnectedStartup.Height / 2d == futureFallbackLauncher.Top + futureFallbackLauncher.Height / 2d,
+            "Disconnected monitor changed the center between startup and launcher.");
+        topSaved.LayoutRevision = WindowPlacementStore.CurrentLayoutRevision;
+        var aboveStartup = WindowPlacementPolicy.StartupBounds(topSaved, above, monitors, 96);
+        Check(aboveStartup.Left == 415 && aboveStartup.Top == -1145, "Startup window lost negative desktop Y coordinates.");
+        var tinyStartup = WindowPlacementPolicy.StartupBounds(saved, tiny, [tiny], 192);
+        Check(tinyStartup.Left >= tiny.WorkArea.Left && tinyStartup.Right <= tiny.WorkArea.Right
+            && tinyStartup.Top >= tiny.WorkArea.Top && tinyStartup.Bottom <= tiny.WorkArea.Bottom,
+            "Scaled startup window extends past a small monitor's work area.");
+        saved.LayoutRevision = 0;
+        Check(WindowPlacementPolicy.StartupBounds(saved, left, monitors, 96) == WindowPlacementPolicy.StartupBounds(null, left, monitors, 96),
+            "One-time layout migration centers startup on obsolete launcher bounds.");
+        saved = Saved(primary, new(-1300, 100, 200, 950)); saved.LayoutRevision = WindowPlacementStore.CurrentLayoutRevision;
+        var spanningStartup = WindowPlacementPolicy.StartupBounds(saved, primary, monitors, 96);
+        Check(spanningStartup.Left >= primary.WorkArea.Left && spanningStartup.Right <= primary.WorkArea.Right,
+            "Spanning launcher placed startup on a different screen.");
+
         var directory = Path.Combine(root, "Окно лаунчера");
         var store = new WindowPlacementStore(directory);
         Check(store.Read() is null, "Fresh install has fabricated placement.");
@@ -86,7 +126,7 @@ internal static class WindowPlacementTests
         var gameSettings = JsonSerializer.Serialize(new UserSettings(), LauncherJsonContext.Default.UserSettings);
         Check(!gameSettings.Contains("Monitor", StringComparison.OrdinalIgnoreCase) && !gameSettings.Contains("WindowPlacement", StringComparison.OrdinalIgnoreCase), "Placement leaked into game configuration.");
         Check(!Directory.GetFiles(directory).Any(f => f.EndsWith(".tmp")), "Atomic placement write left temporary file.");
-        Console.WriteLine($"WINDOW PLACEMENT POLICY PASS {checks}: identical models/unique ports, renumbering, topology, negative/spanning bounds, DPI, taskbar, small screen, local persistence/corruption");
+        Console.WriteLine($"WINDOW PLACEMENT POLICY PASS {checks}: startup/launcher center, maximized, identical models/unique ports, renumbering, topology, negative/spanning bounds, DPI, taskbar, small screen, local persistence/corruption");
         return checks;
     }
 }

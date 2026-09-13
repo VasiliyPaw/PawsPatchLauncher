@@ -7,6 +7,7 @@ namespace PawsPatchLauncher;
 public sealed class SocialIdentityLine : Panel
 {
     private bool _wrap;
+    public bool AllowWrap { get; set; } = true;
     private const double Gap=6;
     protected override Size MeasureOverride(Size available)
     {
@@ -16,7 +17,9 @@ public sealed class SocialIdentityLine : Panel
         var fullName=name.DesiredSize.Width;
         badge.Measure(new Size(available.Width,double.PositiveInfinity));
         var badgeWidth=badge.DesiredSize.Width;
-        _wrap=fullName+Gap+badgeWidth>available.Width;
+        // Keep a useful username fragment beside the role, trimming a long username
+        // before wrapping an otherwise usable second line.
+        _wrap=AllowWrap && Math.Min(fullName,28)+Gap+badgeWidth>available.Width;
         name.Measure(new Size(_wrap?available.Width:Math.Max(0,available.Width-badgeWidth-Gap),double.PositiveInfinity));
         return new Size(_wrap?Math.Max(name.DesiredSize.Width,badgeWidth):name.DesiredSize.Width+Gap+badgeWidth,
             _wrap?name.DesiredSize.Height+3+badge.DesiredSize.Height:Math.Max(name.DesiredSize.Height,badge.DesiredSize.Height));
@@ -32,7 +35,7 @@ public sealed class SocialIdentityLine : Panel
         }
         else
         {
-            var nameWidth=Math.Max(0,size.Width-b.Width-Gap);
+            var nameWidth=Math.Min(name.DesiredSize.Width,Math.Max(0,size.Width-b.Width-Gap));
             name.Arrange(new Rect(0,(size.Height-name.DesiredSize.Height)/2,nameWidth,name.DesiredSize.Height));
             badge.Arrange(new Rect(nameWidth+Gap,(size.Height-b.Height)/2,Math.Min(size.Width,b.Width),b.Height));
         }

@@ -67,22 +67,35 @@ public partial class MainWindow
         catch { /* Durable receipts remain for the next authenticated reconnect. */ }
         finally{_offerPulseBusy=false;}
     }
-    private async void FriendsComposerMore_Click(object sender,RoutedEventArgs e)
+    private void FriendsComposerMore_Click(object sender,RoutedEventArgs e)
     {
-        if(_offerSending||_busy||_accountBusy||_socialPeer is null||_account.State!=AccountState.SignedIn)return;
-        CloseSocialMenu();
-        var menu=new ContextMenu { Style=(Style)FindResource("SocialContextMenu"),PlacementTarget=(Button)sender,Placement=PlacementMode.Top,HorizontalOffset=-180,VerticalOffset=-6 };
+        if (_chatPopup is not null) { _ = CloseChatPopupAsync(); return; }
+        if(_offerSending||_busy||_accountBusy||ConfirmationActive||AccountConnectionBlocked||_socialPeer is null||_account.State!=AccountState.SignedIn)return;
+        var owner = _account.UserId; var peer = _socialPeer;
+        var menu = new StackPanel();
         foreach(var config in new[]{true,false})
         {
-            var item=new MenuItem { Header=config?T("Предложить конфигурацию","Offer configuration"):T("Отправить сейв","Send save"),Style=(Style)FindResource("SocialMenuItem"),
-                Icon=new LauncherIcon{Kind=config?IconKind.Copy:IconKind.Save,Width=19,Height=19,Foreground=SocialBrush("#EDF0F5")} };
-            item.Click+=async (_,_)=>{CloseSocialMenu();await SendSocialOfferAsync(config);};menu.Items.Add(item);
+            var label = config?T("Предложить конфигурацию","Offer configuration"):T("Отправить сейв","Send save");
+            var content = new StackPanel { Orientation = Orientation.Horizontal };
+            content.Children.Add(new LauncherIcon { Kind = config?IconKind.Copy:IconKind.Save, Width=19, Height=19, Margin=new(0,0,10,0) });
+            content.Children.Add(new TextBlock { Text=label, VerticalAlignment=VerticalAlignment.Center });
+            var item = new Button { Content=content, Style=(Style)FindResource("GhostButton"), Padding=new(12,10,12,10),
+                HorizontalContentAlignment=HorizontalAlignment.Left, Margin=new(0,2,0,2) };
+            System.Windows.Automation.AutomationProperties.SetName(item, label);
+            item.Click+=async (_,_)=>
+            {
+                await CloseChatPopupAsync();
+                if (owner == _account.UserId && peer == _socialPeer && !AccountConnectionBlocked) await SendSocialOfferAsync(config);
+            };
+            menu.Children.Add(item);
         }
-        _socialMenu=menu;menu.IsOpen=true;await Task.CompletedTask;
+        var card = new Border { Child=menu, Padding=new(6), CornerRadius=new(10), Background=SocialBrush("#111F33"),
+            BorderBrush=SocialBrush("#526882"), BorderThickness=new(1), HorizontalAlignment=HorizontalAlignment.Left, VerticalAlignment=VerticalAlignment.Top };
+        ShowChatPopup(card, (Button)sender);
     }
     private async Task SendSocialOfferAsync(bool config)
     {
-        if(_offerSending||_busy||FeedBlocksActions||_accountBusy||ConfirmationActive||_socialPeer is not Guid peer||!Guid.TryParse(_account.UserId,out var owner)||!_socialPlayers.Any(p=>p.Id==peer&&p.Relation=="friend"))return;
+        if(_offerSending||_busy||FeedBlocksActions||_accountBusy||ConfirmationActive||AccountConnectionBlocked||_socialPeer is not Guid peer||!Guid.TryParse(_account.UserId,out var owner)||!_socialPlayers.Any(p=>p.Id==peer&&p.Relation=="friend"))return;
         _offerSending=true;RenderSocialIdentity();
         try
         {
@@ -90,9 +103,9 @@ public partial class MainWindow
             if(config)
             {
                 var state=_game is null?null:new ModuleInstaller(_game.Directory).LoadState();
-                if(state?.AppliedSettings is not UserSettings applied||!state.Modules.TryGetValue("pawpatch-core",out var core)||!core.Enabled)
-                    throw new FriendCopyException(()=>T("Сначала установите и примените конфигурацию патча.", "Install and apply the patch configuration first."));
-                code=ConfigurationCode.Create(applied);
+                if(state?.AppliedSettings is not UserSettings applied)
+                    throw new FriendCopyException(()=>T("Сначала примените выбранную конфигурацию игры.", "Apply the selected game configuration first."));
+                code=FriendConfiguration.Create(applied);
                 var friends=_friendSettingsReadOverride is not null?await _friendSettingsReadOverride():await _account.GetFriendsAsync(_accountLifetime.Token);
                 if(_account.UserId!=owner.ToString()||_socialPeer!=peer)return;
                 var recipient=friends.FirstOrDefault(p=>p.Id==peer&&p.Relation=="friend");
@@ -162,8 +175,8 @@ public partial class MainWindow
     {
         if(ConfirmationActive||_busy||FeedBlocksActions)return false;
         var known=FriendConfiguration.TryParse(recipient.Configuration,recipient.Channel,out var theirs);
-        var ours=ConfigurationCode.Parse(code);
-        var matches=known&&ConfigurationCode.Create(theirs)==ConfigurationCode.Create(ours);
+        var ours=FriendConfiguration.WithLocalLanguages(ConfigurationCode.Parse(code),theirs);
+        var matches=known&&FriendConfiguration.Matches(theirs,ours);
         var details=recipient.Name+" · @"+AccountService.NormalizeUsername(recipient.Nickname)+"\n\n";
         details+=!known?T("Нет данных о конфигурации друга. Попросите его открыть лаунчер с установленным патчем.",
             "Your friend's configuration is unavailable. Ask them to open the launcher with the patch installed.")
@@ -207,7 +220,7 @@ public partial class MainWindow
         header.Children.Add(new LauncherIcon{Kind=offer.Kind=="config"?IconKind.Copy:IconKind.Save,Width=22,Height=22,Margin=new Thickness(0,0,10,0),Foreground=SocialBrush("#E4C777")});
         var author=_socialPlayers.FirstOrDefault(p=>p.Id==offer.Sender);
         var authorName=new WrapPanel();authorName.Children.Add(new TextBlock{Text=author is null?_account.DisplayName:PlayerDisplayName(author),FontSize=12,Foreground=SocialBrush("#A8BBD2"),VerticalAlignment=VerticalAlignment.Center});
-        var level=offer.Sender.ToString()==_account.UserId?_account.AdminLevel:author?.AdminLevel??0;if(level>0&&author?.Deleted!=true)authorName.Children.Add(AdministratorBadge(level));header.Children.Add(authorName);
+        var level=offer.Sender.ToString()==_account.UserId?_account.AdminLevel:author?.AdminLevel??0;var team=offer.Sender.ToString()==_account.UserId?_account.PawsTeam:author?.PawsTeam==true;if(author?.Deleted!=true&&PlayerRoleBadge(level,team) is { } roleBadge)authorName.Children.Add(roleBadge);header.Children.Add(authorName);
         content.Children.Add(header);
         content.Children.Add(new TextBlock{Text=OfferStateText(offer),TextWrapping=TextWrapping.Wrap,FontWeight=FontWeights.SemiBold,Margin=new Thickness(0,10,0,0),
             Foreground=SocialBrush(offer.State=="accepted"?"#76DAB0":offer.State=="failed"?"#EF9E98":"#EDF0F5")});
@@ -235,11 +248,25 @@ public partial class MainWindow
     }
     private void RefreshOfferActions()
     {
+        var peer=_socialPlayers.FirstOrDefault(p=>p.Id==_socialPeer);
+        if(peer is not null && FriendsMessagesPanel.Children.OfType<Border>().Any())_ = RefreshPeerVersionsAsync(peer);
         foreach(var card in FriendsMessagesPanel.Children.OfType<Border>())
             if(card.Child is StackPanel panel)
                 foreach(var actions in panel.Children.OfType<WrapPanel>())
                     foreach(var button in actions.Children.OfType<Button>())
-                        button.IsEnabled=!_busy&&!ConfirmationActive&&!_account.Restricted&&SocialContactAvailable(_socialPlayers.FirstOrDefault(p=>p.Id==_socialPeer)) && (button.Tag is not string code || !IsGameRunning()&&!ConfigurationMatches(code));
+                    {
+                        var status=PeerVersionStatus.Current;
+                        if(button.Tag is string code)
+                            status=peer is not null && FriendConfiguration.TryParse(code,code.StartsWith("PAW-BETA-")?"beta":"stable",out var imported)
+                                ? FriendVersionStatus(peer with {Configuration=code,Channel=imported.Channel}):PeerVersionStatus.Unknown;
+                        button.IsEnabled=!_busy&&!ConfirmationActive&&!_account.Restricted&&SocialContactAvailable(peer)
+                            && (button.Tag is not string configuration || !IsGameRunning()&&!ConfigurationMatches(configuration)&&status==PeerVersionStatus.Current);
+                        if(button.Tag is string)
+                        {
+                            button.ToolTip=status==PeerVersionStatus.Current?null:FriendVersionWarning(status);
+                            ToolTipService.SetShowOnDisabled(button,true);
+                        }
+                    }
     }
     private async Task AcceptSocialOfferAsync(SocialOffer offer)
     {

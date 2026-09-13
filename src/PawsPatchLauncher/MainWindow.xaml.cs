@@ -29,7 +29,6 @@ public partial class MainWindow : Window
     private bool _patchUpdateAvailable;
     private bool _patchInstalled;
     private string _activePage = "home";
-    private string _changelogCategory = "launcher";
     private LauncherRelease? _pendingLauncherUpdate;
     private readonly LauncherUpdateState _launcherUpdates = new();
     private bool _launcherCheckFailed;
@@ -50,7 +49,7 @@ public partial class MainWindow : Window
         _configuration = configuration ?? SettingsStore.LoadConfiguration();
         _feedClient = feedClient ?? new FeedClient(_configuration);
         _settings = _settingsStore.Load();
-        if (!_settings.LargeMapSizes)
+        if (!_settings.LargeMapSizes && _settings.PawPatchEnabled && !GameMod.IsVanilla(_settings))
         {
             _settings.LargeMapSizes = true;
             _settings.PreparedFeedFingerprint = null;
@@ -67,6 +66,8 @@ public partial class MainWindow : Window
         InitializeDiagnosticsUi();
         InitializeConfirmation();
         InitializeAppearance();
+        InitializeLanguageChoices();
+        InitializeActionJournal();
         SyncPatchChannelControls();
         RussianToggle.IsChecked = _settings.RussianLocalization;
         ColorsToggle.IsChecked = _settings.CustomPlayerColors;
@@ -116,8 +117,20 @@ public partial class MainWindow : Window
             await RecoverAndCheckRunsAsync();
         }
         catch (Exception ex) { ShowError(ex); return; }
-        await CheckFeedAsync();
-        if (await InstallPendingLauncherUpdateAsync(showErrors: false)) return;
+        if (App.StartupUpdateCompleted)
+        {
+            _latestChannel = _feedClient.KnownChannel(_settings.Channel) ?? _feedClient.CachedGuideChannel(_settings.Channel, null);
+            _channel = _settings.PinnedRelease is null ? _latestChannel : _feedClient.CachedGuideChannel(_settings.Channel, _settings.PinnedRelease);
+            _offeredModChannel = _channel;
+            await AdoptLocalModsAsync(_channel);
+            RefreshNews(); RefreshModuleAvailability(); RefreshStatus();
+            _ = CheckFeedAsync(background: true);
+        }
+        else
+        {
+            await CheckFeedAsync();
+            if (await InstallPendingLauncherUpdateAsync(showErrors: false)) return;
+        }
         _updateTimer.Start();
         RefreshStatus();
         await LoadVersionChoicesAsync();
@@ -128,10 +141,16 @@ public partial class MainWindow : Window
         ApplyReliabilityLanguage();
         TitleText.Text = _text["app.title"];
         SubtitleText.Text = _text["app.subtitle"];
+        if (ActivityStore.LocalTestProfile is not null)
+        {
+            SubtitleText.Text = T("Тестовая сборка · локальные обновления", "Test build · local updates");
+            Title = "Paw's Launcher — Local test";
+        }
         HomeNav.Content = _text["nav.home"];
         ModulesNav.Content = _text["nav.modules"];
         SettingsNav.Content = _text["nav.settings"];
-        AboutNav.Content = _text["nav.about"];
+        AboutNav.Content = T("Справка", "Guide");
+        RefreshModNoticeLanguage();
         RefreshAboutPage();
         MinimizeWindowButton.ToolTip = T("Свернуть", "Minimize");
         CloseWindowButton.ToolTip = T("Закрыть", "Close");
@@ -160,8 +179,9 @@ public partial class MainWindow : Window
         ModulesTitleText.Text = _text["modules.title"];
         CoreTitleText.Text = _text["modules.core"];
         CoreDescriptionText.Text = _text["modules.core.desc"];
-        RussianTitleText.Text = _text["modules.ru"];
-        RussianDescriptionText.Text = _text["modules.ru.desc"];
+        RussianTitleText.Text = T("Локализация игры", "Game language");
+        RussianDescriptionText.Text = T("Общий язык для всех модов и оригинальной игры", "Shared language for all mods and the original game");
+        SyncLanguageChoices();
         ColorsTitleText.Text = _text["modules.colors"];
         ColorsDescriptionText.Text = _text["modules.colors.desc"];
         OosTitleText.Text = _text["modules.oos"];
@@ -189,8 +209,6 @@ public partial class MainWindow : Window
         DiagnosticsButton.Content = _text["button.diagnostics"];
         RenderDiagnosticsArchive();
         HelpCloseButton.Content = _text["help.close"];
-        PatchChangelogButton.Content = _text["news.tab.patch"];
-        LauncherChangelogButton.Content = _text["news.tab.launcher"];
         RefreshNews();
         UpdateButton.Content = _text["button.install"];
         LaunchButton.Content = _text["button.launch"];
@@ -220,13 +238,14 @@ public partial class MainWindow : Window
         if (!background) CancelBackgroundFeed();
         if (_checkingFeed || _busy || ConfirmationActive) return false;
         var requestedChannel = _settings.Channel;
+        var requestedMod = _settings.Mod;
         var requestedRelease = _settings.PinnedRelease;
         _checkingFeed = true;
         _backgroundFeedCheck = background;
         var version = ++_feedCheckVersion;
         if (!background) SetBusy(true, _text["progress.checking"]);
         var revision = _operationRevision;
-        bool IsCurrent() => requestedChannel == _settings.Channel && requestedRelease == _settings.PinnedRelease
+        bool IsCurrent() => requestedMod == _settings.Mod && requestedChannel == _settings.Channel && requestedRelease == _settings.PinnedRelease
             && version == _feedCheckVersion && revision == _operationRevision && (!background || !_busy && !ConfirmationActive);
         using var cancellation = new CancellationTokenSource(_feedTimeout);
         _feedCancellation = cancellation;
@@ -238,7 +257,9 @@ public partial class MainWindow : Window
             if (latest is null) throw new InvalidOperationException(_text["status.feedmissing"]);
             var selected = requestedRelease is null ? latest : _feedClient.LoadArchived(requestedRelease, requestedChannel);
             _latestChannel = latest;
+            _offeredModChannel = selected;
             _channel = selected;
+            await AdoptLocalModsAsync(selected);
             _feedFailure = null;
             if (_errorFromFeed) ClearFriendlyError();
             _lastChecked = DateTimeOffset.Now;
@@ -264,6 +285,9 @@ public partial class MainWindow : Window
         {
             ActivityStore.Log(ex);
             if (!IsCurrent()) return false;
+            _offeredModChannel ??= _feedClient.CachedGuideChannel(requestedChannel, requestedRelease);
+            _channel ??= _offeredModChannel;
+            await AdoptLocalModsAsync(_channel);
             _silentFeedFailure = background;
             SetFriendlyError(ex, fromFeed: true);
             var friendly = _presentedError!;
@@ -328,20 +352,16 @@ public partial class MainWindow : Window
         _settingsPending = false;
         try { state = _game is null ? null : new ModuleInstaller(_game.Directory).LoadState(); }
         catch (Exception ex) { _installationFailure = ex.Message; _incident = T("Не удалось прочитать состояние установки: ", "Cannot read the installation state: ") + ex.Message; }
-        RefreshAvailableUpdates(state);
-        if (_patchInstalled && _channel is not null && state is not null && _installationFailure is null)
-            try { _settingsPending = UpdateDetector.HasSettingsChanges(state, ResolveSelectedPackages(_channel), GetEffectiveSettings()); }
+        try { SelectLibraryChannel(); }
+        catch (Exception ex) { _installationFailure = ex.Message; }
+        if ((_channel is not null || GameMod.IsVanilla(_settings)) && state is not null && _installationFailure is null)
+            try { _settingsPending = UpdateDetector.HasSettingsChanges(state, _channel is null ? [] : ResolveSelectedPackages(_channel), GetEffectiveSettings()); }
             catch (FrequencyUnavailableException) { _settingsPending = true; }
-            catch (Exception ex) { _installationFailure = ex.Message; }
+            catch (Exception ex) { _settingsPending = true; _installationFailure = ex.Message; }
+        RefreshAvailableUpdates(state);
         GamePathText.Text = _game?.Directory ?? "-";
         GameVersionText.Text = _game is null ? "-" : $"{(_game.Branch == "beta" ? "Beta" : "Steam")} · build {_game.SteamBuild ?? "?"}";
-        var core = state?.Modules.GetValueOrDefault("pawpatch-core");
-        PatchVersionText.Text = core?.Enabled == true ? core.Version : "-";
-        InstalledPatchText.Text = core?.Enabled == true ? core.Version + " · " +
-            (state?.AppliedSettings?.Channel == "beta" ? T("Бета", "Beta") : T("Релиз", "Release")) : T("Не установлен", "Not installed");
-        PatchDownloadedText.Text = core?.Enabled == true ? core.DownloadedAt is DateTimeOffset downloaded
-            ? T("Скачана: ", "Downloaded: ") + downloaded.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")
-            : T("Дата загрузки неизвестна", "Download date unavailable") : "";
+        RefreshInstalledPatchVersions(state);
         ReadyStatusText.Text = FrequencyUnavailable ? T("Режим ×2 недоступен", "×2 unavailable in this release")
             : _installationFailure is not null || _fileCheckFailed
             ? T("Нужна проверка файлов", "File check required")
@@ -357,20 +377,30 @@ public partial class MainWindow : Window
                 : _channel is null || _lastChecked is null ? T("Обновления не проверены", "Updates not checked")
                 : string.Format(_text["patch.ready"], CurrentChannelName());
         var statusKind = _game is null || _installationFailure is not null || _fileCheckFailed ? "danger" : !_patchInstalled || _patchUpdateAvailable || _settingsPending || _feedFailure is not null || _channel is null || _lastChecked is null ? "update" : "ready";
+        if (!GameMod.IsArcaneWars(_settings) && _game is not null && _installationFailure is null && !_fileCheckFailed)
+        {
+            ReadyStatusText.Text = !_patchInstalled ? T("Мод не установлен", "Mod not installed") : _settingsPending ? T("Настройки не применены", "Settings not applied")
+                : _patchUpdateAvailable ? T("Доступно обновление мода", "Mod update available") : GameMod.Name(_settings.Mod, _text.Language == "ru") + T(" · Готово к запуску", " · Ready to play");
+            statusKind = !_patchInstalled || _settingsPending || _patchUpdateAvailable ? "update" : "ready";
+        }
+        else if (!_settings.PawPatchEnabled && statusKind == "ready")
+            ReadyStatusText.Text = T("Arcane Wars готов к игре", "Arcane Wars ready to play");
         ReadyStatusText.Foreground = (Brush)FindResource(statusKind == "danger" ? "DangerBrush" : statusKind == "update" ? "GoldBrightBrush" : "SuccessBrush");
         ReadyStatusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#3B2226" : statusKind == "update" ? "#40351E" : "#193926"));
         ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
-        UpdateButton.IsEnabled = !_busy && !FeedBlocksActions && _game is not null && _channel is not null && _patchUpdateAvailable;
+        var gameRunning = IsGameRunning();
+        UpdateButton.IsEnabled = !_busy && !FeedBlocksActions && !ArcaneAccessBlocked && !gameRunning && _game is not null && (_offeredModChannel ?? _channel) is not null && (!_patchInstalled || _patchUpdateAvailable);
         SettingsRepairButton.IsEnabled = !_busy && _game is not null && state?.Modules.Count > 0;
         RemovePatchButton.IsEnabled = !_busy && !FeedBlocksActions && _game is not null && state?.Modules.Count > 0;
         RemoveLauncherButton.IsEnabled = !_busy && !FeedBlocksActions;
         RefreshGameFolderButton();
-        RefreshGameLaunchState();
-        ApplySettingsButton.IsEnabled = !_busy && !FeedBlocksActions && !FrequencyUnavailable && _game is not null && _channel is not null && (_settingsPending || !_patchInstalled);
-        ApplySettingsButton.ToolTip = FrequencyUnavailable ? FrequencyUnavailableText : _settingsPending || !_patchInstalled
+        ApplyGameLaunchState(gameRunning);
+        ApplySettingsButton.IsEnabled = !_busy && !FeedBlocksActions && !ArcaneAccessBlocked && !gameRunning && !FrequencyUnavailable && _installationFailure is null && _game is not null && _patchInstalled && (_channel is not null || GameMod.IsVanilla(_settings)) && _settingsPending;
+        ApplySettingsButton.ToolTip = _installationFailure ?? (FrequencyUnavailable ? FrequencyUnavailableText : _settingsPending || !_patchInstalled
             ? T("Применить выбранные компоненты без запуска игры.", "Apply selected components without starting the game.")
-            : T("Выбранные настройки уже применены.", "Selected settings are already applied.");
+            : T("Выбранные настройки уже применены.", "Selected settings are already applied."));
         RefreshApplySettingsVisibility();
+        RefreshModControls();
         ColorsToggle.IsEnabled = !_busy && _colorsAvailable;
         IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
         StandardSpawnRadio.IsEnabled = !_busy;
@@ -389,6 +419,7 @@ public partial class MainWindow : Window
         RefreshConfigurationCode();
         RefreshReliabilityStatus();
         RefreshOperationStatus();
+        RefreshCompatibilityControls();
     }
 
     private void RefreshAvailableUpdates(InstallState? state)
@@ -401,26 +432,25 @@ public partial class MainWindow : Window
         if (_pendingLauncherUpdate is not null)
             LauncherUpdateButton.Content = string.Format(_text["button.launcherupdate"], _pendingLauncherUpdate.Version);
 
-        _patchInstalled = state is not null
-            && state.Modules.ContainsKey("arcane-wars")
-            && state.Modules.ContainsKey("pawpatch-core");
+        _patchInstalled = state is not null && _selectedModStored;
         _patchUpdateAvailable = false;
-        if (_game is not null && _channel is not null && state is not null)
+        if (!ArcaneAccessBlocked && _patchInstalled && _channel is not null && _offeredModChannel is not null && state is not null && ModLibrary.IsActive(state, _settings))
         {
-            try { _patchUpdateAvailable = !_patchInstalled || UpdateDetector.HasRemoteUpdate(state, ResolveSelectedPackages(_channel), _feedClient.IsPackageCached); }
+            try { _patchUpdateAvailable = ModLibrary.HasUpdate(_channel, _offeredModChannel, _settings.Mod)
+                || state.AppliedSettings is { } applied && GameLanguages.HasUpdate(_channel, _offeredModChannel, applied); }
             catch (FrequencyUnavailableException) { }
             catch (Exception ex) { _installationFailure = ex.Message; }
         }
 
-        UpdateNoticeTitleText.Text = _patchInstalled
-            ? string.Format(_text["update.patch.title"], CurrentChannelName())
-            : _text["install.patch.title"];
-        UpdateNoticeBodyText.Text = _patchInstalled ? _text["update.patch.body"] : _text["install.patch.body"];
-        UpdateNoticeBorder.Visibility = _activePage == "home" && _patchUpdateAvailable ? Visibility.Visible : Visibility.Collapsed;
+        var modName = GameMod.Name(_settings.Mod, _text.Language == "ru");
+        UpdateNoticeTitleText.Text = _patchInstalled ? T("Доступно обновление: ", "Update available: ") + modName : T("Установите ", "Install ") + modName;
+        UpdateNoticeBodyText.Text = _patchInstalled ? T("Обновление относится к активному моду и его компонентам.", "This update belongs to the active mod and its components.")
+            : T("Мод и его компоненты сохранятся на компьютере. Скачаются только выбранные текст и озвучка; затем их можно применять без интернета.", "The mod and its components will be stored on this computer. Only the selected text and speech will be downloaded, then reused offline.");
+        UpdateNoticeBorder.Visibility = _activePage == "home" && !ArcaneAccessBlocked && (_patchUpdateAvailable || !_patchInstalled && _game is not null) ? Visibility.Visible : Visibility.Collapsed;
         UpdateButton.Content = !_patchInstalled
             ? _text["button.install"]
             : _patchUpdateAvailable
-                ? string.Format(_text["button.patchupdate"], CurrentChannelName())
+                ? T("Обновить ", "Update ") + modName
                 : _text["button.installed"];
     }
 
@@ -432,118 +462,6 @@ public partial class MainWindow : Window
     private string CurrentChannelName()
         => ChannelPresentation.Name(_settings.Channel, _text.Language);
 
-    private void RefreshNews()
-    {
-        if (NewsEntriesPanel is null) return;
-        NewsTitleText.Text = _text["news.title"];
-
-        RefreshChangelogTabState();
-        var history = ChangelogManifest(_changelogCategory);
-        var entries = (history?.Changelog ?? [])
-            .Where(entry => string.Equals(entry.Category, _changelogCategory == "beta" ? "patch" : _changelogCategory, StringComparison.OrdinalIgnoreCase))
-            .ToList();
-        if (entries.Count == 0 && history is not null
-            && _changelogCategory != "launcher"
-            && (!string.IsNullOrWhiteSpace(history.NewsTitle.Get(_text.Language))
-                || !string.IsNullOrWhiteSpace(history.NewsBody.Get(_text.Language))))
-        {
-            entries =
-            [
-                new ChangelogEntry
-                {
-                    PublishedAt = history.PublishedAt,
-                    Title = history.NewsTitle,
-                    Body = history.NewsBody
-                }
-            ];
-        }
-
-        var identity = System.Text.Json.JsonSerializer.Serialize(new { _text.Language, Category = _changelogCategory, Entries = entries });
-        if (identity == _renderedNewsIdentity) { MarkVisibleChangelogRead(); return; }
-        _renderedNewsIdentity = identity;
-        CancelChangelogTransition();
-        NewsEntriesPanel.Children.Clear();
-        if (entries.Count == 0)
-        {
-            NewsEntriesPanel.Children.Add(new TextBlock
-            {
-                Text = _text["news.empty"],
-                Style = (Style)FindResource("CardDescription")
-            });
-            return;
-        }
-
-        for (var index = 0; index < entries.Count; index++)
-        {
-            var entry = entries[index];
-            var item = new StackPanel();
-            var title = ChannelPresentation.ChangelogText(entry.Title.Get(_text.Language), _text.Language);
-            if (!string.IsNullOrWhiteSpace(title))
-            {
-                item.Children.Add(new TextBlock
-                {
-                    Text = title,
-                    FontFamily = new FontFamily("Arial"),
-                    Style = (Style)FindResource("CardSubtitle"),
-                    Margin = new Thickness(0)
-                });
-            }
-
-            var metadata = FormatChangelogMetadata(entry);
-            if (!string.IsNullOrWhiteSpace(metadata))
-            {
-                item.Children.Add(new TextBlock
-                {
-                    Text = metadata,
-                    Style = (Style)FindResource("SmallMetadataText"),
-                    Margin = new Thickness(0, 4, 0, 0)
-                });
-            }
-
-            item.Children.Add(new TextBlock
-            {
-                Text = ChannelPresentation.ChangelogText(entry.Body.Get(_text.Language), _text.Language),
-                Style = (Style)FindResource("CardDescription"),
-                Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CDD5E1")),
-                Margin = new Thickness(0, 7, 0, 0)
-            });
-            NewsEntriesPanel.Children.Add(item);
-
-            if (index < entries.Count - 1)
-            {
-                NewsEntriesPanel.Children.Add(new Separator
-                {
-                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#40536E")),
-                    Margin = new Thickness(0, 14, 0, 14)
-                });
-            }
-        }
-        MarkVisibleChangelogRead();
-    }
-
-    private string FormatChangelogMetadata(ChangelogEntry entry)
-    {
-        var parts = new List<string>();
-        if (!string.IsNullOrWhiteSpace(entry.Version)) parts.Add(entry.Version);
-        if (DateTimeOffset.TryParse(entry.PublishedAt, out var published))
-            parts.Add(_text.Language == "ru" ? published.ToString("dd.MM.yyyy") : published.ToString("yyyy-MM-dd"));
-        return string.Join(" · ", parts);
-    }
-
-    private async void ChangelogTab_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is not Button { Tag: string category }) return;
-        await SwitchChangelogAsync(category);
-    }
-
-    private void RefreshChangelogTabState()
-    {
-        SetChangelogTabState(PatchChangelogButton, _changelogCategory == "patch");
-        SetChangelogTabState(LauncherChangelogButton, _changelogCategory == "launcher");
-        SetChangelogTabState(BetaChangelogButton, _changelogCategory == "beta");
-        RefreshUnreadBadges();
-    }
-
     private static void SetChangelogTabState(Button button, bool active)
     {
         button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(active ? "#5B451D" : "#1B304D"));
@@ -553,11 +471,13 @@ public partial class MainWindow : Window
 
     private async void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_game is null || _channel is null || _busy) return;
+        var target = _offeredModChannel ?? _channel;
+        if (_game is null || target is null || _busy || ArcaneAccessBlocked) return;
         try
         {
             SetBusy(true, _text["progress.downloading"]);
-            await ApplySelectedConfigurationAsync(_channel, prepareWholeChannel: true);
+            await ApplySelectedConfigurationAsync(target, prepareWholeChannel: true);
+            _channel = target;
             ShowResult(() => T("Установка завершена.", "Installation complete."));
         }
         catch (Exception ex) { ShowError(ex); }
@@ -567,39 +487,45 @@ public partial class MainWindow : Window
     private async Task ApplySelectedConfigurationAsync(ChannelManifest channel, bool prepareWholeChannel = false)
         => await ApplyConfigurationSnapshotAsync(channel, prepareWholeChannel, _settings);
 
-    private async Task ApplyConfigurationSnapshotAsync(ChannelManifest channel, bool prepareWholeChannel, UserSettings selection, Func<Task>? beforeCommit = null)
+    private async Task ApplyConfigurationSnapshotAsync(ChannelManifest channel, bool prepareWholeChannel, UserSettings selection, Func<Task>? beforeCommit = null, bool requireExactConfiguration = false)
     {
+        EnsureModAccess(selection.Mod);
         if (_game is null) throw new InvalidOperationException(_text["status.notfound"]);
         EnsureGameClosed();
-        if (selection.RoamingSpawnMode == "x2" && !SupportsX2(channel))
+        if (GameMod.IsArcaneWars(selection) && selection.RoamingSpawnMode == "x2" && !SupportsX2(channel))
             throw new FrequencyUnavailableException(FrequencyUnavailableText);
-        await EnsureSupportedGameAsync(channel);
-
+        var baseHash = await EnsureSupportedGameAsync(channel);
         var activeSettings = EffectiveSettings.ForFeed(selection, channel);
+        var requirement = GameMod.Requirement(channel, selection.Mod);
+        activeSettings.DataOnly = GameMod.UsesExecutableFeatures(activeSettings, channel) && requirement.K2ExeSha256.Count > 0 && !GameCompatibilityPolicy.Supports(requirement, baseHash);
+        activeSettings = EffectiveSettings.ForFeed(activeSettings, channel);
+        if (requireExactConfiguration && !FriendConfiguration.Matches(activeSettings, selection))
+            throw new FriendCopyException(() => T("Версия игры не позволяет применить конфигурацию игрока полностью. Ваши настройки не изменены.", "The game version cannot apply the player's full configuration. Your settings were not changed."));
         var selected = GamePackageSelector.Select(channel, activeSettings, activeSettings.RussianLocalization, activeSettings.CustomPlayerColors);
-        Dictionary<string, string>? downloaded = null;
-        if (prepareWholeChannel)
-        {
-            TransferText.Text = T("Всего к загрузке: ", "Total download: ") + FormatBytes(channel.Packages.Where(p => !_feedClient.IsPackageCached(p)).Sum(p => p.Size));
-            TransferText.Visibility = Visibility.Visible;
-            downloaded = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var package in channel.Packages.OrderBy(package => package.Priority))
-                downloaded[package.Id] = await DownloadPackageAsync(package);
-        }
+        var prepared = prepareWholeChannel ? await InstallModLibraryAsync(channel, selection.Mod) : null;
         var modules = new Dictionary<string, InstalledModule>(StringComparer.OrdinalIgnoreCase);
         var installer = new ModuleInstaller(_game.Directory);
         foreach (var package in selected.OrderBy(x => x.Priority))
         {
-            var archive = downloaded is not null && downloaded.TryGetValue(package.Id, out var cached)
-                ? cached
-                : await DownloadPackageAsync(package);
-            modules[package.Id] = await installer.PrepareAsync(package, archive);
+            modules[package.Id] = prepared is not null && prepared.TryGetValue(package.Id, out var stored)
+                ? stored : await PrepareStoredComponentAsync(installer, package);
         }
         SetOperationIndeterminate(true);
-        ShowWorking(() => _text["progress.installing"]);
+        ShowWorking(() => prepareWholeChannel ? _text["progress.installing"]
+            : T("Применяю выбранный мод и компоненты…", "Applying the selected mod and components…"));
+        EnsureModAccess(selection.Mod);
         if (beforeCommit is not null) await beforeCommit();
+        EnsureModAccess(selection.Mod);
         EnsureGameClosed();
-        await installer.ReconcileAsync(modules, settings: activeSettings, releaseId: ChannelFingerprint.Create(channel));
+        if (!baseHash.Equals(await CryptoAndIO.Sha256Async(_game.ExecutablePath), StringComparison.OrdinalIgnoreCase))
+            throw new IOException(T("Игра обновилась во время подготовки. Примените настройки ещё раз.", "The game changed during preparation. Apply settings again."));
+        await installer.ReconcileAsync(modules, settings: activeSettings, releaseId: ChannelFingerprint.Create(channel),
+            gameRequirement: requirement, baseGameSha256: baseHash);
+        ActionJournal.Record("configuration.applied", ConfigurationCode.Create(activeSettings));
+        await new ModLibrary(_game.Directory).RememberLanguagesAsync(selected);
+        if (ModLibrary.Packages(channel, selection.Mod).All(p => LocallyAvailable(installer, p)))
+            await new ModLibrary(_game.Directory).RememberAsync(channel, selection.Mod);
+        _compatibilityKey = "";
         InvalidateReadiness();
         _fileCheckFailed = false;
         if (prepareWholeChannel)
@@ -627,13 +553,13 @@ public partial class MainWindow : Window
         }
     }
 
-    private UserSettings GetEffectiveSettings() => EffectiveSettings.ForFeed(_settings, _channel);
+    private UserSettings GetEffectiveSettings() => EffectiveSettingsForGame(_settings, _channel);
     private string EffectiveConfigurationCode => ConfigurationCode.Create(GetEffectiveSettings());
 
     private List<PackageRelease> ResolveSelectedPackages(ChannelManifest channel)
     {
         EnsureFrequencyAvailable(channel);
-        var active = EffectiveSettings.ForFeed(_settings, channel);
+        var active = EffectiveSettingsForGame(_settings, channel);
         return GamePackageSelector.Select(channel, active, active.RussianLocalization, active.CustomPlayerColors);
     }
 
@@ -655,24 +581,48 @@ public partial class MainWindow : Window
 
     private async Task LaunchGameAsync()
     {
-        if (_game is null || _busy || _launchStarting) return;
+        if (_game is null || _busy || _launchStarting || ArcaneAccessBlocked) return;
+        if (_settingsPending || !_patchInstalled)
+        {
+            ShowToast(() => T("Сначала установите мод или примените выбранные настройки.", "Install the mod or apply the selected settings first."));
+            return;
+        }
         _launchStarting=true;
         try
         {
             EnsureGameClosed();
+            if (GameMod.IsVanilla(_settings) && !GameMod.UsesExecutableFeatures(_settings, _channel))
+            {
+                SetBusy(true, T("Проверяю файлы игры…", "Checking game files…"));
+                var vanilla = Path.Combine(_game.Directory, "k2.exe");
+                var vanillaInstaller = new ModuleInstaller(_game.Directory);
+                var check = (await MultiplayerCheck.CriticalAsync(_game.Directory, vanillaInstaller.LoadState(), vanilla, new GameRequirement()))
+                    .Concat(await vanillaInstaller.VerifyAsync()).ToList();
+                if (check.Count != 0) throw new IOException(string.Join("; ", check));
+                EnsureGameClosed();
+                var original = Process.Start(new ProcessStartInfo(vanilla) { WorkingDirectory = _game.Directory, UseShellExecute = true })
+                    ?? throw new IOException("Cannot start Kohan II.");
+                BeginGameObservation(original, new ModuleInstaller(_game.Directory).LoadState());
+                ShowResult(() => T("Игра запущена.", "Game launched."));
+                return;
+            }
             if (_channel is null && !await CheckFeedAsync()) return;
             var channel = _channel ?? throw new InvalidOperationException(_text["status.feedmissing"]);
-            if(!await CheckGameCompatibilityAsync(true))return;
+            if (CompatibilityRelevant && !await CheckGameCompatibilityAsync(true) && !DataOnlyMode) return;
             var installer = new ModuleInstaller(_game.Directory);
             var state = installer.LoadState();
             var executable = ResolveLaunchExecutable(_game.Directory);
-            var prepareWholeChannel = NeedsChannelPreparation(channel, state);
             var needsApply = UpdateDetector.HasSettingsChanges(state, ResolveSelectedPackages(channel), GetEffectiveSettings()) || !File.Exists(executable);
+            if (CompatibilityRelevant && (_installedRuntimeMismatch || DataOnlyMode && needsApply))
+            {
+                ShowResult(() => T("Перед игрой примените настройки или установите совместимый патч.", "Apply settings or install a compatible patch before playing."), failure: true);
+                ShowCompatibilityPopup();
+                return;
+            }
             if (needsApply)
             {
-                SetBusy(true, _text["progress.beforelaunch"]);
-                await ApplySelectedConfigurationAsync(channel, prepareWholeChannel);
-                executable = ResolveLaunchExecutable(_game.Directory);
+                ShowResult(() => T("Перед запуском примените выбранные настройки.", "Apply the selected settings before launching."));
+                return;
             }
             if (!File.Exists(executable))
                 throw new FileNotFoundException(_text.Language == "ru"
@@ -680,10 +630,15 @@ public partial class MainWindow : Window
                     : "The executable for the selected feature set was not found.", executable);
 
             SetBusy(true, T("Проверяю критические файлы…", "Checking critical files…"));
-            var critical = await MultiplayerCheck.CriticalAsync(_game.Directory, installer.LoadState(), executable, channel.Game);
+            var critical = await MultiplayerCheck.CriticalAsync(_game.Directory, installer.LoadState(), executable, !CompatibilityRelevant || DataOnlyMode ? new GameRequirement() : GameMod.Requirement(channel, _settings.Mod));
+            if (!GameMod.IsArcaneWars(_settings) || !_settings.PawPatchEnabled || DataOnlyMode)
+                critical = critical.Concat(await installer.VerifyAsync()).ToList();
             _fileCheckFailed = critical.Count > 0;
             if (_fileCheckFailed) throw new IOException(T("Запуск остановлен: ", "Launch stopped: ") + string.Join("; ", critical.Take(5)));
+            if (!DataOnlyMode && GameExecutableSelector.HasMenuRuntime(channel) && Path.GetFileName(executable) != "k2.exe")
+                await GameMenuMetadata.WriteAsync(_game.Directory, channel, GetEffectiveSettings());
             EnsureGameClosed();
+            EnsureModAccess(_settings.Mod);
             var process = Process.Start(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true })
                 ?? throw new IOException("Cannot start Kohan II.");
             BeginGameObservation(process, installer.LoadState());
@@ -696,49 +651,56 @@ public partial class MainWindow : Window
     private Func<bool> _gameRunningProbe = DetectGameRunning;
     private bool IsGameRunning() => _gameRunningProbe();
 
-    private static bool DetectGameRunning()
-    {
-        var processNames = new[]
+    private static readonly HashSet<string> GameProcessNames = new(StringComparer.OrdinalIgnoreCase)
         {
             "k2",
             "k2_paws_family_herd_relations_1372",
             "k2_paws_sync_family_herd_relations_1372",
             "k2_paws_sync_continue_1372",
             "k2_paws_ui_1372",
+            "k2_paws_pure_fixes_1372",
+            "k2_paws_menu_1372",
             "k2_paws_lobby_colors_mp_1372_experimental",
             "k2_paws_lobby_colors_mp_sync_1372",
             "k2_paws_lobby_colors_mp_nohostility_1372",
-            "k2_paws_lobby_colors_mp_nohostility_sync_1372"
+            "k2_paws_lobby_colors_mp_nohostility_sync_1372",
+            "k2_aw_family_herd_relations_1372",
+            "k2_aw_sync_family_herd_relations_1372",
+            "k2_aw_sync_continue_1372",
+            "k2_aw_lobby_colors_mp_1372_experimental",
+            "k2_aw_lobby_colors_mp_sync_1372",
+            "k2_aw_lobby_colors_mp_nohostility_1372",
+            "k2_aw_lobby_colors_mp_nohostility_sync_1372"
         };
-        foreach (var name in processNames)
+
+    private static bool DetectGameRunning()
+    {
+        // GetProcessesByName enumerates all processes for every name. Inspect one
+        // fresh snapshot instead; action-time checks still never use cached results.
+        var processes = Process.GetProcesses();
+        try
         {
-            var processes = Process.GetProcessesByName(name);
-            try { if (processes.Length > 0) return true; }
-            finally { foreach (var process in processes) process.Dispose(); }
+            foreach (var process in processes)
+                try { if (GameProcessNames.Contains(process.ProcessName)) return true; }
+                catch (InvalidOperationException) { } // Process exited after enumeration.
+                catch (System.ComponentModel.Win32Exception) { } // Inaccessible process.
+            return false;
         }
-        return false;
+        finally { foreach (var process in processes) process.Dispose(); }
     }
 
     private string ResolveLaunchExecutable(string root)
     {
-        var name = GameExecutableSelector.Select(
-            _configuration,
-            GetEffectiveSettings().CustomPlayerColors,
-            _settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase),
-            _settings.IndependentHostility,
-            GameExecutableSelector.HasCommonUi(_channel),
-            GameExecutableSelector.SupportsIndependentColors(_channel));
+        var name = GameExecutableSelector.Select(_configuration, GetEffectiveSettings(), _channel);
         return Path.Combine(root, name);
     }
 
-    private async Task EnsureSupportedGameAsync(ChannelManifest channel)
+    private async Task<string> EnsureSupportedGameAsync(ChannelManifest channel)
     {
         if (_game is null) throw new InvalidOperationException(_text["status.notfound"]);
-        var hash = await CryptoAndIO.Sha256Async(_game.ExecutablePath);
-        if (channel.Game.K2ExeSha256.Count > 0 && !channel.Game.K2ExeSha256.Contains(hash, StringComparer.OrdinalIgnoreCase))
-            throw new InvalidOperationException(_text.Language == "ru"
-                ? $"Версия k2.exe не поддерживается. Нужна Steam Beta {channel.Game.Version}, build {channel.Game.SteamBuild}."
-                : $"This k2.exe version is unsupported. Steam Beta {channel.Game.Version}, build {channel.Game.SteamBuild} is required.");
+        // Package selection masks executable features when this hash is unsupported.
+        // Recheck immediately before the transaction to detect a concurrent Steam update.
+        return await CryptoAndIO.Sha256Async(_game.ExecutablePath);
     }
 
     private async void LauncherUpdateButton_Click(object sender, RoutedEventArgs e)
@@ -753,10 +715,9 @@ public partial class MainWindow : Window
         try
         {
             SetBusy(true, _text.Language == "ru" ? $"Обновляю лаунчер до {release.Version}…" : $"Updating launcher to {release.Version}…");
-            var progress = TransferProgress("Paw's Patch Launcher " + release.Version);
-            var executable = await _feedClient.DownloadLauncherAsync(release, progress);
-            FinishTransfer();
-            SelfUpdater.ScheduleReplacement(executable, release.Sha256);
+            _settingsStore.Save(_settings);
+            _windowPlacement?.SaveOnAcceptedClose();
+            await SelfUpdater.RestartThroughStartupAsync();
             _busy = false;
             Application.Current.Shutdown();
             return true;
@@ -787,6 +748,7 @@ public partial class MainWindow : Window
         }
         _game = found;
         _settings.GamePath = found.Directory;
+        _offeredModChannel ??= _latestChannel;
         ResetFeedbackContext();
         _settingsStore.Save(_settings);
         RefreshStatus();
@@ -824,7 +786,7 @@ public partial class MainWindow : Window
     {
         if (_initializing) return;
         var appearance = CaptureAppearance();
-        _settings.IndependentHostility = IndependentHostilityToggle.IsChecked == true;
+        if (!DataOnlyMode) _settings.IndependentHostility = IndependentHostilityToggle.IsChecked == true;
         _settings.AdditionalRoamingCompanies = AdditionalRoamingToggle.IsChecked == true;
         _settings.SiegeBalance = SiegeBalanceToggle.IsChecked == true;
         _settings.DisablePowersAndShards = PowersShardsToggle.IsChecked == true;
@@ -898,10 +860,12 @@ public partial class MainWindow : Window
     {
         if (_busy || FeedBlocksActions || ConfirmationActive || _initializing) { SyncPatchChannelControls(); return; }
         if (_settings.Channel.Equals(beta ? "beta" : "stable", StringComparison.OrdinalIgnoreCase)) { SyncPatchChannelControls(); return; }
+        if (beta && !SelectedModHasBeta) { SyncPatchChannelControls(); return; }
         var appearance = CaptureAppearance();
         _settings.PinnedRelease = null;
         _latestChannel = null;
-        _settings.Channel = beta ? "beta" : "stable";
+        _offeredModChannel = null;
+        ModChannelSelection.SelectChannel(_settings, beta ? "beta" : "stable");
         ResetFeedbackContext();
         SyncPatchChannelControls();
         _settingsStore.Save(_settings);
@@ -912,6 +876,12 @@ public partial class MainWindow : Window
         await CheckFeedAsync();
         await LoadVersionChoicesAsync();
         RefreshStatus();
+        if (beta && !_settings.BetaNoticesSeen.Contains(_settings.Mod))
+        {
+            ShowBetaDetails();
+            _settings.BetaNoticesSeen.Add(_settings.Mod);
+            _settingsStore.Save(_settings);
+        }
     }
 
     private async void CheckUpdatesButton_Click(object sender, RoutedEventArgs e)
@@ -987,6 +957,7 @@ public partial class MainWindow : Window
 
     private void RefreshConfigurationCode()
     {
+        if (!_initializing) LogSelectionSnapshot();
         InvalidateReadinessIfChanged();
         var context = EffectiveConfigurationCode + "|" + _settings.GamePath + "|" + _settings.PinnedRelease;
         if (_feedbackContext is not null && context != _feedbackContext && !_feedback.Working)
@@ -1031,19 +1002,36 @@ public partial class MainWindow : Window
         finally { SetBusy(false); RefreshStatus(); }
     }
 
+    private IInputElement? _helpPreviousFocus;
     private void HelpButton_Click(object sender, RoutedEventArgs e)
     {
         _socialDetailsPeer=null;
         if (sender is not Button { Tag: string key }) return;
+        _helpPreviousFocus = Keyboard.FocusedElement ?? FocusManager.GetFocusedElement(this);
         HelpTitleText.Text = _text[$"{key}.title"] == $"{key}.title" ? _text[key] : _text[$"{key}.title"];
-        HelpBodyText.Text = _text[$"{key}.help"];
+        HelpBodyText.Text = key == "modules.core" ? CoreHelpText() : _text[$"{key}.help"];
         RenderArcaneWarsCredit(key);
         HelpOverlay.Visibility = Visibility.Visible;
         HelpOverlay.UpdateLayout();
         Motion.Reveal(HelpOverlay);
+        RevealDialogCard(HelpCard);
+        HelpCloseButton.Focus();
     }
 
-    private void HelpCloseButton_Click(object sender, RoutedEventArgs e) => Motion.Hide(HelpOverlay);
+    private async void HelpCloseButton_Click(object sender, RoutedEventArgs e) => await CloseHelpAsync();
+    private async Task CloseHelpAsync()
+    {
+        var previous = _helpPreviousFocus;
+        _helpPreviousFocus = null;
+        if (await Motion.HideAsync(HelpOverlay) && !ConfirmationActive && ModNoticeOverlay.Visibility != Visibility.Visible)
+            (previous as UIElement)?.Focus();
+    }
+    private async void HelpOverlay_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Escape || ConfirmationActive) return;
+        e.Handled = true;
+        await CloseHelpAsync();
+    }
 
     private void ApplyHelpTooltips(DependencyObject parent)
     {
@@ -1052,7 +1040,7 @@ public partial class MainWindow : Window
             var child = VisualTreeHelper.GetChild(parent, index);
             if (child is Button { Tag: string key } button
                 && (key.StartsWith("modules.", StringComparison.Ordinal) || key is "configuration" or "diagnostics"))
-                button.ToolTip = _text[$"{key}.help"] + (key == "modules.core"
+                button.ToolTip = (key == "modules.core" ? CoreHelpText() : _text[$"{key}.help"]) + (key == "modules.core"
                     ? "\n\n" + ArcaneWarsAuthorText + "\n" + ArcaneWarsDiscordInvite : "");
             ApplyHelpTooltips(child);
         }
@@ -1060,6 +1048,7 @@ public partial class MainWindow : Window
 
     private void SetBusy(bool busy, string? message = null)
     {
+        if (_busy != busy) ActionJournal.Record(busy ? "operation.begin" : "operation.end");
         if (busy) CancelBackgroundFeed();
         if (busy && !_busy) _operationRevision++;
         _busy = busy;
@@ -1082,6 +1071,7 @@ public partial class MainWindow : Window
 
     private void ShowError(Exception exception)
     {
+        ActionJournal.Record("operation.error", exception.GetType().Name);
         if (exception is GameAlreadyRunningException)
         {
             ShowResult(() => T("Kohan II уже запущен. Закройте игру перед применением настроек, обновлением или новым запуском.",
@@ -1115,25 +1105,29 @@ public partial class MainWindow : Window
 
     private void SetActivePage(string page)
     {
+        if (_activePage != page) ActionJournal.Record("navigation", page);
         if(page=="admin"&&_account.AdminLevel<1)page="home";
         AdminPanel.Visibility=page=="admin"?Visibility.Visible:Visibility.Collapsed;
+        MainOptionsHost.Visibility=page=="admin"?Visibility.Collapsed:Visibility.Visible;
         MainOptionsScroll.Visibility=page=="admin"?Visibility.Collapsed:Visibility.Visible;
         SetNavState(AdminNav,page=="admin");
         if (page == "multiplayer") page = "friends";
         CloseSocialMenu();
         var changed = _activePage != page;
+        if (changed && _activePage == "friends") _chatUnreadDivider.End();
         _activePage = page;
         var home = page == "home";
         var modules = page == "modules";
         RefreshActionLayout();
         var settings = page == "settings";
         AboutPatchPanel.Visibility = page == "about" ? Visibility.Visible : Visibility.Collapsed;
+        AboutModsPanel.Visibility = page == "mods" ? Visibility.Visible : Visibility.Collapsed;
         FriendsPanel.Visibility = page == "friends" ? Visibility.Visible : Visibility.Collapsed;
         FriendsConversationScroll.Visibility = page == "friends" ? Visibility.Visible : Visibility.Collapsed;
         ChangelogCard.Visibility = home ? Visibility.Visible : Visibility.Collapsed;
         if (!home) CancelChangelogTransition();
         var split = home || page == "friends";
-        Grid.SetColumnSpan(MainOptionsScroll, split ? 1 : 3);
+        Grid.SetColumnSpan(MainOptionsHost, split ? 1 : 3);
         OptionsGapColumn.Width = new GridLength(split ? 20 : 0);
         OptionsColumn.Width = new GridLength(page == "friends" ? .8 : 1.6, GridUnitType.Star);
         NewsColumn.Width = split ? new GridLength(page == "friends" ? 1.5 : 1, GridUnitType.Star) : new GridLength(0);
@@ -1144,11 +1138,12 @@ public partial class MainWindow : Window
         else if (changed) RefreshAboutPage();
 
         HomeWelcomeCard.Visibility = home ? Visibility.Visible : Visibility.Collapsed;
-        UpdateNoticeBorder.Visibility = home && _patchUpdateAvailable ? Visibility.Visible : Visibility.Collapsed;
+        UpdateNoticeBorder.Visibility = home && !ArcaneAccessBlocked && (_patchUpdateAvailable || !_patchInstalled && _game is not null) ? Visibility.Visible : Visibility.Collapsed;
         GameInfoCard.Visibility = home || settings ? Visibility.Visible : Visibility.Collapsed;
         SettingsPanel.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
         PatchUpdatesCard.Visibility = RecoveryHost.Visibility = RemovalCard.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
         ModulesTitleText.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
+        ModulesHeader.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         MultiplayerNoteCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         CoreModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         RussianModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
@@ -1159,7 +1154,8 @@ public partial class MainWindow : Window
         AdditionalRoamingCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         SiegeBalanceCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
         PowersShardsCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
-        ConfigurationCodeCard.Visibility = ConfigurationImportHost.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
+        RefreshModControls();
+        ConfigurationCodeCard.Visibility = ConfigurationImportHost.Visibility = Visibility.Collapsed;
         DiagnosticsCard.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
         if (settings) _ = RefreshDiagnosticsArchiveAsync();
         RefreshReliabilityVisibility();
@@ -1168,12 +1164,16 @@ public partial class MainWindow : Window
         SetNavState(ModulesNav, modules);
         SetNavState(SettingsNav, settings);
         SetNavState(AboutNav, page == "about");
+        SetNavState(AboutModsNav, page == "mods");
         SetNavState(FriendsNav, page == "friends");
         AccountHeaderButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#314969" : "#00000000"));
         AccountHeaderButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#B68D37" : "#00000000"));
         MainOptionsScroll.ScrollToTop();
         if (page == "admin" && changed) AdminContentScroll.ScrollToTop();
         RenderSocialNotifications();
+        if (modules) VisitComponents();
+        RenderCompatibility();
+        if (home) RefreshNews();
         if (changed && !_initializing)
         {
             Motion.Reveal(page == "admin" ? (FrameworkElement)AdminPanel : MainOptionsScroll);

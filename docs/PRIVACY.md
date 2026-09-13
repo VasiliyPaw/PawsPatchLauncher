@@ -13,9 +13,15 @@ Updated: 2026-09-10. Applies to Paw's Patch Launcher, maintained by
 | Friends and chat | Friend relationships, messages, delivery/read acknowledgements and configuration offers go to the backend and intended users. Authorized administrators can manage accounts and moderation. | Use these optional features after signing in; do not send information you do not want stored or shared. |
 | Avatar and save sharing | Selected avatars and saves are uploaded to the project's Supabase backend/storage for the requested profile/transfer functions. | Uploads require the corresponding user action; game saves are not uploaded as general telemetry. |
 | Chat images | Supported image/GIF hosts may be contacted directly when a conversation displays media. Other supported images require the load action. The remote host receives the media request and connection information. | Avoid loading external media; sign out to disable chat. |
-| Diagnostics | Requested diagnostic archives contain local logs, crash dumps, installation/module information and hashes. Creating an archive saves it locally and does not automatically send it to the maintainer. | Review before sharing: crash dumps can contain process memory fragments. |
+| Diagnostics | Requested diagnostic archives contain local logs, recent launcher action history, Windows/CPU/RAM/GPU/graphics-driver details, free disk space, Steam process presence, installation/module information and hashes. Creating an archive saves it locally and does not automatically send it to the maintainer. | Review before sharing: crash dumps can contain process memory fragments. |
 
 Settings, installation records, backups, caches and logs are stored locally.
+The launcher keeps a bounded local action journal (three files of approximately
+2 MiB each). It records times, static control/action names, game settings and
+operation outcomes. It does not record typed text, passwords, login codes,
+account identifiers or conversation contents. Hardware collection runs locally
+when an archive is requested; it excludes hardware serial numbers, IP/MAC
+addresses and process command lines.
 Remembered session tokens are protected for the current Windows user;
 account-session files are excluded from launcher diagnostic archives. This does
 not make manually shared crash dumps safe to publish without review.

@@ -124,14 +124,15 @@ public partial class MainWindow
     private void ApplyReliabilityLanguage()
     {
         foreach (var label in _reliabilityLabels) label.Set(T(label.Ru, label.En));
-        CancelDownloadButton.Content = T("Приостановить загрузку", "Pause download");
+        CancelDownloadButton.Content = T("Пауза", "Pause");
+        CancelDownloadButton.ToolTip = T("Приостановить загрузку", "Pause download");
     }
 
     private void RefreshReliabilityVisibility()
     {
         if (_recoveryCard is null) return;
         _recoveryCard.Visibility = _versionCard.Visibility = _activePage == "settings" ? Visibility.Visible : Visibility.Collapsed;
-        _importCard.Visibility = _activePage == "settings" ? Visibility.Visible : Visibility.Collapsed;
+        _importCard.Visibility = Visibility.Collapsed;
         _multiplayerCard.Visibility = Visibility.Collapsed;
         _incidentCard.Visibility = _incident is null ? Visibility.Collapsed : Visibility.Visible;
         _incidentText.Text = _incident ?? "";
@@ -184,9 +185,12 @@ public partial class MainWindow
             }
             else
             {
-                _incident = run.ExitCode is not null and not 0
-                    ? T("Игра завершилась с ошибкой. Можно восстановить рабочие настройки и собрать диагностику.", "The game exited with an error. Restore working settings or collect diagnostics.")
-                    : T("Не удалось подтвердить штатное завершение прошлой игры. Это также возможно после закрытия лаунчера или перезагрузки ПК.", "The previous game exit could not be confirmed. This can also follow closing the launcher or restarting the PC.");
+                // Older launchers required a 20-second window observation even for exit code 0.
+                // A short, normal game session must not turn into a recovery incident on restart.
+                if (run.ExitCode != 0)
+                    _incident = run.ExitCode is not null
+                        ? T("Игра завершилась с ошибкой. Можно восстановить рабочие настройки и собрать диагностику.", "The game exited with an error. Restore working settings or collect diagnostics.")
+                        : T("Не удалось подтвердить штатное завершение прошлой игры. Это также возможно после закрытия лаунчера или перезагрузки ПК.", "The previous game exit could not be confirmed. This can also follow closing the launcher or restarting the PC.");
                 run.CleanExit = true; ActivityStore.Save("game-run", run);
             }
         }
@@ -213,6 +217,7 @@ public partial class MainWindow
             _settingsStore.Save(_settings);
             _channel = restoredChannel;
             _latestChannel = null;
+            _offeredModChannel = restoredChannel;
             ResetFeedbackContext();
             InvalidateReadiness();
         }
@@ -274,27 +279,37 @@ public partial class MainWindow
         if (_loadingVersions) return;
         _loadingVersions = true;
         var channel = _settings.Channel;
+        var mod = _settings.Mod;
         try
         {
             if (channel == "beta" && _latestChannel is not null)
                 foreach (var reference in _latestChannel.PreviousReleases.Take(8))
                 {
+                    if (channel != _settings.Channel || mod != _settings.Mod) return;
                     if (_loadedPrevious.Contains(reference.Url)) continue;
                     try { await _feedClient.GetPreviousAsync(reference, channel); _loadedPrevious.Add(reference.Url); }
                     catch (Exception ex) { ActivityStore.Log(ex); }
                 }
-            if (channel != _settings.Channel) return;
+            if (channel != _settings.Channel || mod != _settings.Mod) return;
             var options = new List<ReleaseChoice> { new(T("Последняя версия", "Latest release"), null) };
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var release in _feedClient.Archived(channel))
             {
-                var color = release.Packages.FirstOrDefault(x => x.Id == "player-colors")?.Version;
-                var core = release.Packages.FirstOrDefault(x => x.Id == "pawpatch-core")?.Version ?? "?";
-                options.Add(new($"{ChannelPresentation.Name(channel, _text.Language)} · {release.PublishedAt[..Math.Min(10, release.PublishedAt.Length)]} · {core}" + (color is null ? "" : T(" · цвета ", " · colors ") + color), ChannelFingerprint.Create(release)));
+                string content;
+                try { content = ModLibrary.ContentId(release, mod); } catch (InvalidDataException) { continue; }
+                var id = ChannelFingerprint.Create(release);
+                if (!seen.Add(content) && id != _settings.PinnedRelease) continue;
+                var core = ModPatchVersion(release, mod) ?? "—";
+                options.Add(new($"{GameMod.Name(mod, _text.Language == "ru")} · {ChannelPresentation.Name(channel, _text.Language)} · {release.PublishedAt[..Math.Min(10, release.PublishedAt.Length)]} · {core}", id));
             }
             _releaseChoice.ItemsSource = options;
             _releaseChoice.SelectedItem = options.FirstOrDefault(x => x.Id == _settings.PinnedRelease) ?? options[0];
         }
-        finally { _loadingVersions = false; }
+        finally
+        {
+            _loadingVersions = false;
+            if (channel != _settings.Channel || mod != _settings.Mod) _ = LoadVersionChoicesAsync();
+        }
     }
 
     private async void SelectRelease_Click(object sender, RoutedEventArgs e)
@@ -305,11 +320,13 @@ public partial class MainWindow
             if (choice.Id is not null) _ = _feedClient.LoadArchived(choice.Id, _settings.Channel);
             var changed = _settings.PinnedRelease != choice.Id;
             _settings.PinnedRelease = choice.Id;
+            _offeredModChannel = choice.Id is null ? _latestChannel : _feedClient.LoadArchived(choice.Id, _settings.Channel);
+            _channel = _offeredModChannel;
             ResetFeedbackContext();
             _settingsStore.Save(_settings);
             InvalidateReadiness();
             if (changed) CardHighlight.Pulse(_versionCard);
-            if (await CheckFeedAsync()) ShowResult(() => T("Выпуск выбран. Установите его или запустите игру для применения.", "Release selected. Install it or launch the game to apply it."));
+            if (await CheckFeedAsync()) ShowResult(() => T("Выпуск выбран. Установите его или примените настройки перед запуском.", "Release selected. Install it or apply settings before launching."));
         }
         catch (Exception ex) { ShowError(ex); }
     }
@@ -336,8 +353,8 @@ public partial class MainWindow
         try
         {
             var state = new ModuleInstaller(_game.Directory).LoadState();
-            if (!state.Modules.ContainsKey("pawpatch-core") || UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(_channel))) throw new IOException(T("Сначала примените выбранные настройки и версию патча.", "Apply the selected settings and patch version first."));
-            var critical = await MultiplayerCheck.CriticalAsync(_game.Directory, state, ResolveLaunchExecutable(_game.Directory), _channel.Game);
+            if (!ModLibrary.IsActive(state, _settings) || UpdateDetector.HasModuleChanges(state, ResolveSelectedPackages(_channel))) throw new IOException(T("Сначала примените выбранные настройки и версию патча.", "Apply the selected settings and patch version first."));
+            var critical = await MultiplayerCheck.CriticalAsync(_game.Directory, state, ResolveLaunchExecutable(_game.Directory), !CompatibilityRelevant || DataOnlyMode ? new GameRequirement() : SelectedGameRequirement);
             _fileCheckFailed = critical.Count > 0;
             _readiness = await MultiplayerCheck.CreateAsync(_game.Directory, state, GetEffectiveSettings(), ResolveLaunchExecutable(_game.Directory), _game.SteamBuild ?? "?");
             var integrity = _readiness.Errors.Concat(critical).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
@@ -346,10 +363,11 @@ public partial class MainWindow
             _checkedConfiguration = EffectiveConfigurationCode + _settings.PinnedRelease + _settings.GamePath;
             _readinessIdentity = state.LastSuccessfulUpdate;
             var modules = string.Join("\n", state.Modules.OrderBy(x => x.Value.Priority).Select(x => $"{x.Key}: {x.Value.Version}"));
-            _readinessText.Text = $"Kohan II {_channel.Game.Version} · Steam {_game.SteamBuild}\n{_text["patch.channel"]} {CurrentChannelName()}\n{modules}\n\n{EffectiveConfigurationCode}\n\n{_readiness.Fingerprint}\n\n" +
+            _readinessText.Text = $"Kohan II {_installedGameVersion} · Steam {_game.SteamBuild}\n{_text["patch.channel"]} {CurrentChannelName()}\n{modules}\n\n{EffectiveConfigurationCode}\n\n{_readiness.Fingerprint}\n\n" +
                 T($"Проверено файлов: {_readiness.Files}, {DateTime.Now:HH:mm:ss}. Ошибок: {_readiness.Errors.Count}.", $"Files checked: {_readiness.Files}, {DateTime.Now:HH:mm:ss}. Errors: {_readiness.Errors.Count}.");
             _fileCheckFailed = _readiness.Errors.Count > 0;
-            ShowResult(() => _readiness.Errors.Count == 0 ? T("Отпечаток готов к сравнению.", "Fingerprint ready to compare.") : T("Найдены изменённые или отсутствующие файлы: ", "Changed or missing files: ") + string.Join(", ", _readiness.Errors.Take(4)), failure: _fileCheckFailed);
+            var verificationErrors = _readiness.Errors.ToArray();
+            ShowResult(() => verificationErrors.Length == 0 ? T("Отпечаток готов к сравнению.", "Fingerprint ready to compare.") : T("Найдены изменённые или отсутствующие файлы: ", "Changed or missing files: ") + string.Join(", ", verificationErrors.Take(4)), failure: _fileCheckFailed);
         }
         finally { SetBusy(false); }
     }
@@ -385,35 +403,68 @@ public partial class MainWindow
 
     private void MarkVisibleChangelogRead()
     {
-        var visible = !_changelogTransitionPending && IsLoaded && IsVisible && IsActive && WindowState != WindowState.Minimized;
-        if (ChangelogReadState.MarkViewed(_settings, ChangelogManifest(_changelogCategory), _changelogCategory == "beta" ? "patch" : _changelogCategory, visible && ChangelogCard.IsVisible))
-            _settingsStore.Save(_settings);
+        var visible = !_changelogTransitionPending && IsLoaded && IsVisible && IsActive && WindowState != WindowState.Minimized && ChangelogCard.IsVisible;
+        if (ChangelogTimeline.MarkViewed(_settings, _renderedHistory, visible)) _settingsStore.Save(_settings);
         RefreshUnreadBadges();
     }
     private void RefreshUnreadBadges()
     {
-        bool Unread(string category) => ChangelogReadState.IsUnread(_settings, ChangelogManifest(category), category == "beta" ? "patch" : category);
-        PatchChangelogButton.Content = _text["news.tab.patch"] + (Unread("patch") ? " ●" : "");
-        LauncherChangelogButton.Content = _text["news.tab.launcher"] + (Unread("launcher") ? " ●" : "");
-        BetaChangelogButton.Content = T("Бета", "Beta") + (Unread("beta") ? " ●" : "");
+        if (_settings is null || HistoryUnreadBadge is null) return;
+        bool Unread(string subject, string source, string branch) => HistoryRows(subject, source, branch).Any(r => ChangelogTimeline.IsUnread(_settings, r));
+        var unread = Unread("launcher", "all", "all") || Unread(_settings.Mod, "all", _settings.Channel);
+        HistoryUnreadBadge.Visibility = unread ? Visibility.Visible : Visibility.Collapsed;
+        SetUnreadTabContent(HomeNav, _text["nav.home"], unread);
+        SyncHistoryFilters();
+    }
+
+    private void SetUnreadTabContent(Button button, string label, bool unread)
+    {
+        var identity = label + "|" + unread;
+        if (button.Content is StackPanel { Tag: string previous } && previous == identity) return;
+        var panel = new StackPanel { Orientation = Orientation.Horizontal, Tag = identity };
+        panel.Children.Add(new TextBlock { Text = label, VerticalAlignment = VerticalAlignment.Center });
+        if (unread) panel.Children.Add(new Border { Width = 8, Height = 8, CornerRadius = new CornerRadius(4),
+            Background = SocialBrush("#E55E71"), Margin = new Thickness(7, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center });
+        button.Content = panel;
+        System.Windows.Automation.AutomationProperties.SetName(button, label);
+        System.Windows.Automation.AutomationProperties.SetHelpText(button, unread ? T("Есть непрочитанные изменения", "Unread changes") : "");
     }
 
     private object? _activeTransfer;
+    private long? _transferReceived;
+    private long? _transferTotal;
 
     private void FinishTransfer()
     {
         // Progress<T> posts to the UI queue: ignore callbacks still queued after completion.
+        var hadTransfer = _activeTransfer is not null;
         _activeTransfer = null;
         StopProgressAnimation();
-        TransferText.Text = "";
-        TransferText.Visibility = Visibility.Collapsed;
+        if (_busy && hadTransfer)
+        {
+            // The download helper returns before package verification/extraction. Keep the
+            // layout occupied, but retire its speed/ETA immediately instead of showing stale data.
+            ShowWorking(() => T("Проверяю загруженные файлы…", "Verifying downloaded files…"));
+            SetOperationIndeterminate(true);
+            SetTransferDetails(_transferReceived is long received ? T("Получено: ", "Received: ") + FormatBytes(received)
+                : T("Подготавливаю локальные файлы…", "Preparing local files…"), phaseChanged: true);
+        }
+        else if (!_busy)
+        {
+            _transferReceived = _transferTotal = null;
+            RefreshTransferSummary();
+            TransferText.Text = "";
+            TransferText.ToolTip = null;
+            TransferText.Visibility = Visibility.Collapsed;
+        }
     }
 
     private IProgress<(long Received, long? Total)> TransferProgress(string name)
     {
         var transfer = _activeTransfer = new object();
-        TransferText.Text = "";
-        TransferText.Visibility = Visibility.Collapsed;
+        _transferReceived = _transferTotal = null;
+        RefreshTransferSummary();
+        SetTransferDetails(T("Подготавливаю загрузку…", "Preparing download…"), phaseChanged: true);
         ShowWorking(() => _text["progress.downloading"] + ": " + name);
         SetOperationProgress(0,animate:false);
         SetOperationIndeterminate(true);
@@ -428,8 +479,10 @@ public partial class MainWindow
             lastUpdate = watch.ElapsedMilliseconds;
             var speed = Math.Max(0, value.Received - first.Value) / Math.Max(watch.Elapsed.TotalSeconds, .1);
             var remaining = value.Total is > 0 && speed > 1024 ? TimeSpan.FromSeconds(Math.Clamp((value.Total.Value - value.Received) / speed, 0, 86400)).ToString(@"hh\:mm\:ss") : "-";
-            TransferText.Text = FormatBytes(value.Received) + " / " + (value.Total is null ? "?" : FormatBytes(value.Total.Value)) + "\n" + FormatBytes((long)speed) + T("/с · осталось ", "/s · remaining ") + remaining;
-            TransferText.Visibility = Visibility.Visible;
+            _transferReceived = value.Received;
+            _transferTotal = value.Total;
+            RefreshTransferSummary();
+            SetTransferDetails(FormatBytes(value.Received) + " / " + (value.Total is null ? "?" : FormatBytes(value.Total.Value)) + "\n" + FormatBytes((long)speed) + T("/с · осталось ", "/s · remaining ") + remaining);
             SetOperationIndeterminate(value.Total is null);
             SetOperationProgress(value.Total is > 0 ? Math.Clamp(value.Received * 100d / value.Total.Value, 0, 100) : 0);
         });
@@ -448,6 +501,7 @@ public partial class MainWindow
 
     private void BeginGameObservation(Process process, InstallState state)
     {
+        ActionJournal.Record("game.started", ConfigurationCode.Create(GetEffectiveSettings()));
         _observedRun = new RunRecord { ProcessId = process.Id, GameRoot = _game!.Directory, Settings = GetEffectiveSettings(), ReleaseId = state.ReleaseId };
         try { _observedRun.StartTicks = process.StartTime.ToUniversalTime().Ticks; } catch { }
         _observedProcess?.Dispose(); _observedProcess = process; _workingSaved = false;
@@ -497,12 +551,15 @@ public partial class MainWindow
                 // Unknown is not success, but is not evidence of a crash either.
                 _gameTimer.Stop();
                 run.ExitCode = GameProcessExit.ReadCode(_observedProcess);
-                run.CleanExit = run.ExitCode == 0 && run.ReachedWindow;
+                ActionJournal.Record("game.exit", run.ExitCode?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "unknown");
+                // Window readiness controls last-working promotion above, not the exit verdict.
+                // Closing normally before that threshold still reports Windows exit code 0.
+                run.CleanExit = run.ExitCode == 0;
                 _observedProcess.Dispose(); _observedProcess = null; _observedRun = null;
                 ActivityStore.Save("game-run", run);
                 if (!run.CleanExit) _incident = run.ExitCode is null
                     ? T("Игра закрыта, но Windows не предоставила код завершения. Это не означает, что игра аварийно завершилась.", "The game closed, but Windows did not provide an exit code. This does not establish that the game crashed.")
-                    : T("Игра завершилась с ошибкой или не подтвердила запуск окна. Можно восстановить рабочие настройки и собрать диагностику.", "The game exited with an error or did not confirm its window. Restore working settings or collect diagnostics.");
+                    : T("Игра завершилась с ошибкой. Можно восстановить рабочие настройки и собрать диагностику.", "The game exited with an error. Restore working settings or collect diagnostics.");
                 RefreshReliabilityVisibility();
             }
         }

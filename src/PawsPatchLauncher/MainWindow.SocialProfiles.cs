@@ -16,6 +16,7 @@ public partial class MainWindow
     private void ClearSocialProfiles()
     {
         _socialAvatars.Clear(); _socialAvatarGeneration++; _socialPresenceNext=default;_socialListReceived=default;
+        _socialListLoading = _socialListFailed = false;
         CloseSocialDetails();
     }
     private Grid SocialAvatar(Guid player,double size,bool status)
@@ -49,21 +50,22 @@ public partial class MainWindow
         var playing=IsGameRunning();
         var directory=_game?.Directory;
         InstallState? state=null;
-        try { if(directory is not null)state=await Task.Run(()=>new ModuleInstaller(directory).LoadState()); }
+        var versions=new SocialVersions(SelfUpdater.CurrentVersion.ToString());
+        try { if(directory is not null) (state,versions)=await Task.Run(()=>
+        {
+            var appliedState=new ModuleInstaller(directory).LoadState();
+            ChannelManifest? installed=null;
+            try { if(appliedState.ReleaseId is { Length:64 } release && appliedState.AppliedSettings is { } selection)
+                installed=_feedClient.LoadArchived(release,selection.Channel); } catch { }
+            return (appliedState,SocialVersions.Installed(appliedState,installed,SelfUpdater.CurrentVersion.ToString()));
+        }); }
         catch { /* Unknown is more accurate than publishing unapplied UI settings. */ }
         if(_account.UserId!=owner.ToString())return;
         var values=new Dictionary<string,bool>();
-        var settings=state?.AppliedSettings;
-        if(settings is not null)
-        {
-            values["core"]=state!.Modules.TryGetValue("pawpatch-core",out var core)&&core.Enabled;
-            values["russian"]=settings.RussianLocalization; values["colors"]=settings.CustomPlayerColors;
-            values["desync"]=settings.DesyncMode!="official"; values["hostility"]=settings.IndependentHostility;
-            values["roaming"]=settings.RoamingSpawnMode!="standard"; values["additional_roaming"]=settings.AdditionalRoamingCompanies;
-            values["siege"]=settings.SiegeBalance; values["powers_shards"]=settings.DisablePowersAndShards; values["large_maps"]=settings.LargeMapSizes;
-        }
+        var settings=state?.AppliedSettings is { } applied ? EffectiveSettings.ForChannel(applied) : null;
+        if(settings is not null) values=FriendConfiguration.Components(settings);
         await _account.PublishConfigurationPresenceAsync(playing,settings?.Channel is "stable" or "beta" ? settings.Channel : "unknown",values,
-            settings is not null && values.GetValueOrDefault("core") ? ConfigurationCode.Create(settings) : null,_accountLifetime.Token);
+            settings is not null ? FriendConfiguration.Create(settings) : null,_accountLifetime.Token,versions);
         _socialPresenceNext=DateTimeOffset.UtcNow.AddSeconds(8);
     }
     private void PruneSocialProfiles()

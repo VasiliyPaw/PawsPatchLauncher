@@ -1,0 +1,689 @@
+[
+  {
+    "id": "vanilla",
+    "version": "Kohan II: Kings of War",
+    "author": "TimeGate Studios",
+    "description": {
+      "ru": "Оригинальная Kohan II: Kings of War с выбранным языком игры.",
+      "en": "The original Kohan II: Kings of War with your selected game language."
+    },
+    "sections": [
+      {
+        "id": "original",
+        "title": {
+          "ru": "Оригинальные правила",
+          "en": "Original rules"
+        },
+        "body": {
+          "ru": "При применении настроек восстанавливаются оригинальные правила игры и удаляются изменения других модов. Сохранения и выбранный язык остаются. Компонент Paw's Patch добавляет отдельный набор исправлений; его можно выключить для полностью оригинального режима.",
+          "en": "Applying settings restores the original game rules and removes changes from other mods. Saves and the chosen language are retained. The optional Paw's Patch component adds a separate set of fixes; disable it for the original mode."
+        }
+      }
+    ],
+    "patchGuide": {
+      "schemaVersion": 1,
+      "version": "0.1.0",
+      "entries": [
+        {
+          "id": "base",
+          "category": "always",
+          "titleRu": "Paw's Patch для ваниллы",
+          "titleEn": "Paw's Patch for Vanilla",
+          "bodyRu": "Набор исправлений для выбранного режима. Включается и выключается компонентом Paw's Patch. Выбор сохраняется отдельно от других модов. Баланс, войска, способности, размеры карт и правила режима сохраняются. Русский язык выбирается независимо от патча.",
+          "bodyEn": "A set of fixes for the selected mode, controlled by its Paw's Patch component. The choice is remembered separately for each mod. Balance, units, abilities, map sizes and rules are preserved. Game language is independent of the patch."
+        },
+        {
+          "id": "badge-colors",
+          "category": "always",
+          "titleRu": "Цвета на значках рот",
+          "titleEn": "Company badge colors",
+          "bodyRu": "Исправлено отображение цвета игрока на значках рот. Сохраняются существующие цвета и мягкое затенение. Изменение работает через игровые ресурсы и не зависит от версии EXE.",
+          "bodyEn": "Corrects player colors on company badges while retaining the existing colors and soft shading. This resource fix does not depend on the game executable version."
+        },
+        {
+          "id": "negative-zero",
+          "category": "always",
+          "titleRu": "Отображение лимита рот",
+          "titleEn": "Company limit display",
+          "bodyRu": "В лимите рот «−0» отображается как «0». Меняется только отображение числа, без изменения игровых расчётов. Требуется поддерживаемая версия Kohan II 1.3.72.",
+          "bodyEn": "The company limit displays zero instead of negative zero. Only the displayed number changes; gameplay calculations are preserved. Requires supported Kohan II version 1.3.72."
+        },
+        {
+          "id": "terrain",
+          "category": "always",
+          "titleRu": "Инициализация рельефа",
+          "titleEn": "Terrain initialization",
+          "bodyRu": "При создании карты инициализируется параметр рельефа, который мог содержать случайные данные памяти. Новые размеры или типы карт не добавляются. Стандартная остановка при рассинхроне сохраняется. Исправление не означает устранения всех возможных причин рассинхрона. Требуется поддерживаемая версия 1.3.72.",
+          "bodyEn": "Initializes a terrain parameter that could otherwise contain uninitialized memory during map generation. No map sizes or types are added. Standard desync checks remain active. This does not claim to fix every possible desync cause. Requires the supported 1.3.72 executable."
+        }
+      ]
+    }
+  },
+  {
+    "id": "arcane-wars",
+    "version": "0.82.1.8 beta",
+    "author": "Darquan Mortis",
+    "description": {
+      "ru": "Большое расширение Kohan II: Kings of War от Darquan Mortis: разные пути развития рас и фракций, особые столицы, союзные и элитные войска, анклавы слаанри и ракшасов, глобальная магия, новые герои, чудовища и случайные карты.",
+      "en": "A major Kohan II: Kings of War expansion by Darquan Mortis: distinct race and faction development, special capitals, allied and elite troops, Slaanri and Rhaksha enclaves, global powers, additional heroes, monsters and random-map content."
+    },
+    "sections": [
+      {
+        "id": "overview",
+        "title": {
+          "ru": "Что меняет мод",
+          "en": "What the mod changes"
+        },
+        "body": {
+          "ru": "• Основой остаются шесть рас: люди, драуга, гаури, харуны, тень и нежить. Слаанри и ракшасы представлены захватываемыми анклавами со своими войсками и постройками.\n\n• Это авторская бета 0.82.1.8. Мод рассчитан прежде всего на отдельные сражения; автор отмечает незавершённый баланс и неработающую кампанию. Новых звуков в этой версии не заявлено.",
+          "en": "• The six main races remain Human, Drauga, Gauri, Haroun, Shadow and Undead. Slaanri and Rhaksha appear as capturable enclaves with their own troops and buildings.\n\n• This is the author’s 0.82.1.8 beta. It is intended primarily for custom battles; the author describes the balance as unfinished and the campaign as unplayable. No new sound set is claimed for this version."
+        }
+      },
+      {
+        "id": "alliances",
+        "title": {
+          "ru": "Расы, фракции и союзные войска",
+          "en": "Races, factions and allied troops"
+        },
+        "body": {
+          "ru": "• Набор войск зависит одновременно от расы поселения, фракции и доступных союзов. Захват подходящего поселения открывает часть союзных войск для найма в других городах той же фракции.\n\n• Ceyah объединяет людей и нежить; Council — людей, гаури и харунов; Fallen — тень и нежить; Nationalist — людей, драуга и гаури; Royalist — людей, драуга и харунов.\n\n• Технологические войска разделены по светлой и тёмной стороне. Council, Nationalist и Royalist используют светлые варианты, Ceyah и Fallen — тёмные; захват чужой расы сам по себе не снимает это ограничение.\n\n• В мод возвращены войска и герои из Kohan: Immortal Sovereigns и Kohan: Ahriman’s Gift. Часть из них встроена в систему союзов, а сильнейшие привязаны к развитию столицы.",
+          "en": "• Available troops depend on the settlement’s race, the player’s faction and unlocked alliances. Capturing a suitable settlement unlocks some allied troops for recruitment in other cities of the same faction.\n\n• Ceyah allies: Human and Undead. Council: Human, Gauri and Haroun. Fallen: Shadow and Undead. Nationalist: Human, Drauga and Gauri. Royalist: Human, Drauga and Haroun.\n\n• Tech troops are divided by good and evil alignment. Council, Nationalist and Royalist use good-side options; Ceyah and Fallen use evil-side options. Capturing another race’s settlement does not by itself remove this restriction.\n\n• Troops and heroes from Kohan: Immortal Sovereigns and Kohan: Ahriman’s Gift return. Some use the alliance system, while the strongest are tied to capital development."
+        }
+      },
+      {
+        "id": "kingdom",
+        "title": {
+          "ru": "Столица и развитие королевства",
+          "en": "Capital and kingdom development"
+        },
+        "body": {
+          "ru": "• Sovereign Citadel — особая столица для сочетания расы и фракции. У игрока может быть одна такая столица: её нельзя захватить, только разрушить. Для основания нужна площадка поселения и специальная рота строителей.\n\n• Столица производит больше ресурсов, лучше защищена и открывает элитные войска, особых капитанов и строителей королевства. Часть сильнейших существ нанимается только в ней.\n\n• Королевские постройки и особо сильные войска используют отдельные очки королевства. Поселения увеличивают доступный запас; столица, ресурсные лагеря, специальные капитаны и титаны расходуют его.\n\n• В дополнение к обычным гарнизонам доступны улучшения цитаделей с поддержкой и осадной милицией. Для титанов введены отдельные правила опыта, значок и обозначение на поле боя.\n\n• Инженеры могут строить укреплённый Keep: это более сильная застава со стеной. После завершения строительства рота входит внутрь. Королевские сооружения используют появившиеся в генераторе фундаментные площадки.",
+          "en": "• A Sovereign Citadel is a special capital for a race/faction combination. A player may have one; it can be razed but not captured. Founding it requires a settlement spot and a dedicated builder company.\n\n• The capital produces more resources, has stronger defenses and unlocks elite troops, special captains and kingdom builders. Some of the strongest creatures can only be recruited there.\n\n• Kingdom structures and especially powerful troops use a separate kingdom-point budget. Settlements provide these points; the capital, resource camps, special captains and titans consume them.\n\n• Citadels can gain support and siege militia through upgrades. Titans have separate experience rules, an icon and a battlefield decal.\n\n• Engineers can construct a fortified Keep, a stronger outpost with a wall. The builder company enters it when construction is complete. Kingdom structures use the foundation spots introduced to the random-map generator."
+        }
+      },
+      {
+        "id": "buildings",
+        "title": {
+          "ru": "Постройки рас",
+          "en": "Race-specific buildings"
+        },
+        "body": {
+          "ru": "• Драуга: Sovereign Citadel, ресурсный Labor Camp и Marauder Camp. Последний отправляет призванные роты налётчиков атаковать врагов поблизости; уничтоженные роты появляются снова.\n\n• Гаури: Sovereign Fortress, Miningpost с улучшением до Mining Town и оборонительная Stonehold Fortress с элитной и осадной милицией.\n\n• Харуны: Sovereign Citadel, ресурсный Garden of Gifts и Plains Guard Camp с дальними конными патрулями. У лагеря есть укреплённое улучшение.\n\n• Люди: Sovereign Citadel, торговый Merchant Guild Post и Border Keep с дальними конными патрулями и укреплённым улучшением.\n\n• Тень: Sovereign Citadel и ресурсные Slavery Grounds. Нежить: Sovereign Citadel и Resource Graveyard. Наборы строительных ячеек, ресурсов и гарнизонов отличаются между расами.\n\n• У поселений усилены стены и расширены ремонтные гарнизоны. Каменоломни помогают ремонту и строительству; харуны используют духов природы, в том числе в производственных постройках.",
+          "en": "• Drauga: Sovereign Citadel, the Labor Camp resource settlement and Marauder Camp. The latter sends summoned raider companies against nearby enemies and replaces destroyed companies.\n\n• Gauri: Sovereign Fortress, a Miningpost that upgrades into a Mining Town, and the defensive Stonehold Fortress with elite and siege militia.\n\n• Haroun: Sovereign Citadel, the Garden of Gifts resource camp and Plains Guard Camp with long-range cavalry patrols. The camp has a fortified upgrade.\n\n• Human: Sovereign Citadel, the Merchant Guild Post resource camp and Border Keep with long-range cavalry patrols and a fortified upgrade.\n\n• Shadow: Sovereign Citadel and Slavery Grounds resource camp. Undead: Sovereign Citadel and Resource Graveyard. Building slots, resources and garrisons differ by race.\n\n• Settlements have stronger walls and expanded repair crews. Quarries contribute workers to repair and construction, while Haroun use Nature Spirits, including in production structures."
+        }
+      },
+      {
+        "id": "combat",
+        "title": {
+          "ru": "Бой и развитие рот",
+          "en": "Combat and company progression"
+        },
+        "body": {
+          "ru": "• Стрелки, осадные орудия и маги ведут бой с большей дистанции. У части дальнобойных осадных орудий есть минимальная дальность: вблизи они стрелять не могут.\n\n• Кавалерия и конные коханы быстрее, но атакуют реже. Их роль сильнее смещена к налётам, обходам и ударам по стрелкам и поддержке.\n\n• Осадные войска действуют отдельными строями и перебалансированы. Большинство коханов не может возглавлять такие роты; для них предусмотрены отдельные капитаны.\n\n• Добавлены боевые маги для первой линии: они особенно полезны против плотных групп врагов. У некоторых рас такой маг входит и в защиту улучшенной библиотеки.\n\n• Vorpal используется как отдельный тип урона. Добавлены Holy и Unholy с разной эффективностью против светлых и тёмных войск; это боевые свойства, не отдельный добываемый ресурс Vorpal.\n\n• Добавлен легендарный ранг. Часть обычных бойцов и капитанов получает на высоких рангах новые способности, дополнительные атаки или другой тип урона; заполненность этих улучшений зависит от юнита.",
+          "en": "• Ranged troops, siege engines and spellcasters engage at greater distances. Some ranged siege weapons have a minimum range and cannot fire at nearby targets.\n\n• Cavalry and mounted Kohans move faster but attack more slowly. Their role places more emphasis on raids, flanking and attacks on ranged or support troops.\n\n• Siege troops use dedicated formations and rebalanced statistics. Most Kohans cannot lead these companies, which have their own captain options.\n\n• Frontline battle mages are particularly effective against dense groups of enemies. In some races, an upgraded library also adds one to its militia.\n\n• Vorpal is implemented as a full damage type. Holy and Unholy damage add different effectiveness against good and evil troops; these are combat properties, not a separate mined Vorpal resource.\n\n• A legendary rank is added. Some regular troops and captains gain abilities, additional attacks or new damage types at higher ranks; the extent of these upgrades varies by unit."
+        }
+      },
+      {
+        "id": "drauga",
+        "title": {
+          "ru": "Войска драуга",
+          "en": "Drauga troops"
+        },
+        "body": {
+          "ru": "• Общие новинки: маг первой линии Sakarr’s Disciple; конный столичный капитан Sakarr’s Voice; Huntress с призывом маулера; союзная Wyvern; стрелковый капитан Lurcher. Huntmaster переведён в конные войска.\n\n• Nationalist: Tribe Protector, тяжёлая Primal Wyvern, конный Invoker и Fanatic поддержки.\n\n• Royalist: конный Battle Priest, Battle Rider и осадный Royal Behemoth.",
+          "en": "• General additions: frontline mage Sakarr’s Disciple; mounted sovereign captain Sakarr’s Voice; Huntress with a mauler summon; allied Wyvern; and ranged captain Lurcher. Huntmaster becomes mounted.\n\n• Nationalist: Tribe Protector, the heavy Primal Wyvern, mounted Invoker and Fanatic support.\n\n• Royalist: mounted Battle Priest, Battle Rider and the Royal Behemoth siege unit."
+        }
+      },
+      {
+        "id": "gauri",
+        "title": {
+          "ru": "Войска гаури",
+          "en": "Gauri troops"
+        },
+        "body": {
+          "ru": "• Общие новинки: Breaker с атакой по площади, Sagaris с мощным ударом, столичный Siege Master, Clustershot, Sapper с башенкой и ослабляющей магией, Quartermaster для поддержки снабжения и стрелковый капитан Boltmaster. Warden становится конным.\n\n• Добавлен Maelstrom Destroyer с обликом машины из первых Kohan. В версии 0.82.1.8 он отвечает на ближние атаки разрядом: 10 кхалдунитового урона с перезарядкой 2 секунды.\n\n• Council: дальнобойный Longshot, подвижный Runner и Whitesteel Golem. Nationalist: Automaton и осадный Vorpal Engine.",
+          "en": "• General additions: area-attack Breaker, heavy-striking Sagaris, sovereign Siege Master, Clustershot, Sapper with a turret and weakening magic, supply-support Quartermaster and ranged captain Boltmaster. Warden becomes mounted.\n\n• Maelstrom Destroyer is added with a design recalling the original Kohan machine. In 0.82.1.8 it retaliates against melee attacks with a discharge: 10 Khaldunite damage on a two-second recharge.\n\n• Council: long-range Longshot, mobile Runner and Whitesteel Golem. Nationalist: Automaton and the Vorpal Engine siege unit."
+        }
+      },
+      {
+        "id": "haroun",
+        "title": {
+          "ru": "Войска харунов",
+          "en": "Haroun troops"
+        },
+        "body": {
+          "ru": "• Общие новинки: Blademaster с двумя атаками, тяжёлый Ancient с грозовой магией, Cloud Drake, конный столичный капитан Star Maiden, маг первой линии Stormbringer и конная поддержка Seeker.\n\n• Council: Icebringer, Oracle, конный Spelldancer и Storm Lord. Royalist: тяжёлый Stonerider, Branchweaver с призывом Dryche и конный Elementalist.",
+          "en": "• General additions: dual-attacking Blademaster, heavy Ancient with storm magic, Cloud Drake, mounted sovereign captain Star Maiden, frontline mage Stormbringer and mounted Seeker support.\n\n• Council: Icebringer, Oracle, mounted Spelldancer and Storm Lord. Royalist: heavy Stonerider, Branchweaver with a Dryche summon and mounted Elementalist."
+        }
+      },
+      {
+        "id": "human",
+        "title": {
+          "ru": "Войска людей",
+          "en": "Human troops"
+        },
+        "body": {
+          "ru": "• Общие новинки: Creator’s Huntress, маг первой линии Crimson Mage, столичный Crimson Mage Official, стрелковый капитан и Mounted Archer. Конный лучник доступен людям разных фракций.\n\n• Supplier создаёт подвижную зону снабжения. Это уязвимая хозяйственная рота, расходующая очки королевства и предназначенная для поддержки армии.\n\n• Ceyah: Headhunter, Nightclaw Disciple, Plague Catapult, конные Acolyte и Devout.\n\n• Council: Sharpshooter, Channeler, Magic Construct, Sorcerer и Enchanter.\n\n• Nationalist: Nation Guard, Crimson Catapult, Inquisitor Order Militant, Battlemage и Summoner.\n\n• Royalist: Royalist Noble, Royal Court Hunter с боевой собакой, Dragonfire Balistae, союзная Balistae, Avatar и Celebrant.",
+          "en": "• General additions: Creator’s Huntress, frontline Crimson Mage, sovereign Crimson Mage Official, a ranged captain and Mounted Archer. The mounted archer is available to Human settlements across factions.\n\n• Supplier creates a mobile supply zone. It is a fragile logistical company that consumes kingdom points and supports the army.\n\n• Ceyah: Headhunter, Nightclaw Disciple, Plague Catapult, mounted Acolyte and Devout.\n\n• Council: Sharpshooter, Channeler, Magic Construct, Sorcerer and Enchanter.\n\n• Nationalist: Nation Guard, Crimson Catapult, Inquisitor Order Militant, Battlemage and Summoner.\n\n• Royalist: Royalist Noble, Royal Court Hunter with a warhound, Dragonfire Balistae, allied Balistae, Avatar and Celebrant."
+        }
+      },
+      {
+        "id": "shadow",
+        "title": {
+          "ru": "Войска тени",
+          "en": "Shadow troops"
+        },
+        "body": {
+          "ru": "• Общие новинки: Bloodsoaker, восстанавливающий здоровье атаками; маг первой линии Dark Maiden; Si’Arian; стрелковый капитан Sirene и Ambassador of Void, создающий подвижную зону снабжения для тёмной стороны.\n\n• Fallen: одиночный демон Fallen One, столичный маг Shadow Temptress, тяжёлая кавалерия Void Beast и Kerberos, осадный Vorpal Beast.",
+          "en": "• General additions: self-healing attacker Bloodsoaker; frontline mage Dark Maiden; Si’Arian; ranged captain Sirene; and Ambassador of Void, a mobile supply-zone unit for the evil side.\n\n• Fallen: the single-unit demon Fallen One, sovereign caster Shadow Temptress, heavy cavalry Void Beast and Kerberos, and siege Vorpal Beast."
+        }
+      },
+      {
+        "id": "undead",
+        "title": {
+          "ru": "Войска нежити",
+          "en": "Undead troops"
+        },
+        "body": {
+          "ru": "• Общие новинки: Bone Arbalest, маг первой линии Night Shade, конный столичный капитан Mistress of Death и стрелковый капитан Wight.\n\n• Ceyah: огромный Death Wyrm, Shadowsteel Bone, восстанавливающийся атаками Grim Reaper, Necromancer, Shadow Priest и Wraith.\n\n• Fallen: Soulless, маг Macabre, регенерирующий Meat Golem и Shadow Prophet. Macabre в текущей версии предназначен для первой линии.",
+          "en": "• General additions: Bone Arbalest, frontline mage Night Shade, mounted sovereign captain Mistress of Death and ranged captain Wight.\n\n• Ceyah: the huge Death Wyrm, Shadowsteel Bone, self-healing Grim Reaper, Necromancer, Shadow Priest and Wraith.\n\n• Fallen: Soulless, the Macabre caster, regenerating Meat Golem and Shadow Prophet. In the current version, Macabre is a frontline unit."
+        }
+      },
+      {
+        "id": "enclaves",
+        "title": {
+          "ru": "Анклавы слаанри и ракшасов",
+          "en": "Slaanri and Rhaksha enclaves"
+        },
+        "body": {
+          "ru": "• Анклавы — небольшие захватываемые поселения с собственными моделями центра, стен, войск и четырьмя строительными ячейками. Постройки дают ресурсы и открывают найм; новые анклавы игрок не основывает.\n\n• Слаанри медлительны, но живучи и хорошо защищены. Воины и чемпионы используют ядовитый плевок; Javelinier и Bolt Thrower дают дальнюю атаку. Их поддержка включает Mystic, Ignis, светлого Whisperer и тёмного Slaver.\n\n• Постройки слаанри: Warrior Lodge, Champion Hall, Shaper Hut и Mystic Lodge. Есть ближний и стрелковый капитаны, рабочий Shaper и отдельная гарнизонная милиция.\n\n• Ракшасы быстро двигаются и атакуют: ранние бойцы хрупкие, а старшие воины и капитаны значительно сильнее. Доступны Rhaksha, Slave, Hunter, Hivemaster, Chosen, Shadowcaster, капитаны Huntmaster и Overlord, а также титан Ceyahdev.\n\n• Постройки ракшасов: Burrows, Hunter Nest, Chosen Nide и Shadowcaster Nide. Empowering Ichor повышает здоровье, Ravenous Ichor — скорость и темп атак. В текущих файлах Chosen Nide производит железо, а Shadowcaster Nide — ману и осколки.",
+          "en": "• Enclaves are small capturable settlements with their own center, wall and troop models and four building slots. Buildings produce resources and unlock recruitment; players do not found new enclaves.\n\n• Slaanri are slow but resilient and well protected. Warriors and Champions use poison spit; Javeliniers and Bolt Throwers provide ranged attacks. Support options include Mystic, Ignis, good-side Whisperer and evil-side Slaver.\n\n• Slaanri buildings: Warrior Lodge, Champion Hall, Shaper Hut and Mystic Lodge. They also have melee and ranged captains, a Shaper worker and separate garrison militia.\n\n• Rhaksha move and attack quickly: early troops are frail, while advanced warriors and captains are much stronger. Options include Rhaksha, Slave, Hunter, Hivemaster, Chosen, Shadowcaster, Huntmaster and Overlord captains, and the Ceyahdev titan.\n\n• Rhaksha buildings: Burrows, Hunter Nest, Chosen Nide and Shadowcaster Nide. Empowering Ichor improves health; Ravenous Ichor improves movement and attack rate. In the current files, Chosen Nide produces iron and Shadowcaster Nide produces mana and shards."
+        }
+      },
+      {
+        "id": "tech",
+        "title": {
+          "ru": "Нейтральные сооружения и технологии",
+          "en": "Neutral structures and technologies"
+        },
+        "body": {
+          "ru": "• Ancient Laygrounds: укреплённое кладбище с лучниками нежити, личами и летающими защитниками. Открывает Draining Weapons, светлого Apparation и тёмного Specter.\n\n• Gathering of Light и Gathering of Dark дают альтернативный доступ к союзным войскам светлой или тёмной стороны и защищаются магическими башнями.\n\n• Golden Hoard приносит золото и открывает Blessing of Midas: атаки капитана дают дополнительное золото.\n\n• Journeyman Guild Outpost открывает боевых инженеров разных рас. Они используют боевые фланги и, кроме тени, поддержку; строят заставы и шахты, но не Keep.\n\n• Spirit Tree открывает Spirit Armor, светлого Planar Spirit и тёмного Infernal; в обороне участвуют летающие духи.\n\n• Tower of Conjuration открывает Conjuror и светлого Empyrean; само сооружение защищается магией призыва.\n\n• У описанных технологических сооружений появились стены и ремонтные рабочие. Они не создают обычную зону снабжения.",
+          "en": "• Ancient Laygrounds: fortified burial grounds with undead archers, liches and flying defenders. Unlocks Draining Weapons, good-side Apparation and evil-side Specter.\n\n• Gathering of Light and Gathering of Dark provide alternative access to good- or evil-side allied troops and are defended by magical towers.\n\n• Golden Hoard generates gold and unlocks Blessing of Midas, which grants gold when a captain attacks.\n\n• Journeyman Guild Outpost unlocks race-specific combat engineers. They use combat flanks and, except for Shadow, support; they can build outposts and mines but not Keeps.\n\n• Spirit Tree unlocks Spirit Armor, good-side Planar Spirit and evil-side Infernal; flying spirits help defend it.\n\n• Tower of Conjuration unlocks Conjuror and good-side Empyrean; the structure itself uses summoning magic for defense.\n\n• These tech structures have walls and repair workers. They do not provide an ordinary supply zone."
+        }
+      },
+      {
+        "id": "tech-units",
+        "title": {
+          "ru": "Особые технологические войска",
+          "en": "Special tech troops"
+        },
+        "body": {
+          "ru": "• Дополнительные технологические бойцы: Apparation, Infernal, Planar Spirit, Specter, Conjuror, Field Catapult и одиночный тяжёлый маг Empyrean. Их доступность зависит от захваченного сооружения и стороны.\n\n• Четыре стихийных капитана возглавляют осадные роты: Steel Trow оглушает бросками камней; Searing Ifrit и Storm Djinn наносят ответный урон нападающим; Glacial Jotun замораживает ближайших врагов при гибели.",
+          "en": "• Additional tech troops include Apparation, Infernal, Planar Spirit, Specter, Conjuror, Field Catapult and the single-unit heavy caster Empyrean. Access depends on the captured structure and alignment.\n\n• Four elemental captains lead siege companies: Steel Trow stuns with thrown rocks; Searing Ifrit and Storm Djinn retaliate against attackers; Glacial Jotun freezes nearby enemies when killed."
+        }
+      },
+      {
+        "id": "kohans",
+        "title": {
+          "ru": "Коханы",
+          "en": "Kohans"
+        },
+        "body": {
+          "ru": "• Ceyah: Ashavir, Maghnus, Sar Lashkar, Syrad Amon.\n\n• Council: Ethan Delroba, Jilla Jannat, Lyssa Edan, Sarai Marusek, Yss’Tok.\n\n• Fallen: Amon Koth, Gideon, Hss’Rak, Shohn Maht.\n\n• Nationalist: Martyn Kyrkwood, Moggok, Qasim Majere, Sadira Bahrum.\n\n• Royalist: Cyrus Naadev, Mausallas Bahram, Slyys’Stok, Xerxes Mehrdad.\n\n• Для героев добавлены разные боевые роли: конные командиры, маги, поддержка и осадные капитаны. В отдельном списке автора Maghnus и Martyn Kyrkwood отмечены как осадные командиры.\n\n• Astarte, Kivana, Durash, Mayati и Azura Shahin переведены из пеших в конные. Модели и портреты коханов-слаанри переработаны с опорой на образы из Ahriman’s Gift.",
+          "en": "• Ceyah: Ashavir, Maghnus, Sar Lashkar, Syrad Amon.\n\n• Council: Ethan Delroba, Jilla Jannat, Lyssa Edan, Sarai Marusek, Yss’Tok.\n\n• Fallen: Amon Koth, Gideon, Hss’Rak, Shohn Maht.\n\n• Nationalist: Martyn Kyrkwood, Moggok, Qasim Majere, Sadira Bahrum.\n\n• Royalist: Cyrus Naadev, Mausallas Bahram, Slyys’Stok, Xerxes Mehrdad.\n\n• Heroes cover mounted command, spellcasting, support and siege leadership. The author’s hero list explicitly identifies Maghnus and Martyn Kyrkwood as siege captains.\n\n• Astarte, Kivana, Durash, Mayati and Azura Shahin change from foot to mounted units. Slaanri Kohan models and portraits are reworked using their Ahriman’s Gift appearances as inspiration."
+        }
+      },
+      {
+        "id": "powers",
+        "title": {
+          "ru": "Глобальная магия и осколки",
+          "en": "Global powers and shards"
+        },
+        "body": {
+          "ru": "• Добавлено 17 глобальных сил. Меню открывается значком алтаря в левом верхнем углу; после выбора силы нужно указать подходящую цель. Использование ограничено ценой в Khaldunite Shards и временем восстановления.\n\n• Осколки накапливаются отдельно от золота и производятся зданиями, дающими ману. В текущей версии базовое соотношение производства — три осколка на единицу маны. Награда за логова также включает осколки; выбранный стартовый запас ресурсов влияет на золото и осколки.\n\n• Общие силы: Reinforce усиливает защиту стен и зданий; Thieve Guild Associate крадёт золото из вражеского центра; Oracle временно раскрывает миникарту.\n\n• Светлая сторона: Resupply временно снабжает дружественные роты, Courage повышает защиту и скорость. Тёмная сторона: Crippling Fear замедляет врагов и их атаки, Black Cloud снижает атаку и максимальное здоровье.\n\n• Ceyah: Bloodthirst усиливает темп атак и скорость ценой защиты и здоровья; Insect Swarm призывает призрачный рой.\n\n• Council: Healing Aura лечит и ускоряет восстановление рот; Glacial Comet наносит урон и замораживает врагов.\n\n• Fallen: Dark Hunger усиливает бойцов, постепенно нанося им урон; The Gate вызывает временных демонов и роты тени.\n\n• Nationalist: Righteous Advance усиливает ближний бой, защиту и скорость; Crimson Comet наносит огненный урон и поджигает область.\n\n• Royalist: Mark of Kohan усиливает бойцов и их устойчивость; Banishment наносит святой урон и ослабляет противника, особенно нечестивые войска.",
+          "en": "• Seventeen global powers are added. Open the altar icon in the upper-left corner, choose a power and select a valid target. Use is limited by Khaldunite Shard cost and recharge time.\n\n• Shards are stockpiled separately from gold and produced by mana-generating structures. The current baseline is three shards per unit of mana production. Lair rewards also include shards, and the selected starting-resource amount affects both gold and shards.\n\n• Shared powers: Reinforce improves wall and building defenses; Thieve Guild Associate steals gold from an enemy center; Oracle temporarily reveals the minimap.\n\n• Good side: Resupply temporarily supplies friendly companies, and Courage improves defense and speed. Evil side: Crippling Fear slows enemies and their attacks, while Black Cloud reduces attack and maximum health.\n\n• Ceyah: Bloodthirst improves attack rate and speed at the cost of defense and health; Insect Swarm summons a spectral swarm.\n\n• Council: Healing Aura heals and improves company recovery; Glacial Comet damages and freezes enemies.\n\n• Fallen: Dark Hunger strengthens troops while damaging them over time; The Gate calls temporary demons and Shadow companies.\n\n• Nationalist: Righteous Advance improves melee combat, defense and speed; Crimson Comet deals fire damage and ignites the target area.\n\n• Royalist: Mark of Kohan strengthens troops and their resistances; Banishment deals holy damage and weakens enemies, especially unholy troops."
+        }
+      },
+      {
+        "id": "recon",
+        "title": {
+          "ru": "Воздушная разведка",
+          "en": "Aerial reconnaissance"
+        },
+        "body": {
+          "ru": "• Keep, города, цитадели и столицы отправляют летающих разведчиков к выбранной точке. Они открывают карту по пути и временно рассеивают туман войны.\n\n• Разведчики больше не неуязвимы: в текущей версии добавлен тип цели flyer. Обычные стрелковые войска могут их атаковать; дальнобойная осада исключена, а многие наземные заклинания на них не действуют.\n\n• Отправка звена стоит 20 золота. Keep и город располагают двумя разведчиками; улучшенный Keep и цитадель — четырьмя; улучшенная цитадель — шестью. Обычные звенья состоят из двух разведчиков.\n\n• Столица располагает шестью разведчиками, улучшенная — девятью. В её звене три разведчика, поэтому одновременно можно отправить два или три звена соответственно.",
+          "en": "• Keeps, cities, citadels and capitals can send flying scouts to a chosen location. They reveal terrain along their route and temporarily clear the fog of war.\n\n• Scouts are no longer invulnerable: the current version adds the flyer target type. Ordinary ranged troops can attack them; ranged siege is excluded, and many ground-targeted spells cannot affect them.\n\n• Sending a wing costs 20 gold. A Keep or city has two scouts; an upgraded Keep or citadel has four; an upgraded citadel has six. Ordinary wings contain two scouts.\n\n• A sovereign capital has six scouts and its upgraded form has nine. Its wings contain three scouts, allowing two or three simultaneous wings respectively."
+        }
+      },
+      {
+        "id": "maps",
+        "title": {
+          "ru": "Случайные карты",
+          "en": "Random maps"
+        },
+        "body": {
+          "ru": "• Расширены существующие наборы местности и добавлен Cursed Land — мрачная земля с собственной природой и чудовищами.\n\n• Появились настройки количества анклавов и больших логов. Большие логова, включая драконьи, Branch Thing, Dark Rift и логова виверн, размещаются дальше от стартовых позиций и дают увеличенные награды.\n\n• Фундаментные площадки служат основой анклавов и местами для королевских сооружений. Для новых объектов предусмотрены отдельные обозначения на миникарте.\n\n• В настройках случайной карты можно выбрать утро, день, вечер или ночь как визуальное оформление.\n\n• Чистый мод предлагает десять размеров карты от 384 × 384 до 960 × 960 и восемь основных королевств. Увеличение до 16 королевств и карты 1024/1152 относятся к Paw’s Patch.\n\n• Исправлены ошибки генерации и стыков болот с другими типами местности, включая случаи воды и болот в неподходящих местах поселений.",
+          "en": "• Existing terrain sets are expanded and Cursed Land introduces a dark landscape with its own environment and creatures.\n\n• Enclave and large-lair density controls are added. Large lairs, including dragons, Branch Thing, Dark Rift and wyvern nests, are placed farther from starting positions and give larger rewards.\n\n• Foundation spots host enclaves and provide locations for kingdom structures. New object types have their own minimap markers.\n\n• Random-map settings offer morning, day, afternoon or night as a visual setting.\n\n• The original mod offers ten map sizes from 384 × 384 through 960 × 960 and eight major kingdoms. Sixteen kingdoms and 1024/1152 maps are Paw’s Patch additions.\n\n• Map-generation errors and swamp transitions are corrected, including cases where water or swamp terrain appeared in unsuitable settlement locations."
+        }
+      },
+      {
+        "id": "monsters",
+        "title": {
+          "ru": "Чудовища и логова",
+          "en": "Monsters and lairs"
+        },
+        "body": {
+          "ru": "• Добавлены Branch Thing, Dire Wolf с восстановлением от атак, парализующий Night Lurkerer, Ice Dragon и ядовитый Feral Wyvern; у Cursed Land есть собственные пауки и скорпионы.\n\n• У огненных, ледяных и штормовых драконов есть молодые особи и детёныши. Драконьи логова населены несколькими возрастами, а молодые драконы могут покидать логово и бродить по карте.\n\n• Логова ракшасов способны развиться в улей, а улей — создавать новые логова. Если не вмешаться, образуется растущая колония.",
+          "en": "• Additions include Branch Thing, the self-healing Dire Wolf, paralyzing Night Lurkerer, Ice Dragon and venomous Feral Wyvern; Cursed Land has its own spiders and scorpions.\n\n• Fire, ice and storm dragons have young and hatchling variants. Dragon lairs contain several age groups, and young dragons can leave the lair and roam the map.\n\n• Rhaksha lairs can develop into hives, which can create additional lairs. Left alone, they can form a growing colony."
+        }
+      },
+      {
+        "id": "fixes",
+        "title": {
+          "ru": "Исправления до 0.82.1.8",
+          "en": "Fixes through 0.82.1.8"
+        },
+        "body": {
+          "ru": "• Исправлены сломанные построения рот и поведение групп, а также ошибка, из-за которой обладатели свойства Large Target могли атаковать сами себя.\n\n• Для Macabre, Kerberos и Si’Arian добавлены отдельные варианты под построения тени и уточнены условия найма. Death Wyrm получил правила снабжения нежити, позволяющие восстанавливаться вне зоны снабжения без потери морали.\n\n• Исправлена защита Rhaksha Foundation Camp, неверное свойство Branch Thing Dwelling, описание Shadow Sepulcher и название атаки Qasim Majere.\n\n• Ударные глобальные силы ослаблены. Например, в файлах текущей версии прямой урон Glacial Comet составляет 100, Crimson Comet — 150, Banishment — 125; старый обзор магии содержит более высокие значения.\n\n• Исправлены пропуски производства осколков в мановых постройках. У Drauga Marauder Camp призванные налётчики получили поведение Berserk; для патрульных укреплений людей и харунов настроены охрана и обнаружение, а в патрули харунов добавлен Seeker.\n\n• У Maelstrom Engine, Dragonfire Balistae и Vorpal Engine минимальная дальность увеличена до 4; у двух последних также уменьшена эффективность против обычных бойцов.\n\n• Правила обычного призыва переработаны: существа не исчезают сразу, когда призыватель выходит из боя. Если целей больше нет, они возвращаются и исчезают после пяти секунд бездействия. Особые призывы Marauders, Legion и The Gate сохраняют собственную логику.\n\n• Из-за вылетов Crimson Spirit заменён на Crimson Comet, а Royal Court Hunter получил новую модель. Обновлены модели и портреты стрелковых капитанов, модели разведчиков и ряд визуальных эффектов.",
+          "en": "• Broken company formations and group behavior are fixed, together with the issue that caused Large Target units to attack themselves.\n\n• Macabre, Kerberos and Si’Arian gain separate Shadow-layout variants and corrected recruitment requirements. Death Wyrm gains Undead supply rules, allowing recovery outside supply without morale loss.\n\n• Rhaksha Foundation Camp defense, an incorrect Branch Thing Dwelling property, the Shadow Sepulcher description and Qasim Majere’s attack name are corrected.\n\n• Offensive global powers are weakened. For example, the current files set direct Glacial Comet damage to 100, Crimson Comet to 150 and Banishment to 125; the older power overview lists higher figures.\n\n• Missing shard production is added to mana structures. Drauga Marauder Camp raiders gain Berserk behavior; Human and Haroun patrol fortifications receive guard and detection adjustments, and Haroun patrols gain a Seeker.\n\n• Maelstrom Engine, Dragonfire Balistae and Vorpal Engine gain a minimum range of 4; the latter two also become less effective against ordinary troops.\n\n• Ordinary summons no longer disappear immediately when their summoner leaves combat. With no remaining targets, they return and disappear after five seconds of inactivity. Special summons such as Marauders, Legion and The Gate retain separate behavior.\n\n• Crimson Spirit is replaced by Crimson Comet and Royal Court Hunter receives a new model to address crashes. Ranged-captain models and portraits, scout models and several visual effects are updated."
+        }
+      }
+    ],
+    "changelog": [
+      {
+        "category": "mod",
+        "mods": [
+          "arcane-wars"
+        ],
+        "version": "0.82.1.8",
+        "publishedAt": "",
+        "title": {
+          "ru": "Arcane Wars 0.82.1.8",
+          "en": "Arcane Wars 0.82.1.8"
+        },
+        "body": {
+          "ru": "Изменения автора мода Darquan Mortis.\n\n• По летающим целям больше не работают Blinding Light, Clockwork Bomb, Wrath of Desert, Earthshock, Forcewave, Glacial Arrow, Liliput, Shadow Ring, Shooting Stars, Entangle, Grasping Thorns, Heavens Cage, Immolation, Meteor, Petrify, Shadow Shock, Web и заклинания призыва, кроме Apparation и Sentry Turret.\n• Изменены правила обычного призыва: призванные существа больше не погибают мгновенно при выходе призывателя из боя. Они продолжают сражаться; когда рядом с призывателем не остаётся врагов, возвращаются в исходную точку и исчезают после 5 секунд бездействия. Это также устраняет долго блуждающие и постепенно умирающие призывы. Особые Summon Marauders, Summon Legion и The Gate сохраняют собственные правила.\n• Royal Court Hunter получил новую модель: прежняя могла вызывать вылет при анимации заклинания.\n\nИсточник: Patch 0.82.1.8 - list of changes.txt. Дата выпуска в файле не указана.",
+          "en": "Changes by mod author Darquan Mortis.\n\n- to further implement flyers as target type following spells and abilities are no longer able to target flyer units:\n  Blinding Light, Clockwork Bomb, Wrath of Desert, Earthshock, Forcewave, Glacial Arrow, Liliput, Shadow Ring, Shooting Stars,\n  Entangle, Grasping Thorns, Heavens Cage, Immolation, Meteor, Petrify, Shadow Shock, Web and all Summon Spells with exception\n  of Apparation and Sentry Turret\n  \n- changed rules for standard summon spells to prevent instant death of summon moment it's not in combat, also to get rid of\n  slowly dying summons that roam map long after battle is over(most apparent with summoners used as settlement militia),\n  with new rules summoned units remain in combat even if summoners company leaves combat, if there are now enemies left in\n  range of summoner unit it will return to its starting point and after 5 seconds of inactivity dies. This should make\n  summoners more interesting option to recruit and make rules for summoned units more like in KIS and KAG.\n  There are still few special summons that don't use new rules most notably Summon Marauders, Summon Legion and The Gate as they\n  have different role and some of them roam map as part of their intended use.\n\n- added new model for Royal Court Hunter unit as model previously used had change to cause crash when using cast animation.\n\nSource: Patch 0.82.1.8 - list of changes.txt. The source does not give a release date."
+        }
+      },
+      {
+        "category": "mod",
+        "mods": [
+          "arcane-wars"
+        ],
+        "version": "0.82.1.6",
+        "publishedAt": "",
+        "title": {
+          "ru": "Arcane Wars 0.82.1.6",
+          "en": "Arcane Wars 0.82.1.6"
+        },
+        "body": {
+          "ru": "Изменения автора мода Darquan Mortis.\n\n• Исправлена ошибка, при которой боец со свойством Large Target атаковал самого себя.\n• Добавлено определение призванных рот для устранения проблемы низкой морали призванных существ.\n• Немного увеличена скорость всех воздушных разведчиков и изменён радиус их разворота.\n• В генератор добавлен тип Large Lair с отдельным ползунком: логова драконов, Branch Thing, Dark Rift и виверн размещаются дальше от стартовых позиций; награда золотом и осколками увеличена.\n• У Human Border Keep и Haroun Plains Guard Camp увеличена дальность патрулирования и добавлен штраф к дальности обнаружения, с учётом обязательного размещения на фундаменте.\n• Ротам Haroun Windrider Plains Guard добавлен боец поддержки Seeker для повышения скорости и боевой эффективности.\n\nИсточник: Patch 0.82.1.8 - list of changes.txt. Дата выпуска в файле не указана.",
+          "en": "Changes by mod author Darquan Mortis.\n\n- fixed \"seppuku bug\" when any unit with Large Target property attacked itself\n\n- added definition for Summoned companies addressing problem for low morale summons\n\n- slightly increased movement speed for all air scouts and readjusted turn radius\n\n- added definition for Large Lair to random map along with slider in generator, it is used for all dragon lairs, Branch Thing,\n  Dark Rift and wyvern lair, large lairs are created further away from start location and all of them have increased reward in \n  gold and shards\n\n- increased guard range and added detection range penalty for Human Border Keep and Haroun Plain Guard Camp to compensate for \n  fact they now have to be placed on foundation spot \n\n- added Seeker support unit to Haroun Windrider Plains Guard companies to improve their speed and combat effectiveness\n\nSource: Patch 0.82.1.8 - list of changes.txt. The source does not give a release date."
+        }
+      },
+      {
+        "category": "mod",
+        "mods": [
+          "arcane-wars"
+        ],
+        "version": "0.82.1.4",
+        "publishedAt": "",
+        "title": {
+          "ru": "Arcane Wars 0.82.1.4",
+          "en": "Arcane Wars 0.82.1.4"
+        },
+        "body": {
+          "ru": "Изменения автора мода Darquan Mortis.\n\n• Исправлены сломанные построения рот и поведение групп.\n• Введён тип цели flyer для воздушных разведчиков и части летающих защитников Ancient Laygrounds, Spirit Tree и Drauga Marauder Camp. По ним могут стрелять дальнобойные бойцы, кроме осадных.\n• Цена воздушных разведчиков снижена до 20 золота. У обычных поселений и фортов в звене по 2 разведчика: Keep — 2, улучшенный Keep — 4; City — 2, Citadel — 4, улучшенная Citadel — 6. Sovereign Citadel использует звенья по 3: всего 6, после улучшения — 9. Одновременно отправляется соответственно 1–3 звена.\n• Призванным ротам Marauder Camp добавлено свойство Berserk.\n• Maelstrom Destroyer отражает урон атакующим его в ближнем бою: 10 кхалдунитового урона каждые 2 секунды, с визуальным эффектом.\n• Минимальная дальность Maelstrom Engine, Dragonfire Balistae и Vorpal Engine увеличена до 4. У Dragonfire Balistae немного снижен урон по войскам; у Vorpal Engine урон по войскам также снижен.\n\nИсточник: Patch 0.82.1.8 - list of changes.txt. Дата выпуска в файле не указана.",
+          "en": "Changes by mod author Darquan Mortis.\n\n- fixed issue with broken company formations and group behavior\n\n- created and implemented target type \"flyer\" for air scouts and few defender flyers used as experiment in Ancient Laygrounds, \n  Spirit Tree and Dragua Marauder camp structures, flyers can be targeted by ranged units with exception of siege ranged units\n\n- updated system for air scouts: \n   - cost reduced to 20 gold\n   - number of scouts send per \"wing\" reduced to 2 for keeps and normal settlements\n   - Keep, 2 scouts, can send one scout \"wing\"\n   - Keep Upgrade, 4 scouts, can send two scout \"wings\" simultaneously\n   - City, added 2 scouts, can send one scout \"wing\"\n   - Citadel, 4 scouts, can send two scout \"wings\" simultaneously\n   - Citadel upgrade, 6 scouts, can send three scout \"wings\" simultaneously\n   - Sov. Citadel, 6 scouts, 3 scouts per \"wing\", can send two scout \"wings\" simultaneously\n   - Sov. Citadel Upgrade, 9 scouts, 3 scouts per \"wing\", can send three scout \"wings\" simultaneously\n\n- added Berserk property to Marauder companies summoned by Drauga Marauder Camp\n\n- added reverse damage effect and visuals to Maelstrom Destroyer, melee attackers take 10 khaldunite damage each 2 seconds\n\n- Maelstrom Engine, min. range increased to 4\n\n- Dragonfire Balistae, min. range increased to 4, slightly reduced damage against units\n\n- Vorpal Engine, min. range increased to 4, reduced damage against units\n\nSource: Patch 0.82.1.8 - list of changes.txt. The source does not give a release date."
+        }
+      }
+    ]
+  },
+  {
+    "id": "immortals",
+    "version": "2.1",
+    "author": "MartialDoctor",
+    "description": {
+      "ru": "Мод баланса для Kohan II: Kings of War: отдельные капитаны осадных рот, более медленное лечение командиров, переработанные бойцы и технологии, экономика и гарнизоны. В комплект также входят дополнительные компьютерные соперники и размеры случайных карт.",
+      "en": "A Kohan II: Kings of War balance mod featuring dedicated siege captains, slower commander recovery, revised units and technologies, economy and garrison changes, plus community AI opponents and additional random-map sizes."
+    },
+    "sections": [
+      {
+        "id": "approach",
+        "title": {
+          "ru": "Что меняет Immortals",
+          "en": "What Immortals changes"
+        },
+        "body": {
+          "ru": "Его цель — сделать редко используемых бойцов и технологии полезнее, ослабить чрезмерно выгодные осадные роты и вернуть значение потере капитана. Сохраняются знакомые расы, фракции и основа игры.\n\nНиже описан итоговый набор 2.1. Изменения старых выпусков, позднее отменённые автором, не считаются действующими. Числа относятся к базовым характеристикам до опыта, технологий и других бонусов.",
+          "en": "It aims to make underused units and technologies worthwhile, reduce the dominance of siege-heavy armies, and make losing a captain more significant. It retains the familiar races, factions, and core game.\n\nThe list below describes the final 2.1 package. Changes from older releases that the author later reverted are not presented as active features. Values are base stats before experience, technologies, and other bonuses."
+        }
+      },
+      {
+        "id": "siege-captains",
+        "title": {
+          "ru": "Осадные роты и новые капитаны",
+          "en": "Siege companies and their captains"
+        },
+        "body": {
+          "ru": "• Осадная рота получает отдельного постоянного капитана. Он занимает собственное место в строю; заменить его обычным командиром или Kohan нельзя.\n• Catapult ведёт Operator; Hillstrider — Treeman; Maelstrom — Observer; Juggernaut — Mechanic; Behemoth — Savage; Leviathan — Imp; Bone Golem — Apparition.\n• Jotun и Trow используют Beast Trainer, а Ifrit и Djinn — Elementalist. Соответствующие захватываемые храмы открывают и необходимого капитана.\n• Капитаны ближней осады сражаются вблизи, капитаны дальней — стреляют. Их скорость и свойства подобраны под свою осадную машину или существо.\n• Строи осадных рот переработаны под новое место капитана. Для Abaddon сохранён отдельный прежний строй.",
+          "en": "• Siege companies receive a separate, locked captain slot. Their dedicated captain cannot be replaced by a normal captain or Kohan.\n• Catapult uses Operator; Hillstrider uses Treeman; Maelstrom uses Observer; Juggernaut uses Mechanic; Behemoth uses Savage; Leviathan uses Imp; Bone Golem uses Apparition.\n• Jotun and Trow use Beast Trainer; Ifrit and Djinn use Elementalist. The corresponding capturable temples also grant access to the required captain.\n• Melee siege captains fight in melee, while ranged siege captains use ranged attacks. Their movement and properties are tailored to their siege unit.\n• Siege formations are rearranged around the new captain slot. Abaddon retains a separate original-style formation."
+        }
+      },
+      {
+        "id": "siege-captain-stats",
+        "title": {
+          "ru": "Характеристики капитанов осады",
+          "en": "Siege captain stats"
+        },
+        "body": {
+          "ru": "• Operator: 100 здоровья, 12 урона дальней атакой.\n• Treeman: 150 здоровья, 12 урона вблизи; Living Wood, Unstoppable и самостоятельное лечение Haroun.\n• Observer: 120 здоровья, 16 урона дальней атакой.\n• Mechanic: 160 здоровья, 14 урона вблизи; Unstoppable.\n• Savage: 180 здоровья, 16 урона вблизи; Unstoppable.\n• Imp: 120 здоровья, основная дальняя атака 15; Unstoppable.\n• Apparition: 100 здоровья, 14 урона вблизи; Spectral и Unstoppable.\n• Beast Trainer: 180 здоровья, 16 урона вблизи; Unstoppable.\n• Elementalist: 120 здоровья, 13 урона дальней атакой.",
+          "en": "• Operator: 100 health, 12 ranged damage.\n• Treeman: 150 health, 12 melee damage; Living Wood, Unstoppable, and Haroun self-healing.\n• Observer: 120 health, 16 ranged damage.\n• Mechanic: 160 health, 14 melee damage; Unstoppable.\n• Savage: 180 health, 16 melee damage; Unstoppable.\n• Imp: 120 health, 15 damage on its main ranged attack; Unstoppable.\n• Apparition: 100 health, 14 melee damage; Spectral and Unstoppable.\n• Beast Trainer: 180 health, 16 melee damage; Unstoppable.\n• Elementalist: 120 health, 13 ranged damage."
+        }
+      },
+      {
+        "id": "melee-siege",
+        "title": {
+          "ru": "Ближняя осада",
+          "en": "Melee siege"
+        },
+        "body": {
+          "ru": "• Удары ближней осады используют область 2,0 и до 6 целей. Коэффициент ослабления урона по краям области изменён с 0,5 до 0,3.\n• Основной осадный урон: Hillstrider — 29, Juggernaut — 34, Behemoth — 34, Bone Golem — 30, Jotun — 40, Trow — 37. Это уменьшает эффективность осады против плотных масс обычных бойцов.\n• Bone Golem, Juggernaut и Trow ускорены с 2,5 до 3. Соответствующие капитаны также перемещаются со скоростью 3.\n• Мораль Hillstrider, Juggernaut и Bone Golem повышена до 60; Behemoth, Jotun и Trow — до 66.\n• В поставляемом наборе здоровье Behemoth составляет 960 вместо 880 в базовых данных игры.",
+          "en": "• Melee siege attacks use a 2.0 area and up to 6 targets. Their outer-area damage attenuation factor changes from 0.5 to 0.3.\n• Main siege damage is 29 for Hillstrider, 34 for Juggernaut and Behemoth, 30 for Bone Golem, 40 for Jotun, and 37 for Trow. This reduces their effectiveness against dense groups of ordinary troops.\n• Bone Golem, Juggernaut, and Trow move at 3 instead of 2.5. Their associated captains also move at 3.\n• Hillstrider, Juggernaut, and Bone Golem morale rises to 60; Behemoth, Jotun, and Trow morale rises to 66.\n• The supplied package gives Behemoth 960 health instead of the base game data’s 880."
+        }
+      },
+      {
+        "id": "ranged-siege",
+        "title": {
+          "ru": "Дальняя осада",
+          "en": "Ranged siege"
+        },
+        "body": {
+          "ru": "• Catapult требует Quarry и Woodmill вместо Quarry и Barracks. Её удар наносит 20 огненного и 6 дополнительного осадного урона; цель горит ещё 3 секунды, теряя по 3 здоровья в секунду. Область поражения — 3,5, до 12 целей.\n• Maelstrom наносит 30 урона кхалдунитом и 6 дополнительного осадного урона; область 3,5, до 12 целей.\n• Dreadfire Blast у Leviathan наносит 27 магического и 6 дополнительного осадного урона; область 3,0, до 10 целей.\n• Специальный дополнительный урон по зданиям сохраняется отдельно от перечисленного основного урона.",
+          "en": "• Catapult requires Quarry and Woodmill instead of Quarry and Barracks. Its hit deals 20 fire damage plus 6 additional siege damage and burns the target for 3 damage per second over 3 seconds. Its area is 3.5 with up to 12 targets.\n• Maelstrom deals 30 khaldunite damage plus 6 additional siege damage, with a 3.5 area and up to 12 targets.\n• Leviathan’s Dreadfire Blast deals 27 magic damage plus 6 additional siege damage, with a 3.0 area and up to 10 targets.\n• Existing building-specific bonus damage remains separate from those main damage values."
+        }
+      },
+      {
+        "id": "healing",
+        "title": {
+          "ru": "Лечение капитанов и Kohan",
+          "en": "Captain and Kohan healing"
+        },
+        "body": {
+          "ru": "• Обычные капитаны и большинство Kohan получают Reduced Heal Rate: их собственное восстановление уменьшено на 60%.\n• Для Kohan фракции Fallen используется отдельное уменьшение на 75%. Сильный герой дольше восстанавливается после тяжёлого боя.\n• Изменение относится к командиру, а не к скорости восстановления всей его роты.\n• Здоровье бойцов Kohan Fallen ближнего боя уменьшено с 1200 до 1100, стрелков — с 950 до 880.\n• Dreadlord больше не требует железо на содержание: остаётся 2 маны.",
+          "en": "• Ordinary captains and most Kohan receive Reduced Heal Rate, reducing their own recovery by 60%.\n• Fallen Kohan receive a separate 75% reduction. A powerful hero takes longer to recover after a difficult fight.\n• The modifier applies to the commander, rather than reducing the entire company’s recovery rate.\n• Fallen melee Kohan health drops from 1200 to 1100; ranged Kohan health drops from 950 to 880.\n• Dreadlord no longer consumes iron in upkeep; its upkeep is 2 mana."
+        }
+      },
+      {
+        "id": "cavalry",
+        "title": {
+          "ru": "Кавалерия",
+          "en": "Cavalry"
+        },
+        "body": {
+          "ru": "• Beastrider получает 440 здоровья вместо 400; Dragoon — 374 вместо 340; Beast — 396 вместо 360; Nightmare — 352 вместо 320.\n• У Gauri здоровье Hammer в итоговой версии доведено до 370 вместо исходных 320.\n• Windrider содержится за 1 дерево и 0,5 железа вместо 1 дерева и 1 железа; его базовая мораль увеличена с 10 до 11.\n• Charge сохраняет +4 к атаке и теперь даёт +35% к максимальной скорости вместо +25%.\n• Сопротивления осадному урону Agile и Swift в 2.1 соответствуют оригиналу: 20% и 40%.",
+          "en": "• Beastrider receives 440 health instead of 400; Dragoon 374 instead of 340; Beast 396 instead of 360; Nightmare 352 instead of 320.\n• Gauri Hammer ends at 370 health, compared with the original 320.\n• Windrider upkeep is 1 wood and 0.5 iron instead of 1 wood and 1 iron; its base morale rises from 10 to 11.\n• Charge retains +4 attack and increases maximum speed by 35% instead of 25%.\n• In 2.1, Agile and Swift retain their original siege resistances of 20% and 40%."
+        }
+      },
+      {
+        "id": "human-units",
+        "title": {
+          "ru": "Люди: бойцы и лечение",
+          "en": "Human units and healing"
+        },
+        "body": {
+          "ru": "• Engineer стоит 10 золота вместо 15.\n• Ranger наносит 28 урона вблизи вместо 26 и 41 на расстоянии вместо 38.\n• Heal и его улучшенные варианты восстанавливают также мораль: обычные версии дают 0,2, высшая — 0,25. Изменение распространяется и на Kohan, использующих эти заклинания, включая Kivana и Mayati.\n• Здоровье Pikeman и характеристики Fireball возвращены к исходным значениям. Усиление Fireball из промежуточных версий в 2.1 не действует.",
+          "en": "• Engineer costs 10 gold instead of 15.\n• Ranger deals 28 melee damage instead of 26 and 41 ranged damage instead of 38.\n• Heal and its upgraded forms also restore morale: the regular forms restore 0.2, while the highest form restores 0.25. Kohan using these spells, including Kivana and Mayati, benefit as well.\n• Pikeman health and Fireball use their original values. The Fireball buff from intermediate releases is not active in 2.1."
+        }
+      },
+      {
+        "id": "gauri-units",
+        "title": {
+          "ru": "Gauri: живучесть и стоимость",
+          "en": "Gauri durability and costs"
+        },
+        "body": {
+          "ru": "• Leader получает 330 здоровья вместо 300, Anvil — 250 вместо 240.\n• Hammer получает 370 здоровья вместо 320.\n• Wrecker стоит 18 золота вместо 20; содержание уменьшено с 2 камня и 2 железа до 2 камня и 1 железа.\n• Поддержка Warden сохраняет +2 к защите и невосприимчивость к чарам, но больше не добавляет ещё 20% сопротивления магии поверх расового сопротивления Gauri.",
+          "en": "• Leader receives 330 health instead of 300; Anvil receives 250 instead of 240.\n• Hammer receives 370 health instead of 320.\n• Wrecker costs 18 gold instead of 20, and upkeep falls from 2 stone and 2 iron to 2 stone and 1 iron.\n• Warden support retains +2 defense and enchantment immunity, but no longer adds another 20% magic resistance on top of Gauri racial resistance."
+        }
+      },
+      {
+        "id": "undead-units",
+        "title": {
+          "ru": "Нежить: Revenant и Defiler",
+          "en": "Undead Revenant and Defiler"
+        },
+        "body": {
+          "ru": "• Revenant переработан в стойкого бойца первой линии: 450 здоровья вместо 280, защита 5 вместо 3, скорость 4 вместо 3.\n• Он стоит 28 золота, содержится за 3 маны и относится к пехоте вместо штурмовых бойцов.\n• Вместо Skeletal получает Spectral — 40% сопротивления ближнему, стрелковому и осадному урону. Дополнительно имеет Fireproof — 40% сопротивления огню.\n• Его Immolation усилено до 40 урона; улучшенная версия — до 57. Эти же изменения действуют у Kohan с данным заклинанием.\n• Defiler стоит 20 золота вместо 18; к прежним 2 маны содержания добавлено 1 дерево.",
+          "en": "• Revenant becomes a durable frontline unit: 450 health instead of 280, 5 defense instead of 3, and 4 speed instead of 3.\n• It costs 28 gold, consumes 3 mana in upkeep, and uses the infantry role instead of assault.\n• Spectral replaces Skeletal, providing 40% resistance to melee, ranged, and siege damage. Fireproof adds 40% fire resistance.\n• Immolation rises to 40 damage, or 57 for its upgraded form. Kohan using the same spell also benefit.\n• Defiler costs 20 gold instead of 18 and adds 1 wood to its existing 2 mana upkeep."
+        }
+      },
+      {
+        "id": "tech-siege",
+        "title": {
+          "ru": "Наёмная осада из храмов",
+          "en": "Temple siege units"
+        },
+        "body": {
+          "ru": "• Djinn: цена 50 золота вместо 70; содержание 1 дерево и 3 маны вместо 5 маны. Для найма достаточно Library; Barracks больше не требуется. Урон Lightning в 2.1 — исходные 40.\n• Ifrit: цена 50 золота вместо 70; содержание 1 камень и 3 маны вместо 2 камня и 4 маны. Требуется Library без Barracks.\n• Fireblast у Ifrit наносит 28 огненного урона вместо 25. Эффект горения относится к огню, поэтому не считается обычными магическими чарами.\n• Jotun: содержание 1 железо и 3 маны вместо 4 маны; достаточно Shrine без Barracks.\n• Trow: содержание 3 камня и 3 маны вместо 5 камня и 3 маны; достаточно Shrine без Barracks.\n• Эти роты используют новых постоянных капитанов Elementalist и Beast Trainer.",
+          "en": "• Djinn costs 50 gold instead of 70, with 1 wood and 3 mana upkeep instead of 5 mana. Recruitment requires Library without Barracks. In 2.1, Lightning returns to its original 40 damage.\n• Ifrit costs 50 gold instead of 70, with 1 stone and 3 mana upkeep instead of 2 stone and 4 mana. It requires Library without Barracks.\n• Ifrit Fireblast deals 28 fire damage instead of 25. Its burning effect is classified as fire rather than a normal magical enchantment.\n• Jotun upkeep is 1 iron and 3 mana instead of 4 mana, and it requires Shrine without Barracks.\n• Trow upkeep is 3 stone and 3 mana instead of 5 stone and 3 mana, and it requires Shrine without Barracks.\n• These companies use the new locked Elementalist and Beast Trainer captains."
+        }
+      },
+      {
+        "id": "tech-support",
+        "title": {
+          "ru": "Другие наёмные бойцы и поддержка",
+          "en": "Other tech units and support"
+        },
+        "body": {
+          "ru": "• Druid стоит 22 золота вместо 26; содержание — 1 дерево и 2 маны вместо 3 маны. Он использует более сильный Swarm: 50 урона, штрафы −3 к атаке и защите.\n• Shaman использует улучшенный Earthskin с +4 к защите и +20% сопротивления ближнему урону.\n• Sentinel стоит 18 золота вместо 24 и требует 1 дерево и 1 железо вместо 2 дерева и 1 железа. Урон дальней атаки возвращён к исходным 32.\n• Saiyar наносит 18 урона дальней атакой вместо 16.\n• Shadow Knight получает 360 здоровья вместо 320 и 28 урона вблизи вместо 24.\n• Meteor у Archmage поражает область 2,5 вместо 2,0, до 8 целей; перезарядка в итоговой 2.1 составляет исходные 8 секунд.",
+          "en": "• Druid costs 22 gold instead of 26, with 1 wood and 2 mana upkeep instead of 3 mana. It uses a stronger Swarm with 50 damage and −3 attack and defense penalties.\n• Shaman uses the upgraded Earthskin, granting +4 defense and +20% melee resistance.\n• Sentinel costs 18 gold instead of 24, with 1 wood and 1 iron upkeep instead of 2 wood and 1 iron. Ranged damage returns to the original 32.\n• Saiyar deals 18 ranged damage instead of 16.\n• Shadow Knight receives 360 health instead of 320 and 28 melee damage instead of 24.\n• Archmage Meteor uses a 2.5 area instead of 2.0, with up to 8 targets. The final 2.1 recharge is the original 8 seconds."
+        }
+      },
+      {
+        "id": "persistent-spells",
+        "title": {
+          "ru": "Длительность защитных заклинаний",
+          "en": "Protective spell duration"
+        },
+        "body": {
+          "ru": "Dispel Magic и Elemental Aura, включая улучшенные варианты, действуют 45 секунд вместо 30 и перезаряжаются 30 секунд вместо 20. Это уменьшает промежутки, в которые рота теряет защиту из-за задержки повторного применения заклинания. Изменение распространяется и на Kohan с теми же способностями.",
+          "en": "Dispel Magic and Elemental Aura, including their upgraded forms, last 45 seconds instead of 30 and recharge in 30 seconds instead of 20. This reduces gaps in company protection caused by delayed recasts. Kohan using the same abilities are affected as well."
+        }
+      },
+      {
+        "id": "human-economy",
+        "title": {
+          "ru": "Экономика людей",
+          "en": "Human economy"
+        },
+        "body": {
+          "ru": "• Производство золота центральными зданиями: Village — 20 вместо 18; Town — 33 вместо 30; City — 44 вместо 40; Citadel — 53 вместо 48.\n• Bank производит 36 золота вместо исходных 25.\n• Library и Shrine производят по 4 маны вместо 3. Их улучшения Temple и Mage College сохраняют исходные 7 маны.\n• Ранние усиления прочих ресурсных зданий людей отменены: в 2.1 они не дают повышенную добычу из старого README.",
+          "en": "• Gold production from settlement centers rises to 20 from 18 for Village, 33 from 30 for Town, 44 from 40 for City, and 53 from 48 for Citadel.\n• Bank produces 36 gold instead of the original 25.\n• Library and Shrine produce 4 mana instead of 3. Their Temple and Mage College upgrades retain the original 7 mana.\n• Earlier buffs to other Human resource buildings were reverted; their increased production from the old README is not active in 2.1."
+        }
+      },
+      {
+        "id": "other-economies",
+        "title": {
+          "ru": "Экономика Gauri, Haroun и Тени",
+          "en": "Gauri, Haroun, and Shadow economy"
+        },
+        "body": {
+          "ru": "• Все четыре уровня центрального здания Gauri дают 2 камня вместо 1. Прочее производство сохраняется: 16/28/36/40 золота, дерево со второго уровня, железо с третьего, мана с четвёртого.\n• Village Haroun стоит 120 золота вместо 125 и производит 14 золота и 1 дерево вместо 12 золота и 1 дерева.\n• Village Тени стоит 90 золота вместо 80, City — 180 вместо 160, Citadel — 280 вместо 240.\n• Market Тени производит 18 золота вместо 20.\n• Market нежити в 2.1 возвращён к исходным 15 золота производства и цене 100; временное ослабление из версии 1.8 отменено.",
+          "en": "• All four Gauri settlement levels produce 2 stone instead of 1. Other production remains 16/28/36/40 gold, wood from level two, iron from level three, and mana from level four.\n• Haroun Village costs 120 gold instead of 125 and produces 14 gold plus 1 wood instead of 12 gold plus 1 wood.\n• Shadow Village costs 90 gold instead of 80, City 180 instead of 160, and Citadel 280 instead of 240.\n• Shadow Market produces 18 gold instead of 20.\n• In 2.1, Undead Market returns to its original 15 gold production and 100 gold price; the temporary 1.8 nerf is reverted."
+        }
+      },
+      {
+        "id": "garrisons",
+        "title": {
+          "ru": "Гарнизоны и укрепления",
+          "en": "Garrisons and fortifications"
+        },
+        "body": {
+          "ru": "• Drauga: в City — 10 Impaler и 10 Berserker; в Citadel — 10 Impaler и 12 Berserker. Berserker заменяет Raider в оборонительной части гарнизона.\n• Gauri: в City — 10 Spear и 10 Anvil; в Citadel — 10 Spear и 12 Anvil.\n• Haroun: в Citadel — 10 Rainbringer и 8 Stonewalker. Town и City используют оригинальные гарнизоны, возвращённые автором в версии 1.5.\n• Люди: Village и Town имеют 8 Pikeman и 6 Archer; City — 10 Bowman и 8 Swordsman; Citadel — 10 Bowman и 10 Swordsman.\n• Нежить: City имеет 10 Bonearcher и 8 Skeleton; Citadel — 10 Bonearcher и 10 Skeleton.\n• Тень: Village имеет 4 Reaver и 6 Fury. В Outpost число Reaver сокращено с 8 до 6, в Fort — с 16 до 12.",
+          "en": "• Drauga City has 10 Impalers and 10 Berserkers; Citadel has 10 Impalers and 12 Berserkers. Berserkers replace Raiders in the defensive part of the garrison.\n• Gauri City has 10 Spears and 10 Anvils; Citadel has 10 Spears and 12 Anvils.\n• Haroun Citadel has 10 Rainbringers and 8 Stonewalkers. Town and City retain the original garrisons restored by the author in 1.5.\n• Human Village and Town have 8 Pikemen and 6 Archers; City has 10 Bowmen and 8 Swordsmen; Citadel has 10 Bowmen and 10 Swordsmen.\n• Undead City has 10 Bonearchers and 8 Skeletons; Citadel has 10 Bonearchers and 10 Skeletons.\n• Shadow Village has 4 Reavers and 6 Furies. Outpost Reavers drop from 8 to 6; Fort Reavers drop from 16 to 12."
+        }
+      },
+      {
+        "id": "resistances",
+        "title": {
+          "ru": "Сопротивления зданий и бойцов",
+          "en": "Building and unit resistances"
+        },
+        "body": {
+          "ru": "• Обычные стены и здания получают 20% сопротивления магии вместо 40%, а также 20% сопротивления кхалдуниту вместо 0%.\n• Стены Haroun используют свойство Living Wood и не относятся к обычному типу стен этого изменения.\n• Khaldunite Armor даёт 25% сопротивления ближнему урону вместо 20%; Magic Armor — 25% сопротивления стрелковому урону вместо 20%.\n• Расовые особенности Тени в 2.1 восстановлены: невосприимчивость к яду и исходное 20% сопротивление осаде. Их удаление в версии 1.9 отменено.",
+          "en": "• Ordinary walls and buildings have 20% magic resistance instead of 40%, and gain 20% khaldunite resistance instead of 0%.\n• Haroun walls use Living Wood and are not the ordinary wall type covered by this change.\n• Khaldunite Armor grants 25% melee resistance instead of 20%; Magic Armor grants 25% ranged resistance instead of 20%.\n• Shadow racial abilities are restored in 2.1: poison immunity and the original 20% siege resistance. Their removal in 1.9 is reverted."
+        }
+      },
+      {
+        "id": "research-costs",
+        "title": {
+          "ru": "Стоимость и порядок исследований",
+          "en": "Research costs and arrangement"
+        },
+        "body": {
+          "ru": "• Удешевлены исследования укреплений в каменных постройках. У людей, Gauri и Drauga Fitted Stones и Journeymen стоят 100 золота вместо 200, а улучшения следующей ступени — 175 вместо 350.\n• У Haroun Rapid Growth и Entwined Branches стоят 80 золота, Wide Trunks, Deep Roots и Thorny Barrier — 150. Skilled Labor остаётся отдельным исследованием за 125.\n• Для Shadow Fallen базовые Umbral Essence и Umbral Carapace стоят 90 вместо 180, старшие исследования — 158 вместо 315.\n• Для Undead Ceyah действуют цены 100 и 175. У Undead Fallen Umbral Essence и Umbral Carapace стоят 90, Thaumaturgy — 180, старшие исследования — 158; это устраняет прежние завышенные цены по сравнению с Тенью.\n• Исследования в Barracks, Foundry, экспортных зданиях, Mining Post и Sawmill переставлены в более последовательном порядке. Перестановка сама по себе не добавляет новую технологию.",
+          "en": "• Fortification research in stone buildings is cheaper. Human, Gauri, and Drauga Fitted Stones and Journeymen cost 100 gold instead of 200, while the next-tier upgrades cost 175 instead of 350.\n• Haroun Rapid Growth and Entwined Branches cost 80 gold; Wide Trunks, Deep Roots, and Thorny Barrier cost 150. Skilled Labor remains a separate 125-gold research.\n• For Shadow Fallen, basic Umbral Essence and Umbral Carapace cost 90 instead of 180, while higher-tier research costs 158 instead of 315.\n• Undead Ceyah uses the 100 and 175 prices. Undead Fallen Umbral Essence and Umbral Carapace cost 90, Thaumaturgy 180, and higher-tier research 158, removing the former price disadvantage against Shadow.\n• Research is rearranged in Barracks, Foundry, export buildings, Mining Post, and Sawmill to give it a more consistent order. Rearrangement by itself does not add a new technology."
+        }
+      },
+      {
+        "id": "shared-techs",
+        "title": {
+          "ru": "Общие изменения технологий",
+          "en": "Shared technology changes"
+        },
+        "body": {
+          "ru": "• Все варианты Billeting дают 30% скидки на соответствующих бойцов: пехоту, стрелков или кавалерию.\n• Proselytize и Black Ichor повышают скорость пополнения на 20% вместо 15%.\n• Onyx Rings сохраняет 20% сопротивления огню и дополнительно даёт 10% сопротивления магическому урону.\n• Cavalry Tactics и Umbral Frenzy сохраняют прибавку 20% к максимальной скорости и получают дополнительный 10% модификатор темпа атаки.\n• Blessing of Speed сохраняет 10% к максимальной скорости и тоже получает 10% модификатор темпа атаки.",
+          "en": "• All Billeting variants provide a 30% discount for their corresponding infantry, archers, or cavalry.\n• Proselytize and Black Ichor improve resupply rate by 20% instead of 15%.\n• Onyx Rings retains 20% fire resistance and adds 10% magic-damage resistance.\n• Cavalry Tactics and Umbral Frenzy retain 20% maximum speed and receive an additional 10% attack-timing modifier.\n• Blessing of Speed retains 10% maximum speed and also receives a 10% attack-timing modifier."
+        }
+      },
+      {
+        "id": "ceyah-techs",
+        "title": {
+          "ru": "Ceyah",
+          "en": "Ceyah"
+        },
+        "body": {
+          "ru": "• Фракционный бонус к ближней атаке увеличен с +1 до +2.\n• Plague Weapons и Plague Arrows накладывают −2 к атаке и −2 к защите вместо −1; замедление остаётся −25%.\n• Dark Ritual даёт +5 к атаке вместо +3.\n• Для доступных фракции Cavalry Tactics, Onyx Rings и Proselytize действуют общие усиления, описанные выше.",
+          "en": "• The faction’s melee attack bonus rises from +1 to +2.\n• Plague Weapons and Plague Arrows inflict −2 attack and −2 defense instead of −1; their speed penalty remains −25%.\n• Dark Ritual grants +5 attack instead of +3.\n• Available Cavalry Tactics, Onyx Rings, and Proselytize research uses the shared improvements listed above."
+        }
+      },
+      {
+        "id": "council-techs",
+        "title": {
+          "ru": "Council",
+          "en": "Council"
+        },
+        "body": {
+          "ru": "• Blessings of Valor даёт +4 к атаке и +1 к морали в поставляемых файлах 2.1.\n• Billeting для стрелков даёт 30% скидки вместо 20%.\n• Защитные технологии используют усиленные варианты Khaldunite Armor и Magic Armor там, где они доступны.",
+          "en": "• Blessings of Valor grants +4 attack and +1 morale in the supplied 2.1 files.\n• Archer Billeting provides a 30% discount instead of 20%.\n• Available defensive technologies use the stronger Khaldunite Armor and Magic Armor variants."
+        }
+      },
+      {
+        "id": "nationalist-techs",
+        "title": {
+          "ru": "Nationalist",
+          "en": "Nationalist"
+        },
+        "body": {
+          "ru": "• Billeting для пехоты даёт 30% скидки вместо 15%.\n• Balanced Weapons даёт +5 к атаке вместо +3.\n• Доступные Blessing of Speed, Proselytize и Onyx Rings используют общие усиленные варианты.",
+          "en": "• Infantry Billeting provides a 30% discount instead of 15%.\n• Balanced Weapons grants +5 attack instead of +3.\n• Available Blessing of Speed, Proselytize, and Onyx Rings research uses the shared upgraded versions."
+        }
+      },
+      {
+        "id": "royalist-techs",
+        "title": {
+          "ru": "Royalist",
+          "en": "Royalist"
+        },
+        "body": {
+          "ru": "• Billeting для кавалерии даёт 30% скидки вместо 20%.\n• Shocktroops даёт +3 к атаке вместо +1, сохраняя +20% к максимальной скорости.\n• Blessing of Life повышает здоровье на 15% вместо 10%.\n• Доступные Cavalry Tactics и Proselytize используют общие усиленные варианты.",
+          "en": "• Cavalry Billeting provides a 30% discount instead of 20%.\n• Shocktroops grants +3 attack instead of +1 while retaining +20% maximum speed.\n• Blessing of Life increases health by 15% instead of 10%.\n• Available Cavalry Tactics and Proselytize research uses the shared upgraded versions."
+        }
+      },
+      {
+        "id": "fallen-techs",
+        "title": {
+          "ru": "Fallen",
+          "en": "Fallen"
+        },
+        "body": {
+          "ru": "• Barbed Spines даёт +4 к дальней атаке вместо исходных +3.\n• Umbral Might даёт +3 к атаке вместо исходных +2.\n• Umbral Frenzy и Black Ichor используют общие усиленные варианты.\n• Poison Claws, Poison Spines и родственные ядовитые эффекты в 2.1 используют исходные 2 урона в секунду на 5 секунд. Прежнее удвоение урона ядом отменено.",
+          "en": "• Barbed Spines grants +4 ranged attack instead of the original +3.\n• Umbral Might grants +3 attack instead of the original +2.\n• Umbral Frenzy and Black Ichor use the shared upgraded versions.\n• In 2.1, Poison Claws, Poison Spines, and related poison effects use the original 2 damage per second for 5 seconds. The earlier doubled poison damage was reverted."
+        }
+      },
+      {
+        "id": "additional-content",
+        "title": {
+          "ru": "Карты, компьютерные соперники и звук",
+          "en": "Maps, computer opponents, and audio"
+        },
+        "body": {
+          "ru": "• К обычным размерам случайной карты добавлены 768×768, 832×832 и 896×896. Предел остаётся 8 игровых королевств.\n• В комплект входят 15 файлов компьютерных соперников: Adele300, Amaris200, Bane_v122, Cilji115, Cleo124, Durin120, Janan100, Karg117, Loki_v101, Mournblade_v105, Nightmare110, Olivia120, Shannon110, Sledge_v106 и Stormbringer_v112. Это соперники сообщества; их наличие входит в состав поставленного мода.\n• Добавлен звуковой ресурс Sandstorm и подключены звуки для новых осадных капитанов.\n• Версия в данных мода обозначена как Immortals 2.1.",
+          "en": "• Random maps gain 768×768, 832×832, and 896×896 sizes. The limit remains 8 playable kingdoms.\n• The package includes 15 computer-opponent files: Adele300, Amaris200, Bane_v122, Cilji115, Cleo124, Durin120, Janan100, Karg117, Loki_v101, Mournblade_v105, Nightmare110, Olivia120, Shannon110, Sledge_v106, and Stormbringer_v112. These community opponents are part of the supplied mod bundle.\n• A Sandstorm sound resource and audio definitions for new siege captains are included.\n• The mod’s data version identifies itself as Immortals 2.1."
+        }
+      },
+      {
+        "id": "final-21",
+        "title": {
+          "ru": "Итог версии 2.1",
+          "en": "Final 2.1 adjustments"
+        },
+        "body": {
+          "ru": "Последняя версия возвращает Тени её расовую защиту, а Fireball и Lightning — оригинальный урон. Meteor сохраняет увеличенную до 2,5 область, но снова перезаряжается 8 секунд; Fireblast сохраняет 28 урона. Предыдущее уменьшение здоровья Drauga также отменено: Beastrider остаётся с 440 здоровья, Berserker — с 280, Warlord — с 400. Сниженные цены и содержание наёмной осады сохраняются.",
+          "en": "The latest version restores Shadow racial protection and returns Fireball and Lightning to their original damage. Meteor keeps its increased 2.5 area but again recharges in 8 seconds; Fireblast retains 28 damage. The previous Drauga health nerf is also reverted: Beastrider retains 440 health, Berserker 280, and Warlord 400. Lower tech-siege prices and upkeep remain in place."
+        }
+      },
+      {
+        "id": "language",
+        "title": {
+          "ru": "Язык игры",
+          "en": "Game language"
+        },
+        "body": {
+          "ru": "Текст и озвучка выбираются отдельно и сохраняются при переключении модов. Русский перевод включает все названия и подписи дополнений Immortals. Скачиваются только выбранные языки; загруженные файлы используются повторно. Игровые характеристики сохраняются.",
+          "en": "Text and speech are selected separately and retained across mods. Russian covers all added Immortals names and labels. Only selected languages are downloaded and then reused. Gameplay statistics are preserved."
+        }
+      }
+    ],
+    "patchGuide": {
+      "schemaVersion": 1,
+      "version": "0.1.0",
+      "entries": [
+        {
+          "id": "base",
+          "category": "always",
+          "titleRu": "Paw's Patch для Immortals",
+          "titleEn": "Paw's Patch for Immortals",
+          "bodyRu": "Набор исправлений для выбранного режима. Включается и выключается компонентом Paw's Patch. Выбор сохраняется отдельно от других модов. Баланс, войска, способности, размеры карт и правила режима сохраняются. Русский язык выбирается независимо от патча.",
+          "bodyEn": "A set of fixes for the selected mode, controlled by its Paw's Patch component. The choice is remembered separately for each mod. Balance, units, abilities, map sizes and rules are preserved. Game language is independent of the patch."
+        },
+        {
+          "id": "badge-colors",
+          "category": "always",
+          "titleRu": "Цвета на значках рот",
+          "titleEn": "Company badge colors",
+          "bodyRu": "Исправлено отображение цвета игрока на значках рот. Сохраняются существующие цвета и мягкое затенение. Изменение работает через игровые ресурсы и не зависит от версии EXE.",
+          "bodyEn": "Corrects player colors on company badges while retaining the existing colors and soft shading. This resource fix does not depend on the game executable version."
+        },
+        {
+          "id": "negative-zero",
+          "category": "always",
+          "titleRu": "Отображение лимита рот",
+          "titleEn": "Company limit display",
+          "bodyRu": "В лимите рот «−0» отображается как «0». Меняется только отображение числа, без изменения игровых расчётов. Требуется поддерживаемая версия Kohan II 1.3.72.",
+          "bodyEn": "The company limit displays zero instead of negative zero. Only the displayed number changes; gameplay calculations are preserved. Requires supported Kohan II version 1.3.72."
+        },
+        {
+          "id": "terrain",
+          "category": "always",
+          "titleRu": "Инициализация рельефа",
+          "titleEn": "Terrain initialization",
+          "bodyRu": "При создании карты инициализируется параметр рельефа, который мог содержать случайные данные памяти. Новые размеры или типы карт не добавляются. Стандартная остановка при рассинхроне сохраняется. Исправление не означает устранения всех возможных причин рассинхрона. Требуется поддерживаемая версия 1.3.72.",
+          "bodyEn": "Initializes a terrain parameter that could otherwise contain uninitialized memory during map generation. No map sizes or types are added. Standard desync checks remain active. This does not claim to fix every possible desync cause. Requires the supported 1.3.72 executable."
+        }
+      ]
+    }
+  }
+]

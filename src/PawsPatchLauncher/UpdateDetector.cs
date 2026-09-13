@@ -2,10 +2,11 @@ namespace PawsPatchLauncher;
 
 public static class UpdateDetector
 {
-    // Channel names and launcher preferences do not change the installed game.
+    // Applying a channel also records which branch supplies future updates and menu labels.
     public static bool HasSettingsChanges(InstallState state, IReadOnlyCollection<PackageRelease> selected, UserSettings desired)
         => HasModuleChanges(state, selected) || state.AppliedSettings is { } applied
-            && (applied.IndependentHostility != desired.IndependentHostility
+            && (applied.Mod != desired.Mod || applied.Channel != desired.Channel || applied.PawPatchEnabled != desired.PawPatchEnabled || applied.DataOnly != desired.DataOnly
+                || applied.RussianLocalization != desired.RussianLocalization || GameLanguages.Voice(applied) != GameLanguages.Voice(desired) || applied.IndependentHostility != desired.IndependentHostility
                 || !applied.DesyncMode.Equals(desired.DesyncMode, StringComparison.OrdinalIgnoreCase));
 
     // A cached channel can be applied locally, without pretending a download is an update.

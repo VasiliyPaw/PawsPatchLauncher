@@ -9,6 +9,7 @@ public sealed class FeedClient
     private readonly HttpClient _http;
     private readonly LauncherConfiguration _configuration;
     private readonly string _cacheRoot;
+    private readonly System.Collections.Concurrent.ConcurrentDictionary<string, (long Length, DateTime Written, ChannelManifest Manifest)> _verifiedArchives = new(StringComparer.OrdinalIgnoreCase);
     private readonly System.Collections.Concurrent.ConcurrentDictionary<string, ChannelManifest> _knownChannels = new(StringComparer.OrdinalIgnoreCase);
     public ChannelManifest? KnownChannel(string channel) => _knownChannels.GetValueOrDefault(channel);
     private void RememberChannel(ChannelManifest manifest) => _knownChannels.AddOrUpdate(manifest.Channel, manifest,
@@ -21,7 +22,7 @@ public sealed class FeedClient
         _cacheRoot = string.IsNullOrWhiteSpace(configuration.CacheRoot)
             ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher")
             : Path.GetFullPath(configuration.CacheRoot);
-        _http = http ?? new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
+        _http = http ?? new HttpClient(LocalTestNetwork.Handler(() => new HttpClientHandler())) { Timeout = TimeSpan.FromMinutes(10) };
         _http.DefaultRequestHeaders.UserAgent.ParseAdd("PawsPatchLauncher/0.2");
     }
 
@@ -54,15 +55,20 @@ public sealed class FeedClient
     // channel endpoints and all configured mirrors, never the selected/pinned
     // patch manifest. Do not archive/apply any gameplay data during this check.
     public async Task<LauncherRelease?> GetLauncherUpdateAsync(CancellationToken cancellationToken = default)
+        => await GetLauncherUpdateAsync(cancellationToken, null);
+
+    public async Task<LauncherRelease?> GetLauncherUpdateAsync(CancellationToken cancellationToken, TimeSpan? sourceTimeout)
     {
         var sources = _configuration.FeedUrls.Select(url => (Url: url, Channel: "stable"))
             .Concat(_configuration.BetaFeedUrls.Select(url => (Url: url, Channel: "beta"))).Distinct().ToArray();
         if (sources.Length == 0) return null;
         async Task<(LauncherRelease? Release, Exception? Error)> Read((string Url, string Channel) source)
         {
+            using var bounded = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            if (sourceTimeout is { } timeout) bounded.CancelAfter(timeout);
             try
             {
-                var manifest = ParseFeed(await ReadBytesAsync(source.Url, cancellationToken), IsRemote(source.Url));
+                var manifest = ParseFeed(await ReadBytesAsync(source.Url, bounded.Token), IsRemote(source.Url));
                 if (!manifest.Channel.Equals(source.Channel, StringComparison.OrdinalIgnoreCase))
                     throw new InvalidDataException("Wrong channel in launcher update source: " + source.Url);
                 var release = manifest.Launcher;
@@ -126,6 +132,14 @@ public sealed class FeedClient
 
     private string CachedPackagePath(PackageRelease package)
         => Path.Combine(_cacheRoot, "downloads", package.Id, package.Version, package.Sha256.ToUpperInvariant() + ".zip");
+
+    public async Task<string> GetCachedPackageAsync(PackageRelease package, CancellationToken cancellationToken = default)
+    {
+        var path = CachedPackagePath(package);
+        if (!File.Exists(path) || !(await CryptoAndIO.Sha256Async(path, cancellationToken)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase))
+            throw new IOException("Installed mod files are missing or damaged. Install the mod again to restore them: " + package.Id);
+        return path;
+    }
 
     public async Task<string> DownloadLauncherAsync(LauncherRelease release, IProgress<(long Received, long? Total)>? progress,
         CancellationToken cancellationToken = default)
@@ -241,13 +255,25 @@ public sealed class FeedClient
     }
 
     private async Task ArchiveAsync(byte[] bytes, ChannelManifest manifest, CancellationToken ct)
-        => await CryptoAndIO.AtomicWriteTextAsync(ArchivedPath(ChannelFingerprint.Create(manifest)), Encoding.UTF8.GetString(bytes), ct);
+    {
+        var id = ChannelFingerprint.Create(manifest);
+        await CryptoAndIO.AtomicWriteTextAsync(ArchivedPath(id), Encoding.UTF8.GetString(bytes), ct);
+    }
 
     public ChannelManifest LoadArchived(string id, string channel)
     {
-        var manifest = ParseFeed(File.ReadAllBytes(ArchivedPath(id)), _configuration.RequireSignedRemoteFeed);
-        if (!manifest.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase) || ChannelFingerprint.Create(manifest) != id.ToUpperInvariant())
+        var path = ArchivedPath(id);
+        var file = new FileInfo(path);
+        if (_verifiedArchives.TryGetValue(path, out var cached) && file.Exists && file.Length == cached.Length && file.LastWriteTimeUtc == cached.Written)
+        {
+            if (cached.Manifest.Channel != channel) throw new InvalidDataException("Archived release channel mismatch.");
+            return cached.Manifest;
+        }
+        var manifest = ParseFeed(File.ReadAllBytes(path), _configuration.RequireSignedRemoteFeed);
+        if (ChannelFingerprint.Create(manifest) != id.ToUpperInvariant())
             throw new InvalidDataException("Archived release identity mismatch.");
+        _verifiedArchives[path] = (file.Length, file.LastWriteTimeUtc, manifest);
+        if (!manifest.Channel.Equals(channel, StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException("Archived release channel mismatch.");
         return manifest;
     }
 
@@ -275,7 +301,7 @@ public sealed class FeedClient
     {
         try
         {
-            return pinnedRelease is null ? Archived(channel).FirstOrDefault()
+            return pinnedRelease is null ? KnownChannel(channel) ?? Archived(channel).FirstOrDefault()
                 : LoadArchived(pinnedRelease, channel);
         }
         catch { return null; }

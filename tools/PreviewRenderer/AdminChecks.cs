@@ -138,8 +138,8 @@ internal static class AdminChecks
             Set(w,"_socialBusy",true);
             pending=(Task)Call(w,"ModerateAsync",user,"role")!;w.UpdateLayout();
             var choices=Descendants<Button>(C<StackPanel>("ConfirmationChangesPanel")).Where(b=>b.Tag is int).ToArray();
-            Check(choices.Length==3&&!C<Button>("ConfirmationDeleteButton").IsEnabled,"role choices / unchanged selection");
-            choices[1].RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(choices.Length==4&&choices.Any(b=>Equals(b.Tag,-1))&&!C<Button>("ConfirmationDeleteButton").IsEnabled,"role choices / unchanged selection");
+            choices.Single(b=>Equals(b.Tag,1)).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             Check(C<Border>("ConfirmationOverlay").Visibility==Visibility.Visible&&C<Button>("ConfirmationDeleteButton").IsEnabled,"select role dismissed dialog");
             Check(choices[0].Foreground.ToString()=="#FFF1F5FC","unprivileged role unreadable");
             // Owned popup hit testing must still work for other/future dropdowns.
@@ -179,7 +179,7 @@ internal static class AdminChecks
             Check(profileBadge.ActualWidth>60&&profileBadge.ActualWidth<160&&profileBadge.HorizontalAlignment==HorizontalAlignment.Left,"profile badge stretches across card");
             Check(Math.Abs(profileBadge.TranslatePoint(new Point(0,0),C<Border>("SocialDetailsCard")).X-C<TextBlock>("SocialDetailsName").TranslatePoint(new Point(0,0),C<Border>("SocialDetailsCard")).X)<.1,"profile badge left edge misaligned");
             var componentRows=C<StackPanel>("SocialDetailsComponents").Children.OfType<Grid>().ToArray();
-            Check(componentRows.Length==9,"profile component row count");
+            Check(componentRows.Length==8,"profile must contain gameplay components without localization");
             Check(componentRows.All(row=>row.Children[0] is Border surface&&surface.Background is not null&&surface.CornerRadius.TopLeft==5&&Grid.GetColumnSpan(surface)==2&&!surface.IsHitTestVisible),"component lacks a continuous non-interactive surface");
             Check(componentRows.All(row=>Math.Abs(((Border)row.Children[0]).ActualWidth-row.ActualWidth)<.1),"component surface does not span label and value");
             Check(componentRows.All(row=>row.Children.OfType<TextBlock>().Single().ActualWidth>100&&row.Children.OfType<Border>().Single(b=>b.Child is TextBlock).ActualWidth>=48),"component label or value squeezed");
@@ -198,13 +198,25 @@ internal static class AdminChecks
             Call(w,"CloseSocialDetails");
             var session=Session(w);session.ProtectedAdmin=false;session.AdminLevel=1;Call(w,"RenderAccount");Check(profile.AdminLevel==1,"ordinary admin level");
             session.AdminLevel=0;Call(w,"RenderAccount");Check(C<Button>("AdminNav").Visibility==Visibility.Collapsed&&Field<AdminPage?>(w,"_adminData")==null,"revoked role retains privileged view");
+            Call(w,"ShowAccountEditor","delete");
+            Check(Field<string>(w,"_accountEditor")=="delete","unbanned delete editor blocked");
+            C<PasswordBox>("AccountCurrentPasswordInput").Password="fixture-password";
             session.BannedAt=DateTimeOffset.UtcNow;session.BanUntil=DateTimeOffset.UtcNow.AddDays(1);session.BanReason="Test";Call(w,"RenderAccount");
+            Check(Field<string>(w,"_accountEditor")==""&&C<PasswordBox>("AccountCurrentPasswordInput").Password.Length==0,"new ban retained open delete form/password");
             Check(!C<StackPanel>("FriendsSignedInPanel").IsEnabled&&C<ContentControl>("FriendsModerationNotice").Content is Border,"own friends ban state");
             Check(C<Border>("FriendsNavBadge").Visibility==Visibility.Visible&&C<TextBlock>("FriendsNavBadgeText").Text=="!","ban nav indicator");
             Check(!C<Button>("AccountAvatarEditButton").IsEnabled&&!C<Button>("AccountEditNicknameButton").IsEnabled,"banned profile editable");
-            Check(C<Button>("AccountDeleteButton").IsEnabled&&C<Button>("AccountLogoutButton").IsEnabled,"banned logout/delete unavailable");
+            Check(!C<Button>("AccountDeleteButton").IsEnabled&&C<Button>("AccountLogoutButton").IsEnabled,"ban must disable deletion and preserve logout");
+            Check(ToolTipService.GetShowOnDisabled(C<Button>("AccountDeleteButton"))&&C<Button>("AccountDeleteButton").ToolTip is string {Length:>20},"disabled deletion lacks explanation");
+            Call(w,"ShowAccountEditor","delete");Check(Field<string>(w,"_accountEditor")=="","direct editor action bypasses ban");
+            Set(w,"_accountEditor","delete");Call(w,"RenderAccountProfile");
+            Check(!C<Button>("AccountEditorSubmitButton").IsEnabled&&!C<StackPanel>("AccountEditorFieldsPanel").IsEnabled,"stale delete form remains interactive");
+            Call(w,"RenderModerationState");
             Check(C<Grid>("MainBody").IsEnabled&&C<Button>("SettingsNav").IsEnabled,"ban blocked local launcher");
             session.BanUntil=DateTimeOffset.UtcNow.AddSeconds(-1);Call(w,"RenderAccount");Check(!profile.Banned&&C<StackPanel>("FriendsSignedInPanel").IsEnabled,"expired temporary ban did not unlock");
+            Check(C<Button>("AccountDeleteButton").IsEnabled&&C<Button>("AccountDeleteButton").ToolTip is null,"expired ban retained deletion lock");
+            session.BanUntil=null;Call(w,"RenderAccount");Check(!C<Button>("AccountDeleteButton").IsEnabled,"permanent ban permits deletion");
+            session.BannedAt=null;Call(w,"RenderAccount");Check(C<Button>("AccountDeleteButton").IsEnabled,"unban did not unlock deletion");
             C<TextBox>("FriendsSearchInput").Clear();
             await Task.Delay(300);Check(C<Border>("FriendsSearchPanel").Visibility==Visibility.Visible&&C<TextBox>("FriendsSearchInput").Text=="","permanent search disappeared");
             Call(w,"FriendsBlocked_Click",C<Button>("FriendsBlockedTab"),new RoutedEventArgs());Check(Field<string>(w,"_friendsDialog")=="blocked","separate blocked section");

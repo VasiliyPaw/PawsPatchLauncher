@@ -60,6 +60,7 @@ internal static class SocialTests
         var calls=0;var rows=new Dictionary<Guid,SocialMessage>();var loseReply=true;var foreignReply=false;var authOwner=owner;
         var unread=2;var relation="friend";var remaining=1;var marker=Guid.NewGuid();var receiptCalls=0;
         const string exactCode="PAW-BETA-IW0-SP2-RM1-SG0-LM1-RU1-CL1-OOS1-PS0";
+        var legacyPresence = false; var fallbackPresenceCalls = 0;
         string? peerConfiguration=null;
         var store=new AccountSessionStore(Path.Combine(root,"social-account"));
         using(var service=new AccountService(store,new Mock(async req=> {
@@ -73,6 +74,12 @@ internal static class SocialTests
             if(path.EndsWith("paw_social_list"))return Ok(new{status="ok",players=new[]{new{id=peer,nickname="FixtureFriend",relation,unread,channel="beta",configuration=peerConfiguration}}});
             if(path.EndsWith("paw_presence")) {
                 using var body=JsonDocument.Parse(await req.Content!.ReadAsStringAsync());
+                if (legacyPresence)
+                {
+                    if (body.RootElement.TryGetProperty("configuration",out _)) return Ok(new{status="invalid_presence"});
+                    Check(!body.RootElement.GetProperty("components").GetProperty("core").GetBoolean(), "Legacy presence fallback invented enabled Paw core");
+                    fallbackPresenceCalls++; return Ok(new{status="ok"});
+                }
                 Check(body.RootElement.GetProperty("configuration").GetString()==exactCode && body.RootElement.GetProperty("channel").GetString()=="beta"
                     && body.RootElement.EnumerateObject().Count()==4,"exact presence RPC contract");
                 return Ok(new{status="ok"});
@@ -100,6 +107,13 @@ internal static class SocialTests
             peerConfiguration=exactCode.Replace("BETA","STABLE");Check((await service.GetFriendsAsync()).Single().Configuration is null,"wrong channel config trusted");
             peerConfiguration=exactCode+"\n";Check((await service.GetFriendsAsync()).Single().Configuration is null,"invalid config trusted");
             await service.PublishConfigurationPresenceAsync(true,"beta",new Dictionary<string,bool>{{"core",true}},exactCode);
+            legacyPresence = true;
+            foreach (var code in new[] { "PAW-BETA-VANILLA", exactCode.Replace("LM1","LM0") + "-PP0" })
+                await service.PublishConfigurationPresenceAsync(false,"beta",new Dictionary<string,bool>{{"core",false}},code);
+            Check(fallbackPresenceCalls == 2, "Mod modes did not fall back on an older presence server");
+            await Reject(()=>service.PublishConfigurationPresenceAsync(true,"beta",new Dictionary<string,bool>{{"core",true}},exactCode),"invalid_presence");
+            Check(fallbackPresenceCalls == 2, "Unrelated presence failure was silently retried");
+            legacyPresence = false;
             peerConfiguration=null;
             Check(await service.MarkMessagesReadAsync(peer,marker)==1,"newer unseen message lost");
             foreach(var invalid in new[]{-1,10001}) {

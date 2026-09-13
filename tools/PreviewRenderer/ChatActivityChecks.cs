@@ -41,7 +41,7 @@ internal static class ChatActivityChecks
             var panel=C<StackPanel>("FriendsRowsPanel");
             var rows=panel.Children.OfType<FrameworkElement>().ToDictionary(v=>(Guid)v.Tag);
             var buttons=rows.ToDictionary(p=>p.Key,p=>(Button)((Grid)((StackPanel)p.Value).Children[0]).Children[0]);
-            C<TextBox>("FriendsMessageInput").Text="unchanged draft";
+            C<ChatComposer>("FriendsMessageInput").Text="unchanged draft";
             Check(panel.Children.OfType<FrameworkElement>().Select(v=>(Guid)v.Tag).SequenceEqual(players.Select(p=>p.Id)),"initial order");
             var selected=Field<Guid?>("_socialPeer");
             Frame("before");
@@ -63,7 +63,7 @@ internal static class ChatActivityChecks
             Frame("settled");
             Check(!Field<ChatListMotion>("_chatListMotion").IsAnimating,"animation clocks never stop");
             Check(panel.Children.OfType<FrameworkElement>().All(row=>ReferenceEquals(rows[(Guid)row.Tag],row)&&row.RenderTransform.Value.IsIdentity),"cards replaced or stale transforms");
-            Check(Field<Guid?>("_socialPeer")==selected&&C<TextBox>("FriendsMessageInput").Text=="unchanged draft","order changed selection/draft");
+            Check(Field<Guid?>("_socialPeer")==selected&&C<ChatComposer>("FriendsMessageInput").Text=="unchanged draft","order changed selection/draft");
             foreach(var p in buttons)Check(ReferenceEquals(p.Value,((Grid)((StackPanel)rows[p.Key]).Children[0]).Children[0]),"button recreated");
             Call("RenderSocialRows");Check(!Field<ChatListMotion>("_chatListMotion").IsAnimating,"identical poll restarted animation");
             var pendingPeer=players.First(p=>p.Id!=(Guid)((FrameworkElement)panel.Children[0]).Tag).Id;

@@ -179,7 +179,11 @@ export function makeHandler({url, serviceKey, publicKey, fetcher=fetch}) {
     // Reversible application deletion, not Auth's irreversible user removal.
     // Retain avatar privately for restoration; no peer can read a deleted profile.
     mutationStarted=true;
-    if(!await rpc("paw_mark_account_deleting",{player,key:lease})) throw new Fault("account_busy",409);
+    if(!await rpc("paw_mark_account_deleting",{player,key:lease})) {
+     const current=await rpc("paw_account_action_allowed",{player,action});
+     if(current!=="ok") throw new Fault(typeof current==="string"?current:"service_unavailable",403);
+     throw new Fault("account_busy",409);
+    }
     commit=true;
    } else {
     mutationStarted=true;

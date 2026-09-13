@@ -22,8 +22,23 @@ public sealed class ModuleInstaller
     public InstallState LoadState()
     {
         if (File.Exists(_statePath))
-            return JsonSerializer.Deserialize(File.ReadAllText(_statePath), LauncherJsonContext.Default.InstallState)
+        {
+            var state = JsonSerializer.Deserialize(File.ReadAllText(_statePath), LauncherJsonContext.Default.InstallState)
                 ?? throw new InvalidDataException("The patch installation state is damaged.");
+            state.Modules = new Dictionary<string, InstalledModule>(state.Modules, StringComparer.OrdinalIgnoreCase);
+            var originals = new Dictionary<string, OriginalFile>(StringComparer.OrdinalIgnoreCase);
+            foreach (var (path, original) in state.Originals)
+            {
+                var relative = CryptoAndIO.NormalizeRelativePath(path);
+                if (originals.TryGetValue(relative, out var previous)
+                    && (previous.Existed != original.Existed || !string.Equals(previous.Sha256, original.Sha256, StringComparison.OrdinalIgnoreCase)
+                        || !string.Equals(previous.BackupRelativePath, original.BackupRelativePath, StringComparison.OrdinalIgnoreCase)))
+                    throw new InvalidDataException("Conflicting original file records: " + relative);
+                originals[relative] = original;
+            }
+            state.Originals = originals;
+            return state;
+        }
         return new InstallState();
     }
 
@@ -36,12 +51,25 @@ public sealed class ModuleInstaller
         await CryptoAndIO.AtomicWriteTextAsync(_statePath, JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState));
     }
 
-    public async Task<InstalledModule> PrepareAsync(PackageRelease package, string archivePath, CancellationToken cancellationToken = default)
+    public bool IsPrepared(PackageRelease package)
+    {
+        var directory = Path.Combine(_packageRoot, Sanitize(package.Id), Sanitize(package.Version));
+        var marker = Path.Combine(directory, ".verified");
+        return File.Exists(marker) && File.Exists(Path.Combine(directory, "module.json"))
+            && File.ReadAllText(marker).Trim().Equals(package.Sha256, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public Task<InstalledModule> ReadPreparedAsync(PackageRelease package, CancellationToken cancellationToken = default)
+        => PrepareAsync(package, "", cancellationToken);
+
+    public async Task<InstalledModule> PrepareAsync(PackageRelease package, string archivePath, CancellationToken cancellationToken = default, bool force = false)
     {
         var directory = Path.Combine(_packageRoot, Sanitize(package.Id), Sanitize(package.Version));
         var readyMarker = Path.Combine(directory, ".verified");
-        if (!File.Exists(readyMarker))
+        if (force || !IsPrepared(package))
         {
+            if (string.IsNullOrEmpty(archivePath)) throw new FileNotFoundException("The installed mod component is missing: " + package.Id);
+            RemovalSafety.CheckNoLinks(directory);
             if (Directory.Exists(directory)) Directory.Delete(directory, true);
             Directory.CreateDirectory(directory);
             CryptoAndIO.ExtractZipSafely(archivePath, directory);
@@ -77,7 +105,7 @@ public sealed class ModuleInstaller
         return new InstalledModule
         {
             Version = module.Version,
-            DownloadedAt = PackageDownloadDate.Read(archivePath),
+            DownloadedAt = string.IsNullOrEmpty(archivePath) ? File.GetCreationTimeUtc(readyMarker) : PackageDownloadDate.Read(archivePath),
             Priority = package.Priority,
             Enabled = true,
             ArchiveSha256 = package.Sha256,
@@ -87,13 +115,20 @@ public sealed class ModuleInstaller
     }
 
     public async Task ReconcileAsync(IReadOnlyDictionary<string, InstalledModule> desired, CancellationToken cancellationToken = default,
-        UserSettings? settings = null, string? releaseId = null, bool resetOriginals = false)
+        UserSettings? settings = null, string? releaseId = null, bool resetOriginals = false, bool preserveVanillaBootstrap = false,
+        GameRequirement? gameRequirement = null, string? baseGameSha256 = null)
     {
         if (resetOriginals && desired.Count != 0) throw new InvalidOperationException("Originals can only be reset during uninstall.");
         Directory.CreateDirectory(_controlRoot);
         var recovery = new PatchRecovery(_gameRoot);
         await recovery.RecoverInterruptedAsync();
         var state = LoadState();
+        if (settings?.DataOnly == true)
+        {
+            GameCompatibilityPolicy.ValidateDataModules(desired.Values);
+            if (state.Modules.Values.Any(m => m.Files.Select(f => f.Path).Concat(m.Remove).Any(p => CryptoAndIO.NormalizeRelativePath(p).Equals("k2.exe", StringComparison.OrdinalIgnoreCase))))
+                throw new InvalidDataException("Restore the original game executable before applying file-only components.");
+        }
         var previous = JsonSerializer.Deserialize(JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState), LauncherJsonContext.Default.InstallState)!;
         var winners = new Dictionary<string, (string Id, InstalledModule Module, ModuleFile? File)>(StringComparer.OrdinalIgnoreCase);
         foreach (var pair in desired.Where(x => x.Value.Enabled).OrderBy(x => x.Value.Priority).ThenBy(x => x.Key, StringComparer.OrdinalIgnoreCase))
@@ -117,7 +152,8 @@ public sealed class ModuleInstaller
             if (original.Existed)
             {
                 var actualHash = await CryptoAndIO.Sha256Async(target, cancellationToken);
-                if (recognized.TryGetValue(relative, out var hashes) && hashes.Contains(actualHash))
+                if (recognized.TryGetValue(relative, out var hashes) && hashes.Contains(actualHash)
+                    && !SteamVanillaBaseline.IsOriginal(relative, actualHash))
                 {
                     // A previous manual/archive installation already placed this exact managed file.
                     // Do not preserve it as a user original, otherwise disabling its module would restore the mod again.
@@ -135,6 +171,9 @@ public sealed class ModuleInstaller
             state.Originals[relative] = original;
         }
 
+        if (settings is not null && (GameMod.IsVanilla(settings) || !settings.PawPatchEnabled || settings.DataOnly))
+            await PreserveSteamOriginalsAsync(state, allPaths, desired, cancellationToken);
+        if (preserveVanillaBootstrap) await PreserveVanillaBootstrapAsync(state, cancellationToken);
         var changes = new List<string>();
         foreach (var relative in allPaths)
         {
@@ -190,6 +229,8 @@ public sealed class ModuleInstaller
             state.LastSuccessfulUpdate = DateTimeOffset.UtcNow.ToString("O");
             state.AppliedSettings = settings is null ? null : JsonSerializer.Deserialize(JsonSerializer.Serialize(settings, LauncherJsonContext.Default.UserSettings), LauncherJsonContext.Default.UserSettings);
             state.ReleaseId = releaseId;
+            state.GameRequirement = gameRequirement;
+            state.BaseGameSha256 = baseGameSha256;
             if (resetOriginals) state.Originals.Clear(); // A later fresh install must capture its new baseline.
             await CryptoAndIO.AtomicWriteTextAsync(_statePath, JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState), cancellationToken);
             var errors = await VerifyAsync(cancellationToken);
@@ -208,12 +249,16 @@ public sealed class ModuleInstaller
         }
     }
 
-    public async Task UninstallAsync(CancellationToken cancellationToken = default)
+    public async Task UninstallAsync(CancellationToken cancellationToken = default, UserSettings? settings = null, string? releaseId = null)
     {
         RemovalSafety.CheckNoLinks(_controlRoot);
         await new PatchRecovery(_gameRoot).RecoverInterruptedAsync();
         var state = LoadState();
-        if (state.Modules.Count == 0) return;
+        if (state.Modules.Count == 0)
+        {
+            if (settings is not null) await ReconcileAsync(new Dictionary<string, InstalledModule>(), cancellationToken, settings, releaseId);
+            return;
+        }
         var expected = MultiplayerCheck.Expected(state);
         var paths = state.Modules.Values.SelectMany(m => m.Files.Select(f => f.Path).Concat(m.Remove))
             .Select(CryptoAndIO.NormalizeRelativePath).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
@@ -243,7 +288,62 @@ public sealed class ModuleInstaller
             if (!expected.TryGetValue(relative, out var installed) || installed is null || !actual.Equals(installed.Sha256, StringComparison.OrdinalIgnoreCase))
                 throw new IOException("File was changed outside the launcher; uninstall stopped to preserve it: " + relative);
         }
-        await ReconcileAsync(new Dictionary<string, InstalledModule>(), cancellationToken, resetOriginals: true);
+        await ReconcileAsync(new Dictionary<string, InstalledModule>(), cancellationToken, settings, releaseId, resetOriginals: true,
+            preserveVanillaBootstrap: settings is not null && GameMod.IsVanilla(settings));
+    }
+
+    private async Task PreserveSteamOriginalsAsync(InstallState state, IReadOnlyCollection<string> paths,
+        IReadOnlyDictionary<string, InstalledModule> desired, CancellationToken cancellationToken)
+    {
+        var missing = SteamVanillaBaseline.Files.Where(pair => paths.Contains(pair.Key, StringComparer.OrdinalIgnoreCase)
+            && state.Originals.TryGetValue(pair.Key, out var original) && !original.Existed).ToArray();
+        if (missing.Length == 0 || !await SteamVanillaBaseline.MatchesGameAsync(_gameRoot, cancellationToken)) return;
+        Directory.CreateDirectory(_backupRoot);
+        foreach (var (relative, hash) in missing)
+        {
+            var backupName = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(relative.ToUpperInvariant()))) + ".bin";
+            var backup = CryptoAndIO.SafeChildPath(_backupRoot, backupName);
+            if (Path.GetExtension(relative).Equals(".rwd", StringComparison.OrdinalIgnoreCase))
+            {
+                // Stock skin archives are also shipped unchanged by Arcane Wars.
+                // Recover them from the live file or a verified cached package.
+                var candidates = new[] { PatchRecovery.GamePath(_gameRoot, relative) }.Concat(state.Modules.Concat(desired)
+                    .Where(pair => Provides(pair.Value, relative) is { } file && file.Sha256.Equals(hash, StringComparison.OrdinalIgnoreCase))
+                    .Select(pair => CryptoAndIO.SafeChildPath(Path.Combine(_packageRoot, Sanitize(pair.Key), Sanitize(pair.Value.Version), "payload"), relative)));
+                string? source = null;
+                foreach (var candidate in candidates)
+                {
+                    RemovalSafety.CheckNoLinks(candidate);
+                    if (File.Exists(candidate) && (await CryptoAndIO.Sha256Async(candidate, cancellationToken)).Equals(hash, StringComparison.OrdinalIgnoreCase))
+                    { source = candidate; break; }
+                }
+                if (source is null) throw new IOException("The original Steam archive is missing or damaged: " + relative);
+                File.Copy(source, backup, true);
+            }
+            else await File.WriteAllBytesAsync(backup, SteamVanillaBaseline.Read(relative), cancellationToken);
+            state.Originals[relative] = new OriginalFile { Existed = true, Sha256 = hash, BackupRelativePath = backupName };
+        }
+    }
+
+    private async Task PreserveVanillaBootstrapAsync(InstallState state, CancellationToken cancellationToken)
+    {
+        // Legacy adoption treated the stock bootstrap, which is also distributed
+        // by startup-base, as a mod file. Removing it prevents the engine from
+        // mounting Data.rwd ("Work Depot not specified"). Keep a real original
+        // when available; otherwise recover only this verified base-game file.
+        var relative = CryptoAndIO.NormalizeRelativePath("startup/autoexec.txt");
+        if (!state.Originals.TryGetValue(relative, out var original) || original.Existed
+            || !state.Modules.TryGetValue("startup-base", out var startup)) return;
+        var file = Provides(startup, relative) ?? throw new InvalidDataException("The base-game startup file is missing from its package.");
+        var source = CryptoAndIO.SafeChildPath(Path.Combine(_packageRoot, "startup-base", Sanitize(startup.Version), "payload"), relative);
+        RemovalSafety.CheckNoLinks(source);
+        if (!File.Exists(source) || !(await CryptoAndIO.Sha256Async(source, cancellationToken)).Equals(file.Sha256, StringComparison.OrdinalIgnoreCase))
+            throw new IOException("The original startup package is missing or damaged. Repair the installation before switching to Vanilla.");
+        var backupName = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(relative.ToUpperInvariant()))) + ".bin";
+        var backup = CryptoAndIO.SafeChildPath(_backupRoot, backupName);
+        Directory.CreateDirectory(_backupRoot);
+        File.Copy(source, backup, true);
+        state.Originals[relative] = new OriginalFile { Existed = true, Sha256 = file.Sha256, BackupRelativePath = backupName };
     }
 
     public async Task<IReadOnlyList<string>> VerifyAsync(CancellationToken cancellationToken = default)
