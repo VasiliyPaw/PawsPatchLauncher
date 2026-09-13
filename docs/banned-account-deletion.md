@@ -2,6 +2,11 @@
 
 Prepared locally on 2026-09-12. No hosted SQL or Edge Function deployment was performed, and no real account was banned, deleted or registered for testing.
 
+Publication update, 2026-09-13: the migration and updated `account-actions` function
+were deployed with the user's explicit authorization for launcher 0.7.0. Source
+and permission readback passed; anonymous access remains denied. No real account
+was banned, deleted or registered for these deployment checks.
+
 While a profile has an active temporary or permanent platform ban:
 
 - The launcher's account deletion button is disabled, with an explanation available on hover.

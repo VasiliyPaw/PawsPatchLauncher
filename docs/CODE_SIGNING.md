@@ -2,7 +2,7 @@
 
 ## Current status
 
-The public launcher 0.6.4 is **not Authenticode signed**. SignPath Foundation
+The public launcher 0.7.0 is **not Authenticode signed**. SignPath Foundation
 admission and production signing are not yet approved. Preparing a signing
 workflow does not change the trust status of existing downloads.
 

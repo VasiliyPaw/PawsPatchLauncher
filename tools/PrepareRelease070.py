@@ -95,6 +95,8 @@ def finalize(args):
     key=serialization.load_pem_private_key((args.signing_dir/'pawpatch-signing-private.pem').read_bytes(),password=None)
     public=serialization.load_pem_public_key(read(REPO/'src/PawsPatchLauncher/launcher.config.json')['publicKeyPem'].encode())
     assert key.public_key().public_numbers()==public.public_numbers()
+    trusted_urls={u for c in ('stable','beta') for p in verify(read(out/f'previous-{c}.json'),public)['packages'] for u in p['urls']}
+    trusted_urls.update(ROOT+Path(a['path']).name for a in prepared['assets'])
     stamp=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     release=dict(version='0.7.0',size=args.launcher.stat().st_size,sha256=sha(args.launcher),urls=[ROOT+'PawsPatchLauncher.exe'])
     for name in ('stable','beta','legacy-stable','legacy-beta'):
@@ -103,7 +105,7 @@ def finalize(args):
             before=verify(read(out/('previous-'+feed['channel']+'.json')),public)
             exclude={'launcher','publishedAt','changelog','newsTitle','newsBody'}
             assert {k:v for k,v in feed.items() if k not in exclude}=={k:v for k,v in before.items() if k not in exclude}
-        for p in feed['packages']: assert all(u.startswith('https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/') for u in p['urls'])
+        for p in feed['packages']: assert all(u in trusted_urls for u in p['urls'])
         payload=encode(feed);r,s=utils.decode_dss_signature(key.sign(payload,ec.ECDSA(hashes.SHA256())))
         signed=dict(keyId='pawpatch-prod-2026',payload=base64.b64encode(payload).decode(),signature=base64.b64encode(r.to_bytes(32,'big')+s.to_bytes(32,'big')).decode())
         assert verify(signed,public)==feed

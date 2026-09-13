@@ -15,8 +15,8 @@ button uses the existing shared mod community invite, https://discord.gg/krCK7DD
 ## Roles and server rollout
 
 Apply `supabase/migrations/20260910001000_paws_team.sql` before assigning the new
-role on the hosted service. This migration has **not** been deployed during local
-development. It adds the protected `paws_team` profile field, updates the existing
+role on the hosted service. It was applied for the authorized 0.7.0 publication on
+2026-09-13; no accounts were assigned roles during deployment. It adds the protected `paws_team` profile field, updates the existing
 role RPC, and exposes the badge in authorized profile/social/admin responses.
 
 Only a senior administrator may change roles. The existing RPC accepts `level=-1`
