@@ -47,6 +47,7 @@ public static class FriendConfiguration
 
     public static void ValidateFeed(UserSettings settings, ChannelManifest channel)
     {
+        settings = EffectiveSettings.ForChannel(settings);
         if (GameMod.IsArcaneWars(settings) && settings.PawPatchEnabled && !channel.Packages.Any(p => p.Id == "pawpatch-core" && p.Required))
             throw new InvalidDataException("The selected patch release does not include the required core.");
         if (settings.Channel != channel.Channel ||

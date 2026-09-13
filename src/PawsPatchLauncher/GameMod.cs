@@ -17,7 +17,18 @@ public static class GameMod
     {
         if (settings.Mod == Vanilla) settings.VanillaPawPatchEnabled = enabled;
         else if (settings.Mod == Immortals) settings.ImmortalsPawPatchEnabled = enabled;
-        else { settings.PawPatchEnabled = enabled; settings.LargeMapSizes = enabled; }
+        else
+        {
+            settings.PawPatchEnabled = enabled; settings.LargeMapSizes = enabled;
+            if (!enabled) DisableArcaneComponents(settings);
+        }
+    }
+    public static void DisableArcaneComponents(UserSettings settings)
+    {
+        settings.CustomPlayerColors = settings.IndependentHostility = settings.AdditionalRoamingCompanies = false;
+        settings.SiegeBalance = settings.DisablePowersAndShards = settings.LargeMapSizes = false;
+        settings.DesyncMode = "official";
+        settings.RoamingSpawnMode = "standard";
     }
     public static bool HasPureFixes(ChannelManifest? channel)
         => channel is not null && channel.Packages.Any(p => p.Id == "pure-fixes-data")

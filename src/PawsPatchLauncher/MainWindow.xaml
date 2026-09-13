@@ -1425,11 +1425,16 @@
                 <Grid>
                     <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="3"/></Grid.RowDefinitions>
                     <Grid Margin="16,12">
-                        <Grid.ColumnDefinitions><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/><ColumnDefinition Width="28"/></Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="28"/></Grid.ColumnDefinitions>
                         <local:LauncherIcon x:Name="ToastIcon" Kind="Check"/>
                         <TextBlock x:Name="ToastText" Grid.Column="1" FontSize="13" TextWrapping="Wrap" Margin="6,0,14,0"
                                    VerticalAlignment="Center" AutomationProperties.LiveSetting="Polite"/>
-                        <Button x:Name="ToastCloseButton" Grid.Column="2" Style="{StaticResource TitleButton}"
+                        <Border x:Name="ToastCountBadge" Grid.Column="2" Visibility="Collapsed" Background="#1CFFFFFF" CornerRadius="5"
+                                Padding="6,2" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform><ScaleTransform ScaleX="1" ScaleY="1"/></Border.RenderTransform>
+                            <TextBlock x:Name="ToastCountText" FontSize="12" FontWeight="SemiBold"/>
+                        </Border>
+                        <Button x:Name="ToastCloseButton" Grid.Column="3" Style="{StaticResource TitleButton}"
                                 Padding="0" Width="26" Height="28" VerticalAlignment="Center" Click="ToastCloseButton_Click"><local:LauncherIcon Kind="Close" Width="16" Height="16"/></Button>
                     </Grid>
                     <Border x:Name="ToastProgress" Grid.Row="1" Background="#6DCCA5" CornerRadius="1" Margin="9,0,9,0" RenderTransformOrigin="0,0.5">

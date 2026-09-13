@@ -51,7 +51,7 @@ public static class ConfigurationCode
             throw new FormatException("This combination is not supported by this launcher.");
         if (dataOnly && (result.CustomPlayerColors || result.IndependentHostility || result.DesyncMode != "official"))
             throw new FormatException("Executable features are not available in file-only mode.");
-        return result;
+        return EffectiveSettings.ForChannel(result);
     }
 
     public static void Apply(UserSettings source, UserSettings target)
@@ -80,6 +80,7 @@ public static class ConfigurationCode
         target.SiegeBalance = source.SiegeBalance;
         target.DisablePowersAndShards = source.DisablePowersAndShards;
         target.LargeMapSizes = source.PawPatchEnabled;
+        if (!target.PawPatchEnabled) GameMod.DisableArcaneComponents(target);
     }
 
     public static string Create(UserSettings settings)

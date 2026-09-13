@@ -5,6 +5,11 @@ public static class GamePackageSelector
     // Shared by the UI and clean-install regression tests; preserves UI selection semantics.
     public static List<PackageRelease> Select(ChannelManifest channel, UserSettings settings, bool russianLocalization, bool customPlayerColors)
     {
+        if (GameMod.IsArcaneWars(settings) && !settings.PawPatchEnabled)
+        {
+            settings = EffectiveSettings.ForChannel(settings);
+            customPlayerColors = false;
+        }
         var packages = SelectComponents(channel, settings, russianLocalization, customPlayerColors);
         var voice = settings.GameVoiceLanguage ?? (russianLocalization ? "ru" : "en");
         if (GameLanguages.SupportsSeparateVoice(channel))

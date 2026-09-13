@@ -27,7 +27,13 @@ internal static class ModModeTests
             selection.AdditionalRoamingCompanies = (bits & 16) != 0; selection.SiegeBalance = (bits & 32) != 0; selection.DisablePowersAndShards = (bits & 64) != 0;
             var active = EffectiveSettings.ForFeed(selection, feed);
             var code = ConfigurationCode.Create(active);
-            Check(codes.Add(code), "Different component selections collided: " + code);
+            if (core) Check(codes.Add(code), "Different enabled component selections collided: " + code);
+            else
+            {
+                var expected=Pure();expected.RussianLocalization=selection.RussianLocalization;
+                Check(code==ConfigurationCode.Create(expected),"Disabled core retained a dependent option: " + code);
+                codes.Add(code);
+            }
             Check(ConfigurationCode.Create(ConfigurationCode.Parse(code)) == code, "Code roundtrip: " + code);
             Check(FriendConfiguration.TryParse(code, "stable", out _), "Friend parser: " + code);
             FriendConfiguration.ValidateFeed(active, feed);
@@ -134,6 +140,6 @@ internal static class ModModeTests
         await Apply(pure);
         await installer.UninstallAsync(settings: activeVanilla);
         foreach (var (path, value) in originals) Check(File.ReadAllText(Path.Combine(game,path)) == value, "Second restore changed original: " + path);
-        Console.WriteLine($"MOD MODES PASS {checks}: 768 unique selections, signed real packages, three mods and both languages, standalone options, pure AW hashes, language persistence, external edits and case-only legacy records. No installed game touched.");
+        Console.WriteLine($"MOD MODES PASS {checks}: 768 selections, disabled-core normalization, signed real packages, three mods and both languages, pure AW hashes, language persistence, external edits and case-only legacy records. No installed game touched.");
     }
 }

@@ -11,6 +11,7 @@ public static class EffectiveSettings
         GameMod.Validate(active);
         active.CustomPlayerColors = preferences.CustomPlayerColors && colorsAvailable;
         active.LargeMapSizes = active.PawPatchEnabled;
+        if (GameMod.IsArcaneWars(active) && !active.PawPatchEnabled) GameMod.DisableArcaneComponents(active);
         if (active.DataOnly)
         {
             active.CustomPlayerColors = active.IndependentHostility = false;

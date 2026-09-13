@@ -222,7 +222,11 @@ internal static class ModLibraryChecks
             var initial = new ChannelManifest { PublishedAt = "2026-09-10T10:00:00Z", Game = new() { K2ExeSha256 = [originalExe] } };
             initial.Packages.Add(await Package("arcane-wars", "0.82.0", 10, new() { ["data/shared.txt"] = "AW", ["data/aw.txt"] = "AW base" }, true));
             initial.Packages.Add(await Package("startup-base", "1.0.0", 20, new() { ["startup/base.txt"] = "base" }, true));
-            initial.Packages.Add(await Package("pawpatch-core", "1.0.0", 30, new() { ["data/shared.txt"] = "PAW" }, true));
+            initial.Packages.Add(await Package("pawpatch-core", "1.0.0", 30, new() { ["data/shared.txt"] = "PAW", ["data/cost.txt"] = "0.75" }, true));
+            initial.Packages.Add(await Package("siege-balance-standard", "1.0.0", 45, new() { ["data/cost.txt"] = "1.00" }));
+            initial.Packages.Add(await Package("roaming-profile-standard-no-new", "1.0.0", 40, new()));
+            initial.Packages.Add(await Package("powers-shards-original", "1.0.0", 40, new()));
+            initial.Packages.Add(await Package("localization-ru", "1.0.0", 110, new() { ["startup/language.txt"] = "ru" }));
             initial.Packages.Add(await Package("aw-siege-balance", "1.0.0", 40, new() { ["data/cost.txt"] = "0.75" }));
             initial.Packages.Add(await Package("game-localization-en", "1.0.0", 90, new() { ["startup/language.txt"] = "en" }));
             initial.Packages.Add(await Package("vanilla-localization-ru", "1.0.0", 100, new() { ["startup/language.txt"] = "ru" }));
@@ -281,6 +285,9 @@ internal static class ModLibraryChecks
             Check(clickTimes.Max() < 500, "An offline mode click stalled for half a second.");
             Console.WriteLine($"OFFLINE MODE PERFORMANCE {language}: 45 clicks; max={clickTimes.Max():F1}ms; mean={clickTimes.Average():F1}ms; no applied writes");
             var siegeToggle = Control<CheckBox>(window, "SiegeBalanceToggle");
+            Check(!siegeToggle.IsEnabled,"A component is selectable while Paw's Patch is disabled");
+            var coreToggle=Control<CheckBox>(window,"PawPatchToggle");
+            coreToggle.IsChecked=true;coreToggle.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
             Check(siegeToggle.IsEnabled, "Offline component toggle is disabled.");
             siegeToggle.IsChecked = true;
             siegeToggle.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));

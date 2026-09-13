@@ -171,7 +171,7 @@ public partial class MainWindow : Window
         CheckUpdatesButton.Content = _text["button.checknow"];
         var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
         LauncherVersionLabel.Text = T("ЛАУНЧЕР", "LAUNCHER");
-        InstalledPatchLabel.Text = T("УСТАНОВЛЕННЫЙ ПАТЧ", "INSTALLED PATCH");
+        InstalledPatchLabel.Text = T("УСТАНОВЛЕНО", "INSTALLED");
         LauncherVersionText.Text = $"{version.Major}.{version.Minor}.{version.Build}";
         GamePathLabel.Text = _text["game.path"];
         GameVersionLabel.Text = _text["game.version"].ToUpperInvariant();

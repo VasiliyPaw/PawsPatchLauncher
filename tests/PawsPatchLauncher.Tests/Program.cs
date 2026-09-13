@@ -172,6 +172,7 @@ try
     passed += WindowPlacementTests.Run(root);
     passed += PowersShardsTests.Run();
     passed += EffectiveSettingsTests.Run();
+    passed += PawDependencyTests.Run();
     passed += FriendConfigurationTests.Run();
     passed += FriendCopyPlanTests.Run();
     passed += await SocialVersionTests.RunAsync(root);

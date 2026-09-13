@@ -74,6 +74,31 @@ public partial class MainWindow
     private Border[] ArcaneComponentCards() => [CoreModuleCard, ColorsModuleCard,
         OosModuleCard, IndependentHostilityCard, RoamingSpawnCard, AdditionalRoamingCard, SiegeBalanceCard, PowersShardsCard];
 
+    private void RefreshPawComponentDependency()
+    {
+        var enabled = GameMod.IsArcaneWars(_settings) && _settings.PawPatchEnabled;
+        foreach (var card in ArcaneComponentCards().Skip(1))
+        {
+            var needsExe = card == ColorsModuleCard || card == OosModuleCard || card == IndependentHostilityCard;
+            card.Opacity = !enabled || needsExe && DataOnlyMode ? .42 : 1;
+            card.ToolTip = !enabled ? T("Включите Paw's Patch, чтобы выбрать этот компонент.", "Enable Paw's Patch to select this component.")
+                : needsExe && DataOnlyMode ? T("Недоступно: требуется совместимая версия EXE игры.", "Unavailable: a supported game executable is required.") : null;
+        }
+        ColorsToggle.IsChecked = enabled && !DataOnlyMode && _colorsAvailable && _settings.CustomPlayerColors;
+        IndependentHostilityToggle.IsChecked = enabled && !DataOnlyMode && _settings.IndependentHostility;
+        IgnoreDesyncToggle.IsChecked = enabled && !DataOnlyMode && _settings.DesyncMode == "continue";
+        AdditionalRoamingToggle.IsChecked = enabled && _settings.AdditionalRoamingCompanies;
+        SiegeBalanceToggle.IsChecked = enabled && _settings.SiegeBalance;
+        PowersShardsToggle.IsChecked = enabled && _settings.DisablePowersAndShards;
+        SelectSpawnMode(enabled ? _settings.RoamingSpawnMode : "standard");
+        ColorsToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && _colorsAvailable;
+        IndependentHostilityToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && CanChangeHostilityWithSelectedColors;
+        IgnoreDesyncToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && CanContinueWithSelectedColors;
+        AdditionalRoamingToggle.IsEnabled = SiegeBalanceToggle.IsEnabled = StandardSpawnRadio.IsEnabled = X4SpawnRadio.IsEnabled = enabled && !_busy;
+        X2SpawnRadio.IsEnabled = enabled && !_busy && SupportsX2(_channel);
+        PowersShardsToggle.IsEnabled = enabled && !_busy && (PowersShardsAvailable || !_settings.DisablePowersAndShards);
+    }
+
     private void PawPatchChanged(object sender, RoutedEventArgs e)
     {
         if (_initializing || _busy) return;

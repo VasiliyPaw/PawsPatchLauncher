@@ -18,6 +18,7 @@ public partial class MainWindow
         public readonly ToastVisual View=view;
         public long VisualVersion=-1;
         public bool Closing;
+        public int Repetitions = 1;
     }
     private ToastNotice? _primaryToast;
     private readonly List<ToastNotice> _archivedToasts=[];
@@ -29,7 +30,7 @@ public partial class MainWindow
 
     private void InitializeNotifications()
     {
-        _primaryToast=new(_toast,new(ToastPanel,ToastSlide,ToastIcon,ToastText,ToastCloseButton,ToastProgress,ToastProgressScale));
+        _primaryToast=new(_toast,new(ToastPanel,ToastSlide,ToastIcon,ToastText,ToastCloseButton,ToastProgress,ToastProgressScale,ToastCountBadge,ToastCountText));
         _toastTimer.Tick += (_, _) => RefreshToast();
         Closed += (_, _) =>
         {
@@ -52,14 +53,17 @@ public partial class MainWindow
             && notice.View.Panel.Visibility == Visibility.Visible && notice.State.Failed == failure && notice.State.Message == text);
         if (duplicate is not null)
         {
+            if (duplicate.Repetitions < int.MaxValue) duplicate.Repetitions++;
             duplicate.State.Show(message, failure, TimeSpan.FromSeconds(5), expireFailure: true);
+            RenderToast(duplicate, entrance:false);
+            PulseToastCount(duplicate.View);
             RefreshToast();
             return;
         }
         var positions=ToastPositions();
         if(_primaryToast is {Closing:false} && ToastPanel.Visibility==Visibility.Visible&&_toast.Message is not null)
         {
-            var archived=new ToastNotice(_toast.Snapshot(),ToastVisual.Create(this));
+            var archived=new ToastNotice(_toast.Snapshot(),ToastVisual.Create(this)) { Repetitions=_primaryToast.Repetitions };
             if(positions.TryGetValue(ToastPanel,out var top))positions[archived.View.Panel]=top;
             _archivedToasts.Add(archived);ToastStack.Children.Insert(ToastStack.Children.Count-1,archived.View.Panel);
             archived.View.Close.Click+=(_,_)=> { archived.State.Clear();RefreshToast(); };
@@ -69,6 +73,7 @@ public partial class MainWindow
         while(_archivedToasts.Count>49)
         { var oldest=_archivedToasts[0];StopToast(oldest);_archivedToasts.RemoveAt(0);ToastStack.Children.Remove(oldest.View.Panel); }
         positions.Remove(ToastPanel);
+        _primaryToast!.Repetitions = 1;
         _toast.Show(message, failure, TimeSpan.FromSeconds(5), expireFailure: true);
         RefreshToast();
         ToastHost.ScrollToEnd();ReflowToasts(positions);_toastLayoutRevision++;
@@ -104,6 +109,10 @@ public partial class MainWindow
             view.Panel.Background=SocialBrush(state.Failed?"#332024":"#142F28");
         }
         view.Panel.Visibility = Visibility.Visible;
+        view.CountText.Text = notice.Repetitions > 1 ? "×" + notice.Repetitions : "";
+        view.CountText.Foreground = view.Icon.Foreground;
+        view.CountBadge.Visibility = notice.Repetitions > 1 ? Visibility.Visible : Visibility.Collapsed;
+        if (notice.Repetitions == 1) ResetToastCount(view);
         if (notice.VisualVersion != state.Version)
         {
             notice.VisualVersion=state.Version;notice.Closing=false;
@@ -121,6 +130,25 @@ public partial class MainWindow
     private static void StopToastProgress(ToastVisual view)
     {
         var progress=view.Scale.ScaleX;view.Scale.BeginAnimation(ScaleTransform.ScaleXProperty,null);view.Scale.ScaleX=progress;
+    }
+
+    private static void ResetToastCount(ToastVisual view)
+    {
+        view.CountBadge.BeginAnimation(OpacityProperty,null);view.CountBadge.Opacity=1;
+        var scale=(ScaleTransform)view.CountBadge.RenderTransform;
+        scale.BeginAnimation(ScaleTransform.ScaleXProperty,null);scale.BeginAnimation(ScaleTransform.ScaleYProperty,null);
+        scale.ScaleX=scale.ScaleY=1;
+    }
+
+    private static void PulseToastCount(ToastVisual view)
+    {
+        ResetToastCount(view);
+        if (!SystemParameters.ClientAreaAnimation) return;
+        var duration=TimeSpan.FromMilliseconds(180);
+        view.CountBadge.BeginAnimation(OpacityProperty,new DoubleAnimation(.45,1,duration));
+        var scale=(ScaleTransform)view.CountBadge.RenderTransform;
+        var pulse=new DoubleAnimation(.86,1,duration) { EasingFunction=new CubicEase { EasingMode=EasingMode.EaseOut } };
+        scale.BeginAnimation(ScaleTransform.ScaleXProperty,pulse);scale.BeginAnimation(ScaleTransform.ScaleYProperty,pulse);
     }
 
     private Dictionary<Border,double> ToastPositions()=>ToastStack.Children.OfType<Border>().Where(p=>p.Visibility==Visibility.Visible&&p.ActualHeight>0)
@@ -149,6 +177,7 @@ public partial class MainWindow
 
     private static void StopToast(ToastNotice notice)
     {
+        notice.Repetitions=1; ResetToastCount(notice.View);notice.View.CountBadge.Visibility=Visibility.Collapsed;
         notice.State.Clear();StopToastProgress(notice.View);Motion.Collapse(notice.View.Panel);
         notice.View.Slide.BeginAnimation(TranslateTransform.XProperty,null);notice.View.Slide.BeginAnimation(TranslateTransform.YProperty,null);
         notice.View.Slide.X=notice.View.Slide.Y=0;notice.Closing=false;

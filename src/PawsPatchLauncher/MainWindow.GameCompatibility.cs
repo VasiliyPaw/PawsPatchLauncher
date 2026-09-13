@@ -164,17 +164,6 @@ public partial class MainWindow
         var previous = _initializing; _initializing = true;
         try
         {
-            ColorsToggle.IsChecked = !DataOnlyMode && _colorsAvailable && _settings.CustomPlayerColors;
-            IndependentHostilityToggle.IsChecked = !DataOnlyMode && _settings.IndependentHostility;
-            IgnoreDesyncToggle.IsChecked = !DataOnlyMode && _settings.DesyncMode == "continue";
-            ColorsToggle.IsEnabled = !_busy && !DataOnlyMode && _colorsAvailable;
-            IndependentHostilityToggle.IsEnabled = !_busy && !DataOnlyMode && CanChangeHostilityWithSelectedColors;
-            IgnoreDesyncToggle.IsEnabled = !_busy && !DataOnlyMode && CanContinueWithSelectedColors;
-            foreach (var card in new[] { ColorsModuleCard, IndependentHostilityCard, OosModuleCard })
-            {
-                card.Opacity = DataOnlyMode ? .42 : 1;
-                card.ToolTip = DataOnlyMode ? T("Недоступно: требуется совместимая версия EXE игры.", "Unavailable: a supported game executable is required.") : null;
-            }
             PawCompatibilityButton.Visibility = DataOnlyMode && (GameMod.IsArcaneWars(_settings) || GameMod.HasPureFixes(_channel)) ? Visibility.Visible : Visibility.Collapsed;
             CoreHelpButton.Visibility = PawCompatibilityButton.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
             PawCompatibilityButton.ToolTip = T("Какие функции Paw's Patch работают", "Available Paw's Patch features");
@@ -182,6 +171,7 @@ public partial class MainWindow
             CoreDescriptionText.Text = DataOnlyMode ? T("Работают только файловые изменения. Подробнее — в красном значке.", "Only file changes are active. See the red icon for details.")
                 : GameMod.IsArcaneWars(_settings) ? _text["modules.core.desc"]
                 : T("Исправления цветов значков, отображения лимита рот и генерации рельефа", "Fixes for badge colors, company limit display and terrain generation");
+            RefreshPawComponentDependency();
         }
         finally { _initializing = previous; }
     }

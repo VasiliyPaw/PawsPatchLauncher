@@ -11,8 +11,10 @@ public partial class MainWindow
         var version = PawPatchVersions.Installed(state, installed);
         var core = PawPatchVersions.InstalledCore(state);
         PatchVersionText.Text = version ?? "-";
-        InstalledPatchText.Text = version is not null ? version + " · " +
-            (state?.AppliedSettings?.Channel == "beta" ? T("Бета", "Beta") : T("Релиз", "Release")) : T("Не установлен", "Not installed");
+        var mod = state?.AppliedSettings?.Mod ?? (state?.Modules.ContainsKey("immortals") == true ? GameMod.Immortals : GameMod.ArcaneWars);
+        InstalledPatchText.Text = version is not null ? GameMod.Name(mod) + "\nPaw's Patch " + version : T("Не установлено", "Not installed");
+        InstalledPatchText.ToolTip = version is not null ? InstalledPatchText.Text + " · " +
+            (state?.AppliedSettings?.Channel == "beta" ? T("Бета", "Beta") : T("Релиз", "Release")) : null;
         PatchDownloadedText.Text = version is not null ? core?.DownloadedAt is DateTimeOffset downloaded
             ? T("Скачана: ", "Downloaded: ") + downloaded.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")
             : T("Дата загрузки неизвестна", "Download date unavailable") : "";

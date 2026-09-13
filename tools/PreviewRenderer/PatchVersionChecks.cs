@@ -25,7 +25,7 @@ internal static class PatchVersionChecks
                 Check(Text("ModPatchVersionText").StartsWith("Paw's Patch 0.1.0 ·"),"component version");
                 var state=new InstallState {AppliedSettings=new(){Mod=mod,Channel=branch,VanillaPawPatchEnabled=true,ImmortalsPawPatchEnabled=true},Modules=new(){["pure-fixes-data"]=new(){Enabled=true,Version="1.0.0-pure.1"}}};
                 Call("RefreshInstalledPatchVersions",state);
-                Check(Text("PatchVersionText")=="0.1.0"&&Text("InstalledPatchText").StartsWith("0.1.0 ·"),"home/footer installed version");
+                Check(Text("PatchVersionText")=="0.1.0"&&Text("InstalledPatchText")==GameMod.Name(mod)+"\nPaw's Patch 0.1.0","home/footer installed version");
                 GameMod.SetPawPatch(state.AppliedSettings,false);Call("RefreshInstalledPatchVersions",state);
                 Check(Text("PatchVersionText")=="-"&&!Text("InstalledPatchText").Contains("0.1.0"),"disabled patch label");
                 state.AppliedSettings.Mod=GameMod.ArcaneWars;Call("RefreshInstalledPatchVersions",state);

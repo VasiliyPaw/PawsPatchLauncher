@@ -12,6 +12,7 @@ public partial class MainWindow
         public Func<string> LocalizedMessage { get; } = message;
     }
     private string? _socialDetailsLayoutKey;
+    private string? _socialDetailsRoleKey;
     private int _socialDetailsGeneration;
     // Deterministic smoke-test seams; normal runtime uses authenticated RPCs and the transactional installer.
     private Func<Task<IReadOnlyList<SocialPlayer>>>? _friendSettingsReadOverride = null;
@@ -24,6 +25,7 @@ public partial class MainWindow
         Motion.Collapse(SocialDetailsOverlay);
         SocialDetailsCard.IsHitTestVisible=true;
         _socialDetailsPeer = null; _socialDetailsLayoutKey = null;
+        _socialDetailsRoleKey = null; SocialDetailsAdminBadge.Content = null;
         _adminViewedPlayer=null;
         SocialDetailsCopyUsernameButton.SetContext("");
         SocialDetailsAvatar.Content = null; SocialDetailsName.Text = SocialDetailsUsername.Text = "";
@@ -55,7 +57,12 @@ public partial class MainWindow
     private void RenderSocialDetails(SocialPlayer player)
     {
         SocialDetailsName.Text = player.Name;
-        SocialDetailsAdminBadge.Content=player.Deleted?null:PlayerRoleBadge(player.AdminLevel,player.PawsTeam,inline:false);
+        var roleKey = $"{player.Id}|{player.Deleted}|{player.AdminLevel}|{player.PawsTeam}|{_text.Language}";
+        if (_socialDetailsRoleKey != roleKey)
+        {
+            _socialDetailsRoleKey = roleKey;
+            SocialDetailsAdminBadge.Content = player.Deleted ? null : PlayerRoleBadge(player.AdminLevel,player.PawsTeam,inline:false);
+        }
         SocialDetailsModerationText.Text=player.Banned?BanDescription(player.BannedAt,player.BanUntil,player.BanReason):player.CreatedAt is DateTimeOffset registered?T("Регистрация: ","Registered: ")+ChatDate(registered):"";
         SocialDetailsModerationText.Foreground=SocialBrush(player.Banned?"#FFB6B6":"#A8BBD2");
         SocialDetailsModerationText.Visibility=SocialDetailsModerationText.Text.Length>0?Visibility.Visible:Visibility.Collapsed;

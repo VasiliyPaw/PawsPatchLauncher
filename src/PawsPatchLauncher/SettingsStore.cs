@@ -14,7 +14,11 @@ public sealed class SettingsStore
             if (File.Exists(SettingsPath))
             {
                 var saved = JsonSerializer.Deserialize(File.ReadAllText(SettingsPath), LauncherJsonContext.Default.UserSettings);
-                if (saved is not null) { ModChannelSelection.Remember(saved); return saved; }
+                if (saved is not null)
+                {
+                    if (!saved.PawPatchEnabled) GameMod.DisableArcaneComponents(saved);
+                    ModChannelSelection.Remember(saved); return saved;
+                }
             }
         }
         catch { }
@@ -25,6 +29,7 @@ public sealed class SettingsStore
 
     public void Save(UserSettings settings)
     {
+        if (!settings.PawPatchEnabled) GameMod.DisableArcaneComponents(settings);
         ModChannelSelection.Remember(settings);
         Directory.CreateDirectory(_directory);
         var temporary = SettingsPath + ".tmp";

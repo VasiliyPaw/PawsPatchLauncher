@@ -123,7 +123,7 @@ internal static class ModLibraryTests
             Check(await File.ReadAllTextAsync(Path.Combine(game, "startup/language.txt")) == (russian ? "ru" : "en"), "wrong language after switch");
             Check(File.Exists(Path.Combine(game, "data/aw.txt")) == (mod == GameMod.ArcaneWars), "inactive AW files leaked");
             Check(File.Exists(Path.Combine(game, "data/imm.txt")) == (mod == GameMod.Immortals), "inactive Immortals files leaked");
-            Check(File.Exists(Path.Combine(game, "data/cost.txt")) == (mod == GameMod.ArcaneWars && siege), "disabled component leaked");
+            Check(File.Exists(Path.Combine(game, "data/cost.txt")) == active.SiegeBalance, "disabled component leaked");
             Check(File.Exists(Path.Combine(game, "data/badge-fix.txt")) == (mod != GameMod.ArcaneWars && fixes), "badge fix leaked or disappeared");
             Check(File.Exists(Path.Combine(game, "k2_paws_pure_fixes_1372.exe")) == (mod != GameMod.ArcaneWars && fixes && !dataOnly), "native pure fix leaked into disabled/data-only profile");
             Check(File.Exists(Path.Combine(game, "data/missing-labels.txt")) == (mod == GameMod.Immortals && fixes), "Immortals strings leaked into another mod");

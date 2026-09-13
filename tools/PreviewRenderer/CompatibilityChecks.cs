@@ -35,7 +35,7 @@ internal static class CompatibilityChecks
         async Task Scenario()
         {
             FixtureAccess.AllowArcaneWars(w);
-            var settings=Field<UserSettings>(w,"_settings");settings.Mod=GameMod.ArcaneWars;settings.PawPatchEnabled=false;
+            var settings=Field<UserSettings>(w,"_settings");settings.Mod=GameMod.ArcaneWars;settings.PawPatchEnabled=true;
             settings.RussianLocalization=settings.AdditionalRoamingCompanies=settings.SiegeBalance=settings.DisablePowersAndShards=false;
             settings.RoamingSpawnMode="standard";settings.CustomPlayerColors=settings.IndependentHostility=true;settings.DesyncMode="continue";settings.ModNoticeSeen=true;
             Field<PawsPatchLauncher.Localization>(w,"_text").SetLanguage(language);Call(w,"ApplyLanguage");
