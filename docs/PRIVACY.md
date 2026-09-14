@@ -34,6 +34,13 @@ keeps the latest activity, not a history of matches. Activity is hidden when the
 presence expires; it is cleared by the next accepted heartbeat without activity.
 Received details are cached in memory for up to 16 profiles and reused for 15
 seconds; they are cleared at sign-out and are not written to diagnostic logs.
+
+Users who can view a current lobby or match can also open the profiles and avatars
+of uniquely identified launcher participants, including players outside their friends
+list. This does not grant access to their chat, files or friend-only configuration.
+Avatars are normalized to 256 × 256 JPEGs before upload; original images are not
+uploaded. Received participant images are cached in memory by avatar revision and
+cleared at sign-out.
 Matching an account by shared lobby and participant slot is a convenience, not
 proof of identity or an authorization grant. A matching nickname alone is not
 used to link a participant to an account.
@@ -71,6 +78,13 @@ in a public GitHub issue.
 и участников, их команды и игровые цвета. Отправляется только небольшой набор прочитанных игровых полей.
 Для сопоставления аккаунтов используется хеш игровой сессии и место участника;
 Steam ID и команды подключения не отправляются. История матчей не ведётся.
+
+Пользователь, которому доступно текущее лобби или матч, может открыть профиль и
+аватарку распознанного участника с лаунчером, даже если тот не добавлен в друзья.
+Это не даёт доступа к переписке, файлам или настройкам, доступным друзьям.
+Перед отправкой аватарки уменьшаются до JPEG 256 × 256; исходное изображение не
+загружается на сервер. Полученные аватарки участников сохраняются в памяти до
+выхода из аккаунта и скачиваются заново при изменении.
 
 Сообщения, аватарки и выбранные для передачи сохранения поступают в сервисы
 проекта и соответствующим получателям. Картинки в чате могут загружаться прямо
