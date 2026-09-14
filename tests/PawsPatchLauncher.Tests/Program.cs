@@ -5,6 +5,11 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 4 && args[0] == "--verify-graphics-beta5")
+{
+    await GraphicsBeta5Tests.RunAsync(args[1], args[2], args[3]);
+    return;
+}
 if (args.Length == 3 && args[0] == "--verify-split-languages")
 {
     await SplitLanguageTests.RunAsync(args[1], args[2]);

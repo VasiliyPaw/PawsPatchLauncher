@@ -1,0 +1,61 @@
+{
+  "version": "0.3.0-beta.5",
+  "baselineCommit": "fcf3adb886d4797b00a39b4281eafdc10f66d3b6",
+  "launcherVersionUnchanged": "0.7.12",
+  "checks": {
+    "nativeOfflineCases": 20,
+    "nativeSystemD3D9HiddenWindow": "passed",
+    "preservedRangerMovementTracks": 26,
+    "rangerAnimationEventsUnchanged": true,
+    "selectionCombinations": 18432,
+    "installerTransitions": 24,
+    "existingBetaPackagesCheckedForPathOverrides": 37,
+    "launcherRegressionAssertions": 16501,
+    "gameLaunchedDuringPublication": false
+  },
+  "assets": [
+    {
+      "name": "pawpatch-core-0.3.0-beta.5.zip",
+      "size": 1627069,
+      "sha256": "5767CA99BB762582A519CA24AAB110FB88F92AB6A797304C242982634CB97200",
+      "packageId": "pawpatch-core",
+      "version": "0.3.0-beta.5"
+    },
+    {
+      "name": "common-ui-1.3.72-ui.5-beta.5.zip",
+      "size": 391116,
+      "sha256": "4C9719666D11B782B9C3C8D079B6278736AF7D1F51565FF205E4C694C8F06DF1",
+      "packageId": "common-ui",
+      "version": "1.3.72-ui.5-beta.5"
+    }
+  ],
+  "scope": [
+    {
+      "id": "pawpatch-core",
+      "sourceSha256": "D10F736272B0F4F77F1D5C96BBE463B45030D9E7D0FC9B3CFF90622680B83BF7",
+      "sha256": "5767CA99BB762582A519CA24AAB110FB88F92AB6A797304C242982634CB97200",
+      "added": {
+        "d3d9.dll": "94A0EC76C89F2122712C04D8F276E853C20670A0EEC000BC55F67DCC1E464E2E",
+        "data/Units/Human/Ranger/RangerDie1.KF": "990CF3DDADD764A12126768FDEC606C8469A7C0C19AD55252F94301475A8A781"
+      },
+      "changed": {}
+    },
+    {
+      "id": "common-ui",
+      "sourceSha256": "9924314EA86442C8CCAA2434EEBD83EBD0ED2041D50032BE0B67BE65F54641A0",
+      "sha256": "4C9719666D11B782B9C3C8D079B6278736AF7D1F51565FF205E4C694C8F06DF1",
+      "added": {},
+      "changed": {
+        "paws_patch_versions.ini": {
+          "before": "DC9240123289986923A1628E88953C1D96CC036376CE06C5D6927212D02F7F35",
+          "after": "FC7FA11B0947C536F039C0C5B78508497CAF40A0C69E3503A5ABCCC8D716563C"
+        }
+      }
+    }
+  ],
+  "validationLimits": [
+    "Successful game replay was on one Windows/NVIDIA setup.",
+    "Other GPU/OS combinations and multiplayer were not replayed in this release task.",
+    "This skips invalid draws; it does not repair their engine producer."
+  ]
+}
