@@ -6,6 +6,34 @@ internal static class CityMilitiaPlannerTests
     private static CityMilitiaPlanner.City C(uint id,int state=1){return new CityMilitiaPlanner.City{Id=id,State=state};}
     internal static int Main()
     {
+        foreach(float firstTime in new[]{0f,.25f,1f})
+        {
+            var fresh=new CityMilitiaPlanner();var capital=C(80);
+            Check(fresh.Update(1,20,true,true,new[]{capital},firstTime)==0,"fresh capital queued even after delayed helper read");
+            Check(fresh.Update(1,20,true,true,new[]{capital},firstTime)==0,"paused starting city waits for a simulation tick");
+            Check(fresh.Update(1,21,true,true,new[]{capital},firstTime)==80,"starting city opens on first advancing snapshot");
+            fresh.Reply(1,21);capital.State=2;
+            Check(fresh.Update(1,22,true,true,new[]{capital},firstTime)==0,"starting city open acknowledged");
+            capital.State=1;
+            Check(fresh.Update(1,23,true,true,new[]{capital},firstTime)==0,"starting city manual close is respected");
+            Check(fresh.Update(2,22,true,true,new[]{capital},22)==0,"save restore records the current capital baseline");
+            Check(fresh.Update(2,23,true,true,new[]{capital},22)==0,"save restore does not reopen manually closed capital");
+        }
+        foreach(float firstTime in new[]{float.NaN,float.PositiveInfinity,-1f,1.01f,600f})
+        {
+            var loaded=new CityMilitiaPlanner();
+            loaded.Update(1,600,true,true,new[]{C(81)},firstTime);
+            Check(loaded.Update(1,601,true,true,new[]{C(81)},firstTime)==0,"only a known initial world can open existing cities");
+        }
+        var initialOff=new CityMilitiaPlanner();
+        initialOff.Update(1,0,false,true,new[]{C(82)},0);
+        Check(initialOff.Update(1,1,true,true,new[]{C(82)},0)==0,"enabling later does not rewrite an existing starting city");
+        var pendingCapital=new CityMilitiaPlanner();var unfinished=C(83,0);
+        pendingCapital.Update(1,0,true,true,new[]{unfinished},0);
+        Check(pendingCapital.Update(1,1,true,true,new[]{unfinished},0)==0,"starting capital waits until militia is available");
+        unfinished.State=1;
+        Check(pendingCapital.Update(1,2,true,false,new[]{unfinished},0)==0,"starting capital respects settings dialog pause");
+        Check(pendingCapital.Update(1,3,true,true,new[]{unfinished},0)==83,"starting capital opens when native command becomes available");
         var p=new CityMilitiaPlanner();var existing=C(1);
         Check(p.Update(1,0,true,true,new[]{existing})==0,"first snapshot baseline");
         Check(p.Update(1,1,true,true,new[]{existing})==0,"existing never rewritten");

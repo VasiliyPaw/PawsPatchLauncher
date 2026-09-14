@@ -1024,7 +1024,7 @@ public partial class MainWindow : Window
         if (sender is not Button { Tag: string key }) return;
         _helpPreviousFocus = Keyboard.FocusedElement ?? FocusManager.GetFocusedElement(this);
         HelpTitleText.Text = _text[$"{key}.title"] == $"{key}.title" ? _text[key] : _text[$"{key}.title"];
-        HelpBodyText.Text = key == "modules.core" ? CoreHelpText() : _text[$"{key}.help"];
+        HelpBodyText.Text = ModuleHelpText(key);
         RenderArcaneWarsCredit(key);
         HelpOverlay.Visibility = Visibility.Visible;
         HelpOverlay.UpdateLayout();
@@ -1055,7 +1055,7 @@ public partial class MainWindow : Window
             var child = VisualTreeHelper.GetChild(parent, index);
             if (child is Button { Tag: string key } button
                 && (key.StartsWith("modules.", StringComparison.Ordinal) || key is "configuration" or "diagnostics"))
-                button.ToolTip = key == "modules.core" ? CoreHelpTooltipText() : _text[$"{key}.help"];
+                button.ToolTip = key == "modules.core" ? CoreHelpTooltipText() : ModuleHelpText(key);
             ApplyHelpTooltips(child);
         }
     }

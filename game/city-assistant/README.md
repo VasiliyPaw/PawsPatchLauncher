@@ -1,11 +1,11 @@
-# Built-in city policy — 0.3.0-beta.3 / r14
+# Built-in city policy — 0.3.0-beta.4 / r15
 
 Supported executable: Kohan II 1.3.72, Steam build 25068126. The stock EXE is not modified on disk. City policy is included in all eight Arcane Wars Beta helper variants. Stable Arcane Wars and the separate Kohan II fixes channels do not enable it.
 
 ## Controls and persistence
 
 - F1 auto-upgrade and a 2000 gold reserve start enabled for each new match or loaded save. Four native inputs set stone, wood, iron and mana income targets. Enter applies; Esc or leaving an input cancels editing.
-- The new F1 option “Open militia in newly acquired cities” defaults ON and persists across matches and restarts. Newly built or captured cities are eligible after the first coherent world snapshot. Existing cities, including the starting city and cities restored from a save, form a baseline: load/toggle changes never rewrite them. Recapture counts as a new acquisition; later manual militia changes are respected.
+- The new F1 option “Open militia in newly acquired cities” defaults ON and persists across matches and restarts. Newly built or captured cities are eligible after the first coherent world snapshot. A starting city is also eligible when the native bridge first observes the world within simulation second 0–1. That timestamp is retained even if the managed snapshot arrives later. Established saves form a baseline and are not reopened. A save made within the first second is treated as an initial world; this is a simulation-time boundary, not an explicit new-game flag. Recapture counts as a new acquisition; later manual militia changes are respected.
 - Targets, general permissions, global branches and the militia preference persist in `%LOCALAPPDATA%/PawsPatch/city-policy.ini`. A previous experimental file is imported only when this production file does not exist. City exceptions reset with the world. Auto-upgrade ON/2000 still resets on load; the separate militia preference does not.
 - Settings contains build/upgrade permissions, exact branch preferences and city exceptions. Random idle development has no optional toggle; legacy `other` preferences are ignored.
 
@@ -43,17 +43,17 @@ The runtime audit image SHA-256 is `B865D8206990C4F055C51DE857F0B09B88AB5EE3B6AE
 
 `build_policy_native.py` composes the accepted legacy bridge with native_construction, native_resource_inputs, native_automation and native_transport. Generated resources are byte-compared before compilation. They contain patch-owned code/fixups, not a stock executable. Runtime installation is transactional, restricted to the launcher's own fresh verified game, with executable/state pages separated.
 
-Final r14 resources (448 relocations):
+Final r15 resources (455 relocations):
 
-- `AssistantPayload.bin`: `C487A57C8F8A69F1468EC678D5C792F24083B60C9A23089D41E7D168735E5169`
-- `AssistantFixups.bin`: `4E19EFB39823B0FBC074F1CE3ADC7B0E77136A88CA1D7B7B0D2551F88476CD61`
+- `AssistantPayload.bin`: `8FC7B28F5415EA3F99A59A862164B4DD17891541F1020CBC0D3E8ABC7A8CF43D`
+- `AssistantFixups.bin`: `07A1B1CA294D8610C67FB96F013DEBED59AF434EE6E7503FD2F1B097F73C42FD`
 
 ## Build and validation
 
 ```powershell
-game/beta7/build.ps1 -CityAssistant -OutputDirectory C:/PatchBuild/city-beta3 -LegacyWorkDirectory C:/VerifiedKohanWork
+game/beta7/build.ps1 -CityAssistant -OutputDirectory C:/PatchBuild/city-beta4 -LegacyWorkDirectory C:/VerifiedKohanWork
 ```
 
 Use a new output directory. LegacyWorkDirectory contains the verified city_assistant_1372, city_policy_v2 and fast_transfer_1372 sources plus their documented Python dependencies. The accepted local migration path is also recognized; other machines should specify the source root explicitly.
 
-The build runs planner/persistence, militia lifecycle, offline settings-form and emitted-x86 policy/construction/input/automation/transport tests across three relocations and both resource layouts. It also runs eight helper installation/rollback checks and transfer regressions. RU/EN UTF-8 source layouts are emitted as native UTF-16LE. No game is launched by the build. A release-ready manifest is written only after complete output/check validation; packaging verifies all helper and UI hashes. Live game and multiplayer acceptance are separate evidence.
+The build runs planner/persistence, militia lifecycle, offline settings-form and emitted-x86 policy/construction/input/automation/transport tests across three relocations and both resource layouts. It also runs eight helper installation/rollback checks and transfer regressions. RU/EN UTF-8 source layouts are emitted as native UTF-16LE. No game is launched by the build. The release preparation step records a hash-bound release-ready manifest only after complete output/check validation; packaging verifies all helper and UI hashes. Live game and multiplayer acceptance are separate evidence.

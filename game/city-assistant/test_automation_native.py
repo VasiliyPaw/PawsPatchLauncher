@@ -29,7 +29,9 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
     def run(off,ecx=0,eax=0):
         sp=0x301ff000;w(sp,0x30000000)
         for reg,v in [(UC_X86_REG_ESP,sp),(UC_X86_REG_ECX,ecx),(UC_X86_REG_EAX,eax),(UC_X86_REG_EBX,123),(UC_X86_REG_ESI,234),(UC_X86_REG_EDI,345),(UC_X86_REG_EBP,456)]:u.reg_write(reg,v)
-        u.emu_start(cave+off,0x30000000,count=300000)
+        try:u.emu_start(cave+off,0x30000000,count=300000)
+        except Exception as error:
+            raise AssertionError(f'native entry {off:x}, IP={u.reg_read(UC_X86_REG_EIP):x}, eax={u.reg_read(UC_X86_REG_EAX):x}, ebx={u.reg_read(UC_X86_REG_EBX):x}, ecx={u.reg_read(UC_X86_REG_ECX):x}') from error
         assert u.reg_read(UC_X86_REG_ESP)==sp+4
         assert [u.reg_read(x) for x in [UC_X86_REG_EBX,UC_X86_REG_ESI,UC_X86_REG_EDI,UC_X86_REG_EBP]]==[123,234,345,456]
         return u.reg_read(UC_X86_REG_EAX)
@@ -148,4 +150,22 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         assert r(cave+0x194)==serial and r(cave+0x190)==result and r(seen)==1,(serial,r(cave+0x194),r(cave+0x190),r(seen));checks+=1;restore()
     w(cave+0x180,8);f(cave+0x110,1);run(0x7400);assert r(cave+0x194)==7 and r(seen)==1;checks+=1
     f(cave+0x110,2);run(0x7400);assert r(cave+0x194)==8 and r(seen)==2;checks+=1
+    # Run the real snapshot entry, initially without a ready local kingdom.
+    # The first native world timestamp must survive incomplete snapshots and
+    # helper/UI delays, but reset for a saved world, a rewind, or a menu exit.
+    for off in (0x1a00,0x1000,0x3000,0x7400):stub(cave+off,'ret')
+    world=alloc();otherworld=alloc();w(game+0x5f3fc0,0)
+    tick=[20000]
+    def capture_world(pointer,elapsed,phase=2):
+        tick[0]+=500;w(cave,tick[0]);w(game+0x5f9218,phase);w(game+0x5f3fb8,pointer);f(pointer+0xe8,elapsed)
+        run(0x2000)
+        return struct.unpack('<f',u.mem_read(cave+0x13c,4))[0]
+    assert capture_world(world,.25)==.25;checks+=1
+    assert r(cave+0x128)==0 and r(cave+0x108)==0;checks+=1
+    assert capture_world(world,25)==.25;checks+=1
+    assert capture_world(otherworld,600)==600;checks+=1
+    assert capture_world(otherworld,500)==500;checks+=1
+    capture_world(otherworld,500,phase=0)
+    assert r(cave+0x1a0)==0;checks+=1
+    assert capture_world(otherworld,0)==0;checks+=1
 print('CITY_AUTOMATION_NATIVE_PASS',checks,'checks; no game launched')

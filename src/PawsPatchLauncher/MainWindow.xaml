@@ -1026,7 +1026,7 @@
                                         <StackPanel Grid.Column="1" Margin="10,0,0,0">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock x:Name="RoamingSpawnTitleText" Style="{StaticResource FieldTitle}" VerticalAlignment="Center"/>
-                                                <Button Style="{StaticResource HelpButton}" Tag="modules.spawn" Margin="8,0,0,0" Click="HelpButton_Click"/>
+                                                <Button x:Name="SpawnHelpButton" Style="{StaticResource HelpButton}" Tag="modules.spawn" Margin="8,0,0,0" Click="HelpButton_Click"/>
                                             </StackPanel>
                                             <Grid Margin="0,9,0,0">
                                                 <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>

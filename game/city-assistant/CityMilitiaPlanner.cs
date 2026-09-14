@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 // Observes ownership, never militia memory. One ordinary native command is sent
-// for a newly acquired city; existing cities form the first snapshot baseline.
+// for a newly acquired city. A new world's initial cities are eligible too;
+// cities restored from an established saved match form a baseline.
 internal sealed class CityMilitiaPlanner
 {
     internal sealed class City { internal uint Id; internal int State; } // 0 unavailable, 1 closed, 2 open
@@ -14,13 +15,22 @@ internal sealed class CityMilitiaPlanner
     private uint epoch, pending;
     private float previousTime=-1, sentAt;
     internal uint Pending { get { return pending; } }
-    internal uint Update(uint world,float time,bool enabled,bool canIssue,City[] cities)
+    internal uint Update(uint world,float time,bool enabled,bool canIssue,City[] cities,float initialWorldTime=float.NaN)
     {
         bool advances=initialized && epoch==world && time>previousTime;
         if(!initialized || epoch!=world || time<previousTime)
         {
             initialized=true;epoch=world;known.Clear();waiting.Clear();retryAt.Clear();pending=0;awaitingReply=false;
-            foreach(var city in cities)known.Add(city.Id);
+            // The native bridge retains the first observed simulation time, so
+            // a slow helper/UI cannot mistake a fresh match for a loaded save.
+            // Initial game ticks fit in the first second; later saves are not
+            // replayed, and toggling the preference never rewrites known cities.
+            bool starting=initialWorldTime>=0 && initialWorldTime<=1;
+            foreach(var city in cities)
+            {
+                known.Add(city.Id);
+                if(starting && enabled && city.State!=2)waiting[city.Id]=0;
+            }
             previousTime=time;return 0;
         }
         previousTime=time;

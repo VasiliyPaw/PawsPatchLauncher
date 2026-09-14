@@ -39,10 +39,11 @@ internal static class BuildFeatures
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
             ",\"commonFixes\":" + commonFixes.ToString().ToLowerInvariant() + ",\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"advancedCityPolicy\":" + (cityAssistant && fastSaveTransfer).ToString().ToLowerInvariant() +
-            ",\"cityPolicyRevision\":" + (cityAssistant ? "14" : "0") +
+            ",\"cityPolicyRevision\":" + (cityAssistant ? "15" : "0") +
             ",\"nativeCityQueue\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"automaticMines\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"newCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
+            ",\"startingCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + "}");
         return 0;
     }

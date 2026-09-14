@@ -168,6 +168,8 @@ public partial class MainWindow
             CoreHelpButton.Visibility = PawCompatibilityButton.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
             var coreTooltip = CoreHelpTooltipText();
             if (!Equals(CoreHelpButton.ToolTip, coreTooltip)) CoreHelpButton.ToolTip = coreTooltip;
+            var frequencyTooltip = ModuleHelpText("modules.spawn");
+            if (!Equals(SpawnHelpButton.ToolTip, frequencyTooltip)) SpawnHelpButton.ToolTip = frequencyTooltip;
             PawCompatibilityButton.ToolTip = T("Какие функции Paw's Patch работают", "Available Paw's Patch features");
             AutomationProperties.SetName(PawCompatibilityButton, (string)PawCompatibilityButton.ToolTip);
             CoreDescriptionText.Text = DataOnlyMode ? T("Работают только файловые изменения. Подробнее — в красном значке.", "Only file changes are active. See the red icon for details.")

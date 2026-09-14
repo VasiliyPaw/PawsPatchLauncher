@@ -22,7 +22,28 @@ mov dword ptr [{S+0x130}],0
 transport_ready: mov''')
     capture=replace_once(capture,f'mov ecx,edi; call {S+0x5700}',f'mov ecx,edi; call {S+0x7800}\nmov ecx,edi; call {S+0x5700}')
     capture=replace_once(capture,f'call {S+0x3000}',f'call {S+0x3000}; call {S+0x7400}')
+    # Retain world age at the first native observation, before local kingdom/UI
+    # readiness. Invalid snapshots can reset the bridge epoch; they must not
+    # lose a fresh world's initial timestamp. Clear only on an actual menu exit.
+    capture=replace_once(capture,f'cmp ebx,dword ptr [{S+0x108}]',f'call {S+0x1e00}\ncmp ebx,dword ptr [{S+0x108}]')
+    capture=replace_once(capture,'bridge_inactive:',f'''bridge_inactive:
+cmp dword ptr [0xa59218],2; je preserve_world_birth
+mov dword ptr [{S+0x1a0}],0
+preserve_world_birth:''')
     m.replace(0x2000,capture,0x800)
+    assert set(b.payload[0x1e00:0x1e80]) <= {0, 0x90}, 'World-birth code reservation is occupied'
+    m.replace(0x1e00,f'''
+push eax
+cmp ebx,dword ptr [{S+0x1a0}]; jne birth_new
+movss xmm0,dword ptr [ebx+0xe8]; ucomiss xmm0,dword ptr [{S+0x1a4}]
+jae birth_update
+birth_new:
+mov dword ptr [{S+0x1a0}],ebx
+mov eax,dword ptr [ebx+0xe8]; mov dword ptr [{S+0x13c}],eax
+birth_update:
+mov eax,dword ptr [ebx+0xe8]; mov dword ptr [{S+0x1a4}],eax
+pop eax; ret
+''',0x80)
 
     # Another actor's queued work does not block this settlement. Native
     # CanBuild still owns capacity, terrain, branch and payment legality.

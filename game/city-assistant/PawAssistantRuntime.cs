@@ -164,7 +164,7 @@ internal static class PawAssistantRuntime
             InitializeNativePolicy();
             memory.Write(state, BitConverter.GetBytes(Environment.TickCount));
             logger = log;
-            log("ASSISTANT beta policy=r14 installed; cityOrders=true; nativeQueue=true; mines=true; newCityMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
+            log("ASSISTANT beta policy=r15 installed; cityOrders=true; nativeQueue=true; mines=true; newCityMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
         }
         finally { memory.Resume(); }
     }
@@ -485,7 +485,7 @@ internal static class PawAssistantRuntime
                 militiaPending=0;
             }
         }
-        uint next=militiaPlanner.Update(epoch,time,policy.NewCitiesOpenMilitia,!settingsOpen && militiaPending==0,cities.ToArray());
+        uint next=militiaPlanner.Update(epoch,time,policy.NewCitiesOpenMilitia,!settingsOpen && militiaPending==0,cities.ToArray(),BitConverter.ToSingle(header,0x3c));
         if(next==0)return;
         byte[] request=new byte[12];Array.Copy(BitConverter.GetBytes(epoch),0,request,0,4);
         Array.Copy(BitConverter.GetBytes(next),0,request,4,4);Array.Copy(BitConverter.GetBytes(time),0,request,8,4);

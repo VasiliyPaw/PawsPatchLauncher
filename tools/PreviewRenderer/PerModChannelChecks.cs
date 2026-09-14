@@ -120,6 +120,29 @@ internal static class PerModChannelChecks
                 Check(Control<TextBlock>("HelpBodyText").Text==tooltip,"Clicked help and hover tooltip disagree");
                 await (Task)Call("CloseHelpAsync")!;
             }
+            // The actual frequency control must follow current signed channel
+            // text, but retain old values when an archive is explicitly pinned.
+            foreach(var branch in new[]{"stable","beta"})
+            {
+                settings.Mod=GameMod.ArcaneWars;settings.Channel=branch;
+                var old=Feed(branch);var current=Feed(branch);
+                old.PatchGuide=new() { Entries=[new("frequency","optional","","","Старый ×4: 240 / 40%","Old ×4: 240 / 40%")] };
+                current.PatchGuide=new() { Entries=[new("frequency","optional","","","Тёмный лорд ×4: 6 минут, 30%","Shadow Lord ×4: 6 minutes, 30%")] };
+                typeof(MainWindow).GetField("_channel",flags)!.SetValue(window,old);
+                typeof(MainWindow).GetField("_latestChannel",flags)!.SetValue(window,current);
+                foreach(var pinned in new[]{false,true})
+                {
+                    settings.PinnedRelease=pinned?ChannelFingerprint.Create(old):null;
+                    Call("RefreshCompatibilityControls");
+                    var expected=(pinned?old:current).PatchGuide!.Entries[0].Body(language);
+                    var tooltip=(string)Control<Button>("SpawnHelpButton").ToolTip;
+                    Check(tooltip==expected,"Frequency tooltip ignores current/archive channel: "+branch+" "+pinned);
+                    Control<Button>("SpawnHelpButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    Check(Control<TextBlock>("HelpBodyText").Text==tooltip,"Frequency hover and clicked help disagree");
+                    await (Task)Call("CloseHelpAsync")!;
+                }
+                settings.PinnedRelease=null;
+            }
             settings.Channel="beta";
             typeof(MainWindow).GetField("_latestChannel",flags)!.SetValue(window,null);
             var selectedGuide=new PatchGuideDocument { Entries=[dvorak,transfer] };
