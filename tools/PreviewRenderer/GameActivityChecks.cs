@@ -61,7 +61,7 @@ internal static class GameActivityChecks
             var labels=FactionLabels().ToArray();
             Check(labels.Length==3,"race/subrace line present for every participant");
             Check(labels.Any(t=>t.Text==(language=="ru"?"Люди · Роялисты":"Human · Royalist")),"native race/subrace names localized for viewer");
-            Check(labels.Any(t=>t.Text==(language=="ru"?"Раса и подраса неизвестны":"Race and subrace unknown")),"legacy missing values are not presented as random");
+            Check(labels.Any(t=>t.Text==(language=="ru"?"Раса и фракция неизвестны":"Race and faction unknown")),"legacy missing values are not presented as random");
             var marker=(Grid)((Grid)((Button)groups[1].Children.OfType<Border>().First().Child).Content).Children[0];
             Check(((SolidColorBrush)((Border)marker.Children[1]).Background).Color==(Color)ColorConverter.ConvertFromString("#DDA443"),"player color preserved exactly");
             Check(C<Border>("GameActivityCard").ActualWidth<=570&&C<Border>("GameActivityCard").ActualHeight<=590,"compact card exceeds window");
@@ -89,7 +89,7 @@ internal static class GameActivityChecks
             labels=FactionLabels().ToArray();
             Check(labels.Any(t=>t.Text==(language=="ru"?"Случайно · Случайно":"Random · Random")),"random race and subrace remain independent lobby choices");
             Check(labels.Any(t=>t.Text==(language=="ru"?"Люди · Случайно":"Human · Random")),"fixed race with random subrace is not replaced by match choice");
-            Check(labels.All(t=>((string)t.ToolTip).Contains(language=="ru"?"Подраса: ":"Subrace: ")),"race and subrace meanings exposed to hover and accessibility");
+            Check(labels.All(t=>((string)t.ToolTip).Contains(language=="ru"?"Фракция: ":"Faction: ")),"race and subrace meanings exposed to hover and accessibility");
             Capture("game-details-lobby");
             var fullRoster=activity with{Players=Enumerable.Range(0,12).Select(i=>new GameParticipant("p"+i,i==0?"Game nickname":"Computer "+i,i!=0,i==0?profile:null,i/2+1,i%2==0?"#DDA443":"#478BDC",Race:new[]{"human","drauga","gauri","haroun","shadow","undead"}[i%6],Subrace:new[]{"royalist","nationalist","council","council","fallen","ceyah"}[i%6])).ToArray()};
             ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=fullRoster}));

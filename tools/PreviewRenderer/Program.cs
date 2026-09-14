@@ -121,6 +121,7 @@ public static class Program
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         if (launcher074Checks) { Launcher074Checks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (gameActivityChecks) { GameActivityChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
+        if (patchVersionChecks) { PatchVersionChecks.Run(language); app.Shutdown(); return; }
         if (gameParticipantChecks) { GameParticipantChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (avatarPreviewChecks || avatarPreviewDemo) { AvatarPreviewChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!, avatarPreviewDemo); app.Shutdown(); return; }
         if (updateExperienceChecks) { UpdateExperienceChecks.Run(language); app.Shutdown(); return; }
@@ -160,7 +161,6 @@ public static class Program
         if (modModeChecks) ModModeChecks.Run(language);
         if (refinementChecks) RefinementChecks.Run(language);
         if (teamChecks) TeamAccessChecks.Run(language);
-        if (patchVersionChecks) PatchVersionChecks.Run(language);
         if (motionChecks)
         {
             var motionFixture = new MainWindow();

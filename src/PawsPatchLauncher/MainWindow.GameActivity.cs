@@ -168,9 +168,9 @@ public partial class MainWindow
                 names.Children.Add(new TextBlock{Text="@"+profile.Nickname,FontSize=12,Foreground=SocialBrush("#8CB5E5"),Margin=new Thickness(0,3,0,0)});
                 if(profile.DisplayName!=player.Name)names.Children.Add(new TextBlock{Text=T("В игре: ","In game: ")+player.Name,FontSize=12,Foreground=SocialBrush("#A8BBD2"),TextTrimming=TextTrimming.CharacterEllipsis,Margin=new Thickness(0,3,0,0)});
             }
-            var race=GameParticipantFactionName(player.Race);var subrace=GameParticipantFactionName(player.Subrace);
-            var factions=new TextBlock{Text=player.Race is null&&player.Subrace is null?T("Раса и подраса неизвестны","Race and subrace unknown"):race+" · "+subrace,FontSize=12,Foreground=SocialBrush("#AEC2D9"),TextWrapping=TextWrapping.Wrap,
-                Margin=new Thickness(0,5,0,0),Tag="factions",ToolTip=T("Раса: ","Race: ")+race+T("\nПодраса: ","\nSubrace: ")+subrace};
+            var race=GameParticipantFactionName(player.Race);var faction=GameParticipantFactionName(player.Subrace);
+            var factions=new TextBlock{Text=player.Race is null&&player.Subrace is null?T("Раса и фракция неизвестны","Race and faction unknown"):race+" · "+faction,FontSize=12,Foreground=SocialBrush("#AEC2D9"),TextWrapping=TextWrapping.Wrap,
+                Margin=new Thickness(0,5,0,0),Tag="factions",ToolTip=T("Раса: ","Race: ")+race+T("\nФракция: ","\nFaction: ")+faction};
             System.Windows.Automation.AutomationProperties.SetName(factions,(string)factions.ToolTip);
             names.Children.Add(factions);
             grid.Children.Add(names);

@@ -12,6 +12,7 @@ public sealed record GameParticipant(
     [property: JsonPropertyName("team")] int? Team = null,
     [property: JsonPropertyName("color")] string? Color = null,
     [property: JsonPropertyName("race"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Race = null,
+    // The existing wire name is retained for compatibility; this value is the participant's faction.
     [property: JsonPropertyName("subrace"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Subrace = null);
 
 public sealed record GameParticipantProfile(

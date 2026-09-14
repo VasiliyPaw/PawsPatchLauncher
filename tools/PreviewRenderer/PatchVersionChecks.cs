@@ -16,6 +16,7 @@ internal static class PatchVersionChecks
         try
         {
             Field<PawsPatchLauncher.Localization>("_text").SetLanguage(language);Call("ApplyLanguage");var settings=Field<UserSettings>("_settings");
+            typeof(MainWindow).GetField("_installedGameVersion",flags)!.SetValue(w,"1.3.72");
             foreach(var mod in new[]{GameMod.Vanilla,GameMod.Immortals})
             foreach(var branch in new[]{"stable","beta"})
             {
@@ -24,12 +25,14 @@ internal static class PatchVersionChecks
                 typeof(MainWindow).GetField("_channel",flags)!.SetValue(w,feed);Call("SyncPatchChannelControls");
                 Check(Text("ModPatchVersionText").StartsWith("Paw's Patch 0.1.0 ·"),"component version");
                 var state=new InstallState {AppliedSettings=new(){Mod=mod,Channel=branch,VanillaPawPatchEnabled=true,ImmortalsPawPatchEnabled=true},Modules=new(){["pure-fixes-data"]=new(){Enabled=true,Version="1.0.0-pure.1"}}};
+                state.Modules[mod]=new(){Enabled=true,Version="2.1.0"};
+                var modLabel=GameMod.Name(mod)+" "+(mod==GameMod.Vanilla?"1.3.72":"2.1");
                 Call("RefreshInstalledPatchVersions",state);
-                Check(Text("PatchVersionText")=="0.1.0"&&Text("InstalledPatchText")==GameMod.Name(mod)+"\nPaw's Patch 0.1.0","home/footer installed version");
+                Check(Text("PatchVersionText")=="0.1.0"&&Text("InstalledPatchText")==modLabel+"\nPaw's Patch 0.1.0","home/footer installed version");
                 GameMod.SetPawPatch(state.AppliedSettings,false);Call("RefreshInstalledPatchVersions",state);
                 Check(Text("PatchVersionText")=="-"&&!Text("InstalledPatchText").Contains("0.1.0"),"disabled patch label");
                 state.AppliedSettings.Mod=GameMod.ArcaneWars;Call("RefreshInstalledPatchVersions",state);
-                Check(Text("PatchVersionText")=="-"&&Text("InstalledPatchText")=="Arcane Wars","footer changed before applying the selected mode");
+                Check(Text("PatchVersionText")=="-"&&Text("InstalledPatchText")=="Arcane Wars —","footer changed before applying the selected mode");
             }
             Console.WriteLine($"PATCH VERSION UI PASS {count} {language}: component, home, footer, disabled and unapplied modes");
         }

@@ -63,17 +63,21 @@ internal static class Launcher074Checks
             foreach(var mod in new[]{GameMod.Vanilla,GameMod.Immortals,GameMod.ArcaneWars})
             foreach(var channel in new[]{"stable","beta"})
             {
+                Set("_installedGameVersion","1.3.72");
+                var modVersion=mod==GameMod.Vanilla?"1.3.72":mod==GameMod.Immortals?"2.1":"0.82.1.8";
+                var modLabel=GameMod.Name(mod)+" "+modVersion;
                 var version=channel=="beta"?"0.3.0-beta.2":"0.1.0";
                 var state=new InstallState { AppliedSettings=new(){Mod=mod,Channel=channel,VanillaPawPatchEnabled=true,ImmortalsPawPatchEnabled=true},
                     Modules=new(){[mod==GameMod.ArcaneWars?"pawpatch-core":"pure-fixes-data"]=new(){Enabled=true,Version=version}} };
+                state.Modules[mod]=new(){Enabled=true,Version=mod==GameMod.Immortals?"2.1.0":"0.82.1.8-clean.1"};
                 Call("RefreshInstalledPatchVersions",state);
-                Check(C<TextBlock>("InstalledPatchLabel").Text==(language=="ru"?"УСТАНОВЛЕНО":"INSTALLED")&&C<TextBlock>("InstalledPatchText").Text==GameMod.Name(mod)+"\nPaw's Patch "+version,"Installed mod/patch label wrong");
+                Check(C<TextBlock>("InstalledPatchLabel").Text==(language=="ru"?"УСТАНОВЛЕНО":"INSTALLED")&&C<TextBlock>("InstalledPatchText").Text==modLabel+"\nPaw's Patch "+version,"Installed mod/patch label wrong");
                 settings.Mod=mod==GameMod.Vanilla?GameMod.Immortals:GameMod.Vanilla;Call("RefreshInstalledPatchVersions",state);
-                Check(C<TextBlock>("InstalledPatchText").Text.StartsWith(GameMod.Name(mod)+"\n"),"Draft mode changed installed footer");
+                Check(C<TextBlock>("InstalledPatchText").Text.StartsWith(modLabel+"\n"),"Draft mode changed installed footer");
                 w.UpdateLayout();Check(C<TextBlock>("InstalledPatchText").ActualHeight<=36,"Two-line installed label wrapped to a third line");
                 if(mod==GameMod.ArcaneWars&&channel=="beta")Capture("installed-label");
                 GameMod.SetPawPatch(state.AppliedSettings,false);Call("RefreshInstalledPatchVersions",state);
-                Check(C<TextBlock>("InstalledPatchText").Text==GameMod.Name(mod),"Pure mod still advertises Paw's Patch");
+                Check(C<TextBlock>("InstalledPatchText").Text==modLabel,"Pure mod still advertises Paw's Patch");
             }
             var player=new SocialPlayer(Guid.NewGuid(),"fixture","friend",PawsTeam:true);
             Call("RenderSocialDetails",player);var badge=C<ContentControl>("SocialDetailsAdminBadge").Content;

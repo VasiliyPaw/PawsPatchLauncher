@@ -184,6 +184,7 @@ try
     passed += ComponentSettingsTests.Run();
     passed += await ModChannelTests.RunAsync(root);
     passed += PawPatchVersionTests.Run();
+    passed += InstalledModVersionTests.Run();
     passed += PawsPatchLauncher.Tests.ChangelogTimelineTests.Run();
     ExpectThrows<InvalidDataException>(() => CryptoAndIO.SafeChildPath(root, "..\\escape.txt"));
     passed++;
