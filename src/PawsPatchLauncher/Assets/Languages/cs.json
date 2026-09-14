@@ -1068,5 +1068,8 @@
   "You already have a request from this player. Accept it in Requests.": "Od tohoto hráče již máte žádost. Přijměte ji v sekci Žádosti.",
   "Could not confirm the request status. Refresh your friends list.": "Stav žádosti se nepodařilo ověřit. Obnovte seznam přátel.",
   "Copy message": "Kopírovat zprávu",
-  "Message copied.": "Zpráva zkopírována."
+  "Message copied.": "Zpráva zkopírována.",
+  "German": "Němčina",
+  "French": "Francouzština",
+  "Text language": "Jazyk textu"
 }

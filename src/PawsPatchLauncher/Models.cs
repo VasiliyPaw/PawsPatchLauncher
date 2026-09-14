@@ -33,6 +33,7 @@ public sealed class UserSettings
     public Dictionary<string, ModChannelPreference> ModChannels { get; set; } = new();
     public List<string> BetaNoticesSeen { get; set; } = [];
     public bool RussianLocalization { get; set; } = true;
+    public string? GameTextLanguage { get; set; }
     public string? GameVoiceLanguage { get; set; }
     public bool CustomPlayerColors { get; set; }
     public string DesyncMode { get; set; } = "official";

@@ -5,10 +5,16 @@ public static class ConfigurationCode
     public static UserSettings Parse(string code)
     {
         var voiceCode = code.Trim().ToUpperInvariant();
-        if (voiceCode.EndsWith("-VOEN") || voiceCode.EndsWith("-VORU"))
+        if (GameLanguages.Choices.Any(language => voiceCode.EndsWith("-VO" + language.ToUpperInvariant())))
         {
             var settings = Parse(voiceCode[..^5]);
             settings.GameVoiceLanguage = voiceCode[^2..].ToLowerInvariant();
+            return settings;
+        }
+        if (voiceCode.EndsWith("-TXDE") || voiceCode.EndsWith("-TXFR"))
+        {
+            var settings = Parse(voiceCode[..^5]);
+            GameLanguages.SetText(settings, voiceCode[^2..].ToLowerInvariant());
             return settings;
         }
         var parts = code.Trim().ToUpperInvariant().Split('-');
@@ -62,7 +68,7 @@ public static class ConfigurationCode
         target.Channel = source.Channel;
         target.Mod = source.Mod;
         ModChannelSelection.Remember(target);
-        target.RussianLocalization = source.RussianLocalization;
+        GameLanguages.SetText(target, GameLanguages.Text(source));
         target.GameVoiceLanguage = GameLanguages.Voice(source);
         // Importing another mod keeps remembered Arcane Wars components.
         if (!GameMod.IsArcaneWars(source))
@@ -71,7 +77,6 @@ public static class ConfigurationCode
             return;
         }
         GameMod.SetPawPatch(target, source.PawPatchEnabled);
-        target.RussianLocalization = source.RussianLocalization;
         target.CustomPlayerColors = source.CustomPlayerColors;
         target.DesyncMode = source.DesyncMode;
         target.IndependentHostility = source.IndependentHostility;
@@ -86,7 +91,9 @@ public static class ConfigurationCode
     public static string Create(UserSettings settings)
     {
         var code = CreateComponents(settings);
-        return GameLanguages.Voice(settings) == (settings.RussianLocalization ? "ru" : "en")
+        var text = GameLanguages.Text(settings);
+        if (text is "de" or "fr") code += "-TX" + text.ToUpperInvariant();
+        return GameLanguages.Voice(settings) == text
             ? code : code + "-VO" + GameLanguages.Voice(settings).ToUpperInvariant();
     }
 

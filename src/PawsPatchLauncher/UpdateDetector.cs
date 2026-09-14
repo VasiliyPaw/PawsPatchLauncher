@@ -6,7 +6,7 @@ public static class UpdateDetector
     public static bool HasSettingsChanges(InstallState state, IReadOnlyCollection<PackageRelease> selected, UserSettings desired)
         => HasModuleChanges(state, selected) || state.AppliedSettings is { } applied
             && (applied.Mod != desired.Mod || applied.Channel != desired.Channel || applied.PawPatchEnabled != desired.PawPatchEnabled || applied.DataOnly != desired.DataOnly
-                || applied.RussianLocalization != desired.RussianLocalization || GameLanguages.Voice(applied) != GameLanguages.Voice(desired) || applied.IndependentHostility != desired.IndependentHostility
+                || GameLanguages.Text(applied) != GameLanguages.Text(desired) || GameLanguages.Voice(applied) != GameLanguages.Voice(desired) || applied.IndependentHostility != desired.IndependentHostility
                 || !applied.DesyncMode.Equals(desired.DesyncMode, StringComparison.OrdinalIgnoreCase));
 
     // A cached channel can be applied locally, without pretending a download is an update.

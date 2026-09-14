@@ -62,7 +62,9 @@ public static class GameMod
     {
         if (settings.Mod is not (ArcaneWars or Vanilla or Immortals))
             throw new InvalidDataException("This game mode is not available yet.");
-        if (settings.GameVoiceLanguage is not (null or "en" or "ru"))
+        if (settings.GameTextLanguage is not (null or "en" or "ru" or "de" or "fr"))
+            throw new InvalidDataException("This text language is not available yet.");
+        if (settings.GameVoiceLanguage is not (null or "en" or "ru" or "de" or "fr"))
             throw new InvalidDataException("This speech language is not available yet.");
     }
 }

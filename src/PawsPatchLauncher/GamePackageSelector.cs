@@ -10,13 +10,17 @@ public static class GamePackageSelector
             settings = EffectiveSettings.ForChannel(settings);
             customPlayerColors = false;
         }
-        var packages = SelectComponents(channel, settings, russianLocalization, customPlayerColors);
-        var voice = settings.GameVoiceLanguage ?? (russianLocalization ? "ru" : "en");
+        var text = settings.GameTextLanguage ?? (russianLocalization ? "ru" : "en");
+        var packages = SelectComponents(channel, settings, text == "ru", customPlayerColors);
+        PackageRelease LanguagePackage(string id) => channel.Packages.SingleOrDefault(p => p.Id == id)
+            ?? throw new InvalidDataException("В этом выпуске нет файлов выбранного языка. Выберите новый выпуск. / This release does not include the selected language. Select a newer release.");
+        if (text is "de" or "fr") packages.Add(LanguagePackage("game-localization-" + text));
+        var voice = settings.GameVoiceLanguage ?? text;
         if (GameLanguages.SupportsSeparateVoice(channel))
         {
-            if (voice == "ru") packages.Add(channel.Packages.Single(p => p.Id == "game-voice-ru"));
+            if (voice != "en") packages.Add(LanguagePackage("game-voice-" + voice));
         }
-        else if (voice != (russianLocalization ? "ru" : "en"))
+        else if (voice != text || text is "de" or "fr")
             throw new InvalidDataException("Этот старый выпуск не поддерживает отдельный выбор озвучки. Выберите новый выпуск. / This older release does not support separate speech. Select a newer release.");
         return packages;
     }

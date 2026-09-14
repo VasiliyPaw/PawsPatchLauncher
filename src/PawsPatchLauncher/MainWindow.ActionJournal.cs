@@ -49,7 +49,7 @@ public partial class MainWindow
     private string _journalSelection = "";
     private void LogSelectionSnapshot()
     {
-        var selection = $"mod={_settings.Mod};channel={_settings.Channel};text={(_settings.RussianLocalization ? "ru" : "en")};voice={GameLanguages.Voice(_settings)};ui={_settings.Language};paw={GameMod.PawPatchSelected(_settings)}";
+        var selection = $"mod={_settings.Mod};channel={_settings.Channel};text={(GameLanguages.Text(_settings))};voice={GameLanguages.Voice(_settings)};ui={_settings.Language};paw={GameMod.PawPatchSelected(_settings)}";
         var components = ConfigurationCode.Create(_settings);
         var release = _settings.PinnedRelease ?? "latest";
         if (_journalSelection == selection + components + release) return;

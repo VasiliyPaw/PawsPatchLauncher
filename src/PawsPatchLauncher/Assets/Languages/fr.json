@@ -1068,5 +1068,8 @@
   "You already have a request from this player. Accept it in Requests.": "Vous avez déjà une demande de ce joueur. Acceptez-la dans Demandes.",
   "Could not confirm the request status. Refresh your friends list.": "Impossible de confirmer l’état de la demande. Actualisez votre liste d’amis.",
   "Copy message": "Copier le message",
-  "Message copied.": "Message copié."
+  "Message copied.": "Message copié.",
+  "German": "Allemand",
+  "French": "Français",
+  "Text language": "Langue du texte"
 }

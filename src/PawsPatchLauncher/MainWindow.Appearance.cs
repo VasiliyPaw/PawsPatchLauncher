@@ -35,7 +35,7 @@ public partial class MainWindow
     private Dictionary<Border, string> CaptureAppearance() => new()
     {
         [CoreModuleCard] = GameMod.PawPatchSelected(_settings).ToString(),
-        [RussianModuleCard] = _settings.RussianLocalization + ":" + GameLanguages.Voice(_settings),
+        [RussianModuleCard] = GameLanguages.Text(_settings) + ":" + GameLanguages.Voice(_settings),
         [ColorsModuleCard] = _settings.CustomPlayerColors.ToString(),
         [IndependentHostilityCard] = _settings.IndependentHostility.ToString(),
         [AdditionalRoamingCard] = _settings.AdditionalRoamingCompanies.ToString(),

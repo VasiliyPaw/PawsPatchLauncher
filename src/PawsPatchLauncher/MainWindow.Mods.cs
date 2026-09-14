@@ -36,7 +36,7 @@ public partial class MainWindow
             await ApplyConfigurationSnapshotAsync(_channel, false, selection, beforeCommit);
             return;
         }
-        if (selection.RussianLocalization || GameLanguages.Voice(selection) != "en")
+        if (GameLanguages.Text(selection) != "en" || GameLanguages.Voice(selection) != "en")
             throw new IOException(T("Для установки выбранного языка сначала проверьте обновления.", "Check for updates before installing the selected game language."));
         if (beforeCommit is not null) await beforeCommit();
         EnsureGameClosed();

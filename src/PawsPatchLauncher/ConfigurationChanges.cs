@@ -36,9 +36,10 @@ public static class ConfigurationChanges
   Change(ru?"Дополнительные отряды":"Additional roaming",Flag(before.AdditionalRoamingCompanies),Flag(after.AdditionalRoamingCompanies));
   Change(ru?"Баланс осады":"Siege balance",Flag(before.SiegeBalance),Flag(after.SiegeBalance));
   Change(ru?"Большие карты":"Large maps",Flag(before.LargeMapSizes),Flag(after.LargeMapSizes));
-  Change(ru?"Русская локализация":"Russian localization",Flag(before.RussianLocalization),Flag(after.RussianLocalization));
-  if (before.GameVoiceLanguage is not null || after.GameVoiceLanguage is not null)
-   Change(ru?"Озвучка":"Speech",GameLanguages.Voice(before)=="ru"?"Русский":"English",GameLanguages.Voice(after)=="ru"?"Русский":"English");
+  string LanguageName(string code)=>UiLanguages.GameLanguageName(code,ru?"ru":"en");
+  Change(ru?"Язык текста":"Text language",LanguageName(GameLanguages.Text(before)),LanguageName(GameLanguages.Text(after)));
+  if(before.GameVoiceLanguage is not null || after.GameVoiceLanguage is not null)
+   Change(ru?"Язык озвучки":"Speech language",LanguageName(GameLanguages.Voice(before)),LanguageName(GameLanguages.Voice(after)));
   Change(ru?"Цвета игроков":"Player colors",Flag(before.CustomPlayerColors),Flag(after.CustomPlayerColors));
   Change(ru?"Пропуск рассинхронизации":"Continue after desync",Flag(before.DesyncMode=="continue"),Flag(after.DesyncMode=="continue"));
   Change(ru?"Отключение способностей и осколков":"Disable powers and shards",Flag(before.DisablePowersAndShards),Flag(after.DisablePowersAndShards));

@@ -9,6 +9,7 @@ public static class EffectiveSettings
     {
         var active = JsonSerializer.Deserialize(JsonSerializer.Serialize(preferences, LauncherJsonContext.Default.UserSettings), LauncherJsonContext.Default.UserSettings)!;
         GameMod.Validate(active);
+        GameLanguages.SetText(active, GameLanguages.Text(active));
         active.SuspendedArcaneComponents = null;
         active.CustomPlayerColors = preferences.CustomPlayerColors && colorsAvailable;
         active.LargeMapSizes = active.PawPatchEnabled;

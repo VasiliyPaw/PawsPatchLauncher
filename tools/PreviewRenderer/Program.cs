@@ -152,7 +152,7 @@ public static class Program
         if (compactTransferChecks) { CompactTransferChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); StartupChecks.RenderChecking(language,args[0]); app.Shutdown(); return; }
         if (modNoticeChecks) ModNoticeChecks.Run(language);
         // Other fixtures exercise established Arcane Wars profiles, with onboarding already read.
-        if (ActivityStore.IsSmokeTest) new SettingsStore().Save(new UserSettings { ModNoticeSeen = true });
+        if (ActivityStore.IsSmokeTest && languageReliabilityConfig is null) new SettingsStore().Save(new UserSettings { ModNoticeSeen = true });
         if (uiRoundTwoChecks)
         {
             UiRoundTwoChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!);

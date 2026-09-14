@@ -9,7 +9,7 @@ public static class FriendConfiguration
     {
         settings = new UserSettings();
         if (code is null || code.Length > 128 || !Regex.IsMatch(code,
-            @"\APAW-(STABLE|BETA)-((VANILLA|IMMORTALS)(-RU[01])?(-PP1)?(-DATA)?|IW[01]-SP[124]-RM[01]-SG[01]-LM[01]-RU[01]-CL[01]-OOS[01](-PS[01])?(-PP0)?(-DATA)?)(-VO(EN|RU))?\z")) return false;
+            @"\APAW-(STABLE|BETA)-((VANILLA|IMMORTALS)(-RU[01])?(-PP1)?(-DATA)?|IW[01]-SP[124]-RM[01]-SG[01]-LM[01]-RU[01]-CL[01]-OOS[01](-PS[01])?(-PP0)?(-DATA)?)(-TX(DE|FR))?(-VO(EN|RU|DE|FR))?\z")) return false;
         try { settings = ConfigurationCode.Parse(code); return settings.Channel == channel; }
         catch (FormatException) { return false; }
     }
@@ -19,7 +19,7 @@ public static class FriendConfiguration
     public static UserSettings WithLocalLanguages(UserSettings incoming, UserSettings local)
     {
         var result = EffectiveSettings.ForChannel(incoming);
-        result.RussianLocalization = local.RussianLocalization;
+        GameLanguages.SetText(result, GameLanguages.Text(local));
         result.GameVoiceLanguage = GameLanguages.Voice(local);
         return result;
     }

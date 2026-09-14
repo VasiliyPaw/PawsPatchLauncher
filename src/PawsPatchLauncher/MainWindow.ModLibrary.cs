@@ -105,7 +105,7 @@ public partial class MainWindow
             catch (InvalidDataException) { }
         }
         // The original English game is usable even before any mod has been downloaded.
-        if (GameMod.IsVanilla(_settings) && !_settings.RussianLocalization && (_channel is null
+        if (GameMod.IsVanilla(_settings) && GameLanguages.Text(_settings) == "en" && (_channel is null
             || !_channel.Packages.Any(p => p.Id == "game-localization-en")))
             _selectedModStored = true;
     }

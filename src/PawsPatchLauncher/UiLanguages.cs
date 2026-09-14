@@ -38,7 +38,12 @@ public static class UiLanguages
         return string.Format(CultureInfo.GetCultureInfo(Normalize(language)),format,value.GetArguments());
     }
     public static string English(string language, string en) => Catalogs.TryGetValue(language, out var catalog) && catalog.TryGetValue(en, out var value) ? value : en;
-    public static string GameLanguageName(string code, string language) => code == "en"
-        ? Text(language, "Английский (оригинал)", "English (Original)")
-        : Text(language, "Русский", "Russian");
+    public static string GameLanguageName(string code, string language) => code switch
+    {
+        "en" => Text(language, "Английский (оригинал)", "English (Original)"),
+        "ru" => Text(language, "Русский", "Russian"),
+        "de" => Text(language, "Немецкий", "German"),
+        "fr" => Text(language, "Французский", "French"),
+        _ => throw new ArgumentOutOfRangeException(nameof(code))
+    };
 }

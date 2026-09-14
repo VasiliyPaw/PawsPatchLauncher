@@ -92,7 +92,7 @@ public static class DiagnosticsCollector
         builder.AppendLine($"Created UTC: {DateTimeOffset.UtcNow:O}");
         builder.AppendLine($"Launcher: {version.Major}.{version.Minor}.{version.Build}");
         builder.AppendLine($"Configuration: {ConfigurationCode.Create(settings)}");
-        builder.AppendLine($"Selected mod/channel: {settings.Mod}/{settings.Channel}; text: {(settings.RussianLocalization ? "ru" : "en")}; speech: {GameLanguages.Voice(settings)}");
+        builder.AppendLine($"Selected mod/channel: {settings.Mod}/{settings.Channel}; text: {(GameLanguages.Text(settings))}; speech: {GameLanguages.Voice(settings)}");
         builder.AppendLine($"Applied configuration: {(state.AppliedSettings is null ? "none" : ConfigurationCode.Create(state.AppliedSettings))}");
         builder.AppendLine($"Applied release: {state.ReleaseId ?? "none"}; applied base EXE SHA256: {state.BaseGameSha256 ?? "unknown"}");
         builder.AppendLine($"Game directory: {game.Directory}");

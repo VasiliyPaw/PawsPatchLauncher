@@ -64,7 +64,7 @@ public partial class MainWindow
         try
         {
             EnsureGameClosed();
-            if (GameMod.IsVanilla(_settings) && !_settings.RussianLocalization)
+            if (GameMod.IsVanilla(_settings) && GameLanguages.Text(_settings) == "en")
             {
                 SetBusy(true);
                 await ApplyVanillaConfigurationAsync(_settings);
