@@ -10,7 +10,9 @@ using System.Threading;
 
 internal static class ReleaseStartup
 {
-#if FAST_SAVE_TRANSFER
+#if LOBBY_COMPATIBILITY
+    internal const string Build = "beta.0.3.0-beta.7-1372-city-policy15-transfer-r2-lobby1-quiet";
+#elif FAST_SAVE_TRANSFER
     internal const string Build = "beta.0.3.0-beta.4-1372-city-policy15-transfer-r2-quiet";
 #else
     internal const string Build = "release.0.2.1-1372-terrain-randommap-colors20-independent-quiet";

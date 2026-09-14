@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler)
 $ErrorActionPreference = 'Stop'
 $out = [IO.Path]::GetFullPath($OutputDirectory)
 if (Test-Path -LiteralPath $out) { throw 'Choose an unused output directory.' }
@@ -11,6 +11,16 @@ $assistant = Join-Path $PSScriptRoot '../city-assistant'
 $transfer = Join-Path $PSScriptRoot '../fast-transfer'
 $work = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $python = 'C:\Users\Paw\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
+if($LobbyCompatibility) {
+    if(!$CityAssistant -or !$NativeCompiler){throw 'Lobby compatibility is part of the full beta helper build; specify -CityAssistant and -NativeCompiler.'}
+    $lobby=Join-Path $PSScriptRoot '../lobby-compatibility'
+    & $NativeCompiler -shared -Wall -Werror (Join-Path $lobby 'lobby_compatibility.c') -o (Join-Path $out 'paws_lobby_compatibility.dll') -lkernel32 -luser32
+    if($LASTEXITCODE -ne 0){throw 'Lobby compatibility DLL build failed.'}
+    & $NativeCompiler -Wall -Werror -DPAW_TEST (Join-Path $lobby 'lobby_compatibility.c') -o (Join-Path $out 'LobbyProtocolTests.exe') -lkernel32 -luser32
+    if($LASTEXITCODE -ne 0){throw 'Lobby protocol test build failed.'}
+    & (Join-Path $out 'LobbyProtocolTests.exe')
+    if($LASTEXITCODE -ne 0){throw 'Lobby protocol test failed.'}
+}
 if ($CityAssistant) {
     if ($LegacyWorkDirectory) {
         $work = [IO.Path]::GetFullPath($LegacyWorkDirectory)
@@ -41,7 +51,7 @@ foreach ($variant in $variants.PSObject.Properties) {
     $exe = Join-Path $out $variant.Name
     $arguments = @('/nologo','/target:winexe','/platform:x86','/optimize+',
         '/r:System.Core.dll','/r:System.Windows.Forms.dll','/r:System.Drawing.dll',
-        ("/define:" + $variant.Value + $(if($CityAssistant){';CITY_ASSISTANT;FAST_SAVE_TRANSFER'}else{''})), ("/out:" + $exe))
+        ("/define:" + $variant.Value + $(if($CityAssistant){';CITY_ASSISTANT;FAST_SAVE_TRANSFER'}else{''}) + $(if($LobbyCompatibility){';LOBBY_COMPATIBILITY'}else{''})), ("/out:" + $exe))
     foreach ($resource in $resources) { $arguments += '/resource:' + (Join-Path $PSScriptRoot "$resource.bin") + ',' + $resource }
     $source = if ($variant.Name.StartsWith('k2_paws_lobby_colors_mp_nohostility')) { 'k2_paws_lobby_colors_mp_1372_experimental.cs' } else { [IO.Path]::GetFileNameWithoutExtension($variant.Name) + '.cs' }
     $sourcePath = Join-Path $PSScriptRoot $source
@@ -63,6 +73,13 @@ PawAssistantRuntime.Tick();
                 PawFastTransfer.Tick();
                 current = ReadCounters(process, counters);
 '@
+        if($LobbyCompatibility) {
+            $text=Replace-StartupAnchor $text 'ReleaseStartup.GuardData(gameDirectory);' 'ReleaseStartup.GuardData(gameDirectory); PawLobbyCompatibility.Prepare(gameDirectory);'
+            $text=Replace-StartupAnchor $text 'ReleaseStartup.InstallTerrainAndMap(game, imageBase, delegate(string m) { AppendLog(logPath, m); });' 'PawLobbyCompatibility.Install(game, imageBase, delegate(string m) { AppendLog(logPath, m); }); ReleaseStartup.InstallTerrainAndMap(game, imageBase, delegate(string m) { AppendLog(logPath, m); });'
+            $arguments += '/r:System.Web.Extensions.dll'
+            $arguments += Join-Path $lobby 'PawLobbyCompatibility.cs'
+            $arguments += '/resource:'+(Join-Path $out 'paws_lobby_compatibility.dll')+',PawLobbyCompatibilityNative'
+        }
         $sourcePath = Join-Path $out ($variant.Name + '.generated.cs')
         [IO.File]::WriteAllText($sourcePath,$text,[Text.UTF8Encoding]::new($false))
         $arguments += Join-Path $assistant 'PawAssistantRuntime.cs'

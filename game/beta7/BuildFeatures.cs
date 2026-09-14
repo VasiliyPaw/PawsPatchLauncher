@@ -34,6 +34,11 @@ internal static class BuildFeatures
 #else
         const bool hostility = true;
 #endif
+#if LOBBY_COMPATIBILITY
+        const string lobby = ",\"lobbyCompatibility\":true,\"lobbyCompatibilityProtocol\":1,\"patchVersion\":\"0.3.0-beta.7\"";
+#else
+        const string lobby = "";
+#endif
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
@@ -44,7 +49,7 @@ internal static class BuildFeatures
             ",\"automaticMines\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"newCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"startingCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
-            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + "}");
+            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + "}");
         return 0;
     }
 }
