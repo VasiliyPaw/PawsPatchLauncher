@@ -19,3 +19,16 @@ stops at the first valid native snapshot. Only that process retains hash caching
 
 This version supersedes the immutable 0.7.5 artifact; it is published separately
 instead of changing the executable behind an existing release/tag or signature.
+
+## Publication
+
+- Release: https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/v0.7.6
+- Source/tag: `160954d73f5a83eb1ade2d64a6ab25b5d2b45873`.
+- GitHub build/test `34793243618` and publication `34793243664`: success.
+- Public 0.7.6.0 EXE: 72,458,967 bytes; SHA-256
+  `77D4DDE1FEE0EAB5BF0147836B0F3CA96C77D40C825A56BB933684EEE2CCD9E2`.
+- Public ZIP/EXE/metadata digests verified; the ZIP contains the identical EXE
+  and signed-v2-feed configuration. Authenticode remains unsigned.
+- All four signed update catalogs point to 0.7.6. The game packages are unchanged
+  (15 legacy / 37 v2 on each channel).
+- Full tests against promoted catalogs: **16,190 PASS**.

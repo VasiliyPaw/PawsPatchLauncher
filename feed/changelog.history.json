@@ -2,6 +2,19 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.7.6",
+      "publishedAt": "2026-09-14",
+      "title": {
+        "ru": "Paw's Launcher 0.7.6 — команды и подробный статус игры",
+        "en": "Paw's Launcher 0.7.6 — teams and detailed game activity"
+      },
+      "body": {
+        "ru": "Исправлено определение подробного статуса игры при запуске через помощники патча.\nСлужебный или завершающийся процесс больше не мешает лаунчеру найти саму игру.\n\nВ обновление входят нововведения 0.7.5: список участников по командам с игровыми\nцветами, отдельная иконка бота, подробности лобби и матча и сохранение выбранных\nкомпонентов при отключении Paw's Patch. Случайный цвет показывается серым маркером,\nпока игра не назначит его при старте матча. Серверная поддержка включена.",
+        "en": "Fixed detailed game activity detection when starting through patch helpers.\nA helper or exiting Steam bootstrap no longer prevents the launcher from finding\nthe native game process.\n\nIncludes the 0.7.5 changes: participants grouped by team with in-game colors,\na dedicated bot icon, lobby/match details, and remembered optional components\nwhen Paw's Patch is disabled. Random colors use a neutral marker until the game\nassigns them at match start. Backend support is enabled."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.7.5",
       "publishedAt": "2026-09-14",
       "title": {
@@ -450,6 +463,19 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.7.6",
+      "publishedAt": "2026-09-14",
+      "title": {
+        "ru": "Paw's Launcher 0.7.6 — команды и подробный статус игры",
+        "en": "Paw's Launcher 0.7.6 — teams and detailed game activity"
+      },
+      "body": {
+        "ru": "Исправлено определение подробного статуса игры при запуске через помощники патча.\nСлужебный или завершающийся процесс больше не мешает лаунчеру найти саму игру.\n\nВ обновление входят нововведения 0.7.5: список участников по командам с игровыми\nцветами, отдельная иконка бота, подробности лобби и матча и сохранение выбранных\nкомпонентов при отключении Paw's Patch. Случайный цвет показывается серым маркером,\nпока игра не назначит его при старте матча. Серверная поддержка включена.",
+        "en": "Fixed detailed game activity detection when starting through patch helpers.\nA helper or exiting Steam bootstrap no longer prevents the launcher from finding\nthe native game process.\n\nIncludes the 0.7.5 changes: participants grouped by team with in-game colors,\na dedicated bot icon, lobby/match details, and remembered optional components\nwhen Paw's Patch is disabled. Random colors use a neutral marker until the game\nassigns them at match start. Backend support is enabled."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.7.5",
