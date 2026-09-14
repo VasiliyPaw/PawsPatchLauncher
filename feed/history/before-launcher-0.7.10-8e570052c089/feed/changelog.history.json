@@ -3,20 +3,6 @@
     {
       "category": "launcher",
       "mods": [],
-      "version": "0.7.10",
-      "publishedAt": "2026-09-14T09:28:11Z",
-      "title": {
-        "ru": "Paw's Launcher 0.7.10",
-        "en": "Paw's Launcher 0.7.10"
-      },
-      "body": {
-        "ru": "- В сведениях об участниках лобби и матча «Подраса» переименована во «Фракцию»; в английском интерфейсе используется Faction.\n- В блоке «Установлено» рядом с названием всегда показывается версия установленного мода: например, Immortals 2.1 или Arcane Wars 0.82.1.8. Для Vanilla показывается фактическая версия игры.\n- Если Paw's Patch применён, его название и версия отображаются отдельной строкой под модом. При выключенном патче остаётся строка мода с версией. Выбор другого режима без применения настроек не меняет сведения об установленном моде.\n\nПереустанавливать моды или игровой патч не требуется.",
-        "en": "- Renamed Subrace to Faction in lobby and match participant details, including Russian labels and tooltips.\n- Installed now shows the installed mod name and version, such as Immortals 2.1 or Arcane Wars 0.82.1.8. Vanilla displays the actual game version.\n- When applied, Paw's Patch and its version appear on a separate line below the mod. Turning the patch off leaves the mod and its version visible. Selecting another mode without applying settings does not change the installed information.\n\nReinstalling mods or the game patch is not required."
-      }
-    },
-    {
-      "category": "launcher",
-      "mods": [],
       "version": "0.7.9",
       "publishedAt": "2026-09-14T08:58:26Z",
       "title": {
@@ -550,20 +536,6 @@
     }
   ],
   "beta": [
-    {
-      "category": "launcher",
-      "mods": [],
-      "version": "0.7.10",
-      "publishedAt": "2026-09-14T09:28:11Z",
-      "title": {
-        "ru": "Paw's Launcher 0.7.10",
-        "en": "Paw's Launcher 0.7.10"
-      },
-      "body": {
-        "ru": "- В сведениях об участниках лобби и матча «Подраса» переименована во «Фракцию»; в английском интерфейсе используется Faction.\n- В блоке «Установлено» рядом с названием всегда показывается версия установленного мода: например, Immortals 2.1 или Arcane Wars 0.82.1.8. Для Vanilla показывается фактическая версия игры.\n- Если Paw's Patch применён, его название и версия отображаются отдельной строкой под модом. При выключенном патче остаётся строка мода с версией. Выбор другого режима без применения настроек не меняет сведения об установленном моде.\n\nПереустанавливать моды или игровой патч не требуется.",
-        "en": "- Renamed Subrace to Faction in lobby and match participant details, including Russian labels and tooltips.\n- Installed now shows the installed mod name and version, such as Immortals 2.1 or Arcane Wars 0.82.1.8. Vanilla displays the actual game version.\n- When applied, Paw's Patch and its version appear on a separate line below the mod. Turning the patch off leaves the mod and its version visible. Selecting another mode without applying settings does not change the installed information.\n\nReinstalling mods or the game patch is not required."
-      }
-    },
     {
       "category": "launcher",
       "mods": [],
