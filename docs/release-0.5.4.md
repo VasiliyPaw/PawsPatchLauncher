@@ -7,7 +7,7 @@
 - Поддержка обязательного пакета общих исправлений интерфейса, который применяется при любых настройках запуска.
 - В Beta: исправлена ошибка сетевого кодирования выбора цвета, вызывавшая краш; добавлены версии Arcane Wars/Paw's Patch в главное меню и исправлен вывод точного `-0` в строке лимитов.
 
-Игровые пакеты Stable не меняются. Для сетевой игры всем участникам необходимо обновить Beta и использовать одинаковую конфигурацию. Файлы обновлений публикуются до включения их в подписанный канал.
+Игровые пакеты Stable не меняются. Файлы обновлений публикуются до включения их в подписанный канал.
 
 ## English
 
@@ -16,6 +16,6 @@
 - Support for mandatory shared interface fixes regardless of gameplay launch settings.
 - Beta: fixed color-selection network encoding that caused a crash; added Arcane Wars/Paw's Patch versions to the main menu and normalized exact negative zero in the limit display.
 
-Stable game packages are unchanged. All multiplayer participants must update Beta and use matching settings. Release assets are uploaded before their signed channel references are published.
+Stable game packages are unchanged. Release assets are uploaded before their signed channel references are published.
 
 The local game candidate was accepted by the user. Automated x86 checks, package-profile tests and clean-install/uninstall audits passed; this does not claim exhaustive two-client gameplay or save compatibility.

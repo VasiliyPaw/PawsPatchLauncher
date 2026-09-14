@@ -9,10 +9,10 @@
 - Цвета совместимы с пропуском рассинхрона при использовании лаунчера 0.5.7.
 - Убрано служебное окно перед запуском. Исправления запуска работают и без расширенных цветов.
 
-Для сетевой игры все участники должны обновить бету. Игровые пакеты Релиза не изменены. Пропуск рассинхрона не исправляет расхождения.
+Игровые пакеты Релиза не изменены. Пропуск рассинхрона не исправляет расхождения.
 
 ## English
 
 Random map type and time of day with persistent settings; fixed the identified repeated-match startup desync cause; authoritative multiplayer colors, reconnect conflict handling and read-only saved kingdom colors. Color selection can be combined with desync bypass in launcher 0.5.7. No helper window before startup; common fixes also apply with colors disabled.
 
-All multiplayer peers must update Beta. Release gameplay packages are unchanged.
+Release gameplay packages are unchanged.

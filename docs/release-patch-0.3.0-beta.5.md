@@ -8,7 +8,7 @@
 
 Это бета-проверка защиты: она помогла завершить ранее падавшую партию, но не гарантирует устранение всех причин вылетов. Она рассчитана на штатный Direct3D 9; совместная работа со сторонними графическими обёртками, например DXVK, не поддерживается. Ранее существовавший d3d9.dll сохраняется установщиком и восстанавливается при отключении патча. При неподдерживаемой системной реализации проверка отрисовки не подключается. Состояние защиты записывается в paws_graphics_guard.log в папке игры.
 
-Для совместной игры всем участникам следует закрыть игру, выбрать Arcane Wars → Бета и обновить Paw's Patch до 0.3.0-beta.5 с одинаковыми игровыми настройками. Сохранения совместимы. Обновление лаунчера не требуется.
+Сохранения совместимы.
 
 ## English
 
@@ -18,4 +18,4 @@
 
 This is a beta workaround: it helped complete a previously crashing match, but does not guarantee that every crash cause is fixed. It targets stock Direct3D 9; third-party graphics wrappers such as DXVK are not supported alongside it. The installer backs up a pre-existing d3d9.dll and restores it when the patch is disabled. The draw guard stays inactive on unsupported system implementations. Its status is recorded in paws_graphics_guard.log in the game folder.
 
-For multiplayer, all participants should close the game, select Arcane Wars → Beta and update Paw's Patch to 0.3.0-beta.5 with matching gameplay settings. Existing saves are compatible. No launcher update is required.
+Existing saves are compatible.

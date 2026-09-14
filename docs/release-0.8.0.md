@@ -8,7 +8,7 @@
 
 Некоторые описания модов и история обновлений в прежнем формате RU/EN показываются на английском при выборе новых языков интерфейса.
 
-Для разбора вылета обновите лаунчер и создайте новый архив в «Настройки → Архив диагностики». Уже существующие журналы и дампы можно собрать без повторного запуска игры. Лаунчер не создаёт задним числом отсутствующие дампы и не включает их запись в Windows: архив помогает установить причину, но сам по себе не исправляет вылет. Изменения игрового патча Arcane Wars 0.3.0-beta.5 распространяются отдельно.
+Уже существующие журналы и дампы можно собрать без повторного запуска игры. Лаунчер не создаёт задним числом отсутствующие дампы и не включает их запись в Windows: архив помогает установить причину, но сам по себе не исправляет вылет. Изменения игрового патча Arcane Wars 0.3.0-beta.5 распространяются отдельно.
 
 ---
 
@@ -22,4 +22,4 @@
 
 Some mod descriptions and update history in the older RU/EN format use English for the new interface languages.
 
-To investigate a crash, update the launcher and create a new archive under Settings → Diagnostic archive. Existing logs and dumps can be collected without starting the game again. The launcher cannot recreate missing dumps and does not enable Windows dump recording: the archive helps investigate crashes but is not a crash fix. Arcane Wars game patch 0.3.0-beta.5 is distributed separately.
+Existing logs and dumps can be collected without starting the game again. The launcher cannot recreate missing dumps and does not enable Windows dump recording: the archive helps investigate crashes but is not a crash fix. Arcane Wars game patch 0.3.0-beta.5 is distributed separately.
