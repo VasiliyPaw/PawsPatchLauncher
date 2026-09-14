@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+#if PAW_PURE_FAST_TRANSFER
+using FakeMemory = PawPureFixes.TransferFakeMemory;
+#endif
 
 // TerrainRuntime's constant dependency only; runtime uses the real startup.
 #if !FAST_SAVE_TRANSFER

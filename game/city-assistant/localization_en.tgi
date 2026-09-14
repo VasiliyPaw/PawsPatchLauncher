@@ -3,6 +3,8 @@
     ids = Localization/paw_city_policy.tgi
     name = "@Localization/paw_city_policy.tgi"
     paw_city_auto = "City Auto-Upgrade"
+    paw_city_new_militia = "Open militia in newly acquired cities"
+    paw_city_new_militia_tip = "Open militia in newly built and captured cities. Existing cities are unchanged when loading a game. This preference is saved between games."
     paw_city_reserve = "Gold Reserve"
     paw_city_auto_tip = "Automatically improve cities without spending the gold reserve."
     paw_city_edit_tip = "Enter to apply. Esc or click outside to cancel."

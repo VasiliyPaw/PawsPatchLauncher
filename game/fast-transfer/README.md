@@ -9,3 +9,10 @@ The game still detects missing/different lobby saves and handles requests, ackno
 `FastTransferTests.cs` runs 663 managed guard/layout checks. `test_native.py` runs 8421 x86 emulation checks on emitted hooks and native packet-type gates. Socket/file I/O and real packet loss are not emulated. Production helper self-tests do not export files; the standalone test build exports its payload into a dedicated test directory.
 
 Built through `game/beta7/build.ps1 -CityAssistant`; see [release validation](../../docs/release-030-beta2-validation.md).
+
+Vanilla/Immortals Beta also compiles this exact core through
+`game/pure-fixes/build_channels.py`. `PAW_PURE_FAST_TRANSFER` changes only the
+memory-interface aliases and excludes the Arcane Wars startup/polling wrapper;
+generated native payloads and guards are identical. The pure helper owns the
+fresh Steam process, validates combined hooks before any writes and adds no
+city automation. Stable pure helpers contain no R2 source or guard resource.

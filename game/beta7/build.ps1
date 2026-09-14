@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory)
 $ErrorActionPreference = 'Stop'
 $out = [IO.Path]::GetFullPath($OutputDirectory)
 if (Test-Path -LiteralPath $out) { throw 'Choose an unused output directory.' }
@@ -12,6 +12,17 @@ $transfer = Join-Path $PSScriptRoot '../fast-transfer'
 $work = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $python = 'C:\Users\Paw\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
 if ($CityAssistant) {
+    if ($LegacyWorkDirectory) {
+        $work = [IO.Path]::GetFullPath($LegacyWorkDirectory)
+    } elseif (-not (Test-Path -LiteralPath (Join-Path $work 'city_assistant_1372'))) {
+        # Accepted local audit source after the workspace migration. Rebuilders
+        # elsewhere should supply their verified source root explicitly.
+        $work = 'G:\CodexData\projects\Codex\2026-08-11\kohan-ii-d-steamlibrary-steamapps-common\work'
+    }
+    foreach ($required in 'city_assistant_1372','city_policy_v2','fast_transfer_1372') {
+        if (-not (Test-Path -LiteralPath (Join-Path $work $required))) { throw "Missing accepted legacy source $required. Set -LegacyWorkDirectory to its work directory." }
+    }
+    Write-Output "Verified legacy sources: $work"
     & $python (Join-Path $assistant 'build_policy_native.py') --legacy (Join-Path $work 'city_assistant_1372') --out (Join-Path $out 'native')
     if ($LASTEXITCODE -ne 0) { throw 'Native city policy generation failed.' }
     foreach ($resource in 'AssistantPayload','AssistantFixups') {
@@ -56,6 +67,7 @@ PawAssistantRuntime.Tick();
         [IO.File]::WriteAllText($sourcePath,$text,[Text.UTF8Encoding]::new($false))
         $arguments += Join-Path $assistant 'PawAssistantRuntime.cs'
         $arguments += Join-Path $assistant 'CityPlanner.cs'
+        $arguments += Join-Path $assistant 'CityMilitiaPlanner.cs'
         $arguments += Join-Path $assistant 'CityPolicy.cs'
         $arguments += Join-Path $assistant 'CityResourceOrder.cs'
         $arguments += Join-Path $assistant 'CitySettingsForm.cs'
@@ -90,12 +102,17 @@ if ($CityAssistant) {
     if ($LASTEXITCODE -ne 0) { throw 'City planner test compilation failed.' }
     & $queueTest
     if ($LASTEXITCODE -ne 0) { throw 'City planner regression failed.' }
+    $militiaTest = Join-Path $out 'CityMilitiaPlannerTests.exe'
+    & $compiler /nologo /target:exe /r:System.Core.dll "/out:$militiaTest" (Join-Path $assistant 'CityMilitiaPlanner.cs') (Join-Path $assistant 'CityMilitiaPlannerTests.cs')
+    if ($LASTEXITCODE -ne 0) { throw 'City militia test compilation failed.' }
+    & $militiaTest
+    if ($LASTEXITCODE -ne 0) { throw 'City militia regression failed.' }
     $formTest = Join-Path $out 'CitySettingsFormTests.exe'
     & $compiler /nologo /target:exe /r:System.Core.dll /r:System.Windows.Forms.dll /r:System.Drawing.dll "/out:$formTest" (Join-Path $assistant 'CityPlanner.cs') (Join-Path $assistant 'CityPolicy.cs') (Join-Path $assistant 'CitySettingsForm.cs') (Join-Path $assistant 'CitySettingsFormTests.cs')
     if ($LASTEXITCODE -ne 0) { throw 'City settings test compilation failed.' }
     & $formTest
     if ($LASTEXITCODE -ne 0) { throw 'City settings regression failed.' }
-    foreach ($test in 'test_policy_native.py','test_construction_native.py','test_resource_inputs_native.py') {
+    foreach ($test in 'test_policy_native.py','test_construction_native.py','test_resource_inputs_native.py','test_automation_native.py','test_transport_native.py') {
         & $python (Join-Path $assistant $test) --legacy (Join-Path $work 'city_assistant_1372') --native (Join-Path $out 'native')
         if ($LASTEXITCODE -ne 0) { throw "Native regression failed: $test" }
     }

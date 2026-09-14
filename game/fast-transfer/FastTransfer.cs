@@ -6,6 +6,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+#if PAW_PURE_FAST_TRANSFER
+using IMemory = PawPureFixes.IPatchMemory;
+using TerrainPatch = PawPureFixes.PurePatch;
+#endif
 
 internal static class PawFastTransfer
 {
@@ -15,11 +19,13 @@ internal static class PawFastTransfer
     internal static readonly byte[] BudgetOriginal = TerrainPatch.Hex("8B43088BCDC1E003");
     internal static readonly byte[] CadenceOriginal = TerrainPatch.Hex("6A05E972FFFFFF");
     internal static readonly byte[] AckOriginal = TerrainPatch.Hex("6A04E9A9FEFFFF");
+#if !PAW_PURE_FAST_TRANSFER
     private static int pid;
     private static uint stats;
     private static uint previousPackets;
     private static long nextPoll;
     private static Action<string> logger;
+#endif
 
     internal sealed class Guard
     {
@@ -197,6 +203,7 @@ internal static class PawFastTransfer
         }
     }
 
+#if !PAW_PURE_FAST_TRANSFER
     internal static void Install(Process game, IntPtr imageBase, Action<string> log)
     {
 #if FAST_SAVE_TRANSFER
@@ -230,4 +237,5 @@ internal static class PawFastTransfer
             previousPackets = packets;
         }
     }
+#endif
 }

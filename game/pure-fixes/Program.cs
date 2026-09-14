@@ -8,8 +8,18 @@ using System.Security.Cryptography;
 using System.Threading;
 
 [assembly: AssemblyTitle("Paw Pure Fixes for Kohan II 1.3.72")]
+#if PAW_PURE_CHANNEL
+#if PAW_PURE_FAST_TRANSFER
+[assembly: AssemblyVersion("1.3.72.7")]
+[assembly: AssemblyFileVersion("1.3.72.7")]
+#else
+[assembly: AssemblyVersion("1.3.72.6")]
+[assembly: AssemblyFileVersion("1.3.72.6")]
+#endif
+#else
 [assembly: AssemblyVersion("1.3.72.2")]
 [assembly: AssemblyFileVersion("1.3.72.2")]
+#endif
 
 namespace PawPureFixes
 {
@@ -24,6 +34,8 @@ namespace PawPureFixes
             {
 #if PAW_MENU_ONLY
                 return "{\"id\":\"menu-runtime\",\"version\":\"1.3.72-menu.2\",\"menuVersions\":true,\"negativeZero\":false,\"terrainInitialization\":false,\"stockSyncChecks\":true,\"changesGameFiles\":false}";
+#elif PAW_PURE_CHANNEL
+                return PureChannel.Features;
 #elif PAW_MENU_PRESENTATION
                 return Features.Replace("1.3.72-pure.2", "1.3.72-pure.4").Replace("\"menuVersions\":false", "\"menuVersions\":true");
 #else
@@ -123,7 +135,14 @@ namespace PawPureFixes
             while (timer.ElapsedMilliseconds < 60000)
             {
                 if (game.HasExited) throw new InvalidOperationException("The game exited before pure fixes could be installed.");
-                try { if (PurePatch.IsReady(memory, image)) return; }
+                try
+                {
+#if PAW_PURE_CHANNEL
+                    if (PureChannel.IsReady(memory, image)) return;
+#else
+                    if (PurePatch.IsReady(memory, image)) return;
+#endif
+                }
                 catch (Win32Exception error)
                 {
                     if (error.NativeErrorCode != 299) throw; // Only partial-copy during decrypt is transient.
@@ -177,7 +196,19 @@ namespace PawPureFixes
                     WaitForCode(memory, address, game);
                     memory.Suspend();
                     uint cave;
-                    try { cave = PurePatch.Install(memory, address); }
+                    try
+                    {
+#if PAW_PURE_CHANNEL
+                        PureChannel.Installed installed = PureChannel.Install(memory, address);
+                        cave = installed.PureCave;
+#if PAW_PURE_FAST_TRANSFER
+                        Log(log, "FAST_TRANSFER_R2_READY pid=" + game.Id + "; cave=0x" + installed.TransferCave.ToString("X8") +
+                            "; liveCodeGuards=" + PawFastTransfer.Guards().Count + "; liveSettings=20/64/256; fileBudgetBytes=1200; maxPacketsPerPeerPerPass=16; stopBurstWhenDrained=true; receiveAckPerPass=1; stockBandwidthLimits=true; nativeProtocol=true; diskExeUnchanged=true");
+#endif
+#else
+                        cave = PurePatch.Install(memory, address);
+#endif
+                    }
                     finally { memory.Resume(); }
                     Log(log, "PURE_PATCH_APPLIED pid=" + game.Id + " image=0x" + address.ToString("X8") + " cave=0x" + cave.ToString("X8") + " hooks=2 negativeZero=display-only terrainRadiusBits=BF800000 stockSyncChecks=true");
                 }

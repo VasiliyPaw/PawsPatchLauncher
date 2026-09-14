@@ -13,7 +13,7 @@ internal sealed class CityPlanner
         internal float[] Delta;
         internal string Name = "", SourceName = "", Family = "", Target = "";
         internal int BranchCount;
-        internal bool IsCityCenter;
+        internal bool IsCityCenter, IsMine;
         internal bool Same(Candidate b) { return b != null && City == b.City && Actor == b.Actor && Data == b.Data && Kind == b.Kind; }
     }
     internal sealed class Snapshot
@@ -22,7 +22,7 @@ internal sealed class CityPlanner
         internal float Time, Gold;
         internal bool Enabled, Valid; // Valid permits new spending, not snapshot observation.
         internal uint[] Cities;
-        internal HashSet<uint> Busy = new HashSet<uint>();
+        internal HashSet<uint> Busy = new HashSet<uint>(); // Siege/sale/invalid actor, never another building's construction.
         internal float[] Income;
         internal Candidate[] Candidates;
         internal CityPolicy Policy = new CityPolicy();
@@ -130,8 +130,12 @@ internal sealed class CityPlanner
         CityPolicy policy = s.Policy ?? new CityPolicy();
         Candidate[] available = s.Candidates.Where(c => Safe(c, s.Income.Length) && s.Cities.Contains(c.City)
             && !s.Busy.Contains(c.City) && (!backoff.ContainsKey(c.City) || s.Time >= backoff[c.City])
-            && policy.Allows(c) && MarketGoldBranch(c)).ToArray();
+            && !InProgress(s,c) && policy.Allows(c)).ToArray();
         Candidate[] eligible = available.Where(c => Protects(c, s.Income, projected, policy)).ToArray();
+        Candidate[] affordable = eligible.Where(c => (double)s.Gold >= (double)s.Reserve + c.Cost).ToArray();
+        if (eligible.Length > 0 && affordable.Length == 0)
+        { intention = eligible.OrderBy(c=>c.Cost).ThenBy(c=>c.Data).First(); Status=StatusKind.Gold; return none; }
+        eligible=affordable;
         // Economy priority is global, while equally useful cities retain fair
         // queue order. A city with gold income cannot jump ahead of iron relief.
         double relief = eligible.Length == 0 ? 0 : eligible.Max(c => Relief(c, goals, policy));
@@ -143,27 +147,15 @@ internal sealed class CityPlanner
             if (gold > .0001f) { priority = eligible.Where(c => c.Delta[0] >= gold - .0001f).ToArray(); Explanation = "gold"; }
             else
             {
-                // Expand before irreversibly committing an existing resource
-                // building to more surplus production. Every step is real and
-                // protected separately; no future income is spent in advance.
-                priority = eligible.Where(c => c.Kind == 13).ToArray(); Explanation = "expand";
-                if(priority.Length==0)
-                { priority=eligible.Where(c=>c.IsCityCenter).ToArray(); Explanation="center"; }
+                double best=eligible.Length==0?0:eligible.Max(c=>GoldPreparation(c,available,goals,goals,policy));
+                priority=best>.0001?eligible.Where(c=>GoldPreparation(c,available,goals,goals,policy)>=best-.0001).ToArray():new Candidate[0];
+                Explanation="prepare_gold";
                 if(priority.Length==0)
                 {
-                    // A resource upgrade above target is useful ONLY as a
-                    // bridge to a currently blocked gold order on another actor.
-                    // Never use one fork to finance its mutually exclusive fork.
-                    double best=eligible.Length==0?0:eligible.Max(c=>GoldPreparation(c,available,goals,goals,policy));
-                    priority=best>.0001?eligible.Where(c=>GoldPreparation(c,available,goals,goals,policy)>=best-.0001).ToArray():new Candidate[0];
-                    Explanation="prepare_gold";
-                }
-                if(priority.Length==0)
-                {
-                    // This permission is NOT an arbitrary-resource-upgrade
-                    // fallback. Surplus production alone is not a useful goal.
-                    priority=policy.AllowOther?eligible.Where(c=>c.Delta.Take(Math.Min(5,c.Delta.Length)).All(v=>Math.Abs(v)<.0001f)).ToArray():new Candidate[0];
-                    Explanation="other";
+                    // The engine still validates each order. This includes
+                    // non-economic buildings, centers and surplus mine upgrades.
+                    priority=AboveTargets(s.Income,projected,policy)?eligible:new Candidate[0];
+                    Explanation="random";
                 }
             }
         }
@@ -173,9 +165,11 @@ internal sealed class CityPlanner
             if (s.Busy.Contains(city) || (backoff.TryGetValue(city, out until) && s.Time < until)) { Rotate(city); continue; }
             Candidate[] legal = priority.Where(c => c.City == city).ToArray();
             if (legal.Length == 0) { Rotate(city); continue; }
-            Candidate selected = legal.FirstOrDefault(c => c.Same(intention)) ?? legal.OrderBy(c => c.Cost).ThenBy(c => c.Data).First();
+            Candidate selected = legal.FirstOrDefault(c => c.Same(intention)) ??
+                (Explanation=="random" ? legal[random.Next(legal.Length)] : legal.OrderBy(c => c.Cost).ThenBy(c => c.Data).First());
             intention = selected;
-            // Do not skip an expensive head item in favour of cheaper later cities.
+            // Fresh affordability was considered before choosing a goal, and
+            // the native dispatcher repeats every payment/reserve check.
             if ((double)s.Gold < (double)s.Reserve + selected.Cost) { Status = StatusKind.Gold; return none; }
             pending = selected; awaitingReply = true; pendingSince = s.Time;
             Status = StatusKind.Pending;
@@ -194,14 +188,21 @@ internal sealed class CityPlanner
         return s.Construction!=null && s.Construction.Any(c=>c!=null && c.City==pending.City
             && c.Data==pending.Data && c.Kind==pending.Kind && (pending.Kind==13 || c.Actor==pending.Actor));
     }
-    internal static bool MarketGoldBranch(Candidate c)
+    private static bool InProgress(Snapshot s,Candidate candidate)
     {
-        if(c.Kind!=21 || c.Family==null || !c.Family.EndsWith("_market",StringComparison.Ordinal)) return true;
-        // The human Bank's +5 gold comes from refunding resource upkeep. The
-        // requested market policy is the gold conversion branch (+40 for the
-        // human Bazaar), not a small gold gain plus returned resources. Use
-        // actual engine effects, not translated labels, race names or numbers.
-        return c.Delta[0]>.0001f && c.Delta.Skip(1).Take(4).Any(v=>v<-.0001f);
+        return s.Construction!=null && s.Construction.Any(c=>c!=null && c.City==candidate.City &&
+            (candidate.Kind==13 ? c.Data==candidate.Data : c.Actor==candidate.Actor));
+    }
+    internal static bool IsMarket(Candidate c)
+    {
+        return c!=null && ((c.Family??"").EndsWith("_market",StringComparison.Ordinal)
+            || (c.Target??"").EndsWith("_market",StringComparison.Ordinal));
+    }
+    internal static bool AboveTargets(float[] current,float[] forecast,CityPolicy policy)
+    {
+        for(int i=1;i<Math.Min(5,current.Length);i++)
+            if(Math.Min(current[i],forecast[i])<=policy.Floor(i)) return false;
+        return true;
     }
     private static double GoldPreparation(Candidate provider,Candidate[] available,float[] current,float[] forecast,CityPolicy policy)
     {
@@ -227,10 +228,12 @@ internal sealed class CityPlanner
     }
     internal static bool Protects(Candidate c, float[] current, float[] forecast, CityPolicy policy)
     {
+        bool marketException=IsMarket(c) && AboveTargets(current,forecast,policy);
         // The verified 1.3.72 resource list starts with gold/stone/wood/iron/mana.
         // Unit-count and kingdom-count bookkeeping are not resource income.
         for (int i = 0; i < Math.Min(5, current.Length); i++)
         {
+            if(i>0 && marketException) continue;
             float floor = policy.Floor(i);
             float before = Math.Min(current[i], forecast[i]);
             if (c.Delta[i] < -.0001f && before + c.Delta[i] < Math.Min(before, floor) - .0001f) return false;

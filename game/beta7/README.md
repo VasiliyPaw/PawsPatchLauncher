@@ -27,6 +27,6 @@ Native self-test flags and mock-memory checks are distinct from multiplayer acce
 
 ## City-assistant Beta build
 
-For patch 0.3.0-beta.1, use `./build.ps1 -CityAssistant -OutputDirectory C:/PatchBuild/city-beta1` with a new output directory. This compile-time option embeds the assistant in all eight variants and emits both native F1 layouts. It is not a launcher setting. Building without it retains the Release helper behavior. The historical native build string identifies the underlying 0.2.0 startup lineage; `--features` reports the additional `cityAssistant` capability and the installed package records its Beta version.
+For patch 0.3.0-beta.3, use `./build.ps1 -CityAssistant -OutputDirectory C:/PatchBuild/city-beta3 -LegacyWorkDirectory C:/VerifiedKohanWork` with a new output directory. The verified work directory supplies the accepted native bridge and transfer sources; the script also recognizes the existing local migration path. This compile-time option embeds city policy r14 in all eight variants and emits both native F1 layouts. Building without it retains Release behavior. `--features` reports `cityPolicyRevision:14`, `nativeCityQueue`, `automaticMines` and `newCityMilitia` only with the assistant; package metadata supplies the public Beta version.
 
-See [assistant sources and controls](../city-assistant/README.md) and [release validation](../../docs/release-030-beta1-validation.md). Do not replace stable packages with these Beta binaries.
+See [assistant sources, controls and validation](../city-assistant/README.md). Do not replace Stable packages with these Beta binaries.

@@ -85,7 +85,7 @@ public partial class MainWindow
         var channel = GuideChannel();
         var modPatchGuide = GuideCatalog.Resolve(channel, _guideSubject)?.PatchGuide;
         var guide = PatchGuide.IsValid(modPatchGuide) ? modPatchGuide! : PatchGuide.Resolve(channel);
-        var entries = guide.Entries.Where(x => x.Category == _aboutCategory).ToArray();
+        var entries = guide.Entries.Where(x => singleSection || x.Category == _aboutCategory).ToArray();
         var introduction = _aboutCategory == "always" && entries.FirstOrDefault() is { Id: "base" } first ? first : null;
         if (introduction is not null)
         {

@@ -10,6 +10,24 @@
         <WindowChrome CaptionHeight="46" ResizeBorderThickness="5" GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
     <Window.Resources>
+        <Style x:Key="ProfileAvatarButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value><ControlTemplate TargetType="Button">
+                    <Grid Background="Transparent">
+                        <ContentPresenter/>
+                        <Ellipse x:Name="Outline" Stroke="Transparent" StrokeThickness="1.5" IsHitTestVisible="False"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="#E1B752"/></Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="#E1B752"/></Trigger>
+                        <Trigger Property="IsPressed" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="#FFF0BB"/></Trigger>
+                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Cursor" Value="Arrow"/><Setter TargetName="Outline" Property="Stroke" Value="Transparent"/></Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate></Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="GameParticipantButton" TargetType="Button">
             <Setter Property="Background" Value="#1A324D"/>
             <Setter Property="BorderBrush" Value="#2A4564"/>
@@ -1291,7 +1309,10 @@
                         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
                         <Grid Margin="0,0,0,20">
                             <Grid.ColumnDefinitions><ColumnDefinition Width="84"/><ColumnDefinition Width="*"/><ColumnDefinition Width="32"/></Grid.ColumnDefinitions>
-                            <ContentControl x:Name="SocialDetailsAvatar" Width="68" Height="68" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Button x:Name="SocialDetailsAvatarButton" Style="{StaticResource ProfileAvatarButton}" Width="68" Height="68"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Click="SocialDetailsAvatar_Click">
+                                <ContentControl x:Name="SocialDetailsAvatar" Width="68" Height="68" Focusable="False"/>
+                            </Button>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock x:Name="SocialDetailsName" FontSize="24" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
                                 <ContentControl x:Name="SocialDetailsAdminBadge" HorizontalAlignment="Left" HorizontalContentAlignment="Left"/>
@@ -1365,6 +1386,27 @@
                         </ScrollViewer>
                         <TextBlock x:Name="GameActivityStatus" Grid.Row="2" FontSize="12" Foreground="#A8BBD2" TextWrapping="Wrap" Margin="0,16,0,0"/>
                     </Grid>
+                </Border>
+            </Border>
+            <Border x:Name="AvatarPreviewOverlay" Grid.RowSpan="2" Panel.ZIndex="130" Background="#BA030D1B" Visibility="Collapsed"
+                    WindowChrome.IsHitTestVisibleInChrome="True" PreviewMouseDown="Overlay_MouseDown">
+                <Border x:Name="AvatarPreviewCard" Width="298" Margin="24" Padding="20" CornerRadius="14" Background="#12253B"
+                        BorderBrush="#52708B" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Contained">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,17">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="34"/></Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,0,12,0" VerticalAlignment="Center">
+                                <TextBlock x:Name="AvatarPreviewName" FontSize="18" FontWeight="Medium" Foreground="#F0F4F8" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock x:Name="AvatarPreviewUsername" FontSize="13" Foreground="#A7C3DD" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <Button x:Name="AvatarPreviewClose" Grid.Column="1" Style="{StaticResource TitleButton}" Width="34" Height="34" Padding="0"
+                                    Foreground="#B1C6D9" VerticalAlignment="Center" Click="AvatarPreviewClose_Click">
+                                <local:LauncherIcon Kind="Close" Width="18" Height="18"/>
+                            </Button>
+                        </Grid>
+                        <Rectangle x:Name="AvatarPreviewPhoto" Width="256" Height="256" RadiusX="10" RadiusY="10"/>
+                    </StackPanel>
                 </Border>
             </Border>
             <Border x:Name="ConfirmationOverlay" Grid.RowSpan="2" Panel.ZIndex="200" Background="#B807101F" Visibility="Collapsed"

@@ -82,11 +82,10 @@ internal sealed class CitySettingsForm : Form
         for(int i=0;i<tabs.Count;i++) tabs[i].BackColor=i==tab?Color.FromArgb(89,70,28):card;
         if(tab==0)
         {
-            Note(T("Защита ресурсов всегда включена\nНельзя создать новый дефицит или усилить существующий — даже ради золота.","Resource protection is always on\nNever create or worsen a deficit, even for additional gold."),76);
+            Note(T("Рынки разрешены, когда доход всех четырёх ресурсов выше порогов до приказа. Доход после рынка может опуститься ниже порога. Остальные здания сохраняют защиту ресурсов.","Markets are allowed when all four resource incomes exceed their targets before the order; their resulting income may fall below a target. Other buildings preserve resource protection."),86);
             Toggle(T("Строить новые здания","Construct new buildings"),draft.AllowNew,v=>draft.AllowNew=v);
             Toggle(T("Улучшать существующие здания","Upgrade existing buildings"),draft.AllowUpgrade,v=>draft.AllowUpgrade=v);
-            Toggle(T("Разрешить улучшения без изменения дохода","Allow upgrades with unchanged income"),draft.AllowOther,v=>draft.AllowOther=v);
-            Note(T("Приоритет: пороги ресурсов → золото → новые здания и центр города → ресурсы для следующей золотой ветки.\nПороги дохода и запас золота задаются в панели F1.","Priority: resource targets → gold → new buildings and city center → resources for the next gold upgrade.\nSet income targets and the gold reserve in the F1 panel."),80);
+            Note(T("Приоритет: нужный доход ресурсов → золото → подготовка доходных веток. Если доходных улучшений нет и все пороги превышены — случайная доступная постройка или улучшение, включая шахты. Учитывается вся очередь игрока и автоматики.","Priority: needed resource income → gold → preparation for profitable upgrades. With no useful income improvements and all targets exceeded, choose a random eligible building or upgrade, including mines. All manual and automatic queued work is counted."),110);
             Note(view.Status??"",75);
         }
         else if(tab==1) Branches(0);

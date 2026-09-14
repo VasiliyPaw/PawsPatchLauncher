@@ -6,6 +6,8 @@ sys.path.insert(0,str(a.legacy.parent/'lobby_colors_1372/deps_r15'))
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32
 from unicorn.x86_const import *
 checks=0
+markets=json.loads((Path(__file__).parent/'fixtures/stock_markets_1372.json').read_text())['markets']
+assert {m['id'].split('_')[0] for m in markets}=={'human','drauga','gauri','haroun','shadow','undead'}
 for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21000000),(0x12000000,0x60000000)] for n in (9,10)]:
     u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(game,0x700000);u.mem_map(cave,0x30000);u.mem_map(0x30000000,0x20000)
     data=bytearray((a.native/'AssistantPayload.bin').read_bytes());fix=(a.native/'AssistantFixups.bin').read_bytes()
@@ -62,6 +64,43 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         f(cave+0x1b040+resource*4,100) # gains must NEVER finance the next order
         assert run(0x3900)==0;checks+=1
         f(cave+0x1b020+resource*4,0);f(candidate+20+index(resource)*4,0)
+    # Every supported city race uses its real internal market identifier. Both
+    # building (target) and upgrade (source) paths allow crossing only after all
+    # four CURRENT resources minus adverse waiting work strictly exceed floors.
+    definition=0x30008000;name=definition+0x100;w(definition+8,name)
+    # Actual stock market effects include races with no resource upkeep. A
+    # build just above targets may cross them; already committed drain cannot
+    # be hidden by an anticipated positive income from another queued job.
+    for market in markets:
+        u.mem_write(name,(market['id']+'\0').encode('utf-16le'));w(candidate+8,definition)
+        for i in range(count):f(production+i*4,5.5);f(candidate+20+i*4,0)
+        f(production,100)
+        for i,delta in enumerate(market['delta']):f(candidate+20+index(i)*4,delta)
+        for i in range(5):f(cave+0x1b000+i*4,5);f(cave+0x1b020+i*4,0)
+        assert run(0x3900)==1;checks+=1
+        f(cave+0x1b020+4,-.5);f(cave+0x1b040+4,100)
+        assert bool(run(0x3900))==(market['delta'][1]>=0);checks+=1
+    w(candidate+8,0)
+    for race in ('human','drauga','gauri','haroun','shadow','undead'):
+        u.mem_write(name,(race+'_market\0').encode('utf-16le'))
+        for field in (8,84):
+            w(candidate+field,definition)
+            for resource in range(1,5):
+                for i in range(count):f(production+i*4,6);f(candidate+20+i*4,-9)
+                f(production,100);f(candidate+20,40)
+                for i in range(5):f(cave+0x1b000+i*4,5);f(cave+0x1b020+i*4,0)
+                assert run(0x3900)==1;checks+=1
+                f(production+index(resource)*4,5);assert run(0x3900)==0;checks+=1
+                f(production+index(resource)*4,6);f(cave+0x1b020+resource*4,-1)
+                f(cave+0x1b040+resource*4,100)
+                assert run(0x3900)==0;checks+=1
+                f(cave+0x1b020+resource*4,0);f(candidate+20,-101)
+                assert run(0x3900)==0;checks+=1
+                f(candidate+20,40);f(candidate+20+index(resource)*4,float('nan'))
+                assert run(0x3900)==0;checks+=1
+            w(candidate+field,0)
+    for i in range(count):f(production+i*4,10);f(candidate+20+i*4,0)
+    for i in range(5):f(cave+0x1b000+i*4,0);f(cave+0x1b020+i*4,0)
     # Gear click locks native dispatch immediately, before helper polls it.
     widget=0x30005000;w(cave+0xa8,widget);w(widget+0x24,0x80)
     run(0x5300);assert r(cave+0xac)==1 and r(cave+0xb4)==1;checks+=1

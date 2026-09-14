@@ -26,12 +26,12 @@ public partial class MainWindow
 
     private void InitializeSocialUi()
     {
-        PreviewKeyDown += async (_, e) => { if (e.Key == Key.Escape && SocialDetailsOverlay.Visibility == Visibility.Visible && !ConfirmationActive) { e.Handled = true; if(GameActivityOverlay.Visibility==Visibility.Visible)await DismissGameActivityAsync();else await DismissSocialDetailsAsync(); } };
+        PreviewKeyDown += SocialDetails_PreviewKeyDown;
         _socialOutbox=new SocialOutbox(ActivityStore.Root);
         _socialTimer.Interval=TimeSpan.FromSeconds(1);
         _socialTimer.Tick+=async (_,_)=> await SocialTickAsync();
         Loaded+=(_,_)=>{if(!ActivityStore.IsSmokeTest)_socialTimer.Start();};
-        Closed+=(_,_)=>{_socialTimer.Stop();_socialScrollReadTimer.Stop();ResetChatLoad();_chatMemory.Clear();CloseGameActivity();};
+        Closed+=(_,_)=>{_socialTimer.Stop();_socialScrollReadTimer.Stop();ResetChatLoad();_chatMemory.Clear();CloseAvatarPreview();CloseGameActivity();};
         Activated+=async (_,_)=>{if(!ActivityStore.IsSmokeTest && _activePage=="friends")await RefreshSocialAsync();};
         _socialScrollReadTimer.Tick+=async (_,_)=>{
             _socialScrollReadTimer.Stop();

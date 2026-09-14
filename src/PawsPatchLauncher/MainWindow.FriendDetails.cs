@@ -30,6 +30,7 @@ public partial class MainWindow
 
     private void CloseSocialDetails()
     {
+        CloseAvatarPreview();
         CloseGameActivity();
         _socialDetailsGeneration++;
         Motion.Collapse(SocialDetailsOverlay);
@@ -40,6 +41,7 @@ public partial class MainWindow
         _activityViewedPlayer=null;
         SocialDetailsCopyUsernameButton.SetContext("");
         SocialDetailsAvatar.Content = null; SocialDetailsName.Text = SocialDetailsUsername.Text = "";
+        SocialDetailsAvatarButton.IsEnabled=false;SocialDetailsAvatarButton.ToolTip=null;
         SocialDetailsStatus.Text = SocialDetailsActivity.Text = SocialDetailsChannel.Text = "";
         SocialDetailsComponents.Children.Clear();
     }
@@ -59,6 +61,7 @@ public partial class MainWindow
             && !(_account.AdminLevel>0&&_adminViewedPlayer?.Id==player.Id) && _activityViewedPlayer?.Id!=player.Id) return;
         if (_socialDetailsPeer == player.Id && SocialDetailsOverlay.Visibility == Visibility.Visible)
         { RenderSocialDetails(player); return; }
+        CloseAvatarPreview();
         _socialDetailsGeneration++;
         _socialDetailsPeer = player.Id; RenderSocialDetails(player);
         SocialDetailsCard.IsHitTestVisible=true;
@@ -125,7 +128,7 @@ public partial class MainWindow
         SocialDetailsBlockButton.Content=T("Заблокировать","Block");
         SocialDetailsClose.ToolTip = T("Закрыть", "Close");
         System.Windows.Automation.AutomationProperties.SetName(SocialDetailsClose, T("Закрыть", "Close"));
-        var key = $"{player.Id}|{player.Components}|{player.Configuration}|{player.Presence}|{player.Available}|{_socialAvatarGeneration}|{_text.Language}";
+        var key = $"{player.Id}|{player.Components}|{player.Configuration}|{player.Presence}|{player.Available}|{player.AvatarRevision}|{player.Deleted}|{_socialAvatarGeneration}|{_text.Language}";
         if (_socialDetailsLayoutKey != key)
         {
             _socialDetailsLayoutKey = key;
@@ -160,6 +163,7 @@ public partial class MainWindow
             if (SocialDetailsComponents.Children.Count == 0)
                 SocialDetailsComponents.Children.Add(new TextBlock { Text = T("Пока нет данных", "No data yet"), Foreground = SocialBrush("#A8BBD2") });
         }
+        RefreshAvatarPreviewAvailability();
         RefreshSocialCopyAvailability();
         _ = RefreshPeerVersionsAsync(player);
         SocialDetailsComponents.Visibility=SocialDetailsChannel.Visibility=SocialDetailsChannelLabel.Visibility=SocialDetailsComponentsLabel.Visibility=player.Available?Visibility.Visible:Visibility.Collapsed;

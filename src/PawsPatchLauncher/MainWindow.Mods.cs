@@ -155,13 +155,22 @@ public partial class MainWindow
 
     private string PureFixesDescription(bool partial)
     {
+        var entries = _channel?.ModGuides.FirstOrDefault(g => g.Id == _settings.Mod)?.PatchGuide?.Entries;
+        var hasDvorak = entries?.Any(e => e.Id == "dvorak") == true;
+        var hasFastTransfer = entries?.Any(e => e.Id == "fast-save-transfer") == true;
         var text = (partial ? T("Работают:\n", "Available:\n") : "")
             + T("• Исправляет отображение цветов на значках рот.", "• Fixes colors on company badges.");
+        if (hasDvorak) text += T("\n• Камера на WASD и стрелках, союзная метка на F в профиле Dvorak.",
+            "\n• WASD and arrow-key camera controls, with the F allied marker in the Dvorak profile.");
         text += partial
             ? T("\n\nНедоступны для этой версии игры:\n• Отображение «−0» как «0» в лимите рот.\n• Исправление неинициализированного параметра рельефа.",
                 "\n\nUnavailable for this game version:\n• Displaying negative zero as zero in the company limit.\n• Fix for an uninitialized terrain parameter.")
-            : T("\n• Показывает «0» вместо «−0» в лимите рот.\n• Исправляет неинициализированный параметр рельефа при создании карты.\n\nПравила и баланс выбранного режима сохраняются. Стандартная проверка рассинхронов остаётся включённой.",
-                "\n• Displays zero instead of negative zero in the company limit.\n• Fixes an uninitialized terrain parameter during map generation.\n\nThe selected mode's rules and balance are preserved. Standard desync checks stay enabled.");
+            : T("\n• Показывает «0» вместо «−0» в лимите рот.\n• Исправляет неинициализированный параметр рельефа при создании карты.",
+                "\n• Displays zero instead of negative zero in the company limit.\n• Fixes an uninitialized terrain parameter during map generation.");
+        if (hasFastTransfer) text += T("\n• Ускоренная штатная передача сохранений участникам сетевого лобби.",
+            "\n• Faster native saved-game transfers to multiplayer lobby participants.");
+        if (!partial) text += T("\n\nПравила и баланс выбранного режима сохраняются. Стандартная проверка рассинхронов остаётся включённой.",
+            "\n\nThe selected mode's rules and balance are preserved. Standard desync checks stay enabled.");
         return text;
     }
 }

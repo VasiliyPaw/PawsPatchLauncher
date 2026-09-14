@@ -5,10 +5,18 @@
 		;; cwp040804 - Children are no longer defined in templates, so must be defined here
 		[Child Template = GameChildPanelVE]
 		
-		        [Child Template=SharedSmallLeftLabelVE]
+		                [Child Template=SharedSmallLeftLabelVE]
         {
             L = 41
             T = 435
+            B = +20
+            text = "#paw_city_new_militia"
+            font = tiny
+        }
+[Child Template=SharedSmallLeftLabelVE]
+        {
+            L = 41
+            T = 407
             B = +20
             text = "#paw_city_auto"
             font = tiny
@@ -35,7 +43,7 @@
 		[Child Template=SharedSmallLeftLabelVE]
 		{
 			L = 41
-			T = 407
+			T = 379
 			B = +20
 
 			text = "#city_management_display_Child_text_2"
@@ -50,7 +58,7 @@
 			L = 15
 			T = 48
 			R = 10r
-			B = +345
+			B = +317
 		}
 	}
 
@@ -191,13 +199,22 @@
 		[View]
 		{
 			L = 16
-			T = 404
+			T = 376
 		}
 	}
 
     [PawAutoUpgrade Template=GameToggleButtonWidget]
     {
         tooltip = "#paw_city_auto_tip"
+        [View]
+        {
+            L = 16
+            T = 404
+        }
+    }
+    [PawNewCityMilitia Template=GameToggleButtonWidget]
+    {
+        tooltip = "#paw_city_new_militia_tip"
         [View]
         {
             L = 16
@@ -544,7 +561,7 @@
         [View]
         {
             L = 286
-            T = 429
+            T = 401
             R = +94
             B = +23
         }

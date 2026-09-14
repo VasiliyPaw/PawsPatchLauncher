@@ -1,0 +1,13 @@
+{
+  "source": "Kohan II 1.3.72 Data.rwd; base definitions only; native property modifiers remain authoritative",
+  "archiveSha256": "e60642ea999457015997e58e38d2305b409daee9925d4eca88f1d50ef9655b6e",
+  "canonicalResources": ["gold", "stone", "wood", "iron", "mana"],
+  "markets": [
+    {"id":"human_market","entry":"Structures/Human/human_market.tgi","entrySha256":"3daba4edf3ff37b7b0d4e60a39dfc723c0064b3c2a0e126d1c14f21b2b1aad09","goldCost":125,"delta":[20,-1,-1,-1,0]},
+    {"id":"drauga_market","entry":"Structures/Drauga/drauga_market.tgi","entrySha256":"a98542335081f4c17a96e4ccb2a0886a01ec1e453982236605d99e90a01e19a2","goldCost":125,"delta":[20,-1,-1,-1,0]},
+    {"id":"gauri_market","entry":"Structures/Gauri/gauri_market.tgi","entrySha256":"4789231b09703735a76b9e804ae4f14c0de0a03b6dbcc710755dc9f65f7d4548","goldCost":125,"delta":[20,-1,-1,-1,0]},
+    {"id":"haroun_market","entry":"Structures/Haroun/haroun_market.tgi","entrySha256":"79c3d028aa154f2731585fa87d2d3b286c9243cf6a1091bb7aa4b228ad23353e","goldCost":150,"delta":[25,-1,-1,-1,0]},
+    {"id":"shadow_market","entry":"Structures/Shadow/shadow_market.tgi","entrySha256":"61748118a5bbef1ef2b3637d147906c38438087d0c6dd7772a64083dbafea073","goldCost":100,"delta":[20,0,0,0,0]},
+    {"id":"undead_market","entry":"Structures/Undead/undead_market.tgi","entrySha256":"9a20782d95083060524ea7354a07ac6bd08a0647d359fc33a1b18120a0321178","goldCost":100,"delta":[15,0,0,0,0]}
+  ]
+}

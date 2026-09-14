@@ -35,11 +35,14 @@ def install(m):
     assert capture.count(anchor) == 1
     capture = capture.replace(anchor, f'mov ecx,edi; call {S+0x5700}\n' + anchor)
     m.replace(0x2000, capture, 0x800)
+    m.capture_code, m.observer_source = capture, source_at
 
     # Header +2c: work count; +30: coherent forecast. Aggregates are native-only.
     # +1b020: adverse changes, +1b040: expected changes (five economic resources).
     m.replace(0x5600, f'''
 push eax; push ecx; push edi
+call {S+0x7f00}
+mov eax,dword ptr [{S+0xe0}]; mov dword ptr [{S+0xe4}],eax
 mov dword ptr [{S+0x12c}],0; mov dword ptr [{S+0x130}],1
 xor eax,eax; mov edi,{S+0x1b020}; mov ecx,16; cld; rep stosd
 pop edi; pop ecx; pop eax; ret

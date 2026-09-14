@@ -97,6 +97,51 @@ internal static class PerModChannelChecks
             ModChannelSelection.SelectMod(restored,GameMod.Immortals);
             Check(restored.Channel=="beta","Immortals choice lost on restart");
             Check(!Directory.Exists(Path.Combine(root,".pawpatch")),"Selecting channels installed game files");
+            // Help follows the selected mod's signed guide, including historical
+            // versions; native-only features must be listed as unavailable in
+            // data-only compatibility mode while the hotkey file still works.
+            var dvorak=new PatchGuideEntry("dvorak","always","","","","");
+            var transfer=new PatchGuideEntry("fast-save-transfer","beta","","","","");
+            var selectedGuide=new PatchGuideDocument { Entries=[dvorak,transfer] };
+            beta.ModGuides=[new() { Id=GameMod.Vanilla,PatchGuide=selectedGuide },
+                new() { Id=GameMod.Immortals,PatchGuide=new() { Entries=[dvorak] } }];
+            typeof(MainWindow).GetField("_channel",flags)!.SetValue(window,beta);
+            settings.Mod=GameMod.Vanilla;
+            string Help(bool partial)=>(string)Call("PureFixesDescription",partial)!;
+            var nativeText=language=="ru"?"передача сохранений":"saved-game transfers";
+            Check(Help(false).Contains("Dvorak")&&Help(false).Contains(nativeText),"Pure beta features missing from help");
+            var partial=Help(true);var unavailable=partial.IndexOf(language=="ru"?"Недоступны":"Unavailable",StringComparison.Ordinal);
+            Check(partial.IndexOf("Dvorak",StringComparison.Ordinal)<unavailable&&partial.IndexOf(nativeText,StringComparison.Ordinal)>unavailable,
+                "Native transfer advertised as available for an incompatible executable");
+            settings.Mod=GameMod.Immortals;
+            Check(Help(false).Contains("Dvorak")&&!Help(false).Contains(nativeText),"Another mod's beta transfer leaked into stable help");
+            selectedGuide.Entries.Clear();settings.Mod=GameMod.Vanilla;
+            Check(!Help(false).Contains("Dvorak")&&!Help(false).Contains(nativeText),"Historical patch advertises newer features");
+            // Exercise the actual rendered guide: pure modes have no category
+            // tabs, so a Beta entry must remain visible in their single section.
+            foreach(var mod in new[] { GameMod.Vanilla,GameMod.Immortals })
+            {
+                var guide=JsonSerializer.Deserialize<ModGuideDocument>(JsonSerializer.Serialize(GuideCatalog.Resolve(null,mod)))!;
+                guide.PatchGuide=new() { Version="2-beta.1",Entries=[
+                    new("dvorak","always","Камера Dvorak","Dvorak camera","Клавиши камеры.","Camera keys."),
+                    new("fast-save-transfer","beta","Передача сохранений","Save transfer","Быстрая передача.","Faster transfer.")] };
+                beta.ModGuides=[guide]; settings.Channel="beta";settings.Mod=mod;
+                typeof(MainWindow).GetField("_channel",flags)!.SetValue(window,beta);
+                typeof(MainWindow).GetField("_latestChannel",flags)!.SetValue(window,beta);
+                typeof(MainWindow).GetField("_guideSubject",flags)!.SetValue(window,mod);
+                typeof(MainWindow).GetField("_guideVariant",flags)!.SetValue(window,"patch");
+                Call("RefreshAboutPage"); window.UpdateLayout();
+                var cards=Control<StackPanel>("AboutEntriesPanel").Children.OfType<Border>().ToArray();
+                Check(cards.Any(c=>Equals(c.Tag,"fast-save-transfer"))&&Control<WrapPanel>("AboutTabsPanel").Visibility==Visibility.Collapsed,
+                    mod+" Beta transfer is hidden in the single-section guide");
+                guide.PatchGuide.Version="1";guide.PatchGuide.Entries.RemoveAt(1);
+                stable.ModGuides=[guide];settings.Channel="stable";
+                typeof(MainWindow).GetField("_channel",flags)!.SetValue(window,stable);
+                typeof(MainWindow).GetField("_latestChannel",flags)!.SetValue(window,stable);
+                Call("RefreshAboutPage");window.UpdateLayout();
+                Check(!Control<StackPanel>("AboutEntriesPanel").Children.OfType<Border>().Any(c=>Equals(c.Tag,"fast-save-transfer")),
+                    mod+" stable guide retained the previous Beta feature");
+            }
             Console.WriteLine($"PER-MOD CHANNEL UI PASS {count} {language}: actual controls, independent choices, alternate feed discovery, unavailable beta, first notice, restart and language; local feeds only");
         }
         try

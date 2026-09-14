@@ -38,8 +38,17 @@ internal static class ModChannelTests
         Check(!ModChannelSelection.HasDistinctBeta(GameMod.Immortals, stable, beta), "AW beta made an Immortals beta");
         Check(!ModChannelSelection.HasDistinctBeta(GameMod.Vanilla, stable, beta), "AW beta made a Vanilla beta");
         Check(ModChannelSelection.HasDistinctBeta(GameMod.ArcaneWars, stable, beta), "Actual AW beta unavailable");
+        stable.Packages.First(p => p.Id == "pure-fixes-data").Version = "1.1";
+        foreach (var mod in new[] { GameMod.Vanilla, GameMod.Immortals })
+        {
+            Check(!ModChannelSelection.HasDistinctBeta(mod, stable, beta), "New stable exposed a cached old stable copy as Beta for " + mod);
+            Check(!ModChannelSelection.HasDistinctBeta(mod, null, beta), "Missing stable made a non-beta patch selectable for " + mod);
+        }
+        stable.Packages.First(p => p.Id == "pure-fixes-data").Version = "1";
         beta.Packages.First(p => p.Id == "pure-fixes-runtime").Version = "2-beta.1";
         Check(ModChannelSelection.HasDistinctBeta(GameMod.Immortals, stable, beta), "Separate pure beta unavailable");
+        Check(ModChannelSelection.HasDistinctBeta(GameMod.Vanilla, stable, beta), "Separate Vanilla beta unavailable");
+        Check(ModChannelSelection.HasDistinctBeta(GameMod.Vanilla, null, beta), "Real beta unavailable before stable was downloaded");
         var library = new ModLibrary(Path.Combine(root, "per-mod-channels"));
         foreach (var mod in new[] { GameMod.Vanilla, GameMod.Immortals, GameMod.ArcaneWars })
         {

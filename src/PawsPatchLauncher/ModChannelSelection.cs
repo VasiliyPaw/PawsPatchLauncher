@@ -46,8 +46,12 @@ public static class ModChannelSelection
         {
             var packages = ModLibrary.Packages(beta, mod);
             if (!packages.Any(p => p.Id is "pawpatch-core" or "pure-fixes-data")) return false;
-            return stable is null ? packages.Any(p => p.Experimental || p.Version.Contains("beta", StringComparison.OrdinalIgnoreCase))
-                : ModLibrary.HasUpdate(stable, beta, mod);
+            // A newer stable catalog can arrive before the matching beta catalog.
+            // Different package identities alone must not expose an old stable
+            // copy as a separate beta for Vanilla or Immortals.
+            var hasBetaPatch = packages.Any(p => p.Id is "pawpatch-core" or "common-ui" or "player-colors" or "pure-fixes-data" or "pure-fixes-runtime"
+                && (p.Experimental || p.Version.Contains("beta", StringComparison.OrdinalIgnoreCase)));
+            return hasBetaPatch && (stable is null || ModLibrary.HasUpdate(stable, beta, mod));
         }
         catch (InvalidDataException) { return false; }
     }

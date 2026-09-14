@@ -13,7 +13,7 @@ internal static class CityPlannerTests
         CityPlanner p = new CityPlanner(1);
         CityPlanner.Snapshot s = S(C(1,100,70,20,0),C(1,101,70,0,4),C(2,102,50,0,3));
         Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
-        s.Time=1; s.Gold=569; Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
+        s.Time=1; s.Gold=499; Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
         s.Time=2; s.Gold=570; var d=p.Update(s); Check(d.Kind==CityPlanner.DecisionKind.Submit && d.Candidate.Data==101);
         for(int i=0;i<20;i++){s.Time+=.1f;Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);}
         p.Reply(true,s.Time);s.Busy.Add(1);s.Construction=new[]{d.Candidate};s.Time+=1;Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
@@ -27,15 +27,15 @@ internal static class CityPlannerTests
         s.Enabled=false;p.Update(s);s.Enabled=true;s.Time+=1;Check(p.Update(s).Kind==CityPlanner.DecisionKind.Submit);
         s.Epoch++;s.Time=0;Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
         s.Time=1;Check(p.Update(s).Kind==CityPlanner.DecisionKind.Submit);
-        // An expensive head city waits instead of starving behind cheap cities.
+        // Affordable native work can proceed while another city waits for money.
         p=new CityPlanner(2);s=S(C(1,100,100,1,1),C(2,200,1,1,1));p.Update(s);s.Time=1;
-        Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);s.Gold=600;s.Time++;
+        Check(p.Update(s).Candidate.City==2);p.Reply(false,s.Time);s.Gold=600;s.Time++;
         Check(p.Update(s).Candidate.City==1);
         // Manual work in a city makes the queue move on without replacing it.
         p=new CityPlanner(2);s=S(C(1,100,100,1,1),C(2,200,1,1,1));p.Update(s);s.Time=1;s.Busy.Add(1);
         Check(p.Update(s).Candidate.City==2);
         // Removing a city invalidates its unissued intention.
-        p=new CityPlanner(2);s=S(C(1,100,100,1,1),C(2,200,1,1,1));p.Update(s);s.Time=1;p.Update(s);s.Cities=new uint[]{2};s.Time++;
+        p=new CityPlanner(2);s=S(C(1,100,100,1,1),C(2,200,1,1,1));s.Gold=0;p.Update(s);s.Time=1;p.Update(s);s.Cities=new uint[]{2};s.Gold=570;s.Time++;
         Check(p.Update(s).Candidate.City==2);
         // No deficit => prefer gold. Empty/invalid input and a paused clock issue nothing.
         p=new CityPlanner(2);s=S(C(1,100,70,2,0),C(1,101,70,8,0));s.Income=new float[]{5,1};p.Update(s);s.Time=1;s.Valid=false;
@@ -47,13 +47,12 @@ internal static class CityPlannerTests
         p=new CityPlanner(4);s=S(C(1,100,70,0,0),C(1,101,70,0,0));s.Income=new float[]{5,1};s.Gold=0;p.Update(s);
         foreach(var c in s.Candidates){c.Kind=21;c.Family="barracks";c.Target="advanced";}
         for(int i=1;i<40;i++){s.Time=i;Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);}
-        s.Gold=570;s.Time++;Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
-        s.Policy.AllowOther=true;s.Time++;Check(p.Update(s).Kind==CityPlanner.DecisionKind.Submit);
+        s.Gold=570;s.Time++;Check(p.Update(s).Kind==CityPlanner.DecisionKind.Submit);
         // Switching off during accepted work still observes the acknowledgement.
         p=new CityPlanner(4);s=S(C(1,100,70,1,1));p.Update(s);s.Time=1;
         Check(p.Update(s).Kind==CityPlanner.DecisionKind.Submit);p.Reply(true,1);
         s.Enabled=false;s.Time=2;s.Busy.Add(1);s.Construction=s.Candidates;Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
-        s.Time=20;s.Busy.Clear();p.Update(s);s.Enabled=true;s.Time=21;
+        s.Time=20;s.Busy.Clear();s.Construction=new CityPlanner.Candidate[0];p.Update(s);s.Enabled=true;s.Time=21;
         Check(p.Update(s).Kind==CityPlanner.DecisionKind.Submit);
         // Avoid a nominal resource gain that worsens another current deficit more.
         p=new CityPlanner(4);s=S(C(1,100,70,0,4,-10),C(1,101,70,0,2,0));s.Income=new float[]{5,-4,-2};
@@ -68,7 +67,7 @@ internal static class CityPlannerTests
         Check(p.Update(s).Kind==CityPlanner.DecisionKind.Submit);p.Reply(true,1);
         s.Valid=false;s.Time=2;s.Busy.Add(1);s.Construction=s.Candidates;
         Check(p.Update(s).Kind==CityPlanner.DecisionKind.None && p.Status==CityPlanner.StatusKind.Editing);
-        s.Time=20;s.Busy.Clear();Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
+        s.Time=20;s.Busy.Clear();s.Construction=new CityPlanner.Candidate[0];Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
         s.Valid=true;s.Time=21;
         Check(p.Update(s).Kind==CityPlanner.DecisionKind.Submit);
         // Every economic resource is protected, including an existing gold deficit.
@@ -127,6 +126,7 @@ internal static class CityPlannerTests
         }
         finally { if(System.IO.File.Exists(prefs))System.IO.File.Delete(prefs);System.IO.Directory.Delete(System.IO.Path.GetDirectoryName(prefs)); }
         bool rejected=false;try {CityPolicy.DefinitionKey(0x10000,a=>0x20000,a=>"");}catch(System.IO.InvalidDataException){rejected=true;}Check(rejected);
+        Check(new CityPolicy().NewCitiesOpenMilitia);
         EconomyRegressions();
         ParallelRegressions();
         Console.WriteLine("CITY_PLANNER_PASS "+checks+" assertions");return 0;
@@ -233,57 +233,76 @@ internal static class CityPlannerTests
         var more=Upgrade(1,11,101,0,0,0,6,0);
         var s=S(gold,more);s.Income=new float[]{30,10,10,6,60};s.Policy.Floors[3]=2;
         Check(Choose(s).Candidate==gold);
-        s.Policy.Floors[3]=5;s.Policy.AllowOther=true;
-        Check(Choose(s).Kind==CityPlanner.DecisionKind.None); // not more iron on the same fork
         s.Policy.Floors[3]=12;Check(Choose(s).Candidate==more);
         s.Policy.Floors[3]=0;s.Income=new float[]{400,278,150,104,104};s.Policy.Floors[4]=50;
-        Check(Choose(s).Candidate==gold);
-        s.Candidates=new[]{more};Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
-        // New construction, then city expansion, before surplus resource upgrades.
-        var secondGold=Upgrade(2,22,200,20,0,0,-2,0);
-        s=S(more,secondGold,C(1,300,20,0,0,0,0,0));s.Income=new float[]{30,0,0,6,60};s.Policy.Floors[3]=5;
-        Check(Choose(s).Candidate.Data==300);
-        s.Candidates[2].Kind=21;s.Candidates[2].Family="center";s.Candidates[2].Target="city";s.Candidates[2].IsCityCenter=true;
-        Check(Choose(s).Candidate.Data==300);
-        s.Candidates=new[]{more,secondGold};Check(Choose(s).Candidate==more);
-        s.Income[3]+=6;s.Candidates=new[]{secondGold};Check(Choose(s).Candidate==secondGold);
-        // A provider cannot irreversibly consume the actor needed by the gold branch.
-        s.Candidates=new[]{more,gold};s.Income[3]=6;Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
-        // All supported market families: +5 with upkeep refund is never a fallback.
-        foreach(string race in new[]{"human","drauga","gauri","haroun","shadow","undead","human_sovereign","gauri_miningpost"})
+        s.Candidates=new[]{more};Check(Choose(s).Candidate==more); // always-on idle fallback
+        // Every race's market and every economic resource: pre-order excess
+        // allows crossing; equal/below floors or adverse waiting jobs do not.
+        foreach(string race in new[]{"human","drauga","gauri","haroun","shadow","undead"})
+        for(int r=1;r<5;r++)
+        foreach(uint kind in new uint[]{13,21})
         {
-            var bank=Upgrade(1,11,100,5,1,1,1,0);bank.Family="def:"+race+"_market";
-            var bazaar=Upgrade(1,11,101,40,-3,-3,-3,0);bazaar.Family=bank.Family;
-            s=S(bank,bazaar);s.Income=new float[]{100,3,3,3,60};s.Policy.AllowOther=true;
-            Check(Choose(s).Candidate==bazaar);
-            s.Policy.Floors[1]=1;Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
-            s.Candidates=new[]{bank};Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
-            bank.Delta=new float[]{-5,8,6,4,2};bazaar.Delta=new float[]{-30,9,7,6,4};
-            s.Candidates=new[]{bank,bazaar};s.Policy.Floors[1]=20;
-            Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+            var market=Upgrade(1,11,100,40,-9,-9,-9,-9);market.Kind=kind;
+            market.Family=kind==21?"def:"+race+"_market":"def:"+race+"_settlement";
+            market.Target=kind==13?"def:"+race+"_market":"def:"+race+"_bazaar";
+            var income=new float[]{100,6,6,6,6};var policy=new CityPolicy();policy.Floors=new float[]{0,5,5,5,5};
+            Check(CityPlanner.Protects(market,income,income,policy));
+            var committed=(float[])income.Clone();committed[r]=5;
+            Check(!CityPlanner.Protects(market,income,committed,policy));
+            income[r]=5;Check(!CityPlanner.Protects(market,income,income,policy));
+            income[r]=4;Check(!CityPlanner.Protects(market,income,income,policy));
+            income[r]=6;market.Delta[0]=-101;Check(!CityPlanner.Protects(market,income,income,policy));
         }
-        // Several resources can be prepared for a blocked market, one completed
-        // building at a time, without upgrading resources unrelated to its needs.
-        var market=Upgrade(2,22,200,40,-3,-3,-3,0);market.Family="def:human_market";
-        var stone=Upgrade(1,11,101,0,3,0,0,0);var mana=Upgrade(1,12,102,0,0,0,0,8);
-        s=S(market,stone,mana);s.Income=new float[]{30,1,1,1,104};
-        Check(Choose(s).Candidate==stone);
-        s.Income[1]=4;s.Candidates=new[]{market,mana};Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+        // All native mine types use the same resource/gold/random priorities.
+        foreach(string race in new[]{"human","drauga","gauri","haroun","shadow","undead"})
+        foreach(string resource in new[]{"stone","wood","iron","mana","gold"})
+        {
+            int r=Array.IndexOf(new[]{"gold","stone","wood","iron","mana"},resource);
+            var mine=Upgrade(1,11,100,0,0,0,0,0);mine.IsMine=true;mine.Family="def:"+race+"_mine_"+resource;
+            mine.Target=mine.Family+"_upgrade";mine.Delta[r]=6;
+            s=S(mine);s.Income=new float[]{30,10,10,10,10};s.Income[r]=r==0?30:-3;
+            Check(Choose(s).Candidate==mine);
+            s.Income=new float[]{30,10,10,10,10};mine.Delta=new float[5];Check(Choose(s).Candidate==mine);
+            s.Income[1]=0;Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+        }
+        // Goal forecast sees manually queued positive gains. Real available
+        // income/cash still governs eligibility; cancellation removes forecasts.
+        var stone=Upgrade(1,11,101,0,8,0,0,0);var iron=Upgrade(1,12,102,0,0,0,8,0);
+        s=S(stone,iron);s.Income=new float[]{30,-3,10,-3,10};s.GoalIncome=new float[]{30,5,10,-3,10};
+        s.Construction=new[]{Upgrade(1,13,999,0,8,0,0,0)};
+        Check(Choose(s).Candidate==iron);
+        s.GoalIncome=new float[]{30,5,10,5,10};Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+        s.GoalIncome=null;s.Construction=new CityPlanner.Candidate[0];Check(Choose(s).Kind==CityPlanner.DecisionKind.Submit);
+        // Same city, distinct actors can join an existing queue. Mutually
+        // exclusive upgrades on its pending actor and duplicate builds cannot.
+        var p=new CityPlanner(1);s=S(stone,iron);s.Income=new float[]{30,-3,10,-3,10};s.Gold=1000;
+        p.Update(s);s.Time=1;var first=p.Update(s);p.Reply(true,1);s.Construction=new[]{first.Candidate};s.Gold-=first.Candidate.Cost;
+        s.Time=2;Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);s.Time=3;
+        var second=p.Update(s);Check(second.Kind==CityPlanner.DecisionKind.Submit && second.Candidate.City==first.Candidate.City && second.Candidate.Actor!=first.Candidate.Actor);
+        var otherBranch=Upgrade(1,11,103,0,12,0,0,0);s=S(stone,otherBranch);s.Construction=new[]{stone};
+        Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+        var build=C(1,100,5,20,0);s=S(build);s.Construction=new[]{C(1,100,5,20,0)};s.Construction[0].Actor=999;
+        Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
         // Removed gold target must not remain active from old preferences.
         var old=new CityPolicy();old.Floors[0]=1000;Check(old.Floor(0)==0);
         Check(CityPlanner.Protects(C(1,100,0,-1,0,0,0,3),new float[]{30,0,0,0,0},new float[]{30,0,0,0,0},old));
         string prefs=System.IO.Path.Combine(System.IO.Path.GetTempPath(),"paw-policy-test-"+Guid.NewGuid().ToString("N"),"policy.ini");
         try
         {
-            old.Floors[4]=50;old.AllowOther=true;old.Save(prefs);
+            Check(CityPolicy.Load(prefs).NewCitiesOpenMilitia);
+            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(prefs));
+            System.IO.File.WriteAllText(prefs,"new\t1\r\nupgrade\t1\r\nother\t1\r\nfloor:1\t0\r\nfloor:2\t0\r\nfloor:3\t0\r\nfloor:4\t0\r\n");
+            Check(CityPolicy.Load(prefs).NewCitiesOpenMilitia); // Actual previous 74-byte preferences lack the new key.
+            old.Floors[4]=50;old.NewCitiesOpenMilitia=false;old.Save(prefs);
             Check(!System.IO.File.ReadAllText(prefs).Contains("floor:0"));
-            System.IO.File.AppendAllText(prefs,"floor:0\t1000\n");
-            var loaded=CityPolicy.Load(prefs);Check(loaded.Floors[0]==0 && loaded.Floor(4)==50 && loaded.AllowOther);
+            System.IO.File.AppendAllText(prefs,"floor:0\t1000\nother\t0\n");
+            Check(!System.IO.File.ReadAllText(prefs).Contains("other\t1"));
+            var loaded=CityPolicy.Load(prefs);Check(loaded.Floors[0]==0 && loaded.Floor(4)==50 && !loaded.NewCitiesOpenMilitia);
             string production=prefs+".production";
             try {
                 Check(CityPolicy.LoadPreferred(production,prefs).Floor(4)==50);
                 var current=new CityPolicy();current.Floors[4]=7;current.Save(production);
-                Check(CityPolicy.LoadPreferred(production,prefs).Floor(4)==7);
+                Check(CityPolicy.LoadPreferred(production,prefs).Floor(4)==7 && CityPolicy.LoadPreferred(production,prefs).NewCitiesOpenMilitia);
                 Check(CityPolicy.Load(prefs).Floor(4)==50);
                 Check(CityPolicy.LoadPreferred(production+".absent",prefs+".absent").Floor(4)==0);
             } finally { if(System.IO.File.Exists(production))System.IO.File.Delete(production); }

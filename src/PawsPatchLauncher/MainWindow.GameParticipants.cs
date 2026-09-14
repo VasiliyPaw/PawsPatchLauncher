@@ -30,6 +30,7 @@ public partial class MainWindow
             if(_gameParticipantAvatars.Count>=64&&!_gameParticipantAvatars.ContainsKey(player.Id))_gameParticipantAvatars.Remove(_gameParticipantAvatars.Keys.First());
             _gameParticipantAvatars[player.Id]=(player.AvatarRevision,image);
             SocialDetailsAvatar.Content=SocialAvatar(player.Id,68,true,openProfile:false);
+            RefreshAvatarPreviewAvailability();
         }
         catch(Exception error) when(error is AccountException or OperationCanceledException or System.Net.Http.HttpRequestException or System.IO.IOException) { }
     }
@@ -69,7 +70,11 @@ public partial class MainWindow
             _gameParticipantAvatars[profile.Id]=(profile.AvatarRevision,brush);
             if(_gameActivityAvatarViews.TryGetValue(profile.Id,out var views))
                 foreach(var view in views)view.Content=SocialAvatar(profile.Id,34,false,openProfile:false);
-            if(_socialDetailsPeer==profile.Id)SocialDetailsAvatar.Content=SocialAvatar(profile.Id,68,true,openProfile:false);
+            if(_socialDetailsPeer==profile.Id)
+            {
+                SocialDetailsAvatar.Content=SocialAvatar(profile.Id,68,true,openProfile:false);
+                RefreshAvatarPreviewAvailability();
+            }
         }
         }
         finally { if(ReferenceEquals(_gameAvatarReadLifetime,budget))_gameAvatarReadLifetime=null; }

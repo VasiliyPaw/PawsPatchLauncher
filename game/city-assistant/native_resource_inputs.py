@@ -225,3 +225,4 @@ mov eax,ebx; call {S+0x6900}
 mov dword ptr [{S+0x80}],0; mov dword ptr [{S+0x84}],0
 popad; popfd; ret 4
 ''',0x100)
+    return load

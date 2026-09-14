@@ -102,6 +102,7 @@ public partial class MainWindow
             var image=jpeg is null?null:new ImageBrush(AccountAvatarImage.Decode(jpeg,normalized:true)){Stretch=Stretch.UniformToFill};image?.Freeze();
             _socialAvatars[player.Id]=(player.AvatarRevision,image);_socialAvatarGeneration++;
             RenderSocialRows();RenderSocialMessages();
+            if(_socialDetailsPeer==player.Id)RenderSocialDetails(player);
         }
         catch(AccountException e) when(e.Code is not ("session_expired" or "session_replaced" or "unauthorized")) { }
         catch(OperationCanceledException) when(!_accountLifetime.IsCancellationRequested) { }

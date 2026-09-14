@@ -8,7 +8,7 @@ using System.Text;
 // Local preferences only. Neither simulation state nor the save format changes.
 internal sealed class CityPolicy
 {
-    internal bool AllowNew = true, AllowUpgrade = true, AllowOther;
+    internal bool AllowNew = true, AllowUpgrade = true, NewCitiesOpenMilitia = true;
     internal float[] Floors = new float[5];
     internal readonly Dictionary<string,string> Branches = new Dictionary<string,string>(StringComparer.Ordinal);
     internal readonly HashSet<uint> Excluded = new HashSet<uint>();
@@ -43,7 +43,7 @@ internal sealed class CityPolicy
     }
     internal CityPolicy Copy()
     {
-        CityPolicy c = new CityPolicy { AllowNew=AllowNew, AllowUpgrade=AllowUpgrade, AllowOther=AllowOther, Floors=(float[])Floors.Clone() };
+        CityPolicy c = new CityPolicy { AllowNew=AllowNew, AllowUpgrade=AllowUpgrade, NewCitiesOpenMilitia=NewCitiesOpenMilitia, Floors=(float[])Floors.Clone() };
         foreach(var p in Branches) c.Branches.Add(p.Key,p.Value);
         foreach(uint city in Excluded) c.Excluded.Add(city);
         foreach(var p in CityBranches) c.CityBranches.Add(p.Key,new Dictionary<string,string>(p.Value));
@@ -65,7 +65,7 @@ internal sealed class CityPolicy
             if(v.Length != 2) continue;
             if(v[0]=="new") p.AllowNew=v[1]!="0";
             else if(v[0]=="upgrade") p.AllowUpgrade=v[1]!="0";
-            else if(v[0]=="other") p.AllowOther=v[1]=="1";
+            else if(v[0]=="new_cities_open_militia") p.NewCitiesOpenMilitia=v[1]!="0";
             else if(v[0].StartsWith("floor:") && int.TryParse(v[0].Substring(6),out i) && i>0 && i<5
                 && float.TryParse(v[1],NumberStyles.Float,CultureInfo.InvariantCulture,out f) && CityPlanner.Finite(f) && f>=0 && f<=9999) p.Floors[i]=f;
             else if(v[0].StartsWith("branch:") && v[0].Length<260 && v[1].Length<260) p.Branches[v[0].Substring(7)]=v[1];
@@ -74,7 +74,9 @@ internal sealed class CityPolicy
     }
     internal void Save(string path)
     {
-        List<string> lines=new List<string> {"new\t"+(AllowNew?1:0),"upgrade\t"+(AllowUpgrade?1:0),"other\t"+(AllowOther?1:0)};
+        // Old "other" preferences are deliberately ignored: idle development
+        // is now unconditional whenever every resource target is exceeded.
+        List<string> lines=new List<string> {"new\t"+(AllowNew?1:0),"upgrade\t"+(AllowUpgrade?1:0),"new_cities_open_militia\t"+(NewCitiesOpenMilitia?1:0)};
         for(int i=1;i<5;i++) lines.Add("floor:"+i+"\t"+Floor(i).ToString(CultureInfo.InvariantCulture));
         foreach(var p in Branches.OrderBy(x=>x.Key)) lines.Add("branch:"+p.Key+"\t"+p.Value);
         // Unique sibling temp plus atomic replacement; a failed save keeps the previous preferences.

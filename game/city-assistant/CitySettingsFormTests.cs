@@ -35,6 +35,7 @@ internal static class CitySettingsFormTests
                     Check(!controls.OfType<NumericUpDown>().Any(),"income targets moved to F1");
                     Check(!controls.OfType<Button>().Any(c=>c.Text=="Resources" || c.Text=="Ресурсы"),"no duplicate resource tab");
                     Check(policy.Floors[3]==2,"existing income target preserved");
+                    if(page==0)Check(controls.OfType<CheckBox>().Count()==2,"idle development has no optional toggle");
                     if(page==1)
                     {
                         var combos=controls.OfType<ComboBox>().ToArray();

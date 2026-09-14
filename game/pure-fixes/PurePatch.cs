@@ -88,6 +88,22 @@ namespace PawPureFixes
         {
             return Guards.All(s => memory.Read(image + s.Rva, s.Bytes.Length).SequenceEqual(s.Bytes));
         }
+        internal static void Uninstall(IPatchMemory memory, uint image, uint cave)
+        {
+            // Called while suspended if a later built-in feature fails. Refuse
+            // to overwrite a hook that no longer belongs to this installation.
+            for (int i = 0; i < 2; i++)
+                Expect(memory, image + Guards[i].Rva,
+                    Branch(0xE8, image + Guards[i].Rva, cave + (i == 0 ? 0 : TerrainOffset)));
+            for (int i = 1; i >= 0; i--)
+            {
+                Signature site = Guards[i];
+                memory.WriteCode(image + site.Rva, site.Bytes);
+                Expect(memory, image + site.Rva, site.Bytes);
+                memory.Flush(image + site.Rva, site.Bytes.Length);
+            }
+            memory.Free(cave);
+        }
         internal static uint Install(IPatchMemory memory, uint image)
         {
             // The caller suspends the verified, newly launched game around the
