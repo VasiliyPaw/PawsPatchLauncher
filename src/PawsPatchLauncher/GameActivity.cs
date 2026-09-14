@@ -15,7 +15,8 @@ public sealed record GameParticipant(
 public sealed record GameParticipantProfile(
     [property: JsonPropertyName("id")] Guid Id,
     [property: JsonPropertyName("nickname")] string Nickname,
-    [property: JsonPropertyName("display_name")] string DisplayName);
+    [property: JsonPropertyName("display_name")] string DisplayName,
+    [property: JsonPropertyName("avatar_revision")] DateTimeOffset? AvatarRevision = null);
 
 public sealed record GameActivity(
     [property: JsonPropertyName("phase")] string Phase,

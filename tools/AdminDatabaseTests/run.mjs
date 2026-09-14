@@ -17,7 +17,7 @@ grant usage on schema auth to authenticated,anon;grant execute on all functions 
 create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
 create table storage.objects(id uuid primary key default gen_random_uuid(),bucket_id text,name text,metadata jsonb,created_at timestamptz default now());`);
 const base=new URL('../../supabase/migrations/',import.meta.url);
-let activityBefore;
+let activityBefore,participantBefore;
 const activitySchema=async()=> (await db.query(`select p.oid::regprocedure::text as function,
  md5(replace(p.prosrc,E'\\r','')) as source_md5, p.prosecdef as security_definer,
  has_function_privilege('anon',p.oid,'execute') as anon_execute,
@@ -27,14 +27,19 @@ const activitySchema=async()=> (await db.query(`select p.oid::regprocedure::text
  to_regprocedure('paw_private.friend_presence(uuid,uuid)'),
  to_regprocedure('public.paw_game_activity(uuid)'),
  to_regprocedure('paw_private.valid_game_activity(jsonb)'),
- to_regprocedure('paw_private.presence_without_activity(boolean,text,jsonb,text)'))
+ to_regprocedure('paw_private.presence_without_activity(boolean,text,jsonb,text)'),
+ to_regprocedure('paw_private.activity_profile_allowed(uuid,uuid)'),
+ to_regprocedure('public.paw_player_profile(uuid)'),
+ to_regprocedure('public.paw_friend_avatar_allowed(uuid,uuid,uuid,uuid)'),
+ to_regprocedure('public.paw_friend_action(text,uuid,text)'))
  order by 1`)).rows;
 for(const file of (await readdir(base)).filter(n=>n.endsWith('.sql')&&!n.includes('scheduler')&&!n.includes('founder_grant')).sort()){
  if(process.argv.includes('--schema-proof')&&file==='20260914000000_game_activity.sql')activityBefore=await activitySchema();
+ if(process.argv.includes('--schema-proof')&&file==='20260914010000_game_participant_profiles.sql')participantBefore=await activitySchema();
  try{await db.exec(await readFile(new URL(file,base),'utf8'));console.log('MIGRATION',file);}
  catch(e){console.error('FAILED',file,e.message,e.cause?.message);process.exit(1);}
 }
-if(process.argv.includes('--schema-proof')){console.log(JSON.stringify({before:activityBefore,after:await activitySchema()},null,2));await db.close();process.exit(0);}
+if(process.argv.includes('--schema-proof')){console.log(JSON.stringify({before:activityBefore,participantBefore,after:await activitySchema()},null,2));await db.close();process.exit(0);}
 let checks=0;
 const check=(v,msg)=>{assert.ok(v,msg);checks++;};
 const denied=async(work,msg)=>{let caught=false;try{await work();}catch{caught=true;}check(caught,msg);};

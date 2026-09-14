@@ -14,6 +14,15 @@ public partial class MainWindow
     private string? _socialDetailsLayoutKey;
     private string? _socialDetailsRoleKey;
     private int _socialDetailsGeneration;
+    private SocialPlayer? _activityViewedPlayer;
+    private SocialPlayer? SocialDetailsPlayer()
+    {
+        var listed = _socialPlayers.FirstOrDefault(p => p.Id == _socialDetailsPeer);
+        if (listed is { Relation: "friend" }) return listed;
+        var viewed = _activityViewedPlayer?.Id == _socialDetailsPeer ? _activityViewedPlayer
+            : _account.AdminLevel > 0 && _adminViewedPlayer?.Id == _socialDetailsPeer ? _adminViewedPlayer : null;
+        return viewed is not null && listed is not null ? viewed with { Relation = listed.Relation, IsFriend = listed.IsFriend } : viewed;
+    }
     // Deterministic smoke-test seams; normal runtime uses authenticated RPCs and the transactional installer.
     private Func<Task<IReadOnlyList<SocialPlayer>>>? _friendSettingsReadOverride = null;
     private Func<string, Task<ChannelManifest?>>? _friendSettingsFeedOverride = null;
@@ -28,6 +37,7 @@ public partial class MainWindow
         _socialDetailsPeer = null; _socialDetailsLayoutKey = null;
         _socialDetailsRoleKey = null; SocialDetailsAdminBadge.Content = null;
         _adminViewedPlayer=null;
+        _activityViewedPlayer=null;
         SocialDetailsCopyUsernameButton.SetContext("");
         SocialDetailsAvatar.Content = null; SocialDetailsName.Text = SocialDetailsUsername.Text = "";
         SocialDetailsStatus.Text = SocialDetailsActivity.Text = SocialDetailsChannel.Text = "";
@@ -45,7 +55,10 @@ public partial class MainWindow
 
     private void ShowSocialDetails(SocialPlayer player)
     {
-        if (player.Deleted || (player.Relation != "friend" || !_socialPlayers.Any(p => p.Id == player.Id && p.Relation == "friend"))&& !(_account.AdminLevel>0&&_adminViewedPlayer?.Id==player.Id)) return;
+        if (player.Deleted || (player.Relation != "friend" || !_socialPlayers.Any(p => p.Id == player.Id && p.Relation == "friend"))
+            && !(_account.AdminLevel>0&&_adminViewedPlayer?.Id==player.Id) && _activityViewedPlayer?.Id!=player.Id) return;
+        if (_socialDetailsPeer == player.Id && SocialDetailsOverlay.Visibility == Visibility.Visible)
+        { RenderSocialDetails(player); return; }
         _socialDetailsGeneration++;
         _socialDetailsPeer = player.Id; RenderSocialDetails(player);
         SocialDetailsCard.IsHitTestVisible=true;
@@ -53,6 +66,7 @@ public partial class MainWindow
         SocialDetailsOverlay.UpdateLayout(); Motion.Reveal(SocialDetailsOverlay);
         RevealDialogCard(SocialDetailsCard);
         SocialDetailsClose.Focus();
+        _ = RefreshShownProfileAvatarAsync(player,_socialDetailsGeneration);
     }
 
     private void RenderSocialDetails(SocialPlayer player)
@@ -94,12 +108,18 @@ public partial class MainWindow
             SocialDetailsChannel.Text = GameMod.Name(gameSettings.Mod, _text.Language == "ru") + " · " + SocialDetailsChannel.Text;
         SocialDetailsComponentsLabel.Text = T(player.Presence == "offline" ? "ПОСЛЕДНИЕ НАСТРОЙКИ" : "КОМПОНЕНТЫ", player.Presence == "offline" ? "LAST KNOWN SETTINGS" : "COMPONENTS");
         SocialDetailsCopyButton.Content = T("Скопировать конфигурацию", "Copy configuration");
-        SocialDetailsRelationshipText.Text = T("Чат без добавления в друзья", "Chat without a friendship");
+        SocialDetailsRelationshipText.Text = T("Не в друзьях", "Not a friend");
         SocialDetailsRelationshipText.Visibility = !player.IsFriend && !player.Deleted ? Visibility.Visible : Visibility.Collapsed;
-        SocialDetailsRemoveButton.Content = player.IsFriend ? T("Удалить из друзей", "Remove friend") : T("Не в друзьях", "Not a friend");
-        LauncherIcon.SetKind(SocialDetailsRemoveButton, player.IsFriend ? IconKind.Trash : IconKind.Person);
-        SocialDetailsRemoveButton.ToolTip = !player.IsFriend
-            ? T("Этот игрок не добавлен в друзья. Чат доступен через функции администрации.", "This player is not on your friends list. This chat is available through administrator features.") : null;
+        SocialDetailsRemoveButton.Content = player.IsFriend ? T("Удалить из друзей", "Remove friend")
+            : player.Relation=="outgoing" ? T("Заявка отправлена", "Request sent")
+            : player.Relation=="incoming" ? T("Принять заявку", "Accept request") : T("Добавить в друзья", "Add friend");
+        SocialDetailsRemoveButton.Tag = player.IsFriend ? "remove" : player.Relation=="incoming" ? "accept" : "request";
+        LauncherIcon.SetKind(SocialDetailsRemoveButton, player.IsFriend ? IconKind.Trash : IconKind.AddFriend);
+        SocialDetailsRemoveButton.Background=SocialBrush(player.IsFriend?"#653A38":"#24533F");
+        SocialDetailsRemoveButton.BorderBrush=SocialBrush(player.IsFriend?"#BC7967":"#509976");
+        Motion.SetHoverBackground(SocialDetailsRemoveButton,SocialBrush(player.IsFriend?"#854D43":"#316B51"));
+        Motion.SetPressedBackground(SocialDetailsRemoveButton,SocialBrush(player.IsFriend?"#542F2F":"#1C4332"));
+        SocialDetailsRemoveButton.ToolTip = player.Relation=="outgoing" ? T("Ожидаем ответа игрока.", "Waiting for the player's response.") : null;
         ToolTipService.SetShowOnDisabled(SocialDetailsRemoveButton, true);
         System.Windows.Automation.AutomationProperties.SetHelpText(SocialDetailsRemoveButton, SocialDetailsRemoveButton.ToolTip?.ToString() ?? "");
         SocialDetailsBlockButton.Content=T("Заблокировать","Block");
@@ -109,7 +129,7 @@ public partial class MainWindow
         if (_socialDetailsLayoutKey != key)
         {
             _socialDetailsLayoutKey = key;
-            SocialDetailsAvatar.Content = SocialAvatar(player.Id, 68, true);
+            SocialDetailsAvatar.Content = SocialAvatar(player.Id, 68, true, openProfile:false);
             SocialDetailsComponents.Children.Clear();
             var exact = FriendConfiguration.TryParse(player.Configuration, player.Channel, out var settings);
             using var data = JsonDocument.Parse(player.Components);
@@ -165,24 +185,27 @@ public partial class MainWindow
         SocialDetailsCopyButton.ToolTip=hint.Length==0?null:hint;
         ToolTipService.SetShowOnDisabled(SocialDetailsCopyButton,true);
         SocialDetailsCopyButton.IsEnabled = exact && player?.Available==true && !_account.Restricted && hint.Length == 0 && !_busy && !FeedBlocksActions && !_accountBusy && !_socialBusy && !ConfirmationActive;
-        SocialDetailsRemoveButton.IsEnabled=SocialDetailsBlockButton.IsEnabled=player is not null&&_account.State==AccountState.SignedIn
+        var viewed = SocialDetailsPlayer();
+        SocialDetailsRemoveButton.IsEnabled=SocialDetailsBlockButton.IsEnabled=viewed is not null&&_account.State==AccountState.SignedIn
             &&!_busy&&!FeedBlocksActions&&!_accountBusy&&!_socialBusy&&!ConfirmationActive;
-        SocialDetailsRemoveButton.IsEnabled&=player?.IsFriend==true&&player?.Deleted==false&&!_account.Restricted;
-        SocialDetailsBlockButton.IsEnabled&=player?.AdminLevel==0&&player?.Deleted==false&&!_account.Restricted;
+        SocialDetailsRemoveButton.IsEnabled&=viewed?.Deleted==false&&(viewed.IsFriend||viewed.Available&&viewed.Relation is not ("outgoing" or "blocked"))&&!_account.Restricted;
+        SocialDetailsBlockButton.IsEnabled&=viewed?.AdminLevel==0&&viewed?.Deleted==false&&!_account.Restricted;
     }
 
     private async void SocialDetailsCopy_Click(object sender, RoutedEventArgs e) => await CopyFriendSettingsAsync();
     private async void SocialDetailsCopyUsername_Click(object sender,RoutedEventArgs e)
     {
-        var player=_socialPlayers.FirstOrDefault(p=>p.Id==_socialDetailsPeer&&p.Relation=="friend")??(_account.AdminLevel>0?_adminViewedPlayer:null);
+        var player=SocialDetailsPlayer();
         if(player is null)return;
         await SocialDetailsCopyUsernameButton.CopyAsync(()=>CopyTextAsync(player.Nickname,()=>T("Username скопирован.","Username copied.")));
     }
     private async void SocialDetailsFriendAction_Click(object sender,RoutedEventArgs e)
     {
-        if(sender is not Button {Tag:string action}||action is not ("remove" or "block")||ConfirmationActive||_busy)return;
-        var player=_socialPlayers.FirstOrDefault(p=>p.Id==_socialDetailsPeer&&p.Relation=="friend");
-        if(player is not null)await SocialFriendActionAsync(player,action);
+        if(sender is not Button {IsEnabled:true,Tag:string action}||action is not ("remove" or "block" or "request" or "accept")||ConfirmationActive||_busy)return;
+        var player=SocialDetailsPlayer();
+        if(player is null)return;
+        if(action=="request")await RequestProfileFriendAsync(player);
+        else await SocialFriendActionAsync(player,action);
     }
 
     private Task CopyFriendSettingsAsync()

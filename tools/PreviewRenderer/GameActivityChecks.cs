@@ -46,7 +46,7 @@ internal static class GameActivityChecks
             var groups=C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>().ToArray();
             Check(groups.Length==2&&Equals(groups[0].Tag,1)&&Equals(groups[1].Tag,2),"teams grouped in numeric order despite roster order");
             Check(groups[0].Children.OfType<Border>().Count()==1&&groups[1].Children.OfType<Border>().Count()==2,"all participants in their team");
-            var marker=(Grid)((Grid)groups[1].Children.OfType<Border>().First().Child).Children[0];
+            var marker=(Grid)((Grid)((Button)groups[1].Children.OfType<Border>().First().Child).Content).Children[0];
             Check(((SolidColorBrush)((Border)marker.Children[1]).Background).Color==(Color)ColorConverter.ConvertFromString("#DDA443"),"player color preserved exactly");
             Check(C<Border>("GameActivityCard").ActualWidth<=570&&C<Border>("GameActivityCard").ActualHeight<=590,"compact card exceeds window");
             Check(Field<DispatcherTimer>("_gameActivityTimer").IsEnabled,"open details not refreshed");Capture("game-details");

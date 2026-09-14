@@ -58,7 +58,7 @@ public partial class MainWindow
     {
         ApplyNotificationSoundLanguage();
         ApplyGameActivityLanguage();
-        if (_socialDetailsPeer is Guid details && _socialPlayers.FirstOrDefault(p => p.Id == details) is SocialPlayer profile)
+        if (SocialDetailsPlayer() is SocialPlayer profile)
             RenderSocialDetails(profile);
         FriendsNicknameLabel.Text=T("Username друга", "Friend's username");
         foreach(var (control,label) in new[] {(FriendsAddButton,T("Отправить заявку · Enter", "Send request · Enter")),
@@ -149,7 +149,7 @@ public partial class MainWindow
         finally {
             if(entered)_socialGate.Release();
             if(!background)_socialBusy=false;
-            if(!_accountLifetime.IsCancellationRequested)RenderSocialIdentity();
+            if(!_accountLifetime.IsCancellationRequested){RenderSocialIdentity();RefreshSocialCopyAvailability();}
         }
     }
     private string SocialError(string code)=>code switch {
@@ -218,7 +218,7 @@ public partial class MainWindow
     {
         if(_busy||FeedBlocksActions||_socialBusy||_accountBusy||ConfirmationActive||_account.State!=AccountState.SignedIn)return;
         var accountOwner=_account.UserId;
-        if(!_socialPlayers.Any(p=>p.Id==player.Id&&p.Relation==player.Relation))return;
+        if(!_socialPlayers.Any(p=>p.Id==player.Id&&p.Relation==player.Relation)&&SocialDetailsPlayer()?.Id!=player.Id)return;
         if(action is "block" or "remove") {
             var approved=await ConfirmActionAsync(T(action=="block"?"Заблокировать игрока?":"Удалить из друзей?",action=="block"?"Block player?":"Remove friend?"),
                 T("Переписка и передача файлов между вами станут недоступны.", "Chat and file transfers between you will become unavailable."),T("Игрок", "Player"),player.Nickname,
@@ -226,7 +226,7 @@ public partial class MainWindow
             if(!approved)return;
         }
         if(_account.UserId!=accountOwner||_account.State!=AccountState.SignedIn
-            ||!_socialPlayers.Any(p=>p.Id==player.Id&&p.Relation==player.Relation))return;
+            ||!_socialPlayers.Any(p=>p.Id==player.Id&&p.Relation==player.Relation)&&SocialDetailsPlayer()?.Id!=player.Id)return;
         await SocialOperationAsync(async owner=> {
             await _account.FriendActionAsync(action,player.Id,ct:_accountLifetime.Token);
             if(_account.UserId!=accountOwner)return;
@@ -234,6 +234,7 @@ public partial class MainWindow
             var players=await _account.GetFriendsAsync(_accountLifetime.Token);
             if(_account.UserId!=owner.ToString())return;
             _socialPlayers=players;
+            PruneSocialProfiles();
             PruneChatMemory();
             if (action is "remove" or "block" or "hide_chat") _chatMemory.Remove(player.Id);
             if(_socialPeer==player.Id && action is "remove" or "block" or "hide_chat"){_socialPeer=null;_socialMessages=[];_socialOffers=[];ResetSocialHistory();FriendsMessageInput.Clear();}

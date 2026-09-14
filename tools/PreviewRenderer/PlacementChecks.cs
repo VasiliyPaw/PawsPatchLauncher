@@ -20,6 +20,19 @@ internal static class PlacementChecks
         var startupWindows = new List<StartupWindow>();
         int checks = 0;
         void Check(bool value, string message) { if (!value) throw new InvalidOperationException(message); checks++; }
+        void CheckMaximizedBounds(MainWindow window,WindowMonitor screen)
+        {
+            window.UpdateLayout();
+            var root=(FrameworkElement)window.Content;
+            var top=root.PointToScreen(new Point(0,0));
+            var bottom=root.PointToScreen(new Point(root.ActualWidth,root.ActualHeight));
+            Check(Math.Abs(top.X-screen.WorkArea.Left)<=1 && Math.Abs(top.Y-screen.WorkArea.Top)<=1
+                && Math.Abs(bottom.X-screen.WorkArea.Right)<=1 && Math.Abs(bottom.Y-screen.WorkArea.Bottom)<=1,
+                $"Maximized content overlaps taskbar or leaves a gap: {top} to {bottom}; work area {screen.WorkArea}");
+            var launch=(FrameworkElement)window.FindName("LaunchButton");
+            var buttonBottom=launch.PointToScreen(new Point(launch.ActualWidth,launch.ActualHeight));
+            Check(buttonBottom.Y<=screen.WorkArea.Bottom && buttonBottom.X<=screen.WorkArea.Right,"Launch button hidden by taskbar");
+        }
         MainWindow NewWindow()
         {
             var window = new MainWindow(null, null, store)
@@ -123,12 +136,13 @@ internal static class PlacementChecks
                 var reopened = NewWindow(); reopened.Show(); Pump();
                 var repeated = WindowPlacementPersistence.Capture(reopened);
                 Check(repeated.NormalBounds == placed.NormalBounds && repeated.DeviceName == screen.DeviceName, "Repeated restore creeps or switches monitor.");
-                reopened.WindowState = WindowState.Maximized; Pump(); reopened.Close();
+                reopened.WindowState = WindowState.Maximized; Pump(); CheckMaximizedBounds(reopened,screen); reopened.Close();
                 var maximizedStartup = NewStartup(); maximizedStartup.Show(); Pump();
                 var maximized = NewWindow(); maximized.Show(); Pump();
                 Check(maximized.WindowState == WindowState.Maximized && WindowPlacementPersistence.Capture(maximized).MonitorId == screen.Id,
                     "Maximized reopen lost its chosen monitor.");
                 CheckStartupCenter(maximizedStartup, maximized);
+                CheckMaximizedBounds(maximized,screen);
                 maximized.Close();
             }
             // A legacy maximized/small placement is reset once, even before first close.

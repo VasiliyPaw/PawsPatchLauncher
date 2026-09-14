@@ -18,17 +18,20 @@ public partial class MainWindow
     {
         _socialAvatars.Clear(); _socialAvatarGeneration++; _socialPresenceNext=default;_socialListReceived=default;
         _gameActivityCache.Clear();
+        _gameParticipantAvatars.Clear();
         _socialListLoading = _socialListFailed = false;
         CloseSocialDetails();
     }
-    private Grid SocialAvatar(Guid player,double size,bool status)
+    private Grid SocialAvatar(Guid player,double size,bool status,bool openProfile=true)
     {
         var own=player.ToString()==_account.UserId;
-        var photo=own && _accountAvatarOwner==_account.UserId ? _accountAvatar : _socialAvatars.GetValueOrDefault(player).image;
+        var photo=own && _accountAvatarOwner==_account.UserId ? _accountAvatar : _socialAvatars.GetValueOrDefault(player).image ?? _gameParticipantAvatars.GetValueOrDefault(player).image;
+        if(!own && _gameParticipantAvatars.TryGetValue(player,out var participant)
+            && (!_socialAvatars.TryGetValue(player,out var friendAvatar) || participant.revision>=friendAvatar.revision))photo=participant.image;
         var deleted=_socialPlayers.FirstOrDefault(p=>p.Id==player)?.Deleted==true;
         if(deleted)photo=null;
         var view=new Grid { Width=size,Height=size,Background=Brushes.Transparent };
-        if(!own && !deleted && _socialPlayers.Any(p=>p.Id==player&&p.Relation=="friend"))
+        if(openProfile && !own && !deleted && _socialPlayers.Any(p=>p.Id==player&&p.Relation=="friend"))
         {
             view.Cursor=System.Windows.Input.Cursors.Hand;
             view.MouseLeftButtonUp+=(_,e)=>{e.Handled=true;var friend=_socialPlayers.FirstOrDefault(p=>p.Id==player&&p.Relation=="friend");if(friend is not null)ShowSocialDetails(friend);};
@@ -37,7 +40,8 @@ public partial class MainWindow
         if(photo is null)view.Children.Add(new LauncherIcon { Kind=IconKind.Person,Width=size*.58,Height=size*.58,HorizontalAlignment=HorizontalAlignment.Center,VerticalAlignment=VerticalAlignment.Center,Foreground=SocialBrush("#CCD7E4") });
         if(status&&!deleted)
         {
-            var contact=_socialPlayers.FirstOrDefault(p=>p.Id==player)??(_adminViewedPlayer?.Id==player?_adminViewedPlayer:null);
+            var contact=_socialPlayers.FirstOrDefault(p=>p.Id==player)??(_adminViewedPlayer?.Id==player?_adminViewedPlayer:null)
+                ??(_activityViewedPlayer?.Id==player?_activityViewedPlayer:null);
             var presence=contact is {Available:true}?contact.Presence:"offline";
             view.Children.Add(new Ellipse { Width=size>=60?20:16,Height=size>=60?20:16,HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,
                 Fill=SocialBrush(presence=="playing"?"#5CE5A1":presence=="online"?"#72ACFF":"#718095"),Stroke=SocialBrush("#11243B"),StrokeThickness=2.5,ToolTip=SocialStatusName(presence) });
@@ -79,7 +83,7 @@ public partial class MainWindow
         { _socialAvatars.Remove(id);_socialAvatarGeneration++; }
         if(_socialDetailsPeer is Guid peer)
         {
-            var player=_socialPlayers.FirstOrDefault(p=>p.Id==peer && p.Relation=="friend")??(_account.AdminLevel>0&&_adminViewedPlayer?.Id==peer?_adminViewedPlayer:null);
+            var player=SocialDetailsPlayer();
             if(player is null)CloseSocialDetails();
             else if(SocialDetailsOverlay.Visibility==Visibility.Visible)RenderSocialDetails(player);
         }

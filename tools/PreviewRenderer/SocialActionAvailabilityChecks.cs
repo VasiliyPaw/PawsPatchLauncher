@@ -89,8 +89,8 @@ internal static class SocialActionAvailabilityChecks
             Preview("nonfriend-long-name",longRow);
             Check(Math.Abs(longRow.ActualHeight-officialHeight)<.1,"long name/unread wraps nonfriend badge");
             ChatRow(friend with { IsFriend=false });
-            Check(!C<Button>("SocialDetailsRemoveButton").IsEnabled && C<TextBlock>("SocialDetailsRelationshipText").Visibility == Visibility.Visible, "official conversation pretends to be a removable friendship");
-            Check(ToolTipService.GetShowOnDisabled(C<Button>("SocialDetailsRemoveButton")) && C<Button>("SocialDetailsRemoveButton").ToolTip is string { Length: > 20 }, "official conversation lacks explanation");
+            Check(C<Button>("SocialDetailsRemoveButton").IsEnabled && C<TextBlock>("SocialDetailsRelationshipText").Visibility == Visibility.Visible, "official conversation cannot add a friend");
+            Check(Equals(C<Button>("SocialDetailsRemoveButton").Tag,"request") && C<Button>("SocialDetailsRemoveButton").Content.ToString()==(language=="ru"?"Добавить в друзья":"Add friend"), "nonfriend action still removes or labels a friendship");
             Preview("official-chat", C<Border>("SocialDetailsCard"));
             Call("CloseSocialDetails");
             var session = (AccountSession)typeof(AccountService).GetField("_session", flags)!.GetValue(service)!;

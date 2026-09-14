@@ -38,6 +38,40 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
  details=await rpc('paw_game_activity',[user]);check(details.activity.players[2].profile?.id===peer,'same session participant resolves without nickname matching');
  await ready(peer);await send({...a,room:'B'.repeat(64),self:'p3'});
  check(!(await rpc('paw_game_activity',[user])).activity.players[2].profile,'different lobby cannot claim participant');
+ // A nonfriend resolved in a visible roster may be viewed, but does not gain social privileges.
+ await db.exec('reset role');await q('update public.paw_profiles set avatar_changed_at=now() where id=$1',[outsider]);
+ await ready(outsider);await send({...a,self:'p3'});await login(peer);
+ details=await rpc('paw_game_activity',[user]);
+ check(details.activity.players[2].profile?.avatar_revision,'roster carries avatar revision for bounded image caching');
+ let guest=await rpc('paw_player_profile',[outsider]);
+ check(guest.status==='ok'&&guest.player.id===outsider&&!guest.player.is_friend&&guest.player.presence==='playing','recognized nonfriend profile opens');
+ check(!guest.player.configuration&&!guest.player.versions&&!Object.keys(guest.player.components??{}).length,'roster identity does not expose friend configuration');
+ check((await rpc('paw_game_activity',[outsider])).status==='ok','recognized participant details remain navigable');
+ check((await rpc('paw_send_message',[outsider,'30000000-0000-0000-0000-000000000077','fixture','text'])).status==='friend_required','roster access never permits unsolicited chat');
+ const avatarAllowed=async()=>{await db.exec('reset role');const result=(await q('select public.paw_friend_avatar_allowed($1,$1,(select launcher_id from paw_private.social_presence where player_id=$1),$2) yes',[peer,outsider]))[0].yes;await login(peer);return result;};
+ check(await avatarAllowed(),'current participant avatar authorized for signed-in viewer');
+ const noParticipant=async reason=>{check((await rpc('paw_player_profile',[outsider])).status==='friend_required',reason+' profile');check(!await avatarAllowed(),reason+' avatar');};
+ for(const [actor,target] of [[peer,outsider],[outsider,peer]]){
+  await db.exec('reset role');await q('insert into public.paw_blocks(owner_id,target_id) values($1,$2)',[actor,target]);await login(peer);
+  await noParticipant('block either direction');
+  await db.exec('reset role');await q('delete from public.paw_blocks where owner_id=$1 and target_id=$2',[actor,target]);await login(peer);
+ }
+ await ready(outsider);await send({...a,self:'p3',room:'C'.repeat(64)});await login(peer);await noParticipant('different room');
+ await ready(outsider);await send({...a,self:'p3'});
+ await ready(peer);await send({...a,self:'p3'});await noParticipant('ambiguous slot');
+ await ready(peer);await send({...a,self:'p3',room:'B'.repeat(64)});
+ await db.exec('reset role');await q("update paw_private.social_presence set seen_at=now()-interval '41 seconds' where player_id=$1",[outsider]);await login(peer);await noParticipant('stale participant');
+ await ready(outsider);await send({...a,self:'p3'});
+ await db.exec('reset role');await q("update paw_private.social_presence set seen_at=now()-interval '41 seconds' where player_id=$1",[user]);await login(peer);await noParticipant('stale visible host');
+ await ready(user);await send({...a,players:a.players.map(p=>p.key==='p3'?{...p,bot:true}:p)});await login(peer);await noParticipant('bot cannot identify an account');
+ await ready(user);await send(a);await login(peer);
+ const nickname=(await rpc('paw_player_profile',[outsider])).player.nickname;
+ check((await rpc('paw_friend_action',['request',user,nickname])).status==='player_unavailable','UUID and username mismatch cannot redirect request');
+ check((await rpc('paw_friend_action',['request',outsider,nickname])).status==='ok','profile add friend reaches intended account');
+ check((await rpc('paw_player_profile',[outsider])).player.relation==='outgoing','sent request shown in profile');
+ await login(outsider);check((await rpc('paw_player_profile',[peer])).player.relation==='incoming','incoming request shown in permitted profile');
+ await login(peer);await rpc('paw_friend_action',['cancel',outsider,null]);
+ await ready(outsider);await send(a,false);
  await ready(user);await send({...a,phase:'lobby',elapsed:null});
  await send({...a,elapsed:900});
  await login(peer);check((await rpc('paw_game_activity',[user])).activity.phase==='lobby','existing heartbeat rate limit applies to activity too');

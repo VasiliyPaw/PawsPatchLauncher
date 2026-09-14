@@ -38,6 +38,9 @@ internal static class GameActivityTests
         var profile=new GameParticipantProfile(Guid.NewGuid(),"fixture","Fixture");
         var enriched=activity with{Players=[person with{Profile=profile}]};
         Check(Parse(enriched) is null&&Parse(enriched,true)?.Players?[0].Profile?.Id==profile.Id,"only details accept server identity");
+        var avatarStamp=DateTimeOffset.Parse("2026-09-14T00:30:00Z");
+        Check(Parse(enriched with{Players=[person with{Profile=profile with{AvatarRevision=avatarStamp}}]},true)?.Players?[0].Profile?.AvatarRevision==avatarStamp,"avatar revision survives signed-in details parsing");
+        Check(GameActivity.Read(JsonDocument.Parse(JsonSerializer.Serialize(enriched).Replace("\"avatar_revision\":null","\"avatar_revision\":\"invalid\"",StringComparison.Ordinal)).RootElement,true) is null,"malformed avatar revision cannot poison image cache");
         Check(Parse(enriched with{Players=[person with{Profile=profile with{Nickname=null!}}]},true) is null,"null profile is bounded");
         Check(Parse(enriched with{Players=[person with{Bot=true,Profile=profile}],Self=null},true) is null,"bots cannot impersonate profiles");
         Check(activity.Summary().Players is null&&activity.Summary().Room is null&&activity.Summary().Self is null,"summary omits private join/matching metadata");

@@ -54,7 +54,7 @@ public partial class MainWindow
         CloseGameActivity();
         _gameActivityPeer=peer;_gameActivityLifetime=CancellationTokenSource.CreateLinkedTokenSource(_accountLifetime.Token);
         GameActivityTitle.Text=T("Сейчас в игре", "Current game activity");
-        GameActivityPlayerName.Text=_socialPlayers.FirstOrDefault(p=>p.Id==peer)?.Name??_adminViewedPlayer?.Name??"";
+        GameActivityPlayerName.Text=SocialDetailsPlayer()?.Name??"";
         GameActivityClose.ToolTip=T("Закрыть", "Close");
         GameActivityCard.IsHitTestVisible=true;
         GameActivityOverlay.Visibility=Visibility.Visible;GameActivityOverlay.UpdateLayout();
@@ -66,7 +66,7 @@ public partial class MainWindow
         }
         _gameActivityTimer.Start();
         if(_gameActivityCache.TryGetValue(peer,out var cached)&&DateTimeOffset.UtcNow-cached.received<TimeSpan.FromSeconds(15))
-        { RenderGameActivity(cached.details);return; }
+        { RenderGameActivity(cached.details);await RefreshGameParticipantAvatarsAsync(cached.details,_gameActivityGeneration);return; }
         await RefreshGameActivityAsync();
     }
     private async Task RefreshGameActivityAsync()
@@ -89,6 +89,7 @@ public partial class MainWindow
             }
             if(_gameActivityCache.Count>=16&&!_gameActivityCache.ContainsKey(peer))_gameActivityCache.Remove(_gameActivityCache.MinBy(x=>x.Value.received).Key);
             _gameActivityCache[peer]=(details,DateTimeOffset.UtcNow);RenderGameActivity(details);
+            await RefreshGameParticipantAvatarsAsync(details,generation);
         }
         catch(Exception error) when(error is AccountException or System.Net.Http.HttpRequestException or OperationCanceledException or System.IO.IOException)
         {
@@ -103,7 +104,7 @@ public partial class MainWindow
         var activity=details.Activity;
         var key=_text.Language+"|"+JsonSerializer.Serialize(activity);
         if(key==_gameActivityRenderKey)return;
-        _gameActivityRenderKey=key;GameActivityBody.Children.Clear();
+        _gameActivityRenderKey=key;GameActivityBody.Children.Clear();_gameActivityAvatarViews.Clear();
         GameActivityBody.Children.Add(new TextBlock{Text=GameActivityPhaseName(activity.Phase),FontSize=19,FontWeight=FontWeights.SemiBold,Foreground=SocialBrush("#72DDAA"),Margin=new Thickness(0,0,0,14)});
         void Information(string label,string value)
         {
@@ -131,8 +132,15 @@ public partial class MainWindow
             foreach(var player in team)
             {
             var grid=new Grid();grid.ColumnDefinitions.Add(new ColumnDefinition{Width=new GridLength(42)});grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
-            var marker=new Grid{Width=30,Height=30,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center};
-            marker.Children.Add(new LauncherIcon{Kind=player.Bot?IconKind.Bot:IconKind.Person,Width=22,Height=22,Foreground=SocialBrush("#CBD9EB")});
+            var marker=new Grid{Width=34,Height=34,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center};
+            if(player.Profile is { } identity)
+            {
+                var avatar=new ContentControl{Content=SocialAvatar(identity.Id,34,false,openProfile:false),IsHitTestVisible=false};
+                marker.Children.Add(avatar);
+                if(!_gameActivityAvatarViews.TryGetValue(identity.Id,out var views))_gameActivityAvatarViews[identity.Id]=views=[];
+                views.Add(avatar);
+            }
+            else marker.Children.Add(new LauncherIcon{Kind=player.Bot?IconKind.Bot:IconKind.Person,Width=22,Height=22,Foreground=SocialBrush("#CBD9EB")});
             marker.Children.Add(new Border{Width=12,Height=12,CornerRadius=new CornerRadius(6),Background=SocialBrush(GameActivity.ValidColor(player.Color)?player.Color!:"#56677D"),BorderBrush=SocialBrush("#D2DDEA"),BorderThickness=new Thickness(1),HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,ToolTip=GameActivity.ValidColor(player.Color)?T("Цвет игрока","Player color"):T("Цвет пока не определён","Color is not available yet")});
             grid.Children.Add(marker);
             var names=new StackPanel();Grid.SetColumn(names,1);
@@ -144,7 +152,15 @@ public partial class MainWindow
             }
             grid.Children.Add(names);
             var badge=new Border{Child=new TextBlock{Text=player.Bot?T("Бот","Bot"):player.Profile is not null?"Paw’s Launcher":T("Игрок","Player"),FontSize=11,Foreground=SocialBrush(player.Profile is not null?"#8FD8B7":"#C4D2E5")},Background=SocialBrush(player.Profile is not null?"#1E443E":"#243C56"),CornerRadius=new CornerRadius(5),Padding=new Thickness(7,3,7,3),Margin=new Thickness(10,0,0,0),VerticalAlignment=VerticalAlignment.Center};Grid.SetColumn(badge,2);grid.Children.Add(badge);
-            group.Children.Add(new Border{Child=grid,Background=SocialBrush("#1A324D"),BorderBrush=SocialBrush("#2A4564"),BorderThickness=new Thickness(1),CornerRadius=new CornerRadius(8),Padding=new Thickness(12,10,12,10),Margin=new Thickness(0,0,0,6),Tag=player.Key});
+            if(player.Profile is { } linked)
+            {
+                var button=new Button{Content=grid,Style=(Style)FindResource("GameParticipantButton"),Tag=linked.Id,
+                    ToolTip=T("Открыть профиль", "Open profile")};
+                System.Windows.Automation.AutomationProperties.SetName(button,T("Открыть профиль: ","Open profile: ")+linked.DisplayName);
+                button.Click+=async(_,e)=>{e.Handled=true;await OpenGameParticipantProfileAsync(linked);};
+                group.Children.Add(new Border{Child=button,Margin=new Thickness(0,0,0,6),Tag=player.Key});
+            }
+            else group.Children.Add(new Border{Child=grid,Background=SocialBrush("#1A324D"),BorderBrush=SocialBrush("#2A4564"),BorderThickness=new Thickness(1),CornerRadius=new CornerRadius(8),Padding=new Thickness(12,10,12,10),Margin=new Thickness(0,0,0,6),Tag=player.Key});
             }
             GameActivityBody.Children.Add(group);
         }
@@ -159,6 +175,7 @@ public partial class MainWindow
     {
         _gameActivityGeneration++;_gameActivityLifetime?.Cancel();_gameActivityLifetime?.Dispose();_gameActivityLifetime=null;
         _gameActivityTimer?.Stop();_gameActivityPeer=null;_gameActivityBusy=false;_gameActivityShown=null;_gameActivityRenderKey=null;
+        _gameActivityOpeningProfile=false;_gameActivityAvatarViews.Clear();
         Motion.Collapse(GameActivityOverlay);GameActivityBody.Children.Clear();GameActivityStatus.Text="";
     }
 }

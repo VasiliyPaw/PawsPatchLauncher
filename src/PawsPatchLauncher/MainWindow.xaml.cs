@@ -40,6 +40,7 @@ public partial class MainWindow : Window
     public MainWindow(LauncherConfiguration? configuration, FeedClient? feedClient, WindowPlacementStore? windowPlacementStore = null)
     {
         InitializeComponent();
+        _ = new WindowWorkArea(this);
         // Keep the larger default usable on small screens and at increased Windows scaling.
         var workArea = SystemParameters.WorkArea;
         Width = Math.Min(Width, Math.Max(1, workArea.Width - 32));
