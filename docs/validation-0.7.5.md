@@ -1,6 +1,7 @@
 # Launcher 0.7.5 validation — 2026-09-14
 
-Server deployment completed. Client release publication is in progress.
+Server deployed; launcher 0.7.5 published. This revision updates all four signed
+launcher catalogs and the shared change history.
 
 ## Changes
 
@@ -43,6 +44,19 @@ automated checks do not substitute for that test. Unknown native layouts keep th
 generic Playing status. See `game-activity-1372.md` for the exact native evidence.
 
 The user's running launcher was not stopped, restarted or replaced.
+
+## Publication
+
+- Release: https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/v0.7.5
+- Source/tag: `77dba1980c28a0a96bb6407f6c1fe62d4c5786d2`.
+- GitHub build/test `34792798774` and publication `34792798801`: success.
+- Public EXE verified as 0.7.5.0, 72,458,732 bytes, SHA-256
+  `15C31C625FF7B281D56C58F3AC46826B418AF5C714B3263D94B5A34E8E8B6887`.
+- Downloaded ZIP/EXE/metadata sizes and GitHub digests match. The ZIP contains the
+  identical EXE and the signed-v2-feed configuration. Authenticode remains unsigned.
+- Four signed catalogs advertise this exact EXE; game packages remain unchanged
+  (15 legacy / 37 v2), on both stable and beta channels.
+- Full tests with the promoted catalogs: **16,182 PASS**.
 
 ## Prior cleanup
 
