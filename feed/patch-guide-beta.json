@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.0-beta.4",
+  "version": "0.3.0-beta.7",
   "entries": [
+    {
+      "id": "lobby-compatibility",
+      "category": "always",
+      "titleRu": "Проверка совместимости перед входом в лобби",
+      "titleEn": "Lobby compatibility check",
+      "bodyRu": "При запуске через лаунчер игра проверяет версию игры, Arcane Wars, Paw's Patch, используемые EXE и применённые игровые компоненты до входа в лобби. При несовпадении окно показывает вашу конфигурацию и версии хозяина лобби. Все участники должны использовать одинаковую бету и игровые настройки. Язык интерфейса, текста и озвучки на эту дополнительную проверку не влияет. Обычные проверки файлов и Steam сохранены.",
+      "bodyEn": "When launched through the launcher, the game checks game, Arcane Wars and Paw's Patch versions, active EXEs and applied gameplay components before lobby admission. On mismatch, the dialog shows your configuration and the host's versions. All players need matching Beta versions and gameplay settings. Interface, text and speech languages do not affect this additional check. Native game-file and Steam checks remain enabled."
+    },
     {
       "id": "city-assistant",
       "category": "beta",
