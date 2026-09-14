@@ -3,6 +3,20 @@
     {
       "category": "launcher",
       "mods": [],
+      "version": "0.8.0",
+      "publishedAt": "2026-09-14T18:42:51Z",
+      "title": {
+        "ru": "Paw's Launcher 0.8.0",
+        "en": "Paw's Launcher 0.8.0"
+      },
+      "body": {
+        "ru": "- Архив диагностики собирает пять последних доступных комплектов журналов игры и пять дампов, а также отдельные дампы и отчёты Windows. Добавлен поиск в VirtualStore, сбор журнала графической защиты и отчёт о найденных файлах, недоступных папках и ошибках чтения. Если файлов меньше пяти, сохраняются все доступные. Сбор и упаковка выполняются в фоне.\n- Добавлены чешский, немецкий и французский языки интерфейса. Выбор языка стал компактнее и получил значок перевода; названия языков интерфейса всегда написаны на своём языке. Названия языков текста и озвучки игры следуют языку лаунчера, а английский отмечен как оригинал.\n- Свою карточку игрока можно открыть нажатием на аватар в чате, имя в профиле или свою строку в подробностях матча. Из карточки доступен просмотр своего аватара.\n- Карточки участников матча имеют одинаковую высоту; игровой ник отображается рядом с именем. Таймер матча обновляется локально между ответами сервера; без свежих данных отсчёт останавливается через 40 секунд.\n- Если применённые настройки и версия патча уже совпадают с конфигурацией друга, повторное копирование недоступно. При необходимости установки или обновления соответствующее действие остаётся доступным.\n\nНекоторые описания модов и история обновлений в прежнем формате RU/EN показываются на английском при выборе новых языков интерфейса.\n\nДля разбора вылета обновите лаунчер и создайте новый архив в «Настройки → Архив диагностики». Уже существующие журналы и дампы можно собрать без повторного запуска игры. Лаунчер не создаёт задним числом отсутствующие дампы и не включает их запись в Windows: архив помогает установить причину, но сам по себе не исправляет вылет. Изменения игрового патча Arcane Wars 0.3.0-beta.5 распространяются отдельно.",
+        "en": "- Diagnostic archives collect the five newest available game log sets and five game dumps, plus separate Windows dumps and reports. Collection now checks VirtualStore and includes the graphics-guard log and a report of found files, inaccessible folders and read failures. If fewer than five files exist, all available files are included. Collection and compression run in the background.\n- Added Czech, German and French interface languages. The compact language selector has a translation icon, and interface language names always use their own language. Game text and speech language names follow the launcher language; English is marked as original.\n- Open your own player card from your chat avatar, profile name or entry in match details, and preview your avatar from that card.\n- Match participant cards have a consistent height, with the in-game nickname beside the profile name. Match time advances locally between server responses and stops after 40 seconds without fresh data.\n- Copying a friend's configuration is disabled when the applied settings and patch version already match. Required installation or updates remain available.\n\nSome mod descriptions and update history in the older RU/EN format use English for the new interface languages.\n\nTo investigate a crash, update the launcher and create a new archive under Settings → Diagnostic archive. Existing logs and dumps can be collected without starting the game again. The launcher cannot recreate missing dumps and does not enable Windows dump recording: the archive helps investigate crashes but is not a crash fix. Arcane Wars game patch 0.3.0-beta.5 is distributed separately."
+      }
+    },
+    {
+      "category": "launcher",
+      "mods": [],
       "version": "0.7.12",
       "publishedAt": "2026-09-14T11:00:46Z",
       "title": {
@@ -594,6 +608,20 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "mods": [],
+      "version": "0.8.0",
+      "publishedAt": "2026-09-14T18:42:51Z",
+      "title": {
+        "ru": "Paw's Launcher 0.8.0",
+        "en": "Paw's Launcher 0.8.0"
+      },
+      "body": {
+        "ru": "- Архив диагностики собирает пять последних доступных комплектов журналов игры и пять дампов, а также отдельные дампы и отчёты Windows. Добавлен поиск в VirtualStore, сбор журнала графической защиты и отчёт о найденных файлах, недоступных папках и ошибках чтения. Если файлов меньше пяти, сохраняются все доступные. Сбор и упаковка выполняются в фоне.\n- Добавлены чешский, немецкий и французский языки интерфейса. Выбор языка стал компактнее и получил значок перевода; названия языков интерфейса всегда написаны на своём языке. Названия языков текста и озвучки игры следуют языку лаунчера, а английский отмечен как оригинал.\n- Свою карточку игрока можно открыть нажатием на аватар в чате, имя в профиле или свою строку в подробностях матча. Из карточки доступен просмотр своего аватара.\n- Карточки участников матча имеют одинаковую высоту; игровой ник отображается рядом с именем. Таймер матча обновляется локально между ответами сервера; без свежих данных отсчёт останавливается через 40 секунд.\n- Если применённые настройки и версия патча уже совпадают с конфигурацией друга, повторное копирование недоступно. При необходимости установки или обновления соответствующее действие остаётся доступным.\n\nНекоторые описания модов и история обновлений в прежнем формате RU/EN показываются на английском при выборе новых языков интерфейса.\n\nДля разбора вылета обновите лаунчер и создайте новый архив в «Настройки → Архив диагностики». Уже существующие журналы и дампы можно собрать без повторного запуска игры. Лаунчер не создаёт задним числом отсутствующие дампы и не включает их запись в Windows: архив помогает установить причину, но сам по себе не исправляет вылет. Изменения игрового патча Arcane Wars 0.3.0-beta.5 распространяются отдельно.",
+        "en": "- Diagnostic archives collect the five newest available game log sets and five game dumps, plus separate Windows dumps and reports. Collection now checks VirtualStore and includes the graphics-guard log and a report of found files, inaccessible folders and read failures. If fewer than five files exist, all available files are included. Collection and compression run in the background.\n- Added Czech, German and French interface languages. The compact language selector has a translation icon, and interface language names always use their own language. Game text and speech language names follow the launcher language; English is marked as original.\n- Open your own player card from your chat avatar, profile name or entry in match details, and preview your avatar from that card.\n- Match participant cards have a consistent height, with the in-game nickname beside the profile name. Match time advances locally between server responses and stops after 40 seconds without fresh data.\n- Copying a friend's configuration is disabled when the applied settings and patch version already match. Required installation or updates remain available.\n\nSome mod descriptions and update history in the older RU/EN format use English for the new interface languages.\n\nTo investigate a crash, update the launcher and create a new archive under Settings → Diagnostic archive. Existing logs and dumps can be collected without starting the game again. The launcher cannot recreate missing dumps and does not enable Windows dump recording: the archive helps investigate crashes but is not a crash fix. Arcane Wars game patch 0.3.0-beta.5 is distributed separately."
+      }
+    },
     {
       "category": "patch",
       "version": "0.3.0-beta.5",
