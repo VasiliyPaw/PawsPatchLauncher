@@ -16,6 +16,9 @@ public partial class MainWindow
         if (beta.Length > 0) text += T("\n\nТакже в выбранной бете:\n", "\n\nAlso in the selected Beta:\n") + string.Join("\n", beta.Select(t => "• " + t));
         return text;
     }
+
+    private string CoreHelpTooltipText() => CoreHelpText() + (GameMod.IsArcaneWars(_settings)
+        ? "\n\n" + ArcaneWarsAuthorText + "\n" + ArcaneWarsDiscordInvite : "");
     private async Task ApplyVanillaConfigurationAsync(UserSettings selection, Func<Task>? beforeCommit = null)
     {
         if (_game is null) throw new InvalidOperationException(_text["status.notfound"]);
@@ -155,7 +158,10 @@ public partial class MainWindow
 
     private string PureFixesDescription(bool partial)
     {
-        var entries = _channel?.ModGuides.FirstOrDefault(g => g.Id == _settings.Mod)?.PatchGuide?.Entries;
+        // A locally installed package can retain an older manifest. Describe the
+        // selected channel, like the guide does; an explicit release pin still
+        // resolves to its historical documentation.
+        var entries = GuideChannel()?.ModGuides.FirstOrDefault(g => g.Id == _settings.Mod)?.PatchGuide?.Entries;
         var hasDvorak = entries?.Any(e => e.Id == "dvorak") == true;
         var hasFastTransfer = entries?.Any(e => e.Id == "fast-save-transfer") == true;
         var text = (partial ? T("Работают:\n", "Available:\n") : "")

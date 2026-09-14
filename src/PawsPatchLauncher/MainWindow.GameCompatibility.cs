@@ -166,6 +166,8 @@ public partial class MainWindow
         {
             PawCompatibilityButton.Visibility = DataOnlyMode && (GameMod.IsArcaneWars(_settings) || GameMod.HasPureFixes(_channel)) ? Visibility.Visible : Visibility.Collapsed;
             CoreHelpButton.Visibility = PawCompatibilityButton.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            var coreTooltip = CoreHelpTooltipText();
+            if (!Equals(CoreHelpButton.ToolTip, coreTooltip)) CoreHelpButton.ToolTip = coreTooltip;
             PawCompatibilityButton.ToolTip = T("Какие функции Paw's Patch работают", "Available Paw's Patch features");
             AutomationProperties.SetName(PawCompatibilityButton, (string)PawCompatibilityButton.ToolTip);
             CoreDescriptionText.Text = DataOnlyMode ? T("Работают только файловые изменения. Подробнее — в красном значке.", "Only file changes are active. See the red icon for details.")

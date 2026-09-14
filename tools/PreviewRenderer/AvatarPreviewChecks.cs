@@ -58,6 +58,13 @@ internal static class AvatarPreviewChecks
         Task Dismiss()=>(Task)Call("DismissAvatarPreviewAsync")!;
         bool Visible(string name)=>C<FrameworkElement>(name).Visibility==Visibility.Visible;
         bool Focused(UIElement element)=>ReferenceEquals(Keyboard.FocusedElement,element)||ReferenceEquals(FocusManager.GetFocusedElement(w),element);
+        // Drive WPF's actual hover/focus trigger inputs in the offscreen fixture,
+        // without moving the user's mouse or activating another window.
+        void InputState(UIElement element,string property,bool value)
+        {
+            var key=(DependencyPropertyKey)typeof(UIElement).GetField(property+"PropertyKey",BindingFlags.Static|BindingFlags.NonPublic)!.GetValue(null)!;
+            typeof(DependencyObject).GetMethod("SetValue",BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic,null,[typeof(DependencyPropertyKey),typeof(object)],null)!.Invoke(element,[key,value]);
+        }
         MouseButtonEventArgs Press(UIElement target)
         {
             var e=new MouseButtonEventArgs(Mouse.PrimaryDevice,Environment.TickCount,MouseButton.Left){RoutedEvent=Mouse.PreviewMouseDownEvent};target.RaiseEvent(e);return e;
@@ -115,6 +122,26 @@ internal static class AvatarPreviewChecks
             Check(!Visible("AvatarPreviewOverlay")&&Visible("SocialDetailsOverlay")&&Field<Guid?>("_socialDetailsPeer")==friend.Id,"close X loses profile");
             Check(C<Rectangle>("AvatarPreviewPhoto").Fill is null&&C<TextBlock>("AvatarPreviewName").Text.Length==0,"dismissed viewer retains image/identity");
             Check(Focused(C<Button>("SocialDetailsAvatarButton")),"dismissal did not restore focus to avatar");
+            var avatarButton=C<Button>("SocialDetailsAvatarButton");
+            var outline=(Ellipse)avatarButton.Template.FindName("Outline",avatarButton);
+            InputState(avatarButton,"IsKeyboardFocused",true);
+            InputState(avatarButton,"IsMouseOver",false);
+            Check(outline.Stroke is SolidColorBrush{Color.A:0},"returned keyboard focus leaves a hover ring after closing preview");
+            Check(avatarButton.FocusVisualStyle is not null,"keyboard navigation lost its separate focus indicator");
+            InputState(avatarButton,"IsMouseOver",true);w.UpdateLayout();
+            Check(outline.Stroke is SolidColorBrush{Color.A:>0},"hover no longer highlights the avatar");
+            var avatarImage=new RenderTargetBitmap(68,68,96,96,PixelFormats.Pbgra32);avatarImage.Render(avatarButton);
+            var pixels=new byte[68*68*4];avatarImage.CopyPixels(pixels,68*4,0);
+            foreach(var p in new[]{57,58})
+            {
+                var offset=(p*68+p)*4;
+                Check(pixels[offset]==0x95&&pixels[offset+1]==0x80&&pixels[offset+2]==0x71&&pixels[offset+3]==255,
+                    "hover outline paints over the status dot");
+            }
+            Capture("avatar-profile-hover");
+            InputState(avatarButton,"IsMouseOver",false);
+            Check(outline.Stroke is SolidColorBrush{Color.A:0},"leaving the avatar while focused retains hover highlight");
+            InputState(avatarButton,"IsKeyboardFocused",false);
             Open();await Task.Delay(240);var outside=Press(backdrop);await Task.Delay(280);
             Check(outside.Handled&&!Visible("AvatarPreviewOverlay")&&Visible("SocialDetailsOverlay"),"outside press is not consumed or closes more than viewer");
             Open();await Task.Delay(240);var escape=KeyPress(C<Button>("AvatarPreviewClose"),Key.Escape);await Task.Delay(280);

@@ -102,13 +102,32 @@ internal static class PerModChannelChecks
             // data-only compatibility mode while the hotkey file still works.
             var dvorak=new PatchGuideEntry("dvorak","always","","","","");
             var transfer=new PatchGuideEntry("fast-save-transfer","beta","","","","");
+            // A cached installation may use the pre-Dvorak catalog, but help
+            // follows the selected current channel without applying anything.
+            var nativeText=language=="ru"?"передача сохранений":"saved-game transfers";
+            foreach(var branch in new[]{"stable","beta"})
+            foreach(var mod in new[]{GameMod.Vanilla,GameMod.Immortals})
+            {
+                settings.Channel=branch;settings.Mod=mod;
+                var current=Feed(branch);current.ModGuides=[new() {Id=mod,PatchGuide=new() {Entries=branch=="beta"?[dvorak,transfer]:[dvorak]}}];
+                typeof(MainWindow).GetField("_channel",flags)!.SetValue(window,Feed(branch));
+                typeof(MainWindow).GetField("_latestChannel",flags)!.SetValue(window,current);
+                Call("RefreshCompatibilityControls");
+                var tooltip=(string)Control<Button>("CoreHelpButton").ToolTip;
+                Check(tooltip.Contains("Dvorak")&&tooltip.Contains(nativeText)==(branch=="beta"),"Hover tooltip ignores selected mod/channel features: "+mod+" "+branch);
+                Check(!tooltip.Contains("Darquan Mortis")&&!tooltip.Contains("discord.gg"),"Pure tooltip contains Arcane Wars credits");
+                Control<Button>("CoreHelpButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                Check(Control<TextBlock>("HelpBodyText").Text==tooltip,"Clicked help and hover tooltip disagree");
+                await (Task)Call("CloseHelpAsync")!;
+            }
+            settings.Channel="beta";
+            typeof(MainWindow).GetField("_latestChannel",flags)!.SetValue(window,null);
             var selectedGuide=new PatchGuideDocument { Entries=[dvorak,transfer] };
             beta.ModGuides=[new() { Id=GameMod.Vanilla,PatchGuide=selectedGuide },
                 new() { Id=GameMod.Immortals,PatchGuide=new() { Entries=[dvorak] } }];
             typeof(MainWindow).GetField("_channel",flags)!.SetValue(window,beta);
             settings.Mod=GameMod.Vanilla;
             string Help(bool partial)=>(string)Call("PureFixesDescription",partial)!;
-            var nativeText=language=="ru"?"передача сохранений":"saved-game transfers";
             Check(Help(false).Contains("Dvorak")&&Help(false).Contains(nativeText),"Pure beta features missing from help");
             var partial=Help(true);var unavailable=partial.IndexOf(language=="ru"?"Недоступны":"Unavailable",StringComparison.Ordinal);
             Check(partial.IndexOf("Dvorak",StringComparison.Ordinal)<unavailable&&partial.IndexOf(nativeText,StringComparison.Ordinal)>unavailable,
@@ -117,6 +136,13 @@ internal static class PerModChannelChecks
             Check(Help(false).Contains("Dvorak")&&!Help(false).Contains(nativeText),"Another mod's beta transfer leaked into stable help");
             selectedGuide.Entries.Clear();settings.Mod=GameMod.Vanilla;
             Check(!Help(false).Contains("Dvorak")&&!Help(false).Contains(nativeText),"Historical patch advertises newer features");
+            settings.PinnedRelease=ChannelFingerprint.Create(beta);
+            var newer=Feed("beta");newer.ModGuides=[new() {Id=GameMod.Vanilla,PatchGuide=new() {Entries=[dvorak,transfer]}}];
+            typeof(MainWindow).GetField("_latestChannel",flags)!.SetValue(window,newer);
+            Call("RefreshCompatibilityControls");
+            Check(!((string)Control<Button>("CoreHelpButton").ToolTip).Contains("Dvorak"),"Pinned historical tooltip advertises latest features");
+            settings.PinnedRelease=null;
+            typeof(MainWindow).GetField("_latestChannel",flags)!.SetValue(window,null);
             // Exercise the actual rendered guide: pure modes have no category
             // tabs, so a Beta entry must remain visible in their single section.
             foreach(var mod in new[] { GameMod.Vanilla,GameMod.Immortals })

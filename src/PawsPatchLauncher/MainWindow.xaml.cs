@@ -1055,8 +1055,7 @@ public partial class MainWindow : Window
             var child = VisualTreeHelper.GetChild(parent, index);
             if (child is Button { Tag: string key } button
                 && (key.StartsWith("modules.", StringComparison.Ordinal) || key is "configuration" or "diagnostics"))
-                button.ToolTip = (key == "modules.core" ? CoreHelpText() : _text[$"{key}.help"]) + (key == "modules.core"
-                    ? "\n\n" + ArcaneWarsAuthorText + "\n" + ArcaneWarsDiscordInvite : "");
+                button.ToolTip = key == "modules.core" ? CoreHelpTooltipText() : _text[$"{key}.help"];
             ApplyHelpTooltips(child);
         }
     }

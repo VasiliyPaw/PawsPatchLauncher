@@ -10,18 +10,25 @@
         <WindowChrome CaptionHeight="46" ResizeBorderThickness="5" GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
     <Window.Resources>
+        <Style x:Key="ProfileAvatarKeyboardFocus" TargetType="Control">
+            <Setter Property="Template">
+                <Setter.Value><ControlTemplate TargetType="Control">
+                    <Border Margin="-4" CornerRadius="8" BorderBrush="#E1B752" BorderThickness="1" IsHitTestVisible="False"/>
+                </ControlTemplate></Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="ProfileAvatarButton" TargetType="Button">
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ProfileAvatarKeyboardFocus}"/>
             <Setter Property="Template">
                 <Setter.Value><ControlTemplate TargetType="Button">
                     <Grid Background="Transparent">
+                        <!-- The avatar/status content paints over the outer hover ring. -->
+                        <Ellipse x:Name="Outline" Margin="-1.5" Stroke="Transparent" StrokeThickness="1.5" IsHitTestVisible="False"/>
                         <ContentPresenter/>
-                        <Ellipse x:Name="Outline" Stroke="Transparent" StrokeThickness="1.5" IsHitTestVisible="False"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="#E1B752"/></Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="#E1B752"/></Trigger>
                         <Trigger Property="IsPressed" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="#FFF0BB"/></Trigger>
                         <Trigger Property="IsEnabled" Value="False"><Setter Property="Cursor" Value="Arrow"/><Setter TargetName="Outline" Property="Stroke" Value="Transparent"/></Trigger>
                     </ControlTemplate.Triggers>
