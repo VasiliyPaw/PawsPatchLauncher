@@ -3,36 +3,6 @@
     {
       "category": "launcher",
       "mods": [],
-      "version": "0.7.12",
-      "publishedAt": "2026-09-14T11:00:46Z",
-      "title": {
-        "ru": "Paw's Launcher 0.7.12",
-        "en": "Paw's Launcher 0.7.12"
-      },
-      "body": {
-        "ru": "- Подсказка частоты блуждающих рот учитывает исключение для Тёмного лорда: в новых выпусках Arcane Wars на ×4 его параметры совпадают с ×2 — 6 минут и 30%.\n- Подсказка использует описание выбранного канала или архивного выпуска и обновляется при переключении.\n- Подготовлены Paw's Patch 0.2.1 для релизного Arcane Wars и 0.3.0-beta.4 для беты. В бете также исправлено открытие ополчения стартового города при включённой настройке. Для применения игровых изменений обновите патч выбранного канала.",
-        "en": "- The roaming-frequency tooltip documents the Shadow Lord exception: in the new Arcane Wars patches, ×4 uses its ×2 settings of 6 minutes and 30%.\n- The tooltip follows the selected channel or archived release and refreshes when switching.\n- Paw's Patch 0.2.1 for stable Arcane Wars and 0.3.0-beta.4 for Beta are available. Beta also fixes starting-city militia opening when its preference is enabled. Update the selected channel's game patch to apply the gameplay changes."
-      }
-    },
-    {
-      "category": "patch",
-      "version": "0.2.1",
-      "publishedAt": "2026-09-14",
-      "mods": [
-        "arcane-wars"
-      ],
-      "title": {
-        "ru": "Arcane Wars — Paw's Patch 0.2.1",
-        "en": "Arcane Wars — Paw's Patch 0.2.1"
-      },
-      "body": {
-        "ru": "- При частоте блуждающих рот ×4 Тёмный лорд из Тёмного разлома (Врат теней) теперь использует частоту ×2: попытка каждые 6 игровых минут с шансом 30%, вместо 4 минут и 40%.\n- Исключение относится к Тёмному лорду при включённых «Новых блуждающих ротах». У остальных рот частота ×4 сохраняется. Режимы ×2 и стандартный не меняются.\n- Исключение указано в справке и подсказке частоты. Участникам сетевого матча требуется одинаковая версия патча и настройки.",
-        "en": "- At roaming frequency ×4, the Shadow Lord from the Dark Rift now uses ×2 frequency: one attempt every 6 game minutes with a 30% chance, replacing 4 minutes and 40%.\n- This exception applies to the Shadow Lord with Additional roaming companies enabled. Other companies keep ×4 frequency. Standard and ×2 modes are unchanged.\n- The exception is documented in the guide and frequency tooltip. Multiplayer participants need matching patch versions and settings."
-      }
-    },
-    {
-      "category": "launcher",
-      "mods": [],
       "version": "0.7.11",
       "publishedAt": "2026-09-14T10:09:43Z",
       "title": {
@@ -594,36 +564,6 @@
     }
   ],
   "beta": [
-    {
-      "category": "launcher",
-      "mods": [],
-      "version": "0.7.12",
-      "publishedAt": "2026-09-14T11:00:46Z",
-      "title": {
-        "ru": "Paw's Launcher 0.7.12",
-        "en": "Paw's Launcher 0.7.12"
-      },
-      "body": {
-        "ru": "- Подсказка частоты блуждающих рот учитывает исключение для Тёмного лорда: в новых выпусках Arcane Wars на ×4 его параметры совпадают с ×2 — 6 минут и 30%.\n- Подсказка использует описание выбранного канала или архивного выпуска и обновляется при переключении.\n- Подготовлены Paw's Patch 0.2.1 для релизного Arcane Wars и 0.3.0-beta.4 для беты. В бете также исправлено открытие ополчения стартового города при включённой настройке. Для применения игровых изменений обновите патч выбранного канала.",
-        "en": "- The roaming-frequency tooltip documents the Shadow Lord exception: in the new Arcane Wars patches, ×4 uses its ×2 settings of 6 minutes and 30%.\n- The tooltip follows the selected channel or archived release and refreshes when switching.\n- Paw's Patch 0.2.1 for stable Arcane Wars and 0.3.0-beta.4 for Beta are available. Beta also fixes starting-city militia opening when its preference is enabled. Update the selected channel's game patch to apply the gameplay changes."
-      }
-    },
-    {
-      "category": "patch",
-      "version": "0.3.0-beta.4",
-      "publishedAt": "2026-09-14",
-      "mods": [
-        "arcane-wars"
-      ],
-      "title": {
-        "ru": "Arcane Wars — Paw's Patch 0.3.0-beta.4",
-        "en": "Arcane Wars — Paw's Patch 0.3.0-beta.4"
-      },
-      "body": {
-        "ru": "- При частоте ×4 Тёмный лорд из Тёмного разлома (Врат теней) теперь использует частоту ×2: попытка каждые 6 игровых минут с шансом 30%. У остальных рот частота ×4 сохраняется; стандартный режим и ×2 не меняются.\n- Включённая настройка открытого ополчения теперь применяется и к стартовому городу новой партии. Город открывает ополчение через обычную игровую команду, когда матч начал идти и команда доступна.\n- Позднейшее ручное закрытие ополчения сохраняется. При загрузке продолжающегося матча существующие города не открываются повторно. Настройка по-прежнему запоминается между играми и применяется к построенным и захваченным городам.\n- Подсказки частоты и ополчения уточнены. Участникам сетевого матча требуется одинаковая версия патча и настройки.",
-        "en": "- At ×4 roaming frequency, the Shadow Lord from the Dark Rift now uses ×2 frequency: one attempt every 6 game minutes with a 30% chance. Other companies keep ×4 frequency; Standard and ×2 are unchanged.\n- The open-militia preference now also applies to the starting city of a new match. Militia opens through the ordinary game command once the simulation advances and the command is available.\n- Later manual militia closure is respected. Loading an ongoing match does not reopen existing cities. The preference remains persistent between games and applies to built and captured cities.\n- Frequency and militia tooltips have been clarified. Multiplayer participants need matching patch versions and settings."
-      }
-    },
     {
       "category": "launcher",
       "mods": [],
