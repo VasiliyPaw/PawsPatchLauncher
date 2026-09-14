@@ -20,7 +20,7 @@
 - Уточнено описание осадного баланса: он, как и прежде, меняет стоимость, урон и параметры атак.
 - Игровые EXE, сетевой протокол и пакет цветов `0.1.0-beta.6` не изменены. Следующие игровые исправления Беты выйдут отдельно.
 
-Для мультиплеера всем участникам нужны одинаковые пакеты и настройки. Переключение Powers/Shards следует проверять в новом матче; совместимость существующих сохранений с другим набором компонентов не гарантируется.
+Переключение Powers/Shards следует проверять в новом матче; совместимость существующих сохранений с другим набором компонентов не гарантируется.
 
 ## Скачать и обновить
 
@@ -34,4 +34,4 @@
 
 Refined animated UI, consistent typography and icons, window/monitor placement persistence, About the patch, detailed multiplayer configuration/file reports, actionable errors, safe cache cleanup, in-window confirmations and persistent access to the latest diagnostic archive. Clipboard and status handling are fixed. Release sharing no longer leaks inactive Beta colors while retaining the Beta preference.
 
-Disable Powers and Shards is now configurable and enabled by default. Three optional profile packages preserve localization when additional roaming companies or siege balance are off. Siege descriptions accurately cover the existing full rebalance. Game executables, network protocol and Beta colors remain unchanged. Multiplayer participants need matching packages and settings; test component changes in a new match.
+Disable Powers and Shards is now configurable and enabled by default. Three optional profile packages preserve localization when additional roaming companies or siege balance are off. Siege descriptions accurately cover the existing full rebalance. Game executables, network protocol and Beta colors remain unchanged. Component changes should be tested in a new match.
