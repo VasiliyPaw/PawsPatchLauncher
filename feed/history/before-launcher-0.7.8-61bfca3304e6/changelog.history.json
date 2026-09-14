@@ -2,52 +2,6 @@
   "stable": [
     {
       "category": "launcher",
-      "mods": [],
-      "version": "0.7.8",
-      "publishedAt": "2026-09-14T07:39:17Z",
-      "title": {
-        "ru": "Paw's Launcher 0.7.8",
-        "en": "Paw's Launcher 0.7.8"
-      },
-      "body": {
-        "ru": "- Нажмите на аватарку в профиле игрока, чтобы открыть компактный просмотр. Закрытие крестиком, Esc или щелчком снаружи возвращает в тот же профиль. Кнопки под фотографией не срабатывают.\n- Просмотр использует уже загруженную фотографию; дополнительная загрузка с сервера не нужна.\n- Для Vanilla и Immortals доступны отдельные бета-каналы Paw's Patch. Описания компонентов учитывают выбранную версию патча и доступность функций для установленной игры.\n- Исправлено определение бета-канала: старый каталог с копией релизного патча больше не принимается за отдельную бету.\n\nОбновления игровых патчей распространяются отдельно: Vanilla и Immortals 0.1.1 добавляют WASD, стрелки и союзную метку F в раскладку Dvorak, а 0.2.0-beta.1 также включает ускоренную штатную передачу сохранений. Arcane Wars 0.3.0-beta.3 обновляет автопостройку и управление ополчением новых городов. Подробности находятся в справке выбранного мода.",
-        "en": "- Click a player's profile avatar to open a compact preview. Close it with the X, Esc, or an outside click to return to the same profile. Controls behind the image do not receive the click.\n- The preview reuses the downloaded photo without an extra server request.\n- Vanilla and Immortals have separate Paw's Patch Beta channels. Component descriptions follow the selected patch version and the installed game's feature compatibility.\n- Fixed Beta detection: an old catalog containing a copy of a stable patch no longer counts as a distinct Beta.\n\nGame patches update separately: Vanilla and Immortals 0.1.1 add WASD, arrow keys, and the F allied marker to the Dvorak profile; 0.2.0-beta.1 also enables faster native save transfers. Arcane Wars 0.3.0-beta.3 updates construction automation and militia control for new cities. See the selected mod's guide for details."
-      }
-    },
-    {
-      "category": "patch",
-      "version": "0.1.1",
-      "publishedAt": "2026-09-14",
-      "mods": [
-        "vanilla"
-      ],
-      "title": {
-        "ru": "Vanilla — Paw's Patch 0.1.1",
-        "en": "Vanilla — Paw's Patch 0.1.1"
-      },
-      "body": {
-        "ru": "- Для Vanilla и Immortals добавлено управление камерой на WASD в профиле Dvorak. Стрелки сохраняются, F выбирает союзную метку. Прежняя команда на A освобождена для камеры; остальные позиционные клавиши и клавиши построения сохранены.\n- Профиль Dvorak выбирается в настройках самой игры. Патч не переключает профиль автоматически. Исправление одинаково работает с английским и русским текстом, включая режим «Только игровые файлы».\n- Сохраняются исправленные значки рот, отображение нуля вместо отрицательного нуля, инициализация параметра рельефа и версия патча в меню. Игровые правила выбранного режима сохраняются.\n- Исправления включаются компонентом Paw's Patch отдельно для каждого режима. Нативные исправления требуют поддерживаемого EXE Kohan II 1.3.72; файловые исправления управления и значков доступны независимо от него.",
-        "en": "- Vanilla and Immortals gain WASD camera controls in the Dvorak profile. Arrow controls remain available, and F selects the allied marker. The old A action is freed for camera movement; the other positional and formation bindings are retained.\n- Select Dvorak in the game's settings. The patch does not switch profiles automatically. The correction works with English or Russian text, including file-only mode.\n- Retains corrected company badges, zero display in place of negative zero, terrain-parameter initialization and the patch version in the menu. The selected mode's game rules are preserved.\n- Enable the Paw's Patch component separately for each mode. Native fixes require the supported Kohan II 1.3.72 executable; the control and badge data fixes are executable-independent."
-      }
-    },
-    {
-      "category": "patch",
-      "version": "0.1.1",
-      "publishedAt": "2026-09-14",
-      "mods": [
-        "immortals"
-      ],
-      "title": {
-        "ru": "Immortals — Paw's Patch 0.1.1",
-        "en": "Immortals — Paw's Patch 0.1.1"
-      },
-      "body": {
-        "ru": "- Для Vanilla и Immortals добавлено управление камерой на WASD в профиле Dvorak. Стрелки сохраняются, F выбирает союзную метку. Прежняя команда на A освобождена для камеры; остальные позиционные клавиши и клавиши построения сохранены.\n- Профиль Dvorak выбирается в настройках самой игры. Патч не переключает профиль автоматически. Исправление одинаково работает с английским и русским текстом, включая режим «Только игровые файлы».\n- Сохраняются исправленные значки рот, отображение нуля вместо отрицательного нуля, инициализация параметра рельефа и версия патча в меню. Игровые правила выбранного режима сохраняются.\n- Исправления включаются компонентом Paw's Patch отдельно для каждого режима. Нативные исправления требуют поддерживаемого EXE Kohan II 1.3.72; файловые исправления управления и значков доступны независимо от него.",
-        "en": "- Vanilla and Immortals gain WASD camera controls in the Dvorak profile. Arrow controls remain available, and F selects the allied marker. The old A action is freed for camera movement; the other positional and formation bindings are retained.\n- Select Dvorak in the game's settings. The patch does not switch profiles automatically. The correction works with English or Russian text, including file-only mode.\n- Retains corrected company badges, zero display in place of negative zero, terrain-parameter initialization and the patch version in the menu. The selected mode's game rules are preserved.\n- Enable the Paw's Patch component separately for each mode. Native fixes require the supported Kohan II 1.3.72 executable; the control and badge data fixes are executable-independent."
-      }
-    },
-    {
-      "category": "launcher",
       "version": "0.7.7",
       "publishedAt": "2026-09-14",
       "title": {
@@ -522,68 +476,6 @@
     }
   ],
   "beta": [
-    {
-      "category": "launcher",
-      "mods": [],
-      "version": "0.7.8",
-      "publishedAt": "2026-09-14T07:39:17Z",
-      "title": {
-        "ru": "Paw's Launcher 0.7.8",
-        "en": "Paw's Launcher 0.7.8"
-      },
-      "body": {
-        "ru": "- Нажмите на аватарку в профиле игрока, чтобы открыть компактный просмотр. Закрытие крестиком, Esc или щелчком снаружи возвращает в тот же профиль. Кнопки под фотографией не срабатывают.\n- Просмотр использует уже загруженную фотографию; дополнительная загрузка с сервера не нужна.\n- Для Vanilla и Immortals доступны отдельные бета-каналы Paw's Patch. Описания компонентов учитывают выбранную версию патча и доступность функций для установленной игры.\n- Исправлено определение бета-канала: старый каталог с копией релизного патча больше не принимается за отдельную бету.\n\nОбновления игровых патчей распространяются отдельно: Vanilla и Immortals 0.1.1 добавляют WASD, стрелки и союзную метку F в раскладку Dvorak, а 0.2.0-beta.1 также включает ускоренную штатную передачу сохранений. Arcane Wars 0.3.0-beta.3 обновляет автопостройку и управление ополчением новых городов. Подробности находятся в справке выбранного мода.",
-        "en": "- Click a player's profile avatar to open a compact preview. Close it with the X, Esc, or an outside click to return to the same profile. Controls behind the image do not receive the click.\n- The preview reuses the downloaded photo without an extra server request.\n- Vanilla and Immortals have separate Paw's Patch Beta channels. Component descriptions follow the selected patch version and the installed game's feature compatibility.\n- Fixed Beta detection: an old catalog containing a copy of a stable patch no longer counts as a distinct Beta.\n\nGame patches update separately: Vanilla and Immortals 0.1.1 add WASD, arrow keys, and the F allied marker to the Dvorak profile; 0.2.0-beta.1 also enables faster native save transfers. Arcane Wars 0.3.0-beta.3 updates construction automation and militia control for new cities. See the selected mod's guide for details."
-      }
-    },
-    {
-      "category": "patch",
-      "version": "0.2.0-beta.1",
-      "publishedAt": "2026-09-14",
-      "mods": [
-        "vanilla"
-      ],
-      "title": {
-        "ru": "Vanilla — Paw's Patch 0.2.0-beta.1",
-        "en": "Vanilla — Paw's Patch 0.2.0-beta.1"
-      },
-      "body": {
-        "ru": "- Первый отдельный Beta-канал Paw's Patch для Vanilla и Immortals. Включает исправления 0.1.1: значки рот, отображение нуля, инициализацию рельефа, версию в меню и управление WASD со стрелками и союзной меткой F в профиле Dvorak.\n- В Paw's Patch встроен прежний проверенный R2 для ускорения штатной передачи сохранения участникам сетевого лобби. Отдельного переключателя нет; дружба и ручное принятие файла в лаунчере не требуются.\n- Настройка R2 сохранена: файловый бюджет 1200 байт и до 16 пакетов участнику за проход отправки. Формат сохранения, размер блоков, подтверждения, повторы и штатные ограничения полосы передачи остаются прежними. Нативные инструкции и защитные проверки совпадают с ранее выбранным R2; новой скорости WAN эта версия не обещает.\n- Нужен поддерживаемый EXE Kohan II 1.3.72. При выключенном Paw's Patch и в режиме «Только игровые файлы» передача остаётся обычной. Для сетевой игры используйте совместимую бету у всех участников и одинаковые игровые настройки.\n- Beta для этих двух режимов добавляет к базовым исправлениям только R2. Баланс, карты, палитра и автоматизация городов Arcane Wars в неё не входят.",
-        "en": "- The first separate Paw's Patch Beta channel for Vanilla and Immortals. Includes the 0.1.1 fixes: company badges, zero display, terrain initialization, menu version labels and Dvorak WASD controls with arrows and the F allied marker.\n- The previously verified R2 tuning is built into Paw's Patch to speed up the game's native lobby save transfer. There is no separate toggle, and launcher friendship or manual file acceptance is not required.\n- R2 retains its 1200-byte file-stage budget and at most 16 packets per participant per send pass. Save format, block sizes, acknowledgements, retries and native bandwidth limits remain unchanged. Native instructions and guards match the previously selected R2; this version promises no new WAN speed result.\n- Requires the supported Kohan II 1.3.72 executable. Disabling Paw's Patch or using file-only mode retains stock transfer. Multiplayer participants should use a compatible Beta and matching gameplay settings.\n- For these two modes, Beta adds only R2 to the base fixes. Arcane Wars balance, maps, palettes and city automation are not included."
-      }
-    },
-    {
-      "category": "patch",
-      "version": "0.2.0-beta.1",
-      "publishedAt": "2026-09-14",
-      "mods": [
-        "immortals"
-      ],
-      "title": {
-        "ru": "Immortals — Paw's Patch 0.2.0-beta.1",
-        "en": "Immortals — Paw's Patch 0.2.0-beta.1"
-      },
-      "body": {
-        "ru": "- Первый отдельный Beta-канал Paw's Patch для Vanilla и Immortals. Включает исправления 0.1.1: значки рот, отображение нуля, инициализацию рельефа, версию в меню и управление WASD со стрелками и союзной меткой F в профиле Dvorak.\n- В Paw's Patch встроен прежний проверенный R2 для ускорения штатной передачи сохранения участникам сетевого лобби. Отдельного переключателя нет; дружба и ручное принятие файла в лаунчере не требуются.\n- Настройка R2 сохранена: файловый бюджет 1200 байт и до 16 пакетов участнику за проход отправки. Формат сохранения, размер блоков, подтверждения, повторы и штатные ограничения полосы передачи остаются прежними. Нативные инструкции и защитные проверки совпадают с ранее выбранным R2; новой скорости WAN эта версия не обещает.\n- Нужен поддерживаемый EXE Kohan II 1.3.72. При выключенном Paw's Patch и в режиме «Только игровые файлы» передача остаётся обычной. Для сетевой игры используйте совместимую бету у всех участников и одинаковые игровые настройки.\n- Beta для этих двух режимов добавляет к базовым исправлениям только R2. Баланс, карты, палитра и автоматизация городов Arcane Wars в неё не входят.",
-        "en": "- The first separate Paw's Patch Beta channel for Vanilla and Immortals. Includes the 0.1.1 fixes: company badges, zero display, terrain initialization, menu version labels and Dvorak WASD controls with arrows and the F allied marker.\n- The previously verified R2 tuning is built into Paw's Patch to speed up the game's native lobby save transfer. There is no separate toggle, and launcher friendship or manual file acceptance is not required.\n- R2 retains its 1200-byte file-stage budget and at most 16 packets per participant per send pass. Save format, block sizes, acknowledgements, retries and native bandwidth limits remain unchanged. Native instructions and guards match the previously selected R2; this version promises no new WAN speed result.\n- Requires the supported Kohan II 1.3.72 executable. Disabling Paw's Patch or using file-only mode retains stock transfer. Multiplayer participants should use a compatible Beta and matching gameplay settings.\n- For these two modes, Beta adds only R2 to the base fixes. Arcane Wars balance, maps, palettes and city automation are not included."
-      }
-    },
-    {
-      "category": "patch",
-      "version": "0.3.0-beta.3",
-      "publishedAt": "2026-09-14",
-      "mods": [
-        "arcane-wars"
-      ],
-      "title": {
-        "ru": "Arcane Wars — Paw's Patch 0.3.0-beta.3",
-        "en": "Arcane Wars — Paw's Patch 0.3.0-beta.3"
-      },
-      "body": {
-        "ru": "- Автоматизация учитывает полную принятую очередь ручных и автоматических построек: активные и ожидающие заказы. Будущий положительный доход уменьшает оставшуюся потребность в ресурсе, а отрицательные эффекты учитываются заранее при защите дохода. Незавершённая положительная прибавка не считается уже полученным доходом. Оплата проверяется по текущим ресурсам. Пока отправленные игроком приказы на строительство или улучшение ещё не обработаны игрой, автоматика ждёт; после обработки пересчитывает доступное золото и сохраняемый резерв.\n- Рынки всех шести рас доступны, когда до заказа доход каждого из четырёх ресурсов строго выше его порога с учётом ожидаемых отрицательных эффектов. Заказ рынка может опустить доход ниже порога; затем автоматика возвращается к восполнению ресурсов. Для остальных построек защита порогов сохраняется.\n- Когда нет доступной полезной постройки для ресурсов, золота или подготовки золотой ветки и доходы позволяют, автоматика продолжает случайно выбирать доступные варианты. Выбор повторяется постоянно после завершения экономических приоритетов; отдельная настройка «Другие здания» больше не требуется.\n- Независимые рудники всех рас участвуют в улучшениях по ресурсам, золоту и случайному выбору. Разные рудники получают отдельные приказы; занятый рудник не получает повторный приказ на тот же объект. Обычная очередь игры и её проверки законности сохраняются.\n- Открытое ополчение для новых собственных городов включено по умолчанию. Настройка доступна в F1 и сохраняется на компьютере. Она применяется к новым построенным и захваченным городам. Уже существующие на момент начала партии или загрузки города не изменяются.\n- Эти изменения и прежняя передача сохранений R2 встроены во все восемь вариантов Beta при любых сочетаниях цветов, вражды независимых и контроля рассинхрона. Общие городские правила сохраняются локально, исключения городов сбрасываются при новой партии или загрузке. Для мультиплеера всем участникам нужна совместимая Beta и одинаковые игровые настройки.",
-        "en": "- Automation accounts for the full accepted manual and automatic construction queue, including active and waiting orders. Future positive income reduces outstanding resource goals, while adverse effects protect income in advance. An unfinished positive gain is not treated as income already received. Payment uses current resources. Automation waits while the player's sent building or upgrade orders await game processing, then recomputes available gold and the protected reserve.\n- Markets of all six races are available when each of the four resource incomes is strictly above its target before the order, accounting for pending adverse effects. A market order may cross below a target; resource recovery then takes priority. Other buildings retain target protection.\n- When no useful resource, gold or gold-branch preparation choice is available and income permits, automation continues to select random eligible options. This fallback remains active after economic priorities are exhausted; it no longer requires a separate Other buildings setting.\n- Independent mines of every race can receive resource, gold and random upgrades. Different mines receive separate orders; a busy mine does not receive a duplicate order for the same object. The normal game queue and its legality checks remain in control.\n- Open militia for new owned cities is enabled by default. Its F1 setting persists on this PC and applies to newly built and captured cities. Cities already present at match start or save load are unchanged.\n- These changes and the existing R2 save transfer are built into all eight Beta variants, with every combination of colors, independent hostility and desync handling. General city rules persist locally; city exceptions reset on new matches or loads. Multiplayer participants need a compatible Beta and matching gameplay settings."
-      }
-    },
     {
       "category": "launcher",
       "version": "0.7.7",

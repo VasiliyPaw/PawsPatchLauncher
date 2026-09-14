@@ -231,6 +231,8 @@ internal static class Program
         List<PackageRelease> packages, InstallState state)
     {
         EnsureNoGame();
+        if (File.Exists(Path.Combine(root, "stop.requested")))
+            throw new OperationCanceledException("Test stop requested before launch.");
         var beforeLogs = Directory.EnumerateFiles(gameRoot, "*status*.txt").ToDictionary(p => p, p => new FileInfo(p).Length);
         var start = DateTime.UtcNow;
         var timer = Stopwatch.StartNew();
@@ -246,7 +248,6 @@ internal static class Program
             var stableSamples = 0;
             while (timer.Elapsed < TimeSpan.FromSeconds(45))
             {
-                if (File.Exists(Path.Combine(root, "stop.requested"))) throw new OperationCanceledException("Test stop requested.");
                 if (game is null)
                 {
                     var candidates = Process.GetProcessesByName("k2");
@@ -254,7 +255,7 @@ internal static class Program
                     {
                         try
                         {
-                            if (candidate.HasExited || candidate.MainWindowHandle == IntPtr.Zero) { candidate.Dispose(); continue; }
+                            if (candidate.HasExited) { candidate.Dispose(); continue; }
                             var actual = candidate.MainModule?.FileName;
                             var created = candidate.StartTime.ToUniversalTime();
                             if (created < start.AddMilliseconds(-100) || !string.Equals(actual, Path.Combine(gameRoot, "k2.exe"), StringComparison.OrdinalIgnoreCase))
@@ -266,6 +267,11 @@ internal static class Program
                         catch { candidate.Dispose(); throw; }
                     }
                 }
+                // Bind the fresh native child before observing cancellation,
+                // including while it has not created a window yet. Otherwise
+                // terminating its helper could leave the test child behind.
+                if (game is not null && File.Exists(Path.Combine(root, "stop.requested")))
+                    throw new OperationCanceledException("Test stop requested.");
                 // Process caches Responding/MainWindowHandle until Refresh.
                 // A single busy initialization sample must not last forever.
                 game?.Refresh();
@@ -301,29 +307,107 @@ internal static class Program
         }
         catch (Exception error)
         {
-            var nativeLogs=Directory.EnumerateFiles(Path.Combine(gameRoot,"Logs"),"log-*.log")
-                .OrderByDescending(File.GetLastWriteTimeUtc).Take(1).Select(p=>new {file=Path.GetFileName(p),tail=File.ReadLines(p).TakeLast(35).ToArray()}).ToArray();
-            await File.WriteAllTextAsync(Path.Combine(root, "failure.json"), JsonSerializer.Serialize(new { item.Id, identity, executable, error = error.ToString(), observedPhase,helperReady,responding,logs,nativeLogs }, Json));
+            try
+            {
+                object[] nativeLogs = []; string? nativeLogReadError = null;
+                try
+                {
+                    nativeLogs = Directory.EnumerateFiles(Path.Combine(gameRoot,"Logs"),"log-*.log")
+                        .OrderByDescending(File.GetLastWriteTimeUtc).Take(1)
+                        .Select(p=>new {file=Path.GetFileName(p),tail=ReadLiveLogTail(p)}).ToArray();
+                }
+                catch (Exception readError) { nativeLogReadError = readError.ToString(); }
+                await File.WriteAllTextAsync(Path.Combine(root, "failure.json"), JsonSerializer.Serialize(new { item.Id, identity, executable, error = error.ToString(), observedPhase,helperReady,responding,logs,nativeLogs,nativeLogReadError }, Json));
+            }
+            catch (Exception diagnosticError)
+            {
+                try { Console.Error.WriteLine("Failure diagnostics unavailable: " + diagnosticError); }
+                catch { } // Reporting a diagnostic failure must preserve the primary exception too.
+            }
             throw;
         }
         finally
         {
-            if (game is not null)
+            try
             {
+                if (game is not null)
+                {
+                    try
+                    {
+                        game.Refresh();
+                        if (!game.HasExited && game.StartTime.ToUniversalTime() == gameStarted
+                            && string.Equals(game.MainModule?.FileName, Path.Combine(gameRoot, "k2.exe"), StringComparison.OrdinalIgnoreCase))
+                        { game.Kill(); await game.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(8)); }
+                    }
+                    finally { game.Dispose(); }
+                }
+            }
+            finally
+            {
+                // A failed native stop must not skip the directly started helper.
                 try
                 {
-                    if (!game.HasExited && game.StartTime.ToUniversalTime() == gameStarted
-                        && string.Equals(game.MainModule?.FileName, Path.Combine(gameRoot, "k2.exe"), StringComparison.OrdinalIgnoreCase))
-                    { game.Kill(); await game.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(8)); }
+                    if (!helper.HasExited)
+                    {
+                        try { await helper.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(8)); }
+                        catch (TimeoutException)
+                        {
+                            if (!helper.HasExited) helper.Kill();
+                            await helper.WaitForExitAsync();
+                        }
+                    }
                 }
-                finally { game.Dispose(); }
-            }
-            if (!helper.HasExited)
-            {
-                try { await helper.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(8)); }
-                catch (TimeoutException) { helper.Kill(); await helper.WaitForExitAsync(); }
+                finally
+                {
+                    // It can no longer create another child. Cover a child that
+                    // appeared after the last poll or while awaiting helper exit.
+                    if (helper.HasExited)
+                        await StopLateNativeGameAsync(gameRoot, start, helper.ExitTime.ToUniversalTime());
+                }
             }
         }
+    }
+    private static async Task StopLateNativeGameAsync(string gameRoot, DateTime launchStarted, DateTime helperExited)
+    {
+        var candidates = Process.GetProcessesByName("k2");
+        Process? game = null; DateTime gameStarted = default;
+        var expectedPath = Path.Combine(gameRoot, "k2.exe");
+        try
+        {
+            // Validate the whole discovery before stopping anything. A different,
+            // unreadable or ambiguous process is never treated as our late child.
+            foreach (var candidate in candidates)
+            {
+                if (candidate.HasExited) continue;
+                var actual = candidate.MainModule?.FileName;
+                var created = candidate.StartTime.ToUniversalTime();
+                if (created < launchStarted.AddMilliseconds(-100) || created > helperExited
+                    || !string.Equals(actual, expectedPath, StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidOperationException("A different game process appeared during cleanup; test will not touch it.");
+                if (game is not null) throw new InvalidOperationException("More than one native test game appeared during cleanup.");
+                game = candidate; gameStarted = created;
+            }
+            if (game is not null)
+            {
+                game.Refresh();
+                if (!game.HasExited && game.StartTime.ToUniversalTime() == gameStarted
+                    && string.Equals(game.MainModule?.FileName, expectedPath, StringComparison.OrdinalIgnoreCase))
+                { game.Kill(); await game.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(8)); }
+            }
+        }
+        finally { foreach (var candidate in candidates) candidate.Dispose(); }
+    }
+    private static string[] ReadLiveLogTail(string path)
+    {
+        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        using var reader = new StreamReader(stream);
+        var tail = new Queue<string>(35);
+        while (reader.ReadLine() is { } line)
+        {
+            if (tail.Count == 35) tail.Dequeue();
+            tail.Enqueue(line);
+        }
+        return tail.ToArray();
     }
     private static string ReadNewLogs(string root, IReadOnlyDictionary<string,long> previous)
     {
