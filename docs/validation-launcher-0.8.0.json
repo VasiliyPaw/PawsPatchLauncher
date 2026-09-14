@@ -1,0 +1,32 @@
+{
+  "version": "0.8.0",
+  "date": "2026-09-14",
+  "baseCommit": "c63c9a8ddac9711aba152fd26db95ede541e2f38",
+  "scope": "Promote completed launcher preview features and expanded diagnostic collection; preserve all published game patch packages and catalogs.",
+  "localValidation": {
+    "coreAssertions": 23085,
+    "completeDiagnosticArchiveChecks": 282,
+    "launcher080UiChecks": 48,
+    "friendCopyUiChecks": {"ru": 639, "en": 639},
+    "gameActivityUiChecks": {"ru": 36, "en": 36},
+    "diagnosticsUiChecks": {"ru": 13, "en": 13},
+    "startupUiChecks": {"ru": 17, "en": 17},
+    "localExecutableUpdate": "0.7.12 -> 0.8.0 passed in an isolated Unicode-path fixture, including EXE replacement, retained backup and window acknowledgement",
+    "buildWarnings": 0,
+    "buildErrors": 0,
+    "visualEvidence": "Rendered WPF fixtures for five interface languages, compact French settings, own player card and match details. Compact French settings visually inspected."
+  },
+  "diagnosticEvidence": [
+    "Five newest readable log groups and game dumps; companion logs retained",
+    "VirtualStore, default/custom Windows dump folders and matching game WER reports",
+    "Locked newest-file fallback, missing sources and copy-error report",
+    "Full ZIP inventory and hashes; unrelated applications, saves and backups excluded",
+    "Original files preserved; cancelled archive creation preserves previous ZIP"
+  ],
+  "limitations": [
+    "No game session or crash was induced for this launcher release validation.",
+    "Diagnostic collection gathers existing files; it cannot recreate missing dumps or prove that every crash has been fixed.",
+    "Some remotely supplied RU/EN mod descriptions and history use English for Czech, German and French.",
+    "Public CI distribution identity, public download bytes and signed feed promotion are verified separately after the immutable release build."
+  ]
+}

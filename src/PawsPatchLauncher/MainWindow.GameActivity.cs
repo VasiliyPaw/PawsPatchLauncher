@@ -11,6 +11,14 @@ public partial class MainWindow
     private Guid? _gameActivityPeer;
     private CancellationTokenSource? _gameActivityLifetime;
     private DispatcherTimer? _gameActivityTimer;
+    private DispatcherTimer? _gameActivityClockTimer;
+    private GameActivityClock _gameActivityClock = new();
+    private TextBlock? _gameActivityElapsedText;
+    private void RefreshGameActivityClock()
+    {
+        if(GameActivityOverlay.Visibility==Visibility.Visible && _gameActivityElapsedText is not null && _gameActivityClock.Seconds(Environment.TickCount64) is int elapsed)
+            _gameActivityElapsedText.Text=GameActivityClock.Format(elapsed);
+    }
     private bool _gameActivityBusy;
     private int _gameActivityGeneration;
     private string? _gameActivityRenderKey;
@@ -65,6 +73,12 @@ public partial class MainWindow
             _gameActivityTimer.Tick+=async(_,_)=>await RefreshGameActivityAsync();
         }
         _gameActivityTimer.Start();
+        if(_gameActivityClockTimer is null)
+        {
+            _gameActivityClockTimer=new DispatcherTimer { Interval=TimeSpan.FromSeconds(1) };
+            _gameActivityClockTimer.Tick+=(_,_)=>RefreshGameActivityClock();
+        }
+        _gameActivityClockTimer.Start();
         if(_gameActivityCache.TryGetValue(peer,out var cached)&&DateTimeOffset.UtcNow-cached.received<TimeSpan.FromSeconds(15))
         { RenderGameActivity(cached.details);await RefreshGameParticipantAvatarsAsync(cached.details,_gameActivityGeneration);return; }
         await RefreshGameActivityAsync();
@@ -79,11 +93,12 @@ public partial class MainWindow
         using var timeout=CancellationTokenSource.CreateLinkedTokenSource(_gameActivityLifetime.Token);timeout.CancelAfter(TimeSpan.FromSeconds(8));
         try
         {
-            var details=await (_gameActivityReadOverride?.Invoke(peer,timeout.Token)??_account.GetGameActivityAsync(peer,timeout.Token));
+            var details=peer.ToString()==_account.UserId ? OwnGameActivityDetails()
+                : await (_gameActivityReadOverride?.Invoke(peer,timeout.Token)??_account.GetGameActivityAsync(peer,timeout.Token));
             if(generation!=_gameActivityGeneration||peer!=_gameActivityPeer)return;
             if(details is null)
             {
-                _gameActivityCache.Remove(peer);_gameActivityShown=null;_gameActivityRenderKey=null;GameActivityBody.Children.Clear();
+                _gameActivityCache.Remove(peer);_gameActivityShown=null;_gameActivityRenderKey=null;_gameActivityElapsedText=null;_gameActivityClock=new();GameActivityBody.Children.Clear();
                 GameActivityStatus.Text=T("Сведения пока недоступны: игрок мог выйти из игры или отключить подробный статус.", "Details are unavailable. The player may have left the game or disabled detailed activity.");
                 return;
             }
@@ -117,23 +132,29 @@ public partial class MainWindow
 
     private void RenderGameActivity(GameActivityDetails details)
     {
+        if(_gameActivityShown is { } previous && details.ObservedAt<previous.ObservedAt)return;
         _gameActivityShown=details;
+        _gameActivityClock.Observe(details,Environment.TickCount64,DateTimeOffset.UtcNow);
+        RefreshGameActivityClock();
         GameActivityStatus.Text=T("Обновлено: ", "Updated: ")+details.ObservedAt.ToLocalTime().ToString("HH:mm:ss");
         var activity=details.Activity;
         var key=_text.Language+"|"+JsonSerializer.Serialize(activity);
         if(key==_gameActivityRenderKey)return;
         _gameActivityRenderKey=key;GameActivityBody.Children.Clear();_gameActivityAvatarViews.Clear();
         GameActivityBody.Children.Add(new TextBlock{Text=GameActivityPhaseName(activity.Phase),FontSize=19,FontWeight=FontWeights.SemiBold,Foreground=SocialBrush("#72DDAA"),Margin=new Thickness(0,0,0,14)});
-        void Information(string label,string value)
+        TextBlock Information(string label,string value)
         {
             var grid=new Grid{Margin=new Thickness(0,0,0,9)};grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
             grid.Children.Add(new TextBlock{Text=label,Foreground=SocialBrush("#A8BBD2")});
-            var text=new TextBlock{Text=value,FontWeight=FontWeights.SemiBold,Margin=new Thickness(16,0,0,0)};Grid.SetColumn(text,1);grid.Children.Add(text);GameActivityBody.Children.Add(grid);
+            var text=new TextBlock{Text=value,FontWeight=FontWeights.SemiBold,Margin=new Thickness(16,0,0,0)};Grid.SetColumn(text,1);grid.Children.Add(text);GameActivityBody.Children.Add(grid);return text;
         }
         if(activity.Phase is "lobby" or "match")Information(T("Режим", "Mode"),activity.Multiplayer?T("Сетевая игра", "Multiplayer"):T("Одиночная игра", "Single player"));
+        _gameActivityElapsedText=null;
         if(activity.ElapsedSeconds is int elapsed)
         {
-            var time=TimeSpan.FromSeconds(elapsed);Information(T("Время матча", "Match time"),time.TotalHours>=1?$"{(int)time.TotalHours}:{time.Minutes:00}:{time.Seconds:00}":$"{time.Minutes:00}:{time.Seconds:00}");
+            _gameActivityElapsedText=Information(T("Время матча", "Match time"),GameActivityClock.Format(elapsed));
+            _gameActivityElapsedText.ToolTip=T("Время идёт локально и уточняется при получении данных. При паузе или изменении скорости игры возможна поправка.", "Time advances locally and is corrected by new samples. Pauses or game-speed changes may cause a correction.");
+            RefreshGameActivityClock();
         }
         if(activity.Width is int width&&activity.Height is int height)Information(T("Размер карты", "Map size"),$"{width} × {height}");
         var people=activity.Players??[];
@@ -149,7 +170,7 @@ public partial class MainWindow
             group.Children.Add(heading);
             foreach(var player in team)
             {
-            var grid=new Grid();grid.ColumnDefinitions.Add(new ColumnDefinition{Width=new GridLength(42)});grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
+            var grid=new Grid { Height=58 };grid.ColumnDefinitions.Add(new ColumnDefinition{Width=new GridLength(42)});grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
             var marker=new Grid{Width=34,Height=34,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center};
             if(player.Profile is { } identity)
             {
@@ -161,18 +182,25 @@ public partial class MainWindow
             else marker.Children.Add(new LauncherIcon{Kind=player.Bot?IconKind.Bot:IconKind.Person,Width=22,Height=22,Foreground=SocialBrush("#CBD9EB")});
             marker.Children.Add(new Border{Width=12,Height=12,CornerRadius=new CornerRadius(6),Background=SocialBrush(GameActivity.ValidColor(player.Color)?player.Color!:"#56677D"),BorderBrush=SocialBrush("#D2DDEA"),BorderThickness=new Thickness(1),HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,ToolTip=GameActivity.ValidColor(player.Color)?T("Цвет игрока","Player color"):T("Цвет пока не определён","Color is not available yet")});
             grid.Children.Add(marker);
-            var names=new StackPanel();Grid.SetColumn(names,1);
-            names.Children.Add(new TextBlock{Text=player.Profile?.DisplayName??player.Name,FontWeight=FontWeights.SemiBold,TextTrimming=TextTrimming.CharacterEllipsis});
-            if(player.Profile is { } profile)
-            {
-                names.Children.Add(new TextBlock{Text="@"+profile.Nickname,FontSize=12,Foreground=SocialBrush("#8CB5E5"),Margin=new Thickness(0,3,0,0)});
-                if(profile.DisplayName!=player.Name)names.Children.Add(new TextBlock{Text=T("В игре: ","In game: ")+player.Name,FontSize=12,Foreground=SocialBrush("#A8BBD2"),TextTrimming=TextTrimming.CharacterEllipsis,Margin=new Thickness(0,3,0,0)});
-            }
+            var names=new Grid { VerticalAlignment=VerticalAlignment.Center };
+            names.RowDefinitions.Add(new RowDefinition { Height=new GridLength(19) });
+            names.RowDefinitions.Add(new RowDefinition { Height=new GridLength(18) });
+            names.RowDefinitions.Add(new RowDefinition { Height=new GridLength(19) });
+            Grid.SetColumn(names,1);
+            var title=new TextBlock{FontWeight=FontWeights.SemiBold,TextTrimming=TextTrimming.CharacterEllipsis,TextWrapping=TextWrapping.NoWrap};
+            title.Inlines.Add(new System.Windows.Documents.Run(player.Profile?.DisplayName??player.Name));
+            if(player.Profile is { } identityName && identityName.DisplayName!=player.Name)
+                title.Inlines.Add(new System.Windows.Documents.Run(" · "+player.Name) { FontWeight=FontWeights.Normal,Foreground=SocialBrush("#A8BBD2") });
+            title.ToolTip=(player.Profile?.DisplayName??player.Name)+(player.Profile is not null?"\n"+T("В игре: ","In game: ")+player.Name:"");
+            names.Children.Add(title);
+            var username=new TextBlock { Text=player.Profile is { } profile?"@"+profile.Nickname:player.Bot?T("Компьютер", "Computer"):T("Игрок без профиля лаунчера", "Player without a launcher profile"),
+                FontSize=12,Foreground=SocialBrush("#8CB5E5"),TextTrimming=TextTrimming.CharacterEllipsis };
+            Grid.SetRow(username,1);names.Children.Add(username);
             var race=GameParticipantFactionName(player.Race);var faction=GameParticipantFactionName(player.Subrace);
-            var factions=new TextBlock{Text=player.Race is null&&player.Subrace is null?T("Раса и фракция неизвестны","Race and faction unknown"):race+" · "+faction,FontSize=12,Foreground=SocialBrush("#AEC2D9"),TextWrapping=TextWrapping.Wrap,
-                Margin=new Thickness(0,5,0,0),Tag="factions",ToolTip=T("Раса: ","Race: ")+race+T("\nФракция: ","\nFaction: ")+faction};
+            var factions=new TextBlock{Text=player.Race is null&&player.Subrace is null?T("Раса и фракция неизвестны","Race and faction unknown"):race+" · "+faction,FontSize=12,Foreground=SocialBrush("#AEC2D9"),TextWrapping=TextWrapping.NoWrap,TextTrimming=TextTrimming.CharacterEllipsis,
+                Margin=new Thickness(0,1,0,0),Tag="factions",ToolTip=T("Раса: ","Race: ")+race+T("\nФракция: ","\nFaction: ")+faction};
             System.Windows.Automation.AutomationProperties.SetName(factions,(string)factions.ToolTip);
-            names.Children.Add(factions);
+            Grid.SetRow(factions,2);names.Children.Add(factions);
             grid.Children.Add(names);
             var badge=new Border{Child=new TextBlock{Text=player.Bot?T("Бот","Bot"):player.Profile is not null?"Paw’s Launcher":T("Игрок","Player"),FontSize=11,Foreground=SocialBrush(player.Profile is not null?"#8FD8B7":"#C4D2E5")},Background=SocialBrush(player.Profile is not null?"#1E443E":"#243C56"),CornerRadius=new CornerRadius(5),Padding=new Thickness(7,3,7,3),Margin=new Thickness(10,0,0,0),VerticalAlignment=VerticalAlignment.Center};Grid.SetColumn(badge,2);grid.Children.Add(badge);
             if(player.Profile is { } linked)
@@ -197,6 +225,7 @@ public partial class MainWindow
     private void CloseGameActivity()
     {
         _gameActivityGeneration++;_gameActivityLifetime?.Cancel();_gameActivityLifetime?.Dispose();_gameActivityLifetime=null;
+        _gameActivityClockTimer?.Stop();_gameActivityElapsedText=null;_gameActivityClock=new();
         _gameActivityTimer?.Stop();_gameActivityPeer=null;_gameActivityBusy=false;_gameActivityShown=null;_gameActivityRenderKey=null;
         _gameActivityOpeningProfile=false;_gameActivityAvatarViews.Clear();
         Motion.Collapse(GameActivityOverlay);GameActivityBody.Children.Clear();GameActivityStatus.Text="";

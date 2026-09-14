@@ -100,7 +100,7 @@ public partial class MainWindow
         item.Children.Add(new TextBlock { Text = owner + branch + (row.Overview ? T(" · обзор версии", " · version overview") : ""), Style = (Style)FindResource("MetadataText"), Foreground = SocialBrush(row.Source == "mod" ? "#92CBBE" : "#D9BD78") });
         item.Children.Add(new TextBlock { Text = row.Source == "patch" ? ChannelPresentation.ChangelogText(entry.Title.Get(_text.Language), _text.Language) : entry.Title.Get(_text.Language), Style = (Style)FindResource("CardSubtitle"), Margin = new Thickness(0, 7, 0, 0) });
         var metadata = row.Source == "patch" ? PawPatchVersions.Display(row.Subject, entry.Version)! : entry.Version;
-        if (DateTimeOffset.TryParse(entry.PublishedAt, out var date)) metadata += " · " + date.ToString(_text.Language == "ru" ? "dd.MM.yyyy" : "yyyy-MM-dd");
+        if (DateTimeOffset.TryParse(entry.PublishedAt, out var date)) metadata += " · " + date.ToString(UiLanguages.DatePattern(_text.Language) + "");
         else if (!row.Overview) metadata += T(" · дата не указана", " · date not specified");
         item.Children.Add(new TextBlock { Text = metadata, Style = (Style)FindResource("SmallMetadataText"), Margin = new Thickness(0, 4, 0, 0) });
         var body = row.Source == "patch" ? ChannelPresentation.ChangelogText(entry.Body.Get(_text.Language), _text.Language) : entry.Body.Get(_text.Language);

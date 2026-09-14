@@ -16,7 +16,8 @@ public partial class StartupWindow : Window
     private bool _checkingConnection, _connectionFailed;
     private readonly Stopwatch _connectionWatch = new();
     private readonly System.Windows.Threading.DispatcherTimer _connectionTimer = new() { Interval = TimeSpan.FromMilliseconds(200) };
-    private string T(string ru, string en) => _language == "ru" ? ru : en;
+    private string T(string ru, string en) => UiLanguages.Text(_language, ru, en);
+    private string TF(FormattableString ru, FormattableString en) => UiLanguages.Format(_language, ru, en);
     public Task<bool> Completion => _completion.Task;
     public StartupWindow(FeedClient feed, string language, WindowPlacementStore? placementStore = null)
     {
@@ -77,7 +78,7 @@ public partial class StartupWindow : Window
                     _connectionFailed = p.Attempt > 1;
                     RefreshConnectionWait(_connectionWatch.Elapsed);
                     DetailText.Text = p.Attempt == 1 ? T("Ищем последнюю версию лаунчера…", "Looking for the latest launcher version…")
-                        : T($"Сервер пока недоступен. Повторяем попытку · до {Math.Ceiling(p.Remaining.TotalSeconds)} с", $"Server unavailable. Retrying · up to {Math.Ceiling(p.Remaining.TotalSeconds)} s");
+                        : TF($"Сервер пока недоступен. Повторяем попытку · до {Math.Ceiling(p.Remaining.TotalSeconds)} с", $"Server unavailable. Retrying · up to {Math.Ceiling(p.Remaining.TotalSeconds)} s");
                 }), _cancel.Token);
             FinishConnectionCheck();
             var release = check.Release;

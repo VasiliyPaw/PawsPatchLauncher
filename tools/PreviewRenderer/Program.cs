@@ -107,6 +107,7 @@ public static class Program
         var connectionPreview = args.Contains("--connection-preview");
         var launcher074Checks = args.Contains("--launcher-074-checks");
         var gameActivityChecks = args.Contains("--game-activity-checks");
+        var launcher080Checks = args.Contains("--launcher-080-checks");
         var gameParticipantChecks = args.Contains("--game-participant-checks");
         var avatarPreviewChecks = args.Contains("--avatar-preview-checks");
         var avatarPreviewDemo = args.Contains("--avatar-preview-demo");
@@ -119,6 +120,7 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (launcher080Checks) { Launcher080Checks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (launcher074Checks) { Launcher074Checks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (gameActivityChecks) { GameActivityChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (patchVersionChecks) { PatchVersionChecks.Run(language); app.Shutdown(); return; }

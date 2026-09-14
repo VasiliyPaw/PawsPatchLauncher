@@ -24,7 +24,7 @@ public sealed class SettingsStore
         catch { }
 
         // Fresh installs start with the original game; legacy profiles keep their Arcane Wars defaults.
-        return new UserSettings { Mod = GameMod.Vanilla, Language = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru" ? "ru" : "en" };
+        return new UserSettings { Mod = GameMod.Vanilla, Language = UiLanguages.Normalize(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName) };
     }
 
     public void Save(UserSettings settings)

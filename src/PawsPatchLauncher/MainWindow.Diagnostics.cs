@@ -44,7 +44,7 @@ public partial class MainWindow
             DiagnosticsArchiveInfoText.Text = T("Последний архив удалён или перемещён. Создайте новый.", "The last archive was deleted or moved. Create a new one.");
         else
             DiagnosticsArchiveInfoText.Text = T("Последний: ", "Latest: ") + Path.GetFileName(_lastDiagnosticArchive.Path)
-                + "\n" + _lastDiagnosticArchive.CreatedAtUtc.ToLocalTime().ToString(_text.Language == "ru" ? "dd.MM.yyyy HH:mm" : "yyyy-MM-dd HH:mm");
+                + "\n" + _lastDiagnosticArchive.CreatedAtUtc.ToLocalTime().ToString(UiLanguages.DatePattern(_text.Language) + " HH:mm");
         DiagnosticsArchiveInfoText.ToolTip = _lastDiagnosticArchive?.Path;
         ShowDiagnosticsArchiveButton.ToolTip = _diagnosticArchiveExists
             ? T("Открыть папку и выделить последний созданный архив.", "Open the folder and select the latest archive.")

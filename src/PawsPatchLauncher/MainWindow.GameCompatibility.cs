@@ -138,8 +138,7 @@ public partial class MainWindow
         var direction = InstalledGameVersion.Compare(_installedGameVersion, _game?.SteamBuild, SelectedGameRequirement, _compatibilityState);
         var action = direction switch
         {
-            GameVersionRelation.Older => T($"Обновите игру до версии {SelectedGameRequirement.Version}. Если она доступна только в тестовой ветке: Steam → Свойства игры → Бета-версии → выберите нужную ветку.",
-                $"Update the game to {SelectedGameRequirement.Version}. If this version is only available on a test branch: Steam → Properties → Betas → select that branch."),
+            GameVersionRelation.Older => TF($"Обновите игру до версии {SelectedGameRequirement.Version}. Если она доступна только в тестовой ветке: Steam → Свойства игры → Бета-версии → выберите нужную ветку.", $"Update the game to {SelectedGameRequirement.Version}. If this version is only available on a test branch: Steam → Properties → Betas → select that branch."),
             GameVersionRelation.Newer => T("Игра новее поддерживаемой версии. Дождитесь обновления Paw's Patch для этой версии игры.",
                 "The game is newer than the supported version. Wait for a Paw's Patch update for this game version."),
             _ => T("Файл игры отличается от поддерживаемого. Проверьте целостность файлов в Steam и выбранную ветку игры. По этому файлу нельзя надёжно определить, старее он или новее.",

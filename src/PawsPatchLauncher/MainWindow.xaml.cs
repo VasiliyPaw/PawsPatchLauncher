@@ -163,7 +163,7 @@ public partial class MainWindow : Window
         SettingsTitleText.Text = _text["settings.title"];
         SettingsLanguageTitleText.Text = _text["settings.language"];
         SettingsLanguageDescriptionText.Text = _text["settings.language.desc"];
-        SettingsLanguageButton.Content = _text.Language == "ru" ? "English" : "Русский";
+        SettingsLanguageButton.Content = UiLanguages.Text(_text.Language, "English", "Русский");
         SettingsRepairTitleText.Text = _text["settings.repair"];
         SettingsRepairDescriptionText.Text = _text["settings.repair.desc"];
         SettingsRepairButton.Content = _text["button.repair"];
@@ -214,7 +214,7 @@ public partial class MainWindow : Window
         UpdateButton.Content = _text["button.install"];
         LaunchButton.Content = _text["button.launch"];
         BrowseButton.Content = _text["button.browse"];
-        LanguageButton.Content = _text.Language == "ru" ? "EN" : "RU";
+        LanguageButton.Content = UiLanguages.Text(_text.Language, "EN", "RU");
         // Friend profiles reuse the component labels; refresh only after those labels are localized.
         ApplyAccountLanguage();
         ApplyHelpTooltips(this);
@@ -359,6 +359,7 @@ public partial class MainWindow : Window
             try { _settingsPending = _selectionRequiresUpdate || UpdateDetector.HasSettingsChanges(state, _channel is null ? [] : ResolveSelectedPackages(_channel), GetEffectiveSettings()); }
             catch (FrequencyUnavailableException) { _settingsPending = true; }
             catch (Exception ex) { _settingsPending = true; _installationFailure = ex.Message; }
+        RefreshFriendAppliedState(state);
         RefreshAvailableUpdates(state);
         GamePathText.Text = _game?.Directory ?? "-";
         GameVersionText.Text = _game is null ? "-" : $"{(_game.Branch == "beta" ? "Beta" : "Steam")} · build {_game.SteamBuild ?? "?"}";
@@ -634,9 +635,7 @@ public partial class MainWindow : Window
                 return;
             }
             if (!File.Exists(executable))
-                throw new FileNotFoundException(_text.Language == "ru"
-                    ? "Не найден EXE для выбранного набора функций."
-                    : "The executable for the selected feature set was not found.", executable);
+                throw new FileNotFoundException(UiLanguages.Text(_text.Language, "Не найден EXE для выбранного набора функций.", "The executable for the selected feature set was not found."), executable);
 
             SetBusy(true, T("Проверяю критические файлы…", "Checking critical files…"));
             var critical = await MultiplayerCheck.CriticalAsync(_game.Directory, installer.LoadState(), executable, !CompatibilityRelevant || DataOnlyMode ? new GameRequirement() : GameMod.Requirement(channel, _settings.Mod));
@@ -728,7 +727,7 @@ public partial class MainWindow : Window
         try
         {
             _launcherRestarting = true;
-            SetBusy(true, _text.Language == "ru" ? $"Обновляю лаунчер до {release.Version}…" : $"Updating launcher to {release.Version}…");
+            SetBusy(true, UiLanguages.Format(_text.Language, $"Обновляю лаунчер до {release.Version}…", $"Updating launcher to {release.Version}…"));
             _settingsStore.Save(_settings);
             _windowPlacement?.SaveOnAcceptedClose();
             await _restartLauncher();
@@ -781,9 +780,7 @@ public partial class MainWindow : Window
         {
             _settings.DesyncMode = "official";
             SelectOosMode("official");
-            ShowResult(() => _text.Language == "ru"
-                ? "Для цветов вместе с пропуском рассинхрона выберите последний выпуск. В этом старом выпуске сочетание недоступно."
-                : "Select the latest release to combine colors with desync bypass. This older release does not support the combination.");
+            ShowResult(() => UiLanguages.Text(_text.Language, "Для цветов вместе с пропуском рассинхрона выберите последний выпуск. В этом старом выпуске сочетание недоступно.", "Select the latest release to combine colors with desync bypass. This older release does not support the combination."));
         }
         if (ColorsToggle.IsChecked == true && !GameExecutableSelector.SupportsIndependentColors(_channel))
         {
@@ -842,9 +839,7 @@ public partial class MainWindow : Window
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
         IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
-        ColorsDescriptionText.Text = _colorsAvailable ? _text["modules.colors.desc"] : _text.Language == "ru"
-                ? "Недоступно в выбранном старом выпуске. Выберите последнюю версию патча."
-                : "Unavailable in this older release. Select the latest patch version.";
+        ColorsDescriptionText.Text = _colorsAvailable ? _text["modules.colors.desc"] : UiLanguages.Text(_text.Language, "Недоступно в выбранном старом выпуске. Выберите последнюю версию патча.", "Unavailable in this older release. Select the latest patch version.");
         }
         finally { _initializing = wasInitializing; }
     }

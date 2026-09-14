@@ -84,7 +84,7 @@ public partial class MainWindow
     {
         if(_gameActivityOpeningProfile||AccountConnectionBlocked||ConfirmationActive||_gameActivityLifetime is null
             ||!(_gameActivityShown?.Activity.Players?.Any(p=>!p.Bot&&p.Profile?.Id==profile.Id)??false))return;
-        if(profile.Id.ToString()==_account.UserId){CloseSocialDetails();SetActivePage("account");return;}
+        if(profile.Id.ToString()==_account.UserId){CloseGameActivity();await ShowOwnPlayerCardAsync();return;}
         _gameActivityOpeningProfile=true;
         _gameAvatarReadLifetime?.Cancel(); // Profile navigation takes priority over cosmetic downloads on the account transport.
         var generation=_gameActivityGeneration;var owner=_account.UserId;

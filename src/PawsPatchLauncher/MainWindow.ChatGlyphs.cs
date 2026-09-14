@@ -25,9 +25,9 @@ public partial class MainWindow
             HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
         foreach (var glyph in ChatGlyphs.All)
         {
-            var label = _text.Language == "ru" ? glyph.Ru : glyph.En;
+            var label = T(glyph.Ru,glyph.En);
             var button = new Button { Name = "InsertGameGlyph", Style = (Style)FindResource("GhostButton"), Width = 42, Height = 38, Padding = new(4),
-                Content = ChatGlyphs.CreateImage(glyph, _text.Language == "ru"), ToolTip = label };
+                Content = ChatGlyphs.CreateImage(glyph, _text.Language), ToolTip = label };
             System.Windows.Automation.AutomationProperties.SetName(button, label);
             button.Click += (_, _) => InsertPickerGlyph(glyph, Keyboard.Modifiers);
             rows.Children.Add(button);

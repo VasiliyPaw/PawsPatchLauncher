@@ -7,17 +7,18 @@ namespace PawsPatchLauncher;
 
 public static class DiagnosticsCollector
 {
-    private static void CopyLauncherDiagnostics(string staging)
+    private static async Task CopyLauncherDiagnosticsAsync(string staging, DiagnosticCollectionReport report, CancellationToken token)
     {
-        var copied = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var name in new[] { "launcher-errors.log", "self-update.log", "launcher-run.json", "previous-launcher-run.json", "game-run.json", "failed-launcher-sha256.txt", "update-rollback.txt", "user-actions.jsonl", "user-actions.1.jsonl", "user-actions.2.jsonl" })
         {
             var file = Path.Combine(ActivityStore.Root, name);
-            if (File.Exists(file)) CopyOne(file, Path.Combine(staging, "launcher", name), copied);
+            if (File.Exists(file)) await GameDiagnosticFiles.CopyFileAsync(file, staging, "launcher/" + name, "launcher", report, token);
         }
     }
 
-    public static async Task<string> CreateLauncherOnlyAsync(string destination)
+    public static Task<string> CreateLauncherOnlyAsync(string destination) => Task.Run(() => CreateLauncherOnlyCoreAsync(destination));
+
+    private static async Task<string> CreateLauncherOnlyCoreAsync(string destination)
     {
         var staging = Path.Combine(Path.GetTempPath(), "PawsPatchDiagnostics", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(staging);
@@ -25,30 +26,30 @@ public static class DiagnosticsCollector
         {
             ActionJournal.Record("diagnostics.create", "launcher-only");
             await ActionJournal.FlushAsync();
-            CopyLauncherDiagnostics(staging);
+            var report = new DiagnosticCollectionReport();
+            await CopyLauncherDiagnosticsAsync(staging, report, default);
             await WriteTextAsync(staging, "system-information.json", await SystemDiagnostics.CollectAsync(null), default);
             await WriteTextAsync(staging, "launcher-report.txt", "Paw's Launcher diagnostics (game not selected).\nUser action history contains control names and game settings, not typed text or chat messages.\nHardware query failures are listed in system-information.json.\n", default);
+            await GameDiagnosticFiles.WriteReportAsync(staging, report, default);
             await WriteHashManifestAsync(staging, default);
-            Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(destination))!);
-            if (File.Exists(destination)) File.Delete(destination);
-            ZipFile.CreateFromDirectory(staging, destination, CompressionLevel.SmallestSize, false);
+            await WriteArchiveAsync(staging, destination, default);
             ActionJournal.Record("diagnostics.created", "launcher-only");
             return destination;
         }
         finally { Directory.Delete(staging, true); }
     }
-    private static readonly string[] RootPatterns =
-    [
-        "log*.log", "ART_log*.log", "SAI_log*.log", "*.dmp", "paws_sync_continue_status.txt"
-    ];
-
-    public static async Task<string> CreateAsync(
+    public static Task<string> CreateAsync(
         string destination,
         GameInstallation game,
         UserSettings settings,
         InstallState state,
         IReadOnlyCollection<string> verificationErrors,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        DiagnosticLocations? locations = null) => Task.Run(() => CreateCoreAsync(destination, game, settings, state,
+            verificationErrors, cancellationToken, locations), cancellationToken);
+
+    private static async Task<string> CreateCoreAsync(string destination, GameInstallation game, UserSettings settings,
+        InstallState state, IReadOnlyCollection<string> verificationErrors, CancellationToken cancellationToken, DiagnosticLocations? locations)
     {
         var staging = Path.Combine(Path.GetTempPath(), "PawsPatchDiagnostics", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(staging);
@@ -63,26 +64,17 @@ public static class DiagnosticsCollector
                 JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState), cancellationToken);
             await WriteRuntimeInventoryAsync(staging, game, state, cancellationToken);
 
-            var copied = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            CopyLauncherDiagnostics(staging);
+            var collection = new DiagnosticCollectionReport();
+            await CopyLauncherDiagnosticsAsync(staging, collection, cancellationToken);
             foreach (var name in new[] { "state.json", "last-working.json", "rollback.txt", "mod-library.json" })
             {
                 var file = Path.Combine(game.Directory, ".pawpatch", name);
-                if (File.Exists(file)) CopyOne(file, Path.Combine(staging, "launcher", name), copied);
+                if (File.Exists(file)) await GameDiagnosticFiles.CopyFileAsync(file, staging, "launcher/" + name, "installation", collection, cancellationToken);
             }
-            foreach (var pattern in RootPatterns)
-                CopyMatches(game.Directory, pattern, Path.Combine(staging, "logs", "game-root"), copied);
-
-            CopyTree(Path.Combine(game.Directory, "data", "synclogs"), Path.Combine(staging, "logs", "game-synclogs"), copied);
-
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            CopyDiagnosticsTree(Path.Combine(documents, "Kohan2"), Path.Combine(staging, "logs", "documents-kohan2"), copied);
-            CopyDiagnosticsTree(Path.Combine(documents, "Kohan II"), Path.Combine(staging, "logs", "documents-kohan-ii"), copied);
+            await GameDiagnosticFiles.CollectAsync(staging, locations ?? DiagnosticLocations.Current(game.Directory), cancellationToken, collection);
 
             await WriteHashManifestAsync(staging, cancellationToken);
-            Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-            if (File.Exists(destination)) File.Delete(destination);
-            ZipFile.CreateFromDirectory(staging, destination, CompressionLevel.SmallestSize, false);
+            await WriteArchiveAsync(staging, destination, cancellationToken);
             ActionJournal.Record("diagnostics.created", "game");
             return destination;
         }
@@ -115,12 +107,13 @@ public static class DiagnosticsCollector
         builder.AppendLine();
         builder.AppendLine("Privacy note: crash dumps can contain fragments of process memory. Review the archive before sharing it publicly.");
         builder.AppendLine("User actions: last three logs (2 MiB each). Static control/action names, configuration changes and outcomes only; no typed text, passwords, codes or message contents. History begins with installation of this launcher build.");
+        builder.AppendLine("Crash history: five newest readable log sets and five game dumps, plus up to five Windows dumps and five Kohan WER reports. Companion logs and patch status are included. See collection-report.json for collected files, searched locations and failures. No dumps are created by this operation.");
         return builder.ToString();
     }
 
     private static async Task WriteRuntimeInventoryAsync(string staging, GameInstallation game, InstallState state, CancellationToken token)
     {
-        var names = new[] { "k2.exe", "steam_api.dll", "steam_api64.dll" }.Concat(state.Modules.Values.Where(m => m.Enabled)
+        var names = new[] { "k2.exe", "steam_api.dll", "steam_api64.dll", "d3d9.dll" }.Concat(state.Modules.Values.Where(m => m.Enabled)
             .SelectMany(m => m.Files).Where(f => GameCompatibilityPolicy.NativePath(f.Path)).Select(f => f.Path)).Distinct(StringComparer.OrdinalIgnoreCase);
         var lines = new List<string> { "Actual runtime files: SHA-256  SIZE  MODIFIED-UTC  RELATIVE-PATH" };
         foreach (var name in names.Order(StringComparer.OrdinalIgnoreCase))
@@ -137,48 +130,28 @@ public static class DiagnosticsCollector
         await WriteTextAsync(staging, "runtime-files.txt", string.Join(Environment.NewLine, lines), token);
     }
 
-    private static void CopyMatches(string source, string pattern, string destination, HashSet<string> copied)
+    private static async Task WriteArchiveAsync(string staging, string destination, CancellationToken token)
     {
-        if (!Directory.Exists(source)) return;
-        foreach (var file in Directory.EnumerateFiles(source, pattern, SearchOption.TopDirectoryOnly))
-            CopyOne(file, Path.Combine(destination, Path.GetFileName(file)), copied);
-    }
-
-    private static void CopyTree(string source, string destination, HashSet<string> copied)
-    {
-        if (!Directory.Exists(source)) return;
-        foreach (var file in Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories))
-        {
-            var relative = Path.GetRelativePath(source, file);
-            CopyOne(file, Path.Combine(destination, relative), copied);
-        }
-    }
-
-    private static void CopyDiagnosticsTree(string source, string destination, HashSet<string> copied)
-    {
-        if (!Directory.Exists(source)) return;
-        foreach (var file in Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories))
-        {
-            var name = Path.GetFileName(file);
-            if (!name.EndsWith(".log", StringComparison.OrdinalIgnoreCase)
-                && !name.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
-                && !name.EndsWith(".dmp", StringComparison.OrdinalIgnoreCase)) continue;
-            var relative = Path.GetRelativePath(source, file);
-            CopyOne(file, Path.Combine(destination, relative), copied);
-        }
-    }
-
-    private static void CopyOne(string source, string destination, HashSet<string> copied)
-    {
-        var full = Path.GetFullPath(source);
-        if (!copied.Add(full)) return;
+        destination = Path.GetFullPath(destination);
+        Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+        var temporary = destination + "." + Guid.NewGuid().ToString("N") + ".partial";
         try
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-            File.Copy(full, destination, true);
+            using (var archive = ZipFile.Open(temporary, ZipArchiveMode.Create))
+                foreach (var file in Directory.EnumerateFiles(staging, "*", SearchOption.AllDirectories).Order(StringComparer.OrdinalIgnoreCase))
+                {
+                    token.ThrowIfCancellationRequested();
+                    var entry = archive.CreateEntry(Path.GetRelativePath(staging, file).Replace('\\', '/'), CompressionLevel.Optimal);
+                    var modified = File.GetLastWriteTimeUtc(file);
+                    if (modified.Year is >= 1980 and <= 2107) entry.LastWriteTime = new DateTimeOffset(modified);
+                    using var input = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.Asynchronous | FileOptions.SequentialScan);
+                    using var output = entry.Open();
+                    await input.CopyToAsync(output, token);
+                }
+            token.ThrowIfCancellationRequested();
+            File.Move(temporary, destination, true);
         }
-        catch (IOException) { }
-        catch (UnauthorizedAccessException) { }
+        finally { if (File.Exists(temporary)) File.Delete(temporary); }
     }
 
     private static async Task WriteHashManifestAsync(string root, CancellationToken cancellationToken)

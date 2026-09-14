@@ -181,7 +181,7 @@ public partial class MainWindow
         details+=!known?T("Нет данных о конфигурации друга. Попросите его открыть лаунчер с установленным патчем.",
             "Your friend's configuration is unavailable. Ask them to open the launcher with the patch installed.")
             :matches?T("Ваши конфигурации уже совпадают. Отправка не требуется.","Your configurations already match. There is nothing to send.")
-            :string.Join("\n",ConfigurationChanges.Describe(theirs,ours,_text.Language=="ru"));
+            :string.Join("\n",ConfigurationChanges.Describe(theirs,ours,_text.Language));
         var confirmation=ConfirmActionAsync(T("Предложить конфигурацию?","Offer configuration?"),
             T("Друг получит предложение и сам решит, применять ли изменения.","Your friend will receive an offer and choose whether to apply the changes."),
             T("ИЗМЕНЕНИЯ У ДРУГА","CHANGES FOR YOUR FRIEND"),details,T("Отправить предложение","Send offer"));

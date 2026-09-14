@@ -1,9 +1,14 @@
 namespace PawsPatchLauncher;
 
-public enum FriendCopyAction { Apply, Install, Update }
+public enum FriendCopyAction { Apply, Install, Update, None }
 
 public sealed record FriendCopyPlan(FriendCopyAction Action, bool Repair, int DownloadCount)
 {
+    public static bool MatchesApplied(SocialPlayer player, InstallState? state, SocialVersions? installed)
+        => state?.AppliedSettings is { } applied && installed?.ContentId is { Length:64 } content
+            && player.Versions is { } peer && content.Equals(peer.ContentId,StringComparison.OrdinalIgnoreCase) && peer.Mod==installed.Mod && peer.Channel==installed.Channel
+            && peer.Patch==installed.Patch && FriendConfiguration.TryParse(player.Configuration,player.Channel,out var selection)
+            && FriendConfiguration.Matches(selection,applied);
     // Compare the destination library entry, never the mod currently active in the game.
     public static FriendCopyPlan Create(ChannelManifest channel, UserSettings selection,
         ModLibraryEntry? installed, Func<PackageRelease, bool> locallyAvailable)

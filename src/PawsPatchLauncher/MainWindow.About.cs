@@ -80,8 +80,7 @@ public partial class MainWindow
         AboutTabsPanel.Visibility = AboutCategoryText.Visibility = singleSection ? Visibility.Collapsed : Visibility.Visible;
         SyncAboutTabs();
         AboutTitleText.Text = "Paw's Patch";
-        AboutIntroText.Text = T($"Что добавляет и меняет Paw's Patch поверх {GameMod.Name(_guideSubject, true)}. Выберите раздел, чтобы посмотреть подробности.",
-            $"What Paw's Patch adds and changes on top of {GameMod.Name(_guideSubject, false)}. Choose a section to read the details.");
+        AboutIntroText.Text = TF($"Что добавляет и меняет Paw's Patch поверх {GameMod.Name(_guideSubject, true)}. Выберите раздел, чтобы посмотреть подробности.", $"What Paw's Patch adds and changes on top of {GameMod.Name(_guideSubject, false)}. Choose a section to read the details.");
         var channel = GuideChannel();
         var modPatchGuide = GuideCatalog.Resolve(channel, _guideSubject)?.PatchGuide;
         var guide = PatchGuide.IsValid(modPatchGuide) ? modPatchGuide! : PatchGuide.Resolve(channel);

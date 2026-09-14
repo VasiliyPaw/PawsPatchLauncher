@@ -7,9 +7,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>PawsPatchLauncher</AssemblyName>
     <RootNamespace>PawsPatchLauncher</RootNamespace>
-    <Version>0.7.12</Version>
-    <AssemblyVersion>0.7.12.0</AssemblyVersion>
-    <FileVersion>0.7.12.0</FileVersion>
+    <Version>0.8.0</Version>
+    <AssemblyVersion>0.8.0.0</AssemblyVersion>
+    <FileVersion>0.8.0.0</FileVersion>
     <ApplicationIcon>Assets\PawsPatch.ico</ApplicationIcon>
     <PublishSingleFile>true</PublishSingleFile>
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
@@ -23,6 +23,7 @@
     <EmbeddedResource Include="launcher.config.json" />
     <EmbeddedResource Include="Assets\notification-soft-pluck.wav" />
     <EmbeddedResource Include="Assets\mod-guides.json" />
+    <EmbeddedResource Include="Assets\Languages\*.json" />
     <EmbeddedResource Include="Assets\Vanilla1372\autoexec.txt" />
     <EmbeddedResource Include="Assets\Vanilla1372\options_dialog.tgi" />
     <None Update="launcher.config.json">

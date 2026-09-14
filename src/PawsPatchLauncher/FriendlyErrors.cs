@@ -9,9 +9,9 @@ namespace PawsPatchLauncher;
 public enum ErrorAction { CheckUpdates, Storage, Settings, Diagnostics }
 public sealed record FriendlyError(string Code, string TitleRu, string TitleEn, string BodyRu, string BodyEn, ErrorAction Action)
 {
-    public string Title(string language) => language == "ru" ? TitleRu : TitleEn;
-    public string Body(string language) => language == "ru" ? BodyRu : BodyEn;
-    public string ActionText(string language) => (Action, language == "ru") switch
+    public string Title(string language) => UiLanguages.Text(language, TitleRu, TitleEn);
+    public string Body(string language) => UiLanguages.Text(language, BodyRu, BodyEn);
+    public string ActionText(string language) => UiLanguages.English(language, (Action, language == "ru") switch
     {
         (ErrorAction.CheckUpdates, true) => "Проверить обновления",
         (ErrorAction.Storage, true) => "Управление местом",
@@ -21,7 +21,7 @@ public sealed record FriendlyError(string Code, string TitleRu, string TitleEn, 
         (ErrorAction.Storage, _) => "Manage storage",
         (ErrorAction.Settings, _) => "Open settings",
         _ => "Create diagnostics"
-    };
+    });
 }
 
 public static class FriendlyErrors

@@ -14,7 +14,9 @@ public partial class MainWindow
 
     private ImageBrush? ProfileAvatarPhoto(SocialPlayer player)
     {
-        if(player.Deleted || player.AvatarRevision is null || player.Id.ToString()==_account.UserId)return null;
+        if(player.Deleted || player.AvatarRevision is null)return null;
+        if(player.Id.ToString()==_account.UserId)
+            return _accountAvatarOwner==_account.UserId && player.AvatarRevision==_account.AvatarChangedAt && player.AvatarRevision==_accountAvatarRevision ? _accountAvatar : null;
         // Reuse the decoded 256 px photo from the profile. A removed/replaced revision
         // must not expose a stale image retained for an earlier game participant list.
         if(_gameParticipantAvatars.TryGetValue(player.Id,out var participant)&&participant.revision==player.AvatarRevision)return participant.image;

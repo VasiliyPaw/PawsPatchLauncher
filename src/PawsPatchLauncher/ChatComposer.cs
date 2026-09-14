@@ -12,7 +12,8 @@ public sealed class ChatComposer : RichTextBox
     private bool _changing;
     private long _editRevision;
     public int MaxLength { get; set; } = 2000;
-    public bool Russian { get; set; }
+    public string UiLanguage { get; set; } = "en";
+    public bool Russian { get => UiLanguage == "ru"; set => UiLanguage = value ? "ru" : "en"; }
     public Func<string, Task<bool>>? CopyTextRequested { get; set; }
 
     public ChatComposer()
@@ -29,7 +30,7 @@ public sealed class ChatComposer : RichTextBox
                 ("Вырезать", "Cut", ApplicationCommands.Cut), ("Копировать", "Copy", ApplicationCommands.Copy),
                 ("Вставить", "Paste", ApplicationCommands.Paste), ("Выделить всё", "Select all", ApplicationCommands.SelectAll) })
             {
-                var item = new MenuItem { Header = Russian ? ru : en, Command = command, CommandTarget = this, InputGestureText = "" };
+                var item = new MenuItem { Header = UiLanguages.Text(UiLanguage,ru,en), Command = command, CommandTarget = this, InputGestureText = "" };
                 if (TryFindResource("SocialMenuItem") is Style style) item.Style = style;
                 item.Click += (_, _) => ActionJournal.Record("chat.edit", command.Name);
                 ContextMenu.Items.Add(item);
@@ -60,7 +61,7 @@ public sealed class ChatComposer : RichTextBox
             {
                 Document.Blocks.Clear();
                 var paragraph = new Paragraph { Margin = new(0) };
-                paragraph.Inlines.AddRange(ChatGlyphs.Inlines(value[..Math.Min(value.Length, MaxLength)], Russian));
+                paragraph.Inlines.AddRange(ChatGlyphs.Inlines(value[..Math.Min(value.Length, MaxLength)], UiLanguage));
                 Document.Blocks.Add(paragraph);
             }
             finally { _changing = false; }
@@ -92,7 +93,7 @@ public sealed class ChatComposer : RichTextBox
             {
                 var paragraph = new Paragraph { Margin = new(0) }; Document.Blocks.Add(paragraph); position = paragraph.ContentStart;
             }
-            foreach (var inline in ChatGlyphs.Inlines(text, Russian))
+            foreach (var inline in ChatGlyphs.Inlines(text, UiLanguage))
             {
                 Inline inserted;
                 if (inline is InlineUIContainer icon)

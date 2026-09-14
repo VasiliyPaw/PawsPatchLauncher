@@ -11,12 +11,31 @@ public partial class MainWindow
     {
         public Func<string> LocalizedMessage { get; } = message;
     }
+    private InstallState? _friendCopyAppliedState;
+    private SocialVersions? _friendCopyAppliedVersions;
+    private string? _friendCopyAppliedKey;
+    private void RefreshFriendAppliedState(InstallState? state)
+    {
+        _friendCopyAppliedState=state;
+        var key=(_game?.Directory??"")+"|"+state?.ReleaseId+"|"+JsonSerializer.Serialize(state?.AppliedSettings);
+        if(key==_friendCopyAppliedKey)return;
+        _friendCopyAppliedKey=key;_friendCopyAppliedVersions=null;
+        try
+        {
+            if(state?.ReleaseId is { Length:64 } release && state.AppliedSettings is { } settings)
+                _friendCopyAppliedVersions=SocialVersions.Installed(state,_feedClient.LoadArchived(release,settings.Channel),SelfUpdater.CurrentVersion.ToString());
+        }
+        catch { }
+    }
+    private bool PlayerConfigurationAlreadyApplied(SocialPlayer player) => !_fileCheckFailed && _installationFailure is null
+        && FriendCopyPlan.MatchesApplied(player,_friendCopyAppliedState,_friendCopyAppliedVersions);
     private string? _socialDetailsLayoutKey;
     private string? _socialDetailsRoleKey;
     private int _socialDetailsGeneration;
     private SocialPlayer? _activityViewedPlayer;
     private SocialPlayer? SocialDetailsPlayer()
     {
+        if (_socialDetailsPeer?.ToString() == _account.UserId && _ownPlayerCard?.Id == _socialDetailsPeer) return _ownPlayerCard;
         var listed = _socialPlayers.FirstOrDefault(p => p.Id == _socialDetailsPeer);
         if (listed is { Relation: "friend" }) return listed;
         var viewed = _activityViewedPlayer?.Id == _socialDetailsPeer ? _activityViewedPlayer
@@ -58,7 +77,7 @@ public partial class MainWindow
     private void ShowSocialDetails(SocialPlayer player)
     {
         if (player.Deleted || (player.Relation != "friend" || !_socialPlayers.Any(p => p.Id == player.Id && p.Relation == "friend"))
-            && !(_account.AdminLevel>0&&_adminViewedPlayer?.Id==player.Id) && _activityViewedPlayer?.Id!=player.Id) return;
+            && !(_account.AdminLevel>0&&_adminViewedPlayer?.Id==player.Id) && _activityViewedPlayer?.Id!=player.Id && player.Id.ToString()!=_account.UserId) return;
         if (_socialDetailsPeer == player.Id && SocialDetailsOverlay.Visibility == Visibility.Visible)
         { RenderSocialDetails(player); return; }
         CloseAvatarPreview();
@@ -112,7 +131,8 @@ public partial class MainWindow
         SocialDetailsComponentsLabel.Text = T(player.Presence == "offline" ? "ПОСЛЕДНИЕ НАСТРОЙКИ" : "КОМПОНЕНТЫ", player.Presence == "offline" ? "LAST KNOWN SETTINGS" : "COMPONENTS");
         SocialDetailsCopyButton.Content = T("Скопировать конфигурацию", "Copy configuration");
         SocialDetailsRelationshipText.Text = T("Не в друзьях", "Not a friend");
-        SocialDetailsRelationshipText.Visibility = !player.IsFriend && !player.Deleted ? Visibility.Visible : Visibility.Collapsed;
+        SocialDetailsRelationshipText.Visibility = player.Id.ToString()!=_account.UserId && !player.IsFriend && !player.Deleted ? Visibility.Visible : Visibility.Collapsed;
+        SocialDetailsFriendActions.Visibility = player.Id.ToString()==_account.UserId ? Visibility.Collapsed : Visibility.Visible;
         SocialDetailsRemoveButton.Content = player.IsFriend ? T("Удалить из друзей", "Remove friend")
             : player.Relation=="outgoing" ? T("Заявка отправлена", "Request sent")
             : player.Relation=="incoming" ? T("Принять заявку", "Accept request") : T("Добавить в друзья", "Add friend");
@@ -165,7 +185,7 @@ public partial class MainWindow
         }
         RefreshAvatarPreviewAvailability();
         RefreshSocialCopyAvailability();
-        _ = RefreshPeerVersionsAsync(player);
+        if(player.Id.ToString()!=_account.UserId) _ = RefreshPeerVersionsAsync(player);
         SocialDetailsComponents.Visibility=SocialDetailsChannel.Visibility=SocialDetailsChannelLabel.Visibility=SocialDetailsComponentsLabel.Visibility=player.Available?Visibility.Visible:Visibility.Collapsed;
     }
 
@@ -180,15 +200,15 @@ public partial class MainWindow
             : _game is null ? T("Сначала выберите папку игры.", "Select the game folder first.")
             : IsGameRunning() ? T("Закройте игру, чтобы применить настройки.", "Close the game to apply settings.")
             : _account.State != AccountState.SignedIn ? T("Для копирования нужно подключение к аккаунту.", "Connect to your account to copy settings.") : "";
-        var matches = available && exact && ConfigurationMatches(player!.Configuration);
-        SocialDetailsCopyHint.Text = hint.Length == 0 && matches
-            ? T("Настройки совпадают. При копировании проверим обновление нужного мода.", "Settings match. Copying will check for an update to the required mod.") : hint;
+        var matches = available && exact && PlayerConfigurationAlreadyApplied(player!);
+        SocialDetailsCopyHint.Text = hint.Length == 0 && matches ? T("Эта конфигурация и версия патча уже применены.", "This configuration and patch version are already applied.") : hint;
+        SocialDetailsCopyButton.Content = matches ? T("Конфигурации совпадают", "Configurations match") : T("Скопировать конфигурацию", "Copy configuration");
         SocialDetailsCopyButton.Visibility = available ? Visibility.Visible : Visibility.Collapsed;
         SocialDetailsCopyHint.Visibility = SocialDetailsCopyHint.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
         SocialDetailsCopyHint.Foreground=SocialBrush(versionStatus is not (PeerVersionStatus.Current or PeerVersionStatus.Checking)?"#FFB1A8":"#A8BBD2");
         SocialDetailsCopyButton.ToolTip=hint.Length==0?null:hint;
         ToolTipService.SetShowOnDisabled(SocialDetailsCopyButton,true);
-        SocialDetailsCopyButton.IsEnabled = exact && player?.Available==true && !_account.Restricted && hint.Length == 0 && !_busy && !FeedBlocksActions && !_accountBusy && !_socialBusy && !ConfirmationActive;
+        SocialDetailsCopyButton.IsEnabled = !matches && exact && player?.Available==true && !_account.Restricted && hint.Length == 0 && !_busy && !FeedBlocksActions && !_accountBusy && !_socialBusy && !ConfirmationActive;
         var viewed = SocialDetailsPlayer();
         SocialDetailsRemoveButton.IsEnabled=SocialDetailsBlockButton.IsEnabled=viewed is not null&&_account.State==AccountState.SignedIn
             &&!_busy&&!FeedBlocksActions&&!_accountBusy&&!_socialBusy&&!ConfirmationActive;
@@ -241,7 +261,7 @@ public partial class MainWindow
         try
         {
             CheckContext();
-            if(offer is not null && ConfigurationMatches(originalCode)) return;
+            if(PlayerConfigurationAlreadyApplied(player)) { RefreshSocialCopyAvailability(); return; }
             var baseline=LocalAppliedConfiguration();
             imported = FriendConfiguration.WithLocalLanguages(imported, baseline);
             // Freeze the intended options before checking the destination release.
@@ -272,9 +292,12 @@ public partial class MainWindow
             var (channel, plan) = await preparation;
             if (_confirmation?.Task != confirmation || _confirmationFinishing) { await confirmation; return; }
             CheckContext();
+            if(plan.Action==FriendCopyAction.Apply && plan.DownloadCount==0 && PlayerConfigurationAlreadyApplied(player))
+                plan=plan with { Action=FriendCopyAction.None };
             RenderFriendCopyPlan(channel, snapshot, plan);
-            if (!await confirmation) return;
+            if (!await confirmation || plan.Action==FriendCopyAction.None) return;
             CheckContext();
+            if(PlayerConfigurationAlreadyApplied(player)) return;
             CloseSocialDetails();
             ownsOperation = true;
             SetBusy(true, T("Применяю конфигурацию…", "Applying configuration…"));

@@ -12,7 +12,9 @@ public partial class MainWindow
 
     private string LatestFriendLauncherVersion(string? candidate=null)
     {
-        var version=SelfUpdater.CurrentVersion;
+        // An unpublished local preview must not mark the latest public launcher as old.
+        // With no verified public version, the patch catalog check stays pending.
+        var version=ActivityStore.LocalTestProfile is not null ? new Version(0,0,0) : SelfUpdater.CurrentVersion;
         foreach(var text in new[]{candidate,_launcherUpdates.Latest?.Version})
             if(SocialVersions.TryLauncher(text,out var parsed) && parsed>version)version=parsed;
         return version.ToString();

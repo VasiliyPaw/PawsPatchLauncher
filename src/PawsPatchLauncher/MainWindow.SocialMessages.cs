@@ -92,7 +92,7 @@ public partial class MainWindow
             content.Children.Add(new TextBlock { Tag="message-body",Text = entry.message is {Kind:"offer"}&&author?.Deleted==true?T("Предложение недоступно: аккаунт удалён.","Offer unavailable: account deleted."):entry.message?.Body ?? pending!.Body, TextWrapping = TextWrapping.Wrap, FontSize = 14,
                 Foreground = SocialBrush(pending is not null && !failed ? "#8195AD" : "#F4F1E7"), Margin = new Thickness(0, 4, 0, 0) });
             var messageBody=content.Children.OfType<TextBlock>().Last();
-            ChatGlyphs.Render(messageBody,messageBody.Text,_text.Language=="ru");
+            ChatGlyphs.Render(messageBody,messageBody.Text,_text.Language);
             if(pending is null)AddChatMedia(content,entry.message!.Body);
             if (pending is not null)
             {
@@ -117,5 +117,5 @@ public partial class MainWindow
     }
     private static SolidColorBrush SocialBrush(string color) => new((Color)ColorConverter.ConvertFromString(color));
     private static string ChatTime(DateTimeOffset time)=>time.ToLocalTime().ToString("HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture);
-    private string ChatDate(DateTimeOffset time)=>time.ToLocalTime().ToString(_text.Language=="ru"?"dd.MM.yyyy HH:mm:ss":"yyyy-MM-dd HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture);
+    private string ChatDate(DateTimeOffset time)=>time.ToLocalTime().ToString(UiLanguages.DatePattern(_text.Language) + " HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture);
 }

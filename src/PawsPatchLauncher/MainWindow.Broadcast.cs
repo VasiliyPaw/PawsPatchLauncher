@@ -125,7 +125,7 @@ public partial class MainWindow
             entry.Status.Foreground=SocialBrush(reason is null?"#9EB5CE":"#D5AE52");
             var before = _broadcastConfig && reason is null ? ConfigurationCode.Parse(entry.Player.Configuration!) : null;
             entry.Select.ToolTip=_broadcastConfig && reason is null
-                ? string.Join("\n",ConfigurationChanges.Describe(before!,FriendConfiguration.WithLocalLanguages(ConfigurationCode.Parse(_broadcastCode!),before!),_text.Language=="ru")) : reason;
+                ? string.Join("\n",ConfigurationChanges.Describe(before!,FriendConfiguration.WithLocalLanguages(ConfigurationCode.Parse(_broadcastCode!),before!),_text.Language)) : reason;
         }
         RefreshBroadcastSelection();
     }

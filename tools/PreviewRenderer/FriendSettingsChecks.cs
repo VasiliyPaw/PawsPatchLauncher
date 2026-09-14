@@ -131,7 +131,17 @@ internal static class FriendSettingsChecks
                     Check(ConfigurationCode.Create(settings)==baseline, "preferences changed before file commit"); applied++;
                 }));
                 if (scenario == "running") running = true;
+                if (scenario == "already_applied")
+                {
+                    Set("_friendCopyAppliedState",new InstallState{AppliedSettings=ConfigurationCode.Parse(friend.Configuration!)});
+                    Set("_friendCopyAppliedVersions",friend.Versions);
+                    Set("_fileCheckFailed",false);Set("_installationFailure",null);
+                    Invoke("RefreshSocialCopyAvailability");
+                    Check(!Control<Button>("SocialDetailsCopyButton").IsEnabled,"identical applied configuration can be copied");
+                    Check(Control<Button>("SocialDetailsCopyButton").Content.ToString()==UiLanguages.Text(language,"Конфигурации совпадают","Configurations match"),"no-op button has no explanation");
+                }
                 var task = (Task)Invoke("CopyFriendSettingsAsync")!;
+                if(scenario=="already_applied")Check(task.IsCompleted&&feedReads==0&&reads==0&&applied==0&&Control<Border>("ConfirmationOverlay").Visibility!=Visibility.Visible,"no-op started a confirmation or network operation");
                 if (scenario != "running" && !task.IsCompleted)
                 {
                     Check(reads == 0 && applied == 0, "mutation started before confirmation");
@@ -206,7 +216,7 @@ internal static class FriendSettingsChecks
         SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(dispatcher));
         try
         {
-            async Task All() { foreach (var s in new[] { "cancel", "cancel_slow", "running", "feed_failure", "network", "removed", "changed", "game_during_load", "unsupported", "apply_failure", "account_changed", "path_changed", "success", "split_localization", "same_localization", "immortals", "vanilla", "inactive_update", "equal_update", "cached_current", "unrelated_update", "old_launcher", "old_patch", "old_both", "unknown_versions", "launcher_update_during_check", "old_after_consent" }) await Scenario(s); }
+            async Task All() { foreach (var s in new[] { "cancel", "cancel_slow", "running", "feed_failure", "network", "removed", "changed", "game_during_load", "unsupported", "apply_failure", "account_changed", "path_changed", "success", "split_localization", "same_localization", "immortals", "vanilla", "inactive_update", "equal_update", "cached_current", "unrelated_update", "old_launcher", "old_patch", "old_both", "unknown_versions", "launcher_update_during_check", "old_after_consent", "already_applied" }) await Scenario(s); }
             var task = All(); var frame = new DispatcherFrame(); var timeout = new DispatcherTimer { Interval = TimeSpan.FromSeconds(40) };
             timeout.Tick += (_,_) => frame.Continue=false; timeout.Start();
             _ = task.ContinueWith(_ => dispatcher.BeginInvoke(new Action(() => frame.Continue=false)));

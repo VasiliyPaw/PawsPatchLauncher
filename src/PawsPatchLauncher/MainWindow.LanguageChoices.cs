@@ -12,6 +12,7 @@ public partial class MainWindow
         public override string ToString() => Label;
     }
     private bool _syncingLanguages;
+    private string? _choiceLanguage;
     private bool CanChooseSeparateVoice => GameLanguages.SupportsSeparateVoice(_channel)
         || _settings.PinnedRelease is null && _offeredModChannel?.Channel == _settings.Channel && GameLanguages.SupportsSeparateVoice(_offeredModChannel);
     private void RefreshLanguageSelection()
@@ -25,9 +26,7 @@ public partial class MainWindow
 
     private void InitializeLanguageChoices()
     {
-        GameLanguageCombo.ItemsSource = new[] { new LanguageChoice("en", "English"), new LanguageChoice("ru", "Русский") };
-        GameVoiceCombo.ItemsSource = new[] { new LanguageChoice("en", "English"), new LanguageChoice("ru", "Русский") };
-        LauncherLanguageCombo.ItemsSource = new[] { new LanguageChoice("en", "English"), new LanguageChoice("ru", "Русский") };
+        LauncherLanguageCombo.ItemsSource = UiLanguages.Choices.Select(c => new LanguageChoice(c.Code, c.Label)).ToArray();
         SyncLanguageChoices();
     }
 
@@ -36,6 +35,12 @@ public partial class MainWindow
         _syncingLanguages = true;
         try
         {
+            if (_choiceLanguage != _text.Language)
+            {
+                _choiceLanguage = _text.Language;
+                GameLanguageCombo.ItemsSource = new[] { "en", "ru" }.Select(code => new LanguageChoice(code, UiLanguages.GameLanguageName(code, _text.Language))).ToArray();
+                GameVoiceCombo.ItemsSource = new[] { "en", "ru" }.Select(code => new LanguageChoice(code, UiLanguages.GameLanguageName(code, _text.Language))).ToArray();
+            }
             if (GameLanguageCombo.ItemsSource is IEnumerable<LanguageChoice> gameLanguages)
                 GameLanguageCombo.SelectedItem = gameLanguages.First(x => x.Code == (_settings.RussianLocalization ? "ru" : "en"));
             if (LauncherLanguageCombo.ItemsSource is IEnumerable<LanguageChoice> launcherLanguages)

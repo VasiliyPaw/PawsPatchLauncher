@@ -7,8 +7,8 @@ public static partial class ChannelPresentation
 {
     public static string Name(string channel, string language) => channel.ToLowerInvariant() switch
     {
-        "stable" => language == "en" ? "Release" : "Релиз",
-        "beta" => language == "en" ? "Beta" : "Бета",
+        "stable" => UiLanguages.Text(language, "Релиз", "Release"),
+        "beta" => UiLanguages.Text(language, "Бета", "Beta"),
         _ => channel
     };
 

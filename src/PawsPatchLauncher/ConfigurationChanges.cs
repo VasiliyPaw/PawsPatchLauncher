@@ -3,6 +3,17 @@ namespace PawsPatchLauncher;
 public sealed record ConfigurationChange(string Name,string Before,string After);
 public static class ConfigurationChanges
 {
+ public static IReadOnlyList<ConfigurationChange> Compare(UserSettings before,UserSettings after,string language)
+ {
+  return Compare(before,after,language=="ru").Select(c=>new ConfigurationChange(
+   UiLanguages.English(language,c.Name),UiLanguages.English(language,c.Before),UiLanguages.English(language,c.After))).ToArray();
+ }
+ public static IReadOnlyList<string> Describe(UserSettings before,UserSettings after,string language)
+ {
+  var changes=Compare(before,after,language);
+  return changes.Count==0?[UiLanguages.Text(language,"Конфигурации совпадают.","Configurations match.")]
+   :changes.Select(c=>c.Name+": "+c.Before+" → "+c.After).ToArray();
+ }
  public static IReadOnlyList<string> Describe(UserSettings before,UserSettings after,bool ru)
  {
   var changes=Compare(before,after,ru);

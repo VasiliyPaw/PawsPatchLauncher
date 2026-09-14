@@ -32,35 +32,38 @@ public static class ChatGlyphs
     private static readonly Regex Tokens = new(":ch_[a-z0-9_]{1,40}:", RegexOptions.CultureInvariant);
     private static readonly Dictionary<string, BitmapImage> Images = new();
 
-    public static Image CreateImage(ChatGlyph glyph, bool russian = false)
+    public static Image CreateImage(ChatGlyph glyph, bool russian = false) => CreateImage(glyph,russian?"ru":"en");
+    public static Image CreateImage(ChatGlyph glyph, string language)
     {
         if (!Images.TryGetValue(glyph.Id, out var bitmap))
         {
             bitmap = new BitmapImage(new Uri("pack://application:,,,/PawsPatchLauncher;component/Assets/ChatGlyphs/" + glyph.Id + ".png"));
             bitmap.Freeze(); Images[glyph.Id] = bitmap;
         }
-        var label = russian ? glyph.Ru : glyph.En;
+        var label = UiLanguages.Text(language,glyph.Ru,glyph.En);
         var image = new Image { Source = bitmap, Width = 22, Height = 22, ToolTip = label, Margin = new(1, 0, 1, 0) };
         System.Windows.Automation.AutomationProperties.SetName(image, label);
         return image;
     }
 
-    public static IEnumerable<Inline> Inlines(string text, bool russian = false)
+    public static IEnumerable<Inline> Inlines(string text, bool russian = false) => Inlines(text,russian?"ru":"en");
+    public static IEnumerable<Inline> Inlines(string text, string language)
     {
         var offset = 0;
         foreach (Match match in Tokens.Matches(text))
         {
             if (!ByToken.TryGetValue(match.Value, out var glyph)) continue;
             if (match.Index > offset) yield return new Run(text[offset..match.Index]);
-            yield return new InlineUIContainer(CreateImage(glyph, russian)) { Tag = glyph.Token, BaselineAlignment = BaselineAlignment.Center };
+            yield return new InlineUIContainer(CreateImage(glyph, language)) { Tag = glyph.Token, BaselineAlignment = BaselineAlignment.Center };
             offset = match.Index + match.Length;
         }
         if (offset < text.Length) yield return new Run(text[offset..]);
     }
 
-    public static void Render(TextBlock target, string text, bool russian = false)
+    public static void Render(TextBlock target, string text, bool russian = false) => Render(target,text,russian?"ru":"en");
+    public static void Render(TextBlock target, string text, string language)
     {
         target.Inlines.Clear();
-        target.Inlines.AddRange(Inlines(text, russian));
+        target.Inlines.AddRange(Inlines(text, language));
     }
 }

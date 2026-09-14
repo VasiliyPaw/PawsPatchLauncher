@@ -10,6 +10,11 @@ if (args.Length == 4 && args[0] == "--verify-graphics-beta5")
     await GraphicsBeta5Tests.RunAsync(args[1], args[2], args[3]);
     return;
 }
+if (args.Length >= 2 && args[0] == "--verify-game-diagnostics")
+{
+    await GameDiagnosticsTests.RunAsync(args[1], completeArchive: true);
+    return;
+}
 if (args.Length == 3 && args[0] == "--verify-split-languages")
 {
     await SplitLanguageTests.RunAsync(args[1], args[2]);
@@ -172,6 +177,7 @@ try
     passed += await ClipboardRetryTests.RunAsync();
     passed += await WindowsClipboardTests.RunAsync();
     passed += DiagnosticArchiveHistoryTests.Run(root);
+    passed += await GameDiagnosticsTests.RunAsync(root);
     passed += await LauncherEvolutionTests.RunAsync(root);
     passed += ChannelPresentationTests.Run();
     passed += WindowPlacementTests.Run(root);
@@ -183,6 +189,7 @@ try
     passed += await GameActivityTransportTests.RunAsync(root);
     passed += FriendConfigurationTests.Run();
     passed += FriendCopyPlanTests.Run();
+    passed += Launcher080Tests.Run();
     passed += await SocialVersionTests.RunAsync(root);
     passed += await PatchGuideTests.RunAsync(root);
     passed += await LauncherUpdateTests.RunAsync(root);

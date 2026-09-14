@@ -30,7 +30,7 @@ internal static class GameActivityChecks
         var calls=0;
         IEnumerable<TextBlock> FactionLabels()=>C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>()
             .SelectMany(g=>g.Children.OfType<Border>()).Select(b=>b.Child is Button button?(Grid)button.Content:(Grid)b.Child)
-            .SelectMany(g=>g.Children.OfType<StackPanel>()).SelectMany(n=>n.Children.OfType<TextBlock>()).Where(t=>Equals(t.Tag,"factions"));
+            .SelectMany(g=>g.Children.OfType<Grid>()).SelectMany(n=>n.Children.OfType<TextBlock>()).Where(t=>Equals(t.Tag,"factions"));
         IEnumerable<T> Visuals<T>(DependencyObject parent) where T:DependencyObject
         {
             for(var i=0;i<VisualTreeHelper.GetChildrenCount(parent);i++)
@@ -66,9 +66,17 @@ internal static class GameActivityChecks
             Check(((SolidColorBrush)((Border)marker.Children[1]).Background).Color==(Color)ColorConverter.ConvertFromString("#DDA443"),"player color preserved exactly");
             Check(C<Border>("GameActivityCard").ActualWidth<=570&&C<Border>("GameActivityCard").ActualHeight<=590,"compact card exceeds window");
             Check(Field<DispatcherTimer>("_gameActivityTimer").IsEnabled,"open details not refreshed");Capture("game-details");
+            var rowHeights=groups.SelectMany(g=>g.Children.OfType<Border>()).Select(b=>b.ActualHeight).Distinct().ToArray();
+            Check(rowHeights.Length==1,"participant cards differ in height");
+            var beforeTick=Field<TextBlock>("_gameActivityElapsedText").Text;var beforeCalls=calls;
+            var roster=groups[1].Children.OfType<Border>().First();
+            await Task.Delay(1150);
+            Check(Field<TextBlock>("_gameActivityElapsedText").Text!=beforeTick&&calls==beforeCalls,"local clock did not tick or performed network polling");
+            Check(ReferenceEquals(roster,groups[1].Children.OfType<Border>().First()),"one-second clock rebuilt rows");
             var sameRow=C<StackPanel>("GameActivityBody").Children[5];await (Task)Call("RefreshGameActivityAsync")!;
             Check(ReferenceEquals(sameRow,C<StackPanel>("GameActivityBody").Children[5]),"unchanged poll rebuilt participant rows");
             Call("CloseGameActivity");Check(!Field<DispatcherTimer>("_gameActivityTimer").IsEnabled,"closed details kept polling");
+            Check(!Field<DispatcherTimer>("_gameActivityClockTimer").IsEnabled,"closed details kept local clock running");
             await (Task)Call("ShowGameActivityAsync",peer)!;Check(calls==2,"reopening fresh details downloaded again");
             var overlay=C<Border>("GameActivityOverlay");
             var outside=new MouseButtonEventArgs(Mouse.PrimaryDevice,Environment.TickCount,MouseButton.Left){RoutedEvent=Mouse.PreviewMouseDownEvent};

@@ -30,7 +30,8 @@ public partial class MainWindow
     private bool _workingSaved;
     private readonly HashSet<string> _loadedPrevious = [];
 
-    private string T(string ru, string en) => _text.Language == "ru" ? ru : en;
+    private string T(string ru, string en) => UiLanguages.Text(_text.Language, ru, en);
+    private string TF(FormattableString ru, FormattableString en) => UiLanguages.Format(_text.Language, ru, en);
     private static string FormatBytes(long bytes) => bytes >= 1024L * 1024 * 1024 ? $"{bytes / 1073741824d:0.00} GB"
         : bytes >= 1024 * 1024 ? $"{bytes / 1048576d:0.0} MB" : $"{bytes / 1024d:0.0} KB";
 
@@ -364,7 +365,7 @@ public partial class MainWindow
             _readinessIdentity = state.LastSuccessfulUpdate;
             var modules = string.Join("\n", state.Modules.OrderBy(x => x.Value.Priority).Select(x => $"{x.Key}: {x.Value.Version}"));
             _readinessText.Text = $"Kohan II {_installedGameVersion} · Steam {_game.SteamBuild}\n{_text["patch.channel"]} {CurrentChannelName()}\n{modules}\n\n{EffectiveConfigurationCode}\n\n{_readiness.Fingerprint}\n\n" +
-                T($"Проверено файлов: {_readiness.Files}, {DateTime.Now:HH:mm:ss}. Ошибок: {_readiness.Errors.Count}.", $"Files checked: {_readiness.Files}, {DateTime.Now:HH:mm:ss}. Errors: {_readiness.Errors.Count}.");
+                TF($"Проверено файлов: {_readiness.Files}, {DateTime.Now:HH:mm:ss}. Ошибок: {_readiness.Errors.Count}.", $"Files checked: {_readiness.Files}, {DateTime.Now:HH:mm:ss}. Errors: {_readiness.Errors.Count}.");
             _fileCheckFailed = _readiness.Errors.Count > 0;
             var verificationErrors = _readiness.Errors.ToArray();
             ShowResult(() => verificationErrors.Length == 0 ? T("Отпечаток готов к сравнению.", "Fingerprint ready to compare.") : T("Найдены изменённые или отсутствующие файлы: ", "Changed or missing files: ") + string.Join(", ", verificationErrors.Take(4)), failure: _fileCheckFailed);

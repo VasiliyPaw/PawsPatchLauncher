@@ -17,6 +17,7 @@ public partial class MainWindow
     private void ClearSocialProfiles()
     {
         _socialAvatars.Clear(); _socialAvatarGeneration++; _socialPresenceNext=default;_socialListReceived=default;
+        _ownPlayerCard=null; _ownActivity=null;
         _gameActivityCache.Clear();
         _gameParticipantAvatars.Clear();
         _socialListLoading = _socialListFailed = false;
@@ -31,16 +32,16 @@ public partial class MainWindow
         var deleted=_socialPlayers.FirstOrDefault(p=>p.Id==player)?.Deleted==true;
         if(deleted)photo=null;
         var view=new Grid { Width=size,Height=size,Background=Brushes.Transparent };
-        if(openProfile && !own && !deleted && _socialPlayers.Any(p=>p.Id==player&&p.Relation=="friend"))
+        if(openProfile && !deleted && (own || _socialPlayers.Any(p=>p.Id==player&&p.Relation=="friend")))
         {
             view.Cursor=System.Windows.Input.Cursors.Hand;
-            view.MouseLeftButtonUp+=(_,e)=>{e.Handled=true;var friend=_socialPlayers.FirstOrDefault(p=>p.Id==player&&p.Relation=="friend");if(friend is not null)ShowSocialDetails(friend);};
+            view.MouseLeftButtonUp+=async(_,e)=>{e.Handled=true;if(own){await ShowOwnPlayerCardAsync();return;}var friend=_socialPlayers.FirstOrDefault(p=>p.Id==player&&p.Relation=="friend");if(friend is not null)ShowSocialDetails(friend);};
         }
         view.Children.Add(new Ellipse { Fill=photo ?? (Brush)SocialBrush("#334C68"),Stroke=SocialBrush("#607A94"),StrokeThickness=1 });
         if(photo is null)view.Children.Add(new LauncherIcon { Kind=IconKind.Person,Width=size*.58,Height=size*.58,HorizontalAlignment=HorizontalAlignment.Center,VerticalAlignment=VerticalAlignment.Center,Foreground=SocialBrush("#CCD7E4") });
         if(status&&!deleted)
         {
-            var contact=_socialPlayers.FirstOrDefault(p=>p.Id==player)??(_adminViewedPlayer?.Id==player?_adminViewedPlayer:null)
+            var contact=(own?_ownPlayerCard:null)??_socialPlayers.FirstOrDefault(p=>p.Id==player)??(_adminViewedPlayer?.Id==player?_adminViewedPlayer:null)
                 ??(_activityViewedPlayer?.Id==player?_activityViewedPlayer:null);
             var presence=contact is {Available:true}?contact.Presence:"offline";
             view.Children.Add(new Ellipse { Width=size>=60?20:16,Height=size>=60?20:16,HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,
@@ -75,6 +76,9 @@ public partial class MainWindow
         if(settings is not null) values=FriendConfiguration.Components(settings);
         await _account.PublishConfigurationPresenceAsync(playing,settings?.Channel is "stable" or "beta" ? settings.Channel : "unknown",values,
             settings is not null ? FriendConfiguration.Create(settings) : null,_accountLifetime.Token,versions,activity);
+        if (_account.UserId != owner.ToString()) return;
+        _ownActivity = activity is null ? null : new GameActivityDetails(activity, DateTimeOffset.UtcNow);
+        _ownPlayerCard = CreateOwnPlayerCard(owner, state, versions, playing);
         _socialPresenceNext=DateTimeOffset.UtcNow.AddSeconds(8);
     }
     private void PruneSocialProfiles()

@@ -52,6 +52,7 @@ public partial class MainWindow
         if (!string.IsNullOrWhiteSpace(patchVersion)) release += "\nPaw’s Patch " + patchVersion;
         var description = plan.Action switch
         {
+            FriendCopyAction.None => T("Эта конфигурация и версия патча уже применены.", "This configuration and patch version are already applied."),
             FriendCopyAction.Install when plan.Repair => T("Часть сохранённых файлов отсутствует. Лаунчер восстановит их и применит настройки игрока.", "Some saved files are missing. The launcher will restore them and apply the player's settings."),
             FriendCopyAction.Install => T("Этот мод с компонентами патча ещё не установлен в выбранном канале. Лаунчер установит его и применит настройки игрока.", "This mod and its patch components are not installed in the selected channel. The launcher will install them and apply the player's settings."),
             FriendCopyAction.Update => T("Сохранённый выпуск отличается от доступного. Лаунчер обновит этот мод и его компоненты патча, затем применит настройки игрока.", "The saved release differs from the available release. The launcher will update this mod and its patch components, then apply the player's settings."),
@@ -64,10 +65,11 @@ public partial class MainWindow
                 "The player's launcher and patch versions have been checked. Your text and speech languages, saves and other installed mods will be kept.");
         ConfirmationDeleteButton.Content = plan.Action switch
         {
+            FriendCopyAction.None => T("Конфигурации совпадают", "Configurations match"),
             FriendCopyAction.Install => T("Установить и применить", "Install and apply"),
             FriendCopyAction.Update => T("Обновить и применить", "Update and apply"),
             _ => T("Применить", "Apply")
         };
-        ConfirmationDeleteButton.IsEnabled = true;
+        ConfirmationDeleteButton.IsEnabled = plan.Action!=FriendCopyAction.None;
     }
 }

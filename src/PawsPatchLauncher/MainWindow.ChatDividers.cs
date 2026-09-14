@@ -41,6 +41,7 @@ public partial class MainWindow
         return row;
     }
 
-    private string ChatDay(DateTime date) => date.ToString(_text.Language == "ru" ? "d MMMM yyyy 'г.'" : "MMMM d, yyyy",
-        CultureInfo.GetCultureInfo(_text.Language == "ru" ? "ru-RU" : "en-US"));
+    private string ChatDay(DateTime date) => date.ToString(_text.Language switch
+    { "ru" => "d MMMM yyyy 'г.'", "en" => "MMMM d, yyyy", "cs" or "de" => "d. MMMM yyyy", _ => "d MMMM yyyy" },
+        CultureInfo.GetCultureInfo(UiLanguages.Normalize(_text.Language)));
 }

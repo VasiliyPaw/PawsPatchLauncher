@@ -6,9 +6,9 @@ public partial class MainWindow
 {
     private void RenderConfigurationChanges(UserSettings before,UserSettings after,string? heading=null)
     {
-        var rows=ConfigurationChanges.Compare(before,after,_text.Language=="ru");
+        var rows=ConfigurationChanges.Compare(before,after,_text.Language);
         // Plain/accessibility representation stays aligned with the visual rows.
-        ConfirmationPathText.Text=(heading is null?"":heading+"\n\n")+string.Join("\n",ConfigurationChanges.Describe(before,after,_text.Language=="ru"));
+        ConfirmationPathText.Text=(heading is null?"":heading+"\n\n")+string.Join("\n",ConfigurationChanges.Describe(before,after,_text.Language));
         ConfirmationPathText.Visibility=Visibility.Collapsed;
         var panel=ConfirmationChangesPanel;panel.Visibility=Visibility.Visible;panel.Children.Clear();
         System.Windows.Automation.AutomationProperties.SetName(panel,ConfirmationPathText.Text);

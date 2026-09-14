@@ -151,7 +151,7 @@ public sealed class LocalizedText
 {
     public string Ru { get; set; } = "";
     public string En { get; set; } = "";
-    public string Get(string language) => language.Equals("en", StringComparison.OrdinalIgnoreCase) ? En : Ru;
+    public string Get(string language) => language.Equals("ru", StringComparison.OrdinalIgnoreCase) ? Ru : En;
 }
 
 public sealed class ModuleArchiveManifest

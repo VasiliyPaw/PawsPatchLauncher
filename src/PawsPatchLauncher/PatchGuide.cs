@@ -3,8 +3,8 @@ namespace PawsPatchLauncher;
 // Current authored feature guide. Keep RU/EN together; do not derive prose from executable names.
 public sealed record PatchGuideEntry(string Id, string Category, string TitleRu, string TitleEn, string BodyRu, string BodyEn)
 {
-    public string Title(string language) => language == "en" ? TitleEn : TitleRu;
-    public string Body(string language) => language == "en" ? BodyEn : BodyRu;
+    public string Title(string language) => UiLanguages.Text(language, TitleRu, TitleEn);
+    public string Body(string language) => UiLanguages.Text(language, BodyRu, BodyEn);
 }
 
 public static class PatchGuide
@@ -12,13 +12,13 @@ public static class PatchGuide
     public const int PlayerColorCount = 49;
     public const string DesyncHelpRu = "При включении игра пропускает все обнаруженные рассинхроны, включая серьёзные, которые могут заметно повлиять на матч. Это не устраняет расхождения: у игроков могут отличаться события, положение и действия рот, ресурсы и исход боя. При выключении игра останавливает матч при рассинхроне. Настройка должна совпадать у всех участников.";
     public const string DesyncHelpEn = "When enabled, skips all detected desyncs, including serious ones that can substantially affect the match. This does not repair divergent states: players may see different events, company positions and actions, resources or battle outcomes. When disabled, the game stops the match on a desync. Every participant must use the same setting.";
-    public static string CategoryName(string category, string language) => (category, language == "en") switch
+    public static string CategoryName(string category, string language) => UiLanguages.English(language, (category, language != "ru") switch
     {
         ("optional", false) => "Настраиваемое", ("optional", true) => "Configurable",
         ("beta", false) => "В бете", ("beta", true) => "In Beta",
         (_, false) => "Всегда включено", _ => "Always included"
-    };
-    public static string CategoryDescription(string category, string language) => (category, language == "en") switch
+    });
+    public static string CategoryDescription(string category, string language) => UiLanguages.English(language, (category, language != "ru") switch
     {
         ("optional", false) => "Эти функции выбираются в разделе «Компоненты». Нажмите «Применить настройки» или запустите игру. Здесь только описание, настройки не переключаются.",
         ("optional", true) => "Choose these features in Components. Click Apply settings or launch the game. This page only describes them; it does not change settings.",
@@ -26,7 +26,7 @@ public static class PatchGuide
         ("beta", true) => "Additions in the current patch Beta. Reading this tab does not enable the Beta channel. Multiplayer peers need compatible versions and matching gameplay settings.",
         (_, false) => "Обязательная основа Paw's Patch, доступная и в релизе, и в бете. Эти изменения устанавливаются вместе с патчем и не имеют отдельных переключателей.",
         _ => "The required Paw's Patch base, included in both Release and Beta. These changes are installed with the patch and have no separate switches."
-    };
+    });
 
     // Retained for pinned, signed releases made before the feed carried its own guide.
     public static IReadOnlyList<PatchGuideEntry> LegacyEntries { get; } = [

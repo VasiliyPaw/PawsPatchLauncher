@@ -90,7 +90,9 @@ internal static class TypographyChecks
                 var next = parent.Children.OfType<FrameworkElement>().Skip(index + 1).FirstOrDefault(child => child.Visibility == Visibility.Visible);
                 if (next is null) continue;
                 var gap = next.TranslatePoint(new Point(), content).Y - title.TranslatePoint(new Point(0, title.ActualHeight), content).Y;
-                Require(Math.Abs(gap - 8) < 0.6, $"Heading does not leave an 8px gap: {title.Text}, {gap}");
+                // 0.8.0 gives the compact language-settings row an explicit 12px top gap.
+                var expectedGap = title.Name == "SettingsTitleText" ? 12 : 8;
+                Require(Math.Abs(gap - expectedGap) < 0.6, $"Heading does not leave a {expectedGap}px gap: {title.Text}, {gap}");
             }
         }
         var subtitle = Named<TextBlock>(window, "DetailedComparisonTitle");
