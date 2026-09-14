@@ -3,20 +3,6 @@
     {
       "category": "launcher",
       "mods": [],
-      "version": "0.7.9",
-      "publishedAt": "2026-09-14T08:58:26Z",
-      "title": {
-        "ru": "Paw's Launcher 0.7.9",
-        "en": "Paw's Launcher 0.7.9"
-      },
-      "body": {
-        "ru": "- Исправлено распознавание самого игрока в списке участников лобби и матча. Его игровой ник связывается с профилем лаунчера, даже если отличается от имени в профиле или игрок играет один с ботами.\n- Под именами участников показываются раса и подраса. В лобби случайный выбор отображается как «Случайно» отдельно для каждого параметра; после начала матча показываются фактические значения.\n- В окне «Сейчас в игре» увеличены отступы между карточками участников, полосой прокрутки и правым краем окна.\n\nЧтобы появились новые сведения, лаунчер должен быть обновлён и у игрока, который передаёт статус. Игровой патч переустанавливать не требуется.",
-        "en": "- Fixed recognition of the local player in lobby and match rosters. Their in-game nickname is linked to their launcher profile even when the names differ or they play alone against bots.\n- Participant rows show race and subrace. Random lobby choices remain independently marked as Random; matches show the actual assigned values.\n- Added space between participant cards, the scrollbar, and the right edge of the current game activity dialog.\n\nThe player sharing their activity also needs the updated launcher to send these details. Reinstalling the game patch is not required."
-      }
-    },
-    {
-      "category": "launcher",
-      "mods": [],
       "version": "0.7.8",
       "publishedAt": "2026-09-14T07:39:17Z",
       "title": {
@@ -536,20 +522,6 @@
     }
   ],
   "beta": [
-    {
-      "category": "launcher",
-      "mods": [],
-      "version": "0.7.9",
-      "publishedAt": "2026-09-14T08:58:26Z",
-      "title": {
-        "ru": "Paw's Launcher 0.7.9",
-        "en": "Paw's Launcher 0.7.9"
-      },
-      "body": {
-        "ru": "- Исправлено распознавание самого игрока в списке участников лобби и матча. Его игровой ник связывается с профилем лаунчера, даже если отличается от имени в профиле или игрок играет один с ботами.\n- Под именами участников показываются раса и подраса. В лобби случайный выбор отображается как «Случайно» отдельно для каждого параметра; после начала матча показываются фактические значения.\n- В окне «Сейчас в игре» увеличены отступы между карточками участников, полосой прокрутки и правым краем окна.\n\nЧтобы появились новые сведения, лаунчер должен быть обновлён и у игрока, который передаёт статус. Игровой патч переустанавливать не требуется.",
-        "en": "- Fixed recognition of the local player in lobby and match rosters. Their in-game nickname is linked to their launcher profile even when the names differ or they play alone against bots.\n- Participant rows show race and subrace. Random lobby choices remain independently marked as Random; matches show the actual assigned values.\n- Added space between participant cards, the scrollbar, and the right edge of the current game activity dialog.\n\nThe player sharing their activity also needs the updated launcher to send these details. Reinstalling the game patch is not required."
-      }
-    },
     {
       "category": "launcher",
       "mods": [],
