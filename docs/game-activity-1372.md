@@ -33,6 +33,10 @@ patch writes, suspension, network hooks or process dumps. Reads happen off the U
 thread. Every handle is closed. Native pointer/list changes discard the sample;
 cycles, duplicate IDs, more than 64 nodes, unknown layouts and invalid numeric
 values are rejected. The generic Playing status does not depend on this reader.
+From 0.7.6, sampling continues past helpers, unsupported/exited bootstraps and
+inaccessible processes until a verified native snapshot is found. The existing
+helpers may stay alive while waiting for k2.exe to exit; their presence must not
+terminate the search. Only the successful game's disk hash is retained in the cache.
 
 ## Transport and lifecycle
 

@@ -9,6 +9,14 @@ internal static class GameActivityTests
         var checks=0;
         void Check(bool ok,string message) { if(!ok)throw new Exception("Game activity: "+message);checks++; }
         var person=new GameParticipant("p1","Игрок",false);
+        var probes=0;
+        Check(KohanActivityReader.FirstAvailable(new[]{"helper","steam bootstrap","native game","later"},candidate=>
+        {
+            probes++;return candidate switch {"helper"=>null,"steam bootstrap"=>throw new IOException("exited"),"native game"=>new GameActivity("match"),_=>throw new Exception("must stop after first valid game")};
+        })?.Phase=="match"&&probes==3,"helper and exited Steam process cannot hide the game; stop at first valid snapshot");
+        foreach(var error in new Exception[]{new InvalidOperationException(),new System.ComponentModel.Win32Exception(),new IOException(),new UnauthorizedAccessException(),new OverflowException(),new ArgumentException()})
+            Check(KohanActivityReader.FirstAvailable(new[]{0,1},i=>i==0?throw error:new GameActivity("lobby"))?.Phase=="lobby","continue after candidate failure "+error.GetType().Name);
+        Check(KohanActivityReader.FirstAvailable(new[]{0,1},_=>null) is null,"all unavailable retain generic Playing state");
         var activity=new GameActivity("match",true,131,192,256,new string('A',64),"p1",[person,new("p2","Computer",true)]);
         GameActivity? Parse(object value,bool details=false)=>GameActivity.Read(JsonSerializer.SerializeToElement(value),details);
         Check(Parse(activity)?.Players?.Count==2,"valid Unicode roster");

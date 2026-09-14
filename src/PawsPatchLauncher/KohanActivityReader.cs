@@ -29,20 +29,17 @@ public sealed class KohanActivityReader
         var games = Process.GetProcesses();
         try
         {
-        foreach (var game in games)
-        {
-            try
+            var result=FirstAvailable(games,game=>
             {
-                if (!allowed.TryGetValue(game.ProcessName+".exe",out var expectedHash)) continue;
+                if (!allowed.TryGetValue(game.ProcessName+".exe",out var expectedHash)) return null;
                 var expectedPath = Path.Combine(directory,game.ProcessName+".exe");
                 var module = game.MainModule;
-                if (module is null || !Path.GetFullPath(module.FileName).Equals(expectedPath, StringComparison.OrdinalIgnoreCase)) continue;
+                if (module is null || !Path.GetFullPath(module.FileName).Equals(expectedPath, StringComparison.OrdinalIgnoreCase)) return null;
                 var identity = (game.Id, game.StartTime.ToUniversalTime().Ticks, expectedPath, expectedHash);
                 if (_verified != identity)
                 {
                     using var file = new FileStream(expectedPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
                     if (!Convert.ToHexString(SHA256.HashData(file)).Equals(expectedHash, StringComparison.OrdinalIgnoreCase)) return null;
-                    _verified = identity;
                 }
                 using var handle = OpenProcess(0x1010, false, game.Id); // QUERY_LIMITED_INFORMATION | VM_READ only
                 if (handle.IsInvalid) return null;
@@ -53,14 +50,26 @@ public sealed class KohanActivityReader
                     if (!ReadProcessMemory(handle, new IntPtr(address), bytes, (nuint)count, out var done) || done != (nuint)count) throw new IOException("Game activity is not available.");
                     return bytes;
                 }
-                return ReadSnapshot(checked((uint)module.BaseAddress.ToInt64()), ReadBytes);
-            }
-            catch (Exception error) when (error is InvalidOperationException or System.ComponentModel.Win32Exception or IOException or UnauthorizedAccessException or OverflowException or ArgumentException) { return null; }
-        }
-        _verified = null;
-        return null;
+                var snapshot=ReadSnapshot(checked((uint)module.BaseAddress.ToInt64()), ReadBytes);
+                if(snapshot is not null)_verified=identity;
+                return snapshot;
+            });
+            if(result is null)_verified=null;
+            return result;
         }
         finally { foreach (var game in games) game.Dispose(); }
+    }
+
+    // Helpers and Steam bootstraps can remain alive beside the native game.
+    // An unsupported/exited/inaccessible process must not hide a later valid one.
+    public static GameActivity? FirstAvailable<T>(IEnumerable<T> candidates,Func<T,GameActivity?> observe)
+    {
+        foreach(var candidate in candidates)
+        {
+            try { if(observe(candidate) is { } activity)return activity; }
+            catch(Exception error) when(error is InvalidOperationException or System.ComponentModel.Win32Exception or IOException or UnauthorizedAccessException or OverflowException or ArgumentException) { }
+        }
+        return null;
     }
 
     public static GameActivity? ReadSnapshot(uint image, Func<uint, int, byte[]> read)
