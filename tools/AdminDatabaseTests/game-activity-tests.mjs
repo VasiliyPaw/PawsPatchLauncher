@@ -17,6 +17,17 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
  check(!('room' in details.activity)&&!('self' in details.activity)&&details.observed_at,'detail response strips join fingerprint');
  await ready(user);await send({...a,multiplayer:false,room:null});await login(peer);
  check((await rpc('paw_game_activity',[user])).activity.players[0].profile?.id===user,'local participant links to publishing account even in single player');
+ const factions={...a,players:a.players.map((p,i)=>({...p,race:i===1?'undead':'human',subrace:i===1?'shadow':'council'}))};
+ await ready(user);check((await send(factions)).status==='ok','bounded native race and subrace identifiers accepted');await login(peer);
+ details=await rpc('paw_game_activity',[user]);
+ for(const p of factions.players){const actual=details.activity.players.find(x=>x.key===p.key);check(actual.race===p.race&&actual.subrace===p.subrace,'race and subrace preserved for linked, bot and unknown participants');}
+ check(details.activity.players[0].profile?.id===user&&!details.activity.players[1].profile&&!details.activity.players[2].profile,'faction fields do not change identity matching');
+ for(const choice of [{race:'random',subrace:'random'},{race:'human',subrace:'random'},{race:'random',subrace:'council'},{race:null,subrace:null},{race:'Custom_race-2',subrace:'Future_faction-3'}]){
+  await ready(user);check((await send({...a,phase:'lobby',elapsed:null,players:a.players.map(p=>({...p,...choice}))})).status==='ok','lobby selections, nulls and future bounded IDs accepted');await login(peer);
+  const actual=(await rpc('paw_game_activity',[user])).activity.players[0];check(actual.race===choice.race&&actual.subrace===choice.subrace,'lobby selection is returned unchanged, including independent random choices');
+ }
+ await ready(user);await send({...a,self:null,players:[a.players[0],a.players[1]]});await login(peer);
+ check(!(await rpc('paw_game_activity',[user])).activity.players[0].profile,'one human without proven local slot is not guessed to be publisher');
  await ready(user);await send(a);
  await login(outsider);check((await rpc('paw_game_activity',[user])).status==='player_unavailable','no arbitrary player status enumeration');
  await ready(user);
@@ -29,6 +40,8 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
   {...a,players:[{...a.players[0],name:'x'.repeat(81)}]},
   ...[0,-1,65,1.5,'1',{},[]].map(team=>({...a,players:[{...a.players[0],team}]})),
   ...['red','#12345G','#FFFFFFFF','#12345',123,{},[]].map(color=>({...a,players:[{...a.players[0],color}]})),[],null];
+ for(const field of ['race','subrace'])for(const value of ['', 'x'.repeat(81), 'two words', 'race/name', '../human', 'human\\name', '<human>', 'human\n', 'человек', true, 1, {}, []])
+  invalid.push({...a,players:[{...a.players[0],[field]:value}]});
  for(const bad of invalid.filter(x=>x!==null))check((await send(bad)).status==='invalid_presence','invalid activity rejected');
  await login(peer);check((await rpc('paw_game_activity',[user])).activity.elapsed===135,'invalid writes leave current presence intact');
  await ready(peer);await send({...a,self:'p1'});

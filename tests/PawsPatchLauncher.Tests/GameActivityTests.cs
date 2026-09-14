@@ -20,6 +20,20 @@ internal static class GameActivityTests
         var activity=new GameActivity("match",true,131,192,256,new string('A',64),"p1",[person,new("p2","Computer",true)]);
         GameActivity? Parse(object value,bool details=false)=>GameActivity.Read(JsonSerializer.SerializeToElement(value),details);
         Check(Parse(activity)?.Players?.Count==2,"valid Unicode roster");
+        foreach(var race in new string?[]{null,"random","human","drauga","gauri","haroun","shadow","undead",new string('r',80)})
+            foreach(var subrace in new string?[]{null,"random","ceyah","council","fallen","nationalist","royalist","Mod_faction-2"})
+            {
+                var parsed=Parse(activity with{Players=[person with{Race=race,Subrace=subrace}]});
+                Check(parsed?.Players?[0] is { } found&&found.Race==race&&found.Subrace==subrace,"independent race/subrace choices roundtrip");
+            }
+        Check(!JsonSerializer.Serialize(person).Contains("\"race\"")&&!JsonSerializer.Serialize(person).Contains("\"subrace\""),"legacy unknown choices are omitted from wire");
+        foreach(var value in new[]{"",new string('x',81),"../human","human\n","human race","раса","<human>"})
+        {
+            Check(Parse(activity with{Players=[person with{Race=value}]}) is null,"invalid race is rejected");
+            Check(Parse(activity with{Players=[person with{Subrace=value}]}) is null,"invalid subrace is rejected");
+        }
+        Check(Parse(new{phase="lobby",multiplayer=false,players=new[]{new{key="p1",name="Player",bot=false,race=1}}}) is null,"numeric race is rejected");
+        Check(Parse(new{phase="lobby",multiplayer=false,players=new[]{new{key="p1",name="Player",bot=false,subrace=true}}}) is null,"boolean subrace is rejected");
         foreach(var team in new[]{1,16,64})foreach(var color in new[]{"#000000","#FFFFFF","#9a01Ff"})
             Check(Parse(activity with{Players=[person with{Team=team,Color=color}]})?.Players?[0] is {Team:not null,Color:not null},"team and RGB roundtrip");
         foreach(var phase in new[]{"menu","lobby","match","loading","editor"})Check(Parse(new GameActivity(phase))?.Phase==phase,"phase "+phase);
@@ -108,7 +122,7 @@ internal static class GameActivityTests
             void Put(uint at,byte[] value)=>value.CopyTo(b,(int)at);
             Put(image+0x1618a5,[0x8b,0x41,0x04,0x83,0xe8,0x00]);Put(image+0x15d1e7,[0x8b,0x41,0x04,0xc3]);
             Put(image+0x5f3fe4,BitConverter.GetBytes(0x1000000u));Put(image+0x5f3fec,BitConverter.GetBytes(0x1010000u));
-            Put(0x101000c,BitConverter.GetBytes(0x1070000u));Put(0x1000080,BitConverter.GetBytes(0x1030000u));
+            Put(0x1000080,BitConverter.GetBytes(0x1030000u));
             Put(0x103003c,BitConverter.GetBytes(192f));Put(0x1030040,BitConverter.GetBytes(256f));return b;
         }
         public byte[] Read(uint at,int size){if(at<0x10000||at+(long)size>data.Length)throw new IOException();return data.AsSpan((int)at,size).ToArray();}
@@ -143,7 +157,8 @@ internal static class GameActivityTests
             U32(Session+0xc8,Node(0));if(i>0)U32(Node(i-1)+4,Node(i));U32(Node(i),Person(i));
             U32(Person(i),image+0x4bd914);U32(Person(i)+0x20,id);U8(Person(i)+0xc,bot?(byte)1:(byte)0);
             U32(Person(i)+8,0x1060000+(uint)i*256);Bytes(0x1060000+(uint)i*256,Encoding.Unicode.GetBytes(name+"\0"));
-            if(self)U32(Person(i)+4,0x1070000);
+            U32(Person(i)+4,0x1070000+(uint)i*16);
+            if(self)U32(0x101000c,Person(i)); // Native manager owns the wrapper, not its network peer.
         }
     }
 }

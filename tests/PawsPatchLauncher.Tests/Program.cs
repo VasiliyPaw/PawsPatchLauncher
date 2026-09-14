@@ -174,6 +174,7 @@ try
     passed += EffectiveSettingsTests.Run();
     passed += PawDependencyTests.Run();
     passed += GameActivityTests.Run();
+    passed += GameActivityNativeRaceTests.Run();
     passed += await GameActivityTransportTests.RunAsync(root);
     passed += FriendConfigurationTests.Run();
     passed += FriendCopyPlanTests.Run();

@@ -10,7 +10,9 @@ public sealed record GameParticipant(
     [property: JsonPropertyName("bot")] bool Bot,
     [property: JsonPropertyName("profile")] GameParticipantProfile? Profile = null,
     [property: JsonPropertyName("team")] int? Team = null,
-    [property: JsonPropertyName("color")] string? Color = null);
+    [property: JsonPropertyName("color")] string? Color = null,
+    [property: JsonPropertyName("race"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Race = null,
+    [property: JsonPropertyName("subrace"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Subrace = null);
 
 public sealed record GameParticipantProfile(
     [property: JsonPropertyName("id")] Guid Id,
@@ -47,6 +49,7 @@ public sealed record GameActivity(
             {
                 if (!ValidKey(player.Key) || string.IsNullOrWhiteSpace(player.Name) || player.Name.Length > 80 || player.Name.Any(char.IsControl)) return null;
                 if (player.Team is < 1 or > 64 || player.Color is not null && !ValidColor(player.Color)) return null;
+                if (player.Race is not null && !ValidFactionId(player.Race) || player.Subrace is not null && !ValidFactionId(player.Subrace)) return null;
                 if (player.Profile is { } profile)
                 {
                     if (!details || player.Bot || profile.Id == Guid.Empty || string.IsNullOrWhiteSpace(profile.Nickname) || string.IsNullOrWhiteSpace(profile.DisplayName)) return null;
@@ -62,6 +65,7 @@ public sealed record GameActivity(
     }
     public static bool ValidKey(string? value) => value is { Length: > 0 and <= 32 } && value.All(c => char.IsAsciiLetterOrDigit(c) || c is '-' or '_');
     public static bool ValidColor(string? value) => value is { Length: 7 } && value[0] == '#' && value.AsSpan(1).ToString().All(Uri.IsHexDigit);
+    public static bool ValidFactionId(string? value) => value is { Length: > 0 and <= 80 } && value.All(c => char.IsAsciiLetterOrDigit(c) || c is '-' or '_');
     public GameActivity Summary() => this with { Room = null, Self = null, Players = null };
 }
 

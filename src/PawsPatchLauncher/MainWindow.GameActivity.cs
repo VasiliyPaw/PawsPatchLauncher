@@ -97,6 +97,24 @@ public partial class MainWindow
         }
         finally { if(generation==_gameActivityGeneration)_gameActivityBusy=false; }
     }
+    private string GameParticipantFactionName(string? id) => id?.ToLowerInvariant() switch
+    {
+        "random" => T("Случайно", "Random"),
+        "human" => T("Люди", "Human"),
+        "drauga" => T("Драуга", "Drauga"),
+        "gauri" => T("Гаури", "Gauri"),
+        "haroun" => T("Харуны", "Haroun"),
+        "shadow" => T("Тени", "Shadow"),
+        "undead" => T("Нежить", "Undead"),
+        "ceyah" => T("Сейя", "Ceyah"),
+        "council" => T("Совет", "Council"),
+        "fallen" => T("Падшие", "Fallen"),
+        "nationalist" => T("Националисты", "Nationalist"),
+        "royalist" => T("Роялисты", "Royalist"),
+        null => T("Неизвестно", "Unknown"),
+        _ => id!
+    };
+
     private void RenderGameActivity(GameActivityDetails details)
     {
         _gameActivityShown=details;
@@ -150,6 +168,11 @@ public partial class MainWindow
                 names.Children.Add(new TextBlock{Text="@"+profile.Nickname,FontSize=12,Foreground=SocialBrush("#8CB5E5"),Margin=new Thickness(0,3,0,0)});
                 if(profile.DisplayName!=player.Name)names.Children.Add(new TextBlock{Text=T("В игре: ","In game: ")+player.Name,FontSize=12,Foreground=SocialBrush("#A8BBD2"),TextTrimming=TextTrimming.CharacterEllipsis,Margin=new Thickness(0,3,0,0)});
             }
+            var race=GameParticipantFactionName(player.Race);var subrace=GameParticipantFactionName(player.Subrace);
+            var factions=new TextBlock{Text=player.Race is null&&player.Subrace is null?T("Раса и подраса неизвестны","Race and subrace unknown"):race+" · "+subrace,FontSize=12,Foreground=SocialBrush("#AEC2D9"),TextWrapping=TextWrapping.Wrap,
+                Margin=new Thickness(0,5,0,0),Tag="factions",ToolTip=T("Раса: ","Race: ")+race+T("\nПодраса: ","\nSubrace: ")+subrace};
+            System.Windows.Automation.AutomationProperties.SetName(factions,(string)factions.ToolTip);
+            names.Children.Add(factions);
             grid.Children.Add(names);
             var badge=new Border{Child=new TextBlock{Text=player.Bot?T("Бот","Bot"):player.Profile is not null?"Paw’s Launcher":T("Игрок","Player"),FontSize=11,Foreground=SocialBrush(player.Profile is not null?"#8FD8B7":"#C4D2E5")},Background=SocialBrush(player.Profile is not null?"#1E443E":"#243C56"),CornerRadius=new CornerRadius(5),Padding=new Thickness(7,3,7,3),Margin=new Thickness(10,0,0,0),VerticalAlignment=VerticalAlignment.Center};Grid.SetColumn(badge,2);grid.Children.Add(badge);
             if(player.Profile is { } linked)

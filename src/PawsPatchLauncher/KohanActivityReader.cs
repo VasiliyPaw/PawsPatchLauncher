@@ -94,6 +94,32 @@ public sealed class KohanActivityReader
             var bytes = read(address, size); var end = Array.IndexOf(bytes, (byte)0);
             return end < 0 ? "" : Encoding.ASCII.GetString(bytes, 0, end);
         }
+        string? DefinitionId(uint descriptor, bool random = false)
+        {
+            // A null WorldCreator choice means Random. During a match a missing
+            // descriptor is unavailable data, never a random choice or template fallback.
+            if (descriptor == 0) return random ? "random" : null;
+            if (descriptor < 0x10000) return null;
+            try
+            {
+                var address = U32(descriptor + 8); // KKC_Data UTF-16 IDS, not its numeric index at +0xc.
+                if (address < 0x10000) return null;
+                var value = new StringBuilder();
+                for (uint i = 0; i <= 80; i++)
+                {
+                    var c = BitConverter.ToChar(read(checked(address + i * 2), 2));
+                    if (c == 0)
+                    {
+                        var id = value.ToString();
+                        return address == U32(descriptor + 8) && GameActivity.ValidFactionId(id) ? id.ToLowerInvariant() : null;
+                    }
+                    if (!char.IsAsciiLetterOrDigit(c) && c is not ('_' or '-')) return null;
+                    value.Append(c);
+                }
+            }
+            catch (Exception error) when (error is IOException or ArgumentException or OverflowException) { }
+            return null;
+        }
         try
         {
             // Stable native routines outside all Paw patch sites; checked on every sample.
@@ -109,12 +135,15 @@ public sealed class KohanActivityReader
             if (phase is "menu" or "loading" or "editor") return new GameActivity(phase);
             var multiplayer = U8(session + 0x100) != 0;
             var manager = U32(image + 0x5f3fec);
+            // KKC_Session::GetLocalPlayer returns this KKC_Player directly.
+            // Its +4 is a different object (network peer), so comparing +4
+            // against this pointer loses the owner even when Steam is connected.
             var local = manager >= 0x10000 ? U32(manager + 0xc) : 0;
             var sourceKind = U32(session + 0x64);
             var sourceOffset = sourceKind switch { 0 => 0x80u, 2 => 0x7cu, 5 => 0x88u, _ => 0x78u };
             var creator = U32(session + sourceOffset);
             var teams = new Dictionary<string,int>(StringComparer.Ordinal);
-            var kingdoms = new Dictionary<string,(uint address,uint team,uint color)>(StringComparer.Ordinal);
+            var kingdoms = new Dictionary<string,(uint address,uint team,uint color,uint nation,uint faction)>(StringComparer.Ordinal);
             uint teamArray=0,teamCount=0,kingdomArray=0,kingdomCount=0;
             if(sourceKind<=5 && creator>=0x10000)
             {
@@ -131,7 +160,7 @@ public sealed class KohanActivityReader
                 for(uint i=0;i<kingdomCount;i++)
                 {
                     var entry=checked(kingdomArray+i*0x6c);var id=Wide(U32(entry));
-                    if(id.Length==0 || !kingdoms.TryAdd(id,(entry,U32(entry+0x14),U32(entry+0x20))))return null;
+                    if(id.Length==0 || !kingdoms.TryAdd(id,(entry,U32(entry+0x14),U32(entry+0x20),U32(entry+0x18),U32(entry+0x1c))))return null;
                 }
             }
             string? Color(uint descriptor)
@@ -192,7 +221,7 @@ public sealed class KohanActivityReader
                 var key = "p" + id.ToString(System.Globalization.CultureInfo.InvariantCulture);
                 if (name.Length > 0)
                 {
-                    int? team=null;string? color=null;
+                    int? team=null;string? color=null;string? race=null;string? subrace=null;
                     var kingdomId=Wide(U32(player+0x24));
                     var liveKingdom=phase=="match"?U32(player+0x28):0;
                     if(liveKingdom>=0x10000)
@@ -200,19 +229,29 @@ public sealed class KohanActivityReader
                         // During a match, use the actual kingdom (also correct for saves
                         // and random colors), not the pre-game template's choices.
                         var liveTeam=U32(liveKingdom+0x1f8);var descriptor=U32(liveKingdom+0x1f4);
+                        var nation=U32(liveKingdom+0x240);var faction=U32(liveKingdom+0x23c);
+                        var factionDefinition=faction>=0x10000?U32(faction+4):0;
                         var teamId=liveTeam>=0x10000?Wide(U32(liveTeam+0x18)):"";
                         if(teams.TryGetValue(teamId,out var number))team=number;
                         color=Color(descriptor);
-                        if(liveKingdom!=U32(player+0x28)||liveTeam!=U32(liveKingdom+0x1f8)||descriptor!=U32(liveKingdom+0x1f4))return null;
+                        race=DefinitionId(nation);
+                        // A live Faction is an instance; its +4 points to the
+                        // definition selected in WorldCreator (native constructor 6869bc).
+                        subrace=DefinitionId(factionDefinition);
+                        if(liveKingdom!=U32(player+0x28)||liveTeam!=U32(liveKingdom+0x1f8)||descriptor!=U32(liveKingdom+0x1f4)
+                            ||nation!=U32(liveKingdom+0x240)||faction!=U32(liveKingdom+0x23c)
+                            ||faction>=0x10000&&factionDefinition!=U32(faction+4))return null;
                     }
                     else if(phase=="lobby" && kingdoms.TryGetValue(kingdomId,out var entry))
                     {
                         if(teams.TryGetValue(Wide(entry.team),out var number))team=number;
                         color=privateLobbyColors?PendingColor(kingdomId):Color(entry.color);
-                        if(entry.team!=U32(entry.address+0x14)||entry.color!=U32(entry.address+0x20))return null;
+                        race=DefinitionId(entry.nation,random:true);subrace=DefinitionId(entry.faction,random:true);
+                        if(entry.team!=U32(entry.address+0x14)||entry.color!=U32(entry.address+0x20)
+                            ||entry.nation!=U32(entry.address+0x18)||entry.faction!=U32(entry.address+0x1c))return null;
                     }
-                    players.Add(new GameParticipant(key, name, bot,Team:team,Color:color));
-                    if (!bot && local != 0 && U32(player + 4) == local) self = key;
+                    players.Add(new GameParticipant(key, name, bot,Team:team,Color:color,Race:race,Subrace:subrace));
+                    if (!bot && player == local) self = key;
                 }
                 node = U32(node + 4);
             }
@@ -238,7 +277,8 @@ public sealed class KohanActivityReader
             }
             // Native linked lists can change between reads. Discard a torn transition rather than guessing.
             if (session != U32(image + 0x5f3fe4) || state != U32(session + 0xf0) || head != U32(session + 0xc8)
-                || world != U32(image + 0x5f3fb8) || sourceKind != U32(session + 0x64) || creator != U32(session + sourceOffset)) return null;
+                || world != U32(image + 0x5f3fb8) || sourceKind != U32(session + 0x64) || creator != U32(session + sourceOffset)
+                || manager != U32(image + 0x5f3fec) || manager >= 0x10000 && local != U32(manager + 0xc)) return null;
             if(sourceKind<=5 && creator>=0x10000 && (teamArray!=U32(creator+8)||teamCount!=U32(creator+0xc)
                 ||kingdomArray!=U32(creator+0x14)||kingdomCount!=U32(creator+0x18)))return null;
             var result=new GameActivity(phase, multiplayer, elapsed, width, height, Room: room, Self: self, Players: players);

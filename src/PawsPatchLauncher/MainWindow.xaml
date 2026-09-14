@@ -1381,8 +1381,8 @@
                                 <local:LauncherIcon Kind="Close" Width="18" Height="18"/>
                             </Button>
                         </Grid>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <StackPanel x:Name="GameActivityBody"/>
+                        <ScrollViewer x:Name="GameActivityScroll" Grid.Row="1" Margin="0,0,6,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel x:Name="GameActivityBody" Margin="0,0,14,0"/>
                         </ScrollViewer>
                         <TextBlock x:Name="GameActivityStatus" Grid.Row="2" FontSize="12" Foreground="#A8BBD2" TextWrapping="Wrap" Margin="0,16,0,0"/>
                     </Grid>

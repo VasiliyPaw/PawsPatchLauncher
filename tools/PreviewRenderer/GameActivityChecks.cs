@@ -2,6 +2,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -23,10 +24,21 @@ internal static class GameActivityChecks
         T C<T>(string name)=>(T)w.FindName(name);
         var checks=0;void Check(bool ok,string why){if(!ok)throw new Exception("Game activity UI: "+why);checks++;}
         var peer=Guid.NewGuid();var profile=new GameParticipantProfile(peer,"fixture","Игрок / Player");
-        var activity=new GameActivity("match",true,3702,192,256,Players:[new("p1","Game nickname",false,profile,2,"#DDA443"),new("p2","Computer",true,Team:1,Color:"#478BDC"),new("p3","Guest",false,Team:2,Color:"#C45482")]);
+        var activity=new GameActivity("match",true,3702,192,256,Players:[new("p1","Game nickname",false,profile,2,"#DDA443",Race:"human",Subrace:"royalist"),new("p2","Computer",true,Team:1,Color:"#478BDC",Race:"haroun",Subrace:"council"),new("p3","Guest",false,Team:2,Color:"#C45482")]);
         var friend=new SocialPlayer(peer,"fixture","friend",Presence:"playing",PlayingSince:DateTimeOffset.UtcNow.AddMinutes(-90),DisplayName:"Игрок / Player",Activity:activity.Summary());
         var response=new GameActivityDetails(activity,DateTimeOffset.UtcNow);
         var calls=0;
+        IEnumerable<TextBlock> FactionLabels()=>C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>()
+            .SelectMany(g=>g.Children.OfType<Border>()).Select(b=>b.Child is Button button?(Grid)button.Content:(Grid)b.Child)
+            .SelectMany(g=>g.Children.OfType<StackPanel>()).SelectMany(n=>n.Children.OfType<TextBlock>()).Where(t=>Equals(t.Tag,"factions"));
+        IEnumerable<T> Visuals<T>(DependencyObject parent) where T:DependencyObject
+        {
+            for(var i=0;i<VisualTreeHelper.GetChildrenCount(parent);i++)
+            {
+                var child=VisualTreeHelper.GetChild(parent,i);if(child is T found)yield return found;
+                foreach(var next in Visuals<T>(child))yield return next;
+            }
+        }
         void ReadWith(Func<Guid,CancellationToken,Task<GameActivityDetails?>> read)=>Set("_gameActivityReadOverride",read);
         void Capture(string name)
         {
@@ -46,6 +58,10 @@ internal static class GameActivityChecks
             var groups=C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>().ToArray();
             Check(groups.Length==2&&Equals(groups[0].Tag,1)&&Equals(groups[1].Tag,2),"teams grouped in numeric order despite roster order");
             Check(groups[0].Children.OfType<Border>().Count()==1&&groups[1].Children.OfType<Border>().Count()==2,"all participants in their team");
+            var labels=FactionLabels().ToArray();
+            Check(labels.Length==3,"race/subrace line present for every participant");
+            Check(labels.Any(t=>t.Text==(language=="ru"?"Люди · Роялисты":"Human · Royalist")),"native race/subrace names localized for viewer");
+            Check(labels.Any(t=>t.Text==(language=="ru"?"Раса и подраса неизвестны":"Race and subrace unknown")),"legacy missing values are not presented as random");
             var marker=(Grid)((Grid)((Button)groups[1].Children.OfType<Border>().First().Child).Content).Children[0];
             Check(((SolidColorBrush)((Border)marker.Children[1]).Background).Color==(Color)ColorConverter.ConvertFromString("#DDA443"),"player color preserved exactly");
             Check(C<Border>("GameActivityCard").ActualWidth<=570&&C<Border>("GameActivityCard").ActualHeight<=590,"compact card exceeds window");
@@ -67,7 +83,26 @@ internal static class GameActivityChecks
             Check(C<StackPanel>("GameActivityBody").Children.Count==0&&C<TextBlock>("GameActivityStatus").Text.Contains(language=="ru"?"недоступны":"unavailable"),"game exit leaves stale details");
             ReadWith((_,_)=>throw new System.Net.Http.HttpRequestException("fixture"));await (Task)Call("RefreshGameActivityAsync")!;
             Check(C<TextBlock>("GameActivityStatus").Text.Contains(language=="ru"?"ещё раз":"try again"),"transient failure lost retry feedback");
-            ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=activity with{Players=Enumerable.Range(0,64).Select(i=>new GameParticipant("p"+i,new string('W',80),i%2==0,Team:i%3==0?null:i%16+1,Color:i%2==0?"#000000":"#FFFFFF")).ToArray()}}));
+            var lobby=activity with{Phase="lobby",ElapsedSeconds=null,Players=[new("p1","Game nickname",false,profile,2,"#DDA443",Race:"random",Subrace:"random"),new("p2","Computer",true,Team:1,Race:"human",Subrace:"random")]};
+            ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=lobby}));
+            await (Task)Call("RefreshGameActivityAsync")!;await Task.Delay(260);w.UpdateLayout();
+            labels=FactionLabels().ToArray();
+            Check(labels.Any(t=>t.Text==(language=="ru"?"Случайно · Случайно":"Random · Random")),"random race and subrace remain independent lobby choices");
+            Check(labels.Any(t=>t.Text==(language=="ru"?"Люди · Случайно":"Human · Random")),"fixed race with random subrace is not replaced by match choice");
+            Check(labels.All(t=>((string)t.ToolTip).Contains(language=="ru"?"Подраса: ":"Subrace: ")),"race and subrace meanings exposed to hover and accessibility");
+            Capture("game-details-lobby");
+            var fullRoster=activity with{Players=Enumerable.Range(0,12).Select(i=>new GameParticipant("p"+i,i==0?"Game nickname":"Computer "+i,i!=0,i==0?profile:null,i/2+1,i%2==0?"#DDA443":"#478BDC",Race:new[]{"human","drauga","gauri","haroun","shadow","undead"}[i%6],Subrace:new[]{"royalist","nationalist","council","council","fallen","ceyah"}[i%6])).ToArray()};
+            ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=fullRoster}));
+            await (Task)Call("RefreshGameActivityAsync")!;await Task.Delay(260);w.UpdateLayout();
+            var scroll=C<ScrollViewer>("GameActivityScroll");var body=C<StackPanel>("GameActivityBody");
+            Check(scroll.ComputedVerticalScrollBarVisibility==Visibility.Visible,"twelve players can scroll");
+            Check(scroll.ViewportWidth-body.ActualWidth>=13.5,"participant cards leave readable gap before scrollbar");
+            var bar=Visuals<ScrollBar>(scroll).Single(b=>b.Orientation==Orientation.Vertical);
+            var right=bar.TranslatePoint(new Point(bar.ActualWidth,0),C<Border>("GameActivityCard")).X;
+            Check(C<Border>("GameActivityCard").ActualWidth-right>=29,"scrollbar has room before right card edge");
+            scroll.ScrollToBottom();w.UpdateLayout();Check(scroll.VerticalOffset>0,"last team is reachable");scroll.ScrollToTop();w.UpdateLayout();
+            Capture("game-details-roster");
+            ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=activity with{Players=Enumerable.Range(0,64).Select(i=>new GameParticipant("p"+i,new string('W',80),i%2==0,Team:i%3==0?null:i%16+1,Color:i%2==0?"#000000":"#FFFFFF",Race:new string('r',80),Subrace:new string('s',80))).ToArray()}}));
             await (Task)Call("RefreshGameActivityAsync")!;await Task.Delay(260);w.UpdateLayout();
             Check(C<Border>("GameActivityCard").ActualHeight<=590&&C<Button>("GameActivityClose").IsVisible,"large roster exceeds card");
             Check(C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>().Last().Tag is null,"unknown team kept together after numbered teams");
