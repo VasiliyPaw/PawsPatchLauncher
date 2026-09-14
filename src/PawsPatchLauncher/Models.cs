@@ -17,12 +17,14 @@ public sealed class UserSettings
 {
     public string Mod { get; set; } = GameMod.ArcaneWars;
     public bool PawPatchEnabled { get; set; } = true;
+    public ArcaneComponentSelection? SuspendedArcaneComponents { get; set; }
     public bool VanillaPawPatchEnabled { get; set; }
     public bool ImmortalsPawPatchEnabled { get; set; }
     public bool ModNoticeSeen { get; set; }
     public bool DataOnly { get; set; }
     public string CompatibilityNoticeRead { get; set; } = "";
     public bool NotificationSoundEnabled { get; set; } = true;
+    public bool ShareGameActivity { get; set; } = true;
     public int NotificationVolume { get; set; } = 100;
     public string NotificationSoundName { get; set; } = "";
     public string Language { get; set; } = "ru";

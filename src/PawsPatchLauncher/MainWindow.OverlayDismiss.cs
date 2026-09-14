@@ -31,6 +31,7 @@ public partial class MainWindow
     {
         if(sender is not FrameworkElement overlay||overlay.Visibility!=Visibility.Visible)return;
         var card=ReferenceEquals(overlay,ConfirmationOverlay)?ConfirmationCard
+            :ReferenceEquals(overlay,GameActivityOverlay)?GameActivityCard
             :ReferenceEquals(overlay,SocialDetailsOverlay)?SocialDetailsCard:HelpCard;
         if(InsideCard(e.OriginalSource as DependencyObject,card))return;
         // Consume the initial press: never activate an underlying row/button, and
@@ -39,7 +40,8 @@ public partial class MainWindow
         if(ReferenceEquals(overlay,ConfirmationOverlay))await CompleteConfirmationAsync(false);
         else if(!ConfirmationActive)
         {
-            if(ReferenceEquals(overlay,SocialDetailsOverlay))await DismissSocialDetailsAsync();
+            if(ReferenceEquals(overlay,GameActivityOverlay))await DismissGameActivityAsync();
+            else if(ReferenceEquals(overlay,SocialDetailsOverlay))await DismissSocialDetailsAsync();
             else await CloseHelpAsync();
         }
     }

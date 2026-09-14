@@ -26,12 +26,12 @@ public partial class MainWindow
 
     private void InitializeSocialUi()
     {
-        PreviewKeyDown += async (_, e) => { if (e.Key == Key.Escape && SocialDetailsOverlay.Visibility == Visibility.Visible && !ConfirmationActive) { e.Handled = true; await DismissSocialDetailsAsync(); } };
+        PreviewKeyDown += async (_, e) => { if (e.Key == Key.Escape && SocialDetailsOverlay.Visibility == Visibility.Visible && !ConfirmationActive) { e.Handled = true; if(GameActivityOverlay.Visibility==Visibility.Visible)await DismissGameActivityAsync();else await DismissSocialDetailsAsync(); } };
         _socialOutbox=new SocialOutbox(ActivityStore.Root);
         _socialTimer.Interval=TimeSpan.FromSeconds(1);
         _socialTimer.Tick+=async (_,_)=> await SocialTickAsync();
         Loaded+=(_,_)=>{if(!ActivityStore.IsSmokeTest)_socialTimer.Start();};
-        Closed+=(_,_)=>{_socialTimer.Stop();_socialScrollReadTimer.Stop();ResetChatLoad();_chatMemory.Clear();};
+        Closed+=(_,_)=>{_socialTimer.Stop();_socialScrollReadTimer.Stop();ResetChatLoad();_chatMemory.Clear();CloseGameActivity();};
         Activated+=async (_,_)=>{if(!ActivityStore.IsSmokeTest && _activePage=="friends")await RefreshSocialAsync();};
         _socialScrollReadTimer.Tick+=async (_,_)=>{
             _socialScrollReadTimer.Stop();
@@ -57,6 +57,7 @@ public partial class MainWindow
     private void ApplySocialLanguage()
     {
         ApplyNotificationSoundLanguage();
+        ApplyGameActivityLanguage();
         if (_socialDetailsPeer is Guid details && _socialPlayers.FirstOrDefault(p => p.Id == details) is SocialPlayer profile)
             RenderSocialDetails(profile);
         FriendsNicknameLabel.Text=T("Username друга", "Friend's username");

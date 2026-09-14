@@ -23,7 +23,7 @@ public partial class MainWindow
         var badge = StatusPill("Paw's Team", "#1E4045", "#9BE1DA");
         badge.HorizontalAlignment = HorizontalAlignment.Left;
         if (!inline) badge.Margin = new Thickness(0,5,0,2);
-        badge.ToolTip = T("Команда Paw's Patch · без прав администратора", "Paw's Patch team · no administrator privileges");
+        badge.ToolTip = T("Команда Paw's Patch", "Paw's Patch team");
         System.Windows.Automation.AutomationProperties.SetName(badge, "Paw's Team");
         return badge;
     }

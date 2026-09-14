@@ -19,9 +19,23 @@ public static class GameMod
         else if (settings.Mod == Immortals) settings.ImmortalsPawPatchEnabled = enabled;
         else
         {
-            settings.PawPatchEnabled = enabled; settings.LargeMapSizes = enabled;
+            if (!enabled && settings.PawPatchEnabled)
+                settings.SuspendedArcaneComponents = ArcaneComponentSelection.Capture(settings);
+            if (enabled && !settings.PawPatchEnabled)
+            {
+                settings.SuspendedArcaneComponents?.Restore(settings);
+                settings.SuspendedArcaneComponents = null;
+            }
+            settings.PawPatchEnabled = enabled;
+            settings.LargeMapSizes = enabled;
             if (!enabled) DisableArcaneComponents(settings);
         }
+    }
+    public static void NormalizeRememberedComponents(UserSettings settings)
+    {
+        if (settings.PawPatchEnabled) return;
+        settings.SuspendedArcaneComponents ??= ArcaneComponentSelection.Capture(settings);
+        DisableArcaneComponents(settings);
     }
     public static void DisableArcaneComponents(UserSettings settings)
     {

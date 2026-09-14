@@ -13,9 +13,11 @@ public partial class MainWindow
     private Guid? _socialDetailsPeer;
     private DateTimeOffset _socialPresenceNext;
     private DateTimeOffset _socialListReceived;
+    private readonly KohanActivityReader _gameActivityReader = new();
     private void ClearSocialProfiles()
     {
         _socialAvatars.Clear(); _socialAvatarGeneration++; _socialPresenceNext=default;_socialListReceived=default;
+        _gameActivityCache.Clear();
         _socialListLoading = _socialListFailed = false;
         CloseSocialDetails();
     }
@@ -61,11 +63,14 @@ public partial class MainWindow
         }); }
         catch { /* Unknown is more accurate than publishing unapplied UI settings. */ }
         if(_account.UserId!=owner.ToString())return;
+        var shareActivity=_settings.ShareGameActivity;
+        var activity=playing && shareActivity && _account.CanTryGameActivity ? await Task.Run(()=>_gameActivityReader.Read(directory,state)) : null;
+        if(_account.UserId!=owner.ToString()||_accountLifetime.IsCancellationRequested)return;
         var values=new Dictionary<string,bool>();
         var settings=state?.AppliedSettings is { } applied ? EffectiveSettings.ForChannel(applied) : null;
         if(settings is not null) values=FriendConfiguration.Components(settings);
         await _account.PublishConfigurationPresenceAsync(playing,settings?.Channel is "stable" or "beta" ? settings.Channel : "unknown",values,
-            settings is not null ? FriendConfiguration.Create(settings) : null,_accountLifetime.Token,versions);
+            settings is not null ? FriendConfiguration.Create(settings) : null,_accountLifetime.Token,versions,activity);
         _socialPresenceNext=DateTimeOffset.UtcNow.AddSeconds(8);
     }
     private void PruneSocialProfiles()

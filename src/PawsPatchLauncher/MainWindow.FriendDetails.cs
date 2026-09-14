@@ -21,6 +21,7 @@ public partial class MainWindow
 
     private void CloseSocialDetails()
     {
+        CloseGameActivity();
         _socialDetailsGeneration++;
         Motion.Collapse(SocialDetailsOverlay);
         SocialDetailsCard.IsHitTestVisible=true;
@@ -81,6 +82,12 @@ public partial class MainWindow
         }
         else if (presence == "offline")
             SocialDetailsActivity.Text = player.LastSeen is DateTimeOffset seen ? T("Был в сети: ", "Last seen: ") + ChatDate(seen) : T("Время последнего входа неизвестно", "Last seen time unavailable");
+        var activity=presence=="playing" ? player.Activity : null;
+        SocialDetailsGameActivityRow.Visibility=activity is null ? Visibility.Collapsed : Visibility.Visible;
+        SocialDetailsGameActivityText.Text=activity is null ? "" : GameActivityPhaseName(activity.Phase);
+        SocialDetailsGameActivityButton.Content=T("Подробнее", "Details");
+        SocialDetailsGameActivityButton.ToolTip=T("Состояние игры и участники", "Game activity and participants");
+        SocialDetailsGameActivityButton.IsEnabled=!AccountConnectionBlocked;
         SocialDetailsChannelLabel.Text = T("Мод и канал патча", "Mod and patch channel");
         SocialDetailsChannel.Text = player.Channel == "beta" ? T("Бета", "Beta") : player.Channel == "stable" ? T("Релиз", "Release") : T("Неизвестен", "Unknown");
         if (FriendConfiguration.TryParse(player.Configuration,player.Channel,out var gameSettings))

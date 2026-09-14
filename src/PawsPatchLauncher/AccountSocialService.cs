@@ -8,7 +8,7 @@ public sealed record SocialPlayer(Guid Id, string Nickname, string Relation, int
     string Presence="offline", DateTimeOffset? LastSeen=null, DateTimeOffset? PlayingSince=null,
     string Channel="unknown", string Components="{}", DateTimeOffset? AvatarRevision=null, string? Configuration=null,string? DisplayName=null,
     int AdminLevel=0,DateTimeOffset? BannedAt=null,DateTimeOffset? BanUntil=null,string BanReason="",DateTimeOffset? DeletedAt=null,DateTimeOffset? CreatedAt=null,bool IsFriend=true,
-    DateTimeOffset? LastMessageAt=null,long LastMessageOrdinal=0,bool PawsTeam=false,SocialVersions? Versions=null)
+    DateTimeOffset? LastMessageAt=null,long LastMessageOrdinal=0,bool PawsTeam=false,SocialVersions? Versions=null,GameActivity? Activity=null)
 {
     public string Name=>Deleted?"Удалённый аккаунт":string.IsNullOrEmpty(DisplayName)?Nickname:DisplayName;
     public bool Deleted=>DeletedAt is not null;
@@ -78,7 +78,8 @@ public sealed partial class AccountService
                     ModerationInt(p,"admin_level"),Date("banned_at"),Date("ban_until"),Text(p,"ban_reason"),Date("deleted_at"),Date("created_at"),
                     !p.TryGetProperty("is_friend",out var friendship)||friendship.ValueKind==JsonValueKind.True,
                     Date("last_message_at"),lastOrdinal,ModerationBool(p,"paws_team"),
-                    p.TryGetProperty("versions",out var versions)?SocialVersions.Read(versions):null);
+                    p.TryGetProperty("versions",out var versions)?SocialVersions.Read(versions):null,
+                    p.TryGetProperty("activity",out var activity)?GameActivity.Read(activity):null);
     }
 
     public Task FriendActionAsync(string action, Guid? target=null, string? nickname=null, CancellationToken ct=default)
@@ -92,8 +93,18 @@ public sealed partial class AccountService
     public Task PublishPresenceAsync(bool playing,string channel,IReadOnlyDictionary<string,bool> components,CancellationToken ct=default)
         => SocialRpcAsync("paw_presence",new{playing,channel,components},_=>true,ct);
 
-    public async Task PublishConfigurationPresenceAsync(bool playing,string channel,IReadOnlyDictionary<string,bool> components,string? configuration,CancellationToken ct=default,SocialVersions? versions=null)
+    private DateTimeOffset _gameActivityRetryAfter;
+    internal bool CanTryGameActivity => _clock() >= _gameActivityRetryAfter;
+    public async Task PublishConfigurationPresenceAsync(bool playing,string channel,IReadOnlyDictionary<string,bool> components,string? configuration,CancellationToken ct=default,SocialVersions? versions=null,GameActivity? activity=null)
     {
+        if(playing && activity is not null && CanTryGameActivity)
+        {
+            var enriched=components.ToDictionary(pair=>pair.Key,pair=>(object)pair.Value);
+            if(versions is not null)enriched["_versions"]=versions;
+            enriched["_activity"]=activity;
+            try { await SocialRpcAsync("paw_presence",new{playing,channel,components=enriched,configuration},_=>true,ct); return; }
+            catch(AccountException error) when(error.Code=="invalid_presence") { _gameActivityRetryAfter=_clock().AddMinutes(15); }
+        }
         if(versions is not null)
         {
             var enriched=components.ToDictionary(pair=>pair.Key,pair=>(object)pair.Value);
@@ -114,6 +125,19 @@ public sealed partial class AccountService
             // They must never advertise a new mode as a legacy Paw's Patch configuration.
             await PublishPresenceAsync(playing,channel,components,ct);
         }
+    }
+
+    public Task<GameActivityDetails?> GetGameActivityAsync(Guid target,CancellationToken ct=default)
+    {
+        if(target==Guid.Empty)throw new AccountException("player_unavailable");
+        return SocialRpcAsync<GameActivityDetails?>("paw_game_activity",new{target},json=>
+        {
+            if(!json.TryGetProperty("activity",out var value)||value.ValueKind==JsonValueKind.Null)return null;
+            var activity=GameActivity.Read(value,details:true);
+            if(activity is null || !json.TryGetProperty("observed_at",out var stamp)||stamp.ValueKind!=JsonValueKind.String||!stamp.TryGetDateTimeOffset(out var observed))
+                throw new AccountException("invalid_response");
+            return new GameActivityDetails(activity,observed);
+        },ct);
     }
 
     public Task<int> MarkMessagesReadAsync(Guid target,Guid lastMessage,CancellationToken ct=default)

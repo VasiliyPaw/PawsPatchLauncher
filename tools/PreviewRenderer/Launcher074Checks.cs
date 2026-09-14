@@ -51,7 +51,15 @@ internal static class Launcher074Checks
             Check(!new SettingsStore().Load().SiegeBalance,"Disabled dependent options were not saved");
             await Task.Delay(260);Capture("disabled-components");
             C<CheckBox>("PawPatchToggle").IsChecked=true;C<CheckBox>("PawPatchToggle").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            Check(toggleNames.All(name=>C<CheckBox>(name).IsEnabled&&C<CheckBox>(name).IsChecked==false),"Re-enable did not unlock empty dependent choices");
+            Check(toggleNames.All(name=>C<CheckBox>(name).IsEnabled&&C<CheckBox>(name).IsChecked==true),"Re-enable did not restore dependent choices");
+            C<CheckBox>("PawPatchToggle").IsChecked=false;C<CheckBox>("PawPatchToggle").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            var restarted=new SettingsStore().Load();
+            var installed=EffectiveSettings.ForChannel(restarted);
+            Check(installed.SuspendedArcaneComponents is null&&!installed.SiegeBalance,"Applied snapshot leaked remembered choices");
+            new SettingsStore().Save(restarted);restarted=new SettingsStore().Load();
+            GameMod.SetPawPatch(restarted,true);
+            Check(restarted.SiegeBalance&&restarted.CustomPlayerColors&&restarted.IndependentHostility&&restarted.AdditionalRoamingCompanies&&restarted.DisablePowersAndShards&&restarted.DesyncMode=="continue"&&restarted.RoamingSpawnMode=="x4","Restart after applying disabled configuration lost selection");
+            C<CheckBox>("PawPatchToggle").IsChecked=true;C<CheckBox>("PawPatchToggle").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             foreach(var mod in new[]{GameMod.Vanilla,GameMod.Immortals,GameMod.ArcaneWars})
             foreach(var channel in new[]{"stable","beta"})
             {

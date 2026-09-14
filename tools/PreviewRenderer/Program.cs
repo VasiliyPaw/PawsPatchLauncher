@@ -106,6 +106,7 @@ public static class Program
         var connectionChecks = args.Contains("--connection-checks");
         var connectionPreview = args.Contains("--connection-preview");
         var launcher074Checks = args.Contains("--launcher-074-checks");
+        var gameActivityChecks = args.Contains("--game-activity-checks");
         var modePerf = args.FirstOrDefault(a=>a.StartsWith("--mode-perf="))?["--mode-perf=".Length..];
         var modeGame = args.FirstOrDefault(a=>a.StartsWith("--mode-game="))?["--mode-game=".Length..];
         args = args.Where(arg => !arg.StartsWith("--")).ToArray();
@@ -116,6 +117,7 @@ public static class Program
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         if (launcher074Checks) { Launcher074Checks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
+        if (gameActivityChecks) { GameActivityChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (updateExperienceChecks) { UpdateExperienceChecks.Run(language); app.Shutdown(); return; }
         if (retainedSelectionChecks) { RetainedSelectionChecks.Run(language, guideChannel, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (legacyModMigrationChecks) { LegacyModMigrationChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }

@@ -70,7 +70,7 @@ public static class ConfigurationCode
             GameMod.SetPawPatch(target, GameMod.PawPatchSelected(source));
             return;
         }
-        target.PawPatchEnabled = source.PawPatchEnabled;
+        GameMod.SetPawPatch(target, source.PawPatchEnabled);
         target.RussianLocalization = source.RussianLocalization;
         target.CustomPlayerColors = source.CustomPlayerColors;
         target.DesyncMode = source.DesyncMode;

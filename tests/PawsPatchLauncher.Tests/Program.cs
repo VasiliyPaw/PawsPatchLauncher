@@ -173,6 +173,8 @@ try
     passed += PowersShardsTests.Run();
     passed += EffectiveSettingsTests.Run();
     passed += PawDependencyTests.Run();
+    passed += GameActivityTests.Run();
+    passed += await GameActivityTransportTests.RunAsync(root);
     passed += FriendConfigurationTests.Run();
     passed += FriendCopyPlanTests.Run();
     passed += await SocialVersionTests.RunAsync(root);
