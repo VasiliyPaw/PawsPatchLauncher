@@ -1,0 +1,85 @@
+{
+  "version": "0.3.0-beta.6",
+  "baselineCommit": "10202438c77a08c88b79132741838b777397be05",
+  "launcherVersionUnchanged": "0.8.0",
+  "checks": {
+    "reproducedAnimationFiles": 22,
+    "preservedMovementTracks": 572,
+    "preservedEventTracks": 22,
+    "userReplayedPreviouslyCrashingBattle": true,
+    "runtimeSequencesVerified": 39,
+    "selectionCombinations": 18432,
+    "installerTransitions": 8,
+    "originalUserFileRestored": true,
+    "savedGameSentinelPreserved": true,
+    "manualTestAdoption": true,
+    "existingBetaPackageOverlaysAudited": 37,
+    "launcherRegressionAssertions": 23085,
+    "gameLaunchedDuringPublication": false
+  },
+  "assets": [
+    {
+      "name": "pawpatch-core-0.3.0-beta.6.zip",
+      "size": 1867486,
+      "sha256": "6EF0519115A68A7C3EAF1F415DA338855C60F9622EFC01600A50E26144AE6D42",
+      "packageId": "pawpatch-core",
+      "version": "0.3.0-beta.6"
+    },
+    {
+      "name": "common-ui-1.3.72-ui.5-beta.6.zip",
+      "size": 391115,
+      "sha256": "9BFD9366ADFFC4FE380FABFE901264A537769A0031BD7FF547BC90BF7BF2F035",
+      "packageId": "common-ui",
+      "version": "1.3.72-ui.5-beta.6"
+    }
+  ],
+  "scope": [
+    {
+      "id": "pawpatch-core",
+      "sourceSha256": "5767CA99BB762582A519CA24AAB110FB88F92AB6A797304C242982634CB97200",
+      "sha256": "6EF0519115A68A7C3EAF1F415DA338855C60F9622EFC01600A50E26144AE6D42",
+      "added": {
+        "data/Units/Ceyah/Prophet/prophetfidget2.kf": "502BB3AF510F8C32B7EFA566A1A69226FBAD8804AE2064981452563B1D530874",
+        "data/Units/Ceyah/Prophet/prophetdie1.kf": "22DA6745DE1D279E7BF2F869AEEB477D5011175ECCCEC985BEE0FD3377800E29",
+        "data/Units/Ceyah/Prophet/prophetidlemelee.kf": "A08464EDF18BB0BC842F176DB5EC409D84054A8837FD8BF7A5935FD61437E168",
+        "data/Units/Ceyah/Prophet/Prophetidlecast.kf": "C64DE3963420214EA15F17DE37B49B4021B2F24FD27850C4ED1994C3446A0E27",
+        "data/Units/Ceyah/Prophet/prophetfidget1.kf": "F8C4802CDAEA06A2DA5B31222ECD11A5909AB1A61828D9D0DCBA7A44522BFEAD",
+        "data/Units/Ceyah/Prophet/prophetidle.kf": "F69D67E9DDE3B781CC217D9FF513B7090CDC30C343E50591F1B12473A558B9C3",
+        "data/Units/Ceyah/Prophet/prophetwalk.kf": "58E96F1105BC885A86B9D0C734ADA238CEDA2259FD69AE70C0080E912382A76C",
+        "data/Units/Ceyah/Prophet/prophetmelee1.kf": "4BAEC73A63AABF6FCF607212A6C887D163640708D2F67729CAC19E61A299A1E3",
+        "data/Units/Ceyah/Prophet/ProphetDie2.kf": "34117ED007BF8E5964FA7623336F79FC441807AE47220F31A45D1C57BBB71DB5",
+        "data/Units/Ceyah/Prophet/Prophetcast.kf": "6AC15B8CD0389903AA3366D0B5D7A2F014248A98FA41AAA5B5EC9D44B3B31E97",
+        "data/Units/Ceyah/Prophet/prophetjog.kf": "BADAD60E65588C21A30ECEB4A732F6DC2D41E8EC87BD8CBEFC3A242416169736",
+        "data/Units/Tech/Conjuror/Conjurorcast.kf": "6AC15B8CD0389903AA3366D0B5D7A2F014248A98FA41AAA5B5EC9D44B3B31E97",
+        "data/Units/Tech/Conjuror/Conjurordie1.kf": "22DA6745DE1D279E7BF2F869AEEB477D5011175ECCCEC985BEE0FD3377800E29",
+        "data/Units/Tech/Conjuror/ConjurorDie2.kf": "34117ED007BF8E5964FA7623336F79FC441807AE47220F31A45D1C57BBB71DB5",
+        "data/Units/Tech/Conjuror/Conjurorfidget1.kf": "F8C4802CDAEA06A2DA5B31222ECD11A5909AB1A61828D9D0DCBA7A44522BFEAD",
+        "data/Units/Tech/Conjuror/Conjurorfidget2.kf": "502BB3AF510F8C32B7EFA566A1A69226FBAD8804AE2064981452563B1D530874",
+        "data/Units/Tech/Conjuror/Conjuroridle.kf": "F69D67E9DDE3B781CC217D9FF513B7090CDC30C343E50591F1B12473A558B9C3",
+        "data/Units/Tech/Conjuror/Conjuroridlecast.kf": "C64DE3963420214EA15F17DE37B49B4021B2F24FD27850C4ED1994C3446A0E27",
+        "data/Units/Tech/Conjuror/Conjuroridlemelee.kf": "A08464EDF18BB0BC842F176DB5EC409D84054A8837FD8BF7A5935FD61437E168",
+        "data/Units/Tech/Conjuror/Conjurorjog.kf": "BADAD60E65588C21A30ECEB4A732F6DC2D41E8EC87BD8CBEFC3A242416169736",
+        "data/Units/Tech/Conjuror/Conjurormelee1.kf": "4BAEC73A63AABF6FCF607212A6C887D163640708D2F67729CAC19E61A299A1E3",
+        "data/Units/Tech/Conjuror/Conjurorwalk.kf": "58E96F1105BC885A86B9D0C734ADA238CEDA2259FD69AE70C0080E912382A76C"
+      },
+      "changed": {}
+    },
+    {
+      "id": "common-ui",
+      "sourceSha256": "4C9719666D11B782B9C3C8D079B6278736AF7D1F51565FF205E4C694C8F06DF1",
+      "sha256": "9BFD9366ADFFC4FE380FABFE901264A537769A0031BD7FF547BC90BF7BF2F035",
+      "added": {},
+      "changed": {
+        "paws_patch_versions.ini": {
+          "before": "FC7FA11B0947C536F039C0C5B78508497CAF40A0C69E3503A5ABCCC8D716563C",
+          "after": "A5769AEDF6A0C0CDB0AE762983E12DA27FCBEAC1C8B7A3DB669D36FE285EB463"
+        }
+      }
+    }
+  ],
+  "validationLimits": [
+    "The previously failing battle was replayed successfully on one computer.",
+    "Multiplayer testing with the affected friends remains to be completed.",
+    "The unsafe glow track is removed; the engine code that originally deleted its target has not been identified."
+  ]
+}

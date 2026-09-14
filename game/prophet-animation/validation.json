@@ -1,0 +1,236 @@
+{
+  "version": "0.3.0-beta.6",
+  "preservedMovementTracks": 572,
+  "preservedEventTracks": 22,
+  "removedTrack": "Plane01",
+  "userReplayedPreviouslyCrashingBattle": true,
+  "localRuntimeSequenceObjects": 39,
+  "localRuntimeVariants": 11,
+  "localRuntimeControllerCount": 26,
+  "localRuntimePlaneTargets": 0,
+  "localRuntimeZeroRefTargets": 0,
+  "multiplayerReplayComplete": false,
+  "files": [
+    {
+      "path": "data/Units/Ceyah/Prophet/prophetfidget2.kf",
+      "beforeSha256": "65BA16EABADCFE7885A2751636C63BB0F3F0680592E36454A362DF550306F0DE",
+      "afterSha256": "502BB3AF510F8C32B7EFA566A1A69226FBAD8804AE2064981452563B1D530874",
+      "beforeBytes": 17357,
+      "afterBytes": 17168,
+      "sequence": "ProphetFidget2",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/prophetdie1.kf",
+      "beforeSha256": "EFF5CDAA420545CA15B793519A4A381F3FC926A1F9E38A0BF2AB7BF0222F08C2",
+      "afterSha256": "22DA6745DE1D279E7BF2F869AEEB477D5011175ECCCEC985BEE0FD3377800E29",
+      "beforeBytes": 15898,
+      "afterBytes": 15709,
+      "sequence": "ProphetDie1",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/prophetidlemelee.kf",
+      "beforeSha256": "0BE950E191CAB8E70B3002F2191E6DE24439500D6AEC934EE1FFDB5494092257",
+      "afterSha256": "A08464EDF18BB0BC842F176DB5EC409D84054A8837FD8BF7A5935FD61437E168",
+      "beforeBytes": 6859,
+      "afterBytes": 6718,
+      "sequence": "ProphetIdleMelee",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/Prophetidlecast.kf",
+      "beforeSha256": "06B33AD15C0766AE4C2E486DCB4A0AF54CE0D85BA1E79C431BB0F056056E8135",
+      "afterSha256": "C64DE3963420214EA15F17DE37B49B4021B2F24FD27850C4ED1994C3446A0E27",
+      "beforeBytes": 8458,
+      "afterBytes": 8301,
+      "sequence": "ProphetIdleCast",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/prophetfidget1.kf",
+      "beforeSha256": "247843D03219FD1ECC50C38291C839726888EAC58128CB70FE19DCA0A03E1068",
+      "afterSha256": "F8C4802CDAEA06A2DA5B31222ECD11A5909AB1A61828D9D0DCBA7A44522BFEAD",
+      "beforeBytes": 17969,
+      "afterBytes": 17828,
+      "sequence": "ProphetFidget1",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/prophetidle.kf",
+      "beforeSha256": "338D8465C1C1A51A0DFA18733E01A62936DFE72E43B777FC23169A0EB841DA82",
+      "afterSha256": "F69D67E9DDE3B781CC217D9FF513B7090CDC30C343E50591F1B12473A558B9C3",
+      "beforeBytes": 15826,
+      "afterBytes": 15701,
+      "sequence": "ProphetIdle",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/prophetwalk.kf",
+      "beforeSha256": "35DCC1D59898CA03F924B567DFBB4844B7D7E8E64F2B1E02F4758BEC868911FB",
+      "afterSha256": "58E96F1105BC885A86B9D0C734ADA238CEDA2259FD69AE70C0080E912382A76C",
+      "beforeBytes": 16786,
+      "afterBytes": 16677,
+      "sequence": "ProphetWalk",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/prophetmelee1.kf",
+      "beforeSha256": "D0D108D9A377A2354168D4314283D22E48F37F639871EB95E044F85EE3DC5496",
+      "afterSha256": "4BAEC73A63AABF6FCF607212A6C887D163640708D2F67729CAC19E61A299A1E3",
+      "beforeBytes": 13556,
+      "afterBytes": 13447,
+      "sequence": "ProphetMelee1",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/ProphetDie2.kf",
+      "beforeSha256": "B6DEC9F84E935DA745A18DCE27AE50801D01EA1308E12713F5B0E71F5855E9F3",
+      "afterSha256": "34117ED007BF8E5964FA7623336F79FC441807AE47220F31A45D1C57BBB71DB5",
+      "beforeBytes": 15970,
+      "afterBytes": 15861,
+      "sequence": "ProphetDie2",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/Prophetcast.kf",
+      "beforeSha256": "915BDEDC05B6B4953837CAC975A4A6064C2F32C5151CCF71127137723ED9BC9E",
+      "afterSha256": "6AC15B8CD0389903AA3366D0B5D7A2F014248A98FA41AAA5B5EC9D44B3B31E97",
+      "beforeBytes": 34414,
+      "afterBytes": 34225,
+      "sequence": "ProphetCast",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Ceyah/Prophet/prophetjog.kf",
+      "beforeSha256": "B5F5C73A3055D92D7656ECB49E1C1B074FE952EB6205D217CB68A06C4A090D14",
+      "afterSha256": "BADAD60E65588C21A30ECEB4A732F6DC2D41E8EC87BD8CBEFC3A242416169736",
+      "beforeBytes": 17413,
+      "afterBytes": 17304,
+      "sequence": "ProphetJog",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjurorcast.kf",
+      "beforeSha256": "915BDEDC05B6B4953837CAC975A4A6064C2F32C5151CCF71127137723ED9BC9E",
+      "afterSha256": "6AC15B8CD0389903AA3366D0B5D7A2F014248A98FA41AAA5B5EC9D44B3B31E97",
+      "beforeBytes": 34414,
+      "afterBytes": 34225,
+      "sequence": "ProphetCast",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjurordie1.kf",
+      "beforeSha256": "EFF5CDAA420545CA15B793519A4A381F3FC926A1F9E38A0BF2AB7BF0222F08C2",
+      "afterSha256": "22DA6745DE1D279E7BF2F869AEEB477D5011175ECCCEC985BEE0FD3377800E29",
+      "beforeBytes": 15898,
+      "afterBytes": 15709,
+      "sequence": "ProphetDie1",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/ConjurorDie2.kf",
+      "beforeSha256": "B6DEC9F84E935DA745A18DCE27AE50801D01EA1308E12713F5B0E71F5855E9F3",
+      "afterSha256": "34117ED007BF8E5964FA7623336F79FC441807AE47220F31A45D1C57BBB71DB5",
+      "beforeBytes": 15970,
+      "afterBytes": 15861,
+      "sequence": "ProphetDie2",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjurorfidget1.kf",
+      "beforeSha256": "247843D03219FD1ECC50C38291C839726888EAC58128CB70FE19DCA0A03E1068",
+      "afterSha256": "F8C4802CDAEA06A2DA5B31222ECD11A5909AB1A61828D9D0DCBA7A44522BFEAD",
+      "beforeBytes": 17969,
+      "afterBytes": 17828,
+      "sequence": "ProphetFidget1",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjurorfidget2.kf",
+      "beforeSha256": "65BA16EABADCFE7885A2751636C63BB0F3F0680592E36454A362DF550306F0DE",
+      "afterSha256": "502BB3AF510F8C32B7EFA566A1A69226FBAD8804AE2064981452563B1D530874",
+      "beforeBytes": 17357,
+      "afterBytes": 17168,
+      "sequence": "ProphetFidget2",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjuroridle.kf",
+      "beforeSha256": "338D8465C1C1A51A0DFA18733E01A62936DFE72E43B777FC23169A0EB841DA82",
+      "afterSha256": "F69D67E9DDE3B781CC217D9FF513B7090CDC30C343E50591F1B12473A558B9C3",
+      "beforeBytes": 15826,
+      "afterBytes": 15701,
+      "sequence": "ProphetIdle",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjuroridlecast.kf",
+      "beforeSha256": "06B33AD15C0766AE4C2E486DCB4A0AF54CE0D85BA1E79C431BB0F056056E8135",
+      "afterSha256": "C64DE3963420214EA15F17DE37B49B4021B2F24FD27850C4ED1994C3446A0E27",
+      "beforeBytes": 8458,
+      "afterBytes": 8301,
+      "sequence": "ProphetIdleCast",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjuroridlemelee.kf",
+      "beforeSha256": "0BE950E191CAB8E70B3002F2191E6DE24439500D6AEC934EE1FFDB5494092257",
+      "afterSha256": "A08464EDF18BB0BC842F176DB5EC409D84054A8837FD8BF7A5935FD61437E168",
+      "beforeBytes": 6859,
+      "afterBytes": 6718,
+      "sequence": "ProphetIdleMelee",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjurorjog.kf",
+      "beforeSha256": "B5F5C73A3055D92D7656ECB49E1C1B074FE952EB6205D217CB68A06C4A090D14",
+      "afterSha256": "BADAD60E65588C21A30ECEB4A732F6DC2D41E8EC87BD8CBEFC3A242416169736",
+      "beforeBytes": 17413,
+      "afterBytes": 17304,
+      "sequence": "ProphetJog",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjurormelee1.kf",
+      "beforeSha256": "D0D108D9A377A2354168D4314283D22E48F37F639871EB95E044F85EE3DC5496",
+      "afterSha256": "4BAEC73A63AABF6FCF607212A6C887D163640708D2F67729CAC19E61A299A1E3",
+      "beforeBytes": 13556,
+      "afterBytes": 13447,
+      "sequence": "ProphetMelee1",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    },
+    {
+      "path": "data/Units/Tech/Conjuror/Conjurorwalk.kf",
+      "beforeSha256": "35DCC1D59898CA03F924B567DFBB4844B7D7E8E64F2B1E02F4758BEC868911FB",
+      "afterSha256": "58E96F1105BC885A86B9D0C734ADA238CEDA2259FD69AE70C0080E912382A76C",
+      "beforeBytes": 16786,
+      "afterBytes": 16677,
+      "sequence": "ProphetWalk",
+      "preservedMovementTracks": 26,
+      "eventsUnchanged": true
+    }
+  ],
+  "limitation": "Removes the unsafe staff glow animation track; the original engine object deletion cause is not established."
+}
