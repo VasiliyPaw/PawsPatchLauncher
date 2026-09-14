@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace PawsPatchLauncher;
 
-public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera, AddFriend, Requests, BlockedUsers, Discord, Smile, ChevronUp }
+public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera, AddFriend, Requests, BlockedUsers, Discord, Smile, ChevronUp, Bot }
 
 /// <summary>Font-independent vector icons on a shared 24-unit grid.</summary>
 public sealed class LauncherIcon : FrameworkElement
@@ -34,6 +34,7 @@ public sealed class LauncherIcon : FrameworkElement
             [IconKind.Components] = "M12,3 L21,8 12,13 3,8 Z M3,12 L12,17 21,12 M3,16 L12,21 21,16",
             [IconKind.Multiplayer] = "M12,3 A3,3 0 1 1 11.99,3 M5,21 L5,18 Q5,13 12,13 Q19,13 19,18 L19,21 M3,7 A2.5,2.5 0 0 1 3,12 M3,15 Q1,16 1,19 M21,7 A2.5,2.5 0 0 0 21,12 M21,15 Q23,16 23,19",
             [IconKind.Person] = "M12,3 A4,4 0 1 1 11.99,3 M4,21 L4,19 C4,12 20,12 20,19 L20,21",
+            [IconKind.Bot] = "M12,3 L12,7 M10.5,2.5 A1.5,1.5 0 1 1 13.5,2.5 A1.5,1.5 0 1 1 10.5,2.5 M7,7 L17,7 Q20,7 20,10 L20,18 Q20,21 17,21 L7,21 Q4,21 4,18 L4,10 Q4,7 7,7 Z M1,12 L1,16 M23,12 L23,16 M8,11 L8,13 M16,11 L16,13 M9,17 L15,17",
             [IconKind.Settings] = "M4,5 L20,5 M4,12 L20,12 M4,19 L20,19 M9,2 L9,8 M16,9 L16,15 M8,16 L8,22",
             [IconKind.Shield] = "M12,2 L21,6 20,14 Q18,19 12,22 Q6,19 4,14 L3,6 Z M8,12 L11,15 17,9",
             [IconKind.Language] = "M3,5 L14,5 M8,2 L8,5 M12,5 Q11,12 3,16 M5,8 Q7,12 12,14 M13,21 L17,11 21,21 M14.5,18 L19.5,18",

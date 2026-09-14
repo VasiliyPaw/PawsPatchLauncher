@@ -101,6 +101,75 @@ public sealed class KohanActivityReader
             var multiplayer = U8(session + 0x100) != 0;
             var manager = U32(image + 0x5f3fec);
             var local = manager >= 0x10000 ? U32(manager + 0xc) : 0;
+            var sourceKind = U32(session + 0x64);
+            var sourceOffset = sourceKind switch { 0 => 0x80u, 2 => 0x7cu, 5 => 0x88u, _ => 0x78u };
+            var creator = U32(session + sourceOffset);
+            var teams = new Dictionary<string,int>(StringComparer.Ordinal);
+            var kingdoms = new Dictionary<string,(uint address,uint team,uint color)>(StringComparer.Ordinal);
+            uint teamArray=0,teamCount=0,kingdomArray=0,kingdomCount=0;
+            if(sourceKind<=5 && creator>=0x10000)
+            {
+                // WorldCreator's native team order and kingdom parameters. IDs are used
+                // only to join the two lists; names and colors are never inferred from nicknames.
+                teamArray=U32(creator+8);teamCount=U32(creator+0xc);
+                kingdomArray=U32(creator+0x14);kingdomCount=U32(creator+0x18);
+                if(teamCount>64 || kingdomCount>256) return null;
+                for(uint i=0;i<teamCount;i++)
+                {
+                    var id=Wide(U32(checked(teamArray+i*0xc)));
+                    if(id.Length==0 || !teams.TryAdd(id,(int)i+1))return null;
+                }
+                for(uint i=0;i<kingdomCount;i++)
+                {
+                    var entry=checked(kingdomArray+i*0x6c);var id=Wide(U32(entry));
+                    if(id.Length==0 || !kingdoms.TryAdd(id,(entry,U32(entry+0x14),U32(entry+0x20))))return null;
+                }
+            }
+            string? Color(uint descriptor)
+            {
+                if(descriptor<0x10000)return null;
+                var rgb=new[]{F32(descriptor+0x18),F32(descriptor+0x1c),F32(descriptor+0x20)};
+                if(rgb.Any(c=>!float.IsFinite(c)||c<0||c>1))return null;
+                return "#"+string.Concat(rgb.Select(c=>((int)MathF.Round(c*255,MidpointRounding.AwayFromZero)).ToString("X2",System.Globalization.CultureInfo.InvariantCulture)));
+            }
+            uint palette=0;var privateLobbyColors=false;
+            if(phase=="lobby" && sourceKind!=2)
+            {
+                // Paw's color picker keeps pending choices outside WorldCreator until
+                // launch. Recognize the published r20 ABI through its detour and two
+                // independently checked routines; never mistake the template for a choice.
+                var site=image+0x295516;var hook=read(site,5);
+                if(hook[0]==0xe9)
+                {
+                    privateLobbyColors=true;
+                    var target=checked((uint)((long)site+5+BitConverter.ToInt32(hook,1)));
+                    if(target>=0x30000)
+                    {
+                        var candidate=target-0x20000;var stub=read(target,22);var init=read(candidate+0x1d000,22);
+                        if(stub.AsSpan(0,18).SequenceEqual(new byte[]{0x9c,0x60,0x89,0xd9,0xe8,0xf7,0xef,0xff,0xff,0x61,0x9d,0x8b,0x43,0x20,0x89,0x45,0xf0,0xe9})
+                            && (long)target+22+BitConverter.ToInt32(stub,18)==site+6
+                            && init.AsSpan(0,7).SequenceEqual(new byte[]{0x53,0x56,0x57,0x89,0xce,0x83,0x3d})
+                            && BitConverter.ToUInt32(init,7)==candidate+0x120 && init[11]==1 && init[12]==0x75 && init[14]==0x39 && init[15]==0x35
+                            && BitConverter.ToUInt32(init,16)==candidate+0x11c && init[20]==0x75
+                            && U32(candidate+0x100)==1 && U32(candidate+0x120)==1 && U32(candidate+0x11c)==session)
+                            palette=candidate;
+                    }
+                }
+            }
+            string? PendingColor(string kingdomId)
+            {
+                if(palette==0)return null;
+                var count=U32(palette+0x140);if(count is <1 or >64)return null;
+                for(uint i=0;i<16;i++)
+                {
+                    if(Wide(U32(palette+0x300+i*4))!=kingdomId)continue;
+                    var choice=U32(palette+0x600+i*4);
+                    var value=choice<count?Color(U32(palette+0x200+choice*4)):null; // Random remains unspecified until allocation.
+                    if(choice!=U32(palette+0x600+i*4)||U32(palette+0x11c)!=session||count!=U32(palette+0x140))throw new IOException();
+                    return value;
+                }
+                return null;
+            }
             var players = new List<GameParticipant>(); var visited = new HashSet<uint>();
             string? self = null;
             var head = U32(session + 0xc8); var node = head;
@@ -114,7 +183,26 @@ public sealed class KohanActivityReader
                 var key = "p" + id.ToString(System.Globalization.CultureInfo.InvariantCulture);
                 if (name.Length > 0)
                 {
-                    players.Add(new GameParticipant(key, name, bot));
+                    int? team=null;string? color=null;
+                    var kingdomId=Wide(U32(player+0x24));
+                    var liveKingdom=phase=="match"?U32(player+0x28):0;
+                    if(liveKingdom>=0x10000)
+                    {
+                        // During a match, use the actual kingdom (also correct for saves
+                        // and random colors), not the pre-game template's choices.
+                        var liveTeam=U32(liveKingdom+0x1f8);var descriptor=U32(liveKingdom+0x1f4);
+                        var teamId=liveTeam>=0x10000?Wide(U32(liveTeam+0x18)):"";
+                        if(teams.TryGetValue(teamId,out var number))team=number;
+                        color=Color(descriptor);
+                        if(liveKingdom!=U32(player+0x28)||liveTeam!=U32(liveKingdom+0x1f8)||descriptor!=U32(liveKingdom+0x1f4))return null;
+                    }
+                    else if(phase=="lobby" && kingdoms.TryGetValue(kingdomId,out var entry))
+                    {
+                        if(teams.TryGetValue(Wide(entry.team),out var number))team=number;
+                        color=privateLobbyColors?PendingColor(kingdomId):Color(entry.color);
+                        if(entry.team!=U32(entry.address+0x14)||entry.color!=U32(entry.address+0x20))return null;
+                    }
+                    players.Add(new GameParticipant(key, name, bot,Team:team,Color:color));
                     if (!bot && local != 0 && U32(player + 4) == local) self = key;
                 }
                 node = U32(node + 4);
@@ -132,9 +220,6 @@ public sealed class KohanActivityReader
             int? elapsed = null;
             if (phase == "match") { var seconds = F32(world + 0xe8); if (float.IsFinite(seconds) && seconds is >= 0 and <= 604800) elapsed = (int)seconds; }
             // Follow the same WorldCreator selection used by the native lobby map preview.
-            var sourceKind = U32(session + 0x64);
-            var sourceOffset = sourceKind switch { 0 => 0x80u, 2 => 0x7cu, 5 => 0x88u, _ => 0x78u };
-            var creator = U32(session + sourceOffset);
             int? width = null, height = null;
             if (sourceKind <= 5 && creator >= 0x10000)
             {
@@ -145,7 +230,12 @@ public sealed class KohanActivityReader
             // Native linked lists can change between reads. Discard a torn transition rather than guessing.
             if (session != U32(image + 0x5f3fe4) || state != U32(session + 0xf0) || head != U32(session + 0xc8)
                 || world != U32(image + 0x5f3fb8) || sourceKind != U32(session + 0x64) || creator != U32(session + sourceOffset)) return null;
-            return new GameActivity(phase, multiplayer, elapsed, width, height, Room: room, Self: self, Players: players);
+            if(sourceKind<=5 && creator>=0x10000 && (teamArray!=U32(creator+8)||teamCount!=U32(creator+0xc)
+                ||kingdomArray!=U32(creator+0x14)||kingdomCount!=U32(creator+0x18)))return null;
+            var result=new GameActivity(phase, multiplayer, elapsed, width, height, Room: room, Self: self, Players: players);
+            // Escaped Unicode can make an otherwise valid large roster exceed the wire
+            // envelope. Keep the phase/time instead of poisoning the normal heartbeat.
+            return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(result).Length>GameActivity.MaximumBytes-1024 ? result.Summary() : result;
         }
         catch (Exception error) when (error is IOException or ArgumentException or OverflowException) { return null; }
     }

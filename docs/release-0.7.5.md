@@ -7,13 +7,14 @@
 
 Из подсказки Paw's Team убрана фраза о правах администратора.
 
-Подготовлен подробный статус игры: под временем игры можно увидеть меню, лобби,
+Добавлен подробный статус игры: под временем игры можно увидеть меню, лобби,
 матч или редактор и открыть подробности с участниками, временем матча и размером
-карты. Боты отмечаются отдельно; аккаунты сопоставляются по игровой сессии и
+карты. Участники сгруппированы по командам, рядом показаны их игровые цвета.
+Для компьютера используется отдельная иконка бота. Случайный цвет до начала матча
+показывается серым маркером с пояснением. Аккаунты сопоставляются по игровой сессии и
 месту участника. По одному совпавшему нику аккаунт не определяется. Подробный статус
 можно отключить в настройках. При неизвестной версии игры остаётся общий статус
-«Играет». **Для работы этой функции требуется отдельное серверное обновление;
-в текущей локальной сборке оно ещё не развёрнуто.**
+«Играет». Серверная поддержка уже включена.
 
 ---
 
@@ -26,9 +27,10 @@ the main patch is off. Text and voice languages are preserved.
 
 The Paw's Team tooltip no longer mentions administrator permissions.
 
-Detailed game activity is prepared: menu, lobby, match or editor, with a details
-dialog for participants, match time and map dimensions. Bots are labelled separately;
+Detailed game activity is now available: menu, lobby, match or editor, with a details
+dialog for participants, match time and map dimensions. Participants are grouped by
+team with their in-game colors. Computer players have a dedicated bot icon; random
+colors use a neutral marker until the match assigns them. Bots are labelled separately;
 account matching uses the game session and participant slot, never just a matching
 nickname. Sharing can be disabled in Settings. Unknown game versions retain the
-general Playing status. **This feature requires a separate backend update, which
-has not yet been deployed for this local build.**
+general Playing status. Backend support is now enabled.

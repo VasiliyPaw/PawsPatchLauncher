@@ -3,7 +3,7 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
  let checks=0;const check=(ok,msg)=>{assert.ok(ok,msg);checks++;};
  const q=async(sql,args=[])=>(await db.query(sql,args)).rows;
  const ready=async id=>{await db.exec('reset role');await q("update paw_private.social_presence set seen_at=now()-interval '5 seconds' where player_id=$1",[id]);await login(id);};
- const a={phase:'match',multiplayer:true,elapsed:135,width:192,height:256,room:'A'.repeat(64),self:'p1',players:[{key:'p1',name:'Game name',bot:false},{key:'p2',name:'Bot',bot:true},{key:'p3',name:'Unknown',bot:false}]};
+ const a={phase:'match',multiplayer:true,elapsed:135,width:192,height:256,room:'A'.repeat(64),self:'p1',players:[{key:'p1',name:'Game name',bot:false,team:2,color:'#FF8000'},{key:'p2',name:'Bot',bot:true,team:1,color:'#0040FF'},{key:'p3',name:'Unknown',bot:false,team:null,color:null}]};
  const send=async(activity=a,playing=true)=>rpc('paw_presence',[playing,'unknown',{_activity:activity},null]);
  await ready(user);check((await send()).status==='ok','activity heartbeat accepted');
  await login(peer);
@@ -12,6 +12,7 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
  check(!('players' in player.activity)&&!('room' in player.activity)&&!('self' in player.activity),'regular polling never downloads roster or matching metadata');
  let details=await rpc('paw_game_activity',[user]);
  check(details.status==='ok'&&details.activity.players.length===3,'authorized details');
+ check(details.activity.players[0].team===2&&details.activity.players[0].color==='#FF8000'&&details.activity.players[1].team===1,'teams and colors survive heartbeat, identity enrichment and details');
  check(details.activity.players[0].profile?.id===user&&details.activity.players[1].profile===undefined&&details.activity.players[2].profile===undefined,'only matching human resolves; bots and unknown remain unlinked');
  check(!('room' in details.activity)&&!('self' in details.activity)&&details.observed_at,'detail response strips join fingerprint');
  await ready(user);await send({...a,multiplayer:false,room:null});await login(peer);
@@ -25,7 +26,9 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
   {...a,players:[{...a.players[0],profile:{id:peer,nickname:'impersonated'}}]},
   {...a,players:[{...a.players[0],bot:'false'}]},{...a,players:[null]}, {...a,players:42},
   {...a,players:Array.from({length:65},(_,i)=>({key:'p'+i,name:'x',bot:false}))},{...a,extra:'private'},
-  {...a,players:[{...a.players[0],name:'x'.repeat(81)}]},[],null];
+  {...a,players:[{...a.players[0],name:'x'.repeat(81)}]},
+  ...[0,-1,65,1.5,'1',{},[]].map(team=>({...a,players:[{...a.players[0],team}]})),
+  ...['red','#12345G','#FFFFFFFF','#12345',123,{},[]].map(color=>({...a,players:[{...a.players[0],color}]})),[],null];
  for(const bad of invalid.filter(x=>x!==null))check((await send(bad)).status==='invalid_presence','invalid activity rejected');
  await login(peer);check((await rpc('paw_game_activity',[user])).activity.elapsed===135,'invalid writes leave current presence intact');
  await ready(peer);await send({...a,self:'p1'});

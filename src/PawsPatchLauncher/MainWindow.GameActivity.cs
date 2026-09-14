@@ -120,10 +120,21 @@ public partial class MainWindow
         var people=activity.Players??[];
         if(people.Count==0)return;
         GameActivityBody.Children.Add(new TextBlock{Text=T("УЧАСТНИКИ", "PARTICIPANTS")+$" · {people.Count}",FontSize=12,Foreground=SocialBrush("#A8BBD2"),Margin=new Thickness(0,13,0,10)});
-        foreach(var player in people)
+        foreach(var team in people.GroupBy(p=>p.Team).OrderBy(g=>g.Key??int.MaxValue))
         {
-            var grid=new Grid();grid.ColumnDefinitions.Add(new ColumnDefinition{Width=new GridLength(32)});grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
-            grid.Children.Add(new LauncherIcon{Kind=player.Bot?IconKind.Settings:IconKind.Person,Width=20,Height=20,Foreground=SocialBrush(player.Bot?"#A8BBD2":"#97BDEE"),HorizontalAlignment=HorizontalAlignment.Left});
+            var group=new StackPanel{Margin=new Thickness(0,0,0,14),Tag=team.Key};
+            var heading=new Grid{Margin=new Thickness(0,0,0,8)};
+            heading.ColumnDefinitions.Add(new ColumnDefinition());heading.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
+            heading.Children.Add(new TextBlock{Text=team.Key is int number?T("Команда ","Team ")+number:T("Без указанной команды","Team not specified"),FontSize=14,FontWeight=FontWeights.SemiBold,Foreground=SocialBrush("#ECD08A")});
+            var count=new TextBlock{Text=team.Count().ToString(),FontSize=12,Foreground=SocialBrush("#A8BBD2"),VerticalAlignment=VerticalAlignment.Center};Grid.SetColumn(count,1);heading.Children.Add(count);
+            group.Children.Add(heading);
+            foreach(var player in team)
+            {
+            var grid=new Grid();grid.ColumnDefinitions.Add(new ColumnDefinition{Width=new GridLength(42)});grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
+            var marker=new Grid{Width=30,Height=30,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center};
+            marker.Children.Add(new LauncherIcon{Kind=player.Bot?IconKind.Bot:IconKind.Person,Width=22,Height=22,Foreground=SocialBrush("#CBD9EB")});
+            marker.Children.Add(new Border{Width=12,Height=12,CornerRadius=new CornerRadius(6),Background=SocialBrush(GameActivity.ValidColor(player.Color)?player.Color!:"#56677D"),BorderBrush=SocialBrush("#D2DDEA"),BorderThickness=new Thickness(1),HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,ToolTip=GameActivity.ValidColor(player.Color)?T("Цвет игрока","Player color"):T("Цвет пока не определён","Color is not available yet")});
+            grid.Children.Add(marker);
             var names=new StackPanel();Grid.SetColumn(names,1);
             names.Children.Add(new TextBlock{Text=player.Profile?.DisplayName??player.Name,FontWeight=FontWeights.SemiBold,TextTrimming=TextTrimming.CharacterEllipsis});
             if(player.Profile is { } profile)
@@ -132,8 +143,10 @@ public partial class MainWindow
                 if(profile.DisplayName!=player.Name)names.Children.Add(new TextBlock{Text=T("В игре: ","In game: ")+player.Name,FontSize=12,Foreground=SocialBrush("#A8BBD2"),TextTrimming=TextTrimming.CharacterEllipsis,Margin=new Thickness(0,3,0,0)});
             }
             grid.Children.Add(names);
-            var badge=new TextBlock{Text=player.Bot?T("Бот","Bot"):player.Profile is not null?"Paw’s Launcher":T("Игрок","Player"),FontSize=11,Foreground=SocialBrush("#C4D2E5"),Margin=new Thickness(10,0,0,0),VerticalAlignment=VerticalAlignment.Center};Grid.SetColumn(badge,2);grid.Children.Add(badge);
-            GameActivityBody.Children.Add(new Border{Child=grid,Background=SocialBrush("#1A324D"),CornerRadius=new CornerRadius(8),Padding=new Thickness(12,10,12,10),Margin=new Thickness(0,0,0,7)});
+            var badge=new Border{Child=new TextBlock{Text=player.Bot?T("Бот","Bot"):player.Profile is not null?"Paw’s Launcher":T("Игрок","Player"),FontSize=11,Foreground=SocialBrush(player.Profile is not null?"#8FD8B7":"#C4D2E5")},Background=SocialBrush(player.Profile is not null?"#1E443E":"#243C56"),CornerRadius=new CornerRadius(5),Padding=new Thickness(7,3,7,3),Margin=new Thickness(10,0,0,0),VerticalAlignment=VerticalAlignment.Center};Grid.SetColumn(badge,2);grid.Children.Add(badge);
+            group.Children.Add(new Border{Child=grid,Background=SocialBrush("#1A324D"),BorderBrush=SocialBrush("#2A4564"),BorderThickness=new Thickness(1),CornerRadius=new CornerRadius(8),Padding=new Thickness(12,10,12,10),Margin=new Thickness(0,0,0,6),Tag=player.Key});
+            }
+            GameActivityBody.Children.Add(group);
         }
     }
     private async void GameActivityClose_Click(object sender,RoutedEventArgs e)=>await DismissGameActivityAsync();

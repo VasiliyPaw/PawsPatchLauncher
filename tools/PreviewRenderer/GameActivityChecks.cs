@@ -23,7 +23,7 @@ internal static class GameActivityChecks
         T C<T>(string name)=>(T)w.FindName(name);
         var checks=0;void Check(bool ok,string why){if(!ok)throw new Exception("Game activity UI: "+why);checks++;}
         var peer=Guid.NewGuid();var profile=new GameParticipantProfile(peer,"fixture","Игрок / Player");
-        var activity=new GameActivity("match",true,3702,192,256,Players:[new("p1","Game nickname",false,profile),new("p2","Computer",true),new("p3","Guest",false)]);
+        var activity=new GameActivity("match",true,3702,192,256,Players:[new("p1","Game nickname",false,profile,2,"#DDA443"),new("p2","Computer",true,Team:1,Color:"#478BDC"),new("p3","Guest",false,Team:2,Color:"#C45482")]);
         var friend=new SocialPlayer(peer,"fixture","friend",Presence:"playing",PlayingSince:DateTimeOffset.UtcNow.AddMinutes(-90),DisplayName:"Игрок / Player",Activity:activity.Summary());
         var response=new GameActivityDetails(activity,DateTimeOffset.UtcNow);
         var calls=0;
@@ -43,7 +43,11 @@ internal static class GameActivityChecks
             ReadWith((_,_)=>{calls++;return Task.FromResult<GameActivityDetails?>(response);});
             await (Task)Call("ShowGameActivityAsync",peer)!;await Task.Delay(260);w.UpdateLayout();
             Check(calls==1&&C<Border>("GameActivityOverlay").Visibility==Visibility.Visible,"details load");
-            Check(C<StackPanel>("GameActivityBody").Children.Count==8,"mode/time/map and three participants rendered");
+            var groups=C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>().ToArray();
+            Check(groups.Length==2&&Equals(groups[0].Tag,1)&&Equals(groups[1].Tag,2),"teams grouped in numeric order despite roster order");
+            Check(groups[0].Children.OfType<Border>().Count()==1&&groups[1].Children.OfType<Border>().Count()==2,"all participants in their team");
+            var marker=(Grid)((Grid)groups[1].Children.OfType<Border>().First().Child).Children[0];
+            Check(((SolidColorBrush)((Border)marker.Children[1]).Background).Color==(Color)ColorConverter.ConvertFromString("#DDA443"),"player color preserved exactly");
             Check(C<Border>("GameActivityCard").ActualWidth<=570&&C<Border>("GameActivityCard").ActualHeight<=590,"compact card exceeds window");
             Check(Field<DispatcherTimer>("_gameActivityTimer").IsEnabled,"open details not refreshed");Capture("game-details");
             var sameRow=C<StackPanel>("GameActivityBody").Children[5];await (Task)Call("RefreshGameActivityAsync")!;
@@ -63,9 +67,10 @@ internal static class GameActivityChecks
             Check(C<StackPanel>("GameActivityBody").Children.Count==0&&C<TextBlock>("GameActivityStatus").Text.Contains(language=="ru"?"недоступны":"unavailable"),"game exit leaves stale details");
             ReadWith((_,_)=>throw new System.Net.Http.HttpRequestException("fixture"));await (Task)Call("RefreshGameActivityAsync")!;
             Check(C<TextBlock>("GameActivityStatus").Text.Contains(language=="ru"?"ещё раз":"try again"),"transient failure lost retry feedback");
-            ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=activity with{Players=Enumerable.Range(0,64).Select(i=>new GameParticipant("p"+i,new string('W',80),i%2==0)).ToArray()}}));
+            ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=activity with{Players=Enumerable.Range(0,64).Select(i=>new GameParticipant("p"+i,new string('W',80),i%2==0,Team:i%3==0?null:i%16+1,Color:i%2==0?"#000000":"#FFFFFF")).ToArray()}}));
             await (Task)Call("RefreshGameActivityAsync")!;await Task.Delay(260);w.UpdateLayout();
             Check(C<Border>("GameActivityCard").ActualHeight<=590&&C<Button>("GameActivityClose").IsVisible,"large roster exceeds card");
+            Check(C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>().Last().Tag is null,"unknown team kept together after numbered teams");
             Capture("game-details-long");Call("CloseSocialDetails");Check(overlay.Visibility==Visibility.Collapsed&&!Field<DispatcherTimer>("_gameActivityTimer").IsEnabled,"parent close leaves child alive");
             C<CheckBox>("ShareGameActivityToggle").IsChecked=false;Call("ShareGameActivityToggle_Click",C<CheckBox>("ShareGameActivityToggle"),new RoutedEventArgs());
             Check(!new SettingsStore().Load().ShareGameActivity,"sharing preference not persisted");

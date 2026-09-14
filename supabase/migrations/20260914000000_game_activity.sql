@@ -27,10 +27,16 @@ begin
  if jsonb_typeof(people)<>'array' or jsonb_array_length(people)>64 then return false; end if;
  if (select count(distinct value->>'key') from jsonb_array_elements(people))<>jsonb_array_length(people) then return false; end if;
  for p in select value from jsonb_array_elements(people) loop
-  if jsonb_typeof(p)<>'object' or exists(select 1 from jsonb_object_keys(p) k where k not in ('key','name','bot','profile'))
+  if jsonb_typeof(p)<>'object' or exists(select 1 from jsonb_object_keys(p) k where k not in ('key','name','bot','profile','team','color'))
   or jsonb_typeof(p->'key') is distinct from 'string' or p->>'key' !~ '^[A-Za-z0-9_-]{1,32}$'
   or jsonb_typeof(p->'name') is distinct from 'string' or length(btrim(p->>'name')) not between 1 and 80 or p->>'name' ~ '[[:cntrl:]]'
   or jsonb_typeof(p->'bot') is distinct from 'boolean' or (p->'profile' is not null and p->'profile'<>'null'::jsonb) then return false; end if;
+  if p->>'team' is not null then
+   if jsonb_typeof(p->'team')<>'number' then return false; end if;
+   n:=(p->>'team')::numeric;
+   if n<>trunc(n) or n<1 or n>64 then return false; end if;
+  end if;
+  if p->>'color' is not null and (jsonb_typeof(p->'color')<>'string' or p->>'color' !~ '^#[A-Fa-f0-9]{6}$') then return false; end if;
  end loop;
  if a->>'self' is not null and not exists(select 1 from jsonb_array_elements(people) entry where entry->>'key'=a->>'self' and entry->>'bot'='false') then return false; end if;
  if a->>'phase' not in ('lobby','match') and (jsonb_array_length(people)>0 or a->>'room' is not null or a->>'self' is not null) then return false; end if;

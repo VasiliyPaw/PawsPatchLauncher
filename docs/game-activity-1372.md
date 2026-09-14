@@ -22,6 +22,11 @@ base `0x460000`. No game image is added to this repository.
 | Player fields | wrapper `+0x20` ID, `+8` UTF-16 name, `+0xc` bot, `+4` network player. Local network player is manager global RVA `0x5f3fec`, `+0xc`. |
 | Lobby matching | cached native Steam connect string at RVA `0x5f21e0`; accepts only `+connect_lobby <uint64>`, hashes it with a Kohan-specific prefix. No join command/Steam ID is published. |
 | Map dimensions | native preview `0x563a35` calls `0x5c747f`, which selects the WorldCreator via `0x5c18a5`, then reads float `+0x3c/+0x40` and passes them to `0x562848`. Session world-source kind `+0x64`: 0 -> creator `+0x80`, 2 -> `+0x7c`, 5 -> `+0x88`, other known values -> `+0x78`. |
+| Team order | WorldCreator teams `+8/+0xc`, entries `0xc` bytes, first field ID. Native serialization `0x6f571e` / `0x6f5e37` / `0x6f5d9f`. Numbers are the one-based native team-list order; only populated teams are shown. |
+| Lobby team/color | WorldCreator kingdoms `+0x14/+0x18`, stride `0x6c`; entry ID `+0`, team ID `+0x14`, color descriptor `+0x20`. Lookup `0x6f56d7`; world configuration `0x6f5110` / `0x6f5174`. Joined to player `+0x24` kingdom ID, never to the nickname. |
+| Live match team/color | Player `+0x28` actual kingdom; kingdom `+0x1f8` team and `+0x1f4` color. Native setters `0x695869` / `0x695844`; team ID `+0x18` verified by `0x6a5711`. Actual state takes precedence over the pre-game template, including saves/random colors. |
+| RGB | Color descriptor normalized floats `+0x18/+0x1c/+0x20`, verified by the existing player-color label generator. Non-finite/out-of-range values are omitted. |
+| Pending Paw palette | Published r20 WorldCreator detour at RVA `0x295516`, payload `create_world_hook +0x20000`, independently checked `state_init +0x1d000`. Session/init guards, at most 16 kingdom IDs, 64 colors. Pending choice comes from `+0x600`; descriptor list `+0x200`. Random remains unspecified until allocation; saved lobbies use their saved descriptor. Unknown detours do not expose a misleading template color. |
 
 OpenProcess requests only `QUERY_LIMITED_INFORMATION | VM_READ`. No injection,
 patch writes, suspension, network hooks or process dumps. Reads happen off the UI
@@ -49,4 +54,8 @@ values are rejected. The generic Playing status does not depend on this reader.
 The native layout is supported by disassembly and deterministic relocated-memory
 tests. Fresh live menu/lobby/match and two-client Steam account matching have **not**
 been accepted in this change. Do not report those scenarios as live-tested.
-The server migration is validated against isolated PostgreSQL/WASM, not production.
+Production migration was deployed atomically on 2026-09-14. The transaction checked
+the two previous function hashes and all five resulting function hashes against
+the isolated schema. Read-only production checks confirmed RPC/private grants,
+the roster index, valid team/color acceptance and rejection of invalid values.
+No production profile, friendship or message rows were used as test fixtures.

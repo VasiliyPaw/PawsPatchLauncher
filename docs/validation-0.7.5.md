@@ -1,49 +1,51 @@
-# Local 0.7.5 candidate — 2026-09-14
+# Launcher 0.7.5 validation — 2026-09-14
 
-Status: client built locally; **not published**. Production backend is unchanged.
+Server deployment completed. Client release publication is in progress.
 
-## Completed
+## Changes
 
-- Persistent suspension/restoration of all seven Arcane Wars component choices.
-  Applying the disabled configuration exports only disabled effective settings;
-  the local remembered choice survives repeated saves and restarts.
-- Paw's Team tooltip text simplified.
-- Read-only native activity sampler, profile summary, nested details dialog,
-  sharing preference, bounded server schema/RPC, legacy-server fallback/backoff.
-- Latest-profile settings continue to come from the backend; received profile
-  settings/details are only cached in launcher memory. Own preferences stay local.
+- Arcane Wars optional components are remembered while Paw's Patch is off, across
+  apply/save/restart; reenabling the patch restores the selection.
+- Simplified Paw's Team tooltip.
+- Optional read-only game activity: phase, time, map size and participant details.
+  The roster groups players by team with native colors and a separate bot icon.
+- Pending Paw palette choices are read separately from the map template; Random
+  is neutral until assigned. Live match colors/teams use actual kingdoms.
+- Backend keeps one current bounded activity, uses existing visibility/session
+  checks, and omits roster data from ordinary friend polling. No match history.
 
 ## Verification
 
-- Full application test executable: **16,136 PASS**, including 86 native/parser
-  activity checks, 31 activity transport checks and 3,080 patch dependency checks.
-- All database migrations and tests in isolated PostgreSQL/WASM: **5,191 PASS**,
-  including 42 activity checks. No real account records modified.
-- WPF activity scenarios: **19 RU + 19 EN PASS**. Rendered/inspected cards at
-  1050 × 680; 64 participants scroll inside the bounded dialog. Loading, cache
-  reuse, stale completion, transient failure, nested outside-click consumption,
-  parent close, timer stop and saved opt-out covered.
-- Existing dependency/footer/tooltip/toast UI checks: **63 RU + 63 EN PASS**.
-- Self-contained win-x64 executable published to a local output folder; no
-  launcher restart or replacement performed. User launcher PID 28616 retained.
+- Full application tests: **16,182 PASS**, including 132 native/parser checks,
+  31 activity transport checks and 3,080 component dependency checks.
+- Database migrations and isolated PostgreSQL/WASM tests: **5,206 PASS**,
+  including 57 activity cases. No real user records used as fixtures.
+- WPF activity scenarios: **22 RU + 22 EN PASS**. Group order, player placement,
+  exact RGB, unknown teams, 64-player scrolling, 1050 × 680 layout, loading,
+  cache reuse, stale completion, retries, nested dismissal and saved opt-out.
+- Prior component/footer/tooltip/toast candidate checks: **63 RU + 63 EN PASS**.
+- WPF build: zero warnings/errors. RU/EN renders inspected, including bot icon.
 
-## Remaining gates
+## Production backend
 
-- Deploy `supabase/migrations/20260914000000_game_activity.sql` in one transaction
-  to the existing Supabase project, then verify definitions and grants read-only.
-  Browser automation stopped because the automatic safety review could not
-  establish the current browser URL. No production SQL was submitted.
-- Fresh live native menu/lobby/match verification, including a two-client Steam
-  session for participant/account matching. Synthetic memory and server tests do
-  not count as that acceptance. See `game-activity-1372.md` for native provenance.
-- After those gates, update the release note's rollout status, run the normal
-  signed-catalog release workflow and verify the public artifacts/feeds. No tag,
-  release, catalog promotion or remote commit was made in this task.
+`20260914000000_game_activity.sql` deployed in one transaction in the existing
+Supabase project on 2026-09-14. Before commit, both previous function bodies and
+all five resulting function bodies were matched against the isolated tested
+schema. Six read-only post-deployment checks passed: authenticated-only RPC,
+private implementations, roster index, valid team/color and invalid-value rejection.
+Existing accounts, friendships and messages were not test targets.
 
-## Local cleanup
+## Manual validation boundary
 
-Removed 117 explicitly verified obsolete test/build/package targets within the
-task workspace (178,640 files; 21,465,657,946 logical bytes). Disk free-space
-increase immediately after deletion: 21,880,918,016 bytes, approximately 20.38 GiB.
-The real game and the user's running launcher were not cleanup targets. One current
-0.7.5 preview is retained; source, reports and required mod/localization inputs remain.
+Native offsets and transitions are covered by disassembly and relocated-memory
+fixtures. A fresh two-client Steam lobby/match has **not** been live-tested;
+automated checks do not substitute for that test. Unknown native layouts keep the
+generic Playing status. See `game-activity-1372.md` for the exact native evidence.
+
+The user's running launcher was not stopped, restarted or replaced.
+
+## Prior cleanup
+
+117 verified obsolete test/build/package targets removed: 178,640 files,
+21,465,657,946 logical bytes; immediate free-space increase about 20.38 GiB.
+The real game, running launcher, source and required mod inputs were preserved.
