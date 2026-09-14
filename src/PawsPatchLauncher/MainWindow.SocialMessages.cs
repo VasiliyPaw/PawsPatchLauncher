@@ -88,11 +88,25 @@ public partial class MainWindow
             var author=_socialPlayers.FirstOrDefault(p=>p.Id==sender);
             var header=new TextBlock { Text = (own ? T("Вы", "You") : author is not null ? PlayerDisplayName(author)+(author.Deleted?"":" · "+PlayerUsername(author)) : T("Игрок", "Player")) + " · " + ChatTime(entry.time), ToolTip=ChatDate(entry.time), FontSize = 11, Foreground = SocialBrush("#B4C8DC"),VerticalAlignment=VerticalAlignment.Center };
             var level=own?_account.AdminLevel:author?.AdminLevel??0;var team=own?_account.PawsTeam:author?.PawsTeam==true;if(author?.Deleted!=true&&PlayerRoleBadge(level,team) is { } roleBadge)header.Inlines.Add(new System.Windows.Documents.InlineUIContainer(roleBadge) { BaselineAlignment = BaselineAlignment.Center });
-            content.Children.Add(header);
-            content.Children.Add(new TextBlock { Tag="message-body",Text = entry.message is {Kind:"offer"}&&author?.Deleted==true?T("Предложение недоступно: аккаунт удалён.","Offer unavailable: account deleted."):entry.message?.Body ?? pending!.Body, TextWrapping = TextWrapping.Wrap, FontSize = 14,
-                Foreground = SocialBrush(pending is not null && !failed ? "#8195AD" : "#F4F1E7"), Margin = new Thickness(0, 4, 0, 0) });
-            var messageBody=content.Children.OfType<TextBlock>().Last();
-            ChatGlyphs.Render(messageBody,messageBody.Text,_text.Language);
+            var body=entry.message is {Kind:"offer"}&&author?.Deleted==true?T("Предложение недоступно: аккаунт удалён.","Offer unavailable: account deleted."):entry.message?.Body ?? pending!.Body;
+            var headerRow=new Grid();
+            headerRow.ColumnDefinitions.Add(new ColumnDefinition());
+            headerRow.ColumnDefinitions.Add(new ColumnDefinition {Width=new GridLength(26)});
+            headerRow.Children.Add(header); content.Children.Add(headerRow);
+            var copy=new ClipboardButton {Name="CopyChatMessage",Style=(Style)FindResource("GhostButton"),Width=24,Height=22,Padding=new(0),Margin=new(4,-3,-3,-3),Opacity=0,
+                ToolTip=T("Копировать сообщение","Copy message"),Content=new LauncherIcon {Kind=IconKind.Copy,Width=13,Height=13}};
+            System.Windows.Automation.AutomationProperties.SetName(copy,T("Копировать сообщение","Copy message"));
+            Grid.SetColumn(copy,1);headerRow.Children.Add(copy);
+            void RevealCopy(bool show) => copy.BeginAnimation(OpacityProperty,new System.Windows.Media.Animation.DoubleAnimation(show?1:0,TimeSpan.FromMilliseconds(120)));
+            bubble.MouseEnter+=(_,_)=>RevealCopy(true);
+            bubble.MouseLeave+=(_,_)=>RevealCopy(copy.IsKeyboardFocusWithin);
+            copy.GotKeyboardFocus+=(_,_)=>RevealCopy(true);
+            copy.LostKeyboardFocus+=(_,_)=>RevealCopy(bubble.IsMouseOver);
+            copy.Click+=async(_,e)=>{e.Handled=true;await copy.CopyAsync(()=>CopyTextAsync(body,()=>T("Сообщение скопировано.","Message copied.")));};
+            copy.Unloaded+=(_,_)=>copy.ResetFeedback();
+            content.Children.Add(new ChatMessageText { Tag="message-body", UiLanguage=_text.Language, Text=body, FontSize=14,
+                CopyTextRequested=value=>CopyTextAsync(value,()=>T("Скопировано.","Copied."),(message,failed)=>{if(failed)ShowToast(message,true);}),
+                Foreground=SocialBrush(pending is not null && !failed ? "#8195AD" : "#F4F1E7"),Margin=new(0,4,0,0)});
             if(pending is null)AddChatMedia(content,entry.message!.Body);
             if (pending is not null)
             {

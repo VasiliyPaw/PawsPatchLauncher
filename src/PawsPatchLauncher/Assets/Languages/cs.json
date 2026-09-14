@@ -1052,5 +1052,21 @@
   "×2 requires a patch release containing this frequency.": "×2 vyžaduje vydání opravy obsahující tuto frekvenci.",
   "×2 unavailable in this release": "×2 není v tomto vydání k dispozici",
   "— version unavailable": "— verze není k dispozici",
-  "• Fixes colors on company badges.": "• Opravuje barvy na odznacích rot."
+  "• Fixes colors on company badges.": "• Opravuje barvy na odznacích rot.",
+  "Choose sound": "Vybrat zvuk",
+  "Processing…": "Zpracování…",
+  "Audio files": "Zvukové soubory",
+  "All files": "Všechny soubory",
+  "WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA, AIFF · up to 20 MB and 15 seconds": "WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA, AIFF · nejvýše 20 MB a 15 sekund",
+  "Choose a sound up to 20 MB.": "Vyberte zvuk o velikosti nejvýše 20 MB.",
+  "The sound is longer than 15 seconds. Choose a shorter clip.": "Zvuk je delší než 15 sekund. Vyberte kratší úryvek.",
+  "This audio format is not supported. Choose WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA or AIFF.": "Tento zvukový formát není podporován. Vyberte WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA nebo AIFF.",
+  "Could not read the sound: the file is damaged or an audio codec is unavailable.": "Zvuk nelze přečíst: soubor je poškozený nebo chybí zvukový kodek.",
+  "Could not read or save the sound. Check file access.": "Zvuk nelze přečíst nebo uložit. Zkontrolujte přístup k souboru.",
+  "This player is already your friend.": "Tento hráč už je vaším přítelem.",
+  "You have already sent this player a friend request.": "Tomuto hráči jste již poslali žádost o přátelství.",
+  "You already have a request from this player. Accept it in Requests.": "Od tohoto hráče již máte žádost. Přijměte ji v sekci Žádosti.",
+  "Could not confirm the request status. Refresh your friends list.": "Stav žádosti se nepodařilo ověřit. Obnovte seznam přátel.",
+  "Copy message": "Kopírovat zprávu",
+  "Message copied.": "Zpráva zkopírována."
 }

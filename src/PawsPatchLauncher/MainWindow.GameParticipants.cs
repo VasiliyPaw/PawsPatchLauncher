@@ -112,16 +112,15 @@ public partial class MainWindow
         if(player.IsFriend||!player.Available||player.Relation is "outgoing" or "blocked"||SocialDetailsPlayer()?.Id!=player.Id)return;
         await SocialOperationAsync(async owner=>
         {
-            if(_profileFriendRequestOverride is not null)await _profileFriendRequestOverride(player,_accountLifetime.Token);
-            else await _account.FriendActionAsync("request",player.Id,player.Nickname,_accountLifetime.Token);
+            FriendRequestResult result;
+            if(_profileFriendRequestOverride is not null)
+            {
+                await _profileFriendRequestOverride(player,_accountLifetime.Token);
+                result=new(FriendRequestOutcome.Sent,_socialPlayers.Where(p=>p.Id!=player.Id).Append(player with{Relation="outgoing",IsFriend=false,Unread=0}).ToArray());
+            }
+            else result=await _account.RequestFriendAsync(player.Nickname,player.Id,_accountLifetime.Token);
             if(_account.UserId!=owner.ToString())return;
-            // Commit the acknowledged request immediately, even if the following list refresh fails.
-            var pending=player with{Relation="outgoing",IsFriend=false,Unread=0};
-            _socialPlayers=_socialPlayers.Where(p=>p.Id!=player.Id).Append(pending).ToArray();
-            if(_socialDetailsPeer==player.Id){_activityViewedPlayer=pending;RenderSocialDetails(pending);}
-            RenderSocialRows();RenderSocialNotifications();
-            ShowToast(()=>T("Заявка отправлена.","Friend request sent."));
-            _socialNextPoll=default;
+            ShowFriendRequestResult(result);
         });
     }
 }

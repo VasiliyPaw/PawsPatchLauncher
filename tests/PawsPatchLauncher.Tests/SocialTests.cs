@@ -58,6 +58,7 @@ internal static class SocialTests
         AccountService.ValidateMessage("Строка 1\nстрока 2\t🙂","text");checks++;
         await Reject(()=>{AccountService.ValidateMessage("test","executable");return Task.CompletedTask;},"invalid_message");
         var calls=0;var rows=new Dictionary<Guid,SocialMessage>();var loseReply=true;var foreignReply=false;var authOwner=owner;
+        var requestCalls=0; var isFriend=true; var omitPeer=false; var afterRequest="outgoing";
         var unread=2;var relation="friend";var remaining=1;var marker=Guid.NewGuid();var receiptCalls=0;
         const string exactCode="PAW-BETA-IW0-SP2-RM1-SG0-LM1-RU1-CL1-OOS1-PS0";
         var legacyPresence = false; var fallbackPresenceCalls = 0;
@@ -71,7 +72,8 @@ internal static class SocialTests
             if(path.EndsWith("/user"))return Ok(user);
             if(path.EndsWith("paw_profiles"))return Ok(new[]{new{id=authOwner,nickname="FixturePaw"}});
             Check(req.Headers.Authorization?.Parameter=="fixture-access","missing session");
-            if(path.EndsWith("paw_social_list"))return Ok(new{status="ok",players=new[]{new{id=peer,nickname="FixtureFriend",relation,unread,channel="beta",configuration=peerConfiguration}}});
+            if(path.EndsWith("paw_social_list"))return Ok(new{status="ok",players=new[]{new{id=peer,nickname="FixtureFriend",relation,unread,is_friend=isFriend,channel="beta",configuration=peerConfiguration}}.Where(_=>!omitPeer)});
+            if(path.EndsWith("paw_friend_action")) { requestCalls++; omitPeer=false; relation=afterRequest; isFriend=relation=="friend"; return Ok(new{status="ok"}); }
             if(path.EndsWith("paw_presence")) {
                 using var body=JsonDocument.Parse(await req.Content!.ReadAsStringAsync());
                 if (legacyPresence)
@@ -103,6 +105,22 @@ internal static class SocialTests
             Check((await service.GetFriendsAsync()).Single().Id==peer,"friend response");
             Check((await service.GetFriendsAsync()).Single().Unread==2,"unread response");
             Check((await service.GetFriendsAsync()).Single().Configuration is null,"legacy config invented");
+            Check((await service.RequestFriendAsync("FIXTUREFRIEND")).Outcome==FriendRequestOutcome.AlreadyFriends && requestCalls==0,"already-friend request claimed sent");
+            unread=0;relation="incoming";isFriend=false;
+            Check((await service.RequestFriendAsync("FixtureFriend",peer)).Outcome==FriendRequestOutcome.Incoming && requestCalls==0,"incoming request replaced");
+            relation="outgoing";
+            Check((await service.RequestFriendAsync("FixtureFriend")).Outcome==FriendRequestOutcome.AlreadySent && requestCalls==0,"duplicate request");
+            relation="blocked";await Reject(()=>service.RequestFriendAsync("FixtureFriend"),"player_unavailable");Check(requestCalls==0,"blocked player requested");
+            relation="friend";isFriend=false;
+            Check((await service.RequestFriendAsync("FixtureFriend",peer)).Outcome==FriendRequestOutcome.Sent && requestCalls==1,"retained chat prevented new friendship");
+            omitPeer=true;afterRequest="friend";
+            Check((await service.RequestFriendAsync("FixtureFriend")).Outcome==FriendRequestOutcome.AlreadyFriends && requestCalls==2,"friendship race claimed sent");
+            omitPeer=true;afterRequest="incoming";
+            Check((await service.RequestFriendAsync("FixtureFriend")).Outcome==FriendRequestOutcome.Incoming,"incoming race claimed sent");
+            omitPeer=true;afterRequest="outgoing";
+            var sent=await service.RequestFriendAsync("FixtureFriend");
+            Check(sent.Outcome==FriendRequestOutcome.Sent && sent.Players.Single().Relation=="outgoing","new request not confirmed");
+            unread=2;relation="friend";isFriend=true;
             peerConfiguration=exactCode;Check((await service.GetFriendsAsync()).Single().Configuration==exactCode,"exact friend config lost");
             peerConfiguration=exactCode.Replace("BETA","STABLE");Check((await service.GetFriendsAsync()).Single().Configuration is null,"wrong channel config trusted");
             peerConfiguration=exactCode+"\n";Check((await service.GetFriendsAsync()).Single().Configuration is null,"invalid config trusted");

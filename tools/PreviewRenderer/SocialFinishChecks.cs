@@ -39,9 +39,9 @@ internal static class SocialFinishChecks
             Check(menus==1&&Field<ContextMenu>("_socialMenu").Items.Count==3,"friend-row right-click lost actions");Invoke("CloseSocialMenu");
             var message=Control<StackPanel>("FriendsMessagesPanel").Children.OfType<Grid>().First(r => r.Tag is Guid);
             var bubble=message.Children.OfType<Border>().Single();var textPanel=(StackPanel)bubble.Child;
-            Press(message,true);Press(textPanel,true);Press(textPanel.Children.OfType<TextBlock>().Last(),true);
+            Press(message,true);Press(textPanel,true);Press(textPanel.Children.OfType<ChatMessageText>().Single(),true);
             Check(menus==1,"ordinary message/background opens player menu");
-            Check(textPanel.Children.OfType<TextBlock>().First().Text.EndsWith(Field<IReadOnlyList<SocialMessage>>("_socialMessages")[0].CreatedAt.ToLocalTime().ToString("HH:mm:ss")),"message seconds missing");
+            Check(((Grid)textPanel.Children[0]).Children.OfType<TextBlock>().Single().Text.EndsWith(Field<IReadOnlyList<SocialMessage>>("_socialMessages")[0].CreatedAt.ToLocalTime().ToString("HH:mm:ss")),"message seconds missing");
 
             Invoke("ShowSocialDetails",friend);
             var headerAvatar=Control<ContentControl>("FriendsChatHeaderAvatar").Content;
@@ -135,7 +135,7 @@ internal static class SocialFinishChecks
             Set("_chatMedia",new ChatMedia(new Fixture(req=>req.RequestUri!.AbsolutePath.EndsWith(".png")
                 ?new HttpResponseMessage(failPng?HttpStatusCode.ServiceUnavailable:HttpStatusCode.OK){Content=new ByteArrayContent(bytes.ToArray())}
                 :new HttpResponseMessage(HttpStatusCode.OK){Content=new ByteArrayContent(gif)})));
-            var panel=new StackPanel();var body=new TextBlock {Tag="message-body",Text="Caption\n"+gifUrl+"\n"+pngUrl};panel.Children.Add(body);
+            var panel=new StackPanel();var body=new ChatMessageText {Tag="message-body",Text="Caption\n"+gifUrl+"\n"+pngUrl};panel.Children.Add(body);
             Invoke("AddChatMedia",panel,body.Text);
             var hosts=panel.Children.OfType<Border>().ToArray();
             Check(body.Text.Contains(gifUrl)&&body.Text.Contains(pngUrl),"links hidden before loading");

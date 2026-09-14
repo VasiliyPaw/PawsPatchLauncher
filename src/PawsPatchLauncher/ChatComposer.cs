@@ -127,7 +127,7 @@ public sealed class ChatComposer : RichTextBox
         base.OnTextChanged(e);
     }
 
-    private static string Serialize(TextPointer start, TextPointer end)
+    internal static string Serialize(TextPointer start, TextPointer end)
     {
         var text = new StringBuilder(); var p = start;
         while (p.CompareTo(end) < 0)

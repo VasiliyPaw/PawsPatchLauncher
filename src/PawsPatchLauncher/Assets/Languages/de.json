@@ -1052,5 +1052,21 @@
   "×2 requires a patch release containing this frequency.": "×2 erfordert eine Patch-Veröffentlichung, die diese Frequenz enthält.",
   "×2 unavailable in this release": "×2 in dieser Version nicht verfügbar",
   "— version unavailable": "— Version nicht verfügbar",
-  "• Fixes colors on company badges.": "• Korrigiert die Farben der Kompanieabzeichen."
+  "• Fixes colors on company badges.": "• Korrigiert die Farben der Kompanieabzeichen.",
+  "Choose sound": "Ton auswählen",
+  "Processing…": "Verarbeitung…",
+  "Audio files": "Audiodateien",
+  "All files": "Alle Dateien",
+  "WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA, AIFF · up to 20 MB and 15 seconds": "WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA, AIFF · bis zu 20 MB und 15 Sekunden",
+  "Choose a sound up to 20 MB.": "Wähle einen Ton mit höchstens 20 MB.",
+  "The sound is longer than 15 seconds. Choose a shorter clip.": "Der Ton ist länger als 15 Sekunden. Wähle einen kürzeren Ausschnitt.",
+  "This audio format is not supported. Choose WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA or AIFF.": "Dieses Audioformat wird nicht unterstützt. Wähle WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA oder AIFF.",
+  "Could not read the sound: the file is damaged or an audio codec is unavailable.": "Der Ton konnte nicht gelesen werden: Die Datei ist beschädigt oder ein Audiocodec fehlt.",
+  "Could not read or save the sound. Check file access.": "Der Ton konnte nicht gelesen oder gespeichert werden. Prüfe den Dateizugriff.",
+  "This player is already your friend.": "Dieser Spieler ist bereits dein Freund.",
+  "You have already sent this player a friend request.": "Du hast diesem Spieler bereits eine Freundschaftsanfrage gesendet.",
+  "You already have a request from this player. Accept it in Requests.": "Du hast bereits eine Anfrage von diesem Spieler. Nimm sie unter Anfragen an.",
+  "Could not confirm the request status. Refresh your friends list.": "Der Anfragestatus konnte nicht bestätigt werden. Aktualisiere deine Freundesliste.",
+  "Copy message": "Nachricht kopieren",
+  "Message copied.": "Nachricht kopiert."
 }

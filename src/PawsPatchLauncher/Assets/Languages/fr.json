@@ -1052,5 +1052,21 @@
   "×2 requires a patch release containing this frequency.": "×2 nécessite une version du patch incluant cette fréquence.",
   "×2 unavailable in this release": "×2 indisponible dans cette version",
   "— version unavailable": "— version indisponible",
-  "• Fixes colors on company badges.": "• Corrige les couleurs des emblèmes de compagnie."
+  "• Fixes colors on company badges.": "• Corrige les couleurs des emblèmes de compagnie.",
+  "Choose sound": "Choisir un son",
+  "Processing…": "Traitement…",
+  "Audio files": "Fichiers audio",
+  "All files": "Tous les fichiers",
+  "WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA, AIFF · up to 20 MB and 15 seconds": "WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA, AIFF · 20 Mo et 15 secondes maximum",
+  "Choose a sound up to 20 MB.": "Choisissez un son de 20 Mo maximum.",
+  "The sound is longer than 15 seconds. Choose a shorter clip.": "Le son dépasse 15 secondes. Choisissez un extrait plus court.",
+  "This audio format is not supported. Choose WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA or AIFF.": "Ce format audio n’est pas pris en charge. Choisissez WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA ou AIFF.",
+  "Could not read the sound: the file is damaged or an audio codec is unavailable.": "Impossible de lire le son : le fichier est endommagé ou un codec audio est indisponible.",
+  "Could not read or save the sound. Check file access.": "Impossible de lire ou d’enregistrer le son. Vérifiez l’accès au fichier.",
+  "This player is already your friend.": "Ce joueur fait déjà partie de vos amis.",
+  "You have already sent this player a friend request.": "Vous avez déjà envoyé une demande d’amitié à ce joueur.",
+  "You already have a request from this player. Accept it in Requests.": "Vous avez déjà une demande de ce joueur. Acceptez-la dans Demandes.",
+  "Could not confirm the request status. Refresh your friends list.": "Impossible de confirmer l’état de la demande. Actualisez votre liste d’amis.",
+  "Copy message": "Copier le message",
+  "Message copied.": "Message copié."
 }

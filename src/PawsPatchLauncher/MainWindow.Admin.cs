@@ -318,7 +318,7 @@ public partial class MainWindow
     private Task AdminAddFriendAsync(AdminPlayer user)
     {
         var owner=_account.UserId;
-        return RunAdminReadAsync(async()=>{await _account.FriendActionAsync("request",nickname:user.Nickname,ct:_accountLifetime.Token);if(owner!=_account.UserId||_account.AdminLevel<1)return;ShowToast(()=>T("Заявка отправлена.","Friend request sent."));await RefreshSocialAsync();});
+        return RunAdminReadAsync(async()=>{var result=await _account.RequestFriendAsync(user.Nickname,user.Id,_accountLifetime.Token);if(owner!=_account.UserId||_account.AdminLevel<1)return;ShowFriendRequestResult(result);});
     }
     private async Task RunAdminReadAsync(Func<Task> work)
     {

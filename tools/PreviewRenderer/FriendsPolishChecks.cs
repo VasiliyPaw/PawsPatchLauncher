@@ -72,7 +72,7 @@ internal static class FriendsPolishChecks
             await Task.Delay(320);
             Check(stack.Children.Count==1&&state.Message=="third"&&state.Failed,"dismiss older toast removed newest");
             for(int i=0;i<4;i++)Invoke("ShowToast",(Func<string>)(()=>"burst"),false);
-            Check(stack.Children.Count==5,"burst notices overwritten");Invoke("ClearToastStack");
+            Check(stack.Children.Count==2,"identical burst notices are not grouped");Invoke("ClearToastStack");
             Check(stack.Children.Count==1&&last.Visibility==Visibility.Collapsed&&!Field<DispatcherTimer>("_toastTimer").IsEnabled,"stack clear leaked entries/timer");
             input.Text="private search";Set("_socialIdentity","different-owner");Invoke("RenderSocialIdentity");
             Check(input.Text==""&&C<Border>("FriendsSearchPanel").Visibility==Visibility.Collapsed

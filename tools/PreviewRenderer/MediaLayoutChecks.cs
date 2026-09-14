@@ -54,10 +54,10 @@ internal static class MediaLayoutChecks
                     Check(image.Source is not null&&image.ActualWidth>0&&image.ActualHeight>0,"missing media dimensions");
                     Check(Math.Abs(image.ActualWidth/image.ActualHeight-image.Source!.Width/image.Source.Height)<0.01,"distorted image aspect ratio");
                     Check(host.ActualWidth<=image.ActualWidth+6.1,"empty stretched media background");
-                    var heading=panel.Children.OfType<TextBlock>().First();
+                    var heading=panel.Children.OfType<Grid>().Single();
                     var desired=Math.Max(image.ActualWidth+6,heading.DesiredSize.Width)+22;
                     Check(bubble.ActualWidth<=desired+1,"empty stretched message bubble");
-                    Check(panel.Children.OfType<TextBlock>().Single(t=>t.Tag as string=="message-body").Visibility==Visibility.Collapsed,"media-only URL still occupies space");
+                    Check(panel.Children.OfType<ChatMessageText>().Single(t=>t.Tag as string=="message-body").Visibility==Visibility.Collapsed,"media-only URL still occupies space");
                     var bounds=bubble.TransformToAncestor(content).TransformBounds(new Rect(bubble.RenderSize));
                     Check(bounds.Right<=size.Width&&bounds.Left>=0,"media clipped at compact width");
                 }

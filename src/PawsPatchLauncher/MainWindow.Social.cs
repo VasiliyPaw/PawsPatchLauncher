@@ -166,6 +166,7 @@ public partial class MainWindow
         "invalid_offer" or "invalid_save"=>T("Не удалось проверить данные предложения.", "Could not validate the offer data."),
         "storage_limit"=>T("Временное хранилище сейвов заполнено. Дождитесь ответа на предыдущие отправки.", "Temporary save storage is full. Wait for earlier transfers to finish."),
         "configuration_matches"=>T("Конфигурация друга уже совпадает с вашей. Предложение не отправлено.", "Your friend's configuration already matches yours. The offer was not sent."),
+        "request_unconfirmed"=>T("Не удалось подтвердить состояние заявки. Обновите список друзей.", "Could not confirm the request status. Refresh your friends list."),
         "delivery_timeout"=>T("Не удалось отправить за минуту", "Could not send within a minute"),
         "network" or "outcome_unknown"=>T("Нет связи с сервером. Пробуем подключиться…", "Cannot reach the server. Reconnecting…"),
         _=>AccountMessage(code)
@@ -204,14 +205,11 @@ public partial class MainWindow
     {
         var raw=FriendsNicknameInput.Text;var nickname=raw.Trim().TrimStart('@');
         await SocialOperationAsync(async owner=> {
-            await _account.FriendActionAsync("request",nickname:nickname,ct:_accountLifetime.Token);
+            var result=await _account.RequestFriendAsync(nickname,ct:_accountLifetime.Token);
             if(_account.UserId!=owner.ToString())return;
             if(FriendsNicknameInput.Text==raw){FriendsNicknameInput.Clear();await CloseFriendsDialogAsync();}
             SetSocialStatus("");
-            ShowToast(()=>T("Заявка отправлена.", "Friend request sent."));
-            var players=await _account.GetFriendsAsync(_accountLifetime.Token);
-            if(_account.UserId!=owner.ToString())return;
-            _socialPlayers=players;RenderSocialRows();
+            ShowFriendRequestResult(result);
         });
     }
     private async Task SocialFriendActionAsync(SocialPlayer player,string action)

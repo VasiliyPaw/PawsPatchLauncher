@@ -37,13 +37,13 @@ public partial class MainWindow
     }
     private void AddChatMedia(StackPanel content,string body)
     {
-        var bodyText=content.Children.OfType<TextBlock>().FirstOrDefault(t=>t.Tag as string=="message-body");
+        var bodyText=content.Children.OfType<ChatMessageText>().FirstOrDefault(t=>t.Tag as string=="message-body");
         var loaded=new HashSet<string>(StringComparer.Ordinal);
         void RefreshBody()
         {
             if(bodyText is null)return;
             var visibleText=ChatMedia.WithoutLoadedLinks(body,loaded);
-            ChatGlyphs.Render(bodyText,visibleText,_text.Language);
+            bodyText.Text=visibleText;
             bodyText.Visibility=string.IsNullOrWhiteSpace(visibleText)?Visibility.Collapsed:Visibility.Visible;
         }
         foreach(var uri in ChatMedia.Find(body))
