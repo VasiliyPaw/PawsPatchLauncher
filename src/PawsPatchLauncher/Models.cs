@@ -71,6 +71,7 @@ public sealed class ChannelManifest
     public List<ReleaseReference> PreviousReleases { get; set; } = [];
     public bool ColorDesyncContinue { get; set; }
     public bool IndependentColorHostility { get; set; }
+    public int PlayerColorCount { get; set; } = PawsPatchLauncher.PatchGuide.PlayerColorCount;
     public PatchGuideDocument? PatchGuide { get; set; }
     public List<ModGuideDocument> ModGuides { get; set; } = [];
 }

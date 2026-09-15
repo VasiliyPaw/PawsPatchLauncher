@@ -184,7 +184,7 @@ public partial class MainWindow : Window
         RussianDescriptionText.Text = T("Общий язык для всех модов и оригинальной игры", "Shared language for all mods and the original game");
         SyncLanguageChoices();
         ColorsTitleText.Text = _text["modules.colors"];
-        ColorsDescriptionText.Text = _text["modules.colors.desc"];
+        ColorsDescriptionText.Text = _text.ColorText("modules.colors.desc", _channel);
         OosTitleText.Text = _text["modules.oos"];
         OosDescriptionText.Text = T("Продолжает матч при обнаружении рассинхрона, не устраняя его причину", "Continues the match on desync without fixing its cause");
         ApplySettingsButton.Content = T("Применить настройки", "Apply settings");
@@ -843,7 +843,7 @@ public partial class MainWindow : Window
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
         IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
-        ColorsDescriptionText.Text = _colorsAvailable ? _text["modules.colors.desc"] : UiLanguages.Text(_text.Language, "Недоступно в выбранном старом выпуске. Выберите последнюю версию патча.", "Unavailable in this older release. Select the latest patch version.");
+        ColorsDescriptionText.Text = _colorsAvailable ? _text.ColorText("modules.colors.desc", _channel) : UiLanguages.Text(_text.Language, "Недоступно в выбранном старом выпуске. Выберите последнюю версию патча.", "Unavailable in this older release. Select the latest patch version.");
         }
         finally { _initializing = wasInitializing; }
     }

@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 // Original game executable remains unchanged on disk. All MP peers must use it.
 internal static class PawLobbyColorsNative
 {
-    private const int PayloadSize = 249856;
+    private const int PayloadSize = 270336;
     private const int PaletteCountOffset = 0x140;
     private const int PaletteSourceOffset = 0x1400;
     private const int PaletteEntrySize = 20;
@@ -21,9 +21,9 @@ internal static class PawLobbyColorsNative
     private const int PaletteStringsEnd = 0x10000;
     private const int MaxPaletteColors = 64;
     private const int MenuSiteIndex = 13;
-    private static readonly int[] Sites = { 0x1267a5,0x12693f,0x1267b8,0x295516,0x295174,0x152b5a,0x152b86,0x9a0ee,0x2957ec,0x99f06,0x2958ce,0x23a122,0x15d6df,0x49E0E0 };
-    private static readonly int[] Targets = { 106496,110592,114688,131072,135168,204800,208896,212992,212992,217088,217088,221184,233472,0 };
-    private static readonly byte[] Opcodes = { 0xE9,0xE8,0xE9,0xE9,0xE9,0xE9,0xE9,0xE8,0xE8,0xE8,0xE8,0xE8,0xE8,0 };
+    private static readonly int[] Sites = { 0x1267a5,0x12693f,0x1267b8,0x295516,0x295174,0x152b5a,0x152b86,0x9a0ee,0x2957ec,0x99f06,0x2958ce,0x23a122,0x15d6df,0x49E0E0,0x2a2ebb };
+    private static readonly int[] Targets = { 106496,110592,114688,131072,135168,204800,208896,212992,212992,217088,217088,221184,233472,0,0x41000 };
+    private static readonly byte[] Opcodes = { 0xE9,0xE8,0xE9,0xE9,0xE9,0xE9,0xE9,0xE8,0xE8,0xE8,0xE8,0xE8,0xE8,0,0xE8 };
     private static readonly byte[][] Expected = {
         new byte[] { 0x8B,0x4D,0xF4,0x8B,0xC7 },
         new byte[] { 0xE8,0x12,0x13,0x00,0x00 },
@@ -38,7 +38,8 @@ internal static class PawLobbyColorsNative
         new byte[] { 0xE8,0x4B,0x49,0xE0,0xFF },
         new byte[] { 0xE8,0x92,0x4C,0xDF,0xFF },
         new byte[] { 0xE8,0xD2,0x68,0xEC,0xFF },
-        Encoding.Unicode.GetBytes("UI/Menus/staging.tgi:StagingMenu\0")
+        Encoding.Unicode.GetBytes("UI/Menus/staging.tgi:StagingMenu\0"),
+        new byte[] { 0xE8,0xF3,0x9B,0x00,0x00 }
     };
     [DllImport("kernel32.dll", SetLastError=true)]
     private static extern bool ReadProcessMemory(IntPtr p,IntPtr a,byte[] b,int n,out IntPtr done);
@@ -166,6 +167,9 @@ internal static class PawLobbyColorsNative
             PutSingle(bytes,entry+12,color.G/255.0f);
             PutSingle(bytes,entry+16,color.B/255.0f);
         }
+        // Removed from the picker, retained read-only for existing saves.
+        PutUInt32(bytes,0x3da80,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        PutString(bytes,cursor,PawGameText.Color("Светло-красный","Light Red"));
     }
 
     private static byte[] Resource(string name)
@@ -278,7 +282,7 @@ internal static class PawLobbyColorsNative
                 Patch(process,Add(image,Sites[i]),branch);
             }
             File.AppendAllText(logPath,DateTime.Now.ToString("O")+
-                " LOBBY_COLOR_MP r20; completeSessionSnapshot=true; privateColorWireRoundtrip=true; savedColorNameLookup=true; rejoinConflictCheck=true; wireCodec=tagged-uint32-v3; hostDecreeSyncBoundaries=true; rejectInvalidWireIds=true; limitNegativeZeroDisplayFixed=true; menuModVersions=true; customPlayerPalette=true; paletteCount="+palette.Colors.Length+"; paletteSha256="+palette.Sha256+"; stockKingdomPaletteUntouched=true; paletteOrder=saturated_light_dark_neutral; selectAfterRepopulatorEnd=true; expectedStockOrders=334; customOrderIds=334,335; randomOuterLabelTemplateFallback=true; randomOuterLabelDeferredRefresh=true; preserveChoicesAfterMatch=true; lobbyIconRefreshFixed=true; lobbyIconPreview=true; randomIcon=gray; newGameEmptySlotIcon=gray; savedSlotIcon=savedColor; savedLobbyColorsReadOnly=true; savedSourceKind=2; emptySlotPreviewUiOnly=true; randomDefault=true; coloredLabels=true; nativeWorldColorCommit=true; multiplayer=true; hostAuthoritative=true; stableWireIds=true; deterministicMPRandom=true; mpRandomSeed=finalizedWorldSeed; mpRandomShuffle=privateXorshiftFisherYates; nativeRngUntouched=true; allPeersRequirePatch=true; stockSyncChecks=true; cave=0x"+
+                " LOBBY_COLOR_MP r21; participantOwnership=nativeId; compactPicker=true; retiredLightRedSaveSupport=true; completeSessionSnapshot=true; privateColorWireRoundtrip=true; savedColorNameLookup=true; rejoinConflictCheck=true; wireCodec=tagged-uint32-v3; hostDecreeSyncBoundaries=true; rejectInvalidWireIds=true; limitNegativeZeroDisplayFixed=true; menuModVersions=true; customPlayerPalette=true; paletteCount="+palette.Colors.Length+"; paletteSha256="+palette.Sha256+"; stockKingdomPaletteUntouched=true; paletteOrder=saturated_light_dark_neutral; selectAfterRepopulatorEnd=true; expectedStockOrders=334; customOrderIds=334,335; randomOuterLabelTemplateFallback=true; randomOuterLabelDeferredRefresh=true; preserveChoicesAfterMatch=true; lobbyIconRefreshFixed=true; lobbyIconPreview=true; randomIcon=gray; newGameEmptySlotIcon=gray; savedSlotIcon=savedColor; savedLobbyColorsReadOnly=true; savedSourceKind=2; emptySlotPreviewUiOnly=true; randomDefault=true; coloredLabels=true; nativeWorldColorCommit=true; multiplayer=true; hostAuthoritative=true; stableWireIds=true; deterministicMPRandom=true; mpRandomSeed=finalizedWorldSeed; mpRandomShuffle=privateXorshiftFisherYates; nativeRngUntouched=true; allPeersRequirePatch=true; stockSyncChecks=true; cave=0x"+
                 cave.ToInt64().ToString("X8")+"; counters=0x"+Add(cave,0x100).ToInt64().ToString("X8")+
                 "; hooks=13; customOrders=2; menu=pcolors.tgi; live MP/gameplay/save acceptance pending."+Environment.NewLine);
         }

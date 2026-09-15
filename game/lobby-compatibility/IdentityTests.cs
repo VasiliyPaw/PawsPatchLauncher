@@ -16,7 +16,7 @@ class IdentityTests {
         var modules=new Dictionary<string,object>{{"arcane-wars",Module("0.82.1.8-clean.1")},{"pawpatch-core",Module(PawLobbyCompatibility.Version)},{"common-ui",Module("1.3.72-ui.6-beta.7")}};
         var s=new Dictionary<string,object>{{"appliedSettings",settings},{"modules",modules}};
         var h=new string('B',64);const string helper="k2_paws_lobby_colors_mp_sync_1372.exe";var original=Token(s,h,helper);
-        Check(original.StartsWith("PWLC1|1.3.72|arcane-wars|0.82.1.8|0.3.0-beta.7|"));
+        Check(original.StartsWith("PWLC1|1.3.72|arcane-wars|0.82.1.8|" + PawLobbyCompatibility.Version + "|"));
         for(int i=0;i<64;i++){var changed=h.ToCharArray();changed[i]='C';Check(Token(s,new string(changed),helper)!=original);}
         foreach(var name in new[]{"localization-ru","game-voice-ru","game-localization-en","aw-localization-ru","game-text-ru","game-localization-cs","game-localization-uk","localization-cs","localization-uk","immortals-localization-cs","immortals-localization-uk"}){modules[name]=Module("999.9");Check(Token(s,h,helper)==original);modules.Remove(name);}
         foreach(var name in new[]{"language","gameTextLanguage","gameVoiceLanguage","notificationSoundName","gamePath"}){settings[name]="different-local-value";Check(Token(s,h,helper)==original);settings.Remove(name);}

@@ -25,6 +25,7 @@ public partial class MainWindow
         "modules.core" => CoreHelpText(),
         "modules.spawn" => GuideChannel()?.PatchGuide?.Entries.FirstOrDefault(e => e.Id == "frequency")?.Body(_text.Language)
             ?? _text["modules.spawn.help"],
+        "modules.colors" => _text.ColorText("modules.colors.help", _channel),
         _ => _text[key + ".help"]
     };
     private async Task ApplyVanillaConfigurationAsync(UserSettings selection, Func<Task>? beforeCommit = null)

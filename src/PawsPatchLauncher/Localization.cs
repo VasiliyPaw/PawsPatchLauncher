@@ -8,6 +8,12 @@ public sealed class Localization
 
     public string Language => _language;
     public void SetLanguage(string language) => _language = Normalize(language);
+    public string ColorText(string key, ChannelManifest? channel)
+    {
+        var count = channel?.PlayerColorCount is >= 16 and <= 64 ? channel.PlayerColorCount : PatchGuide.PlayerColorCount;
+        return this[key].Replace(PatchGuide.PlayerColorCount.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            count.ToString(System.Globalization.CultureInfo.InvariantCulture), StringComparison.Ordinal);
+    }
 
     public static string? KeyFor(string? text) => text is null ? null
         : Strings.FirstOrDefault(pair => pair.Value.Ru == text || pair.Value.En == text).Key;

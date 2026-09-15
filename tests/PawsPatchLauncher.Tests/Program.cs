@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==1&&args[0]=="--color-label-checks") {ColorPaletteReview.Labels();return;}
+if(args.Length==3&&args[0]=="--stage-colors48-review") {await ColorPaletteReview.StageAsync(args[1],args[2]);return;}
 if(args.Length==1 && args[0]=="--verify-lobby-preferences") {await GameLobbyPreferencesTests.RunAsync();return;}
 if(args.Length==3 && args[0]=="--repair-lobby-fixture") {await GameLobbyPreferencesTests.RepairFixtureAsync(args[1],args[2]);return;}
 if(args.Length==4 && args[0]=="--stage-language-game") {await EuropeanLanguageTests.StageGameAsync(args[1],args[2],args[3]);return;}
