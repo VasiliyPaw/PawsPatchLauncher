@@ -132,6 +132,7 @@ internal static class CityPlannerTests
         DevelopmentRegressions();
         NetIncomeRegressions();
         ResourcePriorityRegressions();
+        SavingPriorityRegressions();
         Console.WriteLine("CITY_PLANNER_PASS "+checks+" assertions");return 0;
     }
     private static CityPlanner.Candidate Upgrade(uint city,uint actor,uint data,params float[] delta)
@@ -325,7 +326,7 @@ internal static class CityPlannerTests
             Check(Choose(s).Candidate==final); // last center upgrade preempts even a resource shortage
             final.IsFinalCityUpgrade=false;Check(Choose(s).Candidate==resource); // ordinary center is not promoted
             final.IsFinalCityUpgrade=true;s.Construction=new[]{final};Check(Choose(s).Candidate==resource);
-            s.Construction=new CityPlanner.Candidate[0];final.Cost=20000;Check(Choose(s).Candidate==resource);
+            s.Construction=new CityPlanner.Candidate[0];final.Cost=20000;Check(Choose(s).Kind==CityPlanner.DecisionKind.None); // save for the final center
             final.Cost=1;final.Delta[1]=-1;Check(Choose(s).Candidate==resource); // protection still enforced
             final.Delta[1]=0;s.Candidates=new[]{income,final};s.Busy.Add(2);Check(Choose(s).Candidate==income);
             s.Candidates=new[]{resource,income};s.Busy.Add(1);Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
@@ -370,7 +371,7 @@ internal static class CityPlannerTests
             Check(Choose(s).Candidate==resource); // +1000 ordinary gold does not skip resource targets
             s.Candidates=new[]{resource,ordinary,market};
             Check(Choose(s).Candidate==market); // only the market may compete on economic return
-            market.Cost=20000;Check(Choose(s).Candidate==resource);market.Cost=50;
+            market.Cost=20000;Check(Choose(s).Kind==CityPlanner.DecisionKind.None);market.Cost=50; // save for the winning market
             s.Busy.Add(1);Check(Choose(s).Candidate==resource);s.Busy.Clear();
             s.Policy.Excluded.Add(1);Check(Choose(s).Candidate==resource);s.Policy.Excluded.Clear();
             s.Construction=new[]{market};Check(Choose(s).Candidate==resource);
@@ -393,12 +394,110 @@ internal static class CityPlannerTests
         Check(Choose(state).Candidate==iron); // 20 saved versus 24-4: equality keeps resource progress
         bank.Delta[0]=23;Check(Choose(state).Candidate==iron);
         bank.Delta[0]=25;Check(Choose(state).Candidate==bank);
-        bank.Cost=20000;Check(Choose(state).Candidate==iron); // weak resource-heavy market fork stays forbidden
+        bank.Cost=20000;Check(Choose(state).Kind==CityPlanner.DecisionKind.None); // save for best market; weak fork stays forbidden
         bank.Cost=50;state.Candidates=new[]{weak};weak.Delta[0]=0;
         Check(Choose(state).Kind==CityPlanner.DecisionKind.None); // resource stage
         state.Income[3]=20;Check(Choose(state).Kind==CityPlanner.DecisionKind.None); // random stage
         var fallback=Upgrade(2,22,704,0,0,0,0,0);state.Candidates=new[]{weak,fallback};
         Check(Choose(state).Candidate==fallback);
+    }
+    private static void SavingPriorityRegressions()
+    {
+        // Replay the reported 49:50 situation: queued work still leaves mana
+        // at -9; cheap exports/barracks must not drain savings for mana income.
+        var library=C(2,801,120,0,0,0,0,3);
+        var college=Upgrade(2,22,802,5,0,0,0,4);college.Cost=125;
+        var export=Upgrade(1,11,803,18,0,-2,0,0);export.Cost=95;
+        var barracks=C(1,804,80,0,0,0,0,0);
+        var s=S(library,college,export,barracks);s.Reserve=0;s.Gold=78;
+        s.Income=new float[]{530,33,19,21,-9};s.GoalIncome=new float[]{572,29,17,27,-9};
+        var p=new CityPlanner(1);p.Update(s);
+        foreach(float cash in new[]{78f,80f,95f,120f,124f})
+        {
+            s.Time++;s.Gold=cash;
+            Check(p.Update(s).Kind==CityPlanner.DecisionKind.None);
+            Check(p.Status==CityPlanner.StatusKind.Gold && p.Next==college && p.Explanation=="resources");
+        }
+        s.Time++;s.Gold=125;Check(p.Update(s).Candidate==college);
+
+        // All four targets, construction/upgrade and zero/nonzero reserves.
+        // Neither ordinary gold nor random affordable work may skip saving.
+        for(int r=1;r<5;r++)foreach(uint kind in new uint[]{13,21})
+        foreach(uint reserve in new uint[]{0,500})
+        {
+            var resource=Upgrade(2,22,811,0,0,0,0,0);resource.Kind=kind;resource.Cost=125;resource.Delta[r]=4;
+            var cheap=Upgrade(1,11,812,20,0,0,0,0);cheap.Cost=40;
+            s=S(resource,cheap);s.Income=new float[]{100,10,10,10,10};s.Income[r]=-9;
+            s.Reserve=reserve;s.Gold=reserve+40;p=new CityPlanner(1);p.Update(s);
+            foreach(float cash in new[]{40f,100f,124.5f})
+            {
+                s.Time++;s.Gold=reserve+cash;
+                Check(p.Update(s).Kind==CityPlanner.DecisionKind.None && p.Next==resource && p.Status==CityPlanner.StatusKind.Gold);
+            }
+            s.Time++;s.Gold=reserve+125;Check(p.Update(s).Candidate==resource);
+            // Accepted manual work now covers the target; waiting must stop.
+            p=new CityPlanner(1);s.Time=0;s.Gold=reserve+40;p.Update(s);s.Time=1;p.Update(s);
+            s.Construction=new[]{resource};s.GoalIncome=(float[])s.Income.Clone();s.GoalIncome[r]=1;s.Time++;
+            Check(p.Update(s).Candidate==cheap);
+            // Cancelled work restores the resource priority without a stale goal.
+            p=new CityPlanner(1);s.Time=0;p.Update(s);s.Construction=new CityPlanner.Candidate[0];s.GoalIncome=null;s.Time++;
+            Check(p.Update(s).Kind==CityPlanner.DecisionKind.None && p.Next==resource);
+            // Truly unavailable options do not stall the other stages.
+            s.Policy.Excluded.Add(2);s.Time++;Check(p.Update(s).Candidate==cheap);
+        }
+
+        // A winning market is saved for; a weaker affordable branch is never
+        // substituted. Losing/tied markets cannot spend the resource savings.
+        var repair=Upgrade(2,22,821,0,0,0,0,4);repair.Cost=120;
+        var bank=Upgrade(1,11,822,40,0,0,0,-1);bank.Cost=200;bank.Family="def:human_market";
+        var weak=Upgrade(1,11,823,5,0,0,0,20);weak.Cost=20;weak.Family=bank.Family;
+        s=S(repair,bank,weak);s.Income=new float[]{100,10,10,10,-9};s.Reserve=0;s.Gold=120;
+        p=new CityPlanner(1);p.Update(s);s.Time=1;
+        Check(p.Update(s).Kind==CityPlanner.DecisionKind.None && p.Next==bank && p.Explanation=="market_over_resources");
+        s.Gold=200;s.Time++;Check(p.Update(s).Candidate==bank);
+        foreach(float directGold in new[]{24f,25f})
+        {
+            bank.Delta[0]=directGold;bank.Cost=20;s.Gold=100;s.Time=0;p=new CityPlanner(1);p.Update(s);s.Time=1;
+            Check(p.Update(s).Kind==CityPlanner.DecisionKind.None && p.Next==repair && p.Explanation=="resources");
+        }
+
+        // Final centers and gold development retain their priority while saving.
+        var center=Upgrade(2,22,831,0,0,0,0,0);center.Cost=150;center.IsCityCenter=true;center.IsFinalCityUpgrade=true;
+        s=S(center,repair);s.Income=new float[]{100,10,10,10,-9};s.Reserve=0;s.Gold=120;
+        p=new CityPlanner(1);p.Update(s);s.Time=1;
+        Check(p.Update(s).Kind==CityPlanner.DecisionKind.None && p.Next==center && p.Explanation=="final_city_upgrade");
+        s.Gold=150;s.Time++;Check(p.Update(s).Candidate==center);
+        var gold=Upgrade(2,22,832,30,0,0,0,0);gold.Cost=150;
+        s=S(gold,barracks);s.Income=new float[]{100,10,10,10,10};s.Reserve=0;s.Gold=80;
+        p=new CityPlanner(1);p.Update(s);s.Time=1;
+        Check(p.Update(s).Kind==CityPlanner.DecisionKind.None && p.Next==gold && p.Explanation=="net_gold");
+        s.Gold=150;s.Time++;Check(p.Update(s).Candidate==gold);
+
+        // Equivalent actions can still start in another city, at the SAME
+        // priority and benefit, without saving unnecessarily for the dearer one.
+        var same=Upgrade(1,11,833,30,0,0,0,0);same.Cost=50;
+        s=S(gold,same);s.Income=new float[]{100,10,10,10,10};s.Reserve=0;s.Gold=50;
+        p=new CityPlanner(1);p.Update(s);s.Time=1;Check(p.Update(s).Candidate==same);
+
+        // Every observation rechecks policy/ownership/queue, not only cash.
+        foreach(string change in new[]{"busy","lost","excluded","queued","removed","goal","reserve","unknown"})
+        {
+            s=S(repair,barracks);s.Income=new float[]{100,10,10,10,-9};s.Reserve=0;s.Gold=80;
+            p=new CityPlanner(1);p.Update(s);s.Time=1;Check(p.Update(s).Kind==CityPlanner.DecisionKind.None && p.Next==repair);
+            if(change=="busy")s.Busy.Add(2);
+            if(change=="lost")s.Cities=new uint[]{1};
+            if(change=="excluded")s.Policy.Excluded.Add(2);
+            if(change=="queued")s.Construction=new[]{repair};
+            if(change=="removed")s.Candidates=new[]{barracks};
+            if(change=="goal")s.GoalIncome=new float[]{100,10,10,10,1};
+            if(change=="reserve"){s.Reserve=100;s.Gold=120;}
+            if(change=="unknown")s.UnknownConstruction=true;
+            s.Time++;
+            var d=p.Update(s);
+            if(change=="reserve")Check(d.Kind==CityPlanner.DecisionKind.None && p.Status==CityPlanner.StatusKind.Gold && p.Next==repair);
+            else if(change=="unknown")Check(d.Kind==CityPlanner.DecisionKind.None && p.Status==CityPlanner.StatusKind.Construction && p.Next==null);
+            else Check(d.Candidate==barracks);
+        }
     }
     private static void NetIncomeRegressions()
     {

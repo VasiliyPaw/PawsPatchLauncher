@@ -6,7 +6,7 @@
     paw_city_new_militia = "Open militia in new cities and buildings"
     paw_city_new_militia_tip = "When enabled, militia opens in the starting city, new cities and city buildings after construction. When disabled, new buildings keep their militia closed. Only buildings with militia are affected. Later manual changes are preserved. Completed buildings loaded from a save are unchanged. This preference is saved between games."
     paw_city_reserve = "Gold Reserve"
-    paw_city_auto_tip = "Priority: final city center upgrade, resource targets, gold income, then random development. During the resource stage, a market wins only if its gold gain after shortage costs exceeds that of the resource building. Markets use only their best gold-increasing branch; without one, they are not upgraded. All queued work and the gold reserve are respected. Settings are saved per match; new matches use defaults."
+    paw_city_auto_tip = "Priority: final city center upgrade, resource targets, gold income, then random development. If gold is insufficient, the assistant saves for the selected priority. During the resource stage, a market wins only if its gold gain after shortage costs exceeds that of the resource building. Markets use only their best gold-increasing branch; without one, they are not upgraded. All queued work and the gold reserve are respected. Settings are saved per match; new matches use defaults."
     paw_city_edit_tip = "Enter to apply. Esc or click outside to cancel."
     paw_city_status_tip = "City auto-upgrade status"
     paw_city_checking = "Checking cities…"

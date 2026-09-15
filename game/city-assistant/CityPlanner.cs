@@ -140,10 +140,9 @@ internal sealed class CityPlanner
         Candidate[] eligible = available.Where(c => BestMarketBranch(c, available)
             && Protects(c, s.Income, projected, policy)
             && (!IsMarket(c) || NetGoldGain(c, goals, s.ShortageCost) > .0001)).ToArray();
-        Candidate[] affordable = eligible.Where(c => (double)s.Gold >= (double)s.Reserve + c.Cost).ToArray();
-        if (eligible.Length > 0 && affordable.Length == 0)
-        { intention = eligible.OrderBy(c=>c.Cost).ThenBy(c=>c.Data).First(); Status=StatusKind.Gold; return none; }
-        eligible=affordable;
+        // Lack of cash is temporary, not an unavailable development path.
+        // Rank every legal action first; cheaper lower priorities must not
+        // consume the savings needed for a center, resource target or market.
         // Resource targets precede ordinary gold development. Only a market
         // may replace the selected resource action when its net return wins.
         // All accepted construction is included in goals at every stage.
@@ -191,13 +190,18 @@ internal sealed class CityPlanner
                     // The engine still validates each order. This includes
                     // non-economic buildings, centers and surplus mine upgrades.
                     // Unreachable income targets must not freeze development.
-                    // Affordability, forecasts, exclusions and protection were
-                    // already checked; queued work is never scheduled twice.
+                    // Forecasts, exclusions and protection were already
+                    // checked; queued work is never scheduled twice.
                     priority=eligible;
                     Explanation="random";
                 }
             }
         }
+        // Equally useful actions in this selected priority may start in another
+        // city now. Otherwise retain a waiting intention from this priority and
+        // save for it. Fresh snapshots still invalidate changed/fulfilled goals.
+        Candidate[] affordable = priority.Where(c => (double)s.Gold >= (double)s.Reserve + c.Cost).ToArray();
+        if (affordable.Length > 0) priority = affordable;
         for (int visited = 0; visited < queue.Count; visited++)
         {
             uint city = queue[0]; float until;
@@ -207,8 +211,8 @@ internal sealed class CityPlanner
             Candidate selected = legal.FirstOrDefault(c => c.Same(intention)) ??
                 (Explanation=="random" ? legal[random.Next(legal.Length)] : legal.OrderBy(c => c.Cost).ThenBy(c => c.Data).First());
             intention = selected;
-            // Fresh affordability was considered before choosing a goal, and
-            // the native dispatcher repeats every payment/reserve check.
+            // Wait without falling through to a lower priority. The native
+            // dispatcher repeats every payment/reserve check before spending.
             if ((double)s.Gold < (double)s.Reserve + selected.Cost) { Status = StatusKind.Gold; return none; }
             pending = selected; awaitingReply = true; pendingSince = s.Time;
             Status = StatusKind.Pending;
