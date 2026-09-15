@@ -6,6 +6,7 @@ from PrepareEuropeanModLanguages import source,generate,ROOT,translated_table
 from PrepareSplitLanguages import read,write,build,dec,sha
 from PrepareEuropeanLanguages import decode
 from GameTextValidation import validate_engine_text
+from SlavicEditorial import keyed
 
 CODES=(('cs','Czech'),('uk','Ukrainian'))
 RANDOM={'en':'Random','ru':'Случайно','de':'Zufällig','fr':'Aléatoire','cs':'Náhodně','uk':'Випадково'}
@@ -55,6 +56,7 @@ def prepare(a):
                     if m[2]=='name' and not path.lower().startswith('maps/'):return m[0]
                     en=unquote(m[4]);key_count+=1
                     value=translated[en][code] if en else en
+                    value=keyed(path,m[2],en,code,value)
                     validate_engine_text(en,value)
                     return m[1]+m[2]+m[3]+json.dumps(value,ensure_ascii=False)
                 return re.sub(r'(\[Text\s+language\s*=)[^\]]+',r'\g<1> '+language,ROW.sub(row,match[0]))

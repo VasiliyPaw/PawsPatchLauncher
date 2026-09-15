@@ -1,0 +1,1450 @@
+{
+  "%s": {
+    "cs": "%s",
+    "uk": "%s"
+  },
+  "%s Production": {
+    "cs": "Produkce: %s",
+    "uk": "Виробництво: %s"
+  },
+  "Health %.0f/%.0f": {
+    "cs": "Zdraví %.0f/%.0f",
+    "uk": "Здоров'я %.0f/%.0f"
+  },
+  "%d/%d %s": {
+    "cs": "%d/%d %s",
+    "uk": "%d/%d %s"
+  },
+  "Morale %.0f/%0.f": {
+    "cs": "Morálka %.0f/%0.f",
+    "uk": "Бойовий дух %.0f/%0.f"
+  },
+  "Attack Efficiency %.0f%%": {
+    "cs": "Účinnost útoku %.0f%%",
+    "uk": "Ефективність атаки %.0f%%"
+  },
+  "Progress %.0f/100": {
+    "cs": "Průběh %.0f/100",
+    "uk": "Поступ %.0f/100"
+  },
+  "Instantly sells the structure for %s.": {
+    "cs": "Okamžitě prodá stavbu za %s.",
+    "uk": "Миттєво продає споруду за %s."
+  },
+  "%1 has %2 %3% life.": {
+    "cs": "%1 má %2 %3% zdraví.",
+    "uk": "%1 має %2 %3% здоров'я."
+  },
+  "%1 moves to %2 at %3x normal speed.": {
+    "cs": "%1 se přesune do %2 rychlostí %3x běžné rychlosti.",
+    "uk": "%1 рухається до %2 зі швидкістю %3x від звичайної."
+  },
+  "Set game speed to %1x normal.": {
+    "cs": "Nastavit rychlost hry na %1x běžné rychlosti.",
+    "uk": "Встановити швидкість гри на %1x від звичайної."
+  },
+  "%s has gained a level": {
+    "cs": "%s: získána nová úroveň",
+    "uk": "%s: здобуто новий рівень"
+  },
+  "%s construction complete": {
+    "cs": "%s: stavba dokončena",
+    "uk": "%s: будівництво завершено"
+  },
+  "%s repair complete": {
+    "cs": "%s: oprava dokončena",
+    "uk": "%s: ремонт завершено"
+  },
+  "%s discovered": {
+    "cs": "Objeveno: %s",
+    "uk": "Виявлено: %s"
+  },
+  "%lc%.0f recovered from %s": {
+    "cs": "%lc%.0f získáno z %s",
+    "uk": "%lc%.0f здобуто з %s"
+  },
+  "%s technology gained": {
+    "cs": "Získána technologie: %s",
+    "uk": "Здобуто технологію: %s"
+  },
+  "%s technology lost": {
+    "cs": "Ztracena technologie: %s",
+    "uk": "Втрачено технологію: %s"
+  },
+  "%s is under siege": {
+    "cs": "%s je v obležení",
+    "uk": "%s в облозі"
+  },
+  "%s research complete": {
+    "cs": "%s: výzkum dokončen",
+    "uk": "%s: дослідження завершено"
+  },
+  "%s has routed from battle": {
+    "cs": "%s prchá z boje",
+    "uk": "%s тікає з бою"
+  },
+  "%s has died in battle": {
+    "cs": "%s: hrdina padl v boji",
+    "uk": "%s: герой загинув у бою"
+  },
+  "%s has been engaged": {
+    "cs": "%s: nepřítel zahájil útok",
+    "uk": "%s: ворог розпочав атаку"
+  },
+  "%s has entered combat": {
+    "cs": "%s vstupuje do boje",
+    "uk": "%s вступає в бій"
+  },
+  "%s captured by %s": {
+    "cs": "%s: dobyto královstvím %s",
+    "uk": "%s: захоплено королівством %s"
+  },
+  "You have captured %s": {
+    "cs": "Získáváte %s",
+    "uk": "Ви захопили %s"
+  },
+  "%s recruited": {
+    "cs": "%s: nábor dokončen",
+    "uk": "%s: найм завершено"
+  },
+  "%s commissioned": {
+    "cs": "%s: rota zformována",
+    "uk": "%s: роту сформовано"
+  },
+  "%s's %s destroyed": {
+    "cs": "%s: zničeno %s",
+    "uk": "%s: знищено %s"
+  },
+  "%s destroyed": {
+    "cs": "%s: zničeno",
+    "uk": "%s: знищено"
+  },
+  "%s defeated - redeploying": {
+    "cs": "%s: porážka — návrat na bojiště",
+    "uk": "%s: поразка — повернення на поле бою"
+  },
+  "Your production is %d%% short of your costs": {
+    "cs": "Vaše produkce pokrývá o %d%% méně, než je potřeba",
+    "uk": "Ваше виробництво на %d%% нижче від витрат"
+  },
+  "You have repaired your upkeep": {
+    "cs": "Nedostatek zásob byl vyřešen",
+    "uk": "Нестачу ресурсів на утримання усунено"
+  },
+  "%s sold for %s": {
+    "cs": "%s: prodáno za %s",
+    "uk": "%s: продано за %s"
+  },
+  "%s militia dispatched": {
+    "cs": "%s: domobrana vyslána",
+    "uk": "%s: ополчення відправлено"
+  },
+  "Primary Objective gained: %s": {
+    "cs": "Nový hlavní úkol: %s",
+    "uk": "Нове основне завдання: %s"
+  },
+  "Secondary Objective gained: %s": {
+    "cs": "Nový vedlejší úkol: %s",
+    "uk": "Нове додаткове завдання: %s"
+  },
+  "Primary Objective removed: %s": {
+    "cs": "Hlavní úkol zrušen: %s",
+    "uk": "Основне завдання скасовано: %s"
+  },
+  "Secondary Objective removed: %s": {
+    "cs": "Vedlejší úkol zrušen: %s",
+    "uk": "Додаткове завдання скасовано: %s"
+  },
+  "Primary Objective failed: %s": {
+    "cs": "Hlavní úkol nesplněn: %s",
+    "uk": "Основне завдання провалено: %s"
+  },
+  "Secondary Objective failed: %s": {
+    "cs": "Vedlejší úkol nesplněn: %s",
+    "uk": "Додаткове завдання провалено: %s"
+  },
+  "Primary Objective completed: %s": {
+    "cs": "Hlavní úkol splněn: %s",
+    "uk": "Основне завдання виконано: %s"
+  },
+  "Secondary Objective completed: %s": {
+    "cs": "Vedlejší úkol splněn: %s",
+    "uk": "Додаткове завдання виконано: %s"
+  },
+  "%s placed": {
+    "cs": "Umístěna značka: %s",
+    "uk": "Розміщено позначку: %s"
+  },
+  "%s placed by %s": {
+    "cs": "%s: značku umístil hráč %s",
+    "uk": "%s: позначку розмістив гравець %s"
+  },
+  "%s placed on %s": {
+    "cs": "%s: značka umístěna na %s",
+    "uk": "%s: позначку розміщено на %s"
+  },
+  "%s placed on %s by %s": {
+    "cs": "%s: značka na %s od hráče %s",
+    "uk": "%s: позначка на %s від гравця %s"
+  },
+  "%i%s given to %s": {
+    "cs": "%i%s předáno hráči %s",
+    "uk": "%i%s передано гравцеві %s"
+  },
+  "%i%s received from %s": {
+    "cs": "%i%s přijato od hráče %s",
+    "uk": "%i%s отримано від гравця %s"
+  },
+  "%s given to %s": {
+    "cs": "%s předáno hráči %s",
+    "uk": "%s передано гравцеві %s"
+  },
+  "%s received from %s": {
+    "cs": "%s přijato od hráče %s",
+    "uk": "%s отримано від гравця %s"
+  },
+  "%s is requesting %i%s": {
+    "cs": "%s žádá o %i%s",
+    "uk": "%s просить %i%s"
+  },
+  "%s is requesting %s": {
+    "cs": "%s žádá o %s",
+    "uk": "%s просить %s"
+  },
+  "%s requires an unobstructed %s": {
+    "cs": "%s vyžaduje volné místo: %s",
+    "uk": "%s потребує вільного місця: %s"
+  },
+  "%s being bombarded": {
+    "cs": "%s je pod ostřelováním",
+    "uk": "%s під обстрілом"
+  },
+  "%s lost bombard target in fog": {
+    "cs": "%s: cíl ostřelování zmizel v mlze",
+    "uk": "%s: ціль обстрілу зникла в тумані"
+  },
+  "Cannot teleport %s - no destination portal found": {
+    "cs": "Nelze teleportovat %s: cílový portál nenalezen",
+    "uk": "Неможливо телепортувати %s: порталу призначення не знайдено"
+  },
+  "Cannot teleport %s - cannot place at destination portal": {
+    "cs": "Nelze teleportovat %s: u cílového portálu není místo",
+    "uk": "Неможливо телепортувати %s: біля порталу призначення немає місця"
+  },
+  "%s has resigned": {
+    "cs": "%s se vzdává",
+    "uk": "%s здається"
+  },
+  "%s has been defeated": {
+    "cs": "%s: porážka",
+    "uk": "%s: поразка"
+  },
+  "%s has won": {
+    "cs": "%s: vítězství",
+    "uk": "%s: перемога"
+  },
+  "Attach to HQ for %s": {
+    "cs": "Připojit k velitelství za %s",
+    "uk": "Приєднати до штабу за %s"
+  },
+  "Independent %d": {
+    "cs": "Nezávislí %d",
+    "uk": "Незалежні %d"
+  },
+  "Kingdom %d": {
+    "cs": "Království %d",
+    "uk": "Королівство %d"
+  },
+  "Control %d settlements (%d/%d)": {
+    "cs": "Ovládněte %d sídel (%d/%d)",
+    "uk": "Контролюйте %d поселень (%d/%d)"
+  },
+  "Kingdom '%s' is missing a start location": {
+    "cs": "Království '%s' nemá výchozí pozici",
+    "uk": "Королівство '%s' не має початкової позиції"
+  },
+  "Kingdom '%s' has invalid faction '%s' for nation '%s'": {
+    "cs": "Království '%s' má neplatnou frakci '%s' pro rasu '%s'",
+    "uk": "Королівство '%s' має недійсну фракцію '%s' для раси '%s'"
+  },
+  "Kingdom %s has gained technology: %s": {
+    "cs": "Království %s získalo technologii: %s",
+    "uk": "Королівство %s здобуло технологію: %s"
+  },
+  "Kingdom %s has lost technology: %s": {
+    "cs": "Království %s ztratilo technologii: %s",
+    "uk": "Королівство %s втратило технологію: %s"
+  },
+  "Too many kingdoms for the map size. Please try with a larger map or fewer kingdoms. ('%s' has failed to place.)": {
+    "cs": "Příliš mnoho království pro tuto velikost mapy. Zkuste větší mapu nebo méně království. ('%s' se nepodařilo umístit.)",
+    "uk": "Забагато королівств для цього розміру мапи. Виберіть більшу мапу або менше королівств. (Не вдалося розмістити '%s'.)"
+  },
+  "%d/%d Playable Kingdoms": {
+    "cs": "%d/%d hratelných království",
+    "uk": "%d/%d доступних королівств"
+  },
+  "Immune to %s enchantments": {
+    "cs": "Odolnost vůči očarování: %s",
+    "uk": "Імунітет до чарів: %s"
+  },
+  "%s (%d)": {
+    "cs": "%s (%d)",
+    "uk": "%s (%d)"
+  },
+  "%s x%d": {
+    "cs": "%s x%d",
+    "uk": "%s x%d"
+  },
+  "%s\n%s": {
+    "cs": "%s\n%s",
+    "uk": "%s\n%s"
+  },
+  "%s\n%s\n%s": {
+    "cs": "%s\n%s\n%s",
+    "uk": "%s\n%s\n%s"
+  },
+  "%s: %s": {
+    "cs": "%s: %s",
+    "uk": "%s: %s"
+  },
+  "Screenshot taken: %s": {
+    "cs": "Snímek obrazovky uložen: %s",
+    "uk": "Знімок екрана збережено: %s"
+  },
+  "Hotkey: %s": {
+    "cs": "Klávesová zkratka: %s",
+    "uk": "Клавіша: %s"
+  },
+  "%s Load Favorite": {
+    "cs": "%s Načíst oblíbené",
+    "uk": "%s Завантажити обране"
+  },
+  "%s Place Favorite": {
+    "cs": "%s Umístit oblíbené",
+    "uk": "%s Розмістити обране"
+  },
+  "%s Save to Favorite": {
+    "cs": "%s Uložit do oblíbených",
+    "uk": "%s Зберегти в обране"
+  },
+  "Yaw %.2f Pitch %.2f Height %.0f Zoom %.1f LookAt %.0f, %.0f Size %.0f, %.0f": {
+    "cs": "Natočení %.2f Sklon %.2f Výška %.0f Přiblížení %.1f Cíl %.0f, %.0f Velikost %.0f, %.0f",
+    "uk": "Поворот %.2f Нахил %.2f Висота %.0f Масштаб %.1f Ціль %.0f, %.0f Розмір %.0f, %.0f"
+  },
+  "%s Select Group": {
+    "cs": "%s Vybrat skupinu",
+    "uk": "%s Вибрати групу"
+  },
+  "%s Save Group": {
+    "cs": "%s Uložit skupinu",
+    "uk": "%s Зберегти групу"
+  },
+  "%s has taken over as host.": {
+    "cs": "%s se stává hostitelem.",
+    "uk": "%s стає ведучим гри."
+  },
+  "Unable to bind to port %d": {
+    "cs": "Nelze použít port %d",
+    "uk": "Неможливо використати порт %d"
+  },
+  "Game speed changed to %.0f%%": {
+    "cs": "Rychlost hry změněna na %.0f%%",
+    "uk": "Швидкість гри змінено на %.0f%%"
+  },
+  "Player %s quit the game": {
+    "cs": "Hráč %s opustil hru",
+    "uk": "Гравець %s вийшов із гри"
+  },
+  "Player %s was kicked from the game": {
+    "cs": "Hráč %s byl vyhozen ze hry",
+    "uk": "Гравця %s вигнано з гри"
+  },
+  "Player %s had an invalid or duplicate CD key": {
+    "cs": "Hráč %s má neplatný nebo duplicitní CD klíč",
+    "uk": "Гравець %s має недійсний або дубльований CD-ключ"
+  },
+  "%s voted for %s to resign": {
+    "cs": "%s hlasuje pro kapitulaci hráče %s",
+    "uk": "%s голосує за капітуляцію гравця %s"
+  },
+  "%s changed name to %s": {
+    "cs": "%s změnil jméno na %s",
+    "uk": "%s змінив ім'я на %s"
+  },
+  "Connected to %s": {
+    "cs": "Připojeno k %s",
+    "uk": "Підключено до %s"
+  },
+  "%d/%d Votes": {
+    "cs": "%d/%d hlasů",
+    "uk": "%d/%d голосів"
+  },
+  "Disconnecting in %d seconds": {
+    "cs": "Odpojení za %d sekund",
+    "uk": "Відключення через %d секунд"
+  },
+  "%s has paused the game": {
+    "cs": "%s pozastavil hru",
+    "uk": "%s призупинив гру"
+  },
+  "%s votes to unpause the game (%d/%d)": {
+    "cs": "%s hlasuje pro pokračování hry (%d/%d)",
+    "uk": "%s голосує за продовження гри (%d/%d)"
+  },
+  "%s has retracted vote to unpause (%d/%d)": {
+    "cs": "%s odvolal hlas pro pokračování (%d/%d)",
+    "uk": "%s відкликав голос за продовження (%d/%d)"
+  },
+  "%s has unpaused the game": {
+    "cs": "%s obnovil hru",
+    "uk": "%s відновив гру"
+  },
+  "Votes needed to unpause %d, current votes %d": {
+    "cs": "K pokračování je třeba %d hlasů, nyní je %d",
+    "uk": "Для продовження потрібно %d голосів, зараз є %d"
+  },
+  "%s attempted to pause but failed due to recent votes": {
+    "cs": "%s nemůže pozastavit hru kvůli nedávnému hlasování",
+    "uk": "%s не може призупинити гру через нещодавнє голосування"
+  },
+  "%s has voted to kick %s (%d/%d)": {
+    "cs": "%s hlasuje pro vyhození hráče %s (%d/%d)",
+    "uk": "%s голосує за вигнання гравця %s (%d/%d)"
+  },
+  "%s has retracted vote to kick %s (%d/%d)": {
+    "cs": "%s odvolal hlas pro vyhození hráče %s (%d/%d)",
+    "uk": "%s відкликав голос за вигнання гравця %s (%d/%d)"
+  },
+  "%s attempted to join and was banned. Click message to unban": {
+    "cs": "%s se pokusil připojit, ale má zákaz. Kliknutím na zprávu zákaz zrušíte",
+    "uk": "%s намагався приєднатися, але має блокування. Натисніть повідомлення, щоб розблокувати"
+  },
+  "Confirm unban of %s": {
+    "cs": "Zrušit zákaz pro %s?",
+    "uk": "Розблокувати %s?"
+  },
+  "%s has already been unbanned": {
+    "cs": "%s již nemá zákaz",
+    "uk": "%s уже розблоковано"
+  },
+  "%s has joined the game": {
+    "cs": "%s se připojil ke hře",
+    "uk": "%s приєднався до гри"
+  },
+  "%s is not a valid chat target": {
+    "cs": "%s není platný příjemce zprávy",
+    "uk": "%s не є допустимим одержувачем повідомлення"
+  },
+  "Quit %s?": {
+    "cs": "Ukončit %s?",
+    "uk": "Вийти з %s?"
+  },
+  "Delete %s?": {
+    "cs": "Smazat %s?",
+    "uk": "Видалити %s?"
+  },
+  "Accept Changes? \nReverting in %d seconds. \n(For optimal results, restart the application after accepting.)": {
+    "cs": "Přijmout změny?\nNávrat za %d sekund.\n(Pro nejlepší výsledek po přijetí restartujte hru.)",
+    "uk": "Прийняти зміни?\nПовернення через %d секунд.\n(Для найкращого результату після прийняття перезапустіть гру.)"
+  },
+  "Playing the %s is recommended before playing %s. Do you wish to continue?": {
+    "cs": "Doporučujeme nejprve odehrát %s a teprve potom %s. Chcete pokračovat?",
+    "uk": "Спочатку рекомендується пройти %s, а потім %s. Продовжити?"
+  },
+  "Game Saved: '%s'": {
+    "cs": "Hra uložena: '%s'",
+    "uk": "Гру збережено: '%s'"
+  },
+  "Map Saved: '%s'": {
+    "cs": "Mapa uložena: '%s'",
+    "uk": "Мапу збережено: '%s'"
+  },
+  "Error saving '%s': %s": {
+    "cs": "Chyba při ukládání '%s': %s",
+    "uk": "Помилка збереження '%s': %s"
+  },
+  "Error loading '%s': %s": {
+    "cs": "Chyba při načítání '%s': %s",
+    "uk": "Помилка завантаження '%s': %s"
+  },
+  "City %s: attaching %s": {
+    "cs": "Město %s: připojování %s",
+    "uk": "Місто %s: приєднання %s"
+  },
+  "City %s: detaching %s": {
+    "cs": "Město %s: odpojování %s",
+    "uk": "Місто %s: від'єднання %s"
+  },
+  "Actor was found on an island: %s (%.0f,%.0f)": {
+    "cs": "Jednotka nalezena na ostrově: %s (%.0f,%.0f)",
+    "uk": "Юніт знайдено на острові: %s (%.0f,%.0f)"
+  },
+  "Object was found over blocked terrain: %s (%.0f,%.0f)": {
+    "cs": "Objekt nad neprůchodným terénem: %s (%.0f,%.0f)",
+    "uk": "Об'єкт над непрохідною місцевістю: %s (%.0f,%.0f)"
+  },
+  "Object is blocked by another object: %s (%.0f,%.0f)": {
+    "cs": "Objekt blokován jiným objektem: %s (%.0f,%.0f)",
+    "uk": "Об'єкт заблоковано іншим об'єктом: %s (%.0f,%.0f)"
+  },
+  "Object not completely on map: %s (%.0f,%.0f)": {
+    "cs": "Objekt je částečně mimo mapu: %s (%.0f,%.0f)",
+    "uk": "Об'єкт частково поза мапою: %s (%.0f,%.0f)"
+  },
+  "Settlement structure not in settlement: %s (%.0f,%.0f)": {
+    "cs": "Budova sídla je mimo sídlo: %s (%.0f,%.0f)",
+    "uk": "Будівля поселення поза поселенням: %s (%.0f,%.0f)"
+  },
+  "Object cannot place settlement zone: %s (%.0f,%.0f)": {
+    "cs": "Objekt nemůže umístit oblast sídla: %s (%.0f,%.0f)",
+    "uk": "Об'єкт не може розмістити зону поселення: %s (%.0f,%.0f)"
+  },
+  "Independent building inside settlement: %s (%.0f,%.0f)": {
+    "cs": "Nezávislá budova uvnitř sídla: %s (%.0f,%.0f)",
+    "uk": "Незалежна будівля в поселенні: %s (%.0f,%.0f)"
+  },
+  "Indestructible object in settlement zone: %s (%.0f,%.0f)": {
+    "cs": "Nezničitelný objekt v oblasti sídla: %s (%.0f,%.0f)",
+    "uk": "Незнищенний об'єкт у зоні поселення: %s (%.0f,%.0f)"
+  },
+  "File missing: '%s'": {
+    "cs": "Chybí soubor: '%s'",
+    "uk": "Немає файлу: '%s'"
+  },
+  "File corrupt: '%s'": {
+    "cs": "Poškozený soubor: '%s'",
+    "uk": "Пошкоджений файл: '%s'"
+  },
+  "Cannot find hotkey data: IDS=%s": {
+    "cs": "Chybí údaje klávesových zkratek: IDS=%s",
+    "uk": "Немає даних клавіш: IDS=%s"
+  },
+  "Incorrect map type: '%s'": {
+    "cs": "Nesprávný typ mapy: '%s'",
+    "uk": "Неправильний тип мапи: '%s'"
+  },
+  "Unknown Thing IDS: '%s'": {
+    "cs": "Neznámé IDS objektu: '%s'",
+    "uk": "Невідомий IDS об'єкта: '%s'"
+  },
+  "GClass changed: '%s'": {
+    "cs": "GClass se změnila: '%s'",
+    "uk": "GClass змінено: '%s'"
+  },
+  "GClass '%s' changed but was replaced": {
+    "cs": "GClass '%s' se změnila a byla nahrazena",
+    "uk": "GClass '%s' змінено й замінено"
+  },
+  "GClass '%s' changed and can't be replaced": {
+    "cs": "GClass '%s' se změnila a nelze ji nahradit",
+    "uk": "GClass '%s' змінено, заміна неможлива"
+  },
+  "Unrecognized terrain variation '%s'": {
+    "cs": "Neznámá varianta terénu '%s'",
+    "uk": "Невідомий різновид місцевості '%s'"
+  },
+  "Missing string file for map: %s": {
+    "cs": "Chybí textový soubor mapy: %s",
+    "uk": "Немає текстового файлу мапи: %s"
+  },
+  "Bad string file for map: %s": {
+    "cs": "Neplatný textový soubor mapy: %s",
+    "uk": "Недійсний текстовий файл мапи: %s"
+  },
+  "Thing failed to init: %s (ID=%d POS=%.0f,%.0f)": {
+    "cs": "Objekt nelze inicializovat: %s (ID=%d POS=%.0f,%.0f)",
+    "uk": "Не вдалося ініціалізувати об'єкт: %s (ID=%d POS=%.0f,%.0f)"
+  },
+  "Thing failed to init: %s (ID=%d) %s": {
+    "cs": "Objekt nelze inicializovat: %s (ID=%d) %s",
+    "uk": "Не вдалося ініціалізувати об'єкт: %s (ID=%d) %s"
+  },
+  "Missing string chunk for map: %s": {
+    "cs": "Chybí textový blok mapy: %s",
+    "uk": "Немає текстового блоку мапи: %s"
+  },
+  "Object found over blocked terrain: %s (%.0f,%.0f)": {
+    "cs": "Objekt na neprůchodném terénu: %s (%.0f,%.0f)",
+    "uk": "Об'єкт на непрохідній місцевості: %s (%.0f,%.0f)"
+  },
+  "'%s' has failed to place. Please try with a larger map or fewer kingdoms.": {
+    "cs": "'%s' se nepodařilo umístit. Zkuste větší mapu nebo méně království.",
+    "uk": "Не вдалося розмістити '%s'. Виберіть більшу мапу або менше королівств."
+  },
+  "Failed to create replacement object: %s (POS=%.0f,%.0f)": {
+    "cs": "Nelze vytvořit náhradní objekt: %s (POS=%.0f,%.0f)",
+    "uk": "Неможливо створити заміну об'єкта: %s (POS=%.0f,%.0f)"
+  },
+  "Could not create %s": {
+    "cs": "Nelze vytvořit %s",
+    "uk": "Неможливо створити %s"
+  },
+  "%s (%s)": {
+    "cs": "%s (%s)",
+    "uk": "%s (%s)"
+  },
+  "%s attached to %s": {
+    "cs": "%s připojeno k %s",
+    "uk": "%s приєднано до %s"
+  },
+  "%s (ID: %d)": {
+    "cs": "%s (ID: %d)",
+    "uk": "%s (ID: %d)"
+  },
+  "Team %d": {
+    "cs": "Tým %d",
+    "uk": "Команда %d"
+  },
+  "Area %d": {
+    "cs": "Oblast %d",
+    "uk": "Область %d"
+  },
+  "Camera %d": {
+    "cs": "Kamera %d",
+    "uk": "Камера %d"
+  },
+  "Group %d": {
+    "cs": "Skupina %d",
+    "uk": "Група %d"
+  },
+  "%s has been captured": {
+    "cs": "%s: dobyto",
+    "uk": "%s: захоплено"
+  },
+  "%s has surrendered to the enemy": {
+    "cs": "%s: kapitulace před nepřítelem",
+    "uk": "%s: капітуляція перед ворогом"
+  },
+  "Could not unload %s - funds returned": {
+    "cs": "Nelze vyložit %s: prostředky vráceny",
+    "uk": "Неможливо вивантажити %s: кошти повернено"
+  },
+  "Insufficient funds for %s. Requires %s.": {
+    "cs": "Nedostatek prostředků pro %s. Potřeba: %s.",
+    "uk": "Недостатньо коштів для %s. Потрібно: %s."
+  },
+  "Insufficient %s to recruit %s": {
+    "cs": "Nedostatek %s pro nábor %s",
+    "uk": "Недостатньо %s для найму %s"
+  },
+  "Could not recruit %s - unit %s not available": {
+    "cs": "Nelze naverbovat %s: jednotka %s není dostupná",
+    "uk": "Неможливо найняти %s: юніт %s недоступний"
+  },
+  "%s\nRequires: %s": {
+    "cs": "%s\nVyžaduje: %s",
+    "uk": "%s\nПотребує: %s"
+  },
+  "%s (Tech)": {
+    "cs": "%s (technologie)",
+    "uk": "%s (технологія)"
+  },
+  "%s paused production queue - no supply": {
+    "cs": "%s: výrobní fronta pozastavena — bez zásobování",
+    "uk": "%s: чергу виробництва призупинено — немає постачання"
+  },
+  "%s paused production queue - disabled": {
+    "cs": "%s: výrobní fronta pozastavena — vyřazeno",
+    "uk": "%s: чергу виробництва призупинено — вимкнено"
+  },
+  "No available badge for %s": {
+    "cs": "Pro %s není dostupný odznak",
+    "uk": "Для %s немає доступної емблеми"
+  },
+  "Cannot attach to %s. Wrong HQ type.": {
+    "cs": "Nelze připojit k %s. Nesprávný typ velitelství.",
+    "uk": "Неможливо приєднати до %s. Неправильний тип штабу."
+  },
+  "Cannot attach to %s. HQ is full.": {
+    "cs": "Nelze připojit k %s. Velitelství je plné.",
+    "uk": "Неможливо приєднати до %s. Штаб заповнений."
+  },
+  "Insufficient funds to attach %s. Requires %s.": {
+    "cs": "Nedostatek prostředků pro připojení %s. Potřeba: %s.",
+    "uk": "Недостатньо коштів для приєднання %s. Потрібно: %s."
+  },
+  "Could not research %s": {
+    "cs": "Nelze vyzkoumat %s",
+    "uk": "Неможливо дослідити %s"
+  },
+  "%s has already been researched": {
+    "cs": "%s je již vyzkoumáno",
+    "uk": "%s уже досліджено"
+  },
+  "%s required: %s": {
+    "cs": "%s vyžaduje: %s",
+    "uk": "%s потребує: %s"
+  },
+  "Cannot detach %s": {
+    "cs": "Nelze odpojit %s",
+    "uk": "Неможливо від'єднати %s"
+  },
+  "%s is not alive": {
+    "cs": "%s není naživu",
+    "uk": "%s не живий"
+  },
+  "%s needs at least two units": {
+    "cs": "%s vyžaduje alespoň dvě jednotky",
+    "uk": "%s потребує щонайменше двох юнітів"
+  },
+  "%s cannot currently attach or detach heroes": {
+    "cs": "%s nyní nemůže připojit ani odpojit hrdiny",
+    "uk": "%s зараз не може приєднувати чи від'єднувати героїв"
+  },
+  "%s out of supply": {
+    "cs": "%s je bez zásobování",
+    "uk": "%s без постачання"
+  },
+  "Structure %s must be completely within the settlement zone (%s)": {
+    "cs": "Budova %s musí být celá uvnitř oblasti sídla (%s)",
+    "uk": "Споруда %s має бути повністю в зоні поселення (%s)"
+  },
+  "Cannot create structure %s in another kingdom's settlement zone (%s)": {
+    "cs": "Nelze postavit %s v oblasti sídla jiného království (%s)",
+    "uk": "Неможливо збудувати %s у зоні поселення іншого королівства (%s)"
+  },
+  "Cannot create structure %s in a full settlement (%s)": {
+    "cs": "Nelze postavit %s v zaplněném sídle (%s)",
+    "uk": "Неможливо збудувати %s у заповненому поселенні (%s)"
+  },
+  "Cannot create center %s in another settlement's zone (%s)": {
+    "cs": "Nelze postavit centrum %s v oblasti jiného sídla (%s)",
+    "uk": "Неможливо збудувати центр %s у зоні іншого поселення (%s)"
+  },
+  "Failed to autoplace %s": {
+    "cs": "Automatické umístění %s selhalo",
+    "uk": "Не вдалося автоматично розмістити %s"
+  },
+  "Cannot unpack %s": {
+    "cs": "Nelze rozvinout %s",
+    "uk": "Неможливо розгорнути %s"
+  },
+  "Cannot pack %s": {
+    "cs": "Nelze sbalit %s",
+    "uk": "Неможливо згорнути %s"
+  },
+  "Could not pack %s: below minimum pack health": {
+    "cs": "Nelze sbalit %s: zdraví je pod požadovaným minimem",
+    "uk": "Неможливо згорнути %s: здоров'я нижче від необхідного мінімуму"
+  },
+  "Could not pack %s: denizens are deployed": {
+    "cs": "Nelze sbalit %s: obránci jsou v boji",
+    "uk": "Неможливо згорнути %s: захисники перебувають у бою"
+  },
+  "Invalid target: %s": {
+    "cs": "Neplatný cíl: %s",
+    "uk": "Недопустима ціль: %s"
+  },
+  "%+g%% resistance to %s damage": {
+    "cs": "%+g%% odolnosti vůči poškození typu %s",
+    "uk": "%+g%% опору шкоді типу %s"
+  },
+  "%lc%+g%% resistance": {
+    "cs": "%lc%+g%% odolnosti",
+    "uk": "%lc%+g%% опору"
+  },
+  "%+g%% vulnerability to %s damage": {
+    "cs": "%+g%% zranitelnosti vůči poškození typu %s",
+    "uk": "%+g%% вразливості до шкоди типу %s"
+  },
+  "%lc%+g%% vulnerability": {
+    "cs": "%lc%+g%% zranitelnosti",
+    "uk": "%lc%+g%% вразливості"
+  },
+  "%g %s damage every second": {
+    "cs": "%g poškození typu %s každou sekundu",
+    "uk": "%g шкоди типу %s щосекунди"
+  },
+  "%lc%g damage every second": {
+    "cs": "%lc%g poškození každou sekundu",
+    "uk": "%lc%g шкоди щосекунди"
+  },
+  "%g healed every second": {
+    "cs": "%g léčení každou sekundu",
+    "uk": "%g зцілення щосекунди"
+  },
+  "Immune to %s": {
+    "cs": "Imunita vůči %s",
+    "uk": "Імунітет до %s"
+  },
+  "%s reverse effect": {
+    "cs": "%s: opačný účinek",
+    "uk": "%s: зворотний ефект"
+  },
+  "%+g to Attack Value": {
+    "cs": "%+g k útoku",
+    "uk": "%+g до атаки"
+  },
+  "%+g to Melee Attack Value": {
+    "cs": "%+g k útoku zblízka",
+    "uk": "%+g до атаки в ближньому бою"
+  },
+  "%+g to Ranged Attack Value": {
+    "cs": "%+g k útoku na dálku",
+    "uk": "%+g до дальньої атаки"
+  },
+  "%+g to Defense Value": {
+    "cs": "%+g k obraně",
+    "uk": "%+g до захисту"
+  },
+  "%+g to Heal Ability": {
+    "cs": "%+g k léčení",
+    "uk": "%+g до зцілення"
+  },
+  "%+g to Repair Ability": {
+    "cs": "%+g k opravám",
+    "uk": "%+g до ремонту"
+  },
+  "%+g to Supply Range": {
+    "cs": "%+g k dosahu zásobování",
+    "uk": "%+g до радіуса постачання"
+  },
+  "%+g to Detection Range": {
+    "cs": "%+g k dosahu odhalování",
+    "uk": "%+g до радіуса виявлення"
+  },
+  "%+g to Current Morale": {
+    "cs": "%+g k aktuální morálce",
+    "uk": "%+g до поточного бойового духу"
+  },
+  "%+g to Morale Breakpoint": {
+    "cs": "%+g k hranici zhroucení morálky",
+    "uk": "%+g до порога падіння бойового духу"
+  },
+  "%+g to Projectile Ability Range": {
+    "cs": "%+g k dostřelu",
+    "uk": "%+g до дальності стрільби"
+  },
+  "%+g to Bombard Ability Range": {
+    "cs": "%+g k dostřelu ostřelování",
+    "uk": "%+g до дальності обстрілу"
+  },
+  "Auto Upgrade in %d:%.2d": {
+    "cs": "Automatické vylepšení za %d:%.2d",
+    "uk": "Автоматичне поліпшення через %d:%.2d"
+  },
+  "Speed limit is %s": {
+    "cs": "Omezení rychlosti: %s",
+    "uk": "Обмеження швидкості: %s"
+  },
+  "%+g%% to Maximum Speed": {
+    "cs": "%+g%% k maximální rychlosti",
+    "uk": "%+g%% до максимальної швидкості"
+  },
+  "%+g%% to Resupply Rate": {
+    "cs": "%+g%% k rychlosti doplňování zásob",
+    "uk": "%+g%% до швидкості поповнення"
+  },
+  "%+g%% to Entrenchment Rate": {
+    "cs": "%+g%% k rychlosti opevňování",
+    "uk": "%+g%% до швидкості укріплення"
+  },
+  "%+g%% to Morale Recover Rate": {
+    "cs": "%+g%% k obnově morálky",
+    "uk": "%+g%% до відновлення бойового духу"
+  },
+  "%+g%% slower Morale Loss": {
+    "cs": "%+g%% zpomalení ztráty morálky",
+    "uk": "%+g%% уповільнення втрати бойового духу"
+  },
+  "%+g%% to Structure Cost": {
+    "cs": "%+g%% k ceně staveb",
+    "uk": "%+g%% до вартості споруд"
+  },
+  "%+g%% to Health": {
+    "cs": "%+g%% ke zdraví",
+    "uk": "%+g%% до здоров'я"
+  },
+  "%+g%% to Control Range": {
+    "cs": "%+g%% k dosahu ovládání",
+    "uk": "%+g%% до радіуса контролю"
+  },
+  "%+g%% to Attack Efficiency": {
+    "cs": "%+g%% k účinnosti útoku",
+    "uk": "%+g%% до ефективності атаки"
+  },
+  "%+g%% to Attack Efficiency (Current %g%%)": {
+    "cs": "%+g%% k účinnosti útoku (nyní %g%%)",
+    "uk": "%+g%% до ефективності атаки (зараз %g%%)"
+  },
+  "100%% Attack Efficiency (Current %g%%)": {
+    "cs": "100%% účinnosti útoku (nyní %g%%)",
+    "uk": "100%% ефективності атаки (зараз %g%%)"
+  },
+  "%+g%% to Recruit Cost": {
+    "cs": "%+g%% k ceně náboru",
+    "uk": "%+g%% до вартості найму"
+  },
+  "%+g%% to Attack Speed": {
+    "cs": "%+g%% k rychlosti útoku",
+    "uk": "%+g%% до швидкості атаки"
+  },
+  "Failed to summon %s": {
+    "cs": "Nelze vyvolat %s",
+    "uk": "Не вдалося викликати %s"
+  },
+  "Invalid location for %s": {
+    "cs": "Neplatné místo pro %s",
+    "uk": "Недопустиме місце для %s"
+  },
+  "%s Economy: %s": {
+    "cs": "%s — ekonomika: %s",
+    "uk": "%s — економіка: %s"
+  },
+  "%s stolen from %s": {
+    "cs": "%s ukradeno od %s",
+    "uk": "%s викрадено в %s"
+  },
+  "%s stolen by %s": {
+    "cs": "%s ukradeno hráčem %s",
+    "uk": "%s викрадено гравцем %s"
+  },
+  "Summons %s": {
+    "cs": "Vyvolá: %s",
+    "uk": "Викликає: %s"
+  },
+  "%g Morale Lost": {
+    "cs": "Ztráta morálky: %g",
+    "uk": "Втрачено бойового духу: %g"
+  },
+  "%g Morale Gained": {
+    "cs": "Zisk morálky: %g",
+    "uk": "Здобуто бойового духу: %g"
+  },
+  "%g Healed": {
+    "cs": "Vyléčeno: %g",
+    "uk": "Зцілено: %g"
+  },
+  "%g Repaired": {
+    "cs": "Opraveno: %g",
+    "uk": "Відремонтовано: %g"
+  },
+  "%g %s Damage": {
+    "cs": "%g poškození typu %s",
+    "uk": "%g шкоди типу %s"
+  },
+  "%g %s Extra Damage": {
+    "cs": "%g dodatečného poškození typu %s",
+    "uk": "%g додаткової шкоди типу %s"
+  },
+  "%s %s Damage": {
+    "cs": "%s poškození typu %s",
+    "uk": "%s шкоди типу %s"
+  },
+  "%lc%g": {
+    "cs": "%lc%g",
+    "uk": "%lc%g"
+  },
+  "%lc+%g": {
+    "cs": "%lc+%g",
+    "uk": "%lc+%g"
+  },
+  "%lc%s": {
+    "cs": "%lc%s",
+    "uk": "%lc%s"
+  },
+  "%lc%g Damage": {
+    "cs": "%lc%g poškození",
+    "uk": "%lc%g шкоди"
+  },
+  "%lc+%g Extra Damage": {
+    "cs": "%lc+%g dodatečného poškození",
+    "uk": "%lc+%g додаткової шкоди"
+  },
+  "%lc%s Damage": {
+    "cs": "%lc%s poškození",
+    "uk": "%lc%s шкоди"
+  },
+  "%s for %g Seconds": {
+    "cs": "%s po dobu %g sekund",
+    "uk": "%s протягом %g секунд"
+  },
+  "Steal Resources: %s": {
+    "cs": "Krádež surovin: %s",
+    "uk": "Викрадення ресурсів: %s"
+  },
+  "vs %s": {
+    "cs": "proti %s",
+    "uk": "проти %s"
+  },
+  "%g%% Attack Efficiency (Current %g%%)": {
+    "cs": "%g%% účinnosti útoku (nyní %g%%)",
+    "uk": "%g%% ефективності атаки (зараз %g%%)"
+  },
+  "%dth %s": {
+    "cs": "%d. %s",
+    "uk": "%d. %s"
+  },
+  "%dst %s": {
+    "cs": "%d. %s",
+    "uk": "%d. %s"
+  },
+  "%dnd %s": {
+    "cs": "%d. %s",
+    "uk": "%d. %s"
+  },
+  "%drd %s": {
+    "cs": "%d. %s",
+    "uk": "%d. %s"
+  },
+  "An update is available to %s, install now?": {
+    "cs": "Je dostupná aktualizace na %s. Nainstalovat?",
+    "uk": "Доступне оновлення до %s. Встановити?"
+  },
+  "Error retrieving update server list.\n\nReason: %s": {
+    "cs": "Nelze získat seznam aktualizačních serverů.\n\nDůvod: %s",
+    "uk": "Не вдалося отримати список серверів оновлення.\n\nПричина: %s"
+  },
+  "Successfully processed redirection file %s.": {
+    "cs": "Soubor přesměrování %s zpracován.",
+    "uk": "Файл перенаправлення %s оброблено."
+  },
+  "Redirected to %s, attempting download...": {
+    "cs": "Přesměrováno na %s, zahajuji stahování...",
+    "uk": "Перенаправлено на %s, починається завантаження..."
+  },
+  "Successfully downloaded to %s, exiting app to apply update...": {
+    "cs": "Staženo do %s, aplikace se ukončí pro instalaci aktualizace...",
+    "uk": "Завантажено до %s, програма закривається для встановлення оновлення..."
+  },
+  "Tribute %s to %s": {
+    "cs": "Předat %s hráči %s",
+    "uk": "Передати %s гравцеві %s"
+  },
+  "%s is not tributable": {
+    "cs": "%s nelze předat",
+    "uk": "%s неможливо передати"
+  },
+  "%s is not currently tributable": {
+    "cs": "%s nyní nelze předat",
+    "uk": "%s зараз неможливо передати"
+  },
+  "Insufficient unit limit to tribute %s": {
+    "cs": "Nedostatečný limit jednotek pro předání %s",
+    "uk": "Недостатній ліміт юнітів для передачі %s"
+  },
+  "%s is not a valid target": {
+    "cs": "%s není platný cíl",
+    "uk": "%s не є допустимою ціллю"
+  },
+  "Invalid target for %s": {
+    "cs": "Neplatný cíl pro %s",
+    "uk": "Недопустима ціль для %s"
+  },
+  "%s is an invalid target for %s": {
+    "cs": "%s není platný cíl pro %s",
+    "uk": "%s не є допустимою ціллю для %s"
+  },
+  "%s cannot build structure at this time": {
+    "cs": "%s nyní nemůže stavět",
+    "uk": "%s зараз не може будувати"
+  },
+  "Upgrade to %s": {
+    "cs": "Vylepšit na %s",
+    "uk": "Поліпшити до %s"
+  },
+  "%.0fms": {
+    "cs": "%.0f ms",
+    "uk": "%.0f мс"
+  },
+  "%.0f%%": {
+    "cs": "%.0f%%",
+    "uk": "%.0f%%"
+  },
+  "Ping: %d": {
+    "cs": "Odezva: %d",
+    "uk": "Пінг: %d"
+  },
+  "Slot #%d Unit": {
+    "cs": "Jednotka v pozici #%d",
+    "uk": "Юніт у комірці №%d"
+  },
+  "%d%%": {
+    "cs": "%d%%",
+    "uk": "%d%%"
+  },
+  "x%d": {
+    "cs": "x%d",
+    "uk": "x%d"
+  },
+  "%s Company": {
+    "cs": "Rota %s",
+    "uk": "Рота %s"
+  },
+  " (with %s)": {
+    "cs": " (vyžaduje %s)",
+    "uk": " (за наявності %s)"
+  },
+  "Overwrite file '%s'?": {
+    "cs": "Přepsat soubor '%s'?",
+    "uk": "Перезаписати файл '%s'?"
+  },
+  "File '%s' not found": {
+    "cs": "Soubor '%s' nenalezen",
+    "uk": "Файл '%s' не знайдено"
+  },
+  "Failed to delete file '%s'": {
+    "cs": "Nelze smazat soubor '%s'",
+    "uk": "Не вдалося видалити файл '%s'"
+  },
+  "Failed to create folder '%s'": {
+    "cs": "Nelze vytvořit složku '%s'",
+    "uk": "Не вдалося створити папку '%s'"
+  },
+  "The filename, %s, contains the invalid character %s": {
+    "cs": "Název souboru %s obsahuje neplatný znak %s",
+    "uk": "Назва файлу %s містить недопустимий символ %s"
+  },
+  "%s\n%s\nClick to Cancel": {
+    "cs": "%s\n%s\nKliknutím zrušíte",
+    "uk": "%s\n%s\nНатисніть, щоб скасувати"
+  },
+  "%s\n%s\n%s\nClick to Cancel": {
+    "cs": "%s\n%s\n%s\nKliknutím zrušíte",
+    "uk": "%s\n%s\n%s\nНатисніть, щоб скасувати"
+  },
+  "Recharging (%d:%.2d left)": {
+    "cs": "Obnova (zbývá %d:%.2d)",
+    "uk": "Відновлення (залишилося %d:%.2d)"
+  },
+  "New Primary Objective gained: %s": {
+    "cs": "Nový hlavní úkol: %s",
+    "uk": "Нове основне завдання: %s"
+  },
+  "New Secondary Objective gained: %s": {
+    "cs": "Nový vedlejší úkol: %s",
+    "uk": "Нове додаткове завдання: %s"
+  },
+  "Primary Objective lost: %s": {
+    "cs": "Hlavní úkol ztracen: %s",
+    "uk": "Основне завдання втрачено: %s"
+  },
+  "Secondary Objective taken away: %s": {
+    "cs": "Vedlejší úkol zrušen: %s",
+    "uk": "Додаткове завдання скасовано: %s"
+  },
+  "Group %s": {
+    "cs": "Skupina %s",
+    "uk": "Група %s"
+  },
+  "%s has elected to keep the game going.": {
+    "cs": "%s se rozhodl pokračovat ve hře.",
+    "uk": "%s вирішив продовжити гру."
+  },
+  "Quit %s": {
+    "cs": "Ukončit %s",
+    "uk": "Вийти з %s"
+  },
+  "%s's Game": {
+    "cs": "Hra hráče %s",
+    "uk": "Гра гравця %s"
+  },
+  "Nickname collision: %s": {
+    "cs": "Shodná přezdívka: %s",
+    "uk": "Збіг псевдонімів: %s"
+  },
+  "%s joined": {
+    "cs": "%s se připojil",
+    "uk": "%s приєднався"
+  },
+  "%s left": {
+    "cs": "%s odešel",
+    "uk": "%s вийшов"
+  },
+  "%s was kicked": {
+    "cs": "%s byl vyhozen",
+    "uk": "%s вигнано"
+  },
+  "Message unsent.  Please select buddies to message: <color=1,1,1>%s": {
+    "cs": "Zpráva neodeslána. Vyberte přátele pro odeslání: <color=1,1,1>%s",
+    "uk": "Повідомлення не надіслано. Виберіть друзів-одержувачів: <color=1,1,1>%s"
+  },
+  "Message unsent.  Please select players to whisper to: <color=1,1,1>%s": {
+    "cs": "Zpráva neodeslána. Vyberte příjemce soukromé zprávy: <color=1,1,1>%s",
+    "uk": "Повідомлення не надіслано. Виберіть одержувачів приватного повідомлення: <color=1,1,1>%s"
+  },
+  "Room: %s (Players %d)": {
+    "cs": "Místnost: %s (hráčů %d)",
+    "uk": "Кімната: %s (гравців %d)"
+  },
+  "Entered %s": {
+    "cs": "Vstup do %s",
+    "uk": "Вхід до %s"
+  },
+  "Whispering to %s: <color=1,1,1>%s": {
+    "cs": "Soukromě pro %s: <color=1,1,1>%s",
+    "uk": "Приватно для %s: <color=1,1,1>%s"
+  },
+  "There are %d players online": {
+    "cs": "Online je %d hráčů",
+    "uk": "У мережі %d гравців"
+  },
+  "Joining '%s', please wait ...": {
+    "cs": "Připojování k '%s', čekejte...",
+    "uk": "Приєднання до '%s', зачекайте..."
+  },
+  "Buddy Message to %s: <color=1,1,1>%s": {
+    "cs": "Zpráva přátelům %s: <color=1,1,1>%s",
+    "uk": "Повідомлення друзям %s: <color=1,1,1>%s"
+  },
+  "Could not resolve %s to an IP address": {
+    "cs": "Nelze zjistit IP adresu pro %s",
+    "uk": "Не вдалося визначити IP-адресу для %s"
+  },
+  "Resolving address for %s": {
+    "cs": "Zjišťuji adresu pro %s",
+    "uk": "Визначення адреси для %s"
+  },
+  "Timeout in %d seconds": {
+    "cs": "Čas vyprší za %d sekund",
+    "uk": "Час спливає через %d секунд"
+  },
+  "%s has requested to add you as a buddy. Click here to accept/deny.": {
+    "cs": "%s vás žádá o přidání do přátel. Kliknutím přijmete nebo odmítnete.",
+    "uk": "%s хоче додати вас у друзі. Натисніть, щоб прийняти або відхилити."
+  },
+  "%s: <color=1,1,1>%s": {
+    "cs": "%s: <color=1,1,1>%s",
+    "uk": "%s: <color=1,1,1>%s"
+  },
+  "Add %s to your buddy list?": {
+    "cs": "Přidat %s do přátel?",
+    "uk": "Додати %s у друзі?"
+  },
+  "%s has invited you to their game. Click here to open buddy list.": {
+    "cs": "%s vás zve do hry. Kliknutím otevřete seznam přátel.",
+    "uk": "%s запрошує вас до гри. Натисніть, щоб відкрити список друзів."
+  },
+  "%s has requested to add you to their buddy list.": {
+    "cs": "%s vás žádá o přidání do seznamu přátel.",
+    "uk": "%s просить додати вас до списку друзів."
+  },
+  "Cannot buddy message players in the same game: %s": {
+    "cs": "Nelze poslat zprávu přátelům ve stejné hře: %s",
+    "uk": "Неможливо надіслати повідомлення друзям у тій самій грі: %s"
+  },
+  "%s is not currently your buddy.": {
+    "cs": "%s nyní není ve vašem seznamu přátel.",
+    "uk": "%s зараз немає у вашому списку друзів."
+  },
+  "Trigger %d": {
+    "cs": "Spouštěč %d",
+    "uk": "Тригер %d"
+  },
+  "Objective %d": {
+    "cs": "Úkol %d",
+    "uk": "Завдання %d"
+  },
+  "Trigger %s could not process effects": {
+    "cs": "Spouštěč %s nemohl zpracovat efekty",
+    "uk": "Тригер %s не зміг обробити ефекти"
+  },
+  "%.2f, %.2f, %.2f": {
+    "cs": "%.2f, %.2f, %.2f",
+    "uk": "%.2f, %.2f, %.2f"
+  },
+  "ID: %d": {
+    "cs": "ID: %d",
+    "uk": "ID: %d"
+  },
+  "IDS: %s": {
+    "cs": "IDS: %s",
+    "uk": "IDS: %s"
+  },
+  "%s (IDS: %s)": {
+    "cs": "%s (IDS: %s)",
+    "uk": "%s (IDS: %s)"
+  },
+  "[unknown IDS %s]": {
+    "cs": "[neznámé IDS %s]",
+    "uk": "[невідомий IDS %s]"
+  },
+  "Failed to create a film. Reason: %s": {
+    "cs": "Nelze vytvořit záznam. Důvod: %s",
+    "uk": "Не вдалося створити запис гри. Причина: %s"
+  },
+  "You do not have %s. File cannot be transferred.": {
+    "cs": "Nemáte %s. Soubor nelze přenést.",
+    "uk": "У вас немає %s. Неможливо передати файл."
+  },
+  "Your version of %s is different from the host's version. File cannot be transferred.": {
+    "cs": "Vaše verze %s se liší od verze hostitele. Soubor nelze přenést.",
+    "uk": "Ваша версія %s відрізняється від версії ведучого. Неможливо передати файл."
+  },
+  "%s does not have %s. File cannot be transferred.": {
+    "cs": "%s nemá %s. Soubor nelze přenést.",
+    "uk": "%s не має %s. Неможливо передати файл."
+  },
+  "%s does not have the source file for %s. File cannot be transferred.": {
+    "cs": "%s nemá zdrojový soubor pro %s. Soubor nelze přenést.",
+    "uk": "%s не має вихідного файлу для %s. Неможливо передати файл."
+  },
+  "Source map for film '%s' missing.": {
+    "cs": "Chybí zdrojová mapa záznamu '%s'.",
+    "uk": "Немає вихідної мапи запису '%s'."
+  },
+  "Source map for film '%s' missing. File cannot be transferred.": {
+    "cs": "Chybí zdrojová mapa záznamu '%s'. Soubor nelze přenést.",
+    "uk": "Немає вихідної мапи запису '%s'. Неможливо передати файл."
+  },
+  "%d Free For All": {
+    "cs": "%d všichni proti všem",
+    "uk": "%d кожен за себе"
+  },
+  "%d": {
+    "cs": "%d",
+    "uk": "%d"
+  },
+  "%d/%d Players": {
+    "cs": "%d/%d hráčů",
+    "uk": "%d/%d гравців"
+  },
+  "%d-%d": {
+    "cs": "%d-%d",
+    "uk": "%d-%d"
+  },
+  "%dx%d": {
+    "cs": "%dx%d",
+    "uk": "%dx%d"
+  },
+  "%s Recommended": {
+    "cs": "Doporučeno: %s",
+    "uk": "Рекомендовано: %s"
+  },
+  "%s denotes an AI Player": {
+    "cs": "%s označuje počítačového hráče",
+    "uk": "%s позначає комп'ютерного гравця"
+  },
+  "%s (Film)": {
+    "cs": "%s (záznam)",
+    "uk": "%s (запис)"
+  },
+  "%s (Save)": {
+    "cs": "%s (uložená hra)",
+    "uk": "%s (збереження)"
+  },
+  "%s [%d]": {
+    "cs": "%s [%d]",
+    "uk": "%s [%d]"
+  },
+  "Unable to create settlement for center %s": {
+    "cs": "Nelze vytvořit sídlo pro centrum %s",
+    "uk": "Неможливо створити поселення для центру %s"
+  },
+  "Unable to open '%s'": {
+    "cs": "Nelze otevřít '%s'",
+    "uk": "Не вдалося відкрити '%s'"
+  },
+  "Film is from a different version (%s).": {
+    "cs": "Záznam pochází z jiné verze (%s).",
+    "uk": "Запис гри з іншої версії (%s)."
+  },
+  "Film is from a different build (%g).": {
+    "cs": "Záznam pochází z jiného sestavení (%g).",
+    "uk": "Запис гри з іншої збірки (%g)."
+  },
+  "Source map missing (%s).": {
+    "cs": "Chybí zdrojová mapa (%s).",
+    "uk": "Немає вихідної мапи (%s)."
+  },
+  "%.1f%%": {
+    "cs": "%.1f%%",
+    "uk": "%.1f%%"
+  },
+  "Last Updated: %s": {
+    "cs": "Poslední aktualizace: %s",
+    "uk": "Останнє оновлення: %s"
+  },
+  "%d Games": {
+    "cs": "%d her",
+    "uk": "%d ігор"
+  },
+  "Player %s has been marked as away": {
+    "cs": "Hráč %s je nyní nepřítomen",
+    "uk": "Гравець %s зараз відсутній"
+  },
+  "Player %s is no longer away": {
+    "cs": "Hráč %s se vrátil",
+    "uk": "Гравець %s повернувся"
+  },
+  "%s Lobby": {
+    "cs": "%s — lobby",
+    "uk": "%s — лобі"
+  },
+  "%s Staging": {
+    "cs": "%s — příprava hry",
+    "uk": "%s — підготовка гри"
+  },
+  "Playing %s": {
+    "cs": "Hraje %s",
+    "uk": "Грає в %s"
+  },
+  "%s taken over by %s": {
+    "cs": "%s: řízení přebírá %s",
+    "uk": "%s: керування перебирає %s"
+  },
+  "You can manage your account at %s": {
+    "cs": "Svůj účet můžete spravovat na %s",
+    "uk": "Керувати своїм обліковим записом можна на %s"
+  },
+  "GameSpy Login Failed: %s": {
+    "cs": "Přihlášení do GameSpy selhalo: %s",
+    "uk": "Не вдалося увійти до GameSpy: %s"
+  },
+  "Failed to set the nickname to %s: %s": {
+    "cs": "Nelze nastavit přezdívku %s: %s",
+    "uk": "Не вдалося встановити псевдонім %s: %s"
+  },
+  "Update failed: %s": {
+    "cs": "Aktualizace selhala: %s",
+    "uk": "Оновлення не вдалося: %s"
+  },
+  "Account creation failed: %s": {
+    "cs": "Vytvoření účtu selhalo: %s",
+    "uk": "Не вдалося створити обліковий запис: %s"
+  },
+  "\nIf you have forgotten your password, visit %s for GameSpy account assistance": {
+    "cs": "\nPokud jste zapomněli heslo, navštivte %s pro pomoc s účtem GameSpy",
+    "uk": "\nЯкщо ви забули пароль, відвідайте %s для допомоги з обліковим записом GameSpy"
+  },
+  "\nIf you have forgotten your nickname, visit %s for GameSpy account assistance": {
+    "cs": "\nPokud jste zapomněli přezdívku, navštivte %s pro pomoc s účtem GameSpy",
+    "uk": "\nЯкщо ви забули псевдонім, відвідайте %s для допомоги з обліковим записом GameSpy"
+  },
+  "Nickname: %s": {
+    "cs": "Přezdívka: %s",
+    "uk": "Псевдонім: %s"
+  },
+  "Clan: %s": {
+    "cs": "Klan: %s",
+    "uk": "Клан: %s"
+  },
+  "Please give me %d gold.": {
+    "cs": "Prosím o %d zlata.",
+    "uk": "Прошу %d золота."
+  },
+  "Please give me %s.": {
+    "cs": "Prosím o %s.",
+    "uk": "Прошу %s."
+  },
+  "%s requires at least %d megabytes (%d bytes) of available disk space, currently there are %d megabytes (%d bytes) available to the current user.": {
+    "cs": "%s vyžaduje alespoň %d MB (%d bajtů) volného místa na disku. Aktuální uživatel má dostupných %d MB (%d bajtů).",
+    "uk": "%s потребує щонайменше %d МБ (%d байтів) вільного місця на диску. Зараз користувачеві доступно %d МБ (%d байтів)."
+  },
+  "Progress %d%% (%d of %d bytes)": {
+    "cs": "Průběh %d%% (%d z %d bajtů)",
+    "uk": "Поступ %d%% (%d із %d байтів)"
+  },
+  "%s controls %d settlements": {
+    "cs": "%s ovládá %d sídel",
+    "uk": "%s контролює %d поселень"
+  },
+  "Organizaton %s attached to %s": {
+    "cs": "Rota %s připojena k %s",
+    "uk": "Роту %s приєднано до %s"
+  },
+  "Organizaton %s detached from %s": {
+    "cs": "Rota %s odpojena od %s",
+    "uk": "Роту %s від'єднано від %s"
+  }
+}

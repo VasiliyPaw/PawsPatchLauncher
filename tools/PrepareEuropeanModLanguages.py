@@ -6,7 +6,7 @@ from PrepareEuropeanLanguages import decode
 from GameTextValidation import validate_engine_text
 
 ROOT = Path(__file__).resolve().parents[1]
-RX = re.compile(r'^\s*([\w.]+)\s*=\s*"((?:\\.|[^"\\])*)"', re.M)
+RX = re.compile(r'^\s*([\w.]+(?:\|[A-Za-z*]+)?)\s*=\s*"((?:\\.|[^"\\])*)"', re.M)
 
 def table(raw):
     return {k: v for k, v in RX.findall(dec(raw)) if k != 'name'}
@@ -31,7 +31,7 @@ def translated_table(path, language, values):
     lines += ['\t'+k+' = "'+v+'"' for k,v in values.items()]
     return ('\r\n'.join(lines+['}'])+'\r\n').encode('utf-16')
 
-def generate(feeds, out, cache, codes=(('de','Deutsch'),('fr','Français')), catalog_path=None):
+def generate(feeds, out, cache, codes=(('de','Deutsch'),('fr','Français')), catalog_path=None,version='1.0.0-preview.1'):
     catalog=read(catalog_path or ROOT/'game/localization/mod-de-fr.json')['entries']
     audit={};built={}
     for channel,feed in feeds.items():
@@ -49,6 +49,9 @@ def generate(feeds, out, cache, codes=(('de','Deutsch'),('fr','Français')), cat
                         entry=catalog[key]
                         assert entry['en']==en,(key,en,entry['en'])
                         value=entry[code]
+                        if code in ('cs','uk'):
+                            from SlavicEditorial import keyed
+                            value=keyed(path,key,en,code,value)
                         validate_engine_text(en,value)
                         assert value and (code=='uk' or not re.search('[\u0400-\u04ff]',value)),(key,value)
                         # No altered costs, numeric labels, or printf/string placeholders.
@@ -105,7 +108,6 @@ def generate(feeds, out, cache, codes=(('de','Deutsch'),('fr','Français')), cat
                     if path.lower().startswith('data/') and path.lower().endswith('.tgi'):
                         refs=set(re.findall(r'#((?:awloc_|immortals_)[\w]+)',dec(raw)))
                         assert refs<=resolved,(path,refs-resolved)
-                version='1.0.0-preview.1'
                 template=dict(id=id,priority=priority,required=False,experimental=False,executableIndependent=True,mods=[mod],dependsOn=depends,
                     name=dict(ru={'de':'Немецкий','fr':'Французский','cs':'Чешский','uk':'Украинский'}[code]+' текст — '+('Immortals' if mod=='immortals' else 'Arcane Wars'),en=language+' — '+mod),
                     description=dict(ru='Перевод названий, описаний и подсказок мода. Озвучка выбирается отдельно.',en='Translated mod names, descriptions and tooltips. Speech is selected independently.'))

@@ -5,6 +5,8 @@ from DraftSlavicTranslation import terms,invariant
 from PrepareSplitLanguages import read,write,sha
 from PrepareEuropeanModLanguages import ROOT
 from GameTextValidation import validate_engine_text
+from SlavicEditorial import corrections as editorial_corrections,spacing
+from CollectSlavicCatalog import BLOCK,ROW,unquote
 
 TOKENS=re.compile(r'%\d+|%[-+0#]*(?:\d+)?(?:\.\d+)?[sdifugxX]|%%|\{\d+(?::[^}]+)?\}')
 NUMBERS=re.compile(r'\d+(?:\.\d+)?')
@@ -12,6 +14,15 @@ NUMBERS=re.compile(r'\d+(?:\.\d+)?')
 def main():
     p=argparse.ArgumentParser();p.add_argument('--review',type=Path,required=True);a=p.parse_args()
     src=read(a.review/'source.json');glossary=terms();corrections=read(ROOT/'game/localization/slavic-corrections.json')
+    corrections.update(editorial_corrections())
+    formatted=read(ROOT/'game/localization/slavic-format-strings.json')
+    # Read typed keys as well when resuming an inventory made by an older tool.
+    for path,content in read(a.review/'english-tables.json').items():
+        for block in BLOCK.findall(content):
+            for _,key,_,raw in ROW.findall(block):
+                en=unquote(raw)
+                if en and '|' in key:
+                    src['phrases'].setdefault(en,dict(en=en,keys=[path+':'+key],ru=[]))
     with (ROOT/'game/localization/slavic-tutorials.tsv').open(encoding='utf-8') as f:
         for row in csv.DictReader(f,delimiter='\t'):
             matches=[en for en in src['phrases'] if en.startswith(row['EnglishPrefix'])]
@@ -32,6 +43,7 @@ def main():
             if not any(k.startswith(('Localization/','mod:','native:','palette:')) for k in e['keys']):value=first_pass[c].get(en)
             if en in long_text[c]:value=long_text[c][en]
             if value is None and en.strip().casefold() in glossary:value=glossary[en.strip().casefold()][c]
+            if en in corrections:value=corrections[en][c]
             if value is None:issues.append((c,'missing',en));continue
             if en.strip().casefold() in glossary:
                 value=en[:len(en)-len(en.lstrip())]+glossary[en.strip().casefold()][c]+en[len(en.rstrip()):]
@@ -55,9 +67,10 @@ def main():
                 labels={'Very Slow':('Velmi pomalé','Дуже повільно'),'Slow':('Pomalé','Повільно'),'Medium':('Střední','Середній'),'Large':('Velké','Великий'),'Small':('Malé','Малий'),'Fast':('Rychlé','Швидко'),'Very Fast':('Velmi rychlé','Дуже швидко'),'Cavalry Fast':('Rychlá jízda','Швидка кіннота')}
                 value=labels[numeric_option[1]][0 if c=='cs' else 1]+' ('+numeric_option[2]+')'
             elif re.search(r'\d+\.\d+',en):value=re.sub(r'(\d)[,.]\s*(\d)',r'\1.\2',value)
-            value=re.sub(r'%\s+(\d+)',r'%\1',value)
-            for token in TOKENS.findall(en):
-                if ' '+token in en:value=re.sub(r'(?<=[\w])'+re.escape(token),lambda m:' '+m[0],value)
+            value=spacing(re.sub(r'%\s+(\d+)',r'%\1',value),c)
+            if en not in formatted:
+                for token in TOKENS.findall(en):
+                    if ' '+token in en:value=re.sub(r'(?<=[\w])'+re.escape(token),lambda m:' '+m[0],value)
             # Placeholder order follows each language's grammar. Check their
             # identities separately while retaining the exact literal numbers.
             if NUMBERS.findall(TOKENS.sub('',en))!=NUMBERS.findall(TOKENS.sub('',value)):issues.append((c,'numbers',en,value))

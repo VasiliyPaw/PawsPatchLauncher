@@ -1,0 +1,14 @@
+{
+  "Localization/strings_data_K2.tgi": {
+    "haste_3_name": {
+      "en": "Fury",
+      "cs": "Zuřivost",
+      "uk": "Лють"
+    },
+    "swarm_2_name": {
+      "en": "Host",
+      "cs": "Roj",
+      "uk": "Рій"
+    }
+  }
+}

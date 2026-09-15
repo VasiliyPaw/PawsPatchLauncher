@@ -5,21 +5,24 @@ using PawsPatchLauncher;
 
 internal static class EuropeanLanguageTests
 {
-    internal static async Task StageGameAsync(string configPath, string root, string text)
+    internal static async Task StageGameAsync(string configPath, string root, string text, string mod = GameMod.Vanilla)
     {
         root = Path.GetFullPath(root);
         if (!File.Exists(Path.Combine(root, "result.json"))) throw new IOException("A completed isolated language test fixture is required.");
+        if (mod is not GameMod.Vanilla and not GameMod.Immortals and not GameMod.ArcaneWars)
+            throw new ArgumentException("Unknown fixture mod", nameof(mod));
         var config = JsonSerializer.Deserialize(File.ReadAllText(configPath), LauncherJsonContext.Default.LauncherConfiguration)!;
         config.CacheRoot = Path.Combine(root, "cache");
         var client = new FeedClient(config); var feed = (await client.GetChannelAsync())!;
-        var settings = new UserSettings { Mod = GameMod.Vanilla, PawPatchEnabled = false, GameVoiceLanguage = "en", GamePath = Path.Combine(root, "game") };
+        var settings = new UserSettings { Mod = mod, PawPatchEnabled = false, GameVoiceLanguage = "en", GamePath = Path.Combine(root, "game") };
+        GameMod.SetPawPatch(settings, false);
         GameLanguages.SetText(settings, text);
         var installer = new ModuleInstaller(settings.GamePath);
         var modules = new Dictionary<string, InstalledModule>();
         foreach (var package in GamePackageSelector.Select(feed, settings, settings.RussianLocalization, false))
             modules[package.Id] = await installer.PrepareAsync(package, await client.DownloadVerifiedAsync(package, null));
         await installer.ReconcileAsync(modules, settings: settings, releaseId: ChannelFingerprint.Create(feed));
-        Console.WriteLine("Staged isolated game text: " + text);
+        Console.WriteLine("Staged isolated game text: " + text + "; mod: " + mod);
     }
     private sealed class NoNetwork : HttpMessageHandler
     {

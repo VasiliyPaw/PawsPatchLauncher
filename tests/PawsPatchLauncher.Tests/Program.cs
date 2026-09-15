@@ -8,6 +8,7 @@ TestProcessErrorMode.Enable();
 if(args.Length==1 && args[0]=="--verify-lobby-preferences") {await GameLobbyPreferencesTests.RunAsync();return;}
 if(args.Length==3 && args[0]=="--repair-lobby-fixture") {await GameLobbyPreferencesTests.RepairFixtureAsync(args[1],args[2]);return;}
 if(args.Length==4 && args[0]=="--stage-language-game") {await EuropeanLanguageTests.StageGameAsync(args[1],args[2],args[3]);return;}
+if(args.Length==5 && args[0]=="--stage-language-game") {await EuropeanLanguageTests.StageGameAsync(args[1],args[2],args[3],args[4]);return;}
 if(args.Length==3 && args[0]=="--verify-european-languages") {await EuropeanLanguageTests.RunAsync(args[1],args[2]);return;}
 if(args.Length==2 && args[0]=="--sound-import-checks") {NotificationImportTests.Run(args[1]);return;}
 if(args.Length==2 && args[0]=="--import-sound-files") {NotificationImportTests.Files(args[1]);return;}

@@ -6,7 +6,7 @@ from PrepareEuropeanModLanguages import source, table, ROOT
 from PrepareSplitLanguages import read, write, dec
 
 BLOCK = re.compile(r'(?ms)^\s*\[Text\s+language\s*=[^\]]*\]\s*\{.*?^\s*\}')
-ROW = re.compile(r'(?m)^(\s*)([\w.]+)(\s*=\s*)"((?:\\.|[^"\\])*)"')
+ROW = re.compile(r'(?m)^(\s*)([\w.]+(?:\|[A-Za-z*]+)?)(\s*=\s*)"((?:\\.|[^"\\])*)"')
 LITERAL = r'"((?:\\.|[^"\\])*)"'
 
 def unquote(value):

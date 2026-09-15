@@ -1,0 +1,3282 @@
+{
+  "Sarvar": {
+    "cs": "Sarvar",
+    "uk": "Сарвар"
+  },
+  "Channak": {
+    "cs": "Channak",
+    "uk": "Чаннак"
+  },
+  "Babel-Hadia": {
+    "cs": "Babel-Hadia",
+    "uk": "Бабел-Хадія"
+  },
+  "Ashkult": {
+    "cs": "Ashkult",
+    "uk": "Ашкулт"
+  },
+  "Raab": {
+    "cs": "Raab",
+    "uk": "Рааб"
+  },
+  "Nicomedes": {
+    "cs": "Nicomedes",
+    "uk": "Нікомед"
+  },
+  "Axa Matxin": {
+    "cs": "Axa Matxin",
+    "uk": "Акса Матсин"
+  },
+  "Vor Zur": {
+    "cs": "Vor Zur",
+    "uk": "Вор Зур"
+  },
+  "Axa Bilintx": {
+    "cs": "Axa Bilintx",
+    "uk": "Акса Білінтс"
+  },
+  "Amenhar": {
+    "cs": "Amenhar",
+    "uk": "Аменхар"
+  },
+  "Axa Tartalo": {
+    "cs": "Axa Tartalo",
+    "uk": "Акса Тартало"
+  },
+  "Axa Nabar": {
+    "cs": "Axa Nabar",
+    "uk": "Акса Набар"
+  },
+  "Axa Berbiz": {
+    "cs": "Axa Berbiz",
+    "uk": "Акса Бербіз"
+  },
+  "Axa Joxepa": {
+    "cs": "Axa Joxepa",
+    "uk": "Акса Джоксепа"
+  },
+  "Cincixri": {
+    "cs": "Cincixri",
+    "uk": "Чінцікрі"
+  },
+  "Minjeya": {
+    "cs": "Minjeya",
+    "uk": "Мінджейя"
+  },
+  "Kar Zor": {
+    "cs": "Kar Zor",
+    "uk": "Кар Зор"
+  },
+  "Blacksands": {
+    "cs": "Blacksands",
+    "uk": "Чорний пісок"
+  },
+  "Dhoraloor": {
+    "cs": "Dhoraloor",
+    "uk": "Доралур"
+  },
+  "Markalo": {
+    "cs": "Markalo",
+    "uk": "Маркало"
+  },
+  "Xabat": {
+    "cs": "Xabat",
+    "uk": "Забат"
+  },
+  "Jugatx": {
+    "cs": "Jugatx",
+    "uk": "Джугатс"
+  },
+  "Jauregi": {
+    "cs": "Jauregi",
+    "uk": "Джаурегі"
+  },
+  "Haj Shandar": {
+    "cs": "Haj Shandar",
+    "uk": "Хадж Шандар"
+  },
+  "Alexandria": {
+    "cs": "Alexandria",
+    "uk": "Александрія"
+  },
+  "Deadwatch": {
+    "cs": "Deadwatch",
+    "uk": "Годинник Смерті"
+  },
+  "Greenwood Ward": {
+    "cs": "Greenwood Ward",
+    "uk": "Сторожка Зеленого Лісу"
+  },
+  "Waterwood": {
+    "cs": "Waterwood",
+    "uk": "Уотервуд"
+  },
+  "Auston": {
+    "cs": "Auston",
+    "uk": "Остон"
+  },
+  "Ravyn": {
+    "cs": "Ravyn",
+    "uk": "Равін"
+  },
+  "Phellas": {
+    "cs": "Phellas",
+    "uk": "Феллас"
+  },
+  "Baden Asgaroth": {
+    "cs": "Baden Asgaroth",
+    "uk": "Баден Асгарот"
+  },
+  "Hammurs": {
+    "cs": "Hammurs",
+    "uk": "Хаммурапі"
+  },
+  "Agurtzane": {
+    "cs": "Agurtzane",
+    "uk": "Огірки"
+  },
+  "Bixenta": {
+    "cs": "Bixenta",
+    "uk": "Біксента"
+  },
+  "Ashrin": {
+    "cs": "Ashrin",
+    "uk": "Ашрин"
+  },
+  "Duin Hardi": {
+    "cs": "Duin Hardi",
+    "uk": "Двейн Харді"
+  },
+  "Dun Hrodhil": {
+    "cs": "Dun Hrodhil",
+    "uk": "Дун Хродхіл"
+  },
+  "Aethan's Den": {
+    "cs": "Aethan's Den",
+    "uk": "Берлога Етана"
+  },
+  "Tyrvar": {
+    "cs": "Tyrvar",
+    "uk": "Тірвар"
+  },
+  "Cutter Home": {
+    "cs": "Cutter Home",
+    "uk": "Будинок Дерев'яника"
+  },
+  "Ethan's Refuge": {
+    "cs": "Ethan's Refuge",
+    "uk": "Притулок Етана"
+  },
+  "Zar Alatz": {
+    "cs": "Zar Alatz",
+    "uk": "Зар Алац"
+  },
+  "Haize": {
+    "cs": "Haize",
+    "uk": "Хайз"
+  },
+  "Jordan's Refuge": {
+    "cs": "Jordan's Refuge",
+    "uk": "Притулок Джордана"
+  },
+  "Zar Aizeti": {
+    "cs": "Zar Aizeti",
+    "uk": "Зар Айзеті"
+  },
+  "Fort Tzarkyn": {
+    "cs": "Fort Tsarkin",
+    "uk": "Форт Царкін"
+  },
+  "Zahra": {
+    "cs": "Zahra",
+    "uk": "Зара"
+  },
+  "Ilyana": {
+    "cs": "Ilyana",
+    "uk": "Ільяна"
+  },
+  "Maj Alabar": {
+    "cs": "Maj Alabar",
+    "uk": "Мадж Алабар"
+  },
+  "Axa Bortzaioriz": {
+    "cs": "Axa Bortzaioriz",
+    "uk": "Акса Борзайорис"
+  },
+  "Bihotz": {
+    "cs": "Bihotz",
+    "uk": "Біхотс"
+  },
+  "Axa Kaxen": {
+    "cs": "Axa Kaxen",
+    "uk": "Акса Каксен"
+  },
+  "Axa Diagur": {
+    "cs": "Axa Diagur",
+    "uk": "Акса Діагур"
+  },
+  "Bellows": {
+    "cs": "Bellows",
+    "uk": "Беллоуз"
+  },
+  "Wolvesden Hollow": {
+    "cs": "Wolvesden Hollow",
+    "uk": "Лощина Вовчого Логова"
+  },
+  "Baden-Raab": {
+    "cs": "Baden-Raab",
+    "uk": "Баден-Рааб"
+  },
+  "Jurakan": {
+    "cs": "Jurakan",
+    "uk": "Джуракан"
+  },
+  "Blackwolf Hollow": {
+    "cs": "Blackwolf Hollow",
+    "uk": "Чорний вовк."
+  },
+  "Vorgoth": {
+    "cs": "Vorgoth",
+    "uk": "Воргот"
+  },
+  "Sholgora": {
+    "cs": "Sholgora",
+    "uk": "Шолгора"
+  },
+  "Nath Paruk": {
+    "cs": "Nath Paruk",
+    "uk": "Нат Парук"
+  },
+  "Deadmarch": {
+    "cs": "Deadmarch",
+    "uk": "Мертве болото"
+  },
+  "Wingard": {
+    "cs": "Wingard",
+    "uk": "Уінгард"
+  },
+  "Raven's Nest": {
+    "cs": "Raven's Nest",
+    "uk": "Гніздо Ворона"
+  },
+  "Uhler": {
+    "cs": "Uhler",
+    "uk": "Улер"
+  },
+  "Shahzadeh": {
+    "cs": "Shahzadeh",
+    "uk": "Шах-Заде"
+  },
+  "Dunixe": {
+    "cs": "Dunixe",
+    "uk": "Дуніксе"
+  },
+  "New Hope": {
+    "cs": "New Hope",
+    "uk": "Нова надія."
+  },
+  "Axa Dolore": {
+    "cs": "Axa Dolore",
+    "uk": "Акса Долоре"
+  },
+  "Zar Alkain": {
+    "cs": "Zar Alkain",
+    "uk": "Алкани"
+  },
+  "Axa Bizi": {
+    "cs": "Axa Bizi",
+    "uk": "Акса Бізі"
+  },
+  "Katixa": {
+    "cs": "Katixa",
+    "uk": "Катікса"
+  },
+  "Nathan's Crossing": {
+    "cs": "Nathan's Crossing",
+    "uk": "Нейтанс- Кросінг"
+  },
+  "Hammesville": {
+    "cs": "Hammesville",
+    "uk": "Хаммесвіль"
+  },
+  "Catonsville": {
+    "cs": "Catonsville",
+    "uk": "Катонсвілл"
+  },
+  "Khosrau": {
+    "cs": "Khosrau",
+    "uk": "Хосро"
+  },
+  "Juk Zur": {
+    "cs": "Juk Zur",
+    "uk": "Джук- Зур"
+  },
+  "Thalton": {
+    "cs": "Thalton",
+    "uk": "Талтон"
+  },
+  "Stevenston": {
+    "cs": "Stevenston",
+    "uk": "Стівенсон"
+  },
+  "Belleville": {
+    "cs": "Belleville",
+    "uk": "Бельвіль"
+  },
+  "King's Point": {
+    "cs": "King's Point",
+    "uk": "Кінгз Пойнт"
+  },
+  "Tymor": {
+    "cs": "Tymor",
+    "uk": "Тимор"
+  },
+  "Rabax": {
+    "cs": "Rabax",
+    "uk": "Рабакс"
+  },
+  "New Illian": {
+    "cs": "New Illian",
+    "uk": "Нью Іліан"
+  },
+  "Zar Abarne": {
+    "cs": "Zar Abarne",
+    "uk": "Зар Абарне"
+  },
+  "Sofiya": {
+    "cs": "Sofiya",
+    "uk": "Софія"
+  },
+  "Drauga Outpost Namelist": {
+    "cs": "Drauga Outpost Namelist",
+    "uk": "Список застав Драгу"
+  },
+  "Ruhk Kharth": {
+    "cs": "Ruhk Kharth",
+    "uk": "Рух Кхарта"
+  },
+  "Kaast Kharth": {
+    "cs": "Kaast Kharth",
+    "uk": "Кааст- Харт"
+  },
+  "Tuurth Kharth": {
+    "cs": "Tuurth Kharth",
+    "uk": "Туурт Кхарт"
+  },
+  "Ruhk Thargoth": {
+    "cs": "Ruhk Thargoth",
+    "uk": "Рух цілі"
+  },
+  "Kaast Thargoth": {
+    "cs": "Kaast Thargoth",
+    "uk": "Кааст- Таргот"
+  },
+  "Tuurth Thargoth": {
+    "cs": "Tuurth Thargoth",
+    "uk": "Туурт Таргот"
+  },
+  "Ruhk Vargon": {
+    "cs": "Ruhk Vargon",
+    "uk": "Пересування Варгона"
+  },
+  "Tuurth Vargon": {
+    "cs": "Tuurth Vargon",
+    "uk": "Торт Варгон"
+  },
+  "Ruhk Thurnok": {
+    "cs": "Ruhk Thurnok",
+    "uk": "Рух Турнока"
+  },
+  "Kaast Thurnok": {
+    "cs": "Kaast Thurnok",
+    "uk": "Зворотний касетний звукоряд"
+  },
+  "Tuurth Thurnok": {
+    "cs": "Tuurth Thurnok",
+    "uk": "Зворотний поворот"
+  },
+  "Ruhk Varth": {
+    "cs": "Ruhk Varth",
+    "uk": "Пересунути охоронця"
+  },
+  "Kaast Varth": {
+    "cs": "Kaast Varth",
+    "uk": "Кааст Варт"
+  },
+  "Tuurth Varth": {
+    "cs": "Tuurth Varth",
+    "uk": "Зворотний варіант"
+  },
+  "Ruhk Tharnoth": {
+    "cs": "Ruhk Tharnoth",
+    "uk": "Рух Тарнот"
+  },
+  "Kaast Tharnoth": {
+    "cs": "Kaast Tharnoth",
+    "uk": "Кааст Тарнот"
+  },
+  "Tuurth Tharnoth": {
+    "cs": "Tuurth Tharnoth",
+    "uk": "Туурт Тарнот"
+  },
+  "Ruhk Tharn": {
+    "cs": "Ruhk Tharn",
+    "uk": "Рух Тарн"
+  },
+  "Kaast Tharn": {
+    "cs": "Kaast Tharn",
+    "uk": "Кааст Тарн"
+  },
+  "Tuurth Tharn": {
+    "cs": "Tuurth Tharn",
+    "uk": "Туурт Тарн"
+  },
+  "Rukh Raht": {
+    "cs": "Rukh Raht",
+    "uk": "Рух Рахт"
+  },
+  "Kaast Raht": {
+    "cs": "Kaast Raht",
+    "uk": "Кааст Рахт"
+  },
+  "Tuurth Raht": {
+    "cs": "Tuurth Raht",
+    "uk": "Пряма лінія"
+  },
+  "Ruhk Mrar": {
+    "cs": "Ruhk Mrar",
+    "uk": "Рух Мрар"
+  },
+  "Kaast Mrar": {
+    "cs": "Kaast Mrar",
+    "uk": "Кааст Мрар"
+  },
+  "Tuurth Mrar": {
+    "cs": "Tuurth Mrar",
+    "uk": "Туурт Мрар"
+  },
+  "Ruhk Khanar": {
+    "cs": "Ruhk Khanar",
+    "uk": "Рух Ханар"
+  },
+  "Kaast Khanar": {
+    "cs": "Kaast Khanar",
+    "uk": "Кааст Ханар"
+  },
+  "Tuurth Khanar": {
+    "cs": "Tuurth Khanar",
+    "uk": "Туурт Ханакр"
+  },
+  "Ruhk Khandar": {
+    "cs": "Ruhk Khandar",
+    "uk": "Рух Хандар"
+  },
+  "Kaast Khandar": {
+    "cs": "Kaast Khandar",
+    "uk": "Кааст Хандар"
+  },
+  "Tuurth Khandar": {
+    "cs": "Tuurth Khandar",
+    "uk": "Праві руки"
+  },
+  "Ruhk Ranahk": {
+    "cs": "Ruhk Ranahk",
+    "uk": "Рух Ранах"
+  },
+  "Kaast Ranahk": {
+    "cs": "Kaast Ranahk",
+    "uk": "Кааст Ранах"
+  },
+  "Tuurth Ranahk": {
+    "cs": "Tuurth Ranahk",
+    "uk": "Туурт Ранах"
+  },
+  "Ruhk Tontarn": {
+    "cs": "Ruhk Tontarn",
+    "uk": "Рух Тонтарен"
+  },
+  "Kaast Tontarn": {
+    "cs": "Kaast Tontarn",
+    "uk": "Кааст Тонтарн"
+  },
+  "Tuurth Tontarn": {
+    "cs": "Tuurth Tontarn",
+    "uk": "Зворотний тонтарн"
+  },
+  "Ruhk Nam": {
+    "cs": "Ruhk Nam",
+    "uk": "Рухаємося вперед"
+  },
+  "Kaast Nam": {
+    "cs": "Kaast Nam",
+    "uk": "Кааст Нам"
+  },
+  "Tuurth Nam": {
+    "cs": "Tuurth Nam",
+    "uk": "Ім' я користувача"
+  },
+  "Ruhk Khaan": {
+    "cs": "Ruhk Khaan",
+    "uk": "Король ходів"
+  },
+  "Kaast Kharnoth": {
+    "cs": "Kaast Kharnoth",
+    "uk": "Кааст- Хан"
+  },
+  "Tuurth Kharnoth": {
+    "cs": "Tuurth Kharnoth",
+    "uk": "Король дзвінків"
+  },
+  "Ruhk Kharn": {
+    "cs": "Ruhk Kharn",
+    "uk": "Рух Гарна"
+  },
+  "Kaast Khran": {
+    "cs": "Kaast Khran",
+    "uk": "Кааст Харн"
+  },
+  "Drauga Settlement Namelist": {
+    "cs": "Drauga Settlement Namelist",
+    "uk": "Список сіл Дрогобицького району"
+  },
+  "Karguk": {
+    "cs": "Karguk",
+    "uk": "Каргук"
+  },
+  "Golgograth": {
+    "cs": "Golgograth",
+    "uk": "Голгофа"
+  },
+  "Gojuk": {
+    "cs": "Gojuk",
+    "uk": "Годжук"
+  },
+  "Nath Gojuk": {
+    "cs": "Nath Gojuk",
+    "uk": "Нат Годжук"
+  },
+  "Ralthajuk": {
+    "cs": "Ralthajuk",
+    "uk": "Ралтаджук"
+  },
+  "Kargoth": {
+    "cs": "Kargoth",
+    "uk": "Карго"
+  },
+  "Vurkagoth": {
+    "cs": "Vurkagoth",
+    "uk": "Вуркагот"
+  },
+  "Juk Parnok": {
+    "cs": "Juk Parnok",
+    "uk": "Джук Парнок"
+  },
+  "Juk Golgrath": {
+    "cs": "Juk Golgrath",
+    "uk": "Джук Ґолґрат"
+  },
+  "Narroth": {
+    "cs": "Narroth",
+    "uk": "Наррот"
+  },
+  "Jarroth": {
+    "cs": "Jarroth",
+    "uk": "Джаррот"
+  },
+  "Kar Gorgoth": {
+    "cs": "Kar Gorgoth",
+    "uk": "Кар Ґорґот"
+  },
+  "Vor Juksholra": {
+    "cs": "Vor Juksholra",
+    "uk": "Злодій Джукшолл"
+  },
+  "Juk Sholra": {
+    "cs": "Juk Sholra",
+    "uk": "Джук Шолра"
+  },
+  "Gorakan": {
+    "cs": "Gorakan",
+    "uk": "Горакан"
+  },
+  "Nath Varkan": {
+    "cs": "Nath Varkan",
+    "uk": "Нат Варкан"
+  },
+  "Nath Rakan": {
+    "cs": "Nath Rakan",
+    "uk": "Нат Ракан"
+  },
+  "Yarkan": {
+    "cs": "Yarkan",
+    "uk": "Йаркан"
+  },
+  "Kaanjar": {
+    "cs": "Kaanjar",
+    "uk": "Каанджар"
+  },
+  "Nath Narroth": {
+    "cs": "Nath Narroth",
+    "uk": "Нат Наррот"
+  },
+  "Nath Virghor": {
+    "cs": "Nath Virghor",
+    "uk": "Нат Віргор"
+  },
+  "Juk Grooth": {
+    "cs": "Juk Grooth",
+    "uk": "Джук Гроот"
+  },
+  "Juk Gojuk": {
+    "cs": "Juk Gojuk",
+    "uk": "Джук Годжук"
+  },
+  "Grath Virghor": {
+    "cs": "Grath Virghor",
+    "uk": "Грета Віргор"
+  },
+  "Grath Kaanjar": {
+    "cs": "Grath Kaanjar",
+    "uk": "Грат Каанджар"
+  },
+  "Grath Gojuk": {
+    "cs": "Grath Gojuk",
+    "uk": "Грат Годжук"
+  },
+  "Graat Virghor": {
+    "cs": "Graat Virghor",
+    "uk": "Велика Віргінія"
+  },
+  "Graat Kaanjar": {
+    "cs": "Graat Kaanjar",
+    "uk": "Граат Каанджар"
+  },
+  "Graat Yarkan": {
+    "cs": "Graat Yarkan",
+    "uk": "Граат Йаркан"
+  },
+  "Graat Jarroth": {
+    "cs": "Graat Jarroth",
+    "uk": "Великий Джаррот"
+  },
+  "Graat Kurgoth": {
+    "cs": "Graat Kurgoth",
+    "uk": "Великий Кургот"
+  },
+  "Graat Karguk": {
+    "cs": "Graat Karguk",
+    "uk": "Великий Каргук"
+  },
+  "Graat Jurakan": {
+    "cs": "Graat Jurakan",
+    "uk": "Великий Джуракан"
+  },
+  "Graat Vurkagoth": {
+    "cs": "Graat Vurkagoth",
+    "uk": "Великий Вуркагот"
+  },
+  "Taar Thantok": {
+    "cs": "Taar Thantok",
+    "uk": "Таар Танток"
+  },
+  "Taar Thartok": {
+    "cs": "Taar Thartok",
+    "uk": "Таар Тарток"
+  },
+  "Taar Guuntar": {
+    "cs": "Taar Guuntar",
+    "uk": "Таар Гунтар"
+  },
+  "Taar Gharth": {
+    "cs": "Taar Gharth",
+    "uk": "Таар Гарт"
+  },
+  "Rajat Gharth": {
+    "cs": "Rajat Gharth",
+    "uk": "Раджат Гарт"
+  },
+  "Taar Saarn": {
+    "cs": "Taar Saarn",
+    "uk": "Таар Саарн"
+  },
+  "Rajat Saarn": {
+    "cs": "Rajat Saarn",
+    "uk": "Раджат Саарн"
+  },
+  "Rajar Saarn": {
+    "cs": "Rajar Saarn",
+    "uk": "Раджар Саарн"
+  },
+  "Marth Trajar": {
+    "cs": "Marth Trajar",
+    "uk": "Март Траджар"
+  },
+  "Marth Rajar": {
+    "cs": "Marth Rajar",
+    "uk": "Март Раджар"
+  },
+  "Marth Vartok": {
+    "cs": "Marth Vartok",
+    "uk": "Март Варток"
+  },
+  "Marth Thartok": {
+    "cs": "Marth Thartok",
+    "uk": "Март Тарток"
+  },
+  "Marth Thantok": {
+    "cs": "Marth Thantok",
+    "uk": "Март Танток"
+  },
+  "Tor Margoth": {
+    "cs": "Tor Margoth",
+    "uk": "Тор Маргот"
+  },
+  "Raark": {
+    "cs": "Raark",
+    "uk": "Раарк"
+  },
+  "Juk Vaatgar": {
+    "cs": "Juk Vaatgar",
+    "uk": "Джук Ваатгар"
+  },
+  "Nath Vaatgar": {
+    "cs": "Nath Vaatgar",
+    "uk": "Нат Ваатгар"
+  },
+  "Kar Vaatgar": {
+    "cs": "Kar Vaatgar",
+    "uk": "Кар Ваатгар"
+  },
+  "Vaatgar": {
+    "cs": "Vaatgar",
+    "uk": "Ваатгар"
+  },
+  "Kar Sark": {
+    "cs": "Kar Sark",
+    "uk": "Кар Сарк"
+  },
+  "Vor Sark": {
+    "cs": "Vor Sark",
+    "uk": "Вор Сарк"
+  },
+  "Juk Sark": {
+    "cs": "Juk Sark",
+    "uk": "Джук Сарк"
+  },
+  "Nath Sark": {
+    "cs": "Nath Sark",
+    "uk": "Нат Сарк"
+  },
+  "Nath Rahk": {
+    "cs": "Nath Rahk",
+    "uk": "Нат Рак"
+  },
+  "Kar Rahk": {
+    "cs": "Kar Rahk",
+    "uk": "Кар Рак"
+  },
+  "Vor Rahk": {
+    "cs": "Vor Rahk",
+    "uk": "Злодій Рак"
+  },
+  "Juk Rahk": {
+    "cs": "Juk Rahk",
+    "uk": "Краб- джюк"
+  },
+  "Vikrahk": {
+    "cs": "Vikrahk",
+    "uk": "Викрадання"
+  },
+  "Radonsark": {
+    "cs": "Radonsark",
+    "uk": "Радонсарк"
+  },
+  "Votsor": {
+    "cs": "Votsor",
+    "uk": "Вотсор"
+  },
+  "Krasnodar": {
+    "cs": "Krasnodar",
+    "uk": "Краснодар"
+  },
+  "Rostov": {
+    "cs": "Rostov",
+    "uk": "Ростов"
+  },
+  "Kharkiv": {
+    "cs": "Kharkiv",
+    "uk": "Харьков"
+  },
+  "Voronezh": {
+    "cs": "Voronezh",
+    "uk": "Воронеж"
+  },
+  "Tambov": {
+    "cs": "Tambov",
+    "uk": "Тамбов"
+  },
+  "Zemysl": {
+    "cs": "Zemysl",
+    "uk": "Земисл"
+  },
+  "Ur Sholra": {
+    "cs": "Ur Sholra",
+    "uk": "Ур Шолра"
+  },
+  "Ur'juk": {
+    "cs": "Ur'juk",
+    "uk": "Урджук"
+  },
+  "Ur'kar": {
+    "cs": "Ur'kar",
+    "uk": "Уркар"
+  },
+  "Ur'vor": {
+    "cs": "Ur'vor",
+    "uk": "Урвор"
+  },
+  "Padikoth": {
+    "cs": "Padikoth",
+    "uk": "Падікот"
+  },
+  "Nath Zor": {
+    "cs": "Nath Zor",
+    "uk": "Нат- Зор"
+  },
+  "Nathjuk": {
+    "cs": "Nathjuk",
+    "uk": "Наджук"
+  },
+  "Kar Gorakan": {
+    "cs": "Kar Gorakan",
+    "uk": "Кар Горакан"
+  },
+  "Kar Varkath": {
+    "cs": "Kar Varkath",
+    "uk": "Кар Варкат"
+  },
+  "Varkath": {
+    "cs": "Varkath",
+    "uk": "Варкат"
+  },
+  "Vor Kaanjar": {
+    "cs": "Vor Kaanjar",
+    "uk": "Вор- Каанджар"
+  },
+  "Vor Tundor": {
+    "cs": "Vor Tundor",
+    "uk": "Вор- Тундор"
+  },
+  "Gauri Outpost Namelist": {
+    "cs": "Gauri Outpost Namelist",
+    "uk": "Список застав Гаурі"
+  },
+  "Dun Braadstrad": {
+    "cs": "Dun Braadstrad",
+    "uk": "Дун Брадстрад"
+  },
+  "Dun Tygarn": {
+    "cs": "Dun Tygarn",
+    "uk": "Дун Тайгарн"
+  },
+  "Dun Tyrton": {
+    "cs": "Dun Tyrton",
+    "uk": "Дун Тіртон"
+  },
+  "Dun Thorne": {
+    "cs": "Dun Thorne",
+    "uk": "Дун Торн"
+  },
+  "Dun Tyrgar": {
+    "cs": "Dun Tyrgar",
+    "uk": "Дун- Тиргар"
+  },
+  "Dun Hallvei": {
+    "cs": "Dun Hallvei",
+    "uk": "Дун Холвей"
+  },
+  "Dun Asa": {
+    "cs": "Dun Asa",
+    "uk": "Дун Аса"
+  },
+  "Dun Thoragn": {
+    "cs": "Dun Thoragn",
+    "uk": "Дун Торань"
+  },
+  "Dun Thorunn": {
+    "cs": "Dun Thorunn",
+    "uk": "Дун Торунн"
+  },
+  "Dun Arnorg": {
+    "cs": "Dun Arnorg",
+    "uk": "Дун Арнорг"
+  },
+  "Dun Audrunn": {
+    "cs": "Dun Audrunn",
+    "uk": "Дун Аудрунн"
+  },
+  "Dun Jotta": {
+    "cs": "Dun Jotta",
+    "uk": "Дун Джотта"
+  },
+  "Dun Thorhil": {
+    "cs": "Dun Thorhil",
+    "uk": "Дун Торхіль"
+  },
+  "Dun Vigun": {
+    "cs": "Dun Vigun",
+    "uk": "Дун Вігун"
+  },
+  "Dun Thorhal": {
+    "cs": "Dun Thorhal",
+    "uk": "Дун Торхал"
+  },
+  "Dun Grodhil": {
+    "cs": "Dun Grodhil",
+    "uk": "Дун Гродхіл"
+  },
+  "Dun Ingun": {
+    "cs": "Dun Ingun",
+    "uk": "Дун Іньгун"
+  },
+  "Dun Thyra": {
+    "cs": "Dun Thyra",
+    "uk": "Дун Тайра"
+  },
+  "Dun Berd": {
+    "cs": "Dun Berd",
+    "uk": "Дун Берд"
+  },
+  "Dun Thrand": {
+    "cs": "Dun Thrand",
+    "uk": "Дун- Тран"
+  },
+  "Dun Thrunor": {
+    "cs": "Dun Thrunor",
+    "uk": "Дун Трунор"
+  },
+  "Dun Finaran": {
+    "cs": "Dun Finaran",
+    "uk": "Дун Фінаран"
+  },
+  "Duin Hork": {
+    "cs": "Duin Hork",
+    "uk": "Двейн Хорк"
+  },
+  "Duin Thorkel": {
+    "cs": "Duin Thorkel",
+    "uk": "Двін Торкель"
+  },
+  "Duin Berjod": {
+    "cs": "Duin Berjod",
+    "uk": "Двін Берджод"
+  },
+  "Duin Bogmund": {
+    "cs": "Duin Bogmund",
+    "uk": "Двін Богмунд"
+  },
+  "Duin Garlend": {
+    "cs": "Duin Garlend",
+    "uk": "Двін Гарленд"
+  },
+  "Duin Thorgri": {
+    "cs": "Duin Thorgri",
+    "uk": "Двейн Торгрі"
+  },
+  "Duin Horhald": {
+    "cs": "Duin Horhald",
+    "uk": "Дуін Хорхальд"
+  },
+  "Duin Thorvar": {
+    "cs": "Duin Thorvar",
+    "uk": "Двейн Торвар"
+  },
+  "Duin Ard": {
+    "cs": "Duin Ard",
+    "uk": "Дуін Ард"
+  },
+  "Duin Thormod": {
+    "cs": "Duin Thormod",
+    "uk": "Двейн Тормод"
+  },
+  "Duin Ottard": {
+    "cs": "Duin Ottard",
+    "uk": "Двейн Оттард"
+  },
+  "Duin Thrad": {
+    "cs": "Duin Thrad",
+    "uk": "Двін Трад"
+  },
+  "Duin Horvarn": {
+    "cs": "Duin Horvarn",
+    "uk": "Двін Хорварн"
+  },
+  "Duin Akolf": {
+    "cs": "Duin Akolf",
+    "uk": "Двейн Акольф"
+  },
+  "Duin Rund": {
+    "cs": "Duin Rund",
+    "uk": "Двін Рунд"
+  },
+  "Duin Vein": {
+    "cs": "Duin Vein",
+    "uk": "Двін Вейн"
+  },
+  "Duin Lodvar": {
+    "cs": "Duin Lodvar",
+    "uk": "Двін Лодвар"
+  },
+  "Duin Thjar": {
+    "cs": "Duin Thjar",
+    "uk": "Дуін Тжар"
+  },
+  "Gauri Settlement Namelist": {
+    "cs": "Gauri Settlement Namelist",
+    "uk": "Список міст Гаїті"
+  },
+  "Bermuno": {
+    "cs": "Bermuno",
+    "uk": "Бермуно"
+  },
+  "Hraf": {
+    "cs": "Hraf",
+    "uk": "Граф"
+  },
+  "Throald": {
+    "cs": "Throald",
+    "uk": "Тролль"
+  },
+  "Eind": {
+    "cs": "Eind",
+    "uk": "Ейнд"
+  },
+  "Steingi": {
+    "cs": "Steingi",
+    "uk": "Стейні"
+  },
+  "Ozurls": {
+    "cs": "Ozurls",
+    "uk": "Озулс"
+  },
+  "Gurlidi": {
+    "cs": "Gurlidi",
+    "uk": "Гурліди"
+  },
+  "Thord": {
+    "cs": "Thord",
+    "uk": "Торд"
+  },
+  "Tolaug": {
+    "cs": "Tolaug",
+    "uk": "Толауг"
+  },
+  "Thjorgi": {
+    "cs": "Thjorgi",
+    "uk": "Тжорджі"
+  },
+  "Hornfin": {
+    "cs": "Hornfin",
+    "uk": "Хорнфін"
+  },
+  "Thorfin": {
+    "cs": "Thorfin",
+    "uk": "Торф"
+  },
+  "Vigwulf": {
+    "cs": "Vigwulf",
+    "uk": "Вігвулф"
+  },
+  "Thorgei": {
+    "cs": "Thorgei",
+    "uk": "Торгей."
+  },
+  "Konundr": {
+    "cs": "Konundr",
+    "uk": "Конундр"
+  },
+  "Otolber": {
+    "cs": "Otolber",
+    "uk": "Оттольбер"
+  },
+  "Arik": {
+    "cs": "Arik",
+    "uk": "Арік"
+  },
+  "Lodorge": {
+    "cs": "Lodorge",
+    "uk": "Лодорге"
+  },
+  "Hrald": {
+    "cs": "Hrald",
+    "uk": "Хральд."
+  },
+  "Thorges": {
+    "cs": "Thorges",
+    "uk": "Торгес"
+  },
+  "Gudmund": {
+    "cs": "Gudmund",
+    "uk": "Гудмунд"
+  },
+  "Styrk": {
+    "cs": "Styrk",
+    "uk": "Стірк."
+  },
+  "Hjord": {
+    "cs": "Hjord",
+    "uk": "Хорд"
+  },
+  "Rogmunn": {
+    "cs": "Rogmunn",
+    "uk": "Рогмунн"
+  },
+  "Thjor": {
+    "cs": "Thjor",
+    "uk": "Тьор"
+  },
+  "Ingunn": {
+    "cs": "Ingunn",
+    "uk": "Інгунн"
+  },
+  "Vigdis": {
+    "cs": "Vigdis",
+    "uk": "Вігдіс"
+  },
+  "Sigdis": {
+    "cs": "Sigdis",
+    "uk": "Сігдіс"
+  },
+  "Audrunn": {
+    "cs": "Audrunn",
+    "uk": "Аудрунн"
+  },
+  "Jotta": {
+    "cs": "Jotta",
+    "uk": "Джотта"
+  },
+  "Hrodhil": {
+    "cs": "Hrodhil",
+    "uk": "Хродхіл"
+  },
+  "Jord": {
+    "cs": "Jord",
+    "uk": "Джорд."
+  },
+  "Hild": {
+    "cs": "Hild",
+    "uk": "Хілд"
+  },
+  "Tyrgaarn": {
+    "cs": "Tyrgaarn",
+    "uk": "Тіргаарн"
+  },
+  "Thorgaarn": {
+    "cs": "Thorgaarn",
+    "uk": "Торгаарн"
+  },
+  "Tyrgyr": {
+    "cs": "Tyrgyr",
+    "uk": "Тіргір"
+  },
+  "Thorton": {
+    "cs": "Thorton",
+    "uk": "Тортон"
+  },
+  "Tyrton": {
+    "cs": "Tyrton",
+    "uk": "Тіртон"
+  },
+  "Harstor": {
+    "cs": "Harstor",
+    "uk": "Харстор"
+  },
+  "Harscaah": {
+    "cs": "Harscaah",
+    "uk": "Харскаах"
+  },
+  "Vhurima": {
+    "cs": "Vhurima",
+    "uk": "Вуріма"
+  },
+  "Zeugma": {
+    "cs": "Zeugma",
+    "uk": "Зугма"
+  },
+  "Urima": {
+    "cs": "Urima",
+    "uk": "Уріма"
+  },
+  "Doloch": {
+    "cs": "Doloch",
+    "uk": "Долох"
+  },
+  "Arutis": {
+    "cs": "Arutis",
+    "uk": "Арутіс"
+  },
+  "Arust": {
+    "cs": "Arust",
+    "uk": "Аруст"
+  },
+  "Aruhs": {
+    "cs": "Aruhs",
+    "uk": "Арус"
+  },
+  "Persica": {
+    "cs": "Persica",
+    "uk": "Персик"
+  },
+  "Aachen": {
+    "cs": "Aachen",
+    "uk": "Аахен"
+  },
+  "Arkhalir": {
+    "cs": "Arkhalir",
+    "uk": "Архалір"
+  },
+  "Dhorhir": {
+    "cs": "Dhorhir",
+    "uk": "Дорір"
+  },
+  "Dhorhaan": {
+    "cs": "Dhorhaan",
+    "uk": "Дорхаан"
+  },
+  "Thegahaar": {
+    "cs": "Thegahaar",
+    "uk": "Тегахаар"
+  },
+  "Thegavhar": {
+    "cs": "Thegavhar",
+    "uk": "Тегавар"
+  },
+  "Thegadhar": {
+    "cs": "Thegadhar",
+    "uk": "Тегадхар"
+  },
+  "Thantoph": {
+    "cs": "Thantoph",
+    "uk": "Тантоф"
+  },
+  "Dhorvhan": {
+    "cs": "Dhorvhan",
+    "uk": "Дхорван"
+  },
+  "Vhardhan": {
+    "cs": "Vhardhan",
+    "uk": "Вардхан"
+  },
+  "Dhanvhar": {
+    "cs": "Dhanvhar",
+    "uk": "Дханвар"
+  },
+  "Haarengar": {
+    "cs": "Haarengar",
+    "uk": "Хааренгар"
+  },
+  "Dhuivar": {
+    "cs": "Dhuivar",
+    "uk": "Дхувар"
+  },
+  "Vhengal": {
+    "cs": "Vhengal",
+    "uk": "Венгал"
+  },
+  "Markhal": {
+    "cs": "Markhal",
+    "uk": "Мархал"
+  },
+  "Dharongrag": {
+    "cs": "Dharongrag",
+    "uk": "Дхаронграг"
+  },
+  "Dharongal": {
+    "cs": "Dharongal",
+    "uk": "Дхаронгал"
+  },
+  "Dhandyr": {
+    "cs": "Dhandyr",
+    "uk": "Дхандір"
+  },
+  "Dhannir": {
+    "cs": "Dhannir",
+    "uk": "Дханір"
+  },
+  "Undynn": {
+    "cs": "Undynn",
+    "uk": "Ундінн"
+  },
+  "Vhandir": {
+    "cs": "Vhandir",
+    "uk": "Вандір"
+  },
+  "Undoorn": {
+    "cs": "Undoorn",
+    "uk": "Підземний"
+  },
+  "Khamdoor": {
+    "cs": "Khamdoor",
+    "uk": "Партнер"
+  },
+  "Haardoor": {
+    "cs": "Haardoor",
+    "uk": "Згорнути"
+  },
+  "Haarten": {
+    "cs": "Haarten",
+    "uk": "Хаартен"
+  },
+  "Dharophen": {
+    "cs": "Dharophen",
+    "uk": "Дхарофен"
+  },
+  "Dahrzum": {
+    "cs": "Dahrzum",
+    "uk": "Даржум"
+  },
+  "Dhankalo": {
+    "cs": "Dhankalo",
+    "uk": "Дханкало"
+  },
+  "Dhanren": {
+    "cs": "Dhanren",
+    "uk": "Дханрен"
+  },
+  "Darthuum": {
+    "cs": "Darthuum",
+    "uk": "Дартуум"
+  },
+  "Bharzum": {
+    "cs": "Bharzum",
+    "uk": "Барзум"
+  },
+  "Vhaaren": {
+    "cs": "Vhaaren",
+    "uk": "Ваарен"
+  },
+  "Vhandoor": {
+    "cs": "Vhandoor",
+    "uk": "Вануату"
+  },
+  "Kampunn": {
+    "cs": "Kampunn",
+    "uk": "Кампунн"
+  },
+  "Venrag": {
+    "cs": "Venrag",
+    "uk": "Венраг"
+  },
+  "Vehgal": {
+    "cs": "Vehgal",
+    "uk": "Вегал"
+  },
+  "Haaren": {
+    "cs": "Haaren",
+    "uk": "Хаарен"
+  },
+  "Theoden": {
+    "cs": "Theoden",
+    "uk": "Теоден"
+  },
+  "Duivan": {
+    "cs": "Duivan",
+    "uk": "Дуйван"
+  },
+  "Doorn": {
+    "cs": "Doorn",
+    "uk": "Доорн"
+  },
+  "Alphen": {
+    "cs": "Alphen",
+    "uk": "Алфен"
+  },
+  "Delftum": {
+    "cs": "Delftum",
+    "uk": "Делфтум"
+  },
+  "Baarsum": {
+    "cs": "Baarsum",
+    "uk": "Баарсум"
+  },
+  "Bantega": {
+    "cs": "Bantega",
+    "uk": "Бантега"
+  },
+  "Haroun Outpost Namelist": {
+    "cs": "Haroun Outpost Namelist",
+    "uk": "Список застав Харуна"
+  },
+  "Hajat Maiar": {
+    "cs": "Hajat Maiar",
+    "uk": "Хаджат Майяр"
+  },
+  "Jahar Maiar": {
+    "cs": "Jahar Maiar",
+    "uk": "Джахар Майяр"
+  },
+  "Hajat Miraj": {
+    "cs": "Hajat Miraj",
+    "uk": "Хаджат Мірадж"
+  },
+  "Jahar Miraj": {
+    "cs": "Jahar Miraj",
+    "uk": "Джахар Мірадж"
+  },
+  "Hajat Maja": {
+    "cs": "Hajat Maja",
+    "uk": "Хаджат Маджа"
+  },
+  "Jahar Maja": {
+    "cs": "Jahar Maja",
+    "uk": "Джахар Маджа"
+  },
+  "Hajat Majii": {
+    "cs": "Hajat Majii",
+    "uk": "Хаджат Маджі"
+  },
+  "Jahar Majii": {
+    "cs": "Jahar Majii",
+    "uk": "Джахар Маджи"
+  },
+  "Hajat Ajaah": {
+    "cs": "Hajat Ajaah",
+    "uk": "Хаджат Аджаах"
+  },
+  "Jahar Ajaah": {
+    "cs": "Jahar Ajaah",
+    "uk": "Джахар Аджаах"
+  },
+  "Hajat Balbala": {
+    "cs": "Hajat Balbala",
+    "uk": "Хаджат Балбала"
+  },
+  "Jahar Balbala": {
+    "cs": "Jahar Balbala",
+    "uk": "Джахар Балбала"
+  },
+  "Hajat Akishku": {
+    "cs": "Hajat Akishku",
+    "uk": "Хаджат Акишку"
+  },
+  "Jahar Akishku": {
+    "cs": "Jahar Akishku",
+    "uk": "Джахар Акишку"
+  },
+  "Hajat Muih": {
+    "cs": "Hajat Muih",
+    "uk": "Хаджат Муіх"
+  },
+  "Jahar Muih": {
+    "cs": "Jahar Muih",
+    "uk": "Джахар Муїх"
+  },
+  "Hajat Certrix": {
+    "cs": "Hajat Certrix",
+    "uk": "Хаджат Цертрикс"
+  },
+  "Hajat Rhyana": {
+    "cs": "Hajat Rhyana",
+    "uk": "Хаджат Ріана"
+  },
+  "Jahar Rhyana": {
+    "cs": "Jahar Rhyana",
+    "uk": "Джахар Ріана"
+  },
+  "Hajat Aodan": {
+    "cs": "Hajat Aodan",
+    "uk": "Хаджат Аодан"
+  },
+  "Jahar Aodan": {
+    "cs": "Jahar Aodan",
+    "uk": "Джахар Аодан"
+  },
+  "Hajat Foren": {
+    "cs": "Hajat Foren",
+    "uk": "Хаджат Форен"
+  },
+  "Hajat Alva": {
+    "cs": "Hajat Alva",
+    "uk": "Хаджат Алва"
+  },
+  "Jahar Alva": {
+    "cs": "Jahar Alva",
+    "uk": "Джахар Алва"
+  },
+  "Hajat Aoiser": {
+    "cs": "Hajat Aoiser",
+    "uk": "Хаджат Аосер"
+  },
+  "Jahar Aoiser": {
+    "cs": "Jahar Aoiser",
+    "uk": "Джахар Аосер"
+  },
+  "Hajat Moynabr": {
+    "cs": "Hajat Moynabr",
+    "uk": "Хаджат Мойнабр"
+  },
+  "Jahar Moynabr": {
+    "cs": "Jahar Moynabr",
+    "uk": "Джахар Мойнабр"
+  },
+  "Hajat Myran": {
+    "cs": "Hajat Myran",
+    "uk": "Хаджат Міран"
+  },
+  "Jahar Myran": {
+    "cs": "Jahar Myran",
+    "uk": "Джахар Міран"
+  },
+  "Hajat Fairen": {
+    "cs": "Hajat Fairen",
+    "uk": "Хаджат Файрен"
+  },
+  "Jahar Fairen": {
+    "cs": "Jahar Fairen",
+    "uk": "Джахар Файрен"
+  },
+  "Hajat Rionne": {
+    "cs": "Hajat Rionne",
+    "uk": "Хаджат Ріонн"
+  },
+  "Jahar Rionne": {
+    "cs": "Jahar Rionne",
+    "uk": "Джахар Ріонн"
+  },
+  "Hajat Daigabr": {
+    "cs": "Hajat Daigabr",
+    "uk": "Хаджат Дайгабр"
+  },
+  "Jahar Daigabr": {
+    "cs": "Jahar Daigabr",
+    "uk": "Джахар Дайгабр"
+  },
+  "Hajat Cathalr": {
+    "cs": "Hajat Cathalr",
+    "uk": "Штрихи"
+  },
+  "Jahar Cathalr": {
+    "cs": "Jahar Cathalr",
+    "uk": "Джахар Катлар"
+  },
+  "Hajat Tasaghr": {
+    "cs": "Hajat Tasaghr",
+    "uk": "Хаджат Тасагр"
+  },
+  "Jahar Tasaghr": {
+    "cs": "Jahar Tasaghr",
+    "uk": "Джахар Тасагр"
+  },
+  "Hajat Artius": {
+    "cs": "Hajat Artius",
+    "uk": "Хаджат Артиус"
+  },
+  "Hajat Liarbha": {
+    "cs": "Hajat Liarbha",
+    "uk": "Хаджат Ліарба"
+  },
+  "Jahar Liarbha": {
+    "cs": "Jahar Liarbha",
+    "uk": "Джахар Ліарба"
+  },
+  "Hajat Ildadha": {
+    "cs": "Hajat Ildadha",
+    "uk": "Хаджат Ільда"
+  },
+  "Jahar Ildadha": {
+    "cs": "Jahar Ildadha",
+    "uk": "Джахар Ільдада"
+  },
+  "Hajat Scotar": {
+    "cs": "Hajat Scotar",
+    "uk": "Хаджат Скотар"
+  },
+  "Jahar Scotar": {
+    "cs": "Jahar Scotar",
+    "uk": "Джахар Скотар"
+  },
+  "Haroun Settlement Namelist": {
+    "cs": "Haroun Settlement Namelist",
+    "uk": "Список сіл Харківської області"
+  },
+  "Shandar": {
+    "cs": "Shandar",
+    "uk": "Шандар"
+  },
+  "Hath Shandar": {
+    "cs": "Hath Shandar",
+    "uk": "Лінійні числа"
+  },
+  "Jah Shandar": {
+    "cs": "Jah Shandar",
+    "uk": "Джах Шандар"
+  },
+  "Maj Shandar": {
+    "cs": "Maj Shandar",
+    "uk": "Мадж Шандар"
+  },
+  "Mah Shandar": {
+    "cs": "Mah Shandar",
+    "uk": "Мах Шандар"
+  },
+  "Mat Shandar": {
+    "cs": "Mat Shandar",
+    "uk": "Мат Шандар"
+  },
+  "Planth": {
+    "cs": "Planth",
+    "uk": "Плант"
+  },
+  "Haj Planth": {
+    "cs": "Haj Planth",
+    "uk": "Хадж- Плант"
+  },
+  "Hath Planth": {
+    "cs": "Hath Planth",
+    "uk": "Хат Плант"
+  },
+  "Jah Planth": {
+    "cs": "Jah Planth",
+    "uk": "Джах Плант"
+  },
+  "Maj Planth": {
+    "cs": "Maj Planth",
+    "uk": "Мадж Плант"
+  },
+  "Mah Planth": {
+    "cs": "Mah Planth",
+    "uk": "Мах Плант"
+  },
+  "Mat Planth": {
+    "cs": "Mat Planth",
+    "uk": "Метт Плант"
+  },
+  "Apranil": {
+    "cs": "Apranil",
+    "uk": "Апраніл"
+  },
+  "Haj Apranil": {
+    "cs": "Haj Apranil",
+    "uk": "Хадж Апраніл"
+  },
+  "Hath Apranil": {
+    "cs": "Hath Apranil",
+    "uk": "Хат Апраніл"
+  },
+  "Jah Apranil": {
+    "cs": "Jah Apranil",
+    "uk": "Джах Апраніл"
+  },
+  "Mah Apranil": {
+    "cs": "Mah Apranil",
+    "uk": "Мах Апраніл"
+  },
+  "Mat Apranil": {
+    "cs": "Mat Apranil",
+    "uk": "Мат Апраніл"
+  },
+  "Eyama": {
+    "cs": "Eyama",
+    "uk": "Ейама"
+  },
+  "Haj Eyama": {
+    "cs": "Haj Eyama",
+    "uk": "Хадж Ейяма"
+  },
+  "Hath Eyama": {
+    "cs": "Hath Eyama",
+    "uk": "Хат Еяма"
+  },
+  "Jah Eyama": {
+    "cs": "Jah Eyama",
+    "uk": "Джах Ейама"
+  },
+  "Maj Eyama": {
+    "cs": "Maj Eyama",
+    "uk": "Мадж Ейама"
+  },
+  "Mah Eyama": {
+    "cs": "Mah Eyama",
+    "uk": "Мах Ейама"
+  },
+  "Mat Eyama": {
+    "cs": "Mat Eyama",
+    "uk": "Метт Ейама"
+  },
+  "Ayaama": {
+    "cs": "Ayaama",
+    "uk": "Айяама"
+  },
+  "Haj Ayaama": {
+    "cs": "Haj Ayaama",
+    "uk": "Хадж Айяма"
+  },
+  "Hath Ayaama": {
+    "cs": "Hath Ayaama",
+    "uk": "Хат- Айяма"
+  },
+  "Jah Ayaama": {
+    "cs": "Jah Ayaama",
+    "uk": "Джах Айяама"
+  },
+  "Maj Ayaama": {
+    "cs": "Maj Ayaama",
+    "uk": "Мадж Айяама"
+  },
+  "Mah Ayaama": {
+    "cs": "Mah Ayaama",
+    "uk": "Мах Айяама"
+  },
+  "Mat Ayaama": {
+    "cs": "Mat Ayaama",
+    "uk": "Мат Айяама"
+  },
+  "Valjaan": {
+    "cs": "Valjaan",
+    "uk": "Валджаан"
+  },
+  "Haj Valjaan": {
+    "cs": "Haj Valjaan",
+    "uk": "Хадж Валджаан"
+  },
+  "Hath Valjaan": {
+    "cs": "Hath Valjaan",
+    "uk": "Хат Валджаан"
+  },
+  "Jah Valjaan": {
+    "cs": "Jah Valjaan",
+    "uk": "Джах Валджаан"
+  },
+  "Maj Valjaan": {
+    "cs": "Maj Valjaan",
+    "uk": "Мадж Валджаан"
+  },
+  "Mah Valjaan": {
+    "cs": "Mah Valjaan",
+    "uk": "Мах Валджаан"
+  },
+  "Mat Valjaan": {
+    "cs": "Mat Valjaan",
+    "uk": "Мат Валджаан"
+  },
+  "Jahn": {
+    "cs": "Jahn",
+    "uk": "Ян"
+  },
+  "Yn'Jhuston": {
+    "cs": "Yn'Jhuston",
+    "uk": "Ін-Джустон"
+  },
+  "Vaajah": {
+    "cs": "Vaajah",
+    "uk": "Вааджах"
+  },
+  "Bhaat'yuh": {
+    "cs": "Bhaat'yuh",
+    "uk": "Бхаат-Юх"
+  },
+  "Al'Halrah": {
+    "cs": "Al'Halrah",
+    "uk": "Ал-Халрах"
+  },
+  "Halrahj": {
+    "cs": "Halrahj",
+    "uk": "Халрадж"
+  },
+  "Rumarj": {
+    "cs": "Rumarj",
+    "uk": "Румадж"
+  },
+  "Sael'thur": {
+    "cs": "Sael'thur",
+    "uk": "Саел-Тхур"
+  },
+  "Mah Jaav": {
+    "cs": "Mah Jaav",
+    "uk": "Мах Джаав"
+  },
+  "Mah Rajar": {
+    "cs": "Mah Rajar",
+    "uk": "Мах Раджар"
+  },
+  "Maj Akubar": {
+    "cs": "Maj Akubar",
+    "uk": "Мадж Акубар"
+  },
+  "Maj Riimar": {
+    "cs": "Maj Riimar",
+    "uk": "Мадж Ріамар"
+  },
+  "Maj Baruka": {
+    "cs": "Maj Baruka",
+    "uk": "Мадж- Барука"
+  },
+  "Maj Dharjun": {
+    "cs": "Maj Dharjun",
+    "uk": "Мадж Дхарджун"
+  },
+  "Maj Ramjur": {
+    "cs": "Maj Ramjur",
+    "uk": "Мадж Рамджур"
+  },
+  "Maj Mosran": {
+    "cs": "Maj Mosran",
+    "uk": "Мадж Мосран"
+  },
+  "Maj Ahdayira": {
+    "cs": "Maj Ahdayira",
+    "uk": "Мадж Адайира"
+  },
+  "Maj Dashur": {
+    "cs": "Maj Dashur",
+    "uk": "Мадж Дашур"
+  },
+  "Maj Paar": {
+    "cs": "Maj Paar",
+    "uk": "Мадж- пар"
+  },
+  "Maj Jaav": {
+    "cs": "Maj Jaav",
+    "uk": "Мадж Джаав"
+  },
+  "Maj Rajar": {
+    "cs": "Maj Rajar",
+    "uk": "Мадж Раджар"
+  },
+  "Jah Valan": {
+    "cs": "Jah Valan",
+    "uk": "Джах Валан"
+  },
+  "Jah Sulram": {
+    "cs": "Jah Sulram",
+    "uk": "Джах Сулрам"
+  },
+  "Hath Dharjan": {
+    "cs": "Hath Dharjan",
+    "uk": "Хат Дхарджан"
+  },
+  "Hath Najrahd": {
+    "cs": "Hath Najrahd",
+    "uk": "Хат Наджрад"
+  },
+  "Hath Akubar": {
+    "cs": "Hath Akubar",
+    "uk": "Хат- Акубар"
+  },
+  "Hath Vanjur": {
+    "cs": "Hath Vanjur",
+    "uk": "Хат Ванджур"
+  },
+  "Hath Madar": {
+    "cs": "Hath Madar",
+    "uk": "Батьківська лінія"
+  },
+  "Hath Jaav": {
+    "cs": "Hath Jaav",
+    "uk": "Хат Джаав"
+  },
+  "Hath Rajar": {
+    "cs": "Hath Rajar",
+    "uk": "Хат Раджар"
+  },
+  "Hath Hamadun": {
+    "cs": "Hath Hamadun",
+    "uk": "Хат Хамадун"
+  },
+  "Hath Valan": {
+    "cs": "Hath Valan",
+    "uk": "Хат Валан"
+  },
+  "Hath R'jmasr": {
+    "cs": "Hath R'jmasr",
+    "uk": "Хат Ржімаср"
+  },
+  "Haj Paath": {
+    "cs": "Haj Paath",
+    "uk": "Хадж Паат"
+  },
+  "Haj Jaav": {
+    "cs": "Haj Jaav",
+    "uk": "Хадж Джаав"
+  },
+  "Haj Rajar": {
+    "cs": "Haj Rajar",
+    "uk": "Хадж Раджар"
+  },
+  "Haj Dha'jar": {
+    "cs": "Haj Dha'jar",
+    "uk": "Хадж Дхаджар"
+  },
+  "Haj Dhaar": {
+    "cs": "Haj Dhaar",
+    "uk": "Хадж Дхаар"
+  },
+  "Haj Rujmar": {
+    "cs": "Haj Rujmar",
+    "uk": "Хадж Руджмар"
+  },
+  "Rujmar": {
+    "cs": "Rujmar",
+    "uk": "Руджмар"
+  },
+  "Ramjur": {
+    "cs": "Ramjur",
+    "uk": "Рамджур"
+  },
+  "Thulramjur": {
+    "cs": "Thulramjur",
+    "uk": "Тулрамджур"
+  },
+  "Hamajur": {
+    "cs": "Hamajur",
+    "uk": "Хамаджур"
+  },
+  "Ahdayir": {
+    "cs": "Ahdayir",
+    "uk": "Ахдаір"
+  },
+  "Mosran": {
+    "cs": "Mosran",
+    "uk": "Мосран"
+  },
+  "Thulram": {
+    "cs": "Thulram",
+    "uk": "Тулрам"
+  },
+  "Ramjubar": {
+    "cs": "Ramjubar",
+    "uk": "Рамджубар"
+  },
+  "Alabar": {
+    "cs": "Alabar",
+    "uk": "Алабар"
+  },
+  "Hamadun": {
+    "cs": "Hamadun",
+    "uk": "Хамадун"
+  },
+  "Valanjur": {
+    "cs": "Valanjur",
+    "uk": "Валанджур"
+  },
+  "Sulram": {
+    "cs": "Sulram",
+    "uk": "Сулрам"
+  },
+  "Dharjan": {
+    "cs": "Dharjan",
+    "uk": "Дхарджан"
+  },
+  "Riyadha": {
+    "cs": "Riyadha",
+    "uk": "Рійяда"
+  },
+  "Khobarjur": {
+    "cs": "Khobarjur",
+    "uk": "Хобарджур"
+  },
+  "Neyshadhar": {
+    "cs": "Neyshadhar",
+    "uk": "Нейшадхар"
+  },
+  "Akubar": {
+    "cs": "Akubar",
+    "uk": "Акубар"
+  },
+  "Human Outpost Namelist": {
+    "cs": "Human Outpost Namelist",
+    "uk": "Список застав людей"
+  },
+  "Ilyana's Stand": {
+    "cs": "Ilyana's Stand",
+    "uk": "Стоянка Ілліни"
+  },
+  "Kyran's Stand": {
+    "cs": "Kyran's Stand",
+    "uk": "Стоянка Кайрана"
+  },
+  "Jensine's Stand": {
+    "cs": "Jensine's Stand",
+    "uk": "Стоянка Дженсіни"
+  },
+  "Sofiya's Hold": {
+    "cs": "Sofiya's Hold",
+    "uk": "Софії"
+  },
+  "Lookout Point": {
+    "cs": "Lookout Point",
+    "uk": "Спостереження"
+  },
+  "Garadun's Hold": {
+    "cs": "Garadun's Hold",
+    "uk": "Фортеця Гарадуна"
+  },
+  "Caleb's Redoubt": {
+    "cs": "Caleb's Redoubt",
+    "uk": "Редут Калеба"
+  },
+  "Thain's Stand": {
+    "cs": "Thain's Stand",
+    "uk": "Таємниця"
+  },
+  "Fort Javidan": {
+    "cs": "Pevnost Džavidán",
+    "uk": "Форт Джавідан"
+  },
+  "Dylan's Hold": {
+    "cs": "Dylan's Hold",
+    "uk": "Фортеця Ділана"
+  },
+  "Sundered Helm": {
+    "cs": "Sundered Helm",
+    "uk": "Розбитий руль"
+  },
+  "Point Light": {
+    "cs": "Point Light",
+    "uk": "Світло"
+  },
+  "Aidan's End": {
+    "cs": "Aidan's End",
+    "uk": "Обмеження Айдана"
+  },
+  "Aidan's Field": {
+    "cs": "Aidan's Field",
+    "uk": "Поле Айдана"
+  },
+  "Mouse's Hole": {
+    "cs": "Mouse's Hole",
+    "uk": "Мишина нора"
+  },
+  "Shala's Rest": {
+    "cs": "Shala's Rest",
+    "uk": "Шлях Шевченка"
+  },
+  "Tzarkyn's Field": {
+    "cs": "Tzarkyn's Field",
+    "uk": "Поле Царкіна"
+  },
+  "Graeme's Haven": {
+    "cs": "Graeme's Haven",
+    "uk": "Бухта Грема"
+  },
+  "Silverwood Ward": {
+    "cs": "Silverwood Ward",
+    "uk": "Сторожка Срібного Лісу"
+  },
+  "Isrel's Sanctuary": {
+    "cs": "Isrel's Sanctuary",
+    "uk": "Притулок Ісрела"
+  },
+  "Aethan's Wall": {
+    "cs": "Aethan's Wall",
+    "uk": "Стіна Етана"
+  },
+  "Aethan's End": {
+    "cs": "Aethan's End",
+    "uk": "Межа Етана"
+  },
+  "Redhills Post": {
+    "cs": "Redhills Post",
+    "uk": "Пост Червоних Пагорбів"
+  },
+  "Isrel's Redoubt": {
+    "cs": "Isrel's Redoubt",
+    "uk": "Редут Ісрела"
+  },
+  "Aethan's Warren": {
+    "cs": "Aethan's Warren",
+    "uk": "Заповідник Етана"
+  },
+  "Mountain Hold": {
+    "cs": "Mountain Hold",
+    "uk": "Гірський хребет"
+  },
+  "Blackforest Post": {
+    "cs": "Blackforest Post",
+    "uk": "Пост Чорного Лісу"
+  },
+  "Garret's Reach": {
+    "cs": "Garret's Reach",
+    "uk": "Танець Гаррета"
+  },
+  "Mayton's Reach": {
+    "cs": "Mayton's Reach",
+    "uk": "Танець Мейтона"
+  },
+  "Fort Graymar": {
+    "cs": "Fort Greemar",
+    "uk": "Форт Греймар"
+  },
+  "Lookout Hill": {
+    "cs": "Lookout Hill",
+    "uk": "Сторожовий пагорб"
+  },
+  "Ironhold": {
+    "cs": "Ironhold",
+    "uk": "Сталь Сталь"
+  },
+  "Garret's Post": {
+    "cs": "Garret's Post",
+    "uk": "Пост Гаррета"
+  },
+  "Human Settlement Namelist": {
+    "cs": "Human Settlement Namelist",
+    "uk": "Список населених пунктів"
+  },
+  "Chandler": {
+    "cs": "Chandler",
+    "uk": "Чандлер"
+  },
+  "Edinburgh": {
+    "cs": "Edinburgh",
+    "uk": "Едінбург"
+  },
+  "Erinburgh": {
+    "cs": "Erinburgh",
+    "uk": "Ерінбург"
+  },
+  "Bellerton": {
+    "cs": "Bellerton",
+    "uk": "Беллертон"
+  },
+  "Chesapeake": {
+    "cs": "Chesapeake",
+    "uk": "Чесапік"
+  },
+  "Arundel": {
+    "cs": "Arundel",
+    "uk": "Арундел"
+  },
+  "Baileyville": {
+    "cs": "Baileyville",
+    "uk": "Бейлівілл"
+  },
+  "Sommerset": {
+    "cs": "Sommerset",
+    "uk": "Соммерсет"
+  },
+  "Chelm": {
+    "cs": "Chelm",
+    "uk": "Шлем"
+  },
+  "Gingerton": {
+    "cs": "Gingerton",
+    "uk": "Джінджертон"
+  },
+  "Pinsk": {
+    "cs": "Pinsk",
+    "uk": "Пінск"
+  },
+  "Brest": {
+    "cs": "Brest",
+    "uk": "Брест"
+  },
+  "King's Reach": {
+    "cs": "King's Reach",
+    "uk": "Кінгз Річ"
+  },
+  "Queen's Reach": {
+    "cs": "Queen's Reach",
+    "uk": "Квінз- Річ"
+  },
+  "Queen's Point": {
+    "cs": "Queen's Point",
+    "uk": "Квінз- Річ"
+  },
+  "Cradle's Rock": {
+    "cs": "Cradles Rock",
+    "uk": "Крейдлз Рок"
+  },
+  "Morales": {
+    "cs": "Morales",
+    "uk": "Моралес"
+  },
+  "Forcher": {
+    "cs": "Forcher",
+    "uk": "Форчер"
+  },
+  "Hermanville": {
+    "cs": "Hermanville",
+    "uk": "Германвілл"
+  },
+  "Pahsos": {
+    "cs": "Pahsos",
+    "uk": "Пасос"
+  },
+  "Thale": {
+    "cs": "Thale",
+    "uk": "Тейл"
+  },
+  "Stevensville": {
+    "cs": "Stevensville",
+    "uk": "Стівенсвілл"
+  },
+  "Cambridge": {
+    "cs": "Cambridge",
+    "uk": "Кембрідж"
+  },
+  "Dellion": {
+    "cs": "Dellion",
+    "uk": "Делліон"
+  },
+  "River's Rest": {
+    "cs": "Rivers Rest",
+    "uk": "Ріверз Рест"
+  },
+  "Ellicott": {
+    "cs": "Ellicott",
+    "uk": "Еллікот"
+  },
+  "Linthicum": {
+    "cs": "Linthicum",
+    "uk": "Лінтікум"
+  },
+  "Towson": {
+    "cs": "Towson",
+    "uk": "Таусон"
+  },
+  "Rochran": {
+    "cs": "Rochran",
+    "uk": "Рохран"
+  },
+  "Aelysia": {
+    "cs": "Aelysia",
+    "uk": "Елізія"
+  },
+  "Whelan": {
+    "cs": "Whelan",
+    "uk": "Велан"
+  },
+  "Havenwood": {
+    "cs": "Havenwood",
+    "uk": "Хевенвуд"
+  },
+  "Ithanburgh": {
+    "cs": "Ithanburgh",
+    "uk": "Ітанбург"
+  },
+  "Adrian's Rock": {
+    "cs": "Adrians Rock",
+    "uk": "Едріанз Рок"
+  },
+  "Adrian's Meet": {
+    "cs": "Adrian's Meet",
+    "uk": "Адріан Мітт"
+  },
+  "Alderwood": {
+    "cs": "Alderwood",
+    "uk": "Олдервуд"
+  },
+  "Sinned's Crossing": {
+    "cs": "Sinned's Crossing",
+    "uk": "Сіннедз- Кросінг"
+  },
+  "Varnter's Reach": {
+    "cs": "Varnter's Reach",
+    "uk": "Вантерн- Річ"
+  },
+  "Risper's Woods": {
+    "cs": "Risper's Woods",
+    "uk": "Рісперс Вудс"
+  },
+  "Aethan's Reach": {
+    "cs": "Aethan's Reach",
+    "uk": "Етанз Річ"
+  },
+  "Aethan's Hollow": {
+    "cs": "Aethan's Hollow",
+    "uk": "Етан Холлоу"
+  },
+  "Aerandor": {
+    "cs": "Aerandor",
+    "uk": "Ерандор"
+  },
+  "Aushonton": {
+    "cs": "Aushonton",
+    "uk": "Ошонтон"
+  },
+  "Altimor": {
+    "cs": "Altimor",
+    "uk": "Олтімор"
+  },
+  "Isrelville": {
+    "cs": "Isrelville",
+    "uk": "Ісрелвілл"
+  },
+  "Orleon": {
+    "cs": "Orleon",
+    "uk": "Орлеон"
+  },
+  "Fowler's Crossing": {
+    "cs": "Fowler's Crossing",
+    "uk": "Переправа Фаулера"
+  },
+  "Gambrills": {
+    "cs": "Gambrills",
+    "uk": "Гембрілз"
+  },
+  "Caendor": {
+    "cs": "Caendor",
+    "uk": "Каендор"
+  },
+  "Dorian's Falls": {
+    "cs": "Dorian's Falls",
+    "uk": "Водоспади Доріана"
+  },
+  "Clearspring": {
+    "cs": "Clearspring",
+    "uk": "Клірспрінг"
+  },
+  "Winter's Spring": {
+    "cs": "Winter's Spring",
+    "uk": "Зимове джерело"
+  },
+  "Faran's Meet": {
+    "cs": "Faran's Meet",
+    "uk": "Фаранз Міт"
+  },
+  "Garland": {
+    "cs": "Garland",
+    "uk": "Гарланд"
+  },
+  "Ravenville": {
+    "cs": "Ravenville",
+    "uk": "Рейвенвілл"
+  },
+  "Waterwood Falls": {
+    "cs": "Waterwood Falls",
+    "uk": "Водоспади водяного лісу"
+  },
+  "Redsand": {
+    "cs": "Redsand",
+    "uk": "Редсенд"
+  },
+  "Fowler's Heights": {
+    "cs": "Fowler's Heights",
+    "uk": "Висоти Фаулера"
+  },
+  "Gaspan": {
+    "cs": "Gaspan",
+    "uk": "Геспен"
+  },
+  "Bluewater Springs": {
+    "cs": "Bluewater Springs",
+    "uk": "Блакитні джерела"
+  },
+  "Falcon's Hollow": {
+    "cs": "Falcon's Hollow",
+    "uk": "Фолконз Холлоу"
+  },
+  "Summerston": {
+    "cs": "Summerston",
+    "uk": "Саммерстон"
+  },
+  "Redwood": {
+    "cs": "Redwood",
+    "uk": "Редвуд"
+  },
+  "Barriston": {
+    "cs": "Barriston",
+    "uk": "Баррістон"
+  },
+  "New Irian": {
+    "cs": "New Irian",
+    "uk": "Новий Іріан"
+  },
+  "New Bellows": {
+    "cs": "New Bellows",
+    "uk": "Новий Беллоуз"
+  },
+  "Luthendale": {
+    "cs": "Luthendale",
+    "uk": "Лютендейл"
+  },
+  "Springfield": {
+    "cs": "Springfield",
+    "uk": "Спрінгфілд"
+  },
+  "Mordacan": {
+    "cs": "Mordacan",
+    "uk": "Мордакан"
+  },
+  "Syristan": {
+    "cs": "Syristan",
+    "uk": "Сайрістан"
+  },
+  "Ambervale": {
+    "cs": "Ambervale",
+    "uk": "Ембервейл"
+  },
+  "Quickspring": {
+    "cs": "Quickspring",
+    "uk": "Куікспрінг"
+  },
+  "Jerod's Crossing": {
+    "cs": "Jerod's Crossing",
+    "uk": "Джеродз- Кросінг"
+  },
+  "Nothan": {
+    "cs": "Nothan",
+    "uk": "Нотан"
+  },
+  "Holsbrook": {
+    "cs": "Holsbrook",
+    "uk": "Холсбрук"
+  },
+  "Lochville": {
+    "cs": "Lochville",
+    "uk": "Локвілл"
+  },
+  "Cottersville": {
+    "cs": "Cottersville",
+    "uk": "Коттерсвілл"
+  },
+  "Harnsbrook": {
+    "cs": "Harnsbrook",
+    "uk": "Хансбрук"
+  },
+  "Shadow Outpost Namelist": {
+    "cs": "Shadow Outpost Namelist",
+    "uk": "Список застав Тіней"
+  },
+  "Zar Aberri": {
+    "cs": "Zar Aberri",
+    "uk": "Зар Аберрі"
+  },
+  "Zar Agurne": {
+    "cs": "Zar Agurne",
+    "uk": "Зар Агум"
+  },
+  "Zar Aimar": {
+    "cs": "Zar Aimar",
+    "uk": "Зар- Аймар"
+  },
+  "Zar Ainhoa": {
+    "cs": "Zar Ainhoa",
+    "uk": "Зар Айнхоа"
+  },
+  "Zar Aintzine": {
+    "cs": "Zar Aintzine",
+    "uk": "Зар- Айн- Цін"
+  },
+  "Zar Altzibar": {
+    "cs": "Zar Altzibar",
+    "uk": "Карта Алцибара"
+  },
+  "Zar Anakoz": {
+    "cs": "Zar Anakoz",
+    "uk": "Зар Анакоз"
+  },
+  "Zar Anartz": {
+    "cs": "Zar Anartz",
+    "uk": "Заар Анарц"
+  },
+  "Zar Etor": {
+    "cs": "Zar Etor",
+    "uk": "Зар Етор"
+  },
+  "Zar Ezkerra": {
+    "cs": "Zar Ezkerra",
+    "uk": "Зар- Ескерра"
+  },
+  "Zar Iigo": {
+    "cs": "Zar Iigo",
+    "uk": "Зар Ійого"
+  },
+  "Zar Ilazki": {
+    "cs": "Zar Ilazki",
+    "uk": "Зара Іласкі"
+  },
+  "Zar Oier": {
+    "cs": "Zar Oier",
+    "uk": "Заар Оєр"
+  },
+  "Zar Oneka": {
+    "cs": "Zar Oneka",
+    "uk": "Зар Онека"
+  },
+  "Zar Ugutz": {
+    "cs": "Zar Ugutz",
+    "uk": "Зар- Угуц"
+  },
+  "Axa Bazil": {
+    "cs": "Axa Bazil",
+    "uk": "Акса Базил"
+  },
+  "Axa Bazkoare": {
+    "cs": "Axa Bazkoare",
+    "uk": "Акса Базкоар"
+  },
+  "Axa Bernat": {
+    "cs": "Axa Bernat",
+    "uk": "Акса Бернат"
+  },
+  "Axa Bihar": {
+    "cs": "Axa Bihar",
+    "uk": "Акса Біхар"
+  },
+  "Axa Bizkargi": {
+    "cs": "Axa Bizkargi",
+    "uk": "Акса Бізкаргі"
+  },
+  "Axa Deunoro": {
+    "cs": "Axa Deunoro",
+    "uk": "Акса Дуноро"
+  },
+  "Axa Doltza": {
+    "cs": "Axa Doltza",
+    "uk": "Акса Долца"
+  },
+  "Axa Domeka": {
+    "cs": "Axa Domeka",
+    "uk": "Акса Домека"
+  },
+  "Axa Dunixi": {
+    "cs": "Axa Dunixi",
+    "uk": "Акса Дунікс"
+  },
+  "Axa Gaizka": {
+    "cs": "Axa Gaizka",
+    "uk": "Акса Гаїзка"
+  },
+  "Axa Ganix": {
+    "cs": "Axa Ganix",
+    "uk": "Акса Ганікс"
+  },
+  "Axa Garazi": {
+    "cs": "Axa Garazi",
+    "uk": "Акса Гараці"
+  },
+  "Axa Gurutz": {
+    "cs": "Axa Gurutz",
+    "uk": "Акса Гуруц"
+  },
+  "Axa Haritz": {
+    "cs": "Axa Haritz",
+    "uk": "Акса Харіц"
+  },
+  "Shadow Settlement Namelist": {
+    "cs": "Shadow Settlement Namelist",
+    "uk": "Список сіл Тіньківського району"
+  },
+  "Abarrotz": {
+    "cs": "Abarrotz",
+    "uk": "Абарроц"
+  },
+  "Agoztar": {
+    "cs": "Agoztar",
+    "uk": "Агозтар"
+  },
+  "Anaeaxi": {
+    "cs": "Anaeaxi",
+    "uk": "Анаексі"
+  },
+  "Antxone": {
+    "cs": "Antxone",
+    "uk": "Анксон"
+  },
+  "Baraxil": {
+    "cs": "Baraxil",
+    "uk": "Бараксил"
+  },
+  "Barrika": {
+    "cs": "Barrika",
+    "uk": "Баррика"
+  },
+  "Basajaun": {
+    "cs": "Basajaun",
+    "uk": "Басаджаун"
+  },
+  "Diegotxe": {
+    "cs": "Diegotxe",
+    "uk": "Діготсе"
+  },
+  "Ezkurra": {
+    "cs": "Ezkurra",
+    "uk": "Езкурра"
+  },
+  "Gabirel": {
+    "cs": "Gabirel",
+    "uk": "Габріель."
+  },
+  "Gaizkine": {
+    "cs": "Gaizkine",
+    "uk": "Гайсин"
+  },
+  "Gardotza": {
+    "cs": "Gardotza",
+    "uk": "Гардоца"
+  },
+  "Garikoitz": {
+    "cs": "Garikoitz",
+    "uk": "Гарікоіц"
+  },
+  "Gartxot": {
+    "cs": "Gartxot",
+    "uk": "Гартсот"
+  },
+  "Gartzene": {
+    "cs": "Gartzene",
+    "uk": "Гарцен"
+  },
+  "Gaxuxa": {
+    "cs": "Gaxuxa",
+    "uk": "Гаксуса"
+  },
+  "Hustaz": {
+    "cs": "Hustaz",
+    "uk": "Хустаз"
+  },
+  "Ieltxu": {
+    "cs": "Ieltxu",
+    "uk": "Іелцу"
+  },
+  "Ilixo": {
+    "cs": "Ilixo",
+    "uk": "Іліксо"
+  },
+  "Inautzi": {
+    "cs": "Inautzi",
+    "uk": "Інауци"
+  },
+  "Intxixu": {
+    "cs": "Intxixu",
+    "uk": "Інтіксісу"
+  },
+  "Ioritz": {
+    "cs": "Ioritz",
+    "uk": "Іоріц"
+  },
+  "Iratxe": {
+    "cs": "Iratxe",
+    "uk": "Іратсе"
+  },
+  "Irrintzi": {
+    "cs": "Irrintzi",
+    "uk": "Іррінтсі"
+  },
+  "Isurieta": {
+    "cs": "Isurieta",
+    "uk": "Ісуріета"
+  },
+  "Itzaina": {
+    "cs": "Itzaina",
+    "uk": "Ітсайна"
+  },
+  "Ixaka": {
+    "cs": "Ixaka",
+    "uk": "Іксака"
+  },
+  "Ixidor": {
+    "cs": "Ixidor",
+    "uk": "Іксідор"
+  },
+  "Jaizki": {
+    "cs": "Jaizki",
+    "uk": "Джайкі"
+  },
+  "Juantxiki": {
+    "cs": "Juantxiki",
+    "uk": "Джуантсікі"
+  },
+  "Koldobika": {
+    "cs": "Koldobika",
+    "uk": "Колдобіка"
+  },
+  "Kontxesi": {
+    "cs": "Kontxesi",
+    "uk": "Консесії"
+  },
+  "Maiorga": {
+    "cs": "Maiorga",
+    "uk": "Майорга"
+  },
+  "Maitagarri": {
+    "cs": "Maitagarri",
+    "uk": "Майтагаррі"
+  },
+  "Manex": {
+    "cs": "Manex",
+    "uk": "Манекс"
+  },
+  "Martxelin": {
+    "cs": "Martxelin",
+    "uk": "Мартселін"
+  },
+  "Matxalen": {
+    "cs": "Matxalen",
+    "uk": "Матсален"
+  },
+  "Mitxaut": {
+    "cs": "Mitxaut",
+    "uk": "Мітсаут"
+  },
+  "Muntsaratz": {
+    "cs": "Muntsaratz",
+    "uk": "Мунтсарац"
+  },
+  "Muruzabal": {
+    "cs": "Muruzabal",
+    "uk": "Мурузабал"
+  },
+  "Muskilda": {
+    "cs": "Muskilda",
+    "uk": "Мускілда"
+  },
+  "Nabarra": {
+    "cs": "Nabarra",
+    "uk": "Набарра"
+  },
+  "Naroa": {
+    "cs": "Naroa",
+    "uk": "Нароа"
+  },
+  "Nazubal": {
+    "cs": "Nazubal",
+    "uk": "Назубал"
+  },
+  "Nuxila": {
+    "cs": "Nuxila",
+    "uk": "Нуксіла"
+  },
+  "Oinaz": {
+    "cs": "Oinaz",
+    "uk": "Світло"
+  },
+  "Olaiz": {
+    "cs": "Olaiz",
+    "uk": "Олаіз"
+  },
+  "Opakua": {
+    "cs": "Opakua",
+    "uk": "Опакуа"
+  },
+  "Orkatz": {
+    "cs": "Orkatz",
+    "uk": "Оркац"
+  },
+  "Orreaga": {
+    "cs": "Orreaga",
+    "uk": "Орреага"
+  },
+  "Orzuri": {
+    "cs": "Orzuri",
+    "uk": "Орзурі"
+  },
+  "Oskarbi": {
+    "cs": "Oskarbi",
+    "uk": "Оскар"
+  },
+  "Oxarra": {
+    "cs": "Oxarra",
+    "uk": "Оксарра"
+  },
+  "Sanduru": {
+    "cs": "Sanduru",
+    "uk": "Сандуру"
+  },
+  "Santutxo": {
+    "cs": "Santutxo",
+    "uk": "Сантутсо"
+  },
+  "Santxol": {
+    "cs": "Santxol",
+    "uk": "Сантсол"
+  },
+  "Sengrat": {
+    "cs": "Sengrat",
+    "uk": "Сенграт"
+  },
+  "Tetxa": {
+    "cs": "Tetxa",
+    "uk": "Тетса"
+  },
+  "Txanton": {
+    "cs": "Txanton",
+    "uk": "Тсантон"
+  },
+  "Txartiko": {
+    "cs": "Txartiko",
+    "uk": "Тсартіко"
+  },
+  "Tximitx": {
+    "cs": "Tximitx",
+    "uk": "Тсіміц"
+  },
+  "Txurio": {
+    "cs": "Txurio",
+    "uk": "Тсуріо"
+  },
+  "Ubarriaran": {
+    "cs": "Ubarriaran",
+    "uk": "Убарріаран"
+  },
+  "Udazken": {
+    "cs": "Udazken",
+    "uk": "Удазкен"
+  },
+  "Untzizu": {
+    "cs": "Untzizu",
+    "uk": "унція"
+  },
+  "Urdaiaga": {
+    "cs": "Urdaiaga",
+    "uk": "Урдайага"
+  },
+  "Urrategi": {
+    "cs": "Urrategi",
+    "uk": "Урратегі"
+  },
+  "Urretxa": {
+    "cs": "Urretxa",
+    "uk": "Урретса"
+  },
+  "Urrexola": {
+    "cs": "Urrexola",
+    "uk": "Уррексола"
+  },
+  "Urtza": {
+    "cs": "Urtza",
+    "uk": "Середня"
+  },
+  "Xabadin": {
+    "cs": "Xabadin",
+    "uk": "Забадін"
+  },
+  "Xixili": {
+    "cs": "Xixili",
+    "uk": "Зіксилі"
+  },
+  "Zadornin": {
+    "cs": "Zadornin",
+    "uk": "Задорнін"
+  },
+  "Zeledon": {
+    "cs": "Zeledon",
+    "uk": "Зеледон"
+  },
+  "Zuriko": {
+    "cs": "Zuriko",
+    "uk": "Зуріко"
+  },
+  "Khorhes": {
+    "cs": "Khorhes",
+    "uk": "Хорес"
+  },
+  "Tenakhe": {
+    "cs": "Tenakhe",
+    "uk": "Тенахе"
+  },
+  "Baredje": {
+    "cs": "Baredje",
+    "uk": "Баредже"
+  },
+  "Merpar": {
+    "cs": "Merpar",
+    "uk": "Мерпар"
+  },
+  "Haakhar": {
+    "cs": "Haakhar",
+    "uk": "Хаакар"
+  },
+  "Djemhex": {
+    "cs": "Djemhex",
+    "uk": "Джемекс"
+  },
+  "Serx": {
+    "cs": "Serx",
+    "uk": "Серс"
+  },
+  "Umiburx": {
+    "cs": "Umiburx",
+    "uk": "Умібурс"
+  },
+  "Sekhorr": {
+    "cs": "Sekhorr",
+    "uk": "Сехорр"
+  },
+  "Xuakht": {
+    "cs": "Xuakht",
+    "uk": "Суахілі"
+  },
+  "Undead Outpost Namelist": {
+    "cs": "Undead Outpost Namelist",
+    "uk": "Список застав нежити"
+  },
+  "Bloodwater Keep": {
+    "cs": "Bloodwater Keep",
+    "uk": "Варта Кров'яної Води"
+  },
+  "Wolvesden Keep": {
+    "cs": "Wolvesden Keep",
+    "uk": "Страж Вовчого Логова"
+  },
+  "Storm Keep": {
+    "cs": "Storm Keep",
+    "uk": "Варта шторму"
+  },
+  "Greywolf Keep": {
+    "cs": "Greywolf Keep",
+    "uk": "Варта Сірого Вовка"
+  },
+  "Deadman's Rest": {
+    "cs": "Deadman's Rest",
+    "uk": "Привал Мертвеца"
+  },
+  "Raven Pass": {
+    "cs": "Raven Pass",
+    "uk": "Перевал Ворона"
+  },
+  "Vulture Pass": {
+    "cs": "Vulture Pass",
+    "uk": "Перевал Грифа"
+  },
+  "Raven's Perch": {
+    "cs": "Raven's Perch",
+    "uk": "Насест Ворона"
+  },
+  "Vulture's Nest": {
+    "cs": "Vulture's Nest",
+    "uk": "Гніздо грифа"
+  },
+  "Vulture's Perch": {
+    "cs": "Vulture's Perch",
+    "uk": "Насест Грифа"
+  },
+  "Grey Wolf Wall": {
+    "cs": "Grey Wolf Wall",
+    "uk": "Стена Сірого Вовка"
+  },
+  "Blackfang Stand": {
+    "cs": "Blackfang Stand",
+    "uk": "Стоянка Чорного Клика"
+  },
+  "Blackheart Pass": {
+    "cs": "Blackheart Pass",
+    "uk": "Перевал Чорного Серця"
+  },
+  "Blackened Pass": {
+    "cs": "Blackened Pass",
+    "uk": "Обуглений Перевал"
+  },
+  "Heartfang Pass": {
+    "cs": "Heartfang Pass",
+    "uk": "Перевал Клик"
+  },
+  "Crow's Nest": {
+    "cs": "Crow's Nest",
+    "uk": "Гніздо Ворона"
+  },
+  "Cemetery Pass": {
+    "cs": "Cemetery Pass",
+    "uk": "Кладбищенський перевал"
+  },
+  "Grey Wolf Post": {
+    "cs": "Grey Wolf Post",
+    "uk": "Сірий вовк."
+  },
+  "Cemetery Hill": {
+    "cs": "Cemetery Hill",
+    "uk": "Кладбищенський пагорб"
+  },
+  "Raven's Skull Post": {
+    "cs": "Raven's Skull Post",
+    "uk": "Пост Воронього черепа"
+  },
+  "Wolves' Den": {
+    "cs": "Wolves' Den",
+    "uk": "Вовче Логово"
+  },
+  "Undead Settlement Namelist": {
+    "cs": "Undead Settlement Namelist",
+    "uk": "Список нежиттєздатних населених пунктів"
+  },
+  "Vurengar": {
+    "cs": "Vurengar",
+    "uk": "Вуренгар"
+  },
+  "Sarach": {
+    "cs": "Sarach",
+    "uk": "Сарах"
+  },
+  "Nimzul": {
+    "cs": "Nimzul",
+    "uk": "Німзул"
+  },
+  "Zaradach": {
+    "cs": "Zaradach",
+    "uk": "Заряджання"
+  },
+  "Bloodmarch": {
+    "cs": "Bloodmarch",
+    "uk": "Кров'яне болото"
+  },
+  "Spiritmarch": {
+    "cs": "Spiritmarch",
+    "uk": "Духовний світ"
+  },
+  "Al'Daevai": {
+    "cs": "Al'Daevai",
+    "uk": "Ал-Девай"
+  },
+  "Sekasna": {
+    "cs": "Sekasna",
+    "uk": "Секасна"
+  },
+  "Nemeruv": {
+    "cs": "Nemeruv",
+    "uk": "Не вимірювався"
+  },
+  "Tyrtoph": {
+    "cs": "Tyrtoph",
+    "uk": "Тіртоф"
+  },
+  "Baden-Adadan": {
+    "cs": "Baden-Adadan",
+    "uk": "Баден-Ададан"
+  },
+  "Ashri": {
+    "cs": "Ashri",
+    "uk": "Ашрі"
+  },
+  "Sharru": {
+    "cs": "Sharru",
+    "uk": "Шарру"
+  },
+  "Baben-Mer": {
+    "cs": "Baben-Mer",
+    "uk": "Бабен-Мер"
+  },
+  "Harruku": {
+    "cs": "Harruku",
+    "uk": "Харруку"
+  },
+  "Nabylon": {
+    "cs": "Nabylon",
+    "uk": "Набілон"
+  },
+  "Yara": {
+    "cs": "Yara",
+    "uk": "Йара"
+  },
+  "Murida": {
+    "cs": "Murida",
+    "uk": "Муріда"
+  },
+  "Murrak": {
+    "cs": "Murrak",
+    "uk": "Муррак"
+  },
+  "Murra": {
+    "cs": "Murra",
+    "uk": "Мурра"
+  },
+  "Miroma": {
+    "cs": "Miroma",
+    "uk": "Мірома"
+  },
+  "Kumera": {
+    "cs": "Kumera",
+    "uk": "Кумера"
+  },
+  "Rhulak-Zagul": {
+    "cs": "Rhulak-Zagul",
+    "uk": "Рулак-Загул"
+  },
+  "Reapharven": {
+    "cs": "Reapharven",
+    "uk": "Ріпхарвен"
+  },
+  "Ravensmere": {
+    "cs": "Ravensmere",
+    "uk": "Рейвенсмір"
+  },
+  "Garoth": {
+    "cs": "Garoth",
+    "uk": "Гарот"
+  },
+  "Garoph": {
+    "cs": "Garoph",
+    "uk": "Гароф"
+  },
+  "Asgaroth": {
+    "cs": "Asgaroth",
+    "uk": "Асгарот"
+  },
+  "Golgoth Haarn": {
+    "cs": "Golgoth Haarn",
+    "uk": "Голгофа Харна"
+  },
+  "Golgoth Baren": {
+    "cs": "Golgoth Baren",
+    "uk": "Голгофа Баренцева"
+  },
+  "Baben-Baren": {
+    "cs": "Baben-Baren",
+    "uk": "Бабен-Барен"
+  },
+  "Babel-Harnja": {
+    "cs": "Babel-Harnja",
+    "uk": "Бабел-Ханджа"
+  },
+  "Baden-Hajir": {
+    "cs": "Baden-Hajir",
+    "uk": "Баден-Хаджір"
+  },
+  "Babed-Djenein": {
+    "cs": "Babed-Djenein",
+    "uk": "Бабед-Дженейн"
+  },
+  "Saleemya": {
+    "cs": "Saleemya",
+    "uk": "Салеемія"
+  },
+  "Babel-Ahmar": {
+    "cs": "Babel-Ahmar",
+    "uk": "Бабел-Ахмар"
+  },
+  "Baben-Nerab": {
+    "cs": "Baben-Nerab",
+    "uk": "Бабен-Нераб"
+  },
+  "Baben-Xasr": {
+    "cs": "Baben-Xasr",
+    "uk": "Бабен-Ксаср"
+  },
+  "Storm's Reach": {
+    "cs": "Storm's Reach",
+    "uk": "Штормовий Танець"
+  },
+  "Shadow's Reach": {
+    "cs": "Shadow's Reach",
+    "uk": "Темний танець"
+  },
+  "Darkwolves Fang": {
+    "cs": "Darkwolves Fang",
+    "uk": "Клик Темного Вовка"
+  },
+  "Blackwolf's Fang": {
+    "cs": "Blackwolf's Fang",
+    "uk": "Чорний вовк."
+  },
+  "Blackwolf's Claw": {
+    "cs": "Blackwolf's Claw",
+    "uk": "Кігті Чорного Вовка"
+  },
+  "Blackhawk's Talon": {
+    "cs": "Blackhawk's Talon",
+    "uk": "Кігті Чорного Яструба"
+  },
+  "Storm's End": {
+    "cs": "Storm's End",
+    "uk": "Кінець шторму"
+  },
+  "Greywolf Hollow": {
+    "cs": "Greywolf Hollow",
+    "uk": "Лощина Сірий Вовк"
+  },
+  "Varevice": {
+    "cs": "Varevice",
+    "uk": "Вервайс"
+  },
+  "Golga Amon": {
+    "cs": "Golga Amon",
+    "uk": "Голга- Амон"
+  },
+  "Tharoph": {
+    "cs": "Tharoph",
+    "uk": "Тариф"
+  },
+  "Sharoph": {
+    "cs": "Sharoph",
+    "uk": "Шароф"
+  },
+  "Wrosargh": {
+    "cs": "Wrosargh",
+    "uk": "Росарх"
+  },
+  "Wrathgar": {
+    "cs": "Wrathgar",
+    "uk": "Ратгар"
+  },
+  "Rathruuk": {
+    "cs": "Rathruuk",
+    "uk": "Ратруук"
+  },
+  "Glatoph": {
+    "cs": "Glatoph",
+    "uk": "Глатоф"
+  },
+  "Murtoph": {
+    "cs": "Murtoph",
+    "uk": "Муртоф"
+  },
+  "Thanatoph": {
+    "cs": "Thanatoph",
+    "uk": "Танатоф"
+  },
+  "Ravenswood": {
+    "cs": "Ravenswood",
+    "uk": "Ліс Ворона"
+  },
+  "Ravensclaw": {
+    "cs": "Ravensclaw",
+    "uk": "Кігті Ворона"
+  },
+  "Mrath Golgath": {
+    "cs": "Mrath Golgath",
+    "uk": "Смерть Голгофи"
+  },
+  "Sharatha": {
+    "cs": "Sharatha",
+    "uk": "Шарата"
+  },
+  "Golgoth Amon": {
+    "cs": "Golgoth Amon",
+    "uk": "Голгофа Амона"
+  },
+  "Ghulthara": {
+    "cs": "Ghulthara",
+    "uk": "Гултара"
+  },
+  "Ghultha": {
+    "cs": "Ghultha",
+    "uk": "Гулта"
+  },
+  "Deadriver": {
+    "cs": "Deadriver",
+    "uk": "Річка Мертвих"
+  },
+  "Blackriver": {
+    "cs": "Blackriver",
+    "uk": "Черная Река"
+  },
+  "Thoth Amon": {
+    "cs": "Thoth Amon",
+    "uk": "Тот Амон"
+  },
+  "Raven Hollow": {
+    "cs": "Raven Hollow",
+    "uk": "Лощина Ворона"
+  },
+  "Seth Amon": {
+    "cs": "Seth Amon",
+    "uk": "Сет Амон"
+  },
+  "Stormwatch": {
+    "cs": "Stormwatch",
+    "uk": "Варта Грому"
+  },
+  "Gholrahg": {
+    "cs": "Gholrahg",
+    "uk": "Голраг"
+  },
+  "Kynfear": {
+    "cs": "Kynfear",
+    "uk": "Кінфіар"
+  },
+  "Nightshold": {
+    "cs": "Nightshold",
+    "uk": "Нічний дозор"
+  }
+}

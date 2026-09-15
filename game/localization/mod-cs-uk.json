@@ -158,16 +158,16 @@
       "ru": "Ракшасы",
       "de": "Rhaksha",
       "fr": "Rhaksha",
-      "cs": "Rákšas",
-      "uk": "Ракшасаindia. kgm"
+      "cs": "Rákšasa",
+      "uk": "Ракшаса"
     },
     "awloc_rhaksha_0c104f9b": {
       "en": "Rhaksha",
       "ru": "Ракшасы",
       "de": "Rhaksha",
       "fr": "Rhaksha",
-      "cs": "Rákšas",
-      "uk": "Ракшасаindia. kgm"
+      "cs": "Rákšasa",
+      "uk": "Ракшаса"
     },
     "paws_patch_hidden_faction_undead_name": {
       "en": "Undead",
@@ -270,8 +270,8 @@
       "ru": "Абаддон Лахт",
       "de": "Abaddon Laught",
       "fr": "Abaddon Laught",
-      "cs": "Abaddon Lachth",
-      "uk": "Абадон- Лахтswitzerland. kgm"
+      "cs": "Abaddonův smích",
+      "uk": "Сміх Абаддона"
     },
     "awloc_acidic_flumes_eaf5baf9": {
       "en": "Acidic Flumes",
@@ -654,8 +654,8 @@
       "ru": "Балче",
       "de": "Balché",
       "fr": "Balché",
-      "cs": "Balče",
-      "uk": "Балчеbulgaria. kgm"
+      "cs": "Balché",
+      "uk": "Бальче"
     },
     "awloc_balistae_e991d518": {
       "en": "Balistae",
@@ -1079,7 +1079,7 @@
       "de": "Bluttrinker — Diener",
       "fr": "Buveur de sang — serviteurs",
       "cs": "Bloody Minions",
-      "uk": "Кров' яні міньйони"
+      "uk": "Кров'яні міньйони"
     },
     "awloc_bloodsoaker_smoke_loop_90bfc169": {
       "en": "Bloodsoaker smoke loop",
@@ -1135,7 +1135,7 @@
       "de": "Bolzen — Dauerflamme",
       "fr": "Carreau — flamme continue",
       "cs": "Šroub zpomalovač plamene",
-      "uk": "Болт гальмування полум' я"
+      "uk": "Болт гальмування полум'я"
     },
     "awloc_bolt_master_29c5b1a9": {
       "en": "Bolt Master",
@@ -1591,7 +1591,7 @@
       "de": "Katapult — Flamme",
       "fr": "Catapulte — flamme",
       "cs": "Plamen katapultu",
-      "uk": "Полум' я катапульти"
+      "uk": "Полум'я катапульти"
     },
     "awloc_catapult_flame_loop_961a7df5": {
       "en": "Catapult Flame Loop",
@@ -2094,8 +2094,8 @@
       "ru": "Багровая комета",
       "de": "Purpurkomet",
       "fr": "Comète cramoisie",
-      "cs": "Kométa Baggerová",
-      "uk": "Багрова кометаobject name (optional)"
+      "cs": "Karmínová kometa",
+      "uk": "Багряна комета"
     },
     "awloc_crimson_comet_effect_14ef233e": {
       "en": "Crimson Comet effect",
@@ -2198,8 +2198,8 @@
       "ru": "Багровый дождь",
       "de": "Purpurregen",
       "fr": "Pluie cramoisie",
-      "cs": "Bagerový déšť",
-      "uk": "Багровий дощweather forecast"
+      "cs": "Karmínový déšť",
+      "uk": "Багряний дощ"
     },
     "awloc_crimson_rain_empty_67f02d02": {
       "en": "Crimson Rain Empty",
@@ -2751,7 +2751,7 @@
       "de": "Wüstenflammen",
       "fr": "Flammes du désert",
       "cs": "Plamen pouště",
-      "uk": "Полум' я пустелі"
+      "uk": "Полум'я пустелі"
     },
     "awloc_desert_flames_effect_f676d2d1": {
       "en": "Desert Flames Effect",
@@ -2759,7 +2759,7 @@
       "de": "Wüstenflammen — Effekt",
       "fr": "Flammes du désert — effet",
       "cs": "Efekt pouštního plamene",
-      "uk": "Ефект полум' я пустелі"
+      "uk": "Ефект полум'я пустелі"
     },
     "awloc_desert_flames_loop_2f9d1d45": {
       "en": "Desert Flames Loop",
@@ -2863,7 +2863,7 @@
       "de": "Jünger — Bogen — Effekt",
       "fr": "Disciple — arc — effet",
       "cs": "Efekt žákovského luku",
-      "uk": "Ефект « Лук учня »"
+      "uk": "Ефект «Лук учня»"
     },
     "awloc_disciple_fidget1_effect_6d3953ed": {
       "en": "Disciple Fidget1 Effect",
@@ -2990,8 +2990,8 @@
       "ru": "Истощающий туман",
       "de": "Zehrender Nebel",
       "fr": "Brume drainante",
-      "cs": "Vyčerpávající mlha",
-      "uk": "Витончений туманweather condition"
+      "cs": "Vysávající mlha",
+      "uk": "Виснажливий туман"
     },
     "awloc_draining_mist_effect_555a0c2c": {
       "en": "Draining Mist effect",
@@ -3150,8 +3150,8 @@
       "ru": "Дрич",
       "de": "Dryche",
       "fr": "Dryche",
-      "cs": "Drach",
-      "uk": "ДрічCity in Croatia"
+      "cs": "Dryche",
+      "uk": "Дріч"
     },
     "awloc_dryche_wines_9ac5b871": {
       "en": "Dryche Wines",
@@ -3279,7 +3279,7 @@
       "de": "Leer — Objekt",
       "fr": "Vide — objet",
       "cs": "Prázdný objekt",
-      "uk": "Порожній об' єкт"
+      "uk": "Порожній об'єкт"
     },
     "awloc_empyrean_e8b29c0c": {
       "en": "Empyrean",
@@ -3654,8 +3654,8 @@
       "ru": "Праздничный туман",
       "de": "Zehrender Nebel",
       "fr": "Brume dévorante",
-      "cs": "Sváteční mlha",
-      "uk": "Святковий туманweather condition"
+      "cs": "Hodující mlha",
+      "uk": "Туман пожирання"
     },
     "awloc_feral_wyvern_c64f3a59": {
       "en": "Feral Wyvern",
@@ -3911,7 +3911,7 @@
       "de": "Flammenfeger",
       "fr": "Balayage de flammes",
       "cs": "Rozpětí plamenů",
-      "uk": "Полум' яний розмах"
+      "uk": "Полум'яний розмах"
     },
     "awloc_flames_of_furnace_5edccedb": {
       "en": "Flames of Furnace",
@@ -3919,7 +3919,7 @@
       "de": "Flammen des Schmelzofens",
       "fr": "Flammes du fourneau",
       "cs": "Plamen pece",
-      "uk": "Полум' я печі"
+      "uk": "Полум'я печі"
     },
     "awloc_flank_b162ba7a": {
       "en": "Flank",
@@ -4542,8 +4542,8 @@
       "ru": "Призрачный туман",
       "de": "Geisternebel",
       "fr": "Brume spectrale",
-      "cs": "Strašidelná mlha",
-      "uk": "Привидовий туманweather condition"
+      "cs": "Přízračná mlha",
+      "uk": "Примарний туман"
     },
     "awloc_gideon_8ee21369": {
       "en": "Gideon",
@@ -4567,7 +4567,7 @@
       "de": "Eispfeil",
       "fr": "Flèche glaciale",
       "cs": "Ledový šíp",
-      "uk": "Льодова стрілаweather condition"
+      "uk": "Крижана стріла"
     },
     "awloc_glacial_arrow_decal_fd33c313": {
       "en": "Glacial Arrow Decal",
@@ -4582,8 +4582,8 @@
       "ru": "Ледяной лук",
       "de": "Eisbogen",
       "fr": "Arc glacial",
-      "cs": "Ledový oblouk",
-      "uk": "Льодовий лукweather forecast"
+      "cs": "Ledový luk",
+      "uk": "Крижаний лук"
     },
     "awloc_glacial_comet_36eb46ea": {
       "en": "Glacial Comet",
@@ -4750,8 +4750,8 @@
       "ru": "Годендаг",
       "de": "Goedendag",
       "fr": "Goedendag",
-      "cs": "Godendag",
-      "uk": "Годендагnorway. kgm"
+      "cs": "Goedendag",
+      "uk": "Годендаг"
     },
     "awloc_gold_catalyst_4891ef95": {
       "en": "Gold Catalyst",
@@ -4935,7 +4935,7 @@
       "de": "Meteor (verstärkt)",
       "fr": "Météore (version supérieure)",
       "cs": "Velký meteor",
-      "uk": "Великий метеоритobject name (optional)"
+      "uk": "Великий метеор"
     },
     "awloc_greater_mystic_barrier_9eae8f50": {
       "en": "Greater Mystic Barrier",
@@ -5286,8 +5286,8 @@
       "ru": "Хсс'Рак",
       "de": "Hss'Rak",
       "fr": "Hss'Rak",
-      "cs": "Hs'Rak",
-      "uk": "Хсс' Ракstar name"
+      "cs": "Hss'Rak",
+      "uk": "Хсс'Рак"
     },
     "awloc_hss_rak_portrait_d45a33a4": {
       "en": "Hss'Rak portrait",
@@ -5391,7 +5391,7 @@
       "de": "Royalistenbanner (Menschen) — Effekt 1",
       "fr": "Bannière royaliste (Humains) — effet 1",
       "cs": "Efekt vlajky královského muže 1",
-      "uk": "Ефект прапора людини- рояліста 1"
+      "uk": "Ефект прапора людини-рояліста 1"
     },
     "awloc_human_royalist_sovereign_citadel_e9869729": {
       "en": "Human Royalist Sovereign Citadel",
@@ -5719,7 +5719,7 @@
       "de": "Ikaris",
       "fr": "Ikaris",
       "cs": "Ikaris",
-      "uk": "Ікарисstar name"
+      "uk": "Ікаріс"
     },
     "awloc_illusion_hiteffect_d9b078fb": {
       "en": "Illusion hiteffect",
@@ -5838,8 +5838,8 @@
       "ru": "Метка «Рой насекомых»",
       "de": "Insektenschwarm — Bodenmarkierung",
       "fr": "Nuée d'insectes — marque au sol",
-      "cs": "Štítek \"Hejno hmyzu\"",
-      "uk": "Мітка «Рій комах»"
+      "cs": "Obtisk roje hmyzu na zemi",
+      "uk": "Відбиток рою комах на землі"
     },
     "awloc_insect_swarm_object_3d26d787": {
       "en": "Insect Swarm Object",
@@ -6031,7 +6031,7 @@
       "de": "Kerberos",
       "fr": "Kerberos",
       "cs": "Kerberos",
-      "uk": "Керберосgreece_ prefectures. kgm"
+      "uk": "Керберос"
     },
     "awloc_khaldunite_charge_98646213": {
       "en": "Khaldunite Charge",
@@ -6078,8 +6078,8 @@
       "ru": "Харга",
       "de": "Kharga",
       "fr": "Kharga",
-      "cs": "Harga",
-      "uk": "Харгаindia. kgm"
+      "cs": "Kharga",
+      "uk": "Харга"
     },
     "awloc_kingdom_boneweaver_57bcb234": {
       "en": "Kingdom Boneweaver",
@@ -6278,24 +6278,24 @@
       "ru": "Логова",
       "de": "Unterschlüpfe",
       "fr": "Antres",
-      "cs": "Logová",
-      "uk": "Журнальний запис"
+      "cs": "Doupata",
+      "uk": "Лігва"
     },
     "awloc_lajatang_330e4051": {
       "en": "Lajatang",
       "ru": "Лайятанг",
       "de": "Lajatang",
       "fr": "Lajatang",
-      "cs": "Layatang",
-      "uk": "Лайятангphilippines. kgm"
+      "cs": "Lajatang",
+      "uk": "Ладжатанг"
     },
     "awloc_lajatang_javelin_e089e4d2": {
       "en": "Lajatang Javelin",
       "ru": "Копье Ладжатанг",
       "de": "Lajatang — Wurfspieß",
       "fr": "Lajatang — javelot",
-      "cs": "Kopi Lajatang",
-      "uk": "ЛаджатангCity in Thailand"
+      "cs": "Oštěp Lajatang",
+      "uk": "Спис ладжатанг"
     },
     "awloc_lake_deadbodies_908b0f42": {
       "en": "Lake Deadbodies",
@@ -6311,7 +6311,7 @@
       "de": "Seenebel",
       "fr": "Brume du lac",
       "cs": "Jezerní mlha",
-      "uk": "Озерний туманweather forecast"
+      "uk": "Озерний туман"
     },
     "awloc_lake_of_decay_7c55063d": {
       "en": "Lake of Decay",
@@ -6463,7 +6463,7 @@
       "de": "Wüstenflammen (schwach)",
       "fr": "Flammes du désert (version mineure)",
       "cs": "Malý pouštní plamen",
-      "uk": "Мале полум' я пустелі"
+      "uk": "Мале полум'я пустелі"
     },
     "awloc_lesser_elemental_b72a031e": {
       "en": "Lesser Elemental",
@@ -6503,7 +6503,7 @@
       "de": "Meteor (schwach)",
       "fr": "Météore (version mineure)",
       "cs": "Malý meteor",
-      "uk": "Малий метеоритobject name (optional)"
+      "uk": "Малий метеор"
     },
     "awloc_lesser_mystic_barrier_37d7124e": {
       "en": "Lesser Mystic Barrier",
@@ -6518,8 +6518,8 @@
       "ru": "Малый Сноп Света",
       "de": "Lichtschauer (schwach)",
       "fr": "Pluie de lumière (version mineure)",
-      "cs": "Malý světelný paprsek",
-      "uk": "Малий Сноп світлаstar name"
+      "cs": "Malá záplava světla",
+      "uk": "Мала злива світла"
     },
     "awloc_lesser_vampyrism_5d17bdbc": {
       "en": "Lesser Vampyrism",
@@ -6559,7 +6559,7 @@
       "de": "Blitze — Objekt",
       "fr": "Foudre — objet",
       "cs": "Objekt blesku",
-      "uk": "Об' єкт блискавки"
+      "uk": "Об'єкт блискавки"
     },
     "awloc_lightning_object_effect_059fce0f": {
       "en": "Lightning Object Effect",
@@ -6590,8 +6590,8 @@
       "ru": "Лилипутия",
       "de": "Liliput",
       "fr": "Liliput",
-      "cs": "Liliputie",
-      "uk": "Ліліпутіяstar name"
+      "cs": "Liliput",
+      "uk": "Ліліпут"
     },
     "awloc_liliput_bomb_5dba55b7": {
       "en": "Liliput Bomb",
@@ -6606,8 +6606,8 @@
       "ru": "Ливингсанд",
       "de": "Lebender Sand",
       "fr": "Sable vivant",
-      "cs": "Livingstone",
-      "uk": "ЛівінгстонCity in Ontario Canada"
+      "cs": "Živý písek",
+      "uk": "Живий пісок"
     },
     "awloc_longbow_b1f6598c": {
       "en": "Longbow",
@@ -7279,7 +7279,7 @@
       "de": "Mana (Bergbauposten)",
       "fr": "Mana (poste minier)",
       "cs": "Těžební stanoviště Mana",
-      "uk": "Майнінг- пост Мана"
+      "uk": "Майнінг-пост Мана"
     },
     "awloc_miningpost_mana_upgrade_00a6a120": {
       "en": "Miningpost Mana Upgrade",
@@ -7334,8 +7334,8 @@
       "ru": "Рассветный туман",
       "de": "Morgennebel",
       "fr": "Brume de l'aube",
-      "cs": "Úsvitová mlha",
-      "uk": "Світанковий туманweather condition"
+      "cs": "Mlha úsvitu",
+      "uk": "Світанковий туман"
     },
     "awloc_mist_of_dawn_loop_2d79ed76": {
       "en": "Mist of Dawn Loop",
@@ -7374,8 +7374,8 @@
       "ru": "Моггок",
       "de": "Moggok",
       "fr": "Moggok",
-      "cs": "Mogok",
-      "uk": "МоггокCity in Alaska USA"
+      "cs": "Moggok",
+      "uk": "Моггок"
     },
     "awloc_moggok_portrait_d9d48579": {
       "en": "Moggok portrait",
@@ -7695,7 +7695,7 @@
       "de": "Pedang",
       "fr": "Pedang",
       "cs": "Pedang",
-      "uk": "Педангindonesia. kgm"
+      "uk": "Педанг"
     },
     "awloc_pellet_hit_effect_6f9b763e": {
       "en": "Pellet Hit Effect",
@@ -7726,16 +7726,16 @@
       "ru": "Кирка",
       "de": "Spitzhacke",
       "fr": "Pioche",
-      "cs": "Kirka",
-      "uk": "КіркаCity in Alaska USA"
+      "cs": "Krumpáč",
+      "uk": "Кайло"
     },
     "awloc_pickblade_0f645bf8": {
       "en": "Pickblade",
       "ru": "Кирка",
       "de": "Spitzklinge",
       "fr": "Lame-pioche",
-      "cs": "Kirka",
-      "uk": "КіркаCity in Alaska USA"
+      "cs": "Čepel krumpáče",
+      "uk": "Лезо кайла"
     },
     "awloc_pilgrims_of_gifts_company_4a32881d": {
       "en": "Pilgrims of Gifts Company",
@@ -8271,7 +8271,7 @@
       "de": "Nachschub — Mittlere Markierung",
       "fr": "Ravitaillement — marque moyenne",
       "cs": "Průměrná značka doplňování zásob",
-      "uk": "Середня мітка « Поповнення запасів »"
+      "uk": "Середня мітка «Поповнення запасів»"
     },
     "awloc_resupply_visual_effect_4896823e": {
       "en": "Resupply Visual Effect",
@@ -8318,8 +8318,8 @@
       "ru": "Анклав Ракша",
       "de": "Enklave (Rhaksha)",
       "fr": "Enclave (Rhaksha)",
-      "cs": "Rakša",
-      "uk": "Анклав Ракшаsudan. kgm"
+      "cs": "Enkláva rákšasů",
+      "uk": "Анклав ракшасів"
     },
     "awloc_rhaksha_enclave_spot_2ce9a73f": {
       "en": "Rhaksha Enclave Spot",
@@ -8439,7 +8439,7 @@
       "de": "Felsiger Boden",
       "fr": "Sol rocheux",
       "cs": "Kamenitá půda",
-      "uk": "Кам' яний ґрунт"
+      "uk": "Кам'яний ґрунт"
     },
     "awloc_rocky_ground_trans_25658c00": {
       "en": "Rocky Ground trans",
@@ -8575,7 +8575,7 @@
       "de": "Sagaris",
       "fr": "Sagaris",
       "cs": "Sagaris",
-      "uk": "Саґарісgreece_ prefectures. kgm"
+      "uk": "Сагаріс"
     },
     "awloc_sagaris_guardians_bb6df246": {
       "en": "Sagaris Guardians",
@@ -8719,7 +8719,7 @@
       "de": "Sar Lashkar",
       "fr": "Sar Lashkar",
       "cs": "Sar Lashkar",
-      "uk": "Сар- Лашарkyrgyzstan. kgm"
+      "uk": "Сар Лашкар"
     },
     "awloc_sar_lashkar_portrait_058dd441": {
       "en": "Sar Lashkar portrait",
@@ -8791,7 +8791,7 @@
       "de": "Sengende Flammen",
       "fr": "Flammes ardentes",
       "cs": "Hořící plamen",
-      "uk": "Полум' я"
+      "uk": "Полум'я"
     },
     "awloc_searing_ifrit_bff59afa": {
       "en": "Searing Ifrit",
@@ -8863,7 +8863,7 @@
       "de": "Sengende Flammenschilde",
       "fr": "Boucliers de flammes ardentes",
       "cs": "Hořící plamenné štíty",
-      "uk": "Плам' ячі щити"
+      "uk": "Плам'ячі щити"
     },
     "awloc_searing_staff_47bed9c8": {
       "en": "Searing Staff",
@@ -8966,8 +8966,8 @@
       "ru": "Бесеныши",
       "de": "Schattenling",
       "fr": "Ombre mineure",
-      "cs": "Stínovec",
-      "uk": "Тіньовик"
+      "cs": "Malý běs",
+      "uk": "Бісеня"
     },
     "awloc_shadeling_minions_ba693716": {
       "en": "Shadeling Minions",
@@ -8983,7 +8983,7 @@
       "de": "Schattenbarriere",
       "fr": "Barrière d'ombre",
       "cs": "Stínová bariéra",
-      "uk": "Тіньовий бар' єр"
+      "uk": "Тіньовий бар'єр"
     },
     "awloc_shadow_beign_death_527aac77": {
       "en": "Shadow Beign death",
@@ -9063,7 +9063,7 @@
       "de": "Schattenflammen — Effekt",
       "fr": "Flammes d'ombre — effet",
       "cs": "Efekt stínového plamene",
-      "uk": "Ефект тіньового полум' я"
+      "uk": "Ефект тіньового полум'я"
     },
     "awloc_shadow_flames_loop_e9c1f024": {
       "en": "Shadow Flames loop",
@@ -9071,7 +9071,7 @@
       "de": "Schattenflammen — Dauereffekt",
       "fr": "Flammes d'ombre — effet continu",
       "cs": "Cyklus stínového plamene",
-      "uk": "Цикл тіньового полум' я"
+      "uk": "Цикл тіньового полум'я"
     },
     "awloc_shadow_gate_29624bac": {
       "en": "Shadow Gate",
@@ -9183,7 +9183,7 @@
       "de": "Wirbelnder Schattenstein",
       "fr": "Tourbillon de pierre d'ombre",
       "cs": "Stínový kamenný vír",
-      "uk": "Тіньовий кам' яний вихор"
+      "uk": "Тіньовий кам'яний вихор"
     },
     "awloc_shadow_temptress_d9db0aac": {
       "en": "Shadow Temptress",
@@ -9279,7 +9279,7 @@
       "de": "Schattenfeuer",
       "fr": "Feu d'ombre",
       "cs": "Stínový plamen",
-      "uk": "Полум' я тіні"
+      "uk": "Полум'я тіні"
     },
     "awloc_shadowfire_volley_602eedf2": {
       "en": "Shadowfire volley",
@@ -9287,7 +9287,7 @@
       "de": "Schattenfeuer — Salve",
       "fr": "Feu d'ombre — salve",
       "cs": "Záblesk stínového plamene",
-      "uk": "Постріл тіньового полум' я"
+      "uk": "Постріл тіньового полум'я"
     },
     "awloc_shadowsteel_7d19d958": {
       "en": "Shadowsteel",
@@ -9367,7 +9367,7 @@
       "de": "Flammenschilde",
       "fr": "Boucliers de flammes",
       "cs": "Plamenné štíty",
-      "uk": "Полум' яний щит"
+      "uk": "Полум'яний щит"
     },
     "awloc_shields_of_flame_burning_loop_c03f1a55": {
       "en": "shields of flame burning loop",
@@ -9462,8 +9462,8 @@
       "ru": "Пустой объект «Ливень света»",
       "de": "Lichtschauer — Leeres Objekt",
       "fr": "Pluie de lumière — objet vide",
-      "cs": "Prázdný objekt \"Světelný déšť\"",
-      "uk": "Порожній об'єкт «Злива світла»"
+      "cs": "Prázdný objekt záplavy světla",
+      "uk": "Порожній об'єкт зливи світла"
     },
     "awloc_shower_of_arrows_f3a0655b": {
       "en": "Shower of Arrows",
@@ -9478,8 +9478,8 @@
       "ru": "Си'Ариан",
       "de": "Si'Arian",
       "fr": "Si'Arian",
-      "cs": "Si'Aryan",
-      "uk": "Сі' Аріанstar name"
+      "cs": "Si'Arian",
+      "uk": "Сі'Аріан"
     },
     "awloc_si_arian_militia_d6fcb870": {
       "en": "Si'Arian Militia",
@@ -9502,8 +9502,8 @@
       "ru": "Септ Си'Ариан",
       "de": "Si'Arian-Sippe",
       "fr": "Clan si'arian",
-      "cs": "Septimus Si'Aryan",
-      "uk": "Септ Сі' Аріанstar name"
+      "cs": "Sept Si'Arian",
+      "uk": "Септ Сі'Аріан"
     },
     "awloc_siege_bolt_d9f2a4f2": {
       "en": "Siege bolt",
@@ -9734,8 +9734,8 @@
       "ru": "Анклав Сланрии",
       "de": "Slaanri-Enklave",
       "fr": "Enclave slaanri",
-      "cs": "Slánská enkláva",
-      "uk": "Анклав Сланріяiceland_ regions. kgm"
+      "cs": "Enkláva Slanrii",
+      "uk": "Анклав Сланрії"
     },
     "awloc_slash_a2c169fc": {
       "en": "Slash",
@@ -9814,8 +9814,8 @@
       "ru": "Слыс'Сток",
       "de": "Slyys'Stok",
       "fr": "Slyys'Stok",
-      "cs": "Sly's Stoke",
-      "uk": "Сліс- СтокCity in Ontario Canada"
+      "cs": "Slyys'Stok",
+      "uk": "Слис'Сток"
     },
     "awloc_slyys_stok_portrait_3c024e18": {
       "en": "Slyys'Stok portrait",
@@ -9870,8 +9870,8 @@
       "ru": "Дымовое облако",
       "de": "Rauchwolke",
       "fr": "Nuage de fumée",
-      "cs": "Kouřový mrak",
-      "uk": "Димова хмараweather condition"
+      "cs": "Oblak kouře",
+      "uk": "Хмара диму"
     },
     "awloc_smoke_squib_6a277feb": {
       "en": "Smoke Squib",
@@ -11030,8 +11030,8 @@
       "ru": "Метка «Дерево духов»",
       "de": "Geisterbaum — Markierung",
       "fr": "Arbre des esprits — marque",
-      "cs": "Štítek \"Strom duchů\"",
-      "uk": "Мітка «Дерево духів»"
+      "cs": "Obtisk stromu duchů",
+      "uk": "Відбиток дерева духів"
     },
     "awloc_spirithawk_25fdb1eb": {
       "en": "Spirithawk",
@@ -11071,15 +11071,15 @@
       "de": "Sta'archan",
       "fr": "Sta'archan",
       "cs": "Sta'archan",
-      "uk": "Ста' АрчанCity in Georgia USA"
+      "uk": "Ста'арчан"
     },
     "awloc_staff_a4730a22": {
       "en": "Staff",
       "ru": "Посох",
       "de": "Stab",
       "fr": "Bâton",
-      "cs": "Pošoh",
-      "uk": "Посохmongolia. kgm"
+      "cs": "Hůl",
+      "uk": "Посох"
     },
     "awloc_star_maiden_3099c4b1": {
       "en": "Star Maiden",
@@ -11087,7 +11087,7 @@
       "de": "Sternenjungfrau",
       "fr": "Vierge des étoiles",
       "cs": "Hvězdná panna",
-      "uk": "Зоряна діваstar name"
+      "uk": "Зоряна діва"
     },
     "awloc_star_sparkling_727ab2d2": {
       "en": "Star Sparkling",
@@ -11167,7 +11167,7 @@
       "de": "Steinreiter",
       "fr": "Chevaucheur de pierre",
       "cs": "Kamenný jezdec",
-      "uk": "Кам' яний вершник"
+      "uk": "Кам'яний вершник"
     },
     "awloc_stonerider_militia_c5095965": {
       "en": "Stonerider Militia",
@@ -11558,8 +11558,8 @@
       "ru": "Сирад Амон",
       "de": "Syrad Amon",
       "fr": "Syrad Amon",
-      "cs": "Sirad Amon",
-      "uk": "Сирад- Амонstar name"
+      "cs": "Syrad Amon",
+      "uk": "Сірад Амон"
     },
     "awloc_syrad_amon_portrait_a1d26569": {
       "en": "Syrad Amon portrait",
@@ -11622,8 +11622,8 @@
       "ru": "Техны",
       "de": "Technologien",
       "fr": "Technologies",
-      "cs": "Techno",
-      "uk": "Техно"
+      "cs": "Technologie",
+      "uk": "Технології"
     },
     "awloc_temptress_esence_cabe1f22": {
       "en": "Temptress Esence",
@@ -11751,23 +11751,23 @@
       "de": "Donnerwolke",
       "fr": "Nuage d'orage",
       "cs": "Bouřkový mrak",
-      "uk": "Грозова хмараweather forecast"
+      "uk": "Грозова хмара"
     },
     "awloc_thundercloud_empty_493c4731": {
       "en": "Thundercloud Empty",
       "ru": "Грозовая туча пуста",
       "de": "Donnerwolke — Leeres Objekt",
       "fr": "Nuage d'orage — objet vide",
-      "cs": "Bouřkový mrak prázdnoty",
-      "uk": "Порожня грозова хмараweather condition"
+      "cs": "Prázdný bouřkový mrak",
+      "uk": "Порожня грозова хмара"
     },
     "awloc_thundercloud_summon_4a35bd3c": {
       "en": "Thundercloud Summon",
       "ru": "Призыв грозовой тучи",
       "de": "Donnerwolke — Beschwörung",
       "fr": "Nuage d'orage — invocation",
-      "cs": "Volání bouřlivého mraku",
-      "uk": "Заклик грозової хмариweather condition"
+      "cs": "Vyvolání bouřkového mraku",
+      "uk": "Виклик грозової хмари"
     },
     "awloc_thunderstorm_320002f3": {
       "en": "Thunderstorm",
@@ -11799,7 +11799,7 @@
       "de": "Gewitter — Wolke",
       "fr": "Orage — nuage",
       "cs": "Bouřkový mrak",
-      "uk": "Грозова хмараweather condition"
+      "uk": "Грозова хмара"
     },
     "awloc_thunderstorm_empty_ef5a8ea9": {
       "en": "Thunderstorm Empty",
@@ -11814,8 +11814,8 @@
       "ru": "Кайло",
       "de": "Kleine Axt",
       "fr": "Petite hache",
-      "cs": "Caillou",
-      "uk": "КайлоCity in Hawaii USA"
+      "cs": "Sekyrka",
+      "uk": "Сокирка"
     },
     "awloc_tower_guard_7a74d527": {
       "en": "Tower Guard",
@@ -11982,8 +11982,8 @@
       "ru": "Троу Рок",
       "de": "Trow-Felsgeschoss",
       "fr": "Rocher du trow",
-      "cs": "Trou Rock",
-      "uk": "Троу- Рокusa. kgm"
+      "cs": "Trowův kámen",
+      "uk": "Камінь троу"
     },
     "awloc_trow_rock_effect_a21c285d": {
       "en": "Trow Rock Effect",
@@ -12007,7 +12007,7 @@
       "de": "Umbrabarriere",
       "fr": "Barrière ténébreuse",
       "cs": "Stínová bariéra",
-      "uk": "Тіньовий бар' єр"
+      "uk": "Тіньовий бар'єр"
     },
     "awloc_umbral_thaumaturgist_c9c95495": {
       "en": "Umbral Thaumaturgist",
@@ -12990,8 +12990,8 @@
       "ru": "Виверна",
       "de": "Lindwurm",
       "fr": "Vouivre",
-      "cs": "Viverna",
-      "uk": "ВівернаCity in Quebec Canada"
+      "cs": "Wyverna",
+      "uk": "Віверна"
     },
     "awloc_wyvern_claw_64a0210b": {
       "en": "Wyvern Claw",
@@ -13222,8 +13222,8 @@
       "ru": "Исс'Ток",
       "de": "Yss'Tok",
       "fr": "Yss'Tok",
-      "cs": "Is'tok",
-      "uk": "Ісс' ТокCity in Ontario Canada"
+      "cs": "Yss'Tok",
+      "uk": "Ісс'Ток"
     },
     "awloc_yss_tok_portrait_de9139d5": {
       "en": "Yss'Tok portrait",
@@ -13455,7 +13455,7 @@
       "de": "Helles Feuer",
       "fr": "Flamme éclatante",
       "cs": "Jasný plamen",
-      "uk": "Яскраве полум' я"
+      "uk": "Яскраве полум'я"
     },
     "awloc_building_autoupgrade_cc93dfde": {
       "en": "Building Autoupgrade",
@@ -14023,7 +14023,7 @@
       "de": "Wächterflammen — Effekt",
       "fr": "Flammes gardiennes — effet",
       "cs": "Strážce plamene",
-      "uk": "Ефект полум' я охоронця"
+      "uk": "Ефект полум'я охоронця"
     },
     "awloc_guardian_flames_enchantment_3e406ca9": {
       "en": "Guardian Flames Enchantment",
@@ -14102,8 +14102,8 @@
       "ru": "Люди",
       "de": "Menschen",
       "fr": "Humains",
-      "cs": "Člověk",
-      "uk": "Людина"
+      "cs": "Lidé",
+      "uk": "Люди"
     },
     "awloc_ice_armor_effect_0ea83920": {
       "en": "Ice Armor Effect",
@@ -14190,8 +14190,8 @@
       "ru": "Улан-пограничник",
       "de": "Lanzenreiter-Grenzwache",
       "fr": "Garde-frontière lancier",
-      "cs": "Ulán-pohraničník",
-      "uk": "Улан- Пограничникkazakhstan. kgm"
+      "cs": "Pohraniční kopiník",
+      "uk": "Улан-прикордонник"
     },
     "awloc_land_of_drauga_df850b7e": {
       "en": "Land of Drauga",
@@ -14223,7 +14223,7 @@
       "de": "Wüstenflammen (schwach) — Effekt",
       "fr": "Flammes du désert (version mineure) — effet",
       "cs": "Efekt malého pouštního plamene",
-      "uk": "Ефект малого полум' я пустелі"
+      "uk": "Ефект малого полум'я пустелі"
     },
     "awloc_lesser_mystic_barrier_enchantment_12eed3d3": {
       "en": "Lesser Mystic Barrier Enchantment",
@@ -14431,7 +14431,7 @@
       "de": "Planare Flammen",
       "fr": "Flammes planaires",
       "cs": "Planární plamen",
-      "uk": "Планарне полум' я"
+      "uk": "Планарне полум'я"
     },
     "awloc_planar_summon_fac01545": {
       "en": "Planar Summon",
@@ -14567,7 +14567,7 @@
       "de": "Sengende Aura",
       "fr": "Aura brûlante",
       "cs": "Hořící aura",
-      "uk": "Аура полум' я"
+      "uk": "Аура полум'я"
     },
     "awloc_searing_flare_8e52f450": {
       "en": "Searing Flare",
@@ -14599,23 +14599,23 @@
       "de": "Sengende planare Flammen",
       "fr": "Flammes planaires ardentes",
       "cs": "Planární hořící plamen",
-      "uk": "Планарне полум' я"
+      "uk": "Планарне полум'я"
     },
     "awloc_shackles_9a81db48": {
       "en": "Shackles",
       "ru": "Кандалы",
       "de": "Fesseln",
       "fr": "Entraves",
-      "cs": "Kandaly",
-      "uk": "Кандалакшаcatalonia_ comarques. kgm"
+      "cs": "Okovy",
+      "uk": "Кайдани"
     },
     "awloc_shadow_aa0e7e86": {
       "en": "Shadow",
       "ru": "Тени",
       "de": "Schatten",
       "fr": "Ombre",
-      "cs": "Stín",
-      "uk": "Тінь"
+      "cs": "Stíny",
+      "uk": "Тіні"
     },
     "awloc_shadow_blessing_effect_2ab57e67": {
       "en": "Shadow Blessing Effect",
@@ -14791,7 +14791,7 @@
       "de": "Seelenmahl",
       "fr": "Festin des âmes",
       "cs": "Pivo a víno",
-      "uk": "П' ятниця"
+      "uk": "П'ятниця"
     },
     "awloc_soulless_hollow_636b2890": {
       "en": "Soulless Hollow",
@@ -15326,14 +15326,14 @@
       "de": "Minikarte nach Königreich einfärben",
       "fr": "Colorer la mini-carte par royaume",
       "cs": "Barevná minimapa podle království",
-      "uk": "Кольорова міні- карта за королівствами"
+      "uk": "Кольорова міні-карта за королівствами"
     },
     "paws_patch_beta_minimap_title": {
       "en": "Minimap",
       "de": "Minikarte",
       "fr": "Mini-carte",
       "cs": "Minimapa",
-      "uk": "Міні- карта"
+      "uk": "Міні-карта"
     },
     "paw_city_auto": {
       "en": "City Auto-Upgrade",
@@ -15381,8 +15381,8 @@
       "en": "City auto-upgrade status",
       "de": "Status des automatischen Stadtausbaus",
       "fr": "État de l'amélioration automatique des villes",
-      "cs": "Stav automatického upgradu města",
-      "uk": "МістоCity auto- upgrading status"
+      "cs": "Stav automatického vylepšování města",
+      "uk": "Стан автоматичного поліпшення міста"
     },
     "paw_city_checking": {
       "en": "Checking cities…",
