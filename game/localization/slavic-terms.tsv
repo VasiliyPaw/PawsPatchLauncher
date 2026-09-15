@@ -1,0 +1,323 @@
+English	cs	uk
+Yes	Ano	Так
+No	Ne	Ні
+OK	OK	Гаразд
+Cancel	Zrušit	Скасувати
+Apply	Použít	Застосувати
+Close	Zavřít	Закрити
+Back	Zpět	Назад
+Next	Další	Далі
+Continue	Pokračovat	Продовжити
+Start	Spustit	Почати
+Exit	Ukončit	Вийти
+Quit	Ukončit	Вийти
+Main Menu	Hlavní nabídka	Головне меню
+Single Player	Hra pro jednoho hráče	Одиночна гра
+Multiplayer	Hra více hráčů	Мережева гра
+Internet	Internet	Інтернет
+Local Area Network	Místní síť	Локальна мережа
+Campaign	Kampaň	Кампанія
+Skirmish	Šarvátka	Сутичка
+Tutorial	Výcvik	Навчання
+Load Game	Načíst hru	Завантажити гру
+Save Game	Uložit hru	Зберегти гру
+Options	Nastavení	Налаштування
+Settings	Nastavení	Налаштування
+Credits	Tvůrci	Автори
+Random	Náhodně	Випадково
+Random Map	Náhodná mapa	Випадкова мапа
+Player	Hráč	Гравець
+Players	Hráči	Гравці
+Computer	Počítač	Комп'ютер
+Team	Tým	Команда
+Teams	Týmy	Команди
+Race	Rasa	Раса
+Faction	Frakce	Фракція
+Kingdom	Království	Королівство
+Company	Rota	Рота
+Companies	Roty	Роти
+Company Limit	Limit rot	Ліміт рот
+Militia	Domobrana	Ополчення
+Open Militia	Otevřená domobrana	Відкрите ополчення
+Closed Militia	Uzavřená domobrana	Закрите ополчення
+Gold	Zlato	Золото
+Stone	Kámen	Камінь
+Wood	Dřevo	Деревина
+Iron	Železo	Залізо
+Mana	Mana	Мана
+Resources	Zdroje	Ресурси
+Income	Příjem	Дохід
+Maintenance	Údržba	Утримання
+Support	Podpora	Підтримка
+Upgrade	Vylepšit	Поліпшити
+Upgrade Cost	Cena vylepšení	Вартість поліпшення
+Construction Cost	Cena stavby	Вартість будівництва
+Market	Tržiště	Ринок
+Marketplace	Tržiště	Ринок
+Mine	Důl	Рудник
+Mines	Doly	Рудники
+Foundation	Staveniště	Місце під фундамент
+Foundation Spot	Staveniště	Місце під фундамент
+Foundation Site	Staveniště	Місце під фундамент
+Foundation Space	Staveniště	Місце під фундамент
+Ice Dragons	Ledoví draci	Крижані дракони
+Fire Dragons	Ohniví draci	Вогняні дракони
+Summoner	Vyvolávač	Заклинач
+Summon Shadow	Vyvolat Stín	Викликати Тінь
+Call Greater Planarwing	Vyvolat velkého sférického letce	Викликати великого планарного крилана
+Company of Six	Rota šesti	Рота шістьох
+Graat Golgograth	Graat Golgograth	Граат Голгограт
+Gauri Male Council Move	Pohyb muže Gauri — Rada	Рух чоловіка гаурі — Рада
+Invalid New	Neplatné vytvoření	Недійсне створення
+Corrupt Transition 01	Přechod zkaženého terénu 01	Перехід оскверненої місцевості 01
+Hosting	Hostování hry	Створення гри
+Mystic Armor	Mystická zbroj	Містична броня
+Storm Shield	Štít bouře	Щит бурі
+Storm Armor	Zbroj bouře	Броня бурі
+Disorganized	Dezorganizovaný	Дезорганізований
+Heightmap Paint	Kreslení výškové mapy	Малювання карти висот
+Pass Thing	Průchozí objekt	Прохідний об'єкт
+Elemental Aura Loop	Smyčka živlové aury	Цикл аури стихій
+Bolt Master	Mistr střel	Майстер стріл
+BombardSpell	Bombardovací kouzlo	Закляття бомбардування
+Channeler	Zprostředkovatel magie	Провідник магії
+Drake Lightning	Blesk draka	Блискавка дракона
+Gauri Stonehold	Kamenná pevnost Gauri	Кам'яна твердиня гаурі
+Sovereign Trade Hall	Obchodní síň panovníka	Торгова палата володаря
+Lurcher	Číhač	Прихований мисливець
+Deadwoods	Mrtvý les	Мертвий ліс
+Raider	Nájezdník	Нальотник
+Ranger	Hraničář	Слідопит
+Marker	Značka	Позначка
+Horn	Roh	Ріг
+to	do	до
+Stasis	Stáze	Стазис
+Shadeling	Stínovec	Тіньовик
+Random Foundation Camp	Náhodný tábor na staveništi	Випадковий табір на місці під фундамент
+Seeker	Hledač	Шукач
+Awakened	Probuzený	Відроджений
+Ascended	Povznesený	Вознесений
+Disabled	Vypnuto	Вимкнено
+Targeted	Zaměřeno	Вибрано ціллю
+Entangle	Spoutání	Обплутування
+Cost:	Cena:	Вартість:
+Waiting for gold:	Čekání na zlato:	Очікування золота:
+· Reserve:	· Rezerva:	· Резерв:
+— auto-upgrade	— automatické vylepšování	— автоматичне поліпшення
+City	Město	Місто
+Cities	Města	Міста
+Settlement	Osada	Поселення
+Village	Vesnice	Село
+Town	Městečko	Містечко
+Fort	Pevnost	Форт
+Outpost	Předsunutá základna	Форпост
+Lair	Doupě	Лігво
+Gate of Shadows	Brána stínů	Брама тіней
+Shadow Gate	Brána stínů	Брама тіней
+Dark Lord	Temný pán	Темний лорд
+Ballista	Balista	Баліста
+Ballistae	Balisty	Балісти
+Catapult	Katapult	Катапульта
+Siege Engines	Obléhací stroje	Облогові машини
+Human	Člověk	Людина
+Humans	Lidé	Люди
+Undead	Nemrtví	Нежить
+The Fallen	Padlí	Занепалі
+Fallen	Padlí	Занепалі
+Nationalist	Nacionalisté	Націоналісти
+Royalist	Royalisté	Роялісти
+Council	Rada	Рада
+Ceyah	Ceyah	Сейя
+Kohan	Kohan	Кохан
+Gauri	Gauri	Гаурі
+Haroun	Haroun	Харуни
+Drauga	Drauga	Драуга
+Shadow	Stín	Тінь
+Shadows	Stíny	Тіні
+Hero	Hrdina	Герой
+Heroes	Hrdinové	Герої
+Captain	Kapitán	Капітан
+Champion	Šampion	Чемпіон
+Infantry	Pěchota	Піхота
+Cavalry	Jízda	Кіннота
+Archer	Lučištník	Лучник
+Scout	Průzkumník	Розвідник
+Swordsman	Šermíř	Мечник
+Spearman	Kopiník	Списник
+Priest	Kněz	Жрець
+Sorcerer	Čaroděj	Чаклун
+Mage	Mág	Маг
+Necromancer	Nekromant	Некромант
+Health	Zdraví	Здоров'я
+Morale	Morálka	Бойовий дух
+Experience	Zkušenosti	Досвід
+Attack	Útok	Атака
+Defense	Obrana	Захист
+Damage	Poškození	Шкода
+Range	Dosah	Дальність
+Movement Speed	Rychlost pohybu	Швидкість руху
+Hit Points	Body zdraví	Очки здоров'я
+Paused	Pozastaveno	Призупинено
+Victory	Vítězství	Перемога
+Defeat	Porážka	Поразка
+Normal	Normální	Звичайна
+Easy	Lehká	Легка
+Hard	Těžká	Важка
+Very Hard	Velmi těžká	Дуже важка
+None	Žádné	Немає
+Default	Výchozí	Типово
+Original	Původní	Оригінал
+Classic	Klasické	Класична
+Visual	Vizuální	Візуальна
+Dvorak	Dvorak	Дворак
+Description	Popis	Опис
+Details	Podrobnosti	Подробиці
+Objectives	Cíle	Завдання
+Send	Odeslat	Надіслати
+Chat	Chat	Чат
+Message	Zpráva	Повідомлення
+Name	Jméno	Ім'я
+Password	Heslo	Пароль
+Version	Verze	Версія
+General	Obecné	Загальні
+Building	Budova	Будівля
+Upgrade Paths	Větve vylepšení	Гілки поліпшень
+City Auto-Upgrade	Automatické vylepšování měst	Автоматичне поліпшення міст
+City Auto-Upgrade — Paw’s Patch	Automatické vylepšování měst — Paw’s Patch	Автоматичне поліпшення міст — Paw’s Patch
+New automatic orders are paused until this window closes.	Nové automatické příkazy jsou pozastaveny do zavření tohoto okna.	Нові автоматичні накази призупинено до закриття цього вікна.
+Markets are allowed when all four resource incomes exceed their targets before the order; their resulting income may fall below a target. Other buildings preserve resource protection.	Tržiště lze stavět, pokud příjem všech čtyř zdrojů před zadáním příkazu překračuje nastavené prahy. Po stavbě smí příjem klesnout pod práh. U ostatních budov zůstává ochrana zdrojů zachována.	Ринки можна будувати, коли до наказу дохід усіх чотирьох ресурсів перевищує задані пороги. Після будівництва дохід може впасти нижче порога. Для інших будівель захист ресурсів зберігається.
+Construct new buildings	Stavět nové budovy	Будувати нові будівлі
+Upgrade existing buildings	Vylepšovat stávající budovy	Поліпшувати наявні будівлі
+Priority: needed resource income → gold → preparation for profitable upgrades. With no useful income improvements and all targets exceeded, choose a random eligible building or upgrade, including mines. All manual and automatic queued work is counted.	Priorita: potřebný příjem zdrojů → zlato → příprava výnosných vylepšení. Pokud žádné užitečné zvýšení příjmu nezbývá a všechny prahy jsou překročeny, vybere se náhodná dostupná stavba nebo vylepšení, včetně dolů. Započítává se celá ruční i automatická fronta.	Пріоритет: потрібний дохід ресурсів → золото → підготовка прибуткових поліпшень. Якщо корисних поліпшень доходу немає й усі пороги перевищено, вибирається випадкова доступна будівля або поліпшення, зокрема рудник. Ураховується вся черга гравця й автоматики.
+Excluded cities stay under manual control. City exceptions and local branches apply only to this match and reset when loading a save.	Vyloučená města zůstávají pod ručním ovládáním. Výjimky pro města a místní větve platí pouze v tomto zápase a při načtení uložené hry se resetují.	Виключені міста залишаються під ручним керуванням. Винятки для міст і місцеві гілки діють лише в поточному матчі та скидаються під час завантаження збереження.
+Global rules for all cities	Společná pravidla pro všechna města	Загальні правила для всіх міст
+Rules apply to upgrades from the listed building. Manual stops at forks but allows linear upgrades. An unavailable chosen branch is never replaced.	Pravidlo platí pro vylepšení uvedené budovy. Ruční volba zastaví postup na rozcestí, ale povoluje přímá vylepšení. Nedostupná zvolená větev se nikdy nenahrazuje jinou.	Правило стосується поліпшення вказаної будівлі. Ручний вибір зупиняє розгалуження, але дозволяє лінійні поліпшення. Недоступна вибрана гілка ніколи не замінюється іншою.
+Branches appear when your cities contain upgradeable buildings.	Větve se zobrazí, jakmile budou ve vašich městech budovy s možností vylepšení.	Гілки з'являться, коли у ваших містах будуть будівлі з поліпшеннями.
+Use global rule	Použít společné pravidlo	Як у загальних правилах
+Automatic — safe choice	Automaticky — bezpečná volba	Автоматично — безпечний варіант
+Choose branches manually	Vybírat větve ručně	Вибирати гілки вручну
+Selected branch is currently unavailable	Zvolená větev nyní není dostupná	Вибрана гілка зараз недоступна
+Resource balance protection applies to every choice.	Ochrana bilance zdrojů platí při každé volbě.	Захист балансу ресурсів діє за будь-якого вибору.
+Enter a whole number: 0–9999999	Zadejte celé číslo: 0–9999999	Введіть ціле число: 0–9999999
+Enter a whole number: 0–9999	Zadejte celé číslo: 0–9999	Введіть ціле число: 0–9999
+Editing target: Enter to apply	Úprava prahu: Enter pro potvrzení	Редагування порога: Enter для застосування
+New orders paused. Enter applies; Esc or clicking outside cancels.	Nové příkazy jsou pozastaveny. Enter potvrdí; Esc nebo kliknutí mimo pole zruší změnu.	Нові накази призупинено. Enter застосовує; Esc або натискання поза полем скасовує.
+Auto-upgrade off	Automatické vylepšování vypnuto	Автоматичне поліпшення вимкнено
+Sending construction order	Odesílání příkazu ke stavbě	Надсилання наказу на будівництво
+All cities busy	Všechna města jsou zaneprázdněna	Усі міста зайняті
+No available cities	Žádná dostupná města	Немає доступних міст
+No available improvements	Žádná dostupná vylepšení	Немає доступних поліпшень
+No improvements allowed by protection rules	Ochranná pravidla nepovolují žádné vylepšení	Правила захисту не дозволяють жодних поліпшень
+Checking construction commitments	Kontrola probíhajících a zařazených staveb	Перевірка розпочатих і запланованих будівництв
+Configuring auto-upgrade	Nastavení automatického vylepšování	Налаштування автоматичного поліпшення
+Checking settings…	Kontrola nastavení…	Перевірка налаштувань…
+Stopped: check the city	Zastaveno: zkontrolujte město	Зупинено: перевірте місто
+Checking cities…	Kontrola měst…	Перевірка міст…
+Priority: needed resource income → gold → development. Markets may cross targets when all four incomes exceed their targets before ordering. Manual and automatic queued work is counted.	Priorita: potřebný příjem zdrojů → zlato → rozvoj. Tržiště smí snížit příjem pod prahy, pokud je všechny čtyři příjmy před příkazem překračují. Započítává se ruční i automatická fronta.	Пріоритет: потрібний дохід ресурсів → золото → розвиток. Ринки можуть знизити дохід нижче порогів, якщо до наказу всі чотири доходи їх перевищують. Ураховується черга гравця й автоматики.
+Outstanding construction effects could not be read reliably. New orders are temporarily paused to protect resource targets.	Dopady nedokončených staveb nelze spolehlivě zjistit. Nové příkazy jsou dočasně pozastaveny kvůli ochraně prahů zdrojů.	Не вдалося надійно визначити наслідки незавершених будівництв. Нові накази тимчасово призупинено для захисту порогів ресурсів.
+No order currently meets the resource targets and selected branch rules. When all targets are exceeded and no useful income improvements remain, a random eligible building continues development.	Žádný příkaz nyní nevyhovuje prahům zdrojů a pravidlům zvolených větví. Pokud jsou všechny prahy překročeny a nezbývají užitečná vylepšení příjmu, pokračuje rozvoj náhodnou dostupnou stavbou.	Зараз жоден наказ не відповідає порогам ресурсів і правилам вибраних гілок. Коли всі пороги перевищено й корисних поліпшень доходу не залишилося, розвиток продовжує випадкова доступна будівля.
+Resource income is unchanged.	Příjem zdrojů se nezmění.	Дохід ресурсів не зміниться.
+Chapter 4 : Into the Darkness	Kapitola 4 : Do temnoty	Розділ 4 : У темряву
+Shadow Cutscene 3	Scéna Stínu 3	Сцена Тіні 3
+No.  No!  It cannot be!	Ne. Ne! To není možné!	Ні. Ні! Цього не може бути!
+No!	Ne!	Ні!
+Snow Transition 01	Přechod sněhu 01	Перехід снігу 01
+Snow to Mountain Transition 01	Přechod ze sněhu do hor 01	Перехід від снігу до гір 01
+Snow to Pack Ice Transition 01	Přechod ze sněhu na souvislý led 01	Перехід від снігу до суцільної криги 01
+Kivana	Kivana	Ківана
+Programming Director:	Vedoucí programování:	Керівник програмування:
+QA Manager	Vedoucí testování	Керівник тестування
+Call Greater Thunderstorm	Vyvolání mocné bouře	Виклик могутньої грози
+Searing Ifrit Greater Fireblast	Mocný ohnivý výbuch spalujícího ifríta	Могутній вогняний вибух палючого іфрита
+Zyll's Tower	Zyllova věž	Вежа Зілла
+Native-Passive	Domorodci – pasivní	Місцеві – пасивні
+Naava's Forces	Naavina vojska	Війська Наави
+Golshan's Fallen	Golshanovi Padlí	Полеглі Ґолшана
+EvilGirl	Zlá dívka	Лиха дівчина
+Fort Atlan	Pevnost Atlan	Форт Атлан
+Gerard's Post	Gerardova hlídka	Застава Жерара
+Ceyah Invaders	Ceyahští nájezdníci	Загарбники кеяхів
+Durash's Fallen	Durashovi Padlí	Полеглі Дураша
+Duke Ashmore	Vévoda Ashmore	Герцог Ешмор
+Agborus' Gauri	Agborusovi Gauri	Ґаурі Аґборуса
+Xander's Humans	Xanderovi lidé	Люди Ксандера
+Fallen Shadow	Padlí Stínu	Полеглі Тіні
+Fort Callaren	Pevnost Callaren	Форт Калларен
+Ghalen's Forces	Ghalenova vojska	Війська Ґалена
+Fort Adrian	Pevnost Adrian	Форт Адріан
+Jhadan's Defenders	Jhadanovi obránci	Захисники Джадана
+Mahrdol's Fallen	Mahrdolovi Padlí	Полеглі Мардола
+Algeron's Ruins	Algeronovy ruiny	Руїни Алджерона
+Kill Mahrdol	Zabijte Mahrdola	Убийте Мардола
+Fort Balkin	Pevnost Balkin	Форт Балкін
+Winter Hold	Zimní tvrz	Зимова твердиня
+Summer Hold	Letní tvrz	Літня твердиня
+Praxus' Ceyah	Praxusovi Ceyahové	Кеяхи Праксуса
+Kel's Watch	Kelova hlídka	Варта Кела
+Julin's Post	Julinova hlídka	Застава Джуліна
+Mathim's Watch	Mathimova hlídka	Варта Матіма
+The Drauga	Drauga	Драуґи
+Abaddon's Shadow	Abaddonův Stín	Тінь Абаддона
+Abaddon's Fallen	Abaddonovi Padlí	Полеглі Абаддона
+Drauga of the Waste	Drauga z pustiny	Драуґи пустки
+Harmon's Reach	Harmonův dosah	Володіння Гармона
+Thain's Post	Thainova hlídka	Застава Тейна
+No Settlers	Bez osadníků	Без поселенців
+Fort Aasum	Pevnost Aasum	Форт Аасум
+Enslaved Humans	Zotročení lidé	Поневолені люди
+Holling's Bend	Hollingův zákrut	Вигин Голлінґа
+Fort Wind	Větrná pevnost	Вітряний форт
+Rushwater Watch	Hlídka bystřiny	Варта бистриці
+Breakrock Hold	Tvrz rozbité skály	Твердиня розбитої скелі
+Human Restrictions	Omezení lidí	Обмеження людей
+Ceyah Forces	Ceyahská vojska	Війська кеяхів
+Coldwind Watch	Hlídka chladného větru	Варта холодного вітру
+Icehouse Hold	Ledová tvrz	Крижана твердиня
+Savannah 01	Savana 01	Савана 01
+Savannah 02	Savana 02	Савана 02
+Fort Payne	Pevnost Payne	Форт Пейн
+Fort Fairfax	Pevnost Fairfax	Форт Ферфакс
+Fort Delroba	Pevnost Delroba	Форт Делроба
+Fowler's Crossing	Fowlerův přechod	Переправа Фаулера
+Dorian's Falls	Dorianovy vodopády	Водоспади Доріана
+Winter's Spring	Zimní pramen	Зимове джерело
+Waterwood Falls	Vodopády vodního lesa	Водоспади водяного лісу
+Fowler's Heights	Fowlerovy výšiny	Висоти Фаулера
+Bluewater Springs	Modré prameny	Блакитні джерела
+Stone Hill	Kamenný kopec	Кам'яний пагорб
+New Irian	Nový Irian	Новий Іріан
+New Bellows	Nový Bellows	Новий Беллоуз
+Storm River	Bouřná řeka	Бурхлива річка
+Drake Lightning 2	Blesk draka 2	Блискавка дракона 2
+Drake Lightning 3	Blesk draka 3	Блискавка дракона 3
+Fire Shock 2	Ohnivý úder 2	Вогняний удар 2
+Ice Shock 2	Ledový úder 2	Крижаний удар 2
+Status	Stav	Стан
+Paralyze	Ochromení	Параліч
+Trigger	Spouštěč	Тригер
+Cincixri	Cincixri	Цинциксрі
+Aureus Sepheir Portrait	Portrét Aurea Sepheira	Портрет Ауреуса Сефіра
+(1v1)Battleground	(1v1) Bitevní pole	(1v1) Поле бою
+(3v3)AephirsEarth	(3v3) Aephirova země	(3v3) Земля Ейфіра
+(2v2)VolcanoIsle	(2v2) Sopečný ostrov	(2v2) Вулканічний острів
+Kohan II: Kings of War	Kohan II: Kings of War	Kohan II: Kings of War
+Abaddon's Undead	Abaddonovi nemrtví	Немертві Абаддона
+Gauri Restrictions	Omezení Gauri	Обмеження ґаурі
+Summon Beast	Vyvolání šelmy	Прикликання звіра
+Bashing Hit Effect 2	Efekt drtivého zásahu 2	Ефект дробильного удару 2
+Call Thundercloud	Vyvolání bouřkového mraku	Виклик грозової хмари
+Call Thunderstorm	Vyvolání bouře	Виклик грози
+Summon Apparation	Vyvolání přízraku	Прикликання примари
+Summon Apparation Pack	Vyvolání skupiny přízraků	Прикликання зграї примар
+Summon Lightning 2	Vyvolání blesku 2	Виклик блискавки 2
+Summon Scorpion	Vyvolání štíra	Прикликання скорпіона
+Summon Zombie	Vyvolání zombie	Прикликання зомбі
+Rhaksha Hivemaster Horde	Horda vládců úlu Rakhša	Орда володарів вулика ракш
+Slaanri Champion Company	Rota slaanrijských šampionů	Рота слаанрійських чемпіонів
+Void Beast Horde	Horda šelem Prázdnoty	Орда звірів Порожнечі
+Vorpal Beast Horde	Horda vorpálních šelem	Орда ворпальних звірів
+War Forge Company	Rota válečné kovárny	Рота військової кузні
+(4v4)BigGameKohan	(4v4) Velká bitva Kohanů	(4v4) Велика битва коганів
+Companies and Combat	Roty a boj	Роти та бій
+Two Monster Company Layout	Sestava roty dvou nestvůr	Склад роти з двох чудовиськ
+Raider Company	Rota nájezdníků	Рота грабіжників

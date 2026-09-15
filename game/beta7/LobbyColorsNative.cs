@@ -102,7 +102,6 @@ internal static class PawLobbyColorsNative
         }
         if(order.Count<16 || order.Count>MaxPaletteColors)
             throw new InvalidDataException("Palette must contain 16 to "+MaxPaletteColors+" colors");
-        bool russian=String.Equals(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName,"ru",StringComparison.OrdinalIgnoreCase);
         var colors=new List<PaletteColor>();
         var rgbSeen=new HashSet<int>();
         foreach(string id in order)
@@ -120,7 +119,7 @@ internal static class PawLobbyColorsNative
                 throw new InvalidDataException("Invalid RGB in "+id);
             int packed=(r<<16)|(g<<8)|b;
             if(!rgbSeen.Add(packed)) throw new InvalidDataException("Duplicate RGB in "+id);
-            string display=russian?nameRu:nameEn;
+            string display=PawGameText.Color(nameRu,nameEn);
             if(String.IsNullOrWhiteSpace(display) || display.Length>64) throw new InvalidDataException("Invalid display name in "+id);
             colors.Add(new PaletteColor { Id=id, Name=display, R=(byte)r, G=(byte)g, B=(byte)b });
         }
@@ -146,6 +145,13 @@ internal static class PawLobbyColorsNative
 
     private static void ApplyPalette(byte[] bytes,IntPtr cave,PaletteFile palette)
     {
+        // This native field previously reused the random-map option's string.
+        // Preserve its address and reserved size, giving colors their own key.
+        byte[] expected=Encoding.Unicode.GetBytes("staging_WorldParamsPanel_random_option_text\0");
+        for(int i=0;i<expected.Length;i++)if(bytes[0x51a0+i]!=expected[i])throw new InvalidDataException("Random color key guard failed.");
+        Array.Clear(bytes,0x51a0,expected.Length);
+        byte[] random=Encoding.Unicode.GetBytes("paws_color_random\0");
+        Buffer.BlockCopy(random,0,bytes,0x51a0,random.Length);
         PutUInt32(bytes,PaletteCountOffset,(uint)palette.Colors.Length);
         int cursor=PaletteStringsOffset;
         for(int i=0;i<palette.Colors.Length;i++)

@@ -5,13 +5,13 @@ public static class ConfigurationCode
     public static UserSettings Parse(string code)
     {
         var voiceCode = code.Trim().ToUpperInvariant();
-        if (GameLanguages.Choices.Any(language => voiceCode.EndsWith("-VO" + language.ToUpperInvariant())))
+        if (GameLanguages.VoiceChoices.Any(language => voiceCode.EndsWith("-VO" + language.ToUpperInvariant())))
         {
             var settings = Parse(voiceCode[..^5]);
             settings.GameVoiceLanguage = voiceCode[^2..].ToLowerInvariant();
             return settings;
         }
-        if (voiceCode.EndsWith("-TXDE") || voiceCode.EndsWith("-TXFR"))
+        if (GameLanguages.Choices.Where(c => c is not ("en" or "ru")).Any(c => voiceCode.EndsWith("-TX" + c.ToUpperInvariant())))
         {
             var settings = Parse(voiceCode[..^5]);
             GameLanguages.SetText(settings, voiceCode[^2..].ToLowerInvariant());
@@ -92,7 +92,7 @@ public static class ConfigurationCode
     {
         var code = CreateComponents(settings);
         var text = GameLanguages.Text(settings);
-        if (text is "de" or "fr") code += "-TX" + text.ToUpperInvariant();
+        if (text is not ("en" or "ru")) code += "-TX" + text.ToUpperInvariant();
         return GameLanguages.Voice(settings) == text
             ? code : code + "-VO" + GameLanguages.Voice(settings).ToUpperInvariant();
     }

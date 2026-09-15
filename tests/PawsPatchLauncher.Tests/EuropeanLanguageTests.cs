@@ -51,7 +51,7 @@ internal static class EuropeanLanguageTests
             if (channel == "stable") stable = feed;
             foreach (var mod in new[] { GameMod.Vanilla, GameMod.Immortals, GameMod.ArcaneWars })
             foreach (var text in GameLanguages.Choices)
-            foreach (var voice in GameLanguages.Choices)
+            foreach (var voice in GameLanguages.VoiceChoices)
             foreach (var patch in new[] { false, true })
             foreach (var data in new[] { false, true })
             {
@@ -62,7 +62,7 @@ internal static class EuropeanLanguageTests
                 Check(selected.All(p => p.DependsOn.All(d => selected.Any(q => q.Id == d))), "dependency missing");
                 Check(selected.Where(p => p.Id.StartsWith("game-voice-")).Select(p => p.Id)
                     .SequenceEqual(voice == "en" ? [] : new[] { "game-voice-" + voice }), "voice differs from selection");
-                foreach (var code in new[] { "de", "fr" })
+                foreach (var code in new[] { "de", "fr", "cs", "uk" })
                 {
                     Check(selected.Any(p => p.Id == "game-localization-" + code) == (text == code), "unselected text included");
                     foreach (var prefix in new[] { "immortals-localization-", "localization-", "aw-localization-", "pawpatch-data-" })
@@ -96,13 +96,16 @@ internal static class EuropeanLanguageTests
                 Check(UpdateDetector.HasSettingsChanges(state, [], saved), "text switch not marked pending");
                 GameLanguages.SetText(saved, text);
                 Check(!UpdateDetector.HasSettingsChanges(state, [], saved), "text reversal left pending changes");
-                foreach (var code in new[] { "de", "fr" })
+                foreach (var code in new[] { "de", "fr", "cs", "uk" })
                 {
                     var changed = JsonSerializer.Deserialize(JsonSerializer.Serialize(feed, LauncherJsonContext.Default.ChannelManifest), LauncherJsonContext.Default.ChannelManifest)!;
-                    changed.Packages.Single(p => p.Id == "game-voice-" + code).Version += ".new";
-                    Check(!ModLibrary.HasUpdate(feed, changed, mod), "voice update marks whole mod outdated");
-                    Check(GameLanguages.HasUpdate(feed, changed, s) == (voice == code), "unselected voice update shown");
-                    changed.Packages.Single(p => p.Id == "game-voice-" + code).Version = feed.Packages.Single(p => p.Id == "game-voice-" + code).Version;
+                    if (GameLanguages.VoiceChoices.Contains(code))
+                    {
+                        changed.Packages.Single(p => p.Id == "game-voice-" + code).Version += ".new";
+                        Check(!ModLibrary.HasUpdate(feed, changed, mod), "voice update marks whole mod outdated");
+                        Check(GameLanguages.HasUpdate(feed, changed, s) == (voice == code), "unselected voice update shown");
+                        changed.Packages.Single(p => p.Id == "game-voice-" + code).Version = feed.Packages.Single(p => p.Id == "game-voice-" + code).Version;
+                    }
                     changed.Packages.Single(p => p.Id == "game-localization-" + code).Version += ".new";
                     Check(GameLanguages.HasUpdate(feed, changed, s) == (text == code), "unselected text update shown");
                     foreach (var prefix in new[] { "immortals-localization-", "localization-", "aw-localization-", "pawpatch-data-" })
@@ -122,6 +125,14 @@ internal static class EuropeanLanguageTests
                 && GameLanguages.Voice(new() { RussianLocalization = ru }) == (ru ? "ru" : "en"), "legacy migration");
         foreach (var language in UiLanguages.Choices)
             Check(UiLanguages.GameLanguageName("de", language.Code) != UiLanguages.GameLanguageName("fr", language.Code), "language labels equal");
+        foreach (var text in new[] { "cs", "uk" })
+        {
+            var migrated = new UserSettings(); GameLanguages.SetText(migrated, text);
+            Check(GameLanguages.Voice(migrated) == "en", "text-only language invented a voice");
+            var restored = ConfigurationCode.Parse(ConfigurationCode.Create(migrated));
+            Check(GameLanguages.Text(restored) == text && GameLanguages.Voice(restored) == "en", "text-only language round trip");
+            Check(!stable!.Packages.Any(p => p.Id == "game-voice-" + text), "invented voice package");
+        }
 
         var game = Path.Combine(root, "game"); Directory.CreateDirectory(game);
         var installer = new ModuleInstaller(game);
@@ -138,7 +149,7 @@ internal static class EuropeanLanguageTests
             await library.RememberLanguagesAsync(selected);
             Check((await installer.VerifyAsync()).Count == 0, "active language files damaged");
             Check(!UpdateDetector.HasSettingsChanges(installer.LoadState(), selected, settings), "apply left settings pending");
-            if (text is "de" or "fr")
+            if (text is "de" or "fr" or "cs" or "uk")
                 Check(File.ReadAllText(Path.Combine(game, "startup", "autoexec_ru.txt")).Contains("Local_base_" + text + "/"), "wrong locale mounted");
             var oldDepot = Path.Combine(game, "Local_base_" + (text == "de" ? "fr" : "de"));
             Check(!Directory.Exists(oldDepot) || !Directory.EnumerateFiles(oldDepot, "*", SearchOption.AllDirectories).Any(), "previous text files remained");
@@ -150,6 +161,8 @@ internal static class EuropeanLanguageTests
         Check(!client.IsPackageCached(stable.Packages.Single(p => p.Id == "game-voice-fr")), "French text fetched French speech");
         await Apply("de", "fr", client);
         await Apply("ru", "ru", client);
+        await Apply("cs", "de", client);
+        await Apply("uk", "fr", client);
         var modReconciliations = 0;
         async Task ApplyMod(string mod, string text, bool patch, bool data, FeedClient source)
         {
@@ -166,14 +179,16 @@ internal static class EuropeanLanguageTests
             Check(mounts.Contains("Local_base_" + text + "/") && mounts.Contains(depot + "/"), "mod locale not mounted");
             var name = mod == GameMod.Immortals ? "strings_immortals_translation.tgi" : "strings_data_K2.tgi";
             var dictionary = File.ReadAllText(Path.Combine(game, depot, "Localization", name));
-            Check(dictionary.Contains(mod == GameMod.Immortals ? (text == "de" ? "Tierbändiger" : "Dresseur de bêtes")
-                : text == "de" ? "Bauplatz" : "Emplacement de construction"), "semantic correction missing");
-            var oldDepots = new[] { "Local_aw_de", "Local_aw_fr", "Local_immortals_de", "Local_immortals_fr" }.Where(d => d != depot);
+            var expected = mod == GameMod.Immortals
+                ? text switch { "de" => "Tierbändiger", "fr" => "Dresseur de bêtes", "cs" => "Krotitel", _ => "Приборкувач" }
+                : text switch { "de" => "Bauplatz", "fr" => "Emplacement de construction", "cs" => "Staveniště", _ => "Місце під фундамент" };
+            Check(dictionary.Contains(expected), "semantic correction missing");
+            var oldDepots = (from family in new[] { "aw", "immortals" } from code in new[] { "de", "fr", "cs", "uk" } select "Local_"+family+"_"+code).Where(d => d != depot);
             Check(oldDepots.All(d => !Directory.Exists(Path.Combine(game, d)) || !Directory.EnumerateFiles(Path.Combine(game, d), "*", SearchOption.AllDirectories).Any()), "previous mod locale remained");
             modReconciliations++;
         }
         var modSelections = (from mod in new[] { GameMod.Immortals, GameMod.ArcaneWars }
-                             from text in new[] { "de", "fr" }
+                             from text in new[] { "de", "fr", "cs", "uk" }
                              from patch in new[] { false, true }
                              from data in new[] { false, true }
                              select (mod, text, patch, data)).ToArray();
@@ -185,13 +200,13 @@ internal static class EuropeanLanguageTests
         foreach (var p in stable.Packages) p.Urls = ["https://offline.invalid/" + p.Id];
         if (modReconciliations > 0)
             foreach (var (mod, text, patch, data) in modSelections.Reverse()) await ApplyMod(mod, text, patch, data, offline);
-        foreach (var pair in new[] { ("fr", "ru"), ("ru", "de"), ("de", "fr"), ("en", "en") })
+        foreach (var pair in new[] { ("cs", "ru"), ("uk", "de"), ("fr", "ru"), ("ru", "de"), ("de", "fr"), ("en", "en") })
             await Apply(pair.Item1, pair.Item2, offline);
         Check(network.Requests == 0, "cached application accessed network");
         Check(before.All(p => File.GetLastWriteTimeUtc(p.Key) == p.Value), "cached packages downloaded again");
         var audio = Path.Combine(game, "data", "Audio");
         Check(!Directory.Exists(audio) || !Directory.GetFiles(audio, "*", SearchOption.AllDirectories).Any(), "English restoration kept translated audio");
         File.WriteAllText(Path.Combine(root, "result.json"), JsonSerializer.Serialize(new { checks, combinations, modReconciliations, offlineRequests = network.Requests }));
-        Console.WriteLine($"EUROPEAN LANGUAGES PASS: {checks} checks, {combinations} combinations, {8 + modReconciliations} real reconciliations, zero offline requests.");
+        Console.WriteLine($"EUROPEAN LANGUAGES PASS: {checks} checks, {combinations} combinations, {12 + modReconciliations} real reconciliations, zero offline requests.");
     }
 }

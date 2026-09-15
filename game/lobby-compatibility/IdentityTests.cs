@@ -18,8 +18,8 @@ class IdentityTests {
         var h=new string('B',64);const string helper="k2_paws_lobby_colors_mp_sync_1372.exe";var original=Token(s,h,helper);
         Check(original.StartsWith("PWLC1|1.3.72|arcane-wars|0.82.1.8|0.3.0-beta.7|"));
         for(int i=0;i<64;i++){var changed=h.ToCharArray();changed[i]='C';Check(Token(s,new string(changed),helper)!=original);}
-        foreach(var name in new[]{"localization-ru","game-voice-ru","game-localization-en","aw-localization-ru","game-text-ru"}){modules[name]=Module("999.9");Check(Token(s,h,helper)==original);modules.Remove(name);}
-        foreach(var name in new[]{"language","gameVoiceLanguage","notificationSoundName","gamePath"}){settings[name]="different-local-value";Check(Token(s,h,helper)==original);settings.Remove(name);}
+        foreach(var name in new[]{"localization-ru","game-voice-ru","game-localization-en","aw-localization-ru","game-text-ru","game-localization-cs","game-localization-uk","localization-cs","localization-uk","immortals-localization-cs","immortals-localization-uk"}){modules[name]=Module("999.9");Check(Token(s,h,helper)==original);modules.Remove(name);}
+        foreach(var name in new[]{"language","gameTextLanguage","gameVoiceLanguage","notificationSoundName","gamePath"}){settings[name]="different-local-value";Check(Token(s,h,helper)==original);settings.Remove(name);}
         settings["russianLocalization"]=true;Check(Token(s,h,helper)==original);bool ru;PawLobbyCompatibility.Identity(Json.Serialize(s),new string('A',64),helper,h,out ru);Check(ru);
         settings["russianLocalization"]=false;
         foreach(var key in new[]{"customPlayerColors","independentHostility","additionalRoamingCompanies","siegeBalance","disablePowersAndShards","largeMapSizes"}){settings[key]=false;Check(Token(s,h,helper)!=original);settings[key]=true;}

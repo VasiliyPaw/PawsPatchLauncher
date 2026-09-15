@@ -44,6 +44,8 @@ public static class UiLanguages
         "ru" => Text(language, "Русский", "Russian"),
         "de" => Text(language, "Немецкий", "German"),
         "fr" => Text(language, "Французский", "French"),
+        "cs" => Text(language, "Чешский", "Czech"),
+        "uk" => Text(language, "Украинский", "Ukrainian"),
         _ => throw new ArgumentOutOfRangeException(nameof(code))
     };
 }

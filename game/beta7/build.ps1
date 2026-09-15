@@ -5,7 +5,7 @@ if (Test-Path -LiteralPath $out) { throw 'Choose an unused output directory.' }
 New-Item -ItemType Directory -Path $out | Out-Null
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework\v4.0.30319\csc.exe'
 $variants = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'variants.json') -Raw | ConvertFrom-Json
-$shared = 'TerrainRuntime.cs','RandomMapPatch.cs','ReleaseStartup.cs','LobbyColorsNative.cs','GamePresentation1372.cs','RandomMapBundle.cs','BuildFeatures.cs'
+$shared = 'TerrainRuntime.cs','RandomMapPatch.cs','ReleaseStartup.cs','LobbyColorsNative.cs','GamePresentation1372.cs','RandomMapBundle.cs','BuildFeatures.cs','GameText.cs'
 $resources = 'PawLobbyColorsPayload','PawLobbyColorsFixups','PawCommonUiPayload','PawCommonUiFixups','RandomMapPayload','RandomMapFixups'
 $assistant = Join-Path $PSScriptRoot '../city-assistant'
 $transfer = Join-Path $PSScriptRoot '../fast-transfer'
@@ -125,7 +125,7 @@ if ($CityAssistant) {
     & $militiaTest
     if ($LASTEXITCODE -ne 0) { throw 'City militia regression failed.' }
     $formTest = Join-Path $out 'CitySettingsFormTests.exe'
-    & $compiler /nologo /target:exe /r:System.Core.dll /r:System.Windows.Forms.dll /r:System.Drawing.dll "/out:$formTest" (Join-Path $assistant 'CityPlanner.cs') (Join-Path $assistant 'CityPolicy.cs') (Join-Path $assistant 'CitySettingsForm.cs') (Join-Path $assistant 'CitySettingsFormTests.cs')
+    & $compiler /nologo /target:exe /r:System.Core.dll /r:System.Windows.Forms.dll /r:System.Drawing.dll "/out:$formTest" (Join-Path $PSScriptRoot 'GameText.cs') (Join-Path $assistant 'CityPlanner.cs') (Join-Path $assistant 'CityPolicy.cs') (Join-Path $assistant 'CitySettingsForm.cs') (Join-Path $assistant 'CitySettingsFormTests.cs')
     if ($LASTEXITCODE -ne 0) { throw 'City settings test compilation failed.' }
     & $formTest
     if ($LASTEXITCODE -ne 0) { throw 'City settings regression failed.' }

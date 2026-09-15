@@ -27,11 +27,11 @@ internal sealed class CitySettingsForm : Form
     private readonly FlowLayoutPanel body=new FlowLayoutPanel();
     private readonly List<Button> tabs=new List<Button>();
     private int currentTab;
-    private string T(string r,string e) { return ru?r:e; }
+    private string T(string r,string e) { return PawGameText.Text(r,e,ru); }
     internal static string ResourceName(int i,bool russian)
     {
         string[] r={"Золото","Камень","Дерево","Железо","Мана"},e={"Gold","Stone","Wood","Iron","Mana"};
-        return i<5?(russian?r[i]:e[i]):i.ToString();
+        return i<5?PawGameText.Text(r[i],e[i],russian):i.ToString();
     }
     internal static string DeltaText(float[] delta,bool russian)
     {
@@ -40,7 +40,7 @@ internal sealed class CitySettingsForm : Form
         string text=string.Join(" · ",Enumerable.Range(0,Math.Min(5,delta.Length))
             .Where(i=>Math.Abs(delta[i])>.0001f)
             .Select(i=>ResourceName(i,russian)+" "+delta[i].ToString("+0.##;-0.##;0")).ToArray());
-        return text.Length>0?text:(russian?"Доход ресурсов не изменится.":"Resource income is unchanged.");
+        return text.Length>0?text:PawGameText.Text("Доход ресурсов не изменится.","Resource income is unchanged.",russian);
     }
     internal CitySettingsForm(CityPolicy policy,View state,bool russian)
     {

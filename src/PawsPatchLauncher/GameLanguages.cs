@@ -6,20 +6,23 @@ public static class GameLanguages
         => selection.PinnedRelease is null && offered is not null && installed.Channel == offered.Channel
             && !ModLibrary.HasUpdate(installed, offered, selection.Mod) ? offered : installed;
 
-    public static IReadOnlyList<string> Choices { get; } = ["en", "ru", "de", "fr"];
+    public static IReadOnlyList<string> Choices { get; } = ["en", "ru", "de", "fr", "cs", "uk"];
+    public static IReadOnlyList<string> VoiceChoices { get; } = ["en", "ru", "de", "fr"];
     // Keep the old Russian flag readable in saved profiles and configuration codes.
     public static string Text(UserSettings settings) => settings.GameTextLanguage ?? (settings.RussianLocalization ? "ru" : "en");
     public static void SetText(UserSettings settings, string language)
     {
         if (!Choices.Contains(language)) throw new InvalidDataException("Unsupported text language.");
-        settings.GameTextLanguage = language is "de" or "fr" ? language : null;
+        settings.GameTextLanguage = language is "en" or "ru" ? null : language;
         settings.RussianLocalization = language == "ru";
     }
     // Older profiles coupled speech to text. A missing value preserves that choice.
-    public static string Voice(UserSettings settings) => settings.GameVoiceLanguage ?? Text(settings);
+    public static string Voice(UserSettings settings) => settings.GameVoiceLanguage ?? DefaultVoice(Text(settings));
+    public static string DefaultVoice(string text) => VoiceChoices.Contains(text) ? text : "en";
     public static bool SupportsSeparateVoice(ChannelManifest? channel) => channel?.Packages.Any(p => p.Id == "game-voice-ru") == true;
     public static bool IsLanguage(PackageRelease package) => package.Id.Contains("localization-", StringComparison.OrdinalIgnoreCase)
-        || package.Id.StartsWith("game-voice-", StringComparison.OrdinalIgnoreCase) || package.Id is "pawpatch-data-ru" or "pawpatch-data-de" or "pawpatch-data-fr";
+        || package.Id.StartsWith("game-voice-", StringComparison.OrdinalIgnoreCase)
+        || Choices.Any(code => package.Id == "pawpatch-data-" + code);
 
     public static bool HasUpdate(ChannelManifest installed, ChannelManifest offered, UserSettings applied)
     {

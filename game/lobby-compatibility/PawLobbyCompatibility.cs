@@ -70,7 +70,7 @@ internal static class PawLobbyCompatibility
         string helper=Assembly.GetExecutingAssembly().Location;bool russian;
         string token=Identity(File.ReadAllText(Path.Combine(root,@".pawpatch\state.json")),FileHash(Path.Combine(root,"k2.exe")),Path.GetFileName(helper),FileHash(helper),out russian);
         if(token.Length>=256)throw new InvalidDataException("Compatibility identity is too long.");
-        configuration=new byte[264];BitConverter.GetBytes(0x31434c50u).CopyTo(configuration,0);BitConverter.GetBytes(russian?1:0).CopyTo(configuration,4);Encoding.ASCII.GetBytes(token).CopyTo(configuration,8);
+        configuration=new byte[264];BitConverter.GetBytes(0x31434c50u).CopyTo(configuration,0);BitConverter.GetBytes(PawGameText.Language==""?(russian?1u:0u):PawGameText.LanguageId).CopyTo(configuration,4);Encoding.ASCII.GetBytes(token).CopyTo(configuration,8);
         byte[] payload;
         using(var s=Assembly.GetExecutingAssembly().GetManifestResourceStream("PawLobbyCompatibilityNative")) {
             if(s==null||s.Length<1024||s.Length>1024*1024)throw new InvalidDataException("Missing lobby compatibility resource.");

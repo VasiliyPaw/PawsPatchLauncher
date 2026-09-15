@@ -32,7 +32,7 @@ foreach ($variant in $variants.PSObject.Properties) {
     $exe = Join-Path $out ($variant.Name.Replace('k2_paws_', 'k2_aw_'))
     $compilerArgs = @('/nologo','/target:winexe','/platform:x86','/optimize+', '/r:System.Core.dll','/r:System.Windows.Forms.dll','/r:System.Drawing.dll',
         ('/define:'+$variant.Value+';PAW_CORELESS'),('/out:'+$exe),$generated)
-    foreach ($name in 'TerrainRuntime','RandomMapPatch','ReleaseStartup','LobbyColorsNative','GamePresentation1372','RandomMapBundle','BuildFeatures') { $compilerArgs += Join-Path $gameSource ($name+'.cs') }
+    foreach ($name in 'TerrainRuntime','RandomMapPatch','ReleaseStartup','LobbyColorsNative','GamePresentation1372','RandomMapBundle','BuildFeatures','GameText') { $compilerArgs += Join-Path $gameSource ($name+'.cs') }
     foreach ($name in 'PawLobbyColorsPayload','PawLobbyColorsFixups','PawCommonUiPayload','PawCommonUiFixups','RandomMapPayload','RandomMapFixups') { $compilerArgs += '/resource:'+(Join-Path $gameSource ($name+'.bin'))+','+$name }
     & $compiler @compilerArgs
     if ($LASTEXITCODE -ne 0) { throw 'Standalone Arcane Wars helper compilation failed.' }

@@ -151,7 +151,8 @@ internal static class PawAssistantRuntime
         memory.Suspend();
         try
         {
-            bool russian = File.Exists(Path.Combine(root, @"Local_ru\Localization\strings_ui_K2.tgi"));
+            bool russian = PawGameText.Language=="ru" || PawGameText.Language=="uk" ||
+                PawGameText.Language=="" && File.Exists(Path.Combine(root, @"Local_ru\Localization\strings_ui_K2.tgi"));
             russianUi = russian;
             GuardData(root);
             state = InstallPayload(memory, image, unchecked((uint)signal.ToInt32()), russian);
@@ -400,7 +401,7 @@ internal static class PawAssistantRuntime
         }
     }
 
-    private static string T(string ru, string en) { return russianUi ? ru : en; }
+    private static string T(string ru, string en) { return PawGameText.Text(ru,en,russianUi); }
     private static string Numbers(float[] values) { return string.Join(";",values.Select(v=>v.ToString("0.###",System.Globalization.CultureInfo.InvariantCulture)).ToArray()); }
     private static Tuple<string,string,int> DataInfo(uint data)
     {

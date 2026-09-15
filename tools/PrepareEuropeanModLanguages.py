@@ -30,15 +30,15 @@ def translated_table(path, language, values):
     lines += ['\t'+k+' = "'+v+'"' for k,v in values.items()]
     return ('\r\n'.join(lines+['}'])+'\r\n').encode('utf-16')
 
-def generate(feeds, out, cache):
-    catalog=read(ROOT/'game/localization/mod-de-fr.json')['entries']
+def generate(feeds, out, cache, codes=(('de','Deutsch'),('fr','Français')), catalog_path=None):
+    catalog=read(catalog_path or ROOT/'game/localization/mod-de-fr.json')['entries']
     audit={};built={}
     for channel,feed in feeds.items():
         packages={p['id']:p for p in feed['packages']}
         src={id:source(packages[id],cache) for id in ('pawpatch-core','aw-localization-ru','pawpatch-data-ru','immortals','immortals-text-fixes')}
         english=table(src['pawpatch-core']['data/Localization/strings_data_K2.tgi'])
         additions=[]
-        for code,language in [('de','Deutsch'),('fr','Français')]:
+        for code,language in codes:
             base=source(packages['game-localization-'+code],cache)
             official=table(next(v for k,v in base.items() if k.lower().endswith('strings_data_k2.tgi')))
             def dictionary(path, reference, complete=False):
@@ -48,7 +48,7 @@ def generate(feeds, out, cache):
                         entry=catalog[key]
                         assert entry['en']==en,(key,en,entry['en'])
                         value=entry[code]
-                        assert value and not re.search('[\u0400-\u04ff]',value),(key,value)
+                        assert value and (code=='uk' or not re.search('[\u0400-\u04ff]',value)),(key,value)
                         # No altered costs, numeric labels, or printf/string placeholders.
                         assert re.findall(r'\d+(?:\.\d+)?',en)==re.findall(r'\d+(?:\.\d+)?',value),(key,en,value)
                         assert re.findall(r'%(?:\d+\$)?[-+0-9.]*[sdif]|\{\d+\}',en)==re.findall(r'%(?:\d+\$)?[-+0-9.]*[sdif]|\{\d+\}',value),(key,en,value)
@@ -105,7 +105,7 @@ def generate(feeds, out, cache):
                         assert refs<=resolved,(path,refs-resolved)
                 version='1.0.0-preview.1'
                 template=dict(id=id,priority=priority,required=False,experimental=False,executableIndependent=True,mods=[mod],dependsOn=depends,
-                    name=dict(ru=('Немецкий' if code=='de' else 'Французский')+' текст — '+('Immortals' if mod=='immortals' else 'Arcane Wars'),en=language+' — '+mod),
+                    name=dict(ru={'de':'Немецкий','fr':'Французский','cs':'Чешский','uk':'Украинский'}[code]+' текст — '+('Immortals' if mod=='immortals' else 'Arcane Wars'),en=language+' — '+mod),
                     description=dict(ru='Перевод названий, описаний и подсказок мода. Озвучка выбирается отдельно.',en='Translated mod names, descriptions and tooltips. Speech is selected independently.'))
                 if id in built:
                     assert built[id][0]==files,(channel,id,'different channel text requires a distinct package version')

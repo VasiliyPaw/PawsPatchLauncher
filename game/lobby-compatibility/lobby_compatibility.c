@@ -17,7 +17,7 @@ typedef void (__attribute__((fastcall)) *Release)(void*,void*);
 typedef void (__cdecl *ReasonWrite)(void*,int);
 typedef void (__cdecl *ReasonRead)(void*,int*);
 typedef void (__cdecl *Bits)(void*,void*,int);
-typedef struct { uint32_t magic; int russian; char token[TOKEN_MAX]; } Config;
+typedef struct { uint32_t magic; int language; char token[TOKEN_MAX]; } Config;
 static uintptr_t image;
 static Config local;
 static wchar_t localWide[TOKEN_MAX], remoteWide[TOKEN_MAX];
@@ -65,18 +65,32 @@ static void describe(const wchar_t *token,wchar_t *out) {
     wcscpy(copy,token); fields[0]=copy;
     for(p=copy;*p;p++) if(*p==L'|') {*p=0;fields[i++]=p+1;}
     const wchar_t *mod=!wcscmp(fields[2],L"vanilla")?L"Vanilla":!wcscmp(fields[2],L"immortals")?L"Immortals":L"Arcane Wars";
-    const wchar_t *patch=!wcscmp(fields[4],L"off")?(local.russian?L"выключен":L"off"):fields[4];
+    static const wchar_t *off[]={L"off",L"выключен",L"aus",L"désactivé",L"vypnuto",L"вимкнено"};
+    static const wchar_t *format[]={L"Game: %s\n%s %s\nPaw's Patch: %s",L"Игра: %s\n%s %s\nPaw's Patch: %s",L"Spiel: %s\n%s %s\nPaw's Patch: %s",L"Jeu : %s\n%s %s\nPaw's Patch : %s",L"Hra: %s\n%s %s\nPaw's Patch: %s",L"Гра: %s\n%s %s\nPaw's Patch: %s"};
+    const wchar_t *patch=!wcscmp(fields[4],L"off")?off[local.language]:fields[4];
     /* All fields were bounded and restricted to printable ASCII by valid_token. */
-    wsprintfW(out,local.russian?L"Игра: %s\n%s %s\nPaw's Patch: %s":L"Game: %s\n%s %s\nPaw's Patch: %s",fields[1],mod,fields[3],patch);
+    wsprintfW(out,format[local.language],fields[1],mod,fields[3],patch);
 }
 static void build_message(wchar_t *out) {
+    static const wchar_t *unknown[]={
+        L"The host did not provide mod and patch versions.\nThe new compatibility check may not be installed.",
+        L"Хозяин не передал версии мода и патча.\nВозможно, новая проверка ещё не установлена.",
+        L"Der Host hat keine Mod- und Patchversionen übermittelt.\nDie neue Kompatibilitätsprüfung ist möglicherweise nicht installiert.",
+        L"L’hôte n’a pas fourni les versions du mod et du patch.\nLa nouvelle vérification de compatibilité n’est peut-être pas installée.",
+        L"Hostitel neposkytl verze modu a patche.\nNová kontrola kompatibility možná ještě není nainstalována.",
+        L"Господар не передав версії мода й патча.\nМожливо, нову перевірку сумісності ще не встановлено."};
+    static const wchar_t *format[]={
+        L"Incompatible lobby configuration\n\nYour installation:\n%s\n\nRequired for this lobby:\n%s\n\nVersions and components must match.\nSelect the required mod and apply settings in the launcher.",
+        L"Несовместимая конфигурация лобби\n\nУ вас:\n%s\n\nДля этого лобби:\n%s\n\nВерсии и компоненты должны совпадать.\nВыберите нужный мод и примените настройки в лаунчере.",
+        L"Inkompatible Lobby-Konfiguration\n\nIhre Installation:\n%s\n\nFür diese Lobby erforderlich:\n%s\n\nVersionen und Komponenten müssen übereinstimmen.\nWählen Sie den benötigten Mod und übernehmen Sie die Einstellungen im Launcher.",
+        L"Configuration du salon incompatible\n\nVotre installation :\n%s\n\nConfiguration requise :\n%s\n\nLes versions et les composants doivent correspondre.\nSélectionnez le mod requis et appliquez les paramètres dans le lanceur.",
+        L"Nekompatibilní konfigurace lobby\n\nVaše instalace:\n%s\n\nPožadováno pro tuto lobby:\n%s\n\nVerze a součásti se musí shodovat.\nVyberte požadovaný mod a použijte nastavení v launcheru.",
+        L"Несумісна конфігурація лобі\n\nУ вас:\n%s\n\nДля цього лобі:\n%s\n\nВерсії та компоненти мають збігатися.\nВиберіть потрібний мод і застосуйте налаштування в лаунчері."};
     wchar_t mine[240],required[240];
     describe(localWide,mine);
     if(remoteValid) describe(remoteWide,required);
-    else wcscpy(required,local.russian?L"Хозяин не передал версии мода и патча.\nВозможно, новая проверка ещё не установлена.":L"The host did not provide mod and patch versions.\nThe new compatibility check may not be installed.");
-    wsprintfW(out,local.russian?
-        L"Несовместимая конфигурация лобби\n\nУ вас:\n%s\n\nДля этого лобби:\n%s\n\nВерсии и компоненты должны совпадать.\nВыберите нужный мод и примените настройки в лаунчере.":
-        L"Incompatible lobby configuration\n\nYour installation:\n%s\n\nRequired for this lobby:\n%s\n\nVersions and components must match.\nSelect the required mod and apply settings in the launcher.",mine,required);
+    else wcscpy(required,unknown[local.language]);
+    wsprintfW(out,format[local.language],mine,required);
 }
 
 /* Original version getter is __thiscall with one stack argument; __stdcall
@@ -140,7 +154,7 @@ static void call_bytes(unsigned char *out,uintptr_t site,uintptr_t dest) {
 __declspec(dllexport) DWORD WINAPI PawInstall(void *raw) {
     Config *cfg=raw;unsigned i;int failed=0;DWORD old;unsigned char expect[5],branch[5];
     if(PawLobbyInstallStatus) return 10;
-    if(!cfg||cfg->magic!=MAGIC||(cfg->russian!=0&&cfg->russian!=1)) return 11;
+    if(!cfg||cfg->magic!=MAGIC||cfg->language<0||cfg->language>5) return 11;
     unsigned n=0;while(n<TOKEN_MAX&&cfg->token[n])n++;
     if(!valid_token(cfg->token,n)) return 12;
     /* Read the main image from the x86 PEB without taking the loader lock:
@@ -209,7 +223,7 @@ int main(void) {
     for(i=0;i<n;i++) {char bad[TOKEN_MAX];memcpy(bad,token,n);bad[i]='\n';if(valid_token(bad,n))return 2;checks++;}
     for(i=0;i<n;i++) {if(valid_token(token,i))return 3;checks++;}
     strcpy(local.token,token);widen(localWide,token,n);widen(remoteWide,token,n);remoteValid=1;
-    for(i=0;i<2;i++){local.russian=i;wchar_t out[1024];build_message(out);if(wcslen(out)>900||!wcsstr(out,L"0.3.0-beta.6"))return 4;checks++;}
+    for(i=0;i<6;i++){local.language=i;wchar_t out[1024];build_message(out);if(wcslen(out)>900||!wcsstr(out,L"0.3.0-beta.6"))return 4;checks++;}
     printf("PASS %u protocol/parser/format checks\n",checks);return 0;
 }
 #endif

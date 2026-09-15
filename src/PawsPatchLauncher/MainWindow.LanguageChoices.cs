@@ -39,7 +39,7 @@ public partial class MainWindow
             {
                 _choiceLanguage = _text.Language;
                 GameLanguageCombo.ItemsSource = GameLanguages.Choices.Select(code => new LanguageChoice(code, UiLanguages.GameLanguageName(code, _text.Language))).ToArray();
-                GameVoiceCombo.ItemsSource = GameLanguages.Choices.Select(code => new LanguageChoice(code, UiLanguages.GameLanguageName(code, _text.Language))).ToArray();
+                GameVoiceCombo.ItemsSource = GameLanguages.VoiceChoices.Select(code => new LanguageChoice(code, UiLanguages.GameLanguageName(code, _text.Language))).ToArray();
             }
             if (GameLanguageCombo.ItemsSource is IEnumerable<LanguageChoice> gameLanguages)
                 GameLanguageCombo.SelectedItem = gameLanguages.First(x => x.Code == GameLanguages.Text(_settings));
@@ -67,7 +67,7 @@ public partial class MainWindow
         if (_initializing || _syncingLanguages || GameLanguageCombo.SelectedItem is not LanguageChoice language) return;
         if (_busy || ConfirmationActive) { SyncLanguageChoices(); return; }
         if (GameLanguages.Text(_settings) == language.Code) return;
-        _settings.GameVoiceLanguage = CanChooseSeparateVoice ? GameLanguages.Voice(_settings) : language.Code;
+        _settings.GameVoiceLanguage = CanChooseSeparateVoice ? GameLanguages.Voice(_settings) : GameLanguages.DefaultVoice(language.Code);
         GameLanguages.SetText(_settings, language.Code);
         RussianToggle.IsChecked = _settings.RussianLocalization;
         _settingsStore.Save(_settings);
