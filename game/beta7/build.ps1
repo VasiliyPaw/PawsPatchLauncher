@@ -137,7 +137,7 @@ if ($CityAssistant) {
     if ($LASTEXITCODE -ne 0) { throw 'City settings test compilation failed.' }
     & $formTest
     if ($LASTEXITCODE -ne 0) { throw 'City settings regression failed.' }
-    foreach ($test in 'test_policy_native.py','test_construction_native.py','test_resource_inputs_native.py','test_automation_native.py','test_transport_native.py','test_preferences_native.py') {
+    foreach ($test in 'test_policy_native.py','test_construction_native.py','test_resource_inputs_native.py','test_automation_native.py','test_transport_native.py','test_preferences_native.py','test_markets_native.py') {
         & $python (Join-Path $assistant $test) --legacy (Join-Path $work 'city_assistant_1372') --native (Join-Path $out 'native')
         if ($LASTEXITCODE -ne 0) { throw "Native regression failed: $test" }
     }

@@ -65,12 +65,12 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         assert run(0x3900)==0;checks+=1
         f(cave+0x1b020+resource*4,0);f(candidate+20+index(resource)*4,0)
     # Every supported city race uses its real internal market identifier. Both
-    # building (target) and upgrade (source) paths allow crossing only after all
-    # four CURRENT resources minus adverse waiting work strictly exceed floors.
+    # building (target) and upgrade (source) paths allow resource deficits when
+    # the actual net gold delta is positive. Other gates still apply.
     definition=0x30008000;name=definition+0x100;w(definition+8,name)
     # Actual stock market effects include races with no resource upkeep. A
-    # build just above targets may cross them; already committed drain cannot
-    # be hidden by an anticipated positive income from another queued job.
+    # profitable market may cross targets, including already committed drain.
+    # All effects must still be finite and the construction snapshot coherent.
     for market in markets:
         u.mem_write(name,(market['id']+'\0').encode('utf-16le'));w(candidate+8,definition)
         for i in range(count):f(production+i*4,5.5);f(candidate+20+i*4,0)
@@ -79,7 +79,7 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         for i in range(5):f(cave+0x1b000+i*4,5);f(cave+0x1b020+i*4,0)
         assert run(0x3900)==1;checks+=1
         f(cave+0x1b020+4,-.5);f(cave+0x1b040+4,100)
-        assert bool(run(0x3900))==(market['delta'][1]>=0);checks+=1
+        assert run(0x3900)==1;checks+=1
     w(candidate+8,0)
     for race in ('human','drauga','gauri','haroun','shadow','undead'):
         u.mem_write(name,(race+'_market\0').encode('utf-16le'))
@@ -90,10 +90,13 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
                 f(production,100);f(candidate+20,40)
                 for i in range(5):f(cave+0x1b000+i*4,5);f(cave+0x1b020+i*4,0)
                 assert run(0x3900)==1;checks+=1
-                f(production+index(resource)*4,5);assert run(0x3900)==0;checks+=1
+                f(production+index(resource)*4,5);assert run(0x3900)==1;checks+=1
+                f(production+index(resource)*4,-10);assert run(0x3900)==1;checks+=1
                 f(production+index(resource)*4,6);f(cave+0x1b020+resource*4,-1)
                 f(cave+0x1b040+resource*4,100)
-                assert run(0x3900)==0;checks+=1
+                assert run(0x3900)==1;checks+=1
+                for non_profit in (0,-1,float('nan'),float('inf'),float('-inf')):
+                    f(candidate+20,non_profit);assert run(0x3900)==0;checks+=1
                 f(cave+0x1b020+resource*4,0);f(candidate+20,-101)
                 assert run(0x3900)==0;checks+=1
                 f(candidate+20,40);f(candidate+20+index(resource)*4,float('nan'))

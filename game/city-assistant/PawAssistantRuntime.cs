@@ -169,7 +169,7 @@ internal static partial class PawAssistantRuntime
             partyGameRoot=Path.GetFullPath(root);
             memory.Write(state, BitConverter.GetBytes(Environment.TickCount));
             logger = log;
-            log("ASSISTANT beta policy=r17 installed; partyPreferences=true; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
+            log("ASSISTANT beta policy=r19 installed; partyPreferences=true; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
         }
         finally { memory.Resume(); }
     }
@@ -236,7 +236,7 @@ internal static partial class PawAssistantRuntime
                 : T("Изменение порога: Enter — применить", "Editing target: Enter to apply"),
                 T("Новые постройки приостановлены. Enter — применить; Esc или клик вне поля — отменить.",
                   "New orders paused. Enter applies; Esc or clicking outside cancels."));
-        byte[] snapshot = memory.Read(state + 0x100, 0x180);
+        byte[] snapshot = memory.Read(state + 0x100, 0x1c0);
         uint serial = BitConverter.ToUInt32(snapshot, 0);
         uint cities = BitConverter.ToUInt32(snapshot, 0x1c), candidates = BitConverter.ToUInt32(snapshot, 0x20);
         uint workCount = BitConverter.ToUInt32(snapshot, 0x2c);
@@ -301,6 +301,7 @@ internal static partial class PawAssistantRuntime
             Valid = BitConverter.ToUInt32(ui, 0x18) == 1 && unchecked((uint)Environment.TickCount - BitConverter.ToUInt32(ui,0x30)) >= 1000,
             Cities = Enumerable.Range(0, cityRecords.Length / 8).Select(i => BitConverter.ToUInt32(cityRecords,i*8)).ToArray(),
             Income = CityResourceOrder.Read(header,0x100,resourceCount),
+            ShortageCost = CityResourceOrder.Read(header,0x180,resourceCount),
             Candidates = Enumerable.Range(0,records.Length / 128).Select(i => new CityPlanner.Candidate {
                 City=BitConverter.ToUInt32(records,i*128), Actor=BitConverter.ToUInt32(records,i*128+4),
                 CityAddress=BitConverter.ToUInt32(records,i*128+88),
@@ -406,7 +407,7 @@ internal static partial class PawAssistantRuntime
             requestEpoch=s.Epoch; pendingRequest=requestSerial;
             memory.Write(state+0x140,BitConverter.GetBytes(requestSerial));
             logger("ASSISTANT ORDER request="+requestSerial+" city="+c.City+" actor="+c.Actor+" kind="+c.Kind+" cost="+c.Cost+" gold="+s.Gold+" reserve="+s.Reserve+" time="+s.Time
-                +" target="+c.Target+" source="+c.Family+" reason="+planner.Explanation+" income=["+Numbers(s.Income)+"] delta=["+Numbers(c.Delta)+"] floors=["+Numbers(Enumerable.Range(0,5).Select(policy.Floor).ToArray())+"] construction="+s.Construction.Length+" safe=["+Numbers(s.Forecast)+"] goals=["+Numbers(s.GoalIncome)+"]");
+                +" target="+c.Target+" source="+c.Family+" reason="+planner.Explanation+" income=["+Numbers(s.Income)+"] delta=["+Numbers(c.Delta)+"] floors=["+Numbers(Enumerable.Range(0,5).Select(policy.Floor).ToArray())+"] construction="+s.Construction.Length+" safe=["+Numbers(s.Forecast)+"] goals=["+Numbers(s.GoalIncome)+"] shortageCost=["+Numbers(s.ShortageCost)+"] netGoldGain="+CityPlanner.NetGoldGain(c,s.GoalIncome,s.ShortageCost).ToString("0.###",System.Globalization.CultureInfo.InvariantCulture));
         }
     }
 
@@ -425,9 +426,11 @@ internal static partial class PawAssistantRuntime
     }
     private static string EffectText(CityPlanner.Snapshot s,CityPlanner.Candidate c)
     {
-        return string.Join(" · ",Enumerable.Range(0,Math.Min(5,c.Delta.Length)).Where(i=>Math.Abs(c.Delta[i])>.0001f)
-            .Select(i=>CitySettingsForm.ResourceName(i,russianUi)+" "+s.Income[i].ToString("0.##")+" → "+(s.Income[i]+c.Delta[i]).ToString("0.##")
-                +" ("+c.Delta[i].ToString("+0.##;-0.##;0")+")").ToArray());
+        double[] change=c.Delta.Select(v=>(double)v).ToArray();
+        change[0]=CityPlanner.NetGoldGain(c,s.Income,s.ShortageCost);
+        return string.Join(" · ",Enumerable.Range(0,Math.Min(5,change.Length)).Where(i=>Math.Abs(change[i])>.0001)
+            .Select(i=>CitySettingsForm.ResourceName(i,russianUi)+" "+s.Income[i].ToString("0.##")+" → "+(s.Income[i]+change[i]).ToString("0.##")
+                +" ("+change[i].ToString("+0.##;-0.##;0")+")").ToArray());
     }
     private static void InitializeNativePolicy()
     {

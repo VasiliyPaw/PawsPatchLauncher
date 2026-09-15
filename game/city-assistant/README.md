@@ -1,4 +1,4 @@
-# Built-in city policy — 0.3.0-beta.8-test.3 / r17
+# Built-in city policy — 0.3.0-beta.8-test.5 / r19
 
 Supported executable: Kohan II 1.3.72, Steam build 25068126. The stock EXE is not modified on disk. City policy is included in all eight Arcane Wars Beta helper variants. Stable Arcane Wars and the separate Kohan II fixes channels do not enable it.
 
@@ -14,9 +14,11 @@ Supported executable: Kohan II 1.3.72, Steam build 25068126. The stock EXE is no
 
 ## Economy and native construction queue
 
-An eligible, affordable final city-center upgrade takes priority (native center ownership plus an upgrade target with no outgoing upgrade branches). Resource-income targets come next, considering the expected completion of all accepted manual and automatic construction. Useful gold-income upgrades come next, followed by resources needed for an available profitable branch. If no useful affordable resource/economy action remains, the planner randomly chooses an eligible building or upgrade even when a target cannot be reached. An income exactly at its target still has priority for a positive resource increase. This includes non-economic buildings, city centers and mines; saved permissions and native legality still apply.
+An eligible, affordable final city-center upgrade takes priority. Other affordable orders compete on incremental **gold after resource-shortage charges**, evaluated at the expected completion of every accepted manual and automatic order. For a candidate `d` and projected income `g`, gain is `d.gold + sum((max(0,-g[i]) - max(0,-(g[i]+d[i]))) * purchaseCost[i])`. Existing gold income already contains current shortage charges, so only their change is applied. Surplus resource production does not itself generate gold. Equal profitable returns prefer progress towards resource targets; when none is profitable, targets, preparation and random eligible development remain the fallback. Gold reserve, native payment/legality, exclusions and duplicate construction guards remain in force.
 
-Markets of every race have the same exception: when all four resource incomes strictly exceed their targets **before** the order, a market may lower income below a target afterward. Already queued adverse effects count before the comparison. Expected positive income from unfinished work cannot make an early market eligible. Other buildings retain floor protection. Gold income cannot be driven into a new/deeper deficit. Actual resources, native payment legality and the separate gold reserve apply to all orders. Native definition/property queries provide prices and effects; there is no hard-coded race economy or Bazaar-only rule.
+Resource purchase costs are sampled from the live resource table, not fixed coefficients. Native `699377` applies Resource `+1c` PurchaseCost to upkeep shortages (`699420/699425`); the installed Arcane Wars data currently charges gold 2/3/4/5 for stone/wood/iron/mana. The coherent snapshot now includes these costs at `+280`. Both nine-resource and ten-resource (Shards) layouts are projected to the five economic resources. Unknown or invalid costs pause planning.
+
+Markets of every race may deepen resource deficits when the selected order still increases gold after shortage charges. **Market upgrades only use the greatest strictly positive direct gold increase** among the source definition's branches. Native enumeration checks all branches, with the actor's property context, before native legality and affordability. An expensive or locked best branch cannot be replaced with a weaker branch. If no branch increases gold, the market never upgrades, including during random development. The filter recognizes the source internal ID ending in `_market`, including Arcane variants; building new markets also uses the same profit comparison as other economic actions. All effects must remain finite. Other buildings retain the existing resource-floor protection.
 
 Multiple distinct buildings can join the game's own queue inside one city while other work waits or progresses. Haroun's native builders may work concurrently. The assistant maintains one outbound intention awaiting acknowledgement, then can issue another affordable order after native work becomes visible. It neither replaces manual tasks nor creates a private construction queue. Independent owned mines receive resource, gold and random priorities. An actor already upgrading cannot receive its duplicate or alternative branch; a later upgrade step becomes available when the game exposes the completed definition's branches.
 
@@ -46,10 +48,10 @@ The runtime audit image SHA-256 is `B865D8206990C4F055C51DE857F0B09B88AB5EE3B6AE
 
 `build_policy_native.py` composes the accepted legacy bridge with native_construction, native_resource_inputs, native_automation, native_militia, native_transport and native_preferences. Generated resources are byte-compared before compilation. They contain patch-owned code/fixups, not a stock executable. Runtime installation is transactional, restricted to the launcher's own fresh verified game, with executable/state pages separated.
 
-Final r17 resources (465 relocations; 0x46000 bytes, extra RX page at +0x30000, RW actor records at +0x31000 and save notifications at +0x41000):
+Final r19 resources (468 relocations; 0x46000 bytes, extra RX page at +0x30000, RW actor records at +0x31000 and save notifications at +0x41000):
 
-- `AssistantPayload.bin`: `E97E5EC54072495BC5C8FA0560A95ABD26BD3803589B958BF5796FCBB12850C9`
-- `AssistantFixups.bin`: `DB22788EEB091E0D75DDC31C95A0C1CAF977DB7CF5F0DB0E835CEBF03C902809`
+- `AssistantPayload.bin`: `CAD443158771FF14A2989F7759B9C80AE7A19BA85DF90CC7B99315E5C65928F9`
+- `AssistantFixups.bin`: `5E787BCD624122B4220383A45A2ACCD686992EBEF787774D2F16442A2F78CDB7`
 
 ## Build and validation
 
@@ -62,3 +64,7 @@ Use a new output directory. LegacyWorkDirectory contains the verified city_assis
 The build runs planner/persistence, militia lifecycle, offline settings-form and emitted-x86 policy/construction/input/automation/transport tests across three relocations and both resource layouts. It also runs eight helper installation/rollback checks and transfer regressions. RU/EN UTF-8 source layouts are emitted as native UTF-16LE. No game is launched by the build. The release preparation step records a hash-bound release-ready manifest only after complete output/check validation; packaging verifies all helper and UI hashes. Live game and multiplayer acceptance are separate evidence.
 
 Local r17 validation: 1485 planner assertions, 38 party-store checks, 507 emitted preference/save-hook checks at three ASLR placements, plus the full existing installation, construction, input, militia and transfer suites. The main Steam installation passed installer verification; all eight helper hashes match. No game launch or shared multiplayer preferences test was performed.
+
+Local r18: 1587 planner assertions and 5256 native economic-gate checks. Includes iron -3 with a market producing +20 gold/-1 iron; all six races, all four deficits, build/upgrade paths, adverse queued effects, zero/negative/nonfinite gold effects, reserve and duplicate-queue guards. No game launch.
+
+Local r19: 1652 planner assertions and 597 new native market/rate checks, plus the full existing suite. Covers +5 versus +40 branches, unaffordable/locked best branches, no-positive-gold markets, per-actor modifier effects, resource deficit recovery versus markets, queued completions/cancellation, missing/nonfinite costs, six races plus Arcane market variants, both resource layouts and three ASLR placements. Native tests execute emitted code; game and multiplayer were not launched.

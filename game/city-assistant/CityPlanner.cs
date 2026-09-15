@@ -24,6 +24,8 @@ internal sealed class CityPlanner
         internal uint[] Cities;
         internal HashSet<uint> Busy = new HashSet<uint>(); // Siege/sale/invalid actor, never another building's construction.
         internal float[] Income;
+        // Gold charged for a unit of upkeep shortage, from live Resource definitions.
+        internal float[] ShortageCost;
         internal Candidate[] Candidates;
         internal CityPolicy Policy = new CityPolicy();
         // Forecast includes only adverse outstanding deltas: future gains may
@@ -127,21 +129,36 @@ internal sealed class CityPlanner
         float[] goals = s.GoalIncome ?? projected;
         if (projected.Length != s.Income.Length || !projected.All(Finite)
             || goals.Length != s.Income.Length || !goals.All(Finite)) { intention = null; return none; }
+        if (s.ShortageCost == null || s.ShortageCost.Length < s.Income.Length
+            || s.ShortageCost.Any(v => !Finite(v) || v < 0)) { intention = null; return none; }
         CityPolicy policy = s.Policy ?? new CityPolicy();
         Candidate[] available = s.Candidates.Where(c => Safe(c, s.Income.Length) && s.Cities.Contains(c.City)
             && !s.Busy.Contains(c.City) && (!backoff.ContainsKey(c.City) || s.Time >= backoff[c.City])
             && !InProgress(s,c) && policy.Allows(c)).ToArray();
-        Candidate[] eligible = available.Where(c => Protects(c, s.Income, projected, policy)).ToArray();
+        // Filter irreversible market branches BEFORE affordability. A cheaper
+        // weaker branch must not replace the best one while saving for it.
+        Candidate[] eligible = available.Where(c => BestMarketBranch(c, available)
+            && Protects(c, s.Income, projected, policy)
+            && (!IsMarket(c) || NetGoldGain(c, goals, s.ShortageCost) > .0001)).ToArray();
         Candidate[] affordable = eligible.Where(c => (double)s.Gold >= (double)s.Reserve + c.Cost).ToArray();
         if (eligible.Length > 0 && affordable.Length == 0)
         { intention = eligible.OrderBy(c=>c.Cost).ThenBy(c=>c.Data).First(); Status=StatusKind.Gold; return none; }
         eligible=affordable;
-        // Economy priority is global, while equally useful cities retain fair
-        // queue order. A city with gold income cannot jump ahead of iron relief.
+        // Compare gold after shortage charges, not raw gold versus an absolute
+        // resource-first rule. All accepted construction is included in goals.
+        double gain = eligible.Length == 0 ? 0 : eligible.Max(c => NetGoldGain(c, goals, s.ShortageCost));
         double relief = eligible.Length == 0 ? 0 : eligible.Max(c => Relief(c, goals, policy));
         Candidate[] priority;
         var finalCenters=eligible.Where(c=>c.Kind==21 && c.IsCityCenter && c.IsFinalCityUpgrade).ToArray();
         if(finalCenters.Length>0) { priority=finalCenters; Explanation="final_city_upgrade"; }
+        else if (gain > .0001)
+        {
+            priority = eligible.Where(c => NetGoldGain(c, goals, s.ShortageCost) >= gain - .0001).ToArray();
+            // Equal economic returns may still move income towards the targets.
+            double tieRelief = priority.Max(c => Relief(c, goals, policy));
+            priority = priority.Where(c => Relief(c, goals, policy) >= tieRelief - .0001).ToArray();
+            Explanation = "net_gold";
+        }
         else if (relief > .0001) { priority = eligible.Where(c => Relief(c, goals, policy) >= relief - .0001).ToArray(); Explanation = "resources"; }
         else
         {
@@ -203,11 +220,23 @@ internal sealed class CityPlanner
         return c!=null && ((c.Family??"").EndsWith("_market",StringComparison.Ordinal)
             || (c.Target??"").EndsWith("_market",StringComparison.Ordinal));
     }
-    internal static bool AboveTargets(float[] current,float[] forecast,CityPolicy policy)
+    internal static bool BestMarketBranch(Candidate c, Candidate[] available)
     {
-        for(int i=1;i<Math.Min(5,current.Length);i++)
-            if(Math.Min(current[i],forecast[i])<=policy.Floor(i)) return false;
-        return true;
+        if (c.Kind != 21 || !IsMarket(c)) return true;
+        return c.Delta[0] > 0 && !available.Any(other => other.Kind == 21
+            && other.City == c.City && other.Actor == c.Actor && IsMarket(other)
+            && other.Delta[0] > c.Delta[0]);
+    }
+    internal static double NetGoldGain(Candidate c, float[] income, float[] shortageCost)
+    {
+        double gain = c.Delta[0];
+        for (int i = 1; i < Math.Min(5, income.Length); i++)
+        {
+            double before = Math.Max(0, -(double)income[i]);
+            double after = Math.Max(0, -((double)income[i] + c.Delta[i]));
+            gain += (before - after) * shortageCost[i];
+        }
+        return gain;
     }
     private static double GoldPreparation(Candidate provider,Candidate[] available,float[] current,float[] forecast,CityPolicy policy)
     {
@@ -233,7 +262,10 @@ internal sealed class CityPlanner
     }
     internal static bool Protects(Candidate c, float[] current, float[] forecast, CityPolicy policy)
     {
-        bool marketException=IsMarket(c) && AboveTargets(current,forecast,policy);
+        // A profitable market may trade more resource upkeep for gold even
+        // when that resource is already below its target or in deficit.
+        bool marketException=IsMarket(c) && c.Delta!=null && c.Delta.Length>0
+            && Finite(c.Delta[0]) && c.Delta[0]>0;
         // The verified 1.3.72 resource list starts with gold/stone/wood/iron/mana.
         // Unit-count and kingdom-count bookkeeping are not resource income.
         for (int i = 0; i < Math.Min(5, current.Length); i++)

@@ -22,6 +22,8 @@ mov dword ptr [{S+0x130}],0
 transport_ready: mov''')
     capture=replace_once(capture,f'mov ecx,edi; call {S+0x5700}',f'mov ecx,edi; call {S+0x7800}\nmov ecx,edi; call {S+0x5700}')
     capture=replace_once(capture,f'call {S+0x3000}',f'call {S+0x3000}; call {S+0x7400}')
+    capture=replace_once(capture,'mov eax,dword ptr [ebx+ecx*4]; mov eax,dword ptr [eax+0x18]',
+        f'mov eax,dword ptr [ebx+ecx*4]; call {S+0x30d00}; mov eax,dword ptr [eax+0x18]')
     # Retain world age at the first native observation, before local kingdom/UI
     # readiness. Invalid snapshots can reset the bridge epoch; they must not
     # lose a fresh world's initial timestamp. Clear only on an actual menu exit.
@@ -70,7 +72,75 @@ actor_busy: mov eax,1; ret
 ''',0x100)
     upgrades=replace_once(m.observer_source(0x2c00),'mov edi,dword ptr [ebp+8];',
         f'mov edi,dword ptr [ebp+8]; mov ecx,edi; call {S+0x2900}; test eax,eax; jnz upgrades_done\n')
+    upgrades=replace_once(upgrades,'push 0; push 0; push dword ptr [ebx]; mov ecx,esi; call 0x6653bd',
+        f'''mov ecx,edi; mov edx,dword ptr [ebx]; call {S+0x30e00}
+test eax,eax; jz upgrade_next
+push 0; push 0; push dword ptr [ebx]; mov ecx,esi; call 0x6653bd''')
     m.replace(0x2c00,upgrades,0x200)
+
+    from native_militia import install as install_militia
+    install_militia(m)
+
+    # Resource +18 kind, +1c PurchaseCost vector. This is the same vector
+    # used by Kingdom::shortage adjustment at 699377 (699420/699425).
+    # EAX definition / ECX resource index; preserve all registers.
+    m.replace(0x30d00,f'''
+push edx
+mov dword ptr [{S+0x280}+ecx*4],0
+cmp dword ptr [eax+0x18],1; jne rate_done
+mov edx,dword ptr [eax+0x1c]; test edx,edx; jz rate_invalid
+mov edx,dword ptr [edx]; mov dword ptr [{S+0x280}+ecx*4],edx; jmp rate_done
+rate_invalid: mov dword ptr [{S+0x280}+ecx*4],0x7fc00000
+rate_done: pop edx; ret
+''',0x100)
+
+    # Only the greatest strictly positive gold branch of a market may become
+    # an automatic candidate. Inspect ALL definitions before CanUpgrade and
+    # before cash/reserve checks, so a locked/expensive bank cannot silently
+    # turn into an irreversible resource bazaar instead. Property queries use
+    # this actor's current modifier context; no hard-coded race output.
+    # ECX actor, EDX target -> EAX allowed. Non-markets are unchanged.
+    m.replace(0x30e00,f'''
+push ebp; mov ebp,esp; sub esp,24; push ebx; push esi; push edi
+mov esi,ecx; mov dword ptr [ebp-4],edx
+mov eax,dword ptr [esi+4]; mov dword ptr [ebp-8],eax
+call {S+0x7000}; test eax,1; jz branch_allowed
+mov ecx,esi; call 0x6877b6; mov dword ptr [ebp-12],eax
+mov ecx,dword ptr [ebp-4]; call {S+0x30c00}
+test eax,eax; jz branch_denied
+movss dword ptr [ebp-16],xmm0
+mov ecx,dword ptr [ebp-8]; call {S+0x30c00}
+test eax,eax; jz branch_denied
+ucomiss xmm0,dword ptr [ebp-16]; jae branch_denied
+mov eax,dword ptr [ebp-8]; mov ebx,dword ptr [eax+0x4c0]
+mov edi,512; mov dword ptr [ebp-20],0
+branch_loop:
+test ebx,ebx; jz branch_end
+dec edi; js branch_denied
+mov ecx,dword ptr [ebx]; test ecx,ecx; jz branch_denied
+cmp ecx,dword ptr [ebp-4]; jne branch_compare
+mov dword ptr [ebp-20],1
+branch_compare:
+call {S+0x30c00}; test eax,eax; jz branch_denied
+ucomiss xmm0,dword ptr [ebp-16]; ja branch_denied
+mov ebx,dword ptr [ebx+4]; jmp branch_loop
+branch_end: cmp dword ptr [ebp-20],1; jne branch_denied
+branch_allowed: mov eax,1; jmp branch_return
+branch_denied: xor eax,eax
+branch_return: pop edi; pop esi; pop ebx; mov esp,ebp; pop ebp; ret
+''',0x200)
+    # Parent EBP locals; ECX definition -> XMM0 net direct gold, EAX finite.
+    m.replace(0x30c00,f'''
+push ecx
+push dword ptr [ebp-12]; push 0; call 0x48a0b5
+fstp dword ptr [ebp-24]
+pop ecx
+push dword ptr [ebp-12]; push 0; call 0x489ffd
+fsubr dword ptr [ebp-24]; fstp dword ptr [ebp-24]
+movss xmm0,dword ptr [ebp-24]
+movd eax,xmm0; and eax,0x7f800000; cmp eax,0x7f800000
+setne al; movzx eax,al; ret
+''',0x100)
 
     # Kingdom +2d0/+2d4: owned independent structures, verified against native
     # registration/removal 697035 / 697366. All outstanding work contributes;
@@ -181,23 +251,12 @@ mov edi,{S+0x1c000}; xor eax,eax; mov ecx,4; cld; rep stosd
 popad; popfd; ret
 ''',0x100)
 
-    from native_militia import install as install_militia
-    install_militia(m)
-    # ECX current production, EDX upkeep. Every economic resource must be
-    # strictly above its target BEFORE a market order, after adverse queued work.
+    # ESI candidate: profitable markets may deepen resource deficits. Check
+    # the actual net gold delta, not a nominal target-definition production.
+    # ECX production / EDX upkeep stay intact for the caller's gold guard.
     m.replace(0x7900,f'''
-push ebx; push edi
-mov ebx,1
-market_floor_loop:
-mov edi,ebx; cmp dword ptr [{S+0x118}],10; jne market_floor_index
-inc edi
-market_floor_index:
-movss xmm0,dword ptr [ecx+edi*4]; subss xmm0,dword ptr [edx+edi*4]
-addss xmm0,dword ptr [{S+0x1b020}+ebx*4]
-movd eax,xmm0; and eax,0x7f800000; cmp eax,0x7f800000; je market_floor_no
-ucomiss xmm0,dword ptr [{S+0x1b000}+ebx*4]; jp market_floor_no; jbe market_floor_no
-inc ebx; cmp ebx,5; jb market_floor_loop
-mov eax,1; jmp market_floor_done
-market_floor_no: xor eax,eax
-market_floor_done: pop edi; pop ebx; ret
+movss xmm0,dword ptr [esi+20]
+movd eax,xmm0; and eax,0x7f800000; cmp eax,0x7f800000; je market_not_profitable
+xorps xmm1,xmm1; ucomiss xmm0,xmm1; seta al; movzx eax,al; ret
+market_not_profitable: xor eax,eax; ret
 ''',0x200)
