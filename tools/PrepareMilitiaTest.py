@@ -1,4 +1,4 @@
-"""Extend the current local 48-color beta with city-building militia policy.
+"""Extend the current local 48-color beta with city development and party preferences.
 
 Only stages signed local files; no installation, launch or publication.
 """
@@ -12,7 +12,7 @@ from PrepareEuropeanModLanguages import source
 from GameTextValidation import validate_engine_text
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '0.3.0-beta.8-test.2'
+VERSION = '0.3.0-beta.8-test.3'
 
 
 def main():
@@ -44,7 +44,7 @@ def main():
             elif ident.startswith('localization-') and path.lower().endswith('/paw_city_policy.tgi'):
                 code = ident.rsplit('-', 1)[1]
                 text = dec(raw)
-                for key in ('paw_city_new_militia', 'paw_city_new_militia_tip'):
+                for key in ('paw_city_new_militia', 'paw_city_new_militia_tip', 'paw_city_auto_tip'):
                     value = catalog[key][code]
                     validate_engine_text(catalog[key]['en'], value)
                     text, count = re.subn(r'(?m)(^\s*'+key+r'\s*=\s*)"(?:\\.|[^"\\])*"',
@@ -56,20 +56,16 @@ def main():
         assert all(path.endswith('.exe') or path.endswith('paws_patch_versions.ini') or
                    path.endswith(('paw_city_ru.tgi', 'paw_city_en.tgi', 'paw_city_policy.tgi'))
                    for path in changed[ident]), changed[ident]
-        version = VERSION if ident != 'common-ui' else '1.3.72-ui.7-beta.8-test.2'
+        version = VERSION if ident != 'common-ui' else '1.3.72-ui.7-beta.8-test.3'
         if ident.startswith('localization-'):
-            version = package['version']+'-militia-test.1'
+            version = package['version']+'-city-test.3'
         package.update(build(a.out, package, version, files))
     assert len(changed) == 7
     feed['patchGuide']['version'] = VERSION
-    for entry in feed['patchGuide']['entries']:
-        if 'militia' in entry.get('bodyEn', '').lower() and 'F1' in entry.get('bodyEn', ''):
-            entry['bodyRu'] += '\n\nОполчение: галочка расположена над автоулучшением. Новые городские здания с ополчением после завершения стройки открывают или закрывают его согласно галочке. Ручные изменения уже настроенных зданий сохраняются.'
-            entry['bodyEn'] += '\n\nMilitia: the checkbox sits above auto-upgrade. Newly completed city buildings with militia open or close it according to the checkbox. Later manual changes to handled buildings are preserved.'
     feed['changelog'].insert(0, dict(category='patch', mod='arcane-wars', channel='beta', version=VERSION,
-        publishedAt='2026-09-15', title={'ru':'Ополчение городских зданий — локальный тест', 'en':'City building militia — local test'},
-        body={'ru':'Галочка ополчения перенесена выше автоулучшения. Новые городские здания с ополчением учитывают её состояние после завершения строительства.',
-              'en':'Moved the militia checkbox above auto-upgrade. Newly completed city buildings with militia follow its current setting.'}))
+        publishedAt='2026-09-15', title={'ru':'Автоулучшение городов — локальный тест', 'en':'City automation — local test'},
+        body={'ru':'Удалена кнопка «Правила» из F1. Настройки автоулучшения сохраняются локально для каждой партии и её сейвов; новые партии начинаются со стандартных значений. Последнее улучшение центра города имеет высший приоритет. Если повысить нужный доход ресурсов нельзя, развивается экономика, затем доступные случайные постройки.',
+              'en':'Removed the Rules button from F1. Auto-upgrade settings are saved locally per match and its saves; new matches use defaults. The final city center upgrade has highest priority. When needed resource income cannot be raised, automation improves the economy, then chooses random eligible buildings.'}))
     payload = encoded(feed)
     r, s = utils.decode_dss_signature(private.sign(payload, ec.ECDSA(hashes.SHA256())))
     signed = dict(keyId='pawpatch-prod-2026', payload=base64.b64encode(payload).decode(),

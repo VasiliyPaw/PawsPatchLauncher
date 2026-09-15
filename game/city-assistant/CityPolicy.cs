@@ -75,7 +75,7 @@ internal sealed class CityPolicy
     internal void Save(string path)
     {
         // Old "other" preferences are deliberately ignored: idle development
-        // is now unconditional whenever every resource target is exceeded.
+        // is now unconditional when no useful income action is available.
         List<string> lines=new List<string> {"new\t"+(AllowNew?1:0),"upgrade\t"+(AllowUpgrade?1:0),"new_cities_open_militia\t"+(NewCitiesOpenMilitia?1:0)};
         for(int i=1;i<5;i++) lines.Add("floor:"+i+"\t"+Floor(i).ToString(CultureInfo.InvariantCulture));
         foreach(var p in Branches.OrderBy(x=>x.Key)) lines.Add("branch:"+p.Key+"\t"+p.Value);

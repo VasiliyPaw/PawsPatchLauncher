@@ -83,6 +83,9 @@ PawAssistantRuntime.Tick();
         $sourcePath = Join-Path $out ($variant.Name + '.generated.cs')
         [IO.File]::WriteAllText($sourcePath,$text,[Text.UTF8Encoding]::new($false))
         $arguments += Join-Path $assistant 'PawAssistantRuntime.cs'
+        $arguments += Join-Path $assistant 'PawAssistantParties.cs'
+        $arguments += Join-Path $assistant 'CityPartyStore.cs'
+        $arguments += Join-Path $assistant 'CityDevelopmentText.cs'
         $arguments += Join-Path $assistant 'CityPlanner.cs'
         $arguments += Join-Path $assistant 'CityMilitiaPlanner.cs'
         $arguments += Join-Path $assistant 'CityPolicy.cs'
@@ -119,6 +122,11 @@ if ($CityAssistant) {
     if ($LASTEXITCODE -ne 0) { throw 'City planner test compilation failed.' }
     & $queueTest
     if ($LASTEXITCODE -ne 0) { throw 'City planner regression failed.' }
+    $partyTest = Join-Path $out 'CityPartyStoreTests.exe'
+    & $compiler /nologo /target:exe /r:System.Core.dll "/out:$partyTest" (Join-Path $assistant 'CityPartyStore.cs') (Join-Path $assistant 'CityPartyStoreTests.cs')
+    if ($LASTEXITCODE -ne 0) { throw 'City party test compilation failed.' }
+    & $partyTest
+    if ($LASTEXITCODE -ne 0) { throw 'City party persistence regression failed.' }
     $militiaTest = Join-Path $out 'CityMilitiaPlannerTests.exe'
     & $compiler /nologo /target:exe /r:System.Core.dll "/out:$militiaTest" (Join-Path $assistant 'CityMilitiaPlanner.cs') (Join-Path $assistant 'CityMilitiaPlannerTests.cs')
     if ($LASTEXITCODE -ne 0) { throw 'City militia test compilation failed.' }
@@ -129,7 +137,7 @@ if ($CityAssistant) {
     if ($LASTEXITCODE -ne 0) { throw 'City settings test compilation failed.' }
     & $formTest
     if ($LASTEXITCODE -ne 0) { throw 'City settings regression failed.' }
-    foreach ($test in 'test_policy_native.py','test_construction_native.py','test_resource_inputs_native.py','test_automation_native.py','test_transport_native.py') {
+    foreach ($test in 'test_policy_native.py','test_construction_native.py','test_resource_inputs_native.py','test_automation_native.py','test_transport_native.py','test_preferences_native.py') {
         & $python (Join-Path $assistant $test) --legacy (Join-Path $work 'city_assistant_1372') --native (Join-Path $out 'native')
         if ($LASTEXITCODE -ne 0) { throw "Native regression failed: $test" }
     }

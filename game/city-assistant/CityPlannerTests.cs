@@ -129,6 +129,7 @@ internal static class CityPlannerTests
         Check(new CityPolicy().NewCitiesOpenMilitia);
         EconomyRegressions();
         ParallelRegressions();
+        DevelopmentRegressions();
         Console.WriteLine("CITY_PLANNER_PASS "+checks+" assertions");return 0;
     }
     private static CityPlanner.Candidate Upgrade(uint city,uint actor,uint data,params float[] delta)
@@ -176,7 +177,7 @@ internal static class CityPlannerTests
             s.Policy.Excluded.Clear();s.GoalIncome=(float[])income.Clone();s.GoalIncome[r]=3;
             Check(Choose(s).Candidate.Data==200);
             // ...but its future positive income cannot finance a gold fork yet.
-            effect[r]=-1;Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+            effect[r]=-1;Check(Choose(s).Candidate.Data==101); // safe surplus building; unsafe gold still excluded
             effect[r]=0;s.GoalIncome=null;
             s.Forecast=(float[])income.Clone();s.Forecast[(r%4)+1]=0;
             effect[(r%4)+1]=-1;Check(Choose(s).Candidate.Data==101);
@@ -190,7 +191,7 @@ internal static class CityPlannerTests
         // Expected gains prevent redundant gold preparation, too.
         var provider=Upgrade(1,11,100,0,4);var market=Upgrade(2,22,200,40,-3);
         s=S(provider,market);s.Income=new float[]{20,0};s.GoalIncome=new float[]{20,4};
-        Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+        Check(Choose(s).Candidate==provider); // no further economy goal: safe random development
         s.GoalIncome=null;Check(Choose(s).Candidate==provider);
         // Cancel/completion is reflected by each fresh snapshot, without a stale
         // persistent resource reservation; load/epoch drops old pending orders.
@@ -263,7 +264,7 @@ internal static class CityPlannerTests
             s=S(mine);s.Income=new float[]{30,10,10,10,10};s.Income[r]=r==0?30:-3;
             Check(Choose(s).Candidate==mine);
             s.Income=new float[]{30,10,10,10,10};mine.Delta=new float[5];Check(Choose(s).Candidate==mine);
-            s.Income[1]=0;Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+            s.Income[1]=0;Check(Choose(s).Candidate==mine); // unreachable target does not freeze safe fallback
         }
         // Goal forecast sees manually queued positive gains. Real available
         // income/cash still governs eligibility; cancellation removes forecasts.
@@ -271,7 +272,7 @@ internal static class CityPlannerTests
         s=S(stone,iron);s.Income=new float[]{30,-3,10,-3,10};s.GoalIncome=new float[]{30,5,10,-3,10};
         s.Construction=new[]{Upgrade(1,13,999,0,8,0,0,0)};
         Check(Choose(s).Candidate==iron);
-        s.GoalIncome=new float[]{30,5,10,5,10};Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+        s.GoalIncome=new float[]{30,5,10,5,10};Check(Choose(s).Kind==CityPlanner.DecisionKind.Submit); // surplus random development
         s.GoalIncome=null;s.Construction=new CityPlanner.Candidate[0];Check(Choose(s).Kind==CityPlanner.DecisionKind.Submit);
         // Same city, distinct actors can join an existing queue. Mutually
         // exclusive upgrades on its pending actor and duplicate builds cannot.
@@ -308,5 +309,32 @@ internal static class CityPlannerTests
             } finally { if(System.IO.File.Exists(production))System.IO.File.Delete(production); }
         }
         finally { if(System.IO.File.Exists(prefs))System.IO.File.Delete(prefs);System.IO.Directory.Delete(System.IO.Path.GetDirectoryName(prefs)); }
+    }
+    private static void DevelopmentRegressions()
+    {
+        foreach(string race in new[]{"human","haroun","drauga","gauri","shadow","undead"})
+        {
+            var final=Upgrade(2,22,202,0,0,0,0,0);final.IsCityCenter=true;final.IsFinalCityUpgrade=true;
+            final.Family="def:"+race+"_center_citadel";final.Target="def:"+race+"_center_citadel_militia";
+            var income=Upgrade(1,11,101,50,0,0,0,0);var resource=Upgrade(1,12,102,0,10,0,0,0);
+            var s=S(income,resource,final);s.Income=new float[]{20,-2,4,4,4};s.Policy.Floors[1]=50;
+            Check(Choose(s).Candidate==final); // last center upgrade preempts even a resource shortage
+            final.IsFinalCityUpgrade=false;Check(Choose(s).Candidate==resource); // ordinary center is not promoted
+            final.IsFinalCityUpgrade=true;s.Construction=new[]{final};Check(Choose(s).Candidate==resource);
+            s.Construction=new CityPlanner.Candidate[0];final.Cost=20000;Check(Choose(s).Candidate==resource);
+            final.Cost=1;final.Delta[1]=-1;Check(Choose(s).Candidate==resource); // protection still enforced
+            final.Delta[1]=0;s.Candidates=new[]{income,final};s.Busy.Add(2);Check(Choose(s).Candidate==income);
+            s.Candidates=new[]{resource,income};s.Busy.Add(1);Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+        }
+        for(int r=1;r<5;r++)foreach(float before in new[]{-10f,0f,5f})
+        {
+            var fallback=Upgrade(1,11,100,0,0,0,0,0);var gold=Upgrade(2,22,200,10,0,0,0,0);
+            var relief=Upgrade(2,23,201,0,0,0,0,0);relief.Delta[r]=1;
+            var s=S(fallback,gold,relief);s.Income=new float[]{20,10,10,10,10};s.Income[r]=before;s.Policy.Floors[r]=5;
+            Check(Choose(s).Candidate==relief);
+            s.Candidates=new[]{fallback,gold};Check(Choose(s).Candidate==gold);
+            s.Candidates=new[]{fallback};Check(Choose(s).Candidate==fallback);
+            fallback.Delta[r]=-1;Check(Choose(s).Kind==CityPlanner.DecisionKind.None);
+        }
     }
 }

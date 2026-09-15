@@ -555,32 +555,5 @@
     }
 
 
-    [PawCitySettings Template=SharedPushButtonWidgetBase]
-    {
-        tooltip = "#paw_city_rules_tip"
-        [View]
-        {
-            L = 286
-            T = 401
-            R = +94
-            B = +23
-        }
-        [Client Template=LabelWidget]
-        {
-            intercept_pick = false
-            [View Template=NoVE]
-            {
-                L = 0
-                T = 4
-                R = +94
-                B = +18
-            }
-            [Label]
-            {
-                text = "#paw_city_rules"
-                font = tiny
-                justify = CENTER
-            }
-        }
-    }
+
 }

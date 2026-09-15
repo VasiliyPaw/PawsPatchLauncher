@@ -13,7 +13,7 @@ internal sealed class CityPlanner
         internal float[] Delta;
         internal string Name = "", SourceName = "", Family = "", Target = "";
         internal int BranchCount;
-        internal bool IsCityCenter, IsMine;
+        internal bool IsCityCenter, IsMine, IsFinalCityUpgrade;
         internal bool Same(Candidate b) { return b != null && City == b.City && Actor == b.Actor && Data == b.Data && Kind == b.Kind; }
     }
     internal sealed class Snapshot
@@ -140,7 +140,9 @@ internal sealed class CityPlanner
         // queue order. A city with gold income cannot jump ahead of iron relief.
         double relief = eligible.Length == 0 ? 0 : eligible.Max(c => Relief(c, goals, policy));
         Candidate[] priority;
-        if (relief > .0001) { priority = eligible.Where(c => Relief(c, goals, policy) >= relief - .0001).ToArray(); Explanation = "resources"; }
+        var finalCenters=eligible.Where(c=>c.Kind==21 && c.IsCityCenter && c.IsFinalCityUpgrade).ToArray();
+        if(finalCenters.Length>0) { priority=finalCenters; Explanation="final_city_upgrade"; }
+        else if (relief > .0001) { priority = eligible.Where(c => Relief(c, goals, policy) >= relief - .0001).ToArray(); Explanation = "resources"; }
         else
         {
             float gold = eligible.Length == 0 ? 0 : eligible.Max(c => c.Delta[0]);
@@ -154,7 +156,10 @@ internal sealed class CityPlanner
                 {
                     // The engine still validates each order. This includes
                     // non-economic buildings, centers and surplus mine upgrades.
-                    priority=AboveTargets(s.Income,projected,policy)?eligible:new Candidate[0];
+                    // Unreachable income targets must not freeze development.
+                    // Affordability, forecasts, exclusions and protection were
+                    // already checked; queued work is never scheduled twice.
+                    priority=eligible;
                     Explanation="random";
                 }
             }
@@ -244,7 +249,7 @@ internal sealed class CityPlanner
     {
         double sum = 0;
         for (int i = 1; i < Math.Min(5, income.Length); i++)
-            if (income[i] < policy.Floor(i)) sum += Math.Min(Math.Max(0, c.Delta[i]), policy.Floor(i) - income[i]);
+            if (income[i] <= policy.Floor(i)) sum += Math.Min(Math.Max(0, c.Delta[i]), Math.Max(1, policy.Floor(i) - income[i]));
         return sum;
     }
 }

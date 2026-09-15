@@ -9,26 +9,12 @@ from native_construction import install as install_construction
 install_construction(m)
 assert b.n.raw[0x188215:0x18821a]==bytes.fromhex('b84e358900')
 assert b.n.raw[0x1883de:0x1883e4]==bytes.fromhex('565733ff8bf1')
-name=("PawCitySettings\0").encode('utf-16le');b.payload[0xb50:0xb50+len(name)]=name
-label=("Client\0").encode('utf-16le');b.payload[0xba8:0xba8+len(label)]=label
-# Add a native settings toggle to the F1 panel before its layout is loaded.
+# The Rules button is removed; keep the creation anchor for numeric fields.
 anchor='mov ebx,1\nload_original:'
 assert m.load.count(anchor)==1
 code=m.load.replace(anchor,f'call {S+0x5200}\n'+anchor)
 m.replace(0x1200,code,0x400)
-m.replace(0x5200,f'''
-push {S+0xb50}; lea ecx,[ebp-4]; call 0x4805de
-push 0; push 0; push 0; lea eax,[ebp-4]; push eax; call 0x7184e9; add esp,16
-mov dword ptr [{S+0xa8}],eax
-push 0; push eax; mov ecx,edi; call 0x717486
-mov ecx,dword ptr [ebp-4]; sub ecx,16; call 0x481375
-mov dword ptr [{S+0xb0}],0
-push {S+0xba8}; lea ecx,[ebp-4]; call 0x4805de
-lea eax,[ebp-4]; push 0; push eax; call 0x4e1d30; add esp,8
-push 0; push eax; mov ecx,dword ptr [{S+0xa8}]; call 0x717486
-mov ecx,dword ptr [ebp-4]; sub ecx,16; call 0x481375
-ret
-''',0x100)
+m.replace(0x5200,'ret',0x100)
 m.replace(0x1600,f'''
 pushfd
 cmp ecx,dword ptr [{S+0x48}]; jne destroy_done
@@ -42,6 +28,7 @@ m.replace(0x1700,f'''
 pushfd; pushad
 cmp ecx,dword ptr [{S+0x48}]; jne tick_done
 call {S+0x1c00}; call {S+0x4300}; call {S+0x4600}; call {S+0x5300}
+cmp dword ptr [{S+0xb8}],1; jne tick_done
 inc dword ptr [{S+0x60}]
 mov ecx,dword ptr [{S+0x4c}]; test ecx,ecx; jz tick_done
 mov eax,dword ptr [ecx+0x24]; shr eax,7; and eax,1
@@ -50,15 +37,7 @@ mov dword ptr [{S+0x40}],eax; inc dword ptr [{S+0x54}]
 mov eax,dword ptr [{S}]; mov dword ptr [{S+0x70}],eax
 tick_done: popad; popfd; jmp 0x51b205
 ''',0x200)
-m.replace(0x5300,f'''
-mov ecx,dword ptr [{S+0xa8}]; test ecx,ecx; jz gear_done
-mov eax,dword ptr [ecx+0x24]; shr eax,7; and eax,1
-cmp eax,dword ptr [{S+0xb0}]; je gear_done
-mov dword ptr [{S+0xb0}],eax
-mov dword ptr [{S+0xb4}],1
-inc dword ptr [{S+0xac}]
-gear_done: ret
-''',0x100)
+m.replace(0x5300,'ret',0x100)
 # Last-moment economic gate, after native ownership/busy/legality checks.
 # ESI points at the freshly generated candidate. Protect all five economic
 # resources, using current engine income and adverse outstanding commitments.
@@ -141,12 +120,15 @@ dialog_cursor:
 '''+hide_cursor,0x100)
 from native_resource_inputs import install as install_inputs
 code=install_inputs(m,code)
+from native_preferences import prepare_load, install as install_preferences
+code=prepare_load(m,code)
 from native_automation import install as install_automation
 install_automation(m,code)
+install_preferences(m)
 from native_transport import install as install_transport
 install_transport(m)
 a.out.mkdir(parents=True,exist_ok=False)
 (a.out/'AssistantPayload.bin').write_bytes(b.payload)
 (a.out/'AssistantFixups.bin').write_bytes(struct.pack('<I',len(b.fixups))+b''.join(struct.pack('<III',*f) for f in b.fixups))
-(a.out/'manifest.json').write_text(json.dumps(dict(m.manifest,revision='city-policy-local-r16',size=len(b.payload),fixupCount=len(b.fixups)),indent=2)+'\n')
+(a.out/'manifest.json').write_text(json.dumps(dict(m.manifest,revision='city-policy-local-r17',size=len(b.payload),fixupCount=len(b.fixups)),indent=2)+'\n')
 print('POLICY_NATIVE_BUILT',len(b.fixups))

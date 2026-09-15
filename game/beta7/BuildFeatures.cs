@@ -35,7 +35,7 @@ internal static class BuildFeatures
         const bool hostility = true;
 #endif
 #if LOBBY_COMPATIBILITY
-        const string lobby = ",\"lobbyCompatibility\":true,\"lobbyCompatibilityProtocol\":1,\"patchVersion\":\"0.3.0-beta.8-test.2\"";
+        const string lobby = ",\"lobbyCompatibility\":true,\"lobbyCompatibilityProtocol\":1,\"patchVersion\":\"0.3.0-beta.8-test.3\"";
 #else
         const string lobby = "";
 #endif
@@ -44,7 +44,7 @@ internal static class BuildFeatures
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
             ",\"commonFixes\":" + commonFixes.ToString().ToLowerInvariant() + ",\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"advancedCityPolicy\":" + (cityAssistant && fastSaveTransfer).ToString().ToLowerInvariant() +
-            ",\"cityPolicyRevision\":" + (cityAssistant ? "15" : "0") +
+            ",\"cityPolicyRevision\":" + (cityAssistant ? "17" : "0") +
             ",\"nativeCityQueue\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"automaticMines\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"newCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +

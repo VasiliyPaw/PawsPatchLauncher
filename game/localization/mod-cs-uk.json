@@ -15364,11 +15364,11 @@
       "uk": "Золотий резерв"
     },
     "paw_city_auto_tip": {
-      "en": "Automatically improve cities without spending the gold reserve.",
-      "de": "Baut Städte automatisch aus, ohne die Goldreserve anzutasten.",
-      "fr": "Améliore automatiquement les villes sans dépenser la réserve d'or.",
-      "cs": "Automaticky vylepšujte města, aniž byste utráceli zlaté rezervy.",
-      "uk": "Автоматично покращувати міста без витрачання золотого резерву."
+      "en": "Final city center upgrade first, then needed resources, economy and a random eligible building. The gold reserve is protected and queued work is counted. Settings are saved locally per match and its saves. New matches start with defaults.",
+      "de": "Zuerst die letzte Aufwertung des Stadtzentrums, dann benötigte Ressourcen, Wirtschaft und ein zufälliges zulässiges Gebäude. Goldreserve und Bauwarteschlange werden berücksichtigt. Einstellungen werden lokal je Partie und ihren Spielständen gespeichert. Neue Partien starten mit Standardwerten.",
+      "fr": "Priorité à la dernière amélioration du centre-ville, puis aux ressources nécessaires, à l’économie et à un bâtiment admissible aléatoire. La réserve d’or est protégée et la file de construction est prise en compte. Réglages enregistrés localement par partie et ses sauvegardes. Toute nouvelle partie utilise les valeurs par défaut.",
+      "cs": "Nejprve poslední vylepšení centra města, poté potřebné suroviny, ekonomika a náhodná dostupná stavba. Zlatá rezerva je chráněna a fronta staveb se započítává. Nastavení se ukládá místně pro každou partii a její uložené hry. Nová partie začíná s výchozími hodnotami.",
+      "uk": "Спочатку останнє поліпшення центру міста, потім потрібні ресурси, економіка та випадкова доступна будівля. Золотий резерв не витрачається, черга враховується. Налаштування зберігаються локально для кожної партії та її збережень. Нова партія починається зі стандартних значень."
     },
     "paw_city_edit_tip": {
       "en": "Enter to apply. Esc or click outside to cancel.",
