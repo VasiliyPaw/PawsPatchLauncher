@@ -14,7 +14,23 @@ public static class GamePackageSelector
         var packages = SelectComponents(channel, settings, text == "ru", customPlayerColors);
         PackageRelease LanguagePackage(string id) => channel.Packages.SingleOrDefault(p => p.Id == id)
             ?? throw new InvalidDataException("В этом выпуске нет файлов выбранного языка. Выберите новый выпуск. / This release does not include the selected language. Select a newer release.");
-        if (text is "de" or "fr") packages.Add(LanguagePackage("game-localization-" + text));
+        if (text is "de" or "fr")
+        {
+            packages.Add(LanguagePackage("game-localization-" + text));
+            var modText = settings.Mod == GameMod.Immortals ? "immortals-localization-" + text
+                : GameMod.IsArcaneWars(settings) ? (settings.PawPatchEnabled && !settings.DataOnly ? "localization-" : "aw-localization-") + text : null;
+            // Early 0.8.1 preview feeds only provided the original game translation.
+            // Retain support for those saved releases, adding mod text when offered.
+            if (modText is not null && channel.Packages.Any(p => p.Id == modText))
+            {
+                packages.Add(LanguagePackage(modText));
+                if (GameMod.IsArcaneWars(settings) && settings.DataOnly && settings.PawPatchEnabled)
+                {
+                    packages.RemoveAll(p => p.Id == "pawpatch-data");
+                    packages.Add(LanguagePackage("pawpatch-data-" + text));
+                }
+            }
+        }
         var voice = settings.GameVoiceLanguage ?? text;
         if (GameLanguages.SupportsSeparateVoice(channel))
         {

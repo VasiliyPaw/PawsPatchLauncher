@@ -2,7 +2,8 @@
 
 German and French game text and speech are separate optional packages for Vanilla,
 Immortals and Arcane Wars, in both patch channels. They are not published.
-Additional mod translations are intentionally outside this preview's scope.
+The later mod-translation preview also supplies German and French mod dictionaries.
+See `LOCAL_081_MOD_TRANSLATIONS.md` for the added scope and verification.
 
 `GameTextLanguage` extends old profiles without changing their EN/RU meaning.
 Settings changes, configuration codes, diagnostics, mod switching and peer-copy
@@ -41,6 +42,6 @@ Validation on 2026-09-15:
 - The final standalone EXE displayed the four text choices and independent
   French text/German speech. No settings were applied to the user's installed game.
 
-Full campaign playback and additional mod-specific translations remain untested.
+Full campaign playback remains untested in this original preview report.
 The preview sidecar uses local language sources. Its ZIP is for this computer;
 language packages are not bundled into every launcher update.

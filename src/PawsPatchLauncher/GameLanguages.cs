@@ -19,7 +19,7 @@ public static class GameLanguages
     public static string Voice(UserSettings settings) => settings.GameVoiceLanguage ?? Text(settings);
     public static bool SupportsSeparateVoice(ChannelManifest? channel) => channel?.Packages.Any(p => p.Id == "game-voice-ru") == true;
     public static bool IsLanguage(PackageRelease package) => package.Id.Contains("localization-", StringComparison.OrdinalIgnoreCase)
-        || package.Id.StartsWith("game-voice-", StringComparison.OrdinalIgnoreCase) || package.Id == "pawpatch-data-ru";
+        || package.Id.StartsWith("game-voice-", StringComparison.OrdinalIgnoreCase) || package.Id is "pawpatch-data-ru" or "pawpatch-data-de" or "pawpatch-data-fr";
 
     public static bool HasUpdate(ChannelManifest installed, ChannelManifest offered, UserSettings applied)
     {
