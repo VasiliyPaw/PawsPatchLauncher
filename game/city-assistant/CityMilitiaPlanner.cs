@@ -2,19 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-// Observes ownership, never militia memory. One ordinary native command is sent
-// for a newly acquired city. A new world's initial cities are eligible too;
-// cities restored from an established saved match form a baseline.
+// Each new city center/building is handled once, after construction finishes.
+// Completed actors loaded from a save form a baseline; unfinished ones can
+// complete later. A player's subsequent manual militia choices are preserved.
 internal sealed class CityMilitiaPlanner
 {
-    internal sealed class City { internal uint Id; internal int State; } // 0 unavailable, 1 closed, 2 open
-    private readonly HashSet<uint> known = new HashSet<uint>();
+    internal sealed class City { internal uint Id, CityId; internal int State; internal bool Unfinished; } // 0 unavailable, 1 closed, 2 open
+    private readonly Dictionary<uint,uint> known = new Dictionary<uint,uint>();
     private readonly Dictionary<uint,int> waiting = new Dictionary<uint,int>();
     private readonly Dictionary<uint,float> retryAt = new Dictionary<uint,float>();
     private bool initialized, awaitingReply;
     private uint epoch, pending;
     private float previousTime=-1, sentAt;
     internal uint Pending { get { return pending; } }
+    internal bool PendingOpen { get; private set; }
     internal uint Update(uint world,float time,bool enabled,bool canIssue,City[] cities,float initialWorldTime=float.NaN)
     {
         bool advances=initialized && epoch==world && time>previousTime;
@@ -28,23 +29,25 @@ internal sealed class CityMilitiaPlanner
             bool starting=initialWorldTime>=0 && initialWorldTime<=1;
             foreach(var city in cities)
             {
-                known.Add(city.Id);
-                if(starting && enabled && city.State!=2)waiting[city.Id]=0;
+                known[city.Id]=city.CityId;
+                if((starting || city.Unfinished) && (city.Unfinished || city.State!=(enabled?2:1)))waiting[city.Id]=0;
             }
             previousTime=time;return 0;
         }
         previousTime=time;
         var owned=new HashSet<uint>(cities.Select(c=>c.Id));
-        foreach(uint id in known.Where(id=>!owned.Contains(id)).ToArray())known.Remove(id);
+        foreach(uint id in known.Keys.Where(id=>!owned.Contains(id)).ToArray())known.Remove(id);
         foreach(uint id in waiting.Keys.Where(id=>!owned.Contains(id)).ToArray()){waiting.Remove(id);retryAt.Remove(id);}
         foreach(var city in cities)
         {
-            if(known.Add(city.Id) && enabled && city.State!=2)waiting[city.Id]=0;
-            if(city.State==2)waiting.Remove(city.Id);
+            uint previousCity;
+            if(!known.TryGetValue(city.Id,out previousCity) || previousCity!=city.CityId)
+            {known[city.Id]=city.CityId;waiting[city.Id]=0;retryAt.Remove(city.Id);}
+            if(city.Id!=pending && !city.Unfinished && city.State==(enabled?2:1))
+            {waiting.Remove(city.Id);retryAt.Remove(city.Id);}
         }
-        if(pending!=0 && (!owned.Contains(pending) || cities.Any(c=>c.Id==pending && c.State==2)))
+        if(pending!=0 && (!owned.Contains(pending) || (!awaitingReply && cities.Any(c=>c.Id==pending && !c.Unfinished && c.State==(PendingOpen?2:1)))))
         {waiting.Remove(pending);pending=0;awaitingReply=false;}
-        if(!enabled){waiting.Clear();retryAt.Clear();return 0;}
         if(pending!=0)
         {
             // Never keep reopening after an unconfirmed sent order: a player's
@@ -56,9 +59,9 @@ internal sealed class CityMilitiaPlanner
         foreach(var city in cities)
         {
             float retry;
-            if(city.State!=1 || !waiting.ContainsKey(city.Id) ||
+            if(city.Unfinished || city.State!=(enabled?1:2) || !waiting.ContainsKey(city.Id) ||
                 (retryAt.TryGetValue(city.Id,out retry) && time<retry))continue;
-            pending=city.Id;awaitingReply=true;sentAt=time;return pending;
+            pending=city.Id;PendingOpen=enabled;awaitingReply=true;sentAt=time;return pending;
         }
         return 0;
     }

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 internal static class PawAssistantRuntime
 {
     private const uint Hook = 0x4A17F0, Original = 0x109FA6, Entry = 0x1000;
-    private const int Size = 0x30000;
+    private const int Size = 0x41000;
     private static readonly uint[] Sites = { Hook, 0x48A6D4, 0x48A6BC, 0x48A6C4, 0x48A718, 0x5059FC, 0x5059EC, 0x2A4B14, 0x2A4B5D, 0x496F10, 0x188215, 0x1883de, 0xd43b8, 0xd3d81, 0xd39dc };
     private static readonly uint[] InlineEntries = { 0x5400, 0x5500, 0x7b00, 0x7b80, 0x7c00 };
     private static readonly uint[] Originals = { Original, 0xBB184, 0xBB71E, 0xBB205, 0xBB238, 0x2AB372, 0x2AB356, 0x2A4D12, 0x2A4DA5 };
@@ -108,6 +108,8 @@ internal static class PawAssistantRuntime
             // State stays RW. Executable code is on a separate RX page.
             mem.MakeExecutable(cave + Entry, 0x7000);
             mem.Flush(cave + Entry, 0x7000);
+            mem.MakeExecutable(cave + 0x30000, 0x1000);
+            mem.Flush(cave + 0x30000, 0x1000);
             for (int i = 0; i < Sites.Length; i++)
             {
                 TerrainPatch.Expect(mem, module + Sites[i], originals[i]);
@@ -165,7 +167,7 @@ internal static class PawAssistantRuntime
             InitializeNativePolicy();
             memory.Write(state, BitConverter.GetBytes(Environment.TickCount));
             logger = log;
-            log("ASSISTANT beta policy=r15 installed; cityOrders=true; nativeQueue=true; mines=true; newCityMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
+            log("ASSISTANT beta policy=r16 installed; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
         }
         finally { memory.Resume(); }
     }
@@ -240,7 +242,9 @@ internal static class PawAssistantRuntime
             byte[] cityRecords = memory.Read(state + 0x19000, (int)cities * 8);
             byte[] construction = memory.Read(state + 0x20000, (int)workCount * 128);
             byte[] forecast = memory.Read(state + 0x1b020, 0x40);
-            byte[] militia = memory.Read(state + 0x1d000, (int)cities * 8);
+            uint militiaCount = BitConverter.ToUInt32(snapshot, 0xa8);
+            bool militiaValid = BitConverter.ToUInt32(snapshot, 0xac) == 1 && militiaCount <= 4096;
+            byte[] militia = militiaValid ? memory.Read(state + 0x31000, (int)militiaCount * 16) : null;
             if (BitConverter.ToUInt32(memory.Read(state + 0x100, 4), 0) == serial)
             {
                 string summary = "epoch=" + BitConverter.ToUInt32(snapshot, 4) + " cities=" + cities + " candidates=" + candidates + " construction=" + workCount + " transport="+BitConverter.ToUInt32(snapshot,0x34)+" transportUnknown="+BitConverter.ToUInt32(snapshot,0x38);
@@ -260,7 +264,7 @@ internal static class PawAssistantRuntime
                 if (serial != lastSnapshotSerial)
                 {
                     lastSnapshotSerial = serial;
-                    PlanMilitia(snapshot,cityRecords,militia);
+                    if (militiaValid) PlanMilitia(snapshot,cityRecords,militia);
                     Plan(snapshot, ui, records, cityRecords, construction, forecast);
                 }
             }
@@ -468,12 +472,17 @@ internal static class PawAssistantRuntime
     {
         uint epoch=BitConverter.ToUInt32(header,4);float time=BitConverter.ToSingle(header,0x10);
         var cities=new List<CityMilitiaPlanner.City>();
-        for(int i=0;i<cityRecords.Length/8;i++)
+        var ownedCities=new HashSet<uint>();
+        for(int i=0;i<cityRecords.Length;i+=8)
+            if((BitConverter.ToUInt32(cityRecords,i+4)&2)==0)ownedCities.Add(BitConverter.ToUInt32(cityRecords,i));
+        var seen=new HashSet<uint>();
+        for(int i=0;i<records.Length;i+=16)
         {
-            if((BitConverter.ToUInt32(cityRecords,i*8+4)&2)!=0)continue;
-            uint id=BitConverter.ToUInt32(cityRecords,i*8);
-            if(BitConverter.ToUInt32(records,i*8)!=id)return;
-            cities.Add(new CityMilitiaPlanner.City {Id=id,State=(int)BitConverter.ToUInt32(records,i*8+4)});
+            uint cityId=BitConverter.ToUInt32(records,i),id=BitConverter.ToUInt32(records,i+4);
+            uint capability=BitConverter.ToUInt32(records,i+8),unfinished=BitConverter.ToUInt32(records,i+12);
+            if(!ownedCities.Contains(cityId) || id==0 || capability>2 || unfinished>1)return;
+            if(!seen.Add(id))continue;
+            cities.Add(new CityMilitiaPlanner.City {Id=id,CityId=cityId,State=(int)capability,Unfinished=unfinished==1});
         }
         if(militiaPending!=0)
         {
@@ -490,10 +499,13 @@ internal static class PawAssistantRuntime
         if(next==0)return;
         byte[] request=new byte[12];Array.Copy(BitConverter.GetBytes(epoch),0,request,0,4);
         Array.Copy(BitConverter.GetBytes(next),0,request,4,4);Array.Copy(BitConverter.GetBytes(time),0,request,8,4);
-        memory.Write(state+0x184,request);militiaSerial++;if(militiaSerial==0)militiaSerial++;
+        memory.Write(state+0x184,request);
+        memory.Write(state+0x198,BitConverter.GetBytes(cities.First(c=>c.Id==next).CityId));
+        memory.Write(state+0x19c,BitConverter.GetBytes(militiaPlanner.PendingOpen ? 1u : 0u));
+        militiaSerial++;if(militiaSerial==0)militiaSerial++;
         militiaPending=militiaSerial;militiaEpoch=epoch;
         memory.Write(state+0x180,BitConverter.GetBytes(militiaSerial));
-        logger("ASSISTANT MILITIA request="+militiaSerial+" city="+next+" command=sally_forth");
+        logger("ASSISTANT MILITIA request="+militiaSerial+" actor="+next+" command="+(militiaPlanner.PendingOpen ? "sally_forth" : "recall"));
     }
     private sealed class GameWindow : IWin32Window {public IntPtr Handle {get;set;} }
     private static void OpenSettings()

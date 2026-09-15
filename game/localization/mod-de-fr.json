@@ -11499,14 +11499,14 @@
       "fr": "Amélioration automatique des villes"
     },
     "paw_city_new_militia": {
-      "en": "Open militia in newly acquired cities",
-      "de": "Miliz in neuen Städten öffnen",
-      "fr": "Ouvrir la milice des nouvelles villes"
+      "en": "Open militia in new cities and buildings",
+      "de": "Miliz in neuen Städten und Gebäuden öffnen",
+      "fr": "Ouvrir la milice des nouvelles constructions"
     },
     "paw_city_new_militia_tip": {
-      "en": "Open militia in the starting city of a new match, as well as newly built and captured cities. Loading an ongoing match preserves existing cities' militia states. This preference is saved between games.",
-      "de": "Öffnet die Miliz der Startstadt einer neuen Partie sowie neu errichteter und eroberter Städte. Beim Laden einer laufenden Partie bleibt der Milizstatus bestehender Städte erhalten. Diese Einstellung wird zwischen Partien gespeichert.",
-      "fr": "Ouvre la milice de la ville de départ d'une nouvelle partie ainsi que celle des villes nouvellement construites ou capturées. Charger une partie en cours conserve l'état de la milice des villes existantes. Ce réglage est conservé entre les parties."
+      "en": "When enabled, militia opens in the starting city, new cities and city buildings after construction. When disabled, new buildings keep their militia closed. Only buildings with militia are affected. Later manual changes are preserved. Completed buildings loaded from a save are unchanged. This preference is saved between games.",
+      "de": "Wenn aktiviert, wird die Miliz der Startstadt sowie neuer Städte und Stadtgebäude nach dem Bau geöffnet. Wenn deaktiviert, bleibt die Miliz neuer Gebäude geschlossen. Gilt nur für Gebäude mit Miliz. Spätere manuelle Änderungen bleiben erhalten. Fertige Gebäude aus einem Spielstand bleiben unverändert. Diese Einstellung wird zwischen Partien gespeichert.",
+      "fr": "Si cette option est activée, la milice de la ville de départ, des nouvelles villes et des bâtiments urbains est ouverte après leur construction. Sinon, la milice des nouvelles constructions reste fermée. Seuls les bâtiments disposant de milice sont concernés. Les modifications manuelles ultérieures sont conservées. Les bâtiments achevés chargés depuis une sauvegarde restent inchangés. Ce réglage est conservé entre les parties."
     },
     "paw_city_reserve": {
       "en": "Gold Reserve",

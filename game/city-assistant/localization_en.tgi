@@ -3,8 +3,8 @@
     ids = Localization/paw_city_policy.tgi
     name = "@Localization/paw_city_policy.tgi"
     paw_city_auto = "City Auto-Upgrade"
-    paw_city_new_militia = "Open militia in newly acquired cities"
-    paw_city_new_militia_tip = "Open militia in the starting city of a new match, as well as newly built and captured cities. Loading an ongoing match preserves existing cities' militia states. This preference is saved between games."
+    paw_city_new_militia = "Open militia in new cities and buildings"
+    paw_city_new_militia_tip = "When enabled, militia opens in the starting city, new cities and city buildings after construction. When disabled, new buildings keep their militia closed. Only buildings with militia are affected. Later manual changes are preserved. Completed buildings loaded from a save are unchanged. This preference is saved between games."
     paw_city_reserve = "Gold Reserve"
     paw_city_auto_tip = "Automatically improve cities without spending the gold reserve."
     paw_city_edit_tip = "Enter to apply. Esc or click outside to cancel."

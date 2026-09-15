@@ -15343,18 +15343,18 @@
       "uk": "Автоматичне поліпшення міст"
     },
     "paw_city_new_militia": {
-      "en": "Open militia in newly acquired cities",
-      "de": "Miliz in neuen Städten öffnen",
-      "fr": "Ouvrir la milice des nouvelles villes",
-      "cs": "Otevřená milice v nově získaných městech",
-      "uk": "Відкрити ополчення у новозахоплених містах"
+      "en": "Open militia in new cities and buildings",
+      "de": "Miliz in neuen Städten und Gebäuden öffnen",
+      "fr": "Ouvrir la milice des nouvelles constructions",
+      "cs": "Otevřít milici nových měst a budov",
+      "uk": "Відкривати ополчення в нових спорудах"
     },
     "paw_city_new_militia_tip": {
-      "en": "Open militia in the starting city of a new match, as well as newly built and captured cities. Loading an ongoing match preserves existing cities' militia states. This preference is saved between games.",
-      "de": "Öffnet die Miliz der Startstadt einer neuen Partie sowie neu errichteter und eroberter Städte. Beim Laden einer laufenden Partie bleibt der Milizstatus bestehender Städte erhalten. Diese Einstellung wird zwischen Partien gespeichert.",
-      "fr": "Ouvre la milice de la ville de départ d'une nouvelle partie ainsi que celle des villes nouvellement construites ou capturées. Charger une partie en cours conserve l'état de la milice des villes existantes. Ce réglage est conservé entre les parties.",
-      "cs": "Otevřete milice v počátečním městě nového zápasu, stejně jako nově postavené a zachycené města. Načtení probíhajícího zápasu zachovává stávající stavy milic měst. Tato předvolba je uložena mezi hrami.",
-      "uk": "Відкрити ополчення у початковому місті нової гри, а також у новозбудованих і захоплених містах. Завантаження поточного матчу зберігає існуючі стани ополчення міст. Цей параметр зберігається між іграми."
+      "en": "When enabled, militia opens in the starting city, new cities and city buildings after construction. When disabled, new buildings keep their militia closed. Only buildings with militia are affected. Later manual changes are preserved. Completed buildings loaded from a save are unchanged. This preference is saved between games.",
+      "de": "Wenn aktiviert, wird die Miliz der Startstadt sowie neuer Städte und Stadtgebäude nach dem Bau geöffnet. Wenn deaktiviert, bleibt die Miliz neuer Gebäude geschlossen. Gilt nur für Gebäude mit Miliz. Spätere manuelle Änderungen bleiben erhalten. Fertige Gebäude aus einem Spielstand bleiben unverändert. Diese Einstellung wird zwischen Partien gespeichert.",
+      "fr": "Si cette option est activée, la milice de la ville de départ, des nouvelles villes et des bâtiments urbains est ouverte après leur construction. Sinon, la milice des nouvelles constructions reste fermée. Seuls les bâtiments disposant de milice sont concernés. Les modifications manuelles ultérieures sont conservées. Les bâtiments achevés chargés depuis une sauvegarde restent inchangés. Ce réglage est conservé entre les parties.",
+      "cs": "Je-li tato volba zapnutá, milice počátečního města, nových měst a městských budov se po dokončení stavby otevře. Je-li vypnutá, milice nových staveb zůstane zavřená. Platí pouze pro stavby s milicí. Pozdější ruční změny zůstanou zachovány. Dokončené stavby načtené z uložené hry se nemění. Nastavení se ukládá i po ukončení hry.",
+      "uk": "Якщо ввімкнено, ополчення початкового міста, нових міст і міських будівель відкривається після завершення будівництва. Якщо вимкнено, ополчення нових споруд закрите. Діє лише для споруд з ополченням. Подальші ручні зміни зберігаються. Готові споруди із завантаженого збереження не змінюються. Налаштування зберігається між іграми."
     },
     "paw_city_reserve": {
       "en": "Gold Reserve",

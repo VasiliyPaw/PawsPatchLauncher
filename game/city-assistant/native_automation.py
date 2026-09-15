@@ -30,6 +30,8 @@ transport_ready: mov''')
 cmp dword ptr [0xa59218],2; je preserve_world_birth
 mov dword ptr [{S+0x1a0}],0
 preserve_world_birth:''')
+    capture=replace_once(capture,f'mov dword ptr [{S+0x128}],0',
+        f'mov dword ptr [{S+0x128}],0; mov dword ptr [{S+0x1a8}],0; mov dword ptr [{S+0x1ac}],1')
     m.replace(0x2000,capture,0x800)
     assert set(b.payload[0x1e00:0x1e80]) <= {0, 0x90}, 'World-birth code reservation is occupied'
     m.replace(0x1e00,f'''
@@ -179,63 +181,8 @@ mov edi,{S+0x1c000}; xor eax,eax; mov ecx,4; cld; rep stosd
 popad; popfd; ret
 ''',0x100)
 
-    # Separate immutable mailbox: 180 serial,184 epoch,188 city,18c time,
-    # 190 result,194 reply. Never call simulation Process or write militia flags.
-    m.replace(0x7400,f'''
-push ebp; mov ebp,esp; sub esp,32; push ebx; push esi; push edi
-mov eax,dword ptr [{S+0x180}]; cmp eax,dword ptr [{S+0x194}]; je militia_done
-mov dword ptr [ebp-4],eax; mov dword ptr [{S+0x190}],2
-cmp dword ptr [{S+0x128}],1; jne militia_reply
-cmp dword ptr [{S+0xc0}],1; jne militia_reply
-mov eax,dword ptr [{S+0x184}]; cmp eax,dword ptr [{S+0x104}]; jne militia_reply
-movss xmm0,dword ptr [{S+0x110}]; ucomiss xmm0,dword ptr [{S+0x18c}]
-jp militia_reply; jbe militia_done
-mov ecx,dword ptr [0xa4f72c]; push dword ptr [{S+0x188}]; call 0x481117
-test eax,eax; jz militia_reply; mov edi,eax
-cmp dword ptr [edi+0x98],0; je militia_reply
-mov ecx,edi; mov eax,dword ptr [ecx]; call dword ptr [eax+0x108]
-cmp eax,dword ptr [{S+0x10c}]; jne militia_reply
-mov eax,dword ptr [edi+0x98]; mov edi,dword ptr [eax+0x14]
-test edi,edi; jz militia_reply
-mov ecx,edi; mov eax,dword ptr [ecx]; call dword ptr [eax+0x108]
-cmp eax,dword ptr [{S+0x10c}]; jne militia_reply
-mov ecx,edi; mov eax,dword ptr [ecx]; push 24; call dword ptr [eax+0x34]
-test al,al; jnz militia_already
-mov ecx,edi; mov eax,dword ptr [ecx]; push 23; call dword ptr [eax+0x34]
-test al,al; jz militia_reply
-push 64; call 0x74f03c; add esp,4; test eax,eax; jz militia_reply
-mov ecx,eax; push 23; call 0x68f4e9
-inc dword ptr [eax+4]; mov dword ptr [ebp-8],eax
-push edi; lea eax,[ebp-8]; push eax; lea ecx,[ebp-20]; call 0x52d843
-lea ecx,[ebp-20]; call 0x533d5f; test al,al; jz militia_destroy
-lea ecx,[ebp-20]; call 0x533d57
-mov dword ptr [{S+0x190}],1
-militia_destroy: lea ecx,[ebp-20]; call 0x533d3c; jmp militia_reply
-militia_already: mov dword ptr [{S+0x190}],3
-militia_reply: mov eax,dword ptr [ebp-4]; mov dword ptr [{S+0x194}],eax
-militia_done: pop edi; pop esi; pop ebx; mov esp,ebp; pop ebp; ret
-''',0x400)
-    # Native capability state is observed in the same seqlock as ownership.
-    m.replace(0x7800,f'''
-push ebx; push esi; push edi
-mov edi,ecx; mov esi,dword ptr [{S+0x11c}]
-mov eax,dword ptr [edi+0x14]; mov dword ptr [{S+0x1d000}+esi*8],eax
-xor ebx,ebx
-mov eax,dword ptr [edi+0x98]; test eax,eax; jz militia_state_done
-mov edi,dword ptr [eax+0x14]; test edi,edi; jz militia_state_done
-mov ecx,edi; mov eax,dword ptr [ecx]; call dword ptr [eax+0x108]
-cmp eax,dword ptr [{S+0x10c}]; jne militia_state_done
-mov ecx,edi
-mov eax,dword ptr [ecx]; push 24; call dword ptr [eax+0x34]
-test al,al; jz militia_closed
-mov ebx,2; jmp militia_state_done
-militia_closed:
-mov ecx,edi; mov eax,dword ptr [ecx]; push 23; call dword ptr [eax+0x34]
-test al,al; jz militia_state_done
-mov ebx,1
-militia_state_done: mov dword ptr [{S+0x1d004}+esi*8],ebx
-pop edi; pop esi; pop ebx; ret
-''',0x100)
+    from native_militia import install as install_militia
+    install_militia(m)
     # ECX current production, EDX upkeep. Every economic resource must be
     # strictly above its target BEFORE a market order, after adverse queued work.
     m.replace(0x7900,f'''

@@ -12,7 +12,7 @@ def check(ok,label):
     checks+=1
 
 for game,cave in [(0x460000,0x10000000),(0x650000,0x21000000),(0x12000000,0x60000000)]:
-    u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(game,0x700000);u.mem_map(cave,0x30000);u.mem_map(0x30000000,0x20000)
+    u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(game,0x700000);u.mem_map(cave,0x41000);u.mem_map(0x30000000,0x20000)
     data=bytearray((a.native/'AssistantPayload.bin').read_bytes());fix=(a.native/'AssistantFixups.bin').read_bytes()
     for i in range(struct.unpack_from('<I',fix)[0]):
         k,o,v=struct.unpack_from('<III',fix,4+i*12)

@@ -64,6 +64,41 @@ internal static class CityMilitiaPlannerTests
         Check(p.Update(2,32,false,true,new[]{existing,late})==0,"off cancels unissued action");
         Check(p.Update(2,33,true,true,new[]{existing,late})==0,"on does not replay cancelled acquisition");
         Check(p.Update(2,0,true,true,new[]{existing,late})==0,"time rollback resets baseline");
+        foreach(bool open in new[]{true,false})
+        {
+            var buildings=new CityMilitiaPlanner();var oldCenter=C(100,open?1:2);
+            var oldBuilding=C(101,open?1:2);oldCenter.CityId=oldBuilding.CityId=10;
+            buildings.Update(5,600,open,true,new[]{oldCenter,oldBuilding},600);
+            Check(buildings.Update(5,601,open,true,new[]{oldCenter,oldBuilding},600)==0,"loaded finished buildings retain their state");
+            var child=C(102,open?1:2);child.CityId=10;child.Unfinished=true;
+            Check(buildings.Update(5,602,open,true,new[]{oldCenter,oldBuilding,child})==0,"child waits while constructing even with capability bits");
+            child.Unfinished=false;
+            Check(buildings.Update(5,603,open,true,new[]{oldCenter,oldBuilding,child})==102,"finished child in existing city gets current preference");
+            Check(buildings.PendingOpen==open,"correct open or recall command selected");
+            buildings.Reply(1,603);child.State=open?2:1;
+            Check(buildings.Update(5,604,open,true,new[]{oldCenter,oldBuilding,child})==0,"child command confirmed");
+            child.State=open?1:2;
+            Check(buildings.Update(5,605,open,true,new[]{oldCenter,oldBuilding,child})==0,"manual child state respected");
+            Check(buildings.Update(5,606,!open,true,new[]{oldCenter,oldBuilding,child})==0,"preference toggle does not rewrite completed child");
+            child.Unfinished=true;
+            Check(buildings.Update(5,607,open,true,new[]{oldCenter,oldBuilding,child})==0,"upgrade of handled child preserves manual choice");
+            child.Unfinished=false;
+            Check(buildings.Update(5,608,open,true,new[]{oldCenter,oldBuilding,child})==0,"completed upgrade preserves manual choice");
+            buildings.Update(5,609,open,true,new[]{oldCenter,oldBuilding});
+            Check(buildings.Update(5,610,open,true,new[]{oldCenter,oldBuilding,child})==102,"reacquired child is handled again");
+        }
+        var duringBuild=new CityMilitiaPlanner();var foundation=C(200,0);foundation.Unfinished=true;
+        duringBuild.Update(1,900,true,true,new[]{foundation},900);
+        Check(duringBuild.Update(1,901,false,true,new[]{foundation})==0,"loaded construction still waits and accepts preference changes");
+        foundation.Unfinished=false;foundation.State=2;
+        Check(duringBuild.Update(1,902,false,true,new[]{foundation})==200 && !duringBuild.PendingOpen,"preference at completion closes newly completed building");
+        duringBuild.Reply(2,902);
+        Check(duringBuild.Update(1,903,true,true,new[]{foundation})==0,"changed preference cancels stale rejected request when state matches");
+        foundation.State=1;
+        Check(duringBuild.Update(1,910,true,true,new[]{foundation})==0,"matched building is not rewritten later");
+        var noMilitia=new CityMilitiaPlanner();noMilitia.Update(1,10,true,true,new CityMilitiaPlanner.City[0]);
+        Check(noMilitia.Update(1,11,true,true,new[]{C(201,0)})==0,"building without militia gets no command");
+        Check(noMilitia.Update(1,12,false,true,new[]{C(201,0)})==0,"no recall for a building without militia");
         Console.WriteLine("CITY_MILITIA_PLANNER_PASS "+checks+" checks");return 0;
     }
 }

@@ -16,7 +16,7 @@ raw=(a.legacy.parent/'k2_runtime_1372_20260904.bin').read_bytes()
 assert hashlib.sha256(raw).hexdigest()=='b865d8206990c4f055c51de857f0b09b88ab5ee3b6ae74ee5232134001aa591c'
 checks=0
 for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21000000),(0x12000000,0x60000000)] for n in (9,10)]:
-    u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(game,0x700000);u.mem_map(cave,0x30000);u.mem_map(0x30000000,0x200000)
+    u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(game,0x700000);u.mem_map(cave,0x41000);u.mem_map(0x30000000,0x200000)
     payload=bytearray((a.native/'AssistantPayload.bin').read_bytes());fix=(a.native/'AssistantFixups.bin').read_bytes()
     for i in range(struct.unpack_from('<I',fix)[0]):
         k,o,v=struct.unpack_from('<III',fix,4+i*12)
@@ -118,13 +118,31 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
     # Real native CanCommand/bit-mask code, relocated with the game image.
     for start,end in [(0x68f23f,0x68f26a),(0x4c480b,0x4c4825)]:u.mem_write(game+start-0x460000,raw[start-0x460000:end-0x460000])
     w(vt+0x34,game+0x22f23f);w(cave+0x11c,0)
+    w(center+0x100,0);w(center+0x528,0)
+    child=actor(202,old);ordinary=actor(203,old);children=alloc()
+    w(children,center);w(children+4,child);w(children+8,ordinary)
+    w(settle+0x18,children);w(settle+0x1c,3);w(child+0xf0,1<<23)
+    def militia_capture():
+        w(cave+0x1a8,0);w(cave+0x1ac,1);run(0x7800,city)
+        assert r(cave+0x1a8)==3 and r(cave+0x1ac)==1
+        return [struct.unpack('<4I',u.mem_read(cave+0x31000+i*16,16)) for i in range(3)]
     for capability,expected in [(0,0),(1<<23,1),(1<<24,2)]:
-        w(center+0xf0,capability);run(0x7800,city)
-        assert r(cave+0x1d000)==200 and r(cave+0x1d004)==expected;checks+=1
+        w(center+0xf0,capability);rows=militia_capture()
+        assert rows==[(200,201,expected,0),(200,202,1,0),(200,203,0,0)],rows;checks+=1
+    # Even if native command bits are already set, construction must finish.
+    for flags,upgrade in [(0x00200000,0),(0x20000000,0),(0,target)]:
+        w(child+0x100,flags);w(child+0x528,upgrade)
+        assert militia_capture()[1]==(200,202,0,1);checks+=1
+    w(child+0x100,0);w(child+0x528,0)
+    assert militia_capture()[1]==(200,202,1,0);checks+=1
+    w(settle+0x1c,257);w(cave+0x1ac,1);run(0x7800,city)
+    assert r(cave+0x1ac)==0;checks+=1;w(settle+0x1c,3)
+    w(cave+0x1a8,4096);w(cave+0x1ac,1);run(0x7800,city)
+    assert r(cave+0x1ac)==0 and r(cave+0x1a8)==4096;checks+=1
     # Constructor + Validate + Send, with reference destruction, no direct
     # simulation mutation. All network endpoints are explicit test stubs.
     command=alloc();seen=alloc();valid=seen+8
-    stub(game+0x21117,f'mov eax,{city}; ret 4')
+    stub(game+0x21117,f'cmp dword ptr [esp+4],200; jne missing_city; mov eax,{city}; ret 4; missing_city: xor eax,eax; ret 4')
     stub(game+0x2ef03c,f'mov eax,{command}; ret')
     stub(game+0x22f4e9,'mov eax,dword ptr [esp+4]; mov dword ptr [ecx+8],eax; mov eax,ecx; ret 4')
     stub(game+0xcd843,'mov eax,dword ptr [esp+8]; mov dword ptr [ecx],eax; mov eax,dword ptr [esp+4]; mov eax,dword ptr [eax]; mov dword ptr [ecx+4],eax; ret 8')
@@ -133,7 +151,7 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
     stub(game+0xd3d57,f'jmp {seen+0x100}')
     stub(seen+0x100,f'inc dword ptr [{seen}]; mov eax,dword ptr [ecx]; mov dword ptr [{seen+16}],eax; mov eax,dword ptr [ecx+4]; mov eax,dword ptr [eax+8]; mov dword ptr [{seen+4}],eax; ret')
     stub(game+0xd3d3c,f'inc dword ptr [{seen+12}]; ret')
-    w(valid,1);w(cave+0x128,1);w(cave+0xc0,1);w(cave+0x104,7);w(cave+0x184,7);w(cave+0x188,200)
+    w(valid,1);w(cave+0x128,1);w(cave+0xc0,1);w(cave+0x104,7);w(cave+0x184,7);w(cave+0x188,201);w(cave+0x198,200);w(cave+0x19c,1)
     f(cave+0x110,2);f(cave+0x18c,1);w(center+0xf0,1<<23)
     w(cave+0x180,1);run(0x7400)
     assert r(cave+0x190)==1 and r(cave+0x194)==1 and r(seen)==1 and r(seen+4)==23 and r(seen+12)==1
@@ -150,6 +168,28 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         assert r(cave+0x194)==serial and r(cave+0x190)==result and r(seen)==1,(serial,r(cave+0x194),r(cave+0x190),r(seen));checks+=1;restore()
     w(cave+0x180,8);f(cave+0x110,1);run(0x7400);assert r(cave+0x194)==7 and r(seen)==1;checks+=1
     f(cave+0x110,2);run(0x7400);assert r(cave+0x194)==8 and r(seen)==2;checks+=1
+    # Child opening and closing use the same replicated native transport.
+    w(cave+0x188,202)
+    for serial,preference,capability,expected in [(9,1,23,23),(10,0,24,24)]:
+        w(cave+0xc0,preference);w(cave+0x19c,preference);w(child+0xf0,1<<capability)
+        before=r(seen);w(cave+0x180,serial);run(0x7400)
+        assert r(cave+0x190)==1 and r(seen)==before+1 and r(seen+4)==expected and r(seen+16)==child
+        assert r(child+0xf0)==1<<capability;checks+=2
+    before=r(seen)
+    childvt=alloc();u.mem_write(childvt,bytes(u.mem_read(vt,0x110)));w(childvt+0x108,foreign)
+    for serial,change,restore in [
+        (11,lambda:w(child+0x100,0x00200000),lambda:w(child+0x100,0)),
+        (12,lambda:w(child+0x528,target),lambda:w(child+0x528,0)),
+        (13,lambda:w(cave+0x198,999),lambda:w(cave+0x198,200)),
+        (14,lambda:w(children+4,ordinary),lambda:w(children+4,child)),
+        (15,lambda:w(child,childvt),lambda:w(child,vt)),
+        (16,lambda:w(cave+0x19c,1),lambda:w(cave+0x19c,0)),
+        (17,lambda:w(cave+0xb4,1),lambda:w(cave+0xb4,0)),
+        (18,lambda:w(child+0xf0,0),lambda:w(child+0xf0,1<<24))]:
+        change();w(cave+0x180,serial);run(0x7400)
+        assert r(cave+0x194)==serial and r(cave+0x190)==2 and r(seen)==before,serial;checks+=1;restore()
+    w(child+0xf0,1<<23);w(cave+0x180,19);run(0x7400)
+    assert r(cave+0x190)==3 and r(seen)==before;checks+=1
     # Run the real snapshot entry, initially without a ready local kingdom.
     # The first native world timestamp must survive incomplete snapshots and
     # helper/UI delays, but reset for a saved world, a rewind, or a menu exit.

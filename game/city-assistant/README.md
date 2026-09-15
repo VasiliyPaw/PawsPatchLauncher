@@ -1,11 +1,11 @@
-# Built-in city policy — 0.3.0-beta.4 / r15
+# Built-in city policy — 0.3.0-beta.8-test.2 / r16
 
 Supported executable: Kohan II 1.3.72, Steam build 25068126. The stock EXE is not modified on disk. City policy is included in all eight Arcane Wars Beta helper variants. Stable Arcane Wars and the separate Kohan II fixes channels do not enable it.
 
 ## Controls and persistence
 
 - F1 auto-upgrade and a 2000 gold reserve start enabled for each new match or loaded save. Four native inputs set stone, wood, iron and mana income targets. Enter applies; Esc or leaving an input cancels editing.
-- The new F1 option “Open militia in newly acquired cities” defaults ON and persists across matches and restarts. Newly built or captured cities are eligible after the first coherent world snapshot. A starting city is also eligible when the native bridge first observes the world within simulation second 0–1. That timestamp is retained even if the managed snapshot arrives later. Established saves form a baseline and are not reopened. A save made within the first second is treated as an initial world; this is a simulation-time boundary, not an explicit new-game flag. Recapture counts as a new acquisition; later manual militia changes are respected.
+- The F1 option “Open militia in new cities and buildings” is above auto-upgrade and defaults ON and persists across matches and restarts. Newly built or captured cities are eligible after the first coherent world snapshot. A starting city is also eligible when the native bridge first observes the world within simulation second 0–1. That timestamp is retained even if the managed snapshot arrives later. Completed actors in established saves form a baseline and are not rewritten; unfinished buildings remain eligible when they complete. A save made within the first second is treated as an initial world; this is a simulation-time boundary, not an explicit new-game flag. Centers and all owned city children are tracked individually. A newly completed actor with militia is opened when the preference is ON, or recalled when OFF. A preference change while construction is in progress takes effect at completion. Recapture counts as a new acquisition; later manual militia changes and upgrades of handled buildings are respected.
 - Targets, general permissions, global branches and the militia preference persist in `%LOCALAPPDATA%/PawsPatch/city-policy.ini`. A previous experimental file is imported only when this production file does not exist. City exceptions reset with the world. Auto-upgrade ON/2000 still resets on load; the separate militia preference does not.
 - Settings contains build/upgrade permissions, exact branch preferences and city exceptions. Random idle development has no optional toggle; legacy `other` preferences are ignored.
 
@@ -31,7 +31,7 @@ Automatic planning and the final native dispatcher wait while any group is pendi
 
 ## Militia authority
 
-Native registration maps `sally_forth` to command 23 (`68FE28`) and `recall` to 24. DenizenComponent updates the center actor's capabilities at `668FD9` and handles these commands at `669664`. The settlement actor itself has no militia capability. Capture and dispatch resolve `city +98 -> settlement +14` to the current center and revalidate its owner. The bridge uses the ordinary command constructor, `KKC_TellActorCommandOrder.Validate`, Send and destructor. It never writes a guessed militia flag or directly invokes simulation processing. An unconfirmed sent militia command is not repeatedly retried.
+Native registration maps `sally_forth` to command 23 (`68FE28`) and `recall` to 24. DenizenComponent updates actors' capabilities at `668FD9` and handles these commands at `669664`. The settlement actor itself has no militia capability. Capture traverses `city +98 -> settlement +14` (center) and `settlement +18/+1c` (children/count). Dispatch resolves the current city by ID and revalidates child membership, both owners, construction/upgrade state and the current checkbox before sending. The snapshot is bounded to 256 children per city and 4096 actors; incomplete militia snapshots are not planned. The bridge uses the ordinary command constructor, `KKC_TellActorCommandOrder.Validate`, Send and destructor. It never writes a guessed militia flag or directly invokes simulation processing. An unconfirmed sent militia command is not repeatedly retried.
 
 F1 initialization renders the retained preference using native Check (`7186D4`) or Uncheck (`7186F2`). These are separate operations with `(notify, update)` arguments, so rendering uses `(0, 1)` and selects the operation from the saved value. The next tick therefore cannot mistake an initially unchecked widget for a user choosing OFF. Tests execute both actual native methods for first creation, reopening, saved ON/OFF and later manual toggles.
 
@@ -41,12 +41,12 @@ Without Shards, nine native resources begin `gold, stone, wood, iron, mana`; wit
 
 The runtime audit image SHA-256 is `B865D8206990C4F055C51DE857F0B09B88AB5EE3B6AE74EE5232134001AA591C`; the stock executable is `1EB79BBB678668BE5A05F8C98103CD9988048490CE7C53C74C9A1D0813E9CD45`. `fixtures/stock_markets_1372.json` records all six actual stock market definitions/effects and source-entry hashes. Mod/property effects remain native-query driven.
 
-`build_policy_native.py` composes the accepted legacy bridge with native_construction, native_resource_inputs, native_automation and native_transport. Generated resources are byte-compared before compilation. They contain patch-owned code/fixups, not a stock executable. Runtime installation is transactional, restricted to the launcher's own fresh verified game, with executable/state pages separated.
+`build_policy_native.py` composes the accepted legacy bridge with native_construction, native_resource_inputs, native_automation, native_militia and native_transport. Generated resources are byte-compared before compilation. They contain patch-owned code/fixups, not a stock executable. Runtime installation is transactional, restricted to the launcher's own fresh verified game, with executable/state pages separated.
 
-Final r15 resources (455 relocations):
+Final r16 resources (463 relocations; 0x41000 bytes, extra RX page at +0x30000 and RW actor records at +0x31000):
 
-- `AssistantPayload.bin`: `8FC7B28F5415EA3F99A59A862164B4DD17891541F1020CBC0D3E8ABC7A8CF43D`
-- `AssistantFixups.bin`: `07A1B1CA294D8610C67FB96F013DEBED59AF434EE6E7503FD2F1B097F73C42FD`
+- `AssistantPayload.bin`: `F703FB998C6922E588834D09B2D4CA9C75EE6B74CBD53D8D6917EA3B04291F2E`
+- `AssistantFixups.bin`: `07D4BB667E35611268EFFEE51DFC3C159DA8AE30DD4B37F096AA65DE3F396D88`
 
 ## Build and validation
 

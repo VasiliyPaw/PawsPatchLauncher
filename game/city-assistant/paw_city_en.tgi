@@ -8,7 +8,7 @@
 		                [Child Template=SharedSmallLeftLabelVE]
         {
             L = 41
-            T = 435
+            T = 407
             B = +20
             text = "#paw_city_new_militia"
             font = tiny
@@ -16,7 +16,7 @@
 [Child Template=SharedSmallLeftLabelVE]
         {
             L = 41
-            T = 407
+            T = 435
             B = +20
             text = "#paw_city_auto"
             font = tiny
@@ -209,7 +209,7 @@
         [View]
         {
             L = 16
-            T = 404
+            T = 432
         }
     }
     [PawNewCityMilitia Template=GameToggleButtonWidget]
@@ -218,7 +218,7 @@
         [View]
         {
             L = 16
-            T = 432
+            T = 404
         }
     }
     [PawStoneFloor Template=NumericEditboxWidget]

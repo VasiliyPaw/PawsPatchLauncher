@@ -9,7 +9,7 @@ checks=0
 markets=json.loads((Path(__file__).parent/'fixtures/stock_markets_1372.json').read_text())['markets']
 assert {m['id'].split('_')[0] for m in markets}=={'human','drauga','gauri','haroun','shadow','undead'}
 for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21000000),(0x12000000,0x60000000)] for n in (9,10)]:
-    u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(game,0x700000);u.mem_map(cave,0x30000);u.mem_map(0x30000000,0x20000)
+    u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(game,0x700000);u.mem_map(cave,0x41000);u.mem_map(0x30000000,0x20000)
     data=bytearray((a.native/'AssistantPayload.bin').read_bytes());fix=(a.native/'AssistantFixups.bin').read_bytes()
     for i in range(struct.unpack_from('<I',fix)[0]):
         k,o,v=struct.unpack_from('<III',fix,4+i*12);struct.pack_into('<I',data,o,((game+v) if k==1 else cave+v if k==2 else game+v-cave-o-4)&0xffffffff)

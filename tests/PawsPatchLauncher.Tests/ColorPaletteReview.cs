@@ -35,10 +35,12 @@ static class ColorPaletteReview
         var installer=new ModuleInstaller(Path.GetFullPath(gameRoot));var state=installer.LoadState();var settings=state.AppliedSettings;
         if(settings is not {Mod:GameMod.ArcaneWars,Channel:"beta",PawPatchEnabled:true,DataOnly:false})throw new Exception("Expected existing full Arcane Wars beta");
         var desired=new Dictionary<string,InstalledModule>(state.Modules,StringComparer.OrdinalIgnoreCase);
-        foreach(var id in new[]{"pawpatch-core","common-ui","player-colors"})
+        foreach(var id in new[]{"pawpatch-core","common-ui","player-colors","localization-de","localization-fr","localization-cs","localization-uk"})
         {
-            if(!desired.ContainsKey(id)&&id=="player-colors")continue;
-            var p=feed.Packages.Single(x=>x.Id==id);var archive=Path.GetFullPath(p.Urls[0]);
+            if(!desired.ContainsKey(id))continue;
+            var p=feed.Packages.Single(x=>x.Id==id);
+            if(id.StartsWith("localization-") && Uri.TryCreate(p.Urls[0],UriKind.Absolute,out var uri) && uri.Scheme=="https")continue;
+            var archive=Path.GetFullPath(p.Urls[0]);
             if(!archive.StartsWith(root+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))throw new Exception("Review archive escaped local folder");
             if(await CryptoAndIO.Sha256Async(archive)!=p.Sha256)throw new Exception("Review archive changed");
             desired[id]=await installer.PrepareAsync(p,archive);
