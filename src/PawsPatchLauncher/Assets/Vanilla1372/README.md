@@ -19,3 +19,11 @@ Arcane Wars distributes these unchanged. They must be kept as originals even
 when their hash also matches the mod. Legacy restoration recovers missing
 original records from a hash-verified live file or cached Arcane Wars payload;
 the large archives are not embedded in the launcher.
+
+`SingleLaunchSettings.bin` (2322 bytes) and `MultiLaunchSettings.bin` (2604 bytes)
+are empty new-game defaults serialized by the original Steam 1.3.72 executable
+on 2026-09-15, using an isolated empty user depot and `+Quit`. They contain no
+account, personal settings or saved game. The locale header says German because
+the local DE preview was mounted; this is the map-header SKU, not voice selection.
+GameLobbyPreferences verifies their hashes before replacing an incompatible
+launch-settings chunk. Other chunks, especially SimplePreferences, are preserved.

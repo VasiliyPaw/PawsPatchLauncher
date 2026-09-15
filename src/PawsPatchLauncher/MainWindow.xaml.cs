@@ -610,6 +610,8 @@ public partial class MainWindow : Window
                     .Concat(await vanillaInstaller.VerifyAsync()).ToList();
                 if (check.Count != 0) throw new IOException(string.Join("; ", check));
                 EnsureGameClosed();
+                await GameLobbyPreferences.PrepareForLaunchAsync(_game.Directory, vanillaInstaller.LoadState().AppliedSettings ?? GetEffectiveSettings());
+                EnsureGameClosed();
                 var original = Process.Start(new ProcessStartInfo(vanilla) { WorkingDirectory = _game.Directory, UseShellExecute = true })
                     ?? throw new IOException("Cannot start Kohan II.");
                 BeginGameObservation(original, new ModuleInstaller(_game.Directory).LoadState());
@@ -647,6 +649,8 @@ public partial class MainWindow : Window
                 await GameMenuMetadata.WriteAsync(_game.Directory, channel, GetEffectiveSettings());
             EnsureGameClosed();
             EnsureModAccess(_settings.Mod);
+            await GameLobbyPreferences.PrepareForLaunchAsync(_game.Directory, state.AppliedSettings ?? GetEffectiveSettings());
+            EnsureGameClosed();
             var process = Process.Start(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true })
                 ?? throw new IOException("Cannot start Kohan II.");
             BeginGameObservation(process, installer.LoadState());

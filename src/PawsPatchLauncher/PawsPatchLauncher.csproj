@@ -30,6 +30,7 @@
     <EmbeddedResource Include="Assets\Languages\*.json" />
     <EmbeddedResource Include="Assets\Vanilla1372\autoexec.txt" />
     <EmbeddedResource Include="Assets\Vanilla1372\options_dialog.tgi" />
+    <EmbeddedResource Include="Assets\Vanilla1372\*LaunchSettings.bin" />
     <None Update="launcher.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
