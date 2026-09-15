@@ -1,4 +1,11 @@
 {
+  "Delete":{"cs":"Odstranit","uk":"Видалити"},
+  "Add":{"cs":"Přidat","uk":"Додати"},
+  "Remove":{"cs":"Odstranit","uk":"Прибрати"},
+  "DELETE":{"cs":"Odstranit","uk":"ВИДАЛИТИ"},
+  "RENAME":{"cs":"Přejmenovat","uk":"ПЕРЕЙМЕНУВАТИ"},
+  "KICK":{"cs":"Odstranit","uk":"ВИГНАТИ"},
+  "BAN":{"cs":"Odstranit","uk":"БЛОКУВАТИ"},
   "No.": {"cs":"Ne.","uk":"Ні."},
   "Vhantega": {"cs":"Vhantega","uk":"Вантега"},
   "Sijansur": {"cs":"Sijansur","uk":"Сіджансур"},

@@ -3,6 +3,7 @@ import argparse, copy, json, re, urllib.request
 from pathlib import Path
 from PrepareSplitLanguages import build, read, write, readpkg, sha, dec
 from PrepareEuropeanLanguages import decode
+from GameTextValidation import validate_engine_text
 
 ROOT = Path(__file__).resolve().parents[1]
 RX = re.compile(r'^\s*([\w.]+)\s*=\s*"((?:\\.|[^"\\])*)"', re.M)
@@ -48,6 +49,7 @@ def generate(feeds, out, cache, codes=(('de','Deutsch'),('fr','Français')), cat
                         entry=catalog[key]
                         assert entry['en']==en,(key,en,entry['en'])
                         value=entry[code]
+                        validate_engine_text(en,value)
                         assert value and (code=='uk' or not re.search('[\u0400-\u04ff]',value)),(key,value)
                         # No altered costs, numeric labels, or printf/string placeholders.
                         assert re.findall(r'\d+(?:\.\d+)?',en)==re.findall(r'\d+(?:\.\d+)?',value),(key,en,value)

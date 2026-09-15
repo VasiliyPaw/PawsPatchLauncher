@@ -1064,7 +1064,7 @@
     },
     "Delete": {
       "cs": "Odstranit",
-      "uk": "& Вилучити"
+      "uk": "Видалити"
     },
     "Damage from enemy attacks is reduced by defense value.  Defense applies before resistances.": {
       "cs": "Poškození z nepřátelských útoků je sníženo úrovní obrany.",
@@ -1868,7 +1868,7 @@
     },
     "Add": {
       "cs": "Přidat",
-      "uk": "& Додати"
+      "uk": "Додати"
     },
     "Remove Trigger": {
       "cs": "Odstranit spouštěč",
@@ -1876,7 +1876,7 @@
     },
     "Remove": {
       "cs": "Odstranit",
-      "uk": "& Вилучити"
+      "uk": "Прибрати"
     },
     "Active Trigger": {
       "cs": "Aktivní spoušť",
@@ -2016,7 +2016,7 @@
     },
     "DELETE": {
       "cs": "Odstranit",
-      "uk": "& Вилучити"
+      "uk": "ВИДАЛИТИ"
     },
     "Size": {
       "cs": "Velikost",
@@ -2544,7 +2544,7 @@
     },
     "RENAME": {
       "cs": "Přejmenovat",
-      "uk": "& Перейменувати"
+      "uk": "ПЕРЕЙМЕНУВАТИ"
     },
     "OBSERVER": {
       "cs": "POZOROVATEL",
@@ -2552,7 +2552,7 @@
     },
     "KICK": {
       "cs": "Odstranit",
-      "uk": "& Вилучити"
+      "uk": "ВИГНАТИ"
     },
     "WHISPER": {
       "cs": "Šepot",
@@ -2596,7 +2596,7 @@
     },
     "BAN": {
       "cs": "Odstranit",
-      "uk": "& Вилучити"
+      "uk": "БЛОКУВАТИ"
     },
     "Slot Swap Offer Pending": {
       "cs": "Zpoždění výzvy k výměně buněk",

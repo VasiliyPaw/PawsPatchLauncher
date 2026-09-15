@@ -4,6 +4,7 @@ from pathlib import Path
 from DraftSlavicTranslation import terms,invariant
 from PrepareSplitLanguages import read,write,sha
 from PrepareEuropeanModLanguages import ROOT
+from GameTextValidation import validate_engine_text
 
 TOKENS=re.compile(r'%\d+|%[-+0#]*(?:\d+)?(?:\.\d+)?[sdifugxX]|%%|\{\d+(?::[^}]+)?\}')
 NUMBERS=re.compile(r'\d+(?:\.\d+)?')
@@ -62,6 +63,8 @@ def main():
             if NUMBERS.findall(TOKENS.sub('',en))!=NUMBERS.findall(TOKENS.sub('',value)):issues.append((c,'numbers',en,value))
             if sorted(TOKENS.findall(en))!=sorted(TOKENS.findall(value)):issues.append((c,'placeholders',en,value))
             if re.findall(r'<[^>]+>',en)!=re.findall(r'<[^>]+>',value):issues.append((c,'markup',en,value))
+            try:validate_engine_text(en,value)
+            except ValueError:issues.append((c,'engine escapes',en,value))
             if c=='cs' and re.search('[\u0400-\u04ff]',value):issues.append((c,'Cyrillic',en,value))
             if '\x00' in value or len(value)>max(150,len(en)*3) or re.search(r'(.{4,}?)\1\1',value):issues.append((c,'invalid/repetition/length',en,value))
             if re.search(r'pinterest|wikip|Systémové požadavky|Call of Duty|Shadow of the Colossus|Wrath of the Lich King|Список астероїдів',value,re.I):issues.append((c,'unrelated boilerplate',en,value))
