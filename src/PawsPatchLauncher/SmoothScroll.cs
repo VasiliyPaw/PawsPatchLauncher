@@ -19,6 +19,12 @@ public static class SmoothScroll
     public static bool GetEnabled(DependencyObject o) => (bool)o.GetValue(EnabledProperty);
     public static void SetEnabled(DependencyObject o, bool value) => o.SetValue(EnabledProperty, value);
     public static bool IsAnimating(ScrollViewer view) => (view.GetValue(StateProperty) as State)?.Running == true;
+    internal static void StopAnimations(DependencyObject root)
+    {
+        if (root.GetValue(StateProperty) is State state) state.Stop();
+        if (root is not Visual and not Visual3D) return;
+        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++) StopAnimations(VisualTreeHelper.GetChild(root, i));
+    }
     public static void ToBottom(ScrollViewer view)
     {
         if(view.GetValue(StateProperty) is State state)state.ToBottom();
@@ -70,7 +76,7 @@ public static class SmoothScroll
             _view.IsVisibleChanged-=VisibilityChanged;_view.Unloaded-=Unloaded;
             CommandManager.RemovePreviewExecutedHandler(_view, Command);
         }
-        private void Stop()
+        public void Stop()
         {
             _followEnd=false;
             if (!Running) return;

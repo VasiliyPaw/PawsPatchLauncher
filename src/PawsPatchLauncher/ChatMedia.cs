@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
@@ -9,6 +10,7 @@ namespace PawsPatchLauncher;
 // External media never enters Supabase, disk caches, logs, or authenticated HTTP clients.
 public sealed class ChatMedia : IDisposable
 {
+    public sealed class LinkExpiredException() : IOException("Discord attachment link has expired.");
     public const int MaximumBytes=8*1024*1024;
     private readonly HttpClient _http;
     private readonly SemaphoreSlim _slots=new(2);
@@ -49,6 +51,20 @@ public sealed class ChatMedia : IDisposable
         &&uri.OriginalString.Length<=4096&&uri.Host.Contains('.')&&uri.HostNameType!=UriHostNameType.Unknown
         &&(!IPAddress.TryParse(uri.Host,out var ip)||IsPublic(ip));
     public static bool Automatic(Uri uri)=>new[]{"media.discordapp.net","cdn.discordapp.com","media.tenor.com","i.imgur.com","media.giphy.com","i.giphy.com"}.Contains(uri.IdnHost,StringComparer.OrdinalIgnoreCase);
+    private static bool HasExpiredDiscordSignature(Uri uri,DateTimeOffset now)
+    {
+        if(uri.IdnHost is not ("cdn.discordapp.com" or "media.discordapp.net")
+            || !uri.AbsolutePath.StartsWith("/attachments/",StringComparison.Ordinal))return false;
+        var fields=uri.Query.TrimStart('?').Split('&',StringSplitOptions.RemoveEmptyEntries)
+            .Select(field=>field.Split('=',2)).Where(pair=>pair.Length==2).ToArray();
+        string? Single(string name){var matches=fields.Where(pair=>pair[0]==name).ToArray();return matches.Length==1?matches[0][1]:null;}
+        // Only classify a failed signed attachment request. A working URL/cache
+        // remains usable regardless of our clock; unsigned CDN images are unrelated.
+        return !string.IsNullOrEmpty(Single("hm"))
+            && long.TryParse(Single("is"),NumberStyles.AllowHexSpecifier,CultureInfo.InvariantCulture,out var issued)
+            && long.TryParse(Single("ex"),NumberStyles.AllowHexSpecifier,CultureInfo.InvariantCulture,out var expiry)
+            && issued>0 && expiry>issued && expiry<=now.ToUnixTimeSeconds();
+    }
     public static IReadOnlyList<Uri> Find(string text)
     {
         return Regex.Matches(text,@"https://[^\s<>""']+",RegexOptions.IgnoreCase,TimeSpan.FromMilliseconds(50))
@@ -81,6 +97,9 @@ public sealed class ChatMedia : IDisposable
                     current=location.IsAbsoluteUri?location:new Uri(current,location);
                     if(!Allowed(current))throw new InvalidDataException();continue;
                 }
+                if(response.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.NotFound
+                    && HasExpiredDiscordSignature(current,response.Headers.Date??DateTimeOffset.UtcNow))
+                    throw new LinkExpiredException();
                 response.EnsureSuccessStatusCode();
                 if(response.Content.Headers.ContentLength>MaximumBytes)throw new InvalidDataException();
                 await using var source=await response.Content.ReadAsStreamAsync(timeout.Token);

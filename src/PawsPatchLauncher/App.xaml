@@ -29,7 +29,10 @@
         <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource Success}"/>
         <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource Danger}"/>
 
-        <Style x:Key="SocialContextMenu" TargetType="ContextMenu">
+        <Style TargetType="ContextMenu">
+            <Setter Property="local:PopupScrollIsolation.Enabled" Value="True"/>
+        </Style>
+        <Style x:Key="SocialContextMenu" TargetType="ContextMenu" BasedOn="{StaticResource {x:Type ContextMenu}}">
             <Setter Property="Foreground" Value="{StaticResource TextMainBrush}"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="FontFamily" Value="Arial"/>

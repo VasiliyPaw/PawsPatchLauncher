@@ -12,6 +12,16 @@ using PawsPatchLauncher;
 namespace PreviewRenderer;
 internal static class MediaLayoutChecks
 {
+    internal static void Probe(Uri uri)
+    {
+        // Explicit read-only diagnostic: public media only, no URL logging or disk cache.
+        using var media=new ChatMedia();
+        var bytes=Task.Run(()=>media.LoadAsync(uri,CancellationToken.None)).GetAwaiter().GetResult();
+        using var stream=new MemoryStream(bytes,false);
+        var decoder=BitmapDecoder.Create(stream,BitmapCreateOptions.None,BitmapCacheOption.OnLoad);
+        var frame=decoder.Frames[0];ChatMedia.CheckDimensions(frame.PixelWidth,frame.PixelHeight);
+        Console.WriteLine($"MEDIA PROBE PASS bytes={bytes.Length} width={frame.PixelWidth} height={frame.PixelHeight} decoder={decoder.GetType().Name}");
+    }
     private const BindingFlags Flags=BindingFlags.Instance|BindingFlags.NonPublic;
     private static object Field(MainWindow w,string name)=>typeof(MainWindow).GetField(name,Flags)!.GetValue(w)!;
     private static void Set(MainWindow w,string name,object value)=>typeof(MainWindow).GetField(name,Flags)!.SetValue(w,value);
@@ -62,9 +72,39 @@ internal static class MediaLayoutChecks
                     Check(bounds.Right<=size.Width&&bounds.Left>=0,"media clipped at compact width");
                 }
             }
-            Console.WriteLine($"MEDIA LAYOUT PASS {checks} {language}: actual decoded wide/portrait PNGs, compact bounds, aspect ratio, tight host/bubble, sender alignment; synthetic media only");
+            Invoke(w,"ResetChatMedia",true);
+            var owner=Guid.Parse(((AccountService)Field(w,"_account")).UserId);
+            var peer=((IReadOnlyList<SocialPlayer>)Field(w,"_socialPlayers")).First(p=>p.Relation=="friend").Id;
+            const string expired="https://cdn.discordapp.com/attachments/1/2/image.gif?ex=6aa95aef&is=6aa8096f&hm=signature&";
+            Set(w,"_socialMessages",(IReadOnlyList<SocialMessage>)new[]{
+                new SocialMessage(owner,Guid.NewGuid(),peer,expired,"text",DateTimeOffset.Now.AddMinutes(-2)),
+                new SocialMessage(peer,Guid.NewGuid(),owner,expired.Replace("6aa95aef","7fffffff"),"text",DateTimeOffset.Now.AddMinutes(-1))});
+            Invoke(w,"RenderSocialMessages");Set(w,"_chatMedia",new ChatMedia(new DeniedFixture()));
+            foreach(var bubble in Bubbles(w))
+                ((Button)((StackPanel)bubble.Child).Children.OfType<Border>().Single().Child).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            content.Measure(new Size(1050,680));content.Arrange(new Rect(0,0,1050,680));content.UpdateLayout();
+            var failed=Bubbles(w).Select(b=>(StackPanel)b.Child).ToArray();
+            var expiredHost=failed[0].Children.OfType<Border>().Single();
+            Check(expiredHost.Child is TextBlock,"expired link still offers endless retry");
+            var notice=(TextBlock)expiredHost.Child;
+            const string key="This Discord link has expired. Copy a fresh link in Discord and send it to the chat.";
+            Check(notice.Text==UiLanguages.Text(language,"Срок действия ссылки Discord истёк. Скопируйте новую ссылку в Discord и отправьте её в чат.",key),"missing expiry explanation");
+            Check(language=="en"||notice.Text!=key,"expiry notice not translated");
+            Check(notice.ActualWidth<=360.1&&notice.ActualHeight>0,"expiry notice clipped");
+            foreach(var panel in failed)
+                Check(panel.Children.OfType<ChatMessageText>().Single(t=>t.Tag as string=="message-body").Visibility==Visibility.Visible,"failed link hidden from copying");
+            Check(failed[1].Children.OfType<Border>().Single().Child is Button { IsEnabled:true },"temporary/unclassified failure lost retry");
+            Console.WriteLine($"MEDIA LAYOUT PASS {checks} {language}: decoded wide/portrait PNGs, compact bounds, aspect ratio, sender alignment, expired versus retryable links; synthetic media only");
         }
         finally{Invoke(w,"ResetChatMedia",true);w.Close();}
+    }
+    private sealed class DeniedFixture:HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,CancellationToken token)
+        {
+            var response=new HttpResponseMessage(HttpStatusCode.Forbidden);
+            response.Headers.Date=new DateTimeOffset(2026,9,15,17,0,0,TimeSpan.Zero);return Task.FromResult(response);
+        }
     }
     private sealed class Fixture:HttpMessageHandler
     {

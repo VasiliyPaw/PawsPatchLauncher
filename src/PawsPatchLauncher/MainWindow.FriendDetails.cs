@@ -78,7 +78,9 @@ public partial class MainWindow
     {
         if (player.Deleted || (player.Relation != "friend" || !_socialPlayers.Any(p => p.Id == player.Id && p.Relation == "friend"))
             && !(_account.AdminLevel>0&&_adminViewedPlayer?.Id==player.Id) && _activityViewedPlayer?.Id!=player.Id && player.Id.ToString()!=_account.UserId) return;
-        if (_socialDetailsPeer == player.Id && SocialDetailsOverlay.Visibility == Visibility.Visible)
+        // A visible card may already be fading out. Reopening it must cancel
+        // that dismissal; only a fully interactive card can be refreshed in place.
+        if (_socialDetailsPeer == player.Id && SocialDetailsOverlay.Visibility == Visibility.Visible && SocialDetailsCard.IsHitTestVisible)
         { RenderSocialDetails(player); return; }
         CloseAvatarPreview();
         _socialDetailsGeneration++;

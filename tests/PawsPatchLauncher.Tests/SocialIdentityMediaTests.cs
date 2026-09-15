@@ -95,6 +95,28 @@ internal static class SocialIdentityMediaTests
    Check(denied,"private redirect");
   }
   var huge=(byte[])gif.Clone();huge[6]=255;huge[7]=255;Reject(()=>ChatMedia.ValidateContainer(huge));
+  const string expired="https://cdn.discordapp.com/attachments/1/2/image.gif?ex=6aa95aef&is=6aa8096f&hm=signature&";
+  var serverTime=new DateTimeOffset(2026,9,15,17,0,0,TimeSpan.Zero);
+  async Task Failure(string url,HttpStatusCode status,bool expiredExpected)
+  {
+   using var media=new ChatMedia(new Mock(req=>{
+    Check(req.RequestUri!.AbsoluteUri==url,"signed attachment query changed");
+    var response=new HttpResponseMessage(status);response.Headers.Date=serverTime;return Task.FromResult(response);
+   }));
+   try{await media.LoadAsync(new Uri(url),default);throw new Exception("Expected media failure");}
+   catch(ChatMedia.LinkExpiredException e){Check(expiredExpected,"unrelated failure called expired");Check(!e.ToString().Contains("hm="),"signature leaked into error");}
+   catch(HttpRequestException e){Check(!expiredExpected&&e.StatusCode==status,"expiry not distinguished from HTTP failure");}
+  }
+  await Failure(expired,HttpStatusCode.Forbidden,true);
+  await Failure(expired.Replace("cdn.discordapp.com","media.discordapp.net"),HttpStatusCode.NotFound,true);
+  foreach(var url in new[]{expired.Replace("6aa95aef","7fffffff"),expired.Replace("cdn.discordapp.com","cdn.discordapp.com.example.com"),
+    expired.Replace("/attachments/","/avatars/"),expired.Replace("&hm=signature",""),expired.Replace("6aa95aef","not-hex"),
+    expired+"ex=7fffffff",expired.Replace("6aa95aef","ffffffffffffffff"),expired.Replace("6aa8096f","7fffffff")})
+   await Failure(url,HttpStatusCode.Forbidden,false);
+  await Failure(expired,HttpStatusCode.TooManyRequests,false);
+  await Failure(expired,HttpStatusCode.ServiceUnavailable,false);
+  using(var media=new ChatMedia(new Mock(_=>Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK){Content=new ByteArrayContent(gif)}))))
+   Check((await media.LoadAsync(new Uri(expired),default)).SequenceEqual(gif),"working expired-timestamp URL was blocked before download");
   Reject(()=>ChatMedia.CheckDimensions(4096,4096));Reject(()=>ChatMedia.ValidateContainer("<html>invalid image</html>"u8.ToArray()));
   var saves=Path.Combine(root,"game-running-save");Directory.CreateDirectory(saves);
   var bytes=new byte[16];"TGCK"u8.CopyTo(bytes);var save=SaveTransferGuard.Describe("test.rsg",bytes);

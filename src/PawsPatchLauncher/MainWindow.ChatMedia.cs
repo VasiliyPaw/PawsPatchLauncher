@@ -57,11 +57,18 @@ public partial class MainWindow
             {
                 if(visible?loaded.Remove(uri.AbsoluteUri):loaded.Add(uri.AbsoluteUri))RefreshBody();
             }
-            void Failed(bool gif=false)
+            void Failed(bool gif=false,bool expired=false)
             {
                 if(token.IsCancellationRequested)return;
                 LinkVisible(true);host.Child=load;
                 releaseCurrent?.Invoke();releaseCurrent=null;
+                if(expired)
+                {
+                    host.Child=new TextBlock { Text=T("Срок действия ссылки Discord истёк. Скопируйте новую ссылку в Discord и отправьте её в чат.",
+                        "This Discord link has expired. Copy a fresh link in Discord and send it to the chat."),
+                        MaxWidth=360,TextWrapping=TextWrapping.Wrap,Margin=new Thickness(9,6,9,6),Foreground=SocialBrush("#D8C28F") };
+                    return;
+                }
                 load.IsEnabled=true;started=false;
                 load.Content=gif?T("Не удалось показать GIF · повторить","Could not display GIF · retry"):T("Не удалось загрузить · повторить","Could not load · retry");
             }
@@ -112,6 +119,7 @@ public partial class MainWindow
                         bitmap.StreamSource=data;bitmap.EndInit();bitmap.Freeze();picture.Source=bitmap;
                     }
                 }
+                catch(ChatMedia.LinkExpiredException){Failed(expired:true);}
                 catch(OperationCanceledException) when(!token.IsCancellationRequested){Failed();}
                 catch(OperationCanceledException){}
                 catch {Failed();}
