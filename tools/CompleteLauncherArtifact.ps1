@@ -43,8 +43,15 @@ New-Item -ItemType Directory -Path $output | Out-Null
 Copy-Item -LiteralPath $source -Destination (Join-Path $output 'PawsPatchLauncher.exe')
 Copy-Item -LiteralPath $config -Destination (Join-Path $output 'launcher.config.json')
 $finalExecutable = Join-Path $output 'PawsPatchLauncher.exe'
+$distributionFiles = @($finalExecutable, (Join-Path $output 'launcher.config.json'))
+$notices = Join-Path $build 'ThirdPartyNotices.txt'
+if (Test-Path -LiteralPath $notices) {
+    $finalNotices = Join-Path $output 'ThirdPartyNotices.txt'
+    Copy-Item -LiteralPath $notices -Destination $finalNotices
+    $distributionFiles += $finalNotices
+}
 $archive = Join-Path $output "PawsPatchLauncher-v$Version-win-x64.zip"
-Compress-Archive -LiteralPath $finalExecutable,(Join-Path $output 'launcher.config.json') -DestinationPath $archive
+Compress-Archive -LiteralPath $distributionFiles -DestinationPath $archive
 $manifest = [ordered]@{
     version = $Version
     sourceCommit = $SourceCommit
@@ -53,7 +60,7 @@ $manifest = [ordered]@{
     publisher = if ($signature.SignerCertificate) { $signature.SignerCertificate.Subject } else { $null }
     certificateThumbprint = if ($signature.SignerCertificate) { $signature.SignerCertificate.Thumbprint } else { $null }
     timestamped = ($null -ne $signature.TimeStamperCertificate)
-    files = @($finalExecutable, $archive, (Join-Path $output 'launcher.config.json')) | ForEach-Object {
+    files = @($distributionFiles) + @($archive) | ForEach-Object {
         [ordered]@{ name = [IO.Path]::GetFileName($_); size = (Get-Item -LiteralPath $_).Length; sha256 = (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash }
     }
 }

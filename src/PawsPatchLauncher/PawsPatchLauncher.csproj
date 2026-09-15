@@ -25,6 +25,7 @@
     <Resource Include="Assets\PawsPatch.ico" />
     <Resource Include="Assets\ChatGlyphs\*.png" />
     <EmbeddedResource Include="launcher.config.json" />
+    <EmbeddedResource Include="ThirdPartyNotices.txt" />
     <EmbeddedResource Include="Assets\notification-soft-pluck.wav" />
     <EmbeddedResource Include="Assets\mod-guides.json" />
     <EmbeddedResource Include="Assets\Languages\*.json" />
