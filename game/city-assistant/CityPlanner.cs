@@ -144,13 +144,31 @@ internal sealed class CityPlanner
         if (eligible.Length > 0 && affordable.Length == 0)
         { intention = eligible.OrderBy(c=>c.Cost).ThenBy(c=>c.Data).First(); Status=StatusKind.Gold; return none; }
         eligible=affordable;
-        // Compare gold after shortage charges, not raw gold versus an absolute
-        // resource-first rule. All accepted construction is included in goals.
+        // Resource targets precede ordinary gold development. Only a market
+        // may replace the selected resource action when its net return wins.
+        // All accepted construction is included in goals at every stage.
         double gain = eligible.Length == 0 ? 0 : eligible.Max(c => NetGoldGain(c, goals, s.ShortageCost));
-        double relief = eligible.Length == 0 ? 0 : eligible.Max(c => Relief(c, goals, policy));
+        Candidate[] resources = eligible.Where(c => !IsMarket(c) && Relief(c, goals, policy) > .0001).ToArray();
         Candidate[] priority;
         var finalCenters=eligible.Where(c=>c.Kind==21 && c.IsCityCenter && c.IsFinalCityUpgrade).ToArray();
         if(finalCenters.Length>0) { priority=finalCenters; Explanation="final_city_upgrade"; }
+        else if (resources.Length > 0)
+        {
+            double relief = resources.Max(c => Relief(c, goals, policy));
+            priority = resources.Where(c => Relief(c, goals, policy) >= relief - .0001).ToArray();
+            double resourceGain = priority.Max(c => NetGoldGain(c, goals, s.ShortageCost));
+            priority = priority.Where(c => NetGoldGain(c, goals, s.ShortageCost) >= resourceGain - .0001).ToArray();
+            Explanation = "resources";
+            Candidate[] markets = eligible.Where(IsMarket).ToArray();
+            double marketGain = markets.Length == 0 ? 0 : markets.Max(c => NetGoldGain(c, goals, s.ShortageCost));
+            // Equal returns keep resource progress. No other gold building is
+            // allowed into this comparison, even if it earns more than either.
+            if (marketGain > .0001 && marketGain > resourceGain + .0001)
+            {
+                priority = markets.Where(c => NetGoldGain(c, goals, s.ShortageCost) >= marketGain - .0001).ToArray();
+                Explanation = "market_over_resources";
+            }
+        }
         else if (gain > .0001)
         {
             priority = eligible.Where(c => NetGoldGain(c, goals, s.ShortageCost) >= gain - .0001).ToArray();
@@ -159,7 +177,6 @@ internal sealed class CityPlanner
             priority = priority.Where(c => Relief(c, goals, policy) >= tieRelief - .0001).ToArray();
             Explanation = "net_gold";
         }
-        else if (relief > .0001) { priority = eligible.Where(c => Relief(c, goals, policy) >= relief - .0001).ToArray(); Explanation = "resources"; }
         else
         {
             float gold = eligible.Length == 0 ? 0 : eligible.Max(c => c.Delta[0]);

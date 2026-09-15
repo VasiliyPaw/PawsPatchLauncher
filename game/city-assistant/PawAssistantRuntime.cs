@@ -169,7 +169,7 @@ internal static partial class PawAssistantRuntime
             partyGameRoot=Path.GetFullPath(root);
             memory.Write(state, BitConverter.GetBytes(Environment.TickCount));
             logger = log;
-            log("ASSISTANT beta policy=r19 installed; partyPreferences=true; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
+            log("ASSISTANT beta policy=r20 installed; partyPreferences=true; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
         }
         finally { memory.Resume(); }
     }

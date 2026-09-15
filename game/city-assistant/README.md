@@ -1,4 +1,4 @@
-# Built-in city policy — 0.3.0-beta.8-test.5 / r19
+# Built-in city policy — 0.3.0-beta.8-test.6 / r20
 
 Supported executable: Kohan II 1.3.72, Steam build 25068126. The stock EXE is not modified on disk. City policy is included in all eight Arcane Wars Beta helper variants. Stable Arcane Wars and the separate Kohan II fixes channels do not enable it.
 
@@ -14,7 +14,9 @@ Supported executable: Kohan II 1.3.72, Steam build 25068126. The stock EXE is no
 
 ## Economy and native construction queue
 
-An eligible, affordable final city-center upgrade takes priority. Other affordable orders compete on incremental **gold after resource-shortage charges**, evaluated at the expected completion of every accepted manual and automatic order. For a candidate `d` and projected income `g`, gain is `d.gold + sum((max(0,-g[i]) - max(0,-(g[i]+d[i]))) * purchaseCost[i])`. Existing gold income already contains current shortage charges, so only their change is applied. Surplus resource production does not itself generate gold. Equal profitable returns prefer progress towards resource targets; when none is profitable, targets, preparation and random eligible development remain the fallback. Gold reserve, native payment/legality, exclusions and duplicate construction guards remain in force.
+An eligible, affordable final city-center upgrade takes priority. Next, the planner pursues resource-income targets. Only profitable markets may displace the selected resource action, and only when their incremental gold after shortage charges is strictly greater. Equal returns keep resource progress. Ordinary gold buildings cannot bypass this stage, even if they yield more gold. Among resource actions, the greatest progress towards targets remains primary, with net gold breaking ties. When no affordable eligible resource action remains (including unreachable targets or targets already covered by accepted queued work), ordinary gold development, preparation and random eligible development follow.
+
+The market-versus-resource comparison and later gold stage use incremental **gold after resource-shortage charges**, evaluated at the expected completion of every accepted manual and automatic order. For a candidate `d` and projected income `g`, gain is `d.gold + sum((max(0,-g[i]) - max(0,-(g[i]+d[i]))) * purchaseCost[i])`. Existing gold income already contains current shortage charges, so only their change is applied. Surplus resource production does not itself generate gold. Gold reserve, native payment/legality, exclusions and duplicate construction guards remain in force.
 
 Resource purchase costs are sampled from the live resource table, not fixed coefficients. Native `699377` applies Resource `+1c` PurchaseCost to upkeep shortages (`699420/699425`); the installed Arcane Wars data currently charges gold 2/3/4/5 for stone/wood/iron/mana. The coherent snapshot now includes these costs at `+280`. Both nine-resource and ten-resource (Shards) layouts are projected to the five economic resources. Unknown or invalid costs pause planning.
 
@@ -68,3 +70,5 @@ Local r17 validation: 1485 planner assertions, 38 party-store checks, 507 emitte
 Local r18: 1587 planner assertions and 5256 native economic-gate checks. Includes iron -3 with a market producing +20 gold/-1 iron; all six races, all four deficits, build/upgrade paths, adverse queued effects, zero/negative/nonfinite gold effects, reserve and duplicate-queue guards. No game launch.
 
 Local r19: 1652 planner assertions and 597 new native market/rate checks, plus the full existing suite. Covers +5 versus +40 branches, unaffordable/locked best branches, no-positive-gold markets, per-actor modifier effects, resource deficit recovery versus markets, queued completions/cancellation, missing/nonfinite costs, six races plus Arcane market variants, both resource layouts and three ASLR placements. Native tests execute emitted code; game and multiplayer were not launched.
+
+Local r20: 1923 planner assertions. Resource targets precede ordinary gold again; only markets enter the net-gold comparison at that stage. Added 271 checks covering all four resources, market build/upgrade, positive targets before deficit, richer ordinary gold, wins/losses/ties, unavailable or queued markets, final centers, queued target completion/cancellation, and forbidden market forks during resource and random stages. Native payload is byte-identical to r19; tooltip, runtime advice and local guide updated in all supported languages. Game not launched.
