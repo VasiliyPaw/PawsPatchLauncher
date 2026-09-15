@@ -25,6 +25,7 @@ public static class Program
         var compactGame = args.FirstOrDefault(arg => arg.StartsWith("--compact-game="))?["--compact-game=".Length..];
         var polishConfig = args.FirstOrDefault(arg => arg.StartsWith("--polish-config="))?["--polish-config=".Length..];
         var messageCopyChecks = args.Contains("--message-copy-checks");
+        var messageSelectionChecks = args.Contains("--message-selection-checks");
         var popupScrollChecks = args.Contains("--popup-scroll-checks");
         var mediaProbe = args.FirstOrDefault(a=>a.StartsWith("--media-probe=",StringComparison.Ordinal))?["--media-probe=".Length..];
         var messageMediaChecks = args.Contains("--message-media-checks");
@@ -128,6 +129,7 @@ public static class Program
         if (popupScrollChecks) { PopupScrollChecks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (mediaProbe is not null) { MediaLayoutChecks.Probe(new Uri(mediaProbe)); app.Shutdown(); return; }
         if (messageCopyChecks) { MessageCopyChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
+        if (messageSelectionChecks) { MessageSelectionChecks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (messageMediaChecks) { SocialFinishChecks.Run(language); MediaLayoutChecks.Run(language); app.Shutdown(); return; }
         if (mediaLayoutChecks) { MediaLayoutChecks.Run(language); app.Shutdown(); return; }
         if (launcher080Checks) { Launcher080Checks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
