@@ -7,7 +7,7 @@ using System.Linq;
 // complete later. A player's subsequent manual militia choices are preserved.
 internal sealed class CityMilitiaPlanner
 {
-    internal sealed class City { internal uint Id, CityId; internal int State; internal bool Unfinished; } // 0 unavailable, 1 closed, 2 open
+    internal sealed class City { internal uint Id, CityId; internal int State; internal bool Unfinished, Blocked; } // 0 unavailable, 1 closed, 2 open
     private readonly Dictionary<uint,uint> known = new Dictionary<uint,uint>();
     private readonly Dictionary<uint,int> waiting = new Dictionary<uint,int>();
     private readonly Dictionary<uint,float> retryAt = new Dictionary<uint,float>();
@@ -59,7 +59,7 @@ internal sealed class CityMilitiaPlanner
         foreach(var city in cities)
         {
             float retry;
-            if(city.Unfinished || city.State!=(enabled?1:2) || !waiting.ContainsKey(city.Id) ||
+            if(city.Unfinished || city.Blocked || city.State!=(enabled?1:2) || !waiting.ContainsKey(city.Id) ||
                 (retryAt.TryGetValue(city.Id,out retry) && time<retry))continue;
             pending=city.Id;PendingOpen=enabled;awaitingReply=true;sentAt=time;return pending;
         }
@@ -70,6 +70,10 @@ internal sealed class CityMilitiaPlanner
         if(pending==0 || !awaitingReply)return;
         awaitingReply=false;sentAt=time;
         if(result==1)return;
+        // Capture/siege or construction can become blocked between observation
+        // and dispatch. Keep the acquisition pending without consuming a retry;
+        // only an unsent order is retried, after another fresh snapshot.
+        if(result==4){retryAt[pending]=time+5;pending=0;return;}
         int attempts;
         if(result==3 || !waiting.TryGetValue(pending,out attempts) || attempts>=2)waiting.Remove(pending);
         else{waiting[pending]=attempts+1;retryAt[pending]=time+5;}

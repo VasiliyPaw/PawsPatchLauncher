@@ -169,7 +169,7 @@ internal static partial class PawAssistantRuntime
             partyGameRoot=Path.GetFullPath(root);
             memory.Write(state, BitConverter.GetBytes(Environment.TickCount));
             logger = log;
-            log("ASSISTANT beta policy=r21 installed; partyPreferences=true; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
+            log("ASSISTANT beta policy=r22 installed; partyPreferences=true; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
         }
         finally { memory.Resume(); }
     }
@@ -481,16 +481,22 @@ internal static partial class PawAssistantRuntime
         uint epoch=BitConverter.ToUInt32(header,4);float time=BitConverter.ToSingle(header,0x10);
         var cities=new List<CityMilitiaPlanner.City>();
         var ownedCities=new HashSet<uint>();
+        var blockedCities=new HashSet<uint>();
         for(int i=0;i<cityRecords.Length;i+=8)
-            if((BitConverter.ToUInt32(cityRecords,i+4)&2)==0)ownedCities.Add(BitConverter.ToUInt32(cityRecords,i));
+        {
+            uint flags=BitConverter.ToUInt32(cityRecords,i+4),id=BitConverter.ToUInt32(cityRecords,i);
+            if((flags&2)==0)ownedCities.Add(id);
+            if((flags&1)!=0)blockedCities.Add(id);
+        }
         var seen=new HashSet<uint>();
         for(int i=0;i<records.Length;i+=16)
         {
             uint cityId=BitConverter.ToUInt32(records,i),id=BitConverter.ToUInt32(records,i+4);
-            uint capability=BitConverter.ToUInt32(records,i+8),unfinished=BitConverter.ToUInt32(records,i+12);
-            if(!ownedCities.Contains(cityId) || id==0 || capability>2 || unfinished>1)return;
+            uint capability=BitConverter.ToUInt32(records,i+8),workFlags=BitConverter.ToUInt32(records,i+12);
+            if(!ownedCities.Contains(cityId) || id==0 || capability>2 || workFlags>3)return;
             if(!seen.Add(id))continue;
-            cities.Add(new CityMilitiaPlanner.City {Id=id,CityId=cityId,State=(int)capability,Unfinished=unfinished==1});
+            cities.Add(new CityMilitiaPlanner.City {Id=id,CityId=cityId,State=(int)capability,
+                Unfinished=(workFlags&1)!=0,Blocked=(workFlags&2)!=0 || blockedCities.Contains(cityId)});
         }
         if(militiaPending!=0)
         {

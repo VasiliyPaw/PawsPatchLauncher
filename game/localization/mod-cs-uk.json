@@ -15343,18 +15343,18 @@
       "uk": "Автоматичне поліпшення міст"
     },
     "paw_city_new_militia": {
-      "en": "Open militia in new cities and buildings",
-      "de": "Miliz in neuen Städten und Gebäuden öffnen",
-      "fr": "Ouvrir la milice des nouvelles constructions",
-      "cs": "Otevřít milici nových měst a budov",
-      "uk": "Відкривати ополчення в нових спорудах"
+      "en": "Open militia in cities and new buildings",
+      "de": "Miliz in Städten und neuen Gebäuden öffnen",
+      "fr": "Ouvrir la milice des villes et nouveaux bâtiments",
+      "cs": "Otevřít milici měst a nových budov",
+      "uk": "Відкривати ополчення в містах і нових будівлях"
     },
     "paw_city_new_militia_tip": {
-      "en": "When enabled, militia opens in the starting city, new cities and city buildings after construction. When disabled, new buildings keep their militia closed. Only buildings with militia are affected. Later manual changes are preserved. Completed buildings loaded from a save are unchanged. This preference is saved between games.",
-      "de": "Wenn aktiviert, wird die Miliz der Startstadt sowie neuer Städte und Stadtgebäude nach dem Bau geöffnet. Wenn deaktiviert, bleibt die Miliz neuer Gebäude geschlossen. Gilt nur für Gebäude mit Miliz. Spätere manuelle Änderungen bleiben erhalten. Fertige Gebäude aus einem Spielstand bleiben unverändert. Diese Einstellung wird zwischen Partien gespeichert.",
-      "fr": "Si cette option est activée, la milice de la ville de départ, des nouvelles villes et des bâtiments urbains est ouverte après leur construction. Sinon, la milice des nouvelles constructions reste fermée. Seuls les bâtiments disposant de milice sont concernés. Les modifications manuelles ultérieures sont conservées. Les bâtiments achevés chargés depuis une sauvegarde restent inchangés. Ce réglage est conservé entre les parties.",
-      "cs": "Je-li tato volba zapnutá, milice počátečního města, nových měst a městských budov se po dokončení stavby otevře. Je-li vypnutá, milice nových staveb zůstane zavřená. Platí pouze pro stavby s milicí. Pozdější ruční změny zůstanou zachovány. Dokončené stavby načtené z uložené hry se nemění. Nastavení se ukládá i po ukončení hry.",
-      "uk": "Якщо ввімкнено, ополчення початкового міста, нових міст і міських будівель відкривається після завершення будівництва. Якщо вимкнено, ополчення нових споруд закрите. Діє лише для споруд з ополченням. Подальші ручні зміни зберігаються. Готові споруди із завантаженого збереження не змінюються. Налаштування зберігається між іграми."
+      "en": "Opens militia in starting, newly built and captured cities, and new city buildings with militia. If an order is temporarily blocked, it waits until available. When disabled, new acquisitions and buildings use closed militia. Later manual changes and completed buildings loaded from a save are preserved. This preference is saved between games.",
+      "de": "Öffnet die Miliz in Startstädten, neu gebauten und eroberten Städten sowie neuen Stadtgebäuden mit Miliz. Bei einer vorübergehenden Befehlssperre wird gewartet. Wenn deaktiviert, bleibt die Miliz neuer Städte und Gebäude geschlossen. Spätere manuelle Änderungen und fertige Gebäude aus Spielständen bleiben erhalten. Die Einstellung wird zwischen Partien gespeichert.",
+      "fr": "Ouvre la milice des villes de départ, construites ou capturées, ainsi que des nouveaux bâtiments urbains dotés de milice. Si l’ordre est temporairement bloqué, il attend. Sinon, la milice des nouvelles villes et constructions reste fermée. Les changements manuels ultérieurs et les bâtiments achevés des sauvegardes sont préservés. Réglage conservé entre les parties.",
+      "cs": "Otevře milici počátečních, nově postavených a dobytých měst i nových městských budov s milicí. Při dočasném zablokování příkazu počká na jeho dostupnost. Je-li volba vypnutá, nová města a budovy mají zavřenou milici. Pozdější ruční změny a hotové budovy z uložené hry se nemění. Nastavení se ukládá mezi partiemi.",
+      "uk": "Відкриває ополчення початкових, збудованих і захоплених міст, а також нових міських будівель з ополченням. За тимчасової заборони наказу чекає на його доступність. Якщо вимкнено, нові міста й будівлі отримують закрите ополчення. Подальші ручні зміни та стан готових будівель зі збереження не змінюються. Налаштування зберігається між іграми."
     },
     "paw_city_reserve": {
       "en": "Gold Reserve",

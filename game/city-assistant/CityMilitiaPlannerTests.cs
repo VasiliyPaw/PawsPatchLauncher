@@ -99,6 +99,42 @@ internal static class CityMilitiaPlannerTests
         var noMilitia=new CityMilitiaPlanner();noMilitia.Update(1,10,true,true,new CityMilitiaPlanner.City[0]);
         Check(noMilitia.Update(1,11,true,true,new[]{C(201,0)})==0,"building without militia gets no command");
         Check(noMilitia.Update(1,12,false,true,new[]{C(201,0)})==0,"no recall for a building without militia");
+        foreach(bool open in new[]{true,false})foreach(string origin in new[]{"starting","captured","building"})
+        {
+            var delayed=new CityMilitiaPlanner();var city=C(300,open?1:2);city.CityId=30;city.Blocked=true;
+            if(origin=="starting")delayed.Update(1,0,open,true,new[]{city},0);
+            else{delayed.Update(1,600,open,true,new CityMilitiaPlanner.City[0],600);city.Unfinished=origin=="building";delayed.Update(1,601,open,true,new[]{city},600);}
+            // Reported captures were blocked longer than the former 3 attempts
+            // allowed. Observe the whole minute without sending/spending retries.
+            for(int tick=602;tick<662;tick++)Check(delayed.Update(1,tick,open,true,new[]{city})==0,"blocked acquisition remains pending without command flood");
+            city.Unfinished=false;city.Blocked=false;
+            Check(delayed.Update(1,662,open,true,new[]{city})==300,"starting/captured/completed actor applies preference after block ends");
+            Check(delayed.PendingOpen==open,"delayed action uses current preference");
+            // A newly blocked native actor returns 4, meaning nothing was sent.
+            for(int race=0;race<5;race++)
+            {
+                float now=663+race*7;delayed.Reply(4,now);
+                Check(delayed.Update(1,now+1,open,true,new[]{city})==0,"native temporary rejection backs off");
+                Check(delayed.Update(1,now+5,open,true,new[]{city})==300,"temporary native rejection does not abandon acquisition");
+            }
+            delayed.Reply(1,700);city.State=open?2:1;
+            Check(delayed.Update(1,701,open,true,new[]{city})==0,"delayed success confirmed");
+            city.State=open?1:2;
+            Check(delayed.Update(1,702,open,true,new[]{city})==0,"manual choice after delayed success stays respected");
+        }
+        foreach(string outcome in new[]{"manual","toggle","loss","load"})
+        {
+            var delayed=new CityMilitiaPlanner();var capturedCity=C(400);capturedCity.Blocked=true;
+            delayed.Update(1,600,true,true,new CityMilitiaPlanner.City[0],600);
+            delayed.Update(1,601,true,true,new[]{capturedCity});
+            if(outcome=="manual")capturedCity.State=2;
+            bool preference=outcome!="toggle";
+            uint world=outcome=="load"?2u:1u;
+            var observed=outcome=="loss"?new CityMilitiaPlanner.City[0]:new[]{capturedCity};
+            Check(delayed.Update(world,650,preference,true,observed,650)==0,"pending capture handles external state change");
+            capturedCity.Blocked=false;
+            Check(delayed.Update(world,651,preference,true,observed,650)==0,"no stale acquisition after manual preference/loss/load");
+        }
         Console.WriteLine("CITY_MILITIA_PLANNER_PASS "+checks+" checks");return 0;
     }
 }

@@ -11,9 +11,9 @@ using System.Threading;
 internal static class ReleaseStartup
 {
 #if LOBBY_COMPATIBILITY
-    internal const string Build = "beta.0.3.0-beta.8-test.7-1372-city-policy21-transfer-r2-lobby1-quiet";
+    internal const string Build = "beta.0.3.0-beta.8-test.8-1372-city-policy22-transfer-r2-lobby1-quiet";
 #elif FAST_SAVE_TRANSFER
-    internal const string Build = "beta.0.3.0-beta.4-1372-city-policy21-transfer-r2-quiet";
+    internal const string Build = "beta.0.3.0-beta.4-1372-city-policy22-transfer-r2-quiet";
 #else
     internal const string Build = "release.0.2.1-1372-terrain-randommap-colors20-independent-quiet";
 #endif

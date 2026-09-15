@@ -1,7 +1,8 @@
 """Observe city centers/children and issue normal, ownership-checked orders.
 
 30000..31000 is a separate executable page; 31000..41000 holds up to 4096
-16-byte records (city ID, actor ID, capability state, construction flag).
+16-byte records (city ID, actor ID, capability state, work flags:
+bit 0 construction, bit 1 temporarily blocked by siege/sale).
 No simulation flags are written. Both opening (23) and recall (24) use the
 same registered TellActorCommandOrder transport as a player's button click.
 """
@@ -40,6 +41,9 @@ shl esi,4; add esi,{S+0x31000}
 mov eax,dword ptr [ebp+8]; mov eax,dword ptr [eax+0x14]; mov dword ptr [esi],eax
 mov eax,dword ptr [edi+0x14]; mov dword ptr [esi+4],eax
 mov dword ptr [esi+8],0; mov dword ptr [esi+12],0
+test dword ptr [edi+0x100],0x40100000; jz militia_check_construction
+or dword ptr [esi+12],2
+militia_check_construction:
 test dword ptr [edi+0x100],0x20200000; jnz militia_unfinished
 mov eax,dword ptr [edi+0x9c]; test eax,eax; jz militia_probe
 cmp dword ptr [eax+0x28],0; jne militia_unfinished
@@ -51,7 +55,7 @@ militia_probe_closed:
 mov ecx,edi; mov eax,dword ptr [ecx]; push 23; call dword ptr [eax+0x34]
 test al,al; jz militia_actor_append
 mov dword ptr [esi+8],1; jmp militia_actor_append
-militia_unfinished: mov dword ptr [esi+12],1
+militia_unfinished: or dword ptr [esi+12],1
 militia_actor_append: inc dword ptr [{S+0x1a8}]; jmp militia_actor_done
 militia_actor_bad: mov dword ptr [{S+0x1ac}],0
 militia_actor_done: pop edi; pop esi; pop ebx; pop ebp; ret
@@ -64,6 +68,7 @@ mov ecx,dword ptr [0xa4f72c]; push dword ptr [{S+0x198}]; call 0x481117
 test eax,eax; jz militia_find_none; mov edi,eax
 mov ecx,edi; mov eax,dword ptr [ecx]; call dword ptr [eax+0x108]
 cmp eax,dword ptr [{S+0x10c}]; jne militia_find_none
+test dword ptr [edi+0x100],0x40100000; jnz militia_find_wait
 mov esi,dword ptr [edi+0x98]; test esi,esi; jz militia_find_none
 cmp dword ptr [esi+0x1c],256; ja militia_find_none
 mov edi,dword ptr [esi+0x14]; test edi,edi; jz militia_find_children
@@ -77,10 +82,11 @@ mov eax,dword ptr [edi+0x14]; cmp eax,dword ptr [{S+0x188}]; jne militia_find_lo
 militia_find_owner:
 mov ecx,edi; mov eax,dword ptr [ecx]; call dword ptr [eax+0x108]
 cmp eax,dword ptr [{S+0x10c}]; jne militia_find_none
-test dword ptr [edi+0x100],0x60300000; jnz militia_find_none
+test dword ptr [edi+0x100],0x60300000; jnz militia_find_wait
 mov eax,dword ptr [edi+0x9c]; test eax,eax; jz militia_find_ok
-cmp dword ptr [eax+0x28],0; jne militia_find_none
+cmp dword ptr [eax+0x28],0; jne militia_find_wait
 militia_find_ok: mov eax,edi; jmp militia_find_done
+militia_find_wait: mov dword ptr [{S+0x190}],4
 militia_find_none: xor eax,eax
 militia_find_done: pop edi; pop esi; pop ebx; ret
 ''', 0x200)

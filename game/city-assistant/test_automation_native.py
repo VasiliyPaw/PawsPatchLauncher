@@ -135,6 +135,16 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         assert militia_capture()[1]==(200,202,0,1);checks+=1
     w(child+0x100,0);w(child+0x528,0)
     assert militia_capture()[1]==(200,202,1,0);checks+=1
+    # Ownership has transferred, but a captured city may remain temporarily
+    # blocked. Keep its real open/closed state and mark it for deferred dispatch.
+    for observed in (center,child):
+        for flag in (0x00100000,0x40000000):
+            w(observed+0x100,flag);w(observed+0xf0,1<<23)
+            rows=militia_capture();index=0 if observed==center else 1
+            assert rows[index]==(200,201+index,1,2);checks+=1
+            w(observed+0x100,flag|0x00200000)
+            assert militia_capture()[index]==(200,201+index,0,3);checks+=1
+            w(observed+0x100,0)
     w(settle+0x1c,257);w(cave+0x1ac,1);run(0x7800,city)
     assert r(cave+0x1ac)==0;checks+=1;w(settle+0x1c,3)
     w(cave+0x1a8,4096);w(cave+0x1ac,1);run(0x7800,city)
@@ -187,9 +197,21 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         (17,lambda:w(cave+0xb4,1),lambda:w(cave+0xb4,0)),
         (18,lambda:w(child+0xf0,0),lambda:w(child+0xf0,1<<24))]:
         change();w(cave+0x180,serial);run(0x7400)
-        assert r(cave+0x194)==serial and r(cave+0x190)==2 and r(seen)==before,serial;checks+=1;restore()
+        assert r(cave+0x194)==serial and r(cave+0x190)==(4 if serial in (11,12) else 2) and r(seen)==before,serial;checks+=1;restore()
     w(child+0xf0,1<<23);w(cave+0x180,19);run(0x7400)
     assert r(cave+0x190)==3 and r(seen)==before;checks+=1
+    # Test the real emitted dispatch path: temporary block is result 4 and
+    # never sends; after it clears the same capture can use the normal order.
+    serial=20;w(cave+0xc0,1);w(cave+0x19c,1)
+    for affected in (city,center,child):
+        for flags in (0x00100000,0x40000000):
+            w(cave+0x188,202 if affected==child else 201)
+            w(center+0xf0,1<<23);w(child+0xf0,1<<23)
+            before=r(seen);w(affected+0x100,flags);w(cave+0x180,serial);run(0x7400)
+            assert r(cave+0x190)==4 and r(cave+0x194)==serial and r(seen)==before;checks+=1
+            serial+=1;w(affected+0x100,0);w(cave+0x180,serial);run(0x7400)
+            assert r(cave+0x190)==1 and r(cave+0x194)==serial and r(seen)==before+1;checks+=1
+            serial+=1
     # Run the real snapshot entry, initially without a ready local kingdom.
     # The first native world timestamp must survive incomplete snapshots and
     # helper/UI delays, but reset for a saved world, a rewind, or a menu exit.
