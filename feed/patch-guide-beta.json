@@ -103,8 +103,8 @@
       "category": "optional",
       "titleRu": "Локализация игры",
       "titleEn": "Game language",
-      "bodyRu": "Текст и озвучку можно выбрать отдельно: English или Русский. Оба выбора сохраняются при переключении модов и применяются вместе с настройками. Скачиваются только выбранные языки; уже загруженные файлы используются повторно, пока не выйдет их обновление.\n\nРусский текст включает оригинальную игру, Arcane Wars, Paw's Patch и добавленные названия и подписи Immortals. Язык лаунчера настраивается отдельно. Локализация не меняет игровые характеристики.",
-      "bodyEn": "Choose text and speech separately: English or Русский. Both choices persist across mods and are applied with your settings. Only selected languages are downloaded; cached files are reused until an update is available.\n\nRussian text covers the original game, Arcane Wars, Paw's Patch and added Immortals names and labels. Launcher language is configured separately. Localization does not change gameplay statistics."
+      "bodyRu": "Текст и озвучку можно выбрать отдельно. Оба выбора сохраняются при переключении модов и применяются вместе с настройками. Скачиваются только выбранные языки; уже загруженные файлы используются повторно, пока не выйдет их обновление.\n\nПеревод текста охватывает оригинальную игру, Immortals, Arcane Wars и Paw's Patch. Доступные языки озвучки могут отличаться от языков текста. Язык лаунчера настраивается отдельно. Локализация не меняет игровые характеристики.",
+      "bodyEn": "Choose text and speech separately. Both choices persist across mods and are applied with your settings. Only selected languages are downloaded; cached files are reused until an update is available.\n\nText translations cover the original game, Immortals, Arcane Wars and Paw's Patch. Available speech languages may differ from text languages. Launcher language is configured separately. Localization does not change gameplay statistics."
     },
     {
       "id": "desync",

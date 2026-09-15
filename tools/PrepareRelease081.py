@@ -160,10 +160,15 @@ def promote(a):
         assert normalize(fetch(RAW+path+'?release081=promotion'))==normalize((REPO/path).read_bytes()),'Public feed moved'
         verify(read(out/'signed'/(name+'.json')),key())
     assert sha(REPO/'feed/changelog.history.json')==prepared['historyBefore']
+    guides={'stable':'patch-guide.json','beta':'patch-guide-beta.json'}
+    for channel,filename in guides.items():
+        assert read(REPO/'feed'/filename)==verify(read(out/'previous'/(channel+'.json')),key())['patchGuide']
     for name,path in FEEDS.items():
         backup=REPO/'feed/history'/('before-launcher-081-'+name+'.json');assert not backup.exists()
         shutil.copyfile(REPO/path,backup);shutil.copyfile(out/'signed'/(name+'.json'),REPO/path)
     shutil.copyfile(out/'changelog.history.json',REPO/'feed/changelog.history.json')
+    for channel,filename in guides.items():
+        write(REPO/'feed'/filename,verify(read(out/'signed'/(channel+'.json')),key())['patchGuide'])
     print('PROMOTED LOCALLY: 4 catalogs; push and public readback still required',flush=True)
 
 if __name__=='__main__':

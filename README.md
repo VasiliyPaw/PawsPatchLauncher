@@ -2,29 +2,36 @@
 
 Windows launcher and transactional updater for Kohan II, Immortals, Arcane Wars and optional Paw's Patch components.
 
-Version **0.7.0** introduces a retained mod library, separate game text/voice choices,
-per-mod patch channels, startup updating and unified help/history. See the
-[release notes](docs/release-0.7.0.md).
+Version **0.8.1** adds German/French text and speech, Czech/Ukrainian game text,
+a Ukrainian launcher interface, broader notification sound support and chat copying
+improvements. See the [release notes](docs/release-0.8.1.md).
 
-[Download the latest launcher](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/latest).
+[Download PawsPatchLauncher.exe](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/latest/download/PawsPatchLauncher.exe)
+or see the [latest release](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/latest).
+The other game-package archives are downloaded automatically by the launcher.
 
 ## Code signing policy
 
 See the [code signing policy](docs/CODE_SIGNING.md) and
 [privacy policy / конфиденциальность](docs/PRIVACY.md).
-SignPath Foundation onboarding is pending; current launcher 0.7.0 downloads
-are unsigned. No SignPath approval or immediate removal of SmartScreen warnings
-is claimed. The [setup guide](docs/SIGNPATH_SETUP.md) describes activation.
+Current launcher 0.8.1 downloads are unsigned. No SignPath approval or immediate
+removal of SmartScreen warnings is claimed. The [setup guide](docs/SIGNPATH_SETUP.md)
+describes activation. Update catalogs are separately signed and downloaded files
+are checked against their SHA-256 hashes.
 
 ## Mod library (0.7.0)
 
 Vanilla is selected on a fresh installation. Each mod retains its installed releases
 and available patch components. Selection does not modify the game; Apply performs
 the verified local overlay operation. Only selected localization packages download.
-The launcher keeps English/Russian text and speech choices independently of mods.
+The launcher retains text and speech choices independently of mods. Game text is
+available in English, Russian, German, French, Czech and Ukrainian; speech is
+available in English, Russian, German and French. New font resources are included
+with the Czech and Ukrainian text packages. All six languages are also available
+for the launcher interface.
 
-Vanilla and Immortals have optional Paw's Patch 0.1.0 fixes. Arcane Wars uses Release
-0.2.0 or Beta 0.3.0-beta.2 and supports disabling Paw's Patch entirely. Its access
+Vanilla and Immortals have optional Paw's Patch fixes and separate Release/Beta
+channels. Arcane Wars also supports disabling Paw's Patch entirely. Its access
 policy is described in [Paw's Team](docs/paws-team.md). Mod authorship is separate
 from this launcher and its patch.
 
