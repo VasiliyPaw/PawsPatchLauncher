@@ -41,9 +41,9 @@ public static class Launcher080Tests
             local.Mod=mod==GameMod.Vanilla?GameMod.Immortals:GameMod.Vanilla;
             Check(!FriendCopyPlan.MatchesApplied(player,new InstallState{AppliedSettings=local},versions),"other applied mod not confused with selection");
         }
-        Check(UiLanguages.Choices.Select(c=>c.Label).SequenceEqual(new[]{"English","Русский","Čeština","Deutsch","Français"}),"autonyms");
+        Check(UiLanguages.Choices.Select(c=>c.Label).SequenceEqual(new[]{"English","Русский","Українська","Čeština","Deutsch","Français"}),"autonyms");
         Check(UiLanguages.Normalize("CS")=="cs"&&UiLanguages.Normalize("ja")=="en","language normalization");
-        foreach(var code in new[]{"cs","de","fr"})
+        foreach(var code in new[]{"uk","cs","de","fr"})
         {
             using var stream=typeof(UiLanguages).Assembly.GetManifestResourceStream("PawsPatchLauncher.Assets.Languages."+code+".json");
             Check(stream is not null,"embedded language catalog");
@@ -58,6 +58,9 @@ public static class Launcher080Tests
             Check(UiLanguages.Format(code,$"Обновляю лаунчер до {external}…",$"Updating launcher to {external}…").Contains(external),"argument data preserved verbatim");
         }
         Check(UiLanguages.GameLanguageName("en","ru")=="Английский (оригинал)","English original label");
+        Check(UiLanguages.Normalize("UK")=="uk"&&UiLanguages.DatePattern("uk")=="dd.MM.yyyy","Ukrainian selection and date format");
+        Check(new Localization("uk")["nav.settings"]=="Налаштування","Ukrainian resources connected");
+        Check(UiLanguages.GameLanguageName("en","uk")=="Англійська (оригінал)"&&UiLanguages.GameLanguageName("uk","uk")=="Українська","Ukrainian game language labels");
         return checks;
     }
 }

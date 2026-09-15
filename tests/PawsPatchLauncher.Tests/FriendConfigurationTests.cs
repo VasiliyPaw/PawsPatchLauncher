@@ -59,7 +59,9 @@ public static class FriendConfigurationTests
             Check(!components.ContainsKey("russian") && components["core"] == patch, "wrong player card patch/language component");
             Check(mod == GameMod.ArcaneWars || components.Count == 1, "Arcane Wars components leaked into another mod card");
         }
-        foreach (var invalid in new[] { valid + "-VOCS", valid + "-TXCS", valid + "-VORU-VOEN", valid + "-TXDE-TXFR", valid + "-VORU\n", valid + "-DATA-VORU-URL", "PAW-STABLE-VANILLA-DATA" })
+        foreach (var text in new[] { "DE", "FR", "CS", "UK" })
+            Check(FriendConfiguration.TryParse(valid + "-TX" + text, "beta", out _), "supported text language rejected: " + text);
+        foreach (var invalid in new[] { valid + "-VOCS", valid + "-TXZZ", valid + "-VORU-VOEN", valid + "-TXDE-TXFR", valid + "-VORU\n", valid + "-DATA-VORU-URL", "PAW-STABLE-VANILLA-DATA" })
             Check(!FriendConfiguration.TryParse(invalid, invalid.StartsWith("PAW-BETA-") ? "beta" : "stable", out _), "invalid extended configuration accepted");
         FriendConfiguration.TryParse(valid, "beta", out var settings);
         var feed = new ChannelManifest { Channel = "beta" };

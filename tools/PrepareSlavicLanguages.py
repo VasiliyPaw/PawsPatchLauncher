@@ -27,8 +27,11 @@ def color_catalog(code,colors):
 
 def native_catalog(code,inventory,translated):
     values=color_catalog(code,inventory['colors'])
+    with (ROOT/'game/localization/native-de-fr.tsv').open(encoding='utf-8') as f: european={r['English']:r for r in csv.DictReader(f,delimiter='\t')}
     for en,ru in inventory['native'].items():
-        values[en]=translated[en][code] if code in ('cs','uk') else ru if code=='ru' else en
+        if code in ('de','fr'):
+            values[en]=en[:len(en)-len(en.lstrip())]+european[en.strip()][code]+en[len(en.rstrip()):]
+        else:values[en]=translated[en][code] if code in ('cs','uk') else ru if code=='ru' else en
     lines=['language='+code]
     for key,value in sorted(values.items()):
         lines.append(base64.b64encode(key.encode()).decode()+'\t'+base64.b64encode(value.encode()).decode())

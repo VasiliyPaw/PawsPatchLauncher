@@ -7,14 +7,14 @@ public static class UiLanguages
 {
     public sealed record Choice(string Code, string Label);
     public static IReadOnlyList<Choice> Choices { get; } =
-    [new("en", "English"), new("ru", "Русский"), new("cs", "Čeština"), new("de", "Deutsch"), new("fr", "Français")];
+    [new("en", "English"), new("ru", "Русский"), new("uk", "Українська"), new("cs", "Čeština"), new("de", "Deutsch"), new("fr", "Français")];
     public static string Normalize(string? language) => Choices.FirstOrDefault(c => c.Code.Equals(language, StringComparison.OrdinalIgnoreCase))?.Code ?? "en";
-    public static string DatePattern(string language) => language switch { "ru" or "cs" or "de" => "dd.MM.yyyy", "fr" => "dd/MM/yyyy", _ => "yyyy-MM-dd" };
+    public static string DatePattern(string language) => language switch { "ru" or "uk" or "cs" or "de" => "dd.MM.yyyy", "fr" => "dd/MM/yyyy", _ => "yyyy-MM-dd" };
     private static readonly Dictionary<string, Dictionary<string,string>> Catalogs = Load();
     private static Dictionary<string, Dictionary<string,string>> Load()
     {
         var result = new Dictionary<string, Dictionary<string,string>>(StringComparer.Ordinal);
-        foreach (var code in new[] { "cs", "de", "fr" })
+        foreach (var code in new[] { "uk", "cs", "de", "fr" })
         {
             using var stream = typeof(UiLanguages).Assembly.GetManifestResourceStream("PawsPatchLauncher.Assets.Languages." + code + ".json");
             result[code] = stream is null ? new() : JsonSerializer.Deserialize<Dictionary<string,string>>(stream)!;

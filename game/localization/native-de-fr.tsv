@@ -1,0 +1,53 @@
+English	de	fr
+City Auto-Upgrade — Paw’s Patch	Automatischer Stadtausbau — Paw’s Patch	Amélioration automatique des villes — Paw’s Patch
+City Auto-Upgrade	Automatischer Stadtausbau	Amélioration automatique des villes
+General	Allgemein	Général
+Upgrade Paths	Ausbaupfade	Voies d’amélioration
+Cities	Städte	Villes
+New automatic orders are paused until this window closes.	Neue automatische Aufträge sind angehalten, bis dieses Fenster geschlossen wird.	Les nouveaux ordres automatiques sont suspendus jusqu’à la fermeture de cette fenêtre.
+Apply	Übernehmen	Appliquer
+Cancel	Abbrechen	Annuler
+Markets are allowed when all four resource incomes exceed their targets before the order; their resulting income may fall below a target. Other buildings preserve resource protection.	Märkte dürfen gebaut werden, wenn vor dem Auftrag die Einkommen aller vier Ressourcen über ihren Zielwerten liegen. Danach darf ein Einkommen unter den Zielwert fallen. Für andere Gebäude bleibt der Ressourcenschutz bestehen.	Les marchés sont autorisés si les revenus des quatre ressources dépassent leurs seuils avant l’ordre. Le revenu obtenu peut ensuite descendre sous un seuil. Les autres bâtiments respectent la protection des ressources.
+Construct new buildings	Neue Gebäude errichten	Construire de nouveaux bâtiments
+Upgrade existing buildings	Vorhandene Gebäude ausbauen	Améliorer les bâtiments existants
+Priority: needed resource income → gold → preparation for profitable upgrades. With no useful income improvements and all targets exceeded, choose a random eligible building or upgrade, including mines. All manual and automatic queued work is counted.	Priorität: benötigtes Ressourceneinkommen → Gold → Vorbereitung lohnender Ausbauten. Wenn keine nützlichen Einkommensverbesserungen mehr verfügbar sind und alle Zielwerte überschritten werden, wird ein zulässiges Gebäude oder ein Ausbau zufällig gewählt, einschließlich Minen. Alle manuellen und automatischen Aufträge in der Warteschlange werden berücksichtigt.	Priorité : revenus de ressources nécessaires → or → préparation d’améliorations rentables. S’il ne reste aucune amélioration de revenu utile et que tous les seuils sont dépassés, un bâtiment ou une amélioration autorisés sont choisis au hasard, y compris les mines. Tous les travaux manuels et automatiques en file d’attente sont pris en compte.
+Excluded cities stay under manual control. City exceptions and local branches apply only to this match and reset when loading a save.	Ausgeschlossene Städte bleiben vollständig unter manueller Kontrolle. Stadtausnahmen und lokale Ausbaupfade gelten nur für dieses Spiel und werden beim Laden eines Spielstands zurückgesetzt.	Les villes exclues restent entièrement sous contrôle manuel. Les exceptions et les voies locales ne s’appliquent qu’à cette partie et sont réinitialisées au chargement d’une sauvegarde.
+— auto-upgrade	— automatischer Ausbau	— amélioration automatique
+Global rules for all cities	Allgemeine Regeln für alle Städte	Règles générales pour toutes les villes
+Rules apply to upgrades from the listed building. Manual stops at forks but allows linear upgrades. An unavailable chosen branch is never replaced.	Die Regel gilt für den Ausbau des aufgeführten Gebäudes. „Manuell“ hält an Verzweigungen an, erlaubt jedoch lineare Ausbauten. Ein gewählter, nicht verfügbarer Pfad wird nie durch einen anderen ersetzt.	La règle s’applique aux améliorations du bâtiment indiqué. Le mode manuel s’arrête aux embranchements, mais autorise les améliorations linéaires. Une voie choisie indisponible n’est jamais remplacée par une autre.
+Branches appear when your cities contain upgradeable buildings.	Ausbaupfade erscheinen, sobald Ihre Städte ausbaufähige Gebäude enthalten.	Les voies apparaissent lorsque vos villes possèdent des bâtiments améliorables.
+Use global rule	Allgemeine Regel verwenden	Utiliser la règle générale
+Automatic — safe choice	Automatisch — sichere Wahl	Automatique — choix sûr
+Choose branches manually	Ausbaupfade manuell wählen	Choisir les voies manuellement
+Selected branch is currently unavailable	Gewählter Pfad derzeit nicht verfügbar	La voie choisie est actuellement indisponible
+Resource balance protection applies to every choice.	Der Schutz der Ressourcenbilanz gilt für jede Auswahl.	La protection du bilan des ressources s’applique à tous les choix.
+Enter a whole number: 0–9999999	Geben Sie eine ganze Zahl ein: 0–9999999	Saisissez un nombre entier : 0–9999999
+Enter a whole number: 0–9999	Geben Sie eine ganze Zahl ein: 0–9999	Saisissez un nombre entier : 0–9999
+Editing target: Enter to apply	Zielwert bearbeiten: Enter zum Übernehmen	Modification du seuil : Entrée pour appliquer
+New orders paused. Enter applies; Esc or clicking outside cancels.	Neue Aufträge angehalten. Enter übernimmt; Esc oder ein Klick außerhalb bricht ab.	Nouveaux ordres suspendus. Entrée applique ; Échap ou un clic à l’extérieur annule.
+City	Stadt	Ville
+Building	Gebäude	Bâtiment
+Auto-upgrade off	Automatischer Ausbau aus	Amélioration automatique désactivée
+Paused	Pausiert	En pause
+Waiting for gold:	Warten auf Gold:	Or manquant :
+Sending construction order	Bauauftrag wird gesendet	Envoi de l’ordre de construction
+All cities busy	Alle Städte beschäftigt	Toutes les villes sont occupées
+No available cities	Keine verfügbaren Städte	Aucune ville disponible
+No available improvements	Keine verfügbaren Ausbauten	Aucune amélioration disponible
+No improvements allowed by protection rules	Keine nach den Schutzregeln zulässigen Ausbauten	Aucune amélioration autorisée par les règles de protection
+Checking construction commitments	Auswirkungen laufender Bauaufträge werden geprüft	Vérification des effets des travaux en cours
+Configuring auto-upgrade	Automatischen Ausbau konfigurieren	Configuration de l’amélioration automatique
+Checking settings…	Einstellungen werden geprüft…	Vérification des paramètres…
+Stopped: check the city	Angehalten: Stadt prüfen	Arrêté : vérifiez la ville
+Checking cities…	Städte werden geprüft…	Vérification des villes…
+Priority: needed resource income → gold → development. Markets may cross targets when all four incomes exceed their targets before ordering. Manual and automatic queued work is counted.	Priorität: benötigtes Ressourceneinkommen → Gold → Ausbau. Märkte dürfen Zielwerte unterschreiten, wenn vor dem Auftrag alle vier Einkommen über ihren Zielwerten liegen. Manuelle und automatische Aufträge in der Warteschlange werden berücksichtigt.	Priorité : revenus de ressources nécessaires → or → développement. Les marchés peuvent faire passer les revenus sous les seuils si les quatre revenus les dépassent avant l’ordre. Les travaux manuels et automatiques en attente sont pris en compte.
+Outstanding construction effects could not be read reliably. New orders are temporarily paused to protect resource targets.	Die Auswirkungen laufender Bauaufträge konnten nicht zuverlässig ermittelt werden. Neue Aufträge sind zum Schutz der Ressourcenzielwerte vorübergehend angehalten.	Les effets des travaux en cours n’ont pas pu être déterminés de façon fiable. Les nouveaux ordres sont temporairement suspendus pour préserver les seuils de ressources.
+No order currently meets the resource targets and selected branch rules. When all targets are exceeded and no useful income improvements remain, a random eligible building continues development.	Derzeit erfüllt kein Auftrag die Ressourcenzielwerte und die gewählten Pfadregeln. Wenn alle Zielwerte überschritten werden und keine nützlichen Einkommensverbesserungen mehr verfügbar sind, wird der Ausbau mit einem zufälligen zulässigen Gebäude fortgesetzt.	Aucun ordre ne respecte actuellement les seuils de ressources et les règles des voies choisies. Si tous les seuils sont dépassés et qu’il ne reste aucune amélioration de revenu utile, le développement continue avec un bâtiment autorisé choisi au hasard.
+Cost:	Kosten:	Coût :
+· Reserve:	· Reserve:	· Réserve :
+Gold	Gold	Or
+Stone	Stein	Pierre
+Wood	Holz	Bois
+Iron	Eisen	Fer
+Mana	Mana	Mana
+Resource income is unchanged.	Das Ressourceneinkommen bleibt unverändert.	Les revenus de ressources restent inchangés.
