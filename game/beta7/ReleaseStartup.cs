@@ -20,6 +20,23 @@ internal static class ReleaseStartup
     private static int verifiedPid;
     private static DateTime verifiedStart;
     internal static IntPtr VerifiedImage;
+#if LAIR_RECOVERY_TEST
+    // A local test EXE lives outside the installation. All readers must use
+    // the exact verified game root, not the location of the helper binary.
+    internal static string GameDataDirectory = AppDomain.CurrentDomain.BaseDirectory;
+    internal static void VerifyLocalLaunchData(string root)
+    {
+        GameDataDirectory = Path.GetFullPath(root);
+        PawGamePresentation.ValidateData(GameDataDirectory);
+#if PAW_COLORS
+        if (!File.Exists(Path.Combine(GameDataDirectory, @"data\UI\Menus\pcolors.tgi")))
+            throw new FileNotFoundException("Missing player-color lobby layout");
+        PawLobbyColorsNative.VerifyOffline();
+#endif
+        // Force catalog parsing before the game is started, too.
+        string language = PawGameText.Language;
+    }
+#endif
 
     internal static string Hash(string path)
     {
@@ -77,6 +94,9 @@ internal static class ReleaseStartup
                     TerrainPatch.Call(address + TerrainPatch.HookRva, terrain));
                 TerrainPatch.Expect(memory, terrain, TerrainPatch.Stub(address, terrain));
                 RandomMapPatch.Verify(memory, address, map);
+#if LAIR_RECOVERY
+                LairRecoveryPatch.Install(memory, address, log);
+#endif
             }
             finally { memory.Resume(); }
         }

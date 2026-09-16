@@ -147,10 +147,21 @@ internal static class PawGamePresentation
         if(!FlushInstructionCache(process,address,bytes.Length)) throw new Win32Exception();
     }
     public static void Install(IntPtr process,IntPtr image,string logPath)
+#if LAIR_RECOVERY_TEST
+    { InstallPresentation(process,image,logPath,ReleaseStartup.GameDataDirectory,false); }
+#else
     { InstallPresentation(process,image,logPath,AppDomain.CurrentDomain.BaseDirectory,false); }
+#endif
 
     public static void InstallMenuOnly(IntPtr process,IntPtr image,string logPath,string root)
     { InstallPresentation(process,image,logPath,root,true); }
+
+    internal static void ValidateData(string root)
+    {
+        VersionSuffix(File.ReadAllText(Path.Combine(root,"paws_patch_versions.ini"),Encoding.UTF8));
+        if(!File.Exists(Path.Combine(root,"data","UI","Menus","main.tgi")))
+            throw new FileNotFoundException("Missing common UI main menu layout");
+    }
 
     static void InstallPresentation(IntPtr process,IntPtr image,string logPath,string root,bool menuOnly)
     {

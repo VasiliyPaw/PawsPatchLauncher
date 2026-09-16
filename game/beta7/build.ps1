@@ -1,5 +1,6 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery)
 $ErrorActionPreference = 'Stop'
+if($LairWoundedTest){$LairRecovery=$true}
 $out = [IO.Path]::GetFullPath($OutputDirectory)
 if (Test-Path -LiteralPath $out) { throw 'Choose an unused output directory.' }
 New-Item -ItemType Directory -Path $out | Out-Null
@@ -48,13 +49,28 @@ function Replace-StartupAnchor([string]$text, [string]$before, [string]$after) {
     if (($text.Split([string[]]@($before),[StringSplitOptions]::None).Length-1) -ne 1) { throw "Startup source anchor changed: $before" }
     return $text.Replace($before,$after)
 }
+if($LairRecovery) {
+    if(!$CityAssistant -or !$LobbyCompatibility){throw 'Lair recovery requires the full beta helper and lobby compatibility.'}
+    $lair=Join-Path $PSScriptRoot '../lair-recovery'
+    $lairNative=Join-Path $out 'lair-native'
+    & $python (Join-Path $lair 'build_native.py') --legacy $work --out $lairNative
+    if($LASTEXITCODE -ne 0){throw 'Lair native build failed.'}
+    & $python (Join-Path $lair 'test_native.py') --legacy $work --native $lairNative
+    if($LASTEXITCODE -ne 0){throw 'Lair native regression failed.'}
+    $lairTests=Join-Path $out 'LairRecoveryTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:LairRecoveryTests "/out:$lairTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $lair 'LairRecoveryPatch.cs') (Join-Path $lairNative 'LairRecoveryPayload.cs') (Join-Path $lair 'LairRecoveryTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Lair transaction tests compilation failed.'}
+    & $lairTests
+    if($LASTEXITCODE -ne 0){throw 'Lair transaction regression failed.'}
+}
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_player_colors.ini') -Destination $out
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_patch_versions.ini') -Destination $out
 foreach ($variant in $variants.PSObject.Properties) {
     $exe = Join-Path $out $variant.Name
     $arguments = @('/nologo','/target:winexe','/platform:x86','/optimize+',
         '/r:System.Core.dll','/r:System.Windows.Forms.dll','/r:System.Drawing.dll',
-        ("/define:" + $variant.Value + $(if($CityAssistant){';CITY_ASSISTANT;FAST_SAVE_TRANSFER'}else{''}) + $(if($LobbyCompatibility){';LOBBY_COMPATIBILITY'}else{''})), ("/out:" + $exe))
+        ("/define:" + $variant.Value + $(if($CityAssistant){';CITY_ASSISTANT;FAST_SAVE_TRANSFER'}else{''}) + $(if($LobbyCompatibility){';LOBBY_COMPATIBILITY'}else{''}) + $(if($LairWoundedTest){';LAIR_RECOVERY_TEST'}else{''}) + $(if($LairRecovery){';LAIR_RECOVERY'}else{''})), ("/out:" + $exe))
+    if($LairRecovery){$arguments += (Join-Path $lair 'LairRecoveryPatch.cs'),(Join-Path $lairNative 'LairRecoveryPayload.cs')}
     foreach ($resource in $resources) { $arguments += '/resource:' + (Join-Path $PSScriptRoot "$resource.bin") + ',' + $resource }
     $source = if ($variant.Name.StartsWith('k2_paws_lobby_colors_mp_nohostility')) { 'k2_paws_lobby_colors_mp_1372_experimental.cs' } else { [IO.Path]::GetFileNameWithoutExtension($variant.Name) + '.cs' }
     $sourcePath = Join-Path $PSScriptRoot $source
@@ -83,6 +99,17 @@ PawAssistantRuntime.Tick();
             $arguments += '/r:System.Web.Extensions.dll'
             $arguments += Join-Path $lobby 'PawLobbyCompatibility.cs'
             $arguments += '/resource:'+(Join-Path $out 'paws_lobby_compatibility.dll')+',PawLobbyCompatibilityNative'
+        }
+        if($LairWoundedTest) {
+            $text=Replace-StartupAnchor $text 'if (args.Length == 1 && args[0] == "--features") return BuildFeatures.Write();' @'
+if (args.Length == 2 && args[0] == "--local-data-check") {
+            try { ReleaseStartup.VerifyLocalLaunchData(args[1]); Console.WriteLine("LOCAL_DATA_PASS language="+PawGameText.Language); return 0; }
+            catch(Exception error) { Console.Error.WriteLine(error.Message); return 2; }
+        }
+        if (args.Length == 1 && args[0] == "--features") return BuildFeatures.Write();
+'@
+            $text=Replace-StartupAnchor $text 'ReleaseStartup.GuardData(root);' 'ReleaseStartup.GuardData(root); ReleaseStartup.VerifyLocalLaunchData(root);'
+            $text=Replace-StartupAnchor $text 'ReleaseStartup.GuardData(gameDirectory);' 'ReleaseStartup.GuardData(gameDirectory); ReleaseStartup.VerifyLocalLaunchData(gameDirectory);'
         }
         $sourcePath = Join-Path $out ($variant.Name + '.generated.cs')
         [IO.File]::WriteAllText($sourcePath,$text,[Text.UTF8Encoding]::new($false))

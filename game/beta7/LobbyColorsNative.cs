@@ -73,7 +73,11 @@ internal static class PawLobbyColorsNative
 
     private static PaletteFile LoadPalette()
     {
+#if LAIR_RECOVERY_TEST
+        string path=Path.Combine(ReleaseStartup.GameDataDirectory,"paws_player_colors.ini");
+#else
         string path=Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"paws_player_colors.ini");
+#endif
         if(!File.Exists(path)) throw new FileNotFoundException("Missing player-only color palette",path);
         byte[] fileBytes=File.ReadAllBytes(path);
         var sections=new Dictionary<string,Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);

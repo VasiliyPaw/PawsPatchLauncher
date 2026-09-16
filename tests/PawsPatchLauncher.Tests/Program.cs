@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==4&&args[0]=="--verify-arcane-beta9") {await ArcaneBeta9Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--stage-pure-options") {await PureOptionsTests.StageAsync(args[1],args[2],args[3]);return;}
 if(args.Length==1&&args[0]=="--pure-options") {PureOptionsTests.Run();return;}
 if(args.Length==1&&args[0]=="--color-label-checks") {ColorPaletteReview.Labels();return;}

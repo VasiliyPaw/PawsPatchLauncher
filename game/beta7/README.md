@@ -49,3 +49,13 @@ installed-configuration identity check as normal startup, without extracting the
 native DLL or launching the game. Run `InstalledStartupTests.cs` against all eight
 built/installed helpers: it checks the real installed version and preflight, and
 verifies rejection of an incompatible version using an in-memory state copy.
+
+## Arcane Wars beta.9
+
+Use `-CityAssistant -LobbyCompatibility -LairRecovery -NativeCompiler <x86-tcc>`
+for the release build. All eight helpers install the manually accepted lair
+survivor r3 payload. `--features` reports `lairWoundedDefendersRevision:3`.
+The four release modules carry 11 helper copies; duplicate paths contain
+identical current bytes, so optional modules cannot reintroduce older helpers.
+The separate common-ui module installs 18 static racial minimap textures fitted
+to 16:9. No EXE selects a resolution, generates textures or rewrites HUD files.

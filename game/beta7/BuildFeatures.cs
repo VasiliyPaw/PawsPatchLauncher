@@ -39,6 +39,11 @@ internal static class BuildFeatures
 #else
         const string lobby = "";
 #endif
+#if LAIR_RECOVERY
+        const string lairRecovery = ",\"lairWoundedDefendersRevision\":3";
+#else
+        const string lairRecovery = "";
+#endif
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
@@ -49,7 +54,7 @@ internal static class BuildFeatures
             ",\"automaticMines\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"newCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"startingCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
-            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + "}");
+            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + lairRecovery + "}");
         return 0;
     }
 }
