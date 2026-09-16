@@ -11,6 +11,7 @@ Vanilla, Immortals and all unrelated payloads retain their existing identities.
   passed 2,664 native cases and 3,981 transactional installation/rollback checks.
 - Existing city planning, militia, preferences, construction, market, transport,
   saved ownership and fast-transfer regressions passed. No game was launched.
+- The launcher regression suite passed 26,830 checks without a launcher release.
 - The native r3 payload is byte-identical to the user's accepted standalone
   test: SHA-256 `2965D9DFA1A5EBD1FB20D718C78248DFE67DA92AE9396A700BEE5424F173A004`.
 - Final assembly audit: 97 checks across all eight helpers. Each startup calls

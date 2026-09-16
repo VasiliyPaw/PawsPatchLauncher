@@ -1,7 +1,23 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.0-beta.8",
+  "version": "0.3.0-beta.9",
   "entries": [
+    {
+      "id": "lair-survivors",
+      "category": "always",
+      "titleRu": "Защитники логов",
+      "titleEn": "Lair defenders",
+      "bodyRu": "Вернувшиеся живыми защитники логов могут выйти снова с оставшимся здоровьем. Погибшие ждут полного восстановления. После загрузки сейва раненые защитники, уже находящиеся внутри, также ждут полного восстановления: история возвращения в сейве не хранится.",
+      "bodyEn": "Lair defenders that return alive can redeploy with their remaining health. Killed defenders must fully regenerate. After loading a save, wounded defenders already inside also wait for full recovery because their return history is not stored."
+    },
+    {
+      "id": "minimap-frames",
+      "category": "always",
+      "titleRu": "Рамки миникарты",
+      "titleEn": "Minimap frames",
+      "bodyRu": "Обновлённые рамки всех шести рас заполняют чёрные промежутки вокруг миникарты. Готовые файлы рассчитаны на 16:9, включая Full HD и 2560×1440. Положение карты и кнопок сохранено; автоматического выбора по разрешению нет.",
+      "bodyEn": "Updated frames for all six races fill the black gutters around the minimap. The supplied files fit 16:9, including Full HD and 2560×1440. Map and button positions are preserved; there is no automatic resolution selection."
+    },
     {
       "id": "lobby-compatibility",
       "category": "always",
