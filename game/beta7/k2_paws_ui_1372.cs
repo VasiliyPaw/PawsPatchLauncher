@@ -513,7 +513,7 @@ internal static class K2PawFamilyPostgen1372
 #if SYNC_ONLY
             AppendLog(logPath, "BUILD 1.3.72-sync-only-r1; familyAssignment=false; independentHostility=false.");
 #else
-            AppendLog(logPath, "BUILD 1.3.72-city-families-r2; regular-independent-cities-by-race=true; cityMappings=36; newHookSites=0; newAiControllers=false.");
+            AppendLog(logPath, "BUILD 1.3.72-city-families-r3; saved-owners=preserved; saved-session-remap=false; regular-independent-cities-by-race=true; cityMappings=36; newHookSites=0; newAiControllers=false.");
 #endif
             ReleaseStartup.InstallTerrainAndMap(game, imageBase, delegate(string m) { AppendLog(logPath, m); });
             PawGamePresentation.Install(process, imageBase, logPath);
@@ -730,7 +730,7 @@ internal static class K2PawFamilyPostgen1372
                     " counters=0x" + counters.ToInt64().ToString("X8") +
                     " mappings=" + ActorKingdomMap.GetLength(0) +
                     " original=" + BitConverter.ToString(original).Replace('-', ' ') +
-                    " mode=exact-lair-postgen-reassignment" +
+                    " mode=exact-lair-postgen-reassignment; saved-owners=preserved; saved-session-remap=false" +
 #if PRESERVE_NONINDEPENDENT_OWNER
                     " preserve-captured-owner=true" +
 #endif
@@ -3425,6 +3425,23 @@ internal static class K2PawFamilyPostgen1372
         code.Add(0x60);                                                        // pushad
         AddCounterIncrement(code, counters, CounterEntries);
         AddCounterIncrement(code, counters, siteCounter);
+
+        // 22C7CC restores a serialized GActor owner, not a fresh-map actor.
+        // The exact saved pointer is authoritative for old and current saves,
+        // including independent owners and the host's multiplayer snapshot.
+        if (target == Add(imageBase, InitialKingdomStoreRva))
+            stockJumps.Add(AddJump(code));
+
+        // Materialization also occurs after loading (spawns/replacements).
+        // SessionSource kind 2 is a saved game; leave its ownership untouched
+        // for the whole session. Read native state on every call so a later
+        // new match in the same process regains normal family assignment.
+        code.Add(0xA1);                                                        // mov eax,[GSession]
+        code.AddRange(BitConverter.GetBytes(Add(imageBase, 0x5F3FE4).ToInt32()));
+        code.AddRange(new byte[] { 0x85, 0xC0 });                              // no session: preserve
+        stockJumps.Add(AddConditionalJump(code, 0x84));
+        code.AddRange(new byte[] { 0x83, 0x78, 0x64, 0x02 });                  // saved source
+        stockJumps.Add(AddConditionalJump(code, 0x84));
 
         code.AddRange(new byte[] { 0x8B, 0x0C, 0x24 });                        // mov ecx,[esp] saved EDI actor
         code.AddRange(new byte[] { 0x85, 0xC9 });

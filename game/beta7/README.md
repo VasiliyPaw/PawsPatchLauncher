@@ -30,3 +30,14 @@ Native self-test flags and mock-memory checks are distinct from multiplayer acce
 For patch 0.3.0-beta.3, use `./build.ps1 -CityAssistant -OutputDirectory C:/PatchBuild/city-beta3 -LegacyWorkDirectory C:/VerifiedKohanWork` with a new output directory. The verified work directory supplies the accepted native bridge and transfer sources; the script also recognizes the existing local migration path. This compile-time option embeds city policy r14 in all eight variants and emits both native F1 layouts. Building without it retains Release behavior. `--features` reports `cityPolicyRevision:14`, `nativeCityQueue`, `automaticMines` and `newCityMilitia` only with the assistant; package metadata supplies the public Beta version.
 
 See [assistant sources, controls and validation](../city-assistant/README.md). Do not replace Stable packages with these Beta binaries.
+
+## Saved ownership (local beta test.10)
+
+The serialized-owner store at RVA 22C7CC always retains the exact owner resolved
+from the save, including old independent kingdoms and multiplayer host snapshots.
+The materialization hook also skips family reassignment while native SessionSource
+kind is 2 (loaded game), including later spawns and upgrades in that session.
+Starting a fresh match restores the existing family assignment policy. No saved
+file is rewritten, and already misassigned ownership in a later save is not
+silently reversed. Test with `test_saved_owners.py` against all built helpers;
+the test executes the emitted x86 stubs at three relocated image bases.

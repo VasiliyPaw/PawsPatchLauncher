@@ -108,6 +108,8 @@ PawAssistantRuntime.Tick();
     }
 }
 if ($CityAssistant) {
+    & $python (Join-Path $PSScriptRoot 'test_saved_owners.py') --helpers $out --legacy $work
+    if ($LASTEXITCODE -ne 0) { throw 'Saved owner regression failed.' }
     $layoutOut = Join-Path $out 'data/UI/Game'
     New-Item -ItemType Directory -Path $layoutOut -Force | Out-Null
     foreach($language in 'en','ru') {
