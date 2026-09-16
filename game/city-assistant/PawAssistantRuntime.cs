@@ -169,7 +169,7 @@ internal static partial class PawAssistantRuntime
             partyGameRoot=Path.GetFullPath(root);
             memory.Write(state, BitConverter.GetBytes(Environment.TickCount));
             logger = log;
-            log("ASSISTANT beta policy=r22 installed; partyPreferences=true; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
+            log("ASSISTANT beta policy=r23 installed; partyPreferences=true; cityOrders=true; nativeQueue=true; mines=true; newCityAndBuildingMilitia="+policy.NewCitiesOpenMilitia+"; noticeCooldown=300000ms; nativeNotice=" + (signal != IntPtr.Zero) + ".");
         }
         finally { memory.Resume(); }
     }
@@ -479,25 +479,8 @@ internal static partial class PawAssistantRuntime
     private static void PlanMilitia(byte[] header,byte[] cityRecords,byte[] records)
     {
         uint epoch=BitConverter.ToUInt32(header,4);float time=BitConverter.ToSingle(header,0x10);
-        var cities=new List<CityMilitiaPlanner.City>();
-        var ownedCities=new HashSet<uint>();
-        var blockedCities=new HashSet<uint>();
-        for(int i=0;i<cityRecords.Length;i+=8)
-        {
-            uint flags=BitConverter.ToUInt32(cityRecords,i+4),id=BitConverter.ToUInt32(cityRecords,i);
-            if((flags&2)==0)ownedCities.Add(id);
-            if((flags&1)!=0)blockedCities.Add(id);
-        }
-        var seen=new HashSet<uint>();
-        for(int i=0;i<records.Length;i+=16)
-        {
-            uint cityId=BitConverter.ToUInt32(records,i),id=BitConverter.ToUInt32(records,i+4);
-            uint capability=BitConverter.ToUInt32(records,i+8),workFlags=BitConverter.ToUInt32(records,i+12);
-            if(!ownedCities.Contains(cityId) || id==0 || capability>2 || workFlags>3)return;
-            if(!seen.Add(id))continue;
-            cities.Add(new CityMilitiaPlanner.City {Id=id,CityId=cityId,State=(int)capability,
-                Unfinished=(workFlags&1)!=0,Blocked=(workFlags&2)!=0 || blockedCities.Contains(cityId)});
-        }
+        var cities=CityMilitiaPlanner.ReadSnapshot(cityRecords,records);
+        if(cities==null)return;
         if(militiaPending!=0)
         {
             byte[] reply=memory.Read(state+0x190,8);
@@ -509,7 +492,7 @@ internal static partial class PawAssistantRuntime
                 militiaPending=0;
             }
         }
-        uint next=militiaPlanner.Update(epoch,time,policy.NewCitiesOpenMilitia,!settingsOpen && militiaPending==0,cities.ToArray(),BitConverter.ToSingle(header,0x3c));
+        uint next=militiaPlanner.Update(epoch,time,policy.NewCitiesOpenMilitia,!settingsOpen && militiaPending==0,cities,BitConverter.ToSingle(header,0x3c));
         if(next==0)return;
         byte[] request=new byte[12];Array.Copy(BitConverter.GetBytes(epoch),0,request,0,4);
         Array.Copy(BitConverter.GetBytes(next),0,request,4,4);Array.Copy(BitConverter.GetBytes(time),0,request,8,4);

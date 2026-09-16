@@ -122,6 +122,30 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
     child=actor(202,old);ordinary=actor(203,old);children=alloc()
     w(children,center);w(children+4,child);w(children+8,ordinary)
     w(settle+0x18,children);w(settle+0x1c,3);w(child+0xf0,1<<23)
+    # Execute STOCK DenizenComponent::UpdateCommands, not a guessed capability
+    # mask. Siege does not remove either sally or recall. Only 0x40000000 in
+    # this path suppresses them. Rally/garrison decisions are unrelated stubs.
+    for start,end in [(0x668fd9,0x6690fa),(0x6882d0,0x6882e4),
+                      (0x666a54,0x666a95),(0x66c6a7,0x66c6d5)]:
+        u.mem_write(game+start-0x460000,raw[start-0x460000:end-0x460000])
+    parent=alloc();stub(parent,f'mov eax,{city}; ret');w(vt+0x100,parent)
+    stub(game+0x2094d3,'xor eax,eax; ret 4')
+    stub(game+0x2094f3,'xor eax,eax; ret 4')
+    denizen=alloc();w(denizen+0x38,8)
+    for observed in (center,child):
+        w(denizen+4,observed)
+        for city_flags in (0,0x00100000):
+            w(city+0x100,city_flags)
+            for flags in (0,0x00100000,0x40000000,0x40100000):
+                w(observed+0x100,flags)
+                for opened in (0,1):
+                    w(observed+0xf0,0);u.mem_write(denizen+0x20,bytes([opened]))
+                    run(game+0x208fd9-cave,denizen)
+                    expected=0 if flags&0x40000000 else 1<<(24 if opened else 23)
+                    assert r(observed+0xf0)&((1<<23)|(1<<24))==expected
+                    checks+=1
+        w(observed+0x100,0);w(observed+0xf0,1<<23)
+    w(city+0x100,0)
     def militia_capture():
         w(cave+0x1a8,0);w(cave+0x1ac,1);run(0x7800,city)
         assert r(cave+0x1a8)==3 and r(cave+0x1ac)==1
@@ -135,15 +159,18 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         assert militia_capture()[1]==(200,202,0,1);checks+=1
     w(child+0x100,0);w(child+0x528,0)
     assert militia_capture()[1]==(200,202,1,0);checks+=1
-    # Ownership has transferred, but a captured city may remain temporarily
-    # blocked. Keep its real open/closed state and mark it for deferred dispatch.
-    for observed in (center,child):
-        for flag in (0x00100000,0x40000000):
+    # Keep siege-enabled capabilities usable; distinguish real disabling state
+    # on either the parent city or its actor from the economic busy mask.
+    w(center+0xf0,1<<23)
+    for observed in (city,center,child):
+        for flag in (0x00100000,0x40000000,0x40100000):
             w(observed+0x100,flag);w(observed+0xf0,1<<23)
-            rows=militia_capture();index=0 if observed==center else 1
-            assert rows[index]==(200,201+index,1,2);checks+=1
-            w(observed+0x100,flag|0x00200000)
-            assert militia_capture()[index]==(200,201+index,0,3);checks+=1
+            rows=militia_capture();index=1 if observed==child else 0
+            work=2 if flag&0x40000000 else 0
+            assert rows[index]==(200,201+index,1,work);checks+=1
+            if observed!=city:
+                w(observed+0x100,flag|0x00200000)
+                assert militia_capture()[index]==(200,201+index,0,work|1);checks+=1
             w(observed+0x100,0)
     w(settle+0x1c,257);w(cave+0x1ac,1);run(0x7800,city)
     assert r(cave+0x1ac)==0;checks+=1;w(settle+0x1c,3)
@@ -200,18 +227,39 @@ for game,cave,count in [(g,c,n) for g,c in [(0x460000,0x10000000),(0x650000,0x21
         assert r(cave+0x194)==serial and r(cave+0x190)==(4 if serial in (11,12) else 2) and r(seen)==before,serial;checks+=1;restore()
     w(child+0xf0,1<<23);w(cave+0x180,19);run(0x7400)
     assert r(cave+0x190)==3 and r(seen)==before;checks+=1
-    # Test the real emitted dispatch path: temporary block is result 4 and
-    # never sends; after it clears the same capture can use the normal order.
-    serial=20;w(cave+0xc0,1);w(cave+0x19c,1)
+    # Siege may be present on city, center or child when either native command
+    # is issued. Construction/sale guards, owner and native Validate stay active.
+    serial=20
     for affected in (city,center,child):
-        for flags in (0x00100000,0x40000000):
-            w(cave+0x188,202 if affected==child else 201)
-            w(center+0xf0,1<<23);w(child+0xf0,1<<23)
-            before=r(seen);w(affected+0x100,flags);w(cave+0x180,serial);run(0x7400)
-            assert r(cave+0x190)==4 and r(cave+0x194)==serial and r(seen)==before;checks+=1
-            serial+=1;w(affected+0x100,0);w(cave+0x180,serial);run(0x7400)
-            assert r(cave+0x190)==1 and r(cave+0x194)==serial and r(seen)==before+1;checks+=1
-            serial+=1
+        for flags in (0x00100000,0x40000000,0x40100000):
+            for opened in (0,1):
+                command_id=24-opened;w(cave+0xc0,opened);w(cave+0x19c,opened)
+                w(cave+0x188,202 if affected==child else 201)
+                w(center+0xf0,1<<command_id);w(child+0xf0,1<<command_id)
+                before=r(seen);w(affected+0x100,flags);w(cave+0x180,serial);run(0x7400)
+                blocked=bool(flags&0x40000000)
+                assert r(cave+0x190)==(4 if blocked else 1) and r(cave+0x194)==serial
+                assert r(seen)==before+(not blocked)
+                if not blocked:assert r(seen+4)==command_id
+                checks+=1
+                serial+=1;before=r(seen);w(affected+0x100,0);w(cave+0x180,serial);run(0x7400)
+                assert r(cave+0x190)==1 and r(cave+0x194)==serial and r(seen)==before+1;checks+=1
+                serial+=1
+    # Economic commands retain the EXACT opposite rule: even an intention
+    # captured before siege is rejected by the final dispatcher, before price,
+    # placement, allocation or Send. Test new construction and upgrades.
+    w(cave+0x40,1);w(cave+0x58,1);w(cave+0x4c,widget);w(widget+0x24,0x80)
+    w(cave+0x144,7);f(cave+0x158,1);w(cave+0x120,1)
+    candidate=cave+0x8000;w(candidate,200);w(candidate+4,201);w(candidate+8,target)
+    w(cave+0x148,200);w(cave+0x14c,201);w(cave+0x150,target)
+    for kind in (13,21):
+        w(candidate+12,kind);w(cave+0x154,kind)
+        for flags in (0x00100000,0x40000000,0x40100000):
+            w(city+0x100,flags);w(cave+0x140,serial);before=r(seen)
+            run(0x3000)
+            assert r(cave+0x15c)==3 and r(cave+0x160)==serial and r(seen)==before
+            checks+=1;serial+=1
+    w(city+0x100,0)
     # Run the real snapshot entry, initially without a ready local kingdom.
     # The first native world timestamp must survive incomplete snapshots and
     # helper/UI delays, but reset for a saved world, a rewind, or a menu exit.

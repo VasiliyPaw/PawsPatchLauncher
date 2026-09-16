@@ -16,6 +16,28 @@ internal sealed class CityMilitiaPlanner
     private float previousTime=-1, sentAt;
     internal uint Pending { get { return pending; } }
     internal bool PendingOpen { get; private set; }
+    internal static City[] ReadSnapshot(byte[] cityRecords,byte[] records)
+    {
+        if(cityRecords==null || records==null || cityRecords.Length%8!=0 || records.Length%16!=0)return null;
+        var owned=new HashSet<uint>();
+        for(int i=0;i<cityRecords.Length;i+=8)
+        {
+            uint id=BitConverter.ToUInt32(cityRecords,i),flags=BitConverter.ToUInt32(cityRecords,i+4);
+            // City bit 0 blocks ECONOMIC orders, including during siege.
+            // Militia has its own native capability/work-state checks.
+            if((flags&2)==0)owned.Add(id);
+        }
+        var result=new List<City>();var seen=new HashSet<uint>();
+        for(int i=0;i<records.Length;i+=16)
+        {
+            uint city=BitConverter.ToUInt32(records,i),id=BitConverter.ToUInt32(records,i+4);
+            uint state=BitConverter.ToUInt32(records,i+8),work=BitConverter.ToUInt32(records,i+12);
+            if(!owned.Contains(city) || id==0 || state>2 || work>3)return null;
+            if(seen.Add(id))result.Add(new City {Id=id,CityId=city,State=(int)state,
+                Unfinished=(work&1)!=0,Blocked=(work&2)!=0});
+        }
+        return result.ToArray();
+    }
     internal uint Update(uint world,float time,bool enabled,bool canIssue,City[] cities,float initialWorldTime=float.NaN)
     {
         bool advances=initialized && epoch==world && time>previousTime;
@@ -70,7 +92,7 @@ internal sealed class CityMilitiaPlanner
         if(pending==0 || !awaitingReply)return;
         awaitingReply=false;sentAt=time;
         if(result==1)return;
-        // Capture/siege or construction can become blocked between observation
+        // A native disabling state or construction can change between observation
         // and dispatch. Keep the acquisition pending without consuming a retry;
         // only an unsent order is retried, after another fresh snapshot.
         if(result==4){retryAt[pending]=time+5;pending=0;return;}

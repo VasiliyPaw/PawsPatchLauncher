@@ -4,6 +4,12 @@ internal static class CityMilitiaPlannerTests
     private static int checks;
     private static void Check(bool ok,string name){if(!ok)throw new Exception(name);checks++;}
     private static CityMilitiaPlanner.City C(uint id,int state=1){return new CityMilitiaPlanner.City{Id=id,State=state};}
+    private static byte[] Bytes(params uint[] values)
+    {
+        var bytes=new byte[values.Length*4];
+        for(int i=0;i<values.Length;i++)Array.Copy(BitConverter.GetBytes(values[i]),0,bytes,i*4,4);
+        return bytes;
+    }
     internal static int Main()
     {
         foreach(float firstTime in new[]{0f,.25f,1f})
@@ -135,6 +141,40 @@ internal static class CityMilitiaPlannerTests
             capturedCity.Blocked=false;
             Check(delayed.Update(world,651,preference,true,observed,650)==0,"no stale acquisition after manual preference/loss/load");
         }
+        // The real managed snapshot decoder must not turn the city's economic
+        // busy bit into a militia prohibition. Cover both commands and loaded
+        // baselines using the exact record layout consumed by the runtime.
+        foreach(uint economicBusy in new uint[]{0,1})foreach(bool open in new[]{true,false})
+        {
+            uint capability=open?1u:2u;
+            var cityRecords=Bytes(30,economicBusy);
+            var records=Bytes(30,301,capability,0,30,302,capability,0);
+            var actors=CityMilitiaPlanner.ReadSnapshot(cityRecords,records);
+            Check(actors!=null && actors.Length==2 && !actors[0].Blocked && !actors[1].Blocked,"economic busy does not block center or child militia");
+            var acquired=new CityMilitiaPlanner();
+            acquired.Update(1,600,open,true,new CityMilitiaPlanner.City[0],600);
+            Check(acquired.Update(1,601,open,true,actors)==301,"capture issues immediately even while economic busy");
+            Check(acquired.PendingOpen==open,"captured militia uses correct preference during siege");
+            acquired.Reply(1,601);actors[0].State=open?2:1;
+            Check(acquired.Update(1,602,open,true,actors)==302,"new child also issues while economic busy");
+            var loaded=new CityMilitiaPlanner();loaded.Update(2,700,open,true,actors,700);
+            Check(loaded.Update(2,701,open,true,actors)==0,"save loading still preserves completed militia during siege");
+            foreach(uint work in new uint[]{1,2,3})
+            {
+                actors=CityMilitiaPlanner.ReadSnapshot(cityRecords,Bytes(30,301,capability,work));
+                Check(actors!=null && actors[0].Unfinished==((work&1)!=0) && actors[0].Blocked==((work&2)!=0),"dedicated native work flags preserved");
+                var blocked=new CityMilitiaPlanner();blocked.Update(1,600,open,true,new CityMilitiaPlanner.City[0],600);
+                Check(blocked.Update(1,601,open,true,actors)==0,"real construction or disabling state still waits");
+            }
+        }
+        foreach(uint flags in new uint[]{2,3})
+            Check(CityMilitiaPlanner.ReadSnapshot(Bytes(30,flags),Bytes(30,301,1,0))==null,"foreign city cannot supply militia actors");
+        Check(CityMilitiaPlanner.ReadSnapshot(Bytes(30,1),Bytes(31,301,1,0))==null,"unlisted city rejected");
+        Check(CityMilitiaPlanner.ReadSnapshot(Bytes(30,1),Bytes(30,301,1,4))==null,"unknown native flags rejected");
+        Check(CityMilitiaPlanner.ReadSnapshot(Bytes(30,1),Bytes(30,301,3,0))==null,"unknown native capability rejected");
+        Check(CityMilitiaPlanner.ReadSnapshot(Bytes(30,1),Bytes(30,0,1,0))==null,"zero actor rejected");
+        Check(CityMilitiaPlanner.ReadSnapshot(new byte[1],Bytes(30,301,1,0))==null,"truncated city record rejected");
+        Check(CityMilitiaPlanner.ReadSnapshot(Bytes(30,1),new byte[1])==null,"truncated actor record rejected");
         Console.WriteLine("CITY_MILITIA_PLANNER_PASS "+checks+" checks");return 0;
     }
 }

@@ -2,13 +2,16 @@
 
 30000..31000 is a separate executable page; 31000..41000 holds up to 4096
 16-byte records (city ID, actor ID, capability state, work flags:
-bit 0 construction, bit 1 temporarily blocked by siege/sale).
+bit 0 construction, bit 1 temporarily blocked by the 0x40000000 state).
 No simulation flags are written. Both opening (23) and recall (24) use the
 same registered TellActorCommandOrder transport as a player's button click.
 """
 
 
 def install(m):
+    # Stock DenizenComponent::UpdateCommands (668FD9) suppresses commands for
+    # 0x40000000, not siege (0x00100000). Do not reuse the economic-order mask:
+    # a player's sally/recall button remains available while under siege.
     S, b = m.S, m.b
     b.payload.extend(bytes(0x41000 - len(b.payload)))
     b.n.SIZE = 0x41000
@@ -41,7 +44,9 @@ shl esi,4; add esi,{S+0x31000}
 mov eax,dword ptr [ebp+8]; mov eax,dword ptr [eax+0x14]; mov dword ptr [esi],eax
 mov eax,dword ptr [edi+0x14]; mov dword ptr [esi+4],eax
 mov dword ptr [esi+8],0; mov dword ptr [esi+12],0
-test dword ptr [edi+0x100],0x40100000; jz militia_check_construction
+mov eax,dword ptr [ebp+8]; mov eax,dword ptr [eax+0x100]
+or eax,dword ptr [edi+0x100]
+test eax,0x40000000; jz militia_check_construction
 or dword ptr [esi+12],2
 militia_check_construction:
 test dword ptr [edi+0x100],0x20200000; jnz militia_unfinished
@@ -68,7 +73,7 @@ mov ecx,dword ptr [0xa4f72c]; push dword ptr [{S+0x198}]; call 0x481117
 test eax,eax; jz militia_find_none; mov edi,eax
 mov ecx,edi; mov eax,dword ptr [ecx]; call dword ptr [eax+0x108]
 cmp eax,dword ptr [{S+0x10c}]; jne militia_find_none
-test dword ptr [edi+0x100],0x40100000; jnz militia_find_wait
+test dword ptr [edi+0x100],0x40000000; jnz militia_find_wait
 mov esi,dword ptr [edi+0x98]; test esi,esi; jz militia_find_none
 cmp dword ptr [esi+0x1c],256; ja militia_find_none
 mov edi,dword ptr [esi+0x14]; test edi,edi; jz militia_find_children
@@ -82,7 +87,7 @@ mov eax,dword ptr [edi+0x14]; cmp eax,dword ptr [{S+0x188}]; jne militia_find_lo
 militia_find_owner:
 mov ecx,edi; mov eax,dword ptr [ecx]; call dword ptr [eax+0x108]
 cmp eax,dword ptr [{S+0x10c}]; jne militia_find_none
-test dword ptr [edi+0x100],0x60300000; jnz militia_find_wait
+test dword ptr [edi+0x100],0x60200000; jnz militia_find_wait
 mov eax,dword ptr [edi+0x9c]; test eax,eax; jz militia_find_ok
 cmp dword ptr [eax+0x28],0; jne militia_find_wait
 militia_find_ok: mov eax,edi; jmp militia_find_done

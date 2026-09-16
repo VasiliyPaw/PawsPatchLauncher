@@ -4,7 +4,7 @@
     name = "@Localization/paw_city_policy.tgi"
     paw_city_auto = "City Auto-Upgrade"
     paw_city_new_militia = "Open militia in cities and new buildings"
-    paw_city_new_militia_tip = "Opens militia in starting, newly built and captured cities, and new city buildings with militia. If an order is temporarily blocked, it waits until available. When disabled, new acquisitions and buildings use closed militia. Later manual changes and completed buildings loaded from a save are preserved. This preference is saved between games."
+    paw_city_new_militia_tip = "Opens militia in starting, newly built and captured cities, and new city buildings with militia. Siege alone does not prevent opening or closing militia. If an order is temporarily blocked, it waits until available. When disabled, new acquisitions and buildings use closed militia. Later manual changes and completed buildings loaded from a save are preserved. This preference is saved between games."
     paw_city_reserve = "Gold Reserve"
     paw_city_auto_tip = "Priority: final city center upgrade, resource targets, gold income, then random development. If gold is insufficient, the assistant saves for the selected priority. During the resource stage, a market wins only if its gold gain after shortage costs exceeds that of the resource building. Markets use only their best gold-increasing branch; without one, they are not upgraded. All queued work and the gold reserve are respected. Settings are saved per match; new matches use defaults."
     paw_city_edit_tip = "Enter to apply. Esc or click outside to cancel."
