@@ -14,6 +14,9 @@ $python = 'C:\Users\Paw\.cache\codex-runtimes\codex-primary-runtime\dependencies
 if($LobbyCompatibility) {
     if(!$CityAssistant -or !$NativeCompiler){throw 'Lobby compatibility is part of the full beta helper build; specify -CityAssistant and -NativeCompiler.'}
     $lobby=Join-Path $PSScriptRoot '../lobby-compatibility'
+    $packageVersion=[regex]::Match([IO.File]::ReadAllText((Join-Path $PSScriptRoot 'paws_patch_versions.ini')),'(?m)^PawPatch=([^\r\n]+)').Groups[1].Value
+    $helperVersion=[regex]::Match([IO.File]::ReadAllText((Join-Path $lobby 'PawLobbyCompatibility.cs')),'internal const string Version = "([^"]+)";').Groups[1].Value
+    if(!$packageVersion -or $packageVersion -ne $helperVersion){throw 'Lobby compatibility version differs from package version.'}
     & $NativeCompiler -shared -Wall -Werror (Join-Path $lobby 'lobby_compatibility.c') -o (Join-Path $out 'paws_lobby_compatibility.dll') -lkernel32 -luser32
     if($LASTEXITCODE -ne 0){throw 'Lobby compatibility DLL build failed.'}
     & $NativeCompiler -Wall -Werror -DPAW_TEST (Join-Path $lobby 'lobby_compatibility.c') -o (Join-Path $out 'LobbyProtocolTests.exe') -lkernel32 -luser32
@@ -74,6 +77,7 @@ PawAssistantRuntime.Tick();
                 current = ReadCounters(process, counters);
 '@
         if($LobbyCompatibility) {
+            $text=Replace-StartupAnchor $text 'PawAssistantRuntime.GuardData(root);' 'PawAssistantRuntime.GuardData(root); PawLobbyCompatibility.ValidateInstallation(root);'
             $text=Replace-StartupAnchor $text 'ReleaseStartup.GuardData(gameDirectory);' 'ReleaseStartup.GuardData(gameDirectory); PawLobbyCompatibility.Prepare(gameDirectory);'
             $text=Replace-StartupAnchor $text 'ReleaseStartup.InstallTerrainAndMap(game, imageBase, delegate(string m) { AppendLog(logPath, m); });' 'PawLobbyCompatibility.Install(game, imageBase, delegate(string m) { AppendLog(logPath, m); }); ReleaseStartup.InstallTerrainAndMap(game, imageBase, delegate(string m) { AppendLog(logPath, m); });'
             $arguments += '/r:System.Web.Extensions.dll'

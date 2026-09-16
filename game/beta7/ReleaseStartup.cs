@@ -11,7 +11,7 @@ using System.Threading;
 internal static class ReleaseStartup
 {
 #if LOBBY_COMPATIBILITY
-    internal const string Build = "beta.0.3.0-beta.8-test.10-1372-city-policy23-transfer-r2-lobby1-quiet";
+    internal const string Build = "beta." + PawLobbyCompatibility.Version + "-1372-city-policy23-transfer-r2-lobby1-quiet";
 #elif FAST_SAVE_TRANSFER
     internal const string Build = "beta.0.3.0-beta.4-1372-city-policy23-transfer-r2-quiet";
 #else

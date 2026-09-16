@@ -15,7 +15,7 @@ using System.Web.Script.Serialization;
 // Included only in the eight Arcane Wars beta helpers. No network or UI polling.
 internal static class PawLobbyCompatibility
 {
-    internal const string Version = "0.3.0-beta.8-test.9";
+    internal const string Version = "0.3.0-beta.8-test.10";
     private static byte[] configuration;
     private static string nativePath;
     private static readonly uint[] Sites = {0x151092,0x150e40,0x151c8a,0x1519ef,0x151bf3};
@@ -66,10 +66,19 @@ internal static class PawLobbyCompatibility
         russian=Flag(settings,"russianLocalization");
         return "PWLC1|1.3.72|arcane-wars|"+modVersion+"|"+Version+"|"+Hash(Encoding.UTF8.GetBytes(String.Join("\n",lines)));
     }
-    internal static void Prepare(string root) {
-        string helper=Assembly.GetExecutingAssembly().Location;bool russian;
+    private static string InstalledIdentity(string root,out bool russian) {
+        string helper=Assembly.GetExecutingAssembly().Location;
         string token=Identity(File.ReadAllText(Path.Combine(root,@".pawpatch\state.json")),FileHash(Path.Combine(root,"k2.exe")),Path.GetFileName(helper),FileHash(helper),out russian);
         if(token.Length>=256)throw new InvalidDataException("Compatibility identity is too long.");
+        return token;
+    }
+    // Same installed-state/version guard as launch, without extracting a DLL,
+    // creating a process or touching runtime state.
+    internal static void ValidateInstallation(string root) {
+        bool russian;InstalledIdentity(root,out russian);
+    }
+    internal static void Prepare(string root) {
+        bool russian;string token=InstalledIdentity(root,out russian);
         configuration=new byte[264];BitConverter.GetBytes(0x31434c50u).CopyTo(configuration,0);BitConverter.GetBytes(PawGameText.Language==""?(russian?1u:0u):PawGameText.LanguageId).CopyTo(configuration,4);Encoding.ASCII.GetBytes(token).CopyTo(configuration,8);
         byte[] payload;
         using(var s=Assembly.GetExecutingAssembly().GetManifestResourceStream("PawLobbyCompatibilityNative")) {

@@ -35,7 +35,7 @@ internal static class BuildFeatures
         const bool hostility = true;
 #endif
 #if LOBBY_COMPATIBILITY
-        const string lobby = ",\"lobbyCompatibility\":true,\"lobbyCompatibilityProtocol\":1,\"patchVersion\":\"0.3.0-beta.8-test.10\"";
+        const string lobby = ",\"lobbyCompatibility\":true,\"lobbyCompatibilityProtocol\":1,\"patchVersion\":\"" + PawLobbyCompatibility.Version + "\"";
 #else
         const string lobby = "";
 #endif

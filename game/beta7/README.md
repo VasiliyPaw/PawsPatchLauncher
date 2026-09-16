@@ -41,3 +41,11 @@ Starting a fresh match restores the existing family assignment policy. No saved
 file is rewritten, and already misassigned ownership in a later save is not
 silently reversed. Test with `test_saved_owners.py` against all built helpers;
 the test executes the emitted x86 stubs at three relocated image bases.
+
+For lobby-enabled builds, `PawLobbyCompatibility.Version` also supplies the
+startup label and feature version. The builder rejects a different version in
+`paws_patch_versions.ini`. `--preflight <game-directory>` now executes the same
+installed-configuration identity check as normal startup, without extracting the
+native DLL or launching the game. Run `InstalledStartupTests.cs` against all eight
+built/installed helpers: it checks the real installed version and preflight, and
+verifies rejection of an incompatible version using an in-memory state copy.
