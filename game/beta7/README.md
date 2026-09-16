@@ -31,7 +31,7 @@ For patch 0.3.0-beta.3, use `./build.ps1 -CityAssistant -OutputDirectory C:/Patc
 
 See [assistant sources, controls and validation](../city-assistant/README.md). Do not replace Stable packages with these Beta binaries.
 
-## Saved ownership (local beta test.10)
+## Saved ownership (released in 0.3.0-beta.8)
 
 The serialized-owner store at RVA 22C7CC always retains the exact owner resolved
 from the save, including old independent kingdoms and multiplayer host snapshots.

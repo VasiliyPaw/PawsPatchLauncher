@@ -2,9 +2,12 @@
 
 Windows launcher and transactional updater for Kohan II, Immortals, Arcane Wars and optional Paw's Patch components.
 
-Version **0.8.1** adds German/French text and speech, Czech/Ukrainian game text,
-a Ukrainian launcher interface, broader notification sound support and chat copying
-improvements. See the [release notes](docs/release-0.8.1.md).
+Version **0.8.2** fixes background scrolling under dropdowns, retained chat
+selection, expired attachment feedback and player-card reopening.
+See the [launcher release notes](docs/release-0.8.2.md).
+Arcane Wars **Paw's Patch 0.3.0-beta.8** adds compact participant colors,
+improved city development, per-match preferences, militia handling and preserved
+saved ownership. See the [Beta release notes](docs/release-patch-0.3.0-beta.8.md).
 
 [Download PawsPatchLauncher.exe](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/latest/download/PawsPatchLauncher.exe)
 or see the [latest release](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/latest).
@@ -14,7 +17,7 @@ The other game-package archives are downloaded automatically by the launcher.
 
 See the [code signing policy](docs/CODE_SIGNING.md) and
 [privacy policy / конфиденциальность](docs/PRIVACY.md).
-Current launcher 0.8.1 downloads are unsigned. No SignPath approval or immediate
+Current launcher 0.8.2 downloads are unsigned. No SignPath approval or immediate
 removal of SmartScreen warnings is claimed. The [setup guide](docs/SIGNPATH_SETUP.md)
 describes activation. Update catalogs are separately signed and downloaded files
 are checked against their SHA-256 hashes.

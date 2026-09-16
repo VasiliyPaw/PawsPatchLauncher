@@ -1,4 +1,4 @@
-# Built-in city policy — 0.3.0-beta.8-test.9 / r23
+# Built-in city policy — 0.3.0-beta.8 / r23
 
 Supported executable: Kohan II 1.3.72, Steam build 25068126. The stock EXE is not modified on disk. City policy is included in all eight Arcane Wars Beta helper variants. Stable Arcane Wars and the separate Kohan II fixes channels do not enable it.
 

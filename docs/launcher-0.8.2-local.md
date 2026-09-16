@@ -1,6 +1,7 @@
 # Launcher 0.8.2 — local test
 
-Not published. Based on the released 0.8.1 launcher and its public package feeds.
+Historical local validation record, based on the released 0.8.1 launcher.
+These changes were published in [0.8.2](release-0.8.2.md) on 2026-09-16.
 
 ## Changes
 
