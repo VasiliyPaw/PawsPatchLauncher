@@ -3,6 +3,31 @@ using System.Text.Json;
 
 static class ColorPaletteReview
 {
+    // Explicit maintenance entrypoint, not part of automatic tests. Restores
+    // verified cached packages through the ordinary transactional installer.
+    public static async Task RestoreAsync(string gameRoot,string statePath,string oldFeedPath)
+    {
+        if(System.Diagnostics.Process.GetProcessesByName("k2").Any())throw new Exception("Close game before restoration");
+        var old=JsonSerializer.Deserialize(File.ReadAllText(statePath),LauncherJsonContext.Default.InstallState)??throw new Exception("Missing pretest state");
+        var config=SettingsStore.LoadConfiguration();
+        // Read the signed public catalog with the launcher's normal trust key.
+        config.FeedUrls=[Path.GetFullPath(oldFeedPath)];config.BetaFeedUrls=[Path.GetFullPath(oldFeedPath)];
+        var feed=await new FeedClient(config).GetChannelAsync("beta")??throw new Exception("Missing old feed");
+        var installer=new ModuleInstaller(gameRoot);
+        foreach(var (id,module) in old.Modules)
+        {
+            var package=feed.Packages.Single(p=>p.Id==id&&p.Version==module.Version&&p.Sha256.Equals(module.ArchiveSha256,StringComparison.OrdinalIgnoreCase));
+            var cached=await installer.ReadPreparedAsync(package);
+            if(cached.Files.Count!=module.Files.Count || cached.Files.Any(f=>!module.Files.Any(o=>o.Path==f.Path&&o.Size==f.Size&&o.Sha256==f.Sha256)))
+                throw new Exception("Pretest package differs: "+id);
+        }
+        await installer.ReconcileAsync(old.Modules,settings:old.AppliedSettings,releaseId:old.ReleaseId,
+            gameRequirement:old.GameRequirement,baseGameSha256:old.BaseGameSha256);
+        await GameMenuMetadata.WriteAsync(gameRoot,feed,old.AppliedSettings!);
+        var errors=await installer.VerifyAsync();if(errors.Count>0)throw new Exception(string.Join(";",errors));
+        Console.WriteLine("PRETEST_RESTORED "+old.Modules["pawpatch-core"].Version+"; "+old.Modules.Count+" original package identities verified; game not launched");
+    }
+
     public static void Labels()
     {
         int count=0;
