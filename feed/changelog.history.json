@@ -2,6 +2,19 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.2",
+      "publishedAt": "2026-09-16",
+      "title": {
+        "ru": "Paw's Launcher 0.8.2 — интерфейс и чат",
+        "en": "Paw's Launcher 0.8.2 — interface and chat"
+      },
+      "body": {
+        "ru": "- Открытый список выбора или контекстное меню больше не позволяет прокручивать страницу под ним. Исправлено в том числе для выбора языка интерфейса; длинные списки продолжают прокручиваться внутри.\n- Выделение отправленных сообщений снимается при переходе к другому сообщению или клике вне текста. Несколько сообщений больше не остаются выделенными одновременно; убрано выделение пустого места после текста. Копирование выделенного текста и кнопка копирования сохранены.\n- Для недоступных вложений Discord с истёкшей ссылкой показывается понятное объяснение. Рабочие ссылки и уже загруженные изображения продолжают отображаться; остальные ошибки можно повторить.\n- Исправлено повторное открытие карточки игрока во время её закрытия.\n- Количество цветов в описании компонента берётся из выбранного канала: новая бета Arcane Wars показывает 48 цветов.",
+        "en": "- Open dropdowns and context menus now block scrolling of the page underneath, including the interface-language selector. Long lists still scroll internally.\n- Sent-message selection clears when selecting another message or clicking outside the text. Multiple messages no longer retain selection at once, and trailing blank space is no longer highlighted. Text selection and the copy button remain available.\n- Unavailable Discord attachments with expired links now show a clear explanation. Working links and cached images remain usable; other failures can still be retried.\n- Fixed reopening a player card while its closing animation was still running.\n- Color descriptions follow the selected channel: the new Arcane Wars Beta shows 48 colors."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.1",
       "publishedAt": "2026-09-15",
       "title": {
@@ -621,6 +634,34 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.2",
+      "publishedAt": "2026-09-16",
+      "title": {
+        "ru": "Paw's Launcher 0.8.2 — интерфейс и чат",
+        "en": "Paw's Launcher 0.8.2 — interface and chat"
+      },
+      "body": {
+        "ru": "- Открытый список выбора или контекстное меню больше не позволяет прокручивать страницу под ним. Исправлено в том числе для выбора языка интерфейса; длинные списки продолжают прокручиваться внутри.\n- Выделение отправленных сообщений снимается при переходе к другому сообщению или клике вне текста. Несколько сообщений больше не остаются выделенными одновременно; убрано выделение пустого места после текста. Копирование выделенного текста и кнопка копирования сохранены.\n- Для недоступных вложений Discord с истёкшей ссылкой показывается понятное объяснение. Рабочие ссылки и уже загруженные изображения продолжают отображаться; остальные ошибки можно повторить.\n- Исправлено повторное открытие карточки игрока во время её закрытия.\n- Количество цветов в описании компонента берётся из выбранного канала: новая бета Arcane Wars показывает 48 цветов.",
+        "en": "- Open dropdowns and context menus now block scrolling of the page underneath, including the interface-language selector. Long lists still scroll internally.\n- Sent-message selection clears when selecting another message or clicking outside the text. Multiple messages no longer retain selection at once, and trailing blank space is no longer highlighted. Text selection and the copy button remain available.\n- Unavailable Discord attachments with expired links now show a clear explanation. Working links and cached images remain usable; other failures can still be retried.\n- Fixed reopening a player card while its closing animation was still running.\n- Color descriptions follow the selected channel: the new Arcane Wars Beta shows 48 colors."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.3.0-beta.8",
+      "publishedAt": "2026-09-16",
+      "title": {
+        "ru": "Paw's Patch 0.3.0-beta.8 — города и цвета",
+        "en": "Paw's Patch 0.3.0-beta.8 — cities and colors"
+      },
+      "body": {
+        "ru": "- Компактный выбор цвета по стрелке рядом с кружком: игрок занимает одну строку. Выбранный цвет привязан к участнику, а не к месту в списке. Светло-красный убран, осталось 48 цветов.\n- В управлении поселениями убрана кнопка «Правила», настройка ополчения перенесена выше автоулучшения и порогов ресурсов.\n- Приоритет авторазвития: последнее доступное улучшение центра города → цели по ресурсам → доход золота → случайные допустимые постройки и улучшения. Если на приоритетное действие не хватает золота, средства копятся на него, а не тратятся на дешёвые действия меньшего приоритета.\n- При достижении целей ресурсов учитывается вся ручная и автоматическая очередь, включая доход будущих зданий, центров и рудников. На этапе ресурсов прибыльный рынок может получить приоритет, если он даст больший прирост золота после расходов на дефицит. При равном результате выбираются ресурсы. Рынки допускаются даже при увеличении дефицита, если итоговый доход золота растёт.\n- На всех этапах рынки улучшаются только по ветке с наибольшим положительным приростом золота. Если такой ветки нет, рынок не улучшается. Запас золота сохраняется; строительство и улучшение в осаждённых городах запрещены.\n- Настройки авторазвития сохраняются локально отдельно для партии и её сейвов. Новая партия начинается со стандартных значений: автоулучшение включено, запас золота 2000, цели ресурсов 0. Передача настроек других игроков внутри сетевого сейва пока не добавлена.\n- Настройка ополчения применяется к стартовым, новым и захваченным городам и новым зданиям с ополчением. Временно недоступный приказ повторно проверяется после снятия блокировки; сама осада не мешает штатному переключению ополчения. Состояние готовых зданий при загрузке сейва и последующие ручные изменения сохраняются.\n- При загрузке владельцы объектов остаются такими, как записаны в сохранении: старые независимые лагеря больше не перераспределяются в королевства игроков. Правила новых партий сохранены. Уже записанная в сейв ошибочная принадлежность не меняется задним числом.\n- Версии файлов патча и запуска проверяются согласованно; обновлены описания и подсказки на поддерживаемых языках.",
+        "en": "- Compact color selection via the arrow beside the color swatch keeps each player on one row. Colors follow participants rather than lobby slots. Light red was removed, leaving 48 colors.\n- Removed the Rules button from settlement management and moved the militia option above auto-development and resource targets.\n- Development priority: final available city-center upgrade → resource targets → gold income → random eligible construction or upgrades. If a priority action is legal but unaffordable, the assistant saves for it instead of spending on cheaper, lower-priority actions.\n- All manual and automatic queued work is included in resource projections, including future buildings, centers and mine upgrades. During the resource stage, a profitable market can take priority when it offers a greater net gold increase after shortage costs. Ties favor resources. Markets may deepen deficits when net gold income improves.\n- At every stage, markets use only the upgrade branch with the greatest positive gold increase; without one, they are never upgraded. The gold reserve remains protected. Besieged cities remain excluded from construction and upgrades.\n- Auto-development preferences are stored locally per match and its saves. New matches use the defaults: auto-upgrade enabled, 2000 gold reserve and zero resource targets. Other players' preferences are not yet carried inside transferred multiplayer saves.\n- The militia option applies to starting, new and captured cities and newly completed militia buildings. Temporarily blocked orders remain pending; siege alone does not prevent native militia toggling. Loading preserves completed buildings' militia state, and later manual changes are respected.\n- Loading retains exact saved object owners: old independent camps are no longer reassigned to player kingdoms. Fresh-match rules remain unchanged. Ownership already saved incorrectly is not silently reversed.\n- Patch-file and startup identities are checked consistently; descriptions and tooltips were updated in the supported languages."
+      },
+      "mod": "arcane-wars",
+      "channel": "beta"
+    },
     {
       "category": "launcher",
       "version": "0.8.1",
