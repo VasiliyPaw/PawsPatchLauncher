@@ -36,12 +36,12 @@ public partial class MainWindow
     {
         [CoreModuleCard] = GameMod.PawPatchSelected(_settings).ToString(),
         [RussianModuleCard] = GameLanguages.Text(_settings) + ":" + GameLanguages.Voice(_settings),
-        [ColorsModuleCard] = _settings.CustomPlayerColors.ToString(),
+        [ColorsModuleCard] = GameMod.ColorsSelected(_settings).ToString(),
         [IndependentHostilityCard] = _settings.IndependentHostility.ToString(),
         [AdditionalRoamingCard] = _settings.AdditionalRoamingCompanies.ToString(),
         [SiegeBalanceCard] = _settings.SiegeBalance.ToString(),
         [PowersShardsCard] = _settings.DisablePowersAndShards.ToString(),
-        [OosModuleCard] = _settings.DesyncMode,
+        [OosModuleCard] = GameMod.DesyncSelected(_settings).ToString(),
         [RoamingSpawnCard] = _settings.RoamingSpawnMode,
         [SettingsPanel] = _settings.Language,
         [PatchUpdatesCard] = _settings.Channel

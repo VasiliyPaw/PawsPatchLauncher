@@ -7,13 +7,20 @@ public static class GameExecutableSelector
         settings = EffectiveSettings.ForFeed(settings, channel);
         if (settings.DataOnly) return "k2.exe";
         if (!GameMod.IsArcaneWars(settings))
-            return settings.PawPatchEnabled && GameMod.HasPureFixes(channel) ? "k2_paws_pure_fixes_1372.exe"
+            return settings.PawPatchEnabled && GameMod.HasPureFixes(channel) ? PureExecutable(settings)
                 : settings.Mod == GameMod.Immortals && HasMenuRuntime(channel) ? "k2_paws_menu_1372.exe" : "k2.exe";
         var name = Select(configuration, settings.CustomPlayerColors, settings.DesyncMode == "continue",
             settings.IndependentHostility, settings.PawPatchEnabled && HasCommonUi(channel), SupportsIndependentColors(channel));
         if (!settings.PawPatchEnabled && name == "k2.exe" && HasMenuRuntime(channel)) return "k2_paws_menu_1372.exe";
         return !settings.PawPatchEnabled && name != "k2.exe" ? name.Replace("k2_paws_", "k2_aw_") : name;
     }
+    public static string PureExecutable(UserSettings settings) => (settings.CustomPlayerColors, settings.DesyncMode == "continue") switch
+    {
+        (true, true) => "k2_paws_pure_colors_sync_1372.exe",
+        (true, false) => "k2_paws_pure_colors_1372.exe",
+        (false, true) => "k2_paws_pure_sync_1372.exe",
+        _ => "k2_paws_pure_fixes_1372.exe"
+    };
     public static string Select(
         LauncherConfiguration configuration,
         bool colorsEnabled,

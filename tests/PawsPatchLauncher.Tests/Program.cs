@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==4&&args[0]=="--stage-pure-options") {await PureOptionsTests.StageAsync(args[1],args[2],args[3]);return;}
+if(args.Length==1&&args[0]=="--pure-options") {PureOptionsTests.Run();return;}
 if(args.Length==1&&args[0]=="--color-label-checks") {ColorPaletteReview.Labels();return;}
 if(args.Length==3&&args[0]=="--stage-colors48-review") {await ColorPaletteReview.StageAsync(args[1],args[2]);return;}
 if(args.Length==4&&args[0]=="--restore-pretest-game") {await ColorPaletteReview.RestoreAsync(args[1],args[2],args[3]);return;}
@@ -436,6 +438,7 @@ try
     passed += await RemovalTests.RunAsync(root);
     passed += await ModLibraryTests.RunAsync(root);
     passed += PureFixesModeTests.Run();
+    passed += PureOptionsTests.Run();
     Console.WriteLine($"PASS {passed}");
 }
 finally

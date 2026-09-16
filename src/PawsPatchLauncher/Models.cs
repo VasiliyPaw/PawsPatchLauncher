@@ -20,6 +20,8 @@ public sealed class UserSettings
     public ArcaneComponentSelection? SuspendedArcaneComponents { get; set; }
     public bool VanillaPawPatchEnabled { get; set; }
     public bool ImmortalsPawPatchEnabled { get; set; }
+    public PureComponentSelection VanillaComponents { get; set; } = new();
+    public PureComponentSelection ImmortalsComponents { get; set; } = new();
     public bool ModNoticeSeen { get; set; }
     public bool DataOnly { get; set; }
     public string CompatibilityNoticeRead { get; set; } = "";
@@ -71,6 +73,7 @@ public sealed class ChannelManifest
     public List<ReleaseReference> PreviousReleases { get; set; } = [];
     public bool ColorDesyncContinue { get; set; }
     public bool IndependentColorHostility { get; set; }
+    public bool PureRuntimeOptions { get; set; }
     public int PlayerColorCount { get; set; } = PawsPatchLauncher.PatchGuide.PlayerColorCount;
     public PatchGuideDocument? PatchGuide { get; set; }
     public List<ModGuideDocument> ModGuides { get; set; } = [];

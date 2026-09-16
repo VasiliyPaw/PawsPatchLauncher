@@ -133,12 +133,23 @@ namespace PawPureFixes
                     DateTime start = child.StartTime.ToUniversalTime();
                     MustFail(delegate { using (var wrong = new NativeMemory(child.Id, game, start)) { } }, "native handle rejects foreign executable path");
                     MustFail(delegate { using (var wrong = new NativeMemory(child.Id, self, start.AddTicks(-1))) { } }, "native handle rejects wrong creation time");
+                    // The loader must finish before suspending the process: a
+                    // suspended half-initialized PEB cannot answer MainModule.
+                    IntPtr image = IntPtr.Zero;
+                    var ready = Stopwatch.StartNew();
+                    while (image == IntPtr.Zero && ready.ElapsedMilliseconds < 5000)
+                    {
+                        try { child.Refresh(); image = child.MainModule.BaseAddress; }
+                        catch (Win32Exception ex) { if (ex.NativeErrorCode != 299) throw; }
+                        if (image == IntPtr.Zero) Thread.Sleep(20);
+                    }
+                    Check(image != IntPtr.Zero, "inert fixture loader ready before suspension");
                     using (NativeMemory native = new NativeMemory(child.Id, self, start))
                     {
                         native.Suspend();
                         try
                         {
-                            uint address = unchecked((uint)child.MainModule.BaseAddress.ToInt32());
+                            uint address = unchecked((uint)image.ToInt32());
                             Check(native.Read(address, 2).SequenceEqual(new byte[] { 0x4D, 0x5A }), "verified native handle reads inert fixture while suspended");
                         }
                         finally { native.Resume(); }

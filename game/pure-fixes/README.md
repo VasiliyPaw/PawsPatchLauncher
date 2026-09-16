@@ -1,98 +1,60 @@
 # Paw's Patch for Vanilla and Immortals
 
-`build_channels.py` builds both scoped patch channels. It writes local archives
-and verification evidence; it does not change feeds, publish, install, attach
-to the game or launch one.
+`build_options.py` builds stable 0.2.0 and beta 0.3.0-beta.1. It creates local,
+verified archives; it never installs, starts the game or publishes releases.
+`build_channels.py` records the previous 0.1.1 / 0.2.0-beta.1 workflow and is
+not the builder for current releases.
 
-| Channel | Public patch / data package | Runtime package | Native transfer |
-| --- | --- | --- | --- |
-| Stable | `0.1.1` | `1.3.72-pure.6` | Stock |
-| Beta | `0.2.0-beta.1` | `1.3.72-pure.7-beta.1` | Built-in R2 |
+| Channel | Patch / data | Runtime | Native transfer | Optional features |
+| --- | --- | --- | --- | --- |
+| Stable | 0.2.0 | 1.3.72-pure.8 | R2 | None |
+| Beta | 0.3.0-beta.1 | 1.3.72-pure.9-beta.1 | R2 | 48 colors, ignore desyncs |
 
-Both retain the accepted badge assets, display-only negative-zero correction,
-terrain initialization and menu version label. Beta inherits Stable and adds
-only R2. Neither imports Arcane Wars city automation, balance, maps, palettes,
-diplomacy, random-time selection or synchronization bypasses.
+Both retain the accepted company badges, Dvorak controls (WASD and arrows,
+F allied marker), display-only negative-zero fix, terrain initialization,
+and menu version label. The 16-file data package is byte-identical to the
+previous pure beta. Language selection remains independent.
 
-## Controls and language layers
+R2 uses the existing native transfer protocol, ACKs, retries and bandwidth
+checks. Its guarded code is shared with Arcane Wars; no R3 change is included.
 
-The data package copies the verified current Arcane Wars **Dvorak profile**:
+Beta has four helpers: `k2_paws_pure_fixes_1372.exe`,
+`k2_paws_pure_colors_1372.exe`, `k2_paws_pure_sync_1372.exe`, and
+`k2_paws_pure_colors_sync_1372.exe`. The launcher selects exactly one from the
+mode's two independent switches. Stable contains only the first helper.
 
-- W/A/S/D press/release bindings move the camera.
-- F runs `GoToTeamCommands; SelectTeamKingdom; TeamCommand team_explore` to
-  select the allied map marker.
-- The old A action-button binding is removed because A moves the camera.
-  Every other positional Dvorak action and formation binding is preserved.
-- Original arrow press/release bindings remain in `hotkeys_core.txt`.
-  That file and all other input profiles are unchanged.
+Colors reuse the exact accepted compact 48-color native payload, fixups and
+palette from Arcane Wars beta. `pure-player-colors` contains only the palette
+and a stock staging menu with the compact color control. It does not import
+Arcane Wars staging, kingdoms, city automation, balance or map changes.
+Color ownership uses native participant identity, as in Arcane Wars.
 
-The game must have Dvorak selected for its bindings to apply. No UVars, user
-configuration or active profile is changed by the package.
+`PureSync.cs` installs the two guarded suppression sites only when selected.
+It preserves registers, flags and the native stack contract, records ignored
+events, and keeps the match running. It does not repair divergent simulation.
+Other builds leave the stock synchronization checks unchanged.
 
-`pure-fixes-data` contains exactly 16 files: the original fourteen badge
-NIF/TGA assets, byte for byte, plus the same Dvorak text at
-`data/Localization/Hotkeys/Actions/hotkeys_visual_dvorak_k2.txt` and
-`Local_base_ru/Localization/Hotkeys/Actions/hotkeys_visual_dvorak_k2.txt`.
-The second path overrides the separate Russian profile when Russian text is
-selected. Its presence alone does not select Russian or change game text.
-Stock and Russian arrow bindings are verified separately; unrelated legacy
-Russian debugging shortcuts are retained.
-
-The builder verifies source archives and every contained file against current
-`feed/v2/stable.json`, compares the profile to stock `Data.rwd`, and requires
-exactly nine added bindings and one removed A binding. No other Arcane Wars
-file is carried into these modes.
-
-## Runtime, channel composition and validation
-
-`PAW_PURE_CHANNEL` selects the new runtime. Stable excludes R2 code and guard
-resources entirely. Beta additionally defines `PAW_PURE_FAST_TRANSFER` and
-compiles the same `../fast-transfer/FastTransfer.cs` core used by Arcane Wars,
-with the pure runtime's path-verified memory interface. No city source is
-needed. R2 retains the accepted 1200-byte file-stage budget, 16 packets per peer
-per send pass, native wire format, block size, ACKs, retries and bandwidth
-checks. R3 is not included.
-
-All pure and R2 signatures and live transfer values `20/64/256` are checked
-before either feature writes. The fresh game is suspended throughout the
-transaction. If R2 fails, its hooks and the installed pure hooks are restored.
-Uncertain rollback retains possibly referenced code; startup stops only its
-verified fresh process. The existing menu-only hook remains separate.
-
-The supported Steam executable, launch identity checks and tooling commands
-are described below. Both helpers remain `k2_paws_pure_fixes_1372.exe` and keep
-the existing Steam bootstrap through the selected `k2.exe`. `--features` now
-includes exact package/public versions, channel and `nativeTransferRevision`.
-
-Both package IDs retain `mods: ["vanilla", "immortals"]`, `required: false`:
-
-- `pure-fixes-data`: priority 900, executable-independent, no dependencies.
-- `pure-fixes-runtime`: priority 910, native, `dependsOn: ["menu-runtime"]`.
-  Its Beta package is experimental. Retain the existing menu-runtime package
-  and launcher-generated `paws_launch_versions.ini`.
-
-With Paw's Patch off, neither pure package is selected. File-only mode selects
-data and uses the stock executable; R2 is unavailable there. Game localization
-remains independent. Changing channel replaces the same runtime path.
+`pure-fixes-data` is executable-independent, priority 900. Runtime is native,
+priority 910, and depends on the existing menu-runtime package. Optional colors
+are native-dependent, priority 920. Both modes require the exact supported
+1.3.72 executable for runtime features; unknown executables use file-only data
+and stock k2.exe. Master-off excludes pure packages and disables both switches.
+Preferences are separate for each mod and restored when enabled again.
 
 ```text
-python game/pure-fixes/build_channels.py --out <fresh-output> --dotnet <dotnet.exe> --analysis-work <verified-analysis-work> --archives <verified-public-cache> --rwd <stock-Data.rwd>
+python game/pure-fixes/build_options.py --out <fresh-output> --dotnet <dotnet.exe> --analysis-work <verified-analysis-work> --rwd <stock-Data.rwd>
 ```
 
-The analysis-work input provides the pinned plaintext 1.3.72 image and Python
-dependencies. Generated R2 guards cover 15 regions / 1815 bytes. Each x86 .NET
-Framework runtime is built twice and must be byte-identical; ZIPs are also
-deterministic. Output `packages.json` has `{ "stable": [...], "beta": [...] }`
-with local archive URLs for the parent feed composer. Per-channel folders
-contain packages, module manifests, `features.json` and
-`build-verification.json`; `mod-games.json` supplies scoped game requirements.
+The analysis image is hash-pinned. R2 guards cover 15 regions / 1815 bytes.
+All five helpers are built twice and must be byte-identical. The builder
+runs pure managed/x86 checks, R2 managed/x86 checks, and optional sync rollback,
+ASLR and x86 ABI checks. Package manifests and payload hashes are verified.
+`scope.json` and `features.json` record scope and exact binary identity.
 
-The existing base tests run on both channel builds. `ChannelTests.cs` adds
-feature boundaries, checks before all writes, stable R2 exclusion and combined
-rollback at every injected operation failure. Beta also runs the original
-663 managed and 8421 R2 x86 checks through the shared implementation. These
-checks do not establish a new WAN speed or visible acceptance; the parent
-integration workflow records isolated launches and visible input checks.
+UI checks in `PreviewRenderer --pure-options-config=<test-config>` cover both
+modes/channels and six languages, master-off and unsupported-EXE controls.
+Core tests cover selector, configuration sharing, legacy feeds and mod isolation.
+Real game startup evidence is recorded separately from automated checks.
 
 ## Historical two-hook baseline
 

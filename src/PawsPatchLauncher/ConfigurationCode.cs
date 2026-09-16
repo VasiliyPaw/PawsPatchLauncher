@@ -25,8 +25,12 @@ public static class ConfigurationCode
             var index = 3;
             if (index < parts.Length && parts[index] is "RU0" or "RU1") mod.RussianLocalization = parts[index++] == "RU1";
             if (index < parts.Length && parts[index] == "PP1") { GameMod.SetPawPatch(mod, true); index++; }
+            if (index < parts.Length && parts[index] == "CL1") { GameMod.SetColors(mod, true); index++; }
+            if (index < parts.Length && parts[index] == "OOS1") { GameMod.SetDesync(mod, true); index++; }
             if (index < parts.Length && parts[index] == "DATA" && (GameMod.PawPatchSelected(mod) || mod.Mod == GameMod.Immortals)) { mod.DataOnly = true; index++; }
             if (index != parts.Length) throw new FormatException("Invalid mod configuration field.");
+            if ((GameMod.ColorsSelected(mod) || GameMod.DesyncSelected(mod)) && (!GameMod.PawPatchSelected(mod) || mod.DataOnly || mod.Channel != "beta"))
+                throw new FormatException("Executable options require the enabled Beta patch.");
             return EffectiveSettings.ForChannel(mod);
         }
         var core = parts.LastOrDefault() != "PP0";
@@ -74,6 +78,9 @@ public static class ConfigurationCode
         if (!GameMod.IsArcaneWars(source))
         {
             GameMod.SetPawPatch(target, GameMod.PawPatchSelected(source));
+            GameMod.SetColors(target, GameMod.ColorsSelected(source));
+            GameMod.SetDesync(target, GameMod.DesyncSelected(source));
+            target.DataOnly = source.DataOnly;
             return;
         }
         GameMod.SetPawPatch(target, source.PawPatchEnabled);
@@ -101,7 +108,7 @@ public static class ConfigurationCode
     {
         settings = EffectiveSettings.ForChannel(settings);
         var channel = settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase) ? "BETA" : "STABLE";
-        if (!GameMod.IsArcaneWars(settings)) return $"PAW-{channel}-{(GameMod.IsVanilla(settings) ? "VANILLA" : "IMMORTALS")}{(settings.RussianLocalization ? "-RU1" : "")}{(settings.PawPatchEnabled ? "-PP1" : "")}{(settings.DataOnly ? "-DATA" : "")}";
+        if (!GameMod.IsArcaneWars(settings)) return $"PAW-{channel}-{(GameMod.IsVanilla(settings) ? "VANILLA" : "IMMORTALS")}{(settings.RussianLocalization ? "-RU1" : "")}{(settings.PawPatchEnabled ? "-PP1" : "")}{(settings.CustomPlayerColors ? "-CL1" : "")}{(settings.DesyncMode == "continue" ? "-OOS1" : "")}{(settings.DataOnly ? "-DATA" : "")}";
         var spawn = settings.RoamingSpawnMode.ToLowerInvariant() switch { "x4" => "4", "x2" => "2", _ => "1" };
         var oos = settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase) ? "1" : "0";
         // Legacy codes already mean powers/shards disabled; preserve their fingerprints.

@@ -9,12 +9,12 @@ using System.Threading;
 
 [assembly: AssemblyTitle("Paw Pure Fixes for Kohan II 1.3.72")]
 #if PAW_PURE_CHANNEL
-#if PAW_PURE_FAST_TRANSFER
-[assembly: AssemblyVersion("1.3.72.7")]
-[assembly: AssemblyFileVersion("1.3.72.7")]
+#if PAW_PURE_BETA
+[assembly: AssemblyVersion("1.3.72.9")]
+[assembly: AssemblyFileVersion("1.3.72.9")]
 #else
-[assembly: AssemblyVersion("1.3.72.6")]
-[assembly: AssemblyFileVersion("1.3.72.6")]
+[assembly: AssemblyVersion("1.3.72.8")]
+[assembly: AssemblyFileVersion("1.3.72.8")]
 #endif
 #else
 [assembly: AssemblyVersion("1.3.72.2")]
@@ -175,6 +175,9 @@ namespace PawPureFixes
             catch (Exception error) { Console.Error.WriteLine(error.Message); return 2; }
             string gamePath = Path.Combine(root, "k2.exe"), log = Path.Combine(root, StatusFile);
             Process game = null; DateTime verifiedStart = default(DateTime); bool complete = false;
+#if PAW_PURE_SYNC
+            uint syncCounter = 0, observedSync = 0;
+#endif
             try
             {
                 Preflight(root);
@@ -198,6 +201,9 @@ namespace PawPureFixes
                     uint cave;
                     try
                     {
+#if PAW_PURE_SYNC
+                        PureSync.Validate(memory, address);
+#endif
 #if PAW_PURE_CHANNEL
                         PureChannel.Installed installed = PureChannel.Install(memory, address);
                         cave = installed.PureCave;
@@ -208,9 +214,16 @@ namespace PawPureFixes
 #else
                         cave = PurePatch.Install(memory, address);
 #endif
+#if PAW_PURE_COLORS
+                        PawLobbyColorsNative.Install(game.Handle, image, log);
+#endif
+#if PAW_PURE_SYNC
+                        syncCounter = PureSync.Install(memory, address);
+                        Log(log, "SYNC_PATCH_APPLIED signal=0x" + syncCounter.ToString("X8") + "; notifications=false; logOnly=true; gameContinues=true");
+#endif
                     }
                     finally { memory.Resume(); }
-                    Log(log, "PURE_PATCH_APPLIED pid=" + game.Id + " image=0x" + address.ToString("X8") + " cave=0x" + cave.ToString("X8") + " hooks=2 negativeZero=display-only terrainRadiusBits=BF800000 stockSyncChecks=true");
+                    Log(log, "PURE_PATCH_APPLIED pid=" + game.Id + " image=0x" + address.ToString("X8") + " cave=0x" + cave.ToString("X8") + " hooks=2 negativeZero=display-only terrainRadiusBits=BF800000");
                 }
 #endif
 #if PAW_MENU_PRESENTATION
@@ -218,7 +231,24 @@ namespace PawPureFixes
 #endif
                 complete = true;
                 // Keep the launcher-owned helper alive for game observation.
-                game.WaitForExit();
+                while (!game.WaitForExit(1000))
+                {
+#if PAW_PURE_SYNC
+                    try
+                    {
+                    using (var monitor = new NativeMemory(game.Id, gamePath, verifiedStart))
+                    {
+                        uint current = BitConverter.ToUInt32(monitor.Read(syncCounter, 4), 0);
+                        if (current != observedSync)
+                        {
+                            Log(log, "SYNC_IGNORED count=" + current + "; previous=" + observedSync);
+                            observedSync = current;
+                        }
+                    }
+                    }
+                    catch (Exception) { if (!game.HasExited) throw; }
+#endif
+                }
                 Log(log, "PURE_GAME_EXIT exitCode=" + game.ExitCode);
                 return 0;
             }

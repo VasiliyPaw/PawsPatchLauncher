@@ -671,6 +671,9 @@ public partial class MainWindow : Window
             "k2_paws_sync_continue_1372",
             "k2_paws_ui_1372",
             "k2_paws_pure_fixes_1372",
+            "k2_paws_pure_colors_1372",
+            "k2_paws_pure_sync_1372",
+            "k2_paws_pure_colors_sync_1372",
             "k2_paws_menu_1372",
             "k2_paws_lobby_colors_mp_1372_experimental",
             "k2_paws_lobby_colors_mp_sync_1372",
@@ -778,15 +781,15 @@ public partial class MainWindow : Window
         var appearance = CaptureAppearance();
         _settings.RussianLocalization = RussianToggle.IsChecked == true;
         if (ReferenceEquals(sender, ColorsToggle) && _colorsAvailable)
-            _settings.CustomPlayerColors = ColorsToggle.IsChecked == true;
-        if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue"
+            GameMod.SetColors(_settings, ColorsToggle.IsChecked == true);
+        if (GameMod.IsArcaneWars(_settings) && ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue"
             && !GameExecutableSelector.SupportsColorDesyncContinue(_channel))
         {
             _settings.DesyncMode = "official";
             SelectOosMode("official");
             ShowResult(() => UiLanguages.Text(_text.Language, "Для цветов вместе с пропуском рассинхрона выберите последний выпуск. В этом старом выпуске сочетание недоступно.", "Select the latest release to combine colors with desync bypass. This older release does not support the combination."));
         }
-        if (ColorsToggle.IsChecked == true && !GameExecutableSelector.SupportsIndependentColors(_channel))
+        if (GameMod.IsArcaneWars(_settings) && ColorsToggle.IsChecked == true && !GameExecutableSelector.SupportsIndependentColors(_channel))
         {
             _settings.IndependentHostility = true;
             IndependentHostilityToggle.IsChecked = true;
@@ -820,16 +823,16 @@ public partial class MainWindow : Window
         _initializing = true;
         try
         {
-        _colorsAvailable = _channel?.Packages.Any(x => x.Id.Equals("player-colors", StringComparison.OrdinalIgnoreCase)) == true;
-        ColorsToggle.IsChecked = _colorsAvailable && _settings.CustomPlayerColors;
-        if (ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue"
+        _colorsAvailable = GameMod.IsArcaneWars(_settings) ? _channel?.Packages.Any(x => x.Id.Equals("player-colors", StringComparison.OrdinalIgnoreCase)) == true : GameMod.HasPureOptions(_channel);
+        ColorsToggle.IsChecked = _colorsAvailable && GameMod.ColorsSelected(_settings);
+        if (GameMod.IsArcaneWars(_settings) && ColorsToggle.IsChecked == true && _settings.DesyncMode == "continue"
             && !GameExecutableSelector.SupportsColorDesyncContinue(_channel))
         {
             _settings.DesyncMode = "official";
             SelectOosMode("official");
             _settingsStore.Save(_settings);
         }
-        if (ColorsToggle.IsChecked == true && !GameExecutableSelector.SupportsIndependentColors(_channel))
+        if (GameMod.IsArcaneWars(_settings) && ColorsToggle.IsChecked == true && !GameExecutableSelector.SupportsIndependentColors(_channel))
         {
             _settings.IndependentHostility = true;
             IndependentHostilityToggle.IsChecked = true;
@@ -918,7 +921,7 @@ public partial class MainWindow : Window
                 return;
             }
             var appearance = CaptureAppearance();
-            _settings.DesyncMode = mode;
+            GameMod.SetDesync(_settings, mode == "continue");
             _settingsStore.Save(_settings);
             RefreshConfigurationCode();
             RefreshStatus();
@@ -932,7 +935,7 @@ public partial class MainWindow : Window
     }
 
     private bool CanContinueWithSelectedColors => ColorsToggle.IsChecked != true
-        || GameExecutableSelector.SupportsColorDesyncContinue(_channel);
+        || (GameMod.IsArcaneWars(_settings) ? GameExecutableSelector.SupportsColorDesyncContinue(_channel) : GameMod.HasPureOptions(_channel));
 
     private bool CanChangeHostilityWithSelectedColors => ColorsToggle.IsChecked != true
         || GameExecutableSelector.SupportsIndependentColors(_channel);

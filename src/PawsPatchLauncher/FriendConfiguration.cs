@@ -9,7 +9,7 @@ public static class FriendConfiguration
     {
         settings = new UserSettings();
         if (code is null || code.Length > 128 || !Regex.IsMatch(code,
-            @"\APAW-(STABLE|BETA)-((VANILLA|IMMORTALS)(-RU[01])?(-PP1)?(-DATA)?|IW[01]-SP[124]-RM[01]-SG[01]-LM[01]-RU[01]-CL[01]-OOS[01](-PS[01])?(-PP0)?(-DATA)?)(-TX(DE|FR|CS|UK))?(-VO(EN|RU|DE|FR))?\z")) return false;
+            @"\APAW-(STABLE|BETA)-((VANILLA|IMMORTALS)(-RU[01])?(-PP1)?(-CL1)?(-OOS1)?(-DATA)?|IW[01]-SP[124]-RM[01]-SG[01]-LM[01]-RU[01]-CL[01]-OOS[01](-PS[01])?(-PP0)?(-DATA)?)(-TX(DE|FR|CS|UK))?(-VO(EN|RU|DE|FR))?\z")) return false;
         try { settings = ConfigurationCode.Parse(code); return settings.Channel == channel; }
         catch (FormatException) { return false; }
     }
@@ -33,9 +33,10 @@ public static class FriendConfiguration
     {
         var settings = EffectiveSettings.ForChannel(preferences);
         var values = new Dictionary<string, bool> { ["core"] = GameMod.PawPatchSelected(settings) };
-        if (!GameMod.IsArcaneWars(settings)) return values;
+        if (!GameMod.IsArcaneWars(settings) && !settings.CustomPlayerColors && settings.DesyncMode == "official") return values;
         values["colors"] = settings.CustomPlayerColors;
         values["desync"] = settings.DesyncMode != "official";
+        if (!GameMod.IsArcaneWars(settings)) return values;
         values["hostility"] = settings.IndependentHostility;
         values["roaming"] = settings.RoamingSpawnMode != "standard";
         values["additional_roaming"] = settings.AdditionalRoamingCompanies;
@@ -54,7 +55,7 @@ public static class FriendConfiguration
             ConfigurationCode.Create(EffectiveSettings.ForFeed(settings, channel)) != ConfigurationCode.Create(settings))
             throw new InvalidDataException("The selected patch release does not support these settings.");
         _ = GamePackageSelector.Select(channel, settings, settings.RussianLocalization, settings.CustomPlayerColors);
-        if (settings.CustomPlayerColors && (settings.DesyncMode == "continue" && !GameExecutableSelector.SupportsColorDesyncContinue(channel)
+        if (GameMod.IsArcaneWars(settings) && settings.CustomPlayerColors && (settings.DesyncMode == "continue" && !GameExecutableSelector.SupportsColorDesyncContinue(channel)
             || !settings.IndependentHostility && !GameExecutableSelector.SupportsIndependentColors(channel)))
             throw new InvalidDataException("The selected patch release does not support this combination.");
     }

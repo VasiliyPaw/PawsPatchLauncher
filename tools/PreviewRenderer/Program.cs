@@ -21,6 +21,7 @@ public static class Program
     private static void Run(string[] args)
     {
         var language = args.FirstOrDefault(arg => arg.StartsWith("--language="))?.Split('=')[1] ?? "ru";
+        var pureOptionsConfig = args.FirstOrDefault(a=>a.StartsWith("--pure-options-config="))?["--pure-options-config=".Length..];
         var compactConfig = args.FirstOrDefault(arg => arg.StartsWith("--compact-config="))?["--compact-config=".Length..];
         var compactGame = args.FirstOrDefault(arg => arg.StartsWith("--compact-game="))?["--compact-game=".Length..];
         var polishConfig = args.FirstOrDefault(arg => arg.StartsWith("--polish-config="))?["--polish-config=".Length..];
@@ -126,6 +127,7 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (pureOptionsConfig is not null) { PureOptionsUiChecks.Run(pureOptionsConfig); app.Shutdown(); return; }
         if (popupScrollChecks) { PopupScrollChecks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (mediaProbe is not null) { MediaLayoutChecks.Probe(new Uri(mediaProbe)); app.Shutdown(); return; }
         if (messageCopyChecks) { MessageCopyChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }

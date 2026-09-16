@@ -25,7 +25,7 @@ static class ColorPaletteReview
             gameRequirement:old.GameRequirement,baseGameSha256:old.BaseGameSha256);
         await GameMenuMetadata.WriteAsync(gameRoot,feed,old.AppliedSettings!);
         var errors=await installer.VerifyAsync();if(errors.Count>0)throw new Exception(string.Join(";",errors));
-        Console.WriteLine("PRETEST_RESTORED "+old.Modules["pawpatch-core"].Version+"; "+old.Modules.Count+" original package identities verified; game not launched");
+        Console.WriteLine("PRETEST_RESTORED "+old.AppliedSettings?.Mod+"; "+old.Modules.Count+" original package identities verified; game not launched");
     }
 
     public static void Labels()

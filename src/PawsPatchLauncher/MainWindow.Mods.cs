@@ -25,9 +25,15 @@ public partial class MainWindow
         "modules.core" => CoreHelpText(),
         "modules.spawn" => GuideChannel()?.PatchGuide?.Entries.FirstOrDefault(e => e.Id == "frequency")?.Body(_text.Language)
             ?? _text["modules.spawn.help"],
-        "modules.colors" => _text.ColorText("modules.colors.help", _channel),
+        "modules.colors" => ColorHelpText(),
         _ => _text[key + ".help"]
     };
+    private string ColorHelpText()
+    {
+        var feed = GuideChannel();
+        var guide = GameMod.IsArcaneWars(_settings) ? feed?.PatchGuide : feed?.ModGuides.FirstOrDefault(g => g.Id == _settings.Mod)?.PatchGuide;
+        return guide?.Entries.FirstOrDefault(e => e.Id == "colors")?.Body(_text.Language) ?? _text.ColorText("modules.colors.help", _channel);
+    }
     private async Task ApplyVanillaConfigurationAsync(UserSettings selection, Func<Task>? beforeCommit = null)
     {
         if (_game is null) throw new InvalidOperationException(_text["status.notfound"]);
@@ -88,7 +94,8 @@ public partial class MainWindow
 
     private void RefreshPawComponentDependency()
     {
-        var enabled = GameMod.IsArcaneWars(_settings) && _settings.PawPatchEnabled;
+        var arcane = GameMod.IsArcaneWars(_settings);
+        var enabled = GameMod.PawPatchSelected(_settings) && (arcane || GameMod.HasPureOptions(_channel));
         foreach (var card in ArcaneComponentCards().Skip(1))
         {
             var needsExe = card == ColorsModuleCard || card == OosModuleCard || card == IndependentHostilityCard;
@@ -96,9 +103,9 @@ public partial class MainWindow
             card.ToolTip = !enabled ? T("Включите Paw's Patch, чтобы выбрать этот компонент.", "Enable Paw's Patch to select this component.")
                 : needsExe && DataOnlyMode ? T("Недоступно: требуется совместимая версия EXE игры.", "Unavailable: a supported game executable is required.") : null;
         }
-        ColorsToggle.IsChecked = enabled && !DataOnlyMode && _colorsAvailable && _settings.CustomPlayerColors;
+        ColorsToggle.IsChecked = enabled && !DataOnlyMode && _colorsAvailable && GameMod.ColorsSelected(_settings);
         IndependentHostilityToggle.IsChecked = enabled && !DataOnlyMode && _settings.IndependentHostility;
-        IgnoreDesyncToggle.IsChecked = enabled && !DataOnlyMode && _settings.DesyncMode == "continue";
+        IgnoreDesyncToggle.IsChecked = enabled && !DataOnlyMode && GameMod.DesyncSelected(_settings);
         AdditionalRoamingToggle.IsChecked = enabled && _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = enabled && _settings.SiegeBalance;
         PowersShardsToggle.IsChecked = enabled && _settings.DisablePowersAndShards;
@@ -160,6 +167,8 @@ public partial class MainWindow
             MultiplayerNoteCard.Visibility = modules && !vanilla ? Visibility.Visible : Visibility.Collapsed;
             foreach (var card in ArcaneComponentCards()) card.Visibility = modules && arcane ? Visibility.Visible : Visibility.Collapsed;
             CoreModuleCard.Visibility = modules && (arcane || pureAvailable) ? Visibility.Visible : Visibility.Collapsed;
+            if (modules && !arcane && GameMod.HasPureOptions(_channel))
+                ColorsModuleCard.Visibility = OosModuleCard.Visibility = Visibility.Visible;
             SyncPatchChannelControls();
         }
         finally { _initializing = previous; }
@@ -184,8 +193,11 @@ public partial class MainWindow
                 "\n• Displays zero instead of negative zero in the company limit.\n• Fixes an uninitialized terrain parameter during map generation.");
         if (hasFastTransfer) text += T("\n• Ускоренная штатная передача сохранений участникам сетевого лобби.",
             "\n• Faster native saved-game transfers to multiplayer lobby participants.");
-        if (!partial) text += T("\n\nПравила и баланс выбранного режима сохраняются. Стандартная проверка рассинхронов остаётся включённой.",
-            "\n\nThe selected mode's rules and balance are preserved. Standard desync checks stay enabled.");
+        if (GameMod.HasPureOptions(GuideChannel()))
+            text += T("\n\nДополнительные переключатели беты: 48 цветов с компактным выбором и игнорирование рассинхронов. Для них требуется совместимый EXE игры. При выключении Paw's Patch оба переключателя отключаются.",
+                "\n\nOptional Beta switches: 48 colors with a compact picker and Ignore desyncs. Both require a supported game executable. Turning Paw's Patch off disables both switches.");
+        if (!partial) text += T("\n\nПравила и баланс выбранного режима сохраняются. По умолчанию используется стандартная обработка рассинхронов.",
+            "\n\nThe selected mode's rules and balance are preserved. Standard desync handling is used by default.");
         return text;
     }
 }

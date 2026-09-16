@@ -15,8 +15,8 @@ public static class GameMod
     };
     public static void SetPawPatch(UserSettings settings, bool enabled)
     {
-        if (settings.Mod == Vanilla) settings.VanillaPawPatchEnabled = enabled;
-        else if (settings.Mod == Immortals) settings.ImmortalsPawPatchEnabled = enabled;
+        if (settings.Mod == Vanilla) { settings.VanillaPawPatchEnabled = enabled; settings.VanillaComponents.Enable(enabled); }
+        else if (settings.Mod == Immortals) { settings.ImmortalsPawPatchEnabled = enabled; settings.ImmortalsComponents.Enable(enabled); }
         else
         {
             if (!enabled && settings.PawPatchEnabled)
@@ -33,6 +33,8 @@ public static class GameMod
     }
     public static void NormalizeRememberedComponents(UserSettings settings)
     {
+        if (!settings.VanillaPawPatchEnabled) settings.VanillaComponents.Enable(false);
+        if (!settings.ImmortalsPawPatchEnabled) settings.ImmortalsComponents.Enable(false);
         if (settings.PawPatchEnabled) return;
         settings.SuspendedArcaneComponents ??= ArcaneComponentSelection.Capture(settings);
         DisableArcaneComponents(settings);
@@ -47,6 +49,19 @@ public static class GameMod
     public static bool HasPureFixes(ChannelManifest? channel)
         => channel is not null && channel.Packages.Any(p => p.Id == "pure-fixes-data")
             && channel.Packages.Any(p => p.Id == "pure-fixes-runtime");
+    public static PureComponentSelection PureComponents(UserSettings settings)
+        => settings.Mod == Immortals ? settings.ImmortalsComponents : settings.VanillaComponents;
+    public static bool ColorsSelected(UserSettings settings)
+        => IsArcaneWars(settings) ? settings.CustomPlayerColors : PureComponents(settings).Colors;
+    public static bool DesyncSelected(UserSettings settings)
+        => IsArcaneWars(settings) ? settings.DesyncMode == "continue" : PureComponents(settings).IgnoreDesync;
+    public static void SetColors(UserSettings settings, bool enabled)
+    { if (IsArcaneWars(settings)) settings.CustomPlayerColors = enabled; else PureComponents(settings).Colors = enabled; }
+    public static void SetDesync(UserSettings settings, bool enabled)
+    { if (IsArcaneWars(settings)) settings.DesyncMode = enabled ? "continue" : "official"; else PureComponents(settings).IgnoreDesync = enabled; }
+    public static bool HasPureOptions(ChannelManifest? channel)
+        => channel is { Channel: "beta", PureRuntimeOptions: true } && HasPureFixes(channel)
+            && channel.Packages.Any(p => p.Id == "pure-player-colors" && p.Mods.Contains(Vanilla) && p.Mods.Contains(Immortals));
     public static GameRequirement Requirement(ChannelManifest channel, string mod)
         => channel.ModGames.TryGetValue(mod, out var requirement) ? requirement : channel.Game;
     public static bool UsesExecutableFeatures(UserSettings settings, ChannelManifest? channel)

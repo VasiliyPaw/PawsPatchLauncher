@@ -61,6 +61,11 @@ public static class GamePackageSelector
             {
                 baseIds.Add("pure-fixes-data");
                 if (!settings.DataOnly) baseIds.Add("pure-fixes-runtime");
+                if (!settings.DataOnly && settings.Channel == "beta" && customPlayerColors)
+                {
+                    if (!GameMod.HasPureOptions(channel)) throw new InvalidDataException("This release does not support extended player colors.");
+                    baseIds.Add("pure-player-colors");
+                }
                 if (settings.Mod == GameMod.Immortals && channel.Packages.Any(p => p.Id == "immortals-text-fixes"))
                     baseIds.Add("immortals-text-fixes");
             }

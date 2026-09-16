@@ -7,12 +7,25 @@ namespace PawPureFixes
     // The shared R2 source supplies the exact same native code as Arcane Wars.
     internal static class PureChannel
     {
+#if PAW_PURE_BETA
+        internal const string Channel = "beta", Version = "1.3.72-pure.9-beta.1", PatchVersion = "0.3.0-beta.1";
+#else
+        internal const string Channel = "stable", Version = "1.3.72-pure.8", PatchVersion = "0.2.0";
+#endif
 #if PAW_PURE_FAST_TRANSFER
-        internal const string Channel = "beta", Version = "1.3.72-pure.7-beta.1", PatchVersion = "0.2.0-beta.1";
         internal const bool FastTransfer = true;
 #else
-        internal const string Channel = "stable", Version = "1.3.72-pure.6", PatchVersion = "0.1.1";
         internal const bool FastTransfer = false;
+#endif
+#if PAW_PURE_COLORS
+        internal const bool Colors = true;
+#else
+        internal const bool Colors = false;
+#endif
+#if PAW_PURE_SYNC
+        internal const bool Bypass = true;
+#else
+        internal const bool Bypass = false;
 #endif
         internal static string Features
         {
@@ -21,6 +34,9 @@ namespace PawPureFixes
                 return Program.Features.Replace("1.3.72-pure.2", Version)
                     .Replace("\"menuVersions\":false", "\"menuVersions\":true")
                     .Replace("\"fastSaveTransfer\":false", "\"fastSaveTransfer\":" + (FastTransfer ? "true" : "false"))
+                    .Replace("\"colors\":false", "\"colors\":" + (Colors ? "true" : "false"))
+                    .Replace("\"bypass\":false", "\"bypass\":" + (Bypass ? "true" : "false"))
+                    .Replace("\"stockSyncChecks\":true", "\"stockSyncChecks\":" + (Bypass ? "false" : "true"))
                     .Replace("{", "{\"channel\":\"" + Channel + "\",\"patchVersion\":\"" + PatchVersion + "\",\"nativeTransferRevision\":\"" + (FastTransfer ? "R2" : "stock") + "\",");
             }
         }
