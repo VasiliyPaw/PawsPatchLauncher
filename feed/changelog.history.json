@@ -2,6 +2,37 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.3",
+      "mods": [],
+      "publishedAt": "2026-09-16",
+      "title": {
+        "ru": "Paw's Launcher 0.8.3",
+        "en": "Paw's Launcher 0.8.3"
+      },
+      "body": {
+        "ru": "- Карточки игроков в подробностях матча стали на 20% ниже: сохранены аватар, имя и игровые сведения.\n- В бете Paw's Patch для Vanilla и Immortals доступны расширенные цвета игроков и игнорирование рассинхронов. Выбор сохраняется отдельно для каждого мода и учитывается при копировании конфигурации друга.\n- Выключение Paw's Patch отключает его дополнительные переключатели. При несовместимом EXE доступны только игровые файлы, без функций движка.\n- Обновлены подсказки на русском, английском, немецком, французском, чешском и украинском.",
+        "en": "- Match-detail player cards are 20% shorter, retaining avatars, names and game information.\n- The Vanilla and Immortals Paw's Patch Beta offers extended player colors and Ignore desyncs. Choices are remembered separately for each mod and included when copying a friend's configuration.\n- Turning Paw's Patch off disables its optional switches. Unsupported game executables use file-only mode without engine features.\n- Updated help in Russian, English, German, French, Czech and Ukrainian."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.2.0",
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "publishedAt": "2026-09-16",
+      "title": {
+        "ru": "Paw's Patch 0.2.0 — Vanilla и Immortals",
+        "en": "Paw's Patch 0.2.0 — Vanilla and Immortals"
+      },
+      "body": {
+        "ru": "- Быстрая передача сохранений участникам сетевого лобби перенесена из беты в релиз. Встроена в патч и работает средствами самой игры.\n- Сохранены исправления значков рот, отображения «−0», инициализации рельефа и управление WASD/F в профиле Dvorak.\n- Ускорение передачи требует поддерживаемого EXE 1.3.72. В файловом режиме остаётся обычная передача.",
+        "en": "- Fast saved-game transfers to multiplayer lobby participants move from Beta to Release. Built into the patch and handled by the game itself.\n- Retains company badge, negative-zero and terrain initialization fixes, plus WASD/F controls in the Dvorak profile.\n- Faster transfers require the supported 1.3.72 executable. File-only mode retains regular transfer speed."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.2",
       "publishedAt": "2026-09-16",
       "title": {
@@ -634,6 +665,37 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.3",
+      "mods": [],
+      "publishedAt": "2026-09-16",
+      "title": {
+        "ru": "Paw's Launcher 0.8.3",
+        "en": "Paw's Launcher 0.8.3"
+      },
+      "body": {
+        "ru": "- Карточки игроков в подробностях матча стали на 20% ниже: сохранены аватар, имя и игровые сведения.\n- В бете Paw's Patch для Vanilla и Immortals доступны расширенные цвета игроков и игнорирование рассинхронов. Выбор сохраняется отдельно для каждого мода и учитывается при копировании конфигурации друга.\n- Выключение Paw's Patch отключает его дополнительные переключатели. При несовместимом EXE доступны только игровые файлы, без функций движка.\n- Обновлены подсказки на русском, английском, немецком, французском, чешском и украинском.",
+        "en": "- Match-detail player cards are 20% shorter, retaining avatars, names and game information.\n- The Vanilla and Immortals Paw's Patch Beta offers extended player colors and Ignore desyncs. Choices are remembered separately for each mod and included when copying a friend's configuration.\n- Turning Paw's Patch off disables its optional switches. Unsupported game executables use file-only mode without engine features.\n- Updated help in Russian, English, German, French, Czech and Ukrainian."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.3.0-beta.1",
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "publishedAt": "2026-09-16",
+      "title": {
+        "ru": "Paw's Patch 0.3.0-beta.1 — Vanilla и Immortals",
+        "en": "Paw's Patch 0.3.0-beta.1 — Vanilla and Immortals"
+      },
+      "body": {
+        "ru": "- Добавлены 48 цветов игроков с компактным списком возле кружка цвета — как в бете Arcane Wars. Цвет следует за участником при смене места; новый участник не наследует чужой выбор.\n- Добавлен отдельный переключатель игнорирования рассинхронов. Он позволяет продолжить матч, но не исправляет расхождения между игроками.\n- Цвета и игнорирование рассинхронов включаются независимо. Выключение Paw's Patch отключает обе функции.\n- Бета включает быструю передачу сохранений и базовые исправления релиза 0.2.0. Правила и баланс Vanilla и Immortals сохранены.",
+        "en": "- Adds 48 player colors with the compact picker beside the color circle from the Arcane Wars Beta. Colors follow participants between seats; newcomers do not inherit someone else's choice.\n- Adds a separate Ignore desyncs switch. It allows a match to continue but does not repair differences between players.\n- Colors and desync bypass are independent options. Turning Paw's Patch off disables both.\n- Includes fast saved-game transfers and the baseline fixes from Release 0.2.0. Vanilla and Immortals rules and balance are preserved."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.8.2",
