@@ -44,6 +44,17 @@ internal static class GameActivityChecks
         {
             w.UpdateLayout();var view=(FrameworkElement)w.Content;var bitmap=new RenderTargetBitmap((int)view.ActualWidth,(int)view.ActualHeight,96,96,PixelFormats.Pbgra32);bitmap.Render(view);
             var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bitmap));using var stream=File.Create(Path.Combine(output,name+"-"+language+".png"));encoder.Save(stream);
+            if(name=="game-details-roster")
+            {
+                var card=C<Border>("GameActivityCard");
+                var drawing=new DrawingVisual();
+                using(var dc=drawing.RenderOpen())dc.DrawRectangle(new VisualBrush(card),null,new Rect(0,0,card.ActualWidth,card.ActualHeight));
+                var detail=new RenderTargetBitmap((int)Math.Ceiling(card.ActualWidth*1.5),(int)Math.Ceiling(card.ActualHeight*1.5),144,144,PixelFormats.Pbgra32);
+                detail.Render(drawing);var png=new PngBitmapEncoder();png.Frames.Add(BitmapFrame.Create(detail));
+                using var file=File.Create(Path.Combine(output,"match-card-"+language+".png"));png.Save(file);
+                var heights=C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>().SelectMany(g=>g.Children.OfType<Border>()).Select(b=>b.ActualHeight).Distinct();
+                Console.WriteLine("PARTICIPANT CARD HEIGHT: "+string.Join(", ",heights));
+            }
         }
         async Task Scenario()
         {

@@ -162,15 +162,15 @@ public partial class MainWindow
         GameActivityBody.Children.Add(new TextBlock{Text=T("УЧАСТНИКИ", "PARTICIPANTS")+$" · {people.Count}",FontSize=12,Foreground=SocialBrush("#A8BBD2"),Margin=new Thickness(0,13,0,10)});
         foreach(var team in people.GroupBy(p=>p.Team).OrderBy(g=>g.Key??int.MaxValue))
         {
-            var group=new StackPanel{Margin=new Thickness(0,0,0,14),Tag=team.Key};
-            var heading=new Grid{Margin=new Thickness(0,0,0,8)};
+            var group=new StackPanel{Margin=new Thickness(0,0,0,12),Tag=team.Key};
+            var heading=new Grid{Margin=new Thickness(0,0,0,6)};
             heading.ColumnDefinitions.Add(new ColumnDefinition());heading.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
             heading.Children.Add(new TextBlock{Text=team.Key is int number?T("Команда ","Team ")+number:T("Без указанной команды","Team not specified"),FontSize=14,FontWeight=FontWeights.SemiBold,Foreground=SocialBrush("#ECD08A")});
             var count=new TextBlock{Text=team.Count().ToString(),FontSize=12,Foreground=SocialBrush("#A8BBD2"),VerticalAlignment=VerticalAlignment.Center};Grid.SetColumn(count,1);heading.Children.Add(count);
             group.Children.Add(heading);
             foreach(var player in team)
             {
-            var grid=new Grid { Height=58 };grid.ColumnDefinitions.Add(new ColumnDefinition{Width=new GridLength(42)});grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
+            var grid=new Grid { Height=50 };grid.ColumnDefinitions.Add(new ColumnDefinition{Width=new GridLength(42)});grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
             var marker=new Grid{Width=34,Height=34,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center};
             if(player.Profile is { } identity)
             {
@@ -183,9 +183,9 @@ public partial class MainWindow
             marker.Children.Add(new Border{Width=12,Height=12,CornerRadius=new CornerRadius(6),Background=SocialBrush(GameActivity.ValidColor(player.Color)?player.Color!:"#56677D"),BorderBrush=SocialBrush("#D2DDEA"),BorderThickness=new Thickness(1),HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,ToolTip=GameActivity.ValidColor(player.Color)?T("Цвет игрока","Player color"):T("Цвет пока не определён","Color is not available yet")});
             grid.Children.Add(marker);
             var names=new Grid { VerticalAlignment=VerticalAlignment.Center };
-            names.RowDefinitions.Add(new RowDefinition { Height=new GridLength(19) });
             names.RowDefinitions.Add(new RowDefinition { Height=new GridLength(18) });
-            names.RowDefinitions.Add(new RowDefinition { Height=new GridLength(19) });
+            names.RowDefinitions.Add(new RowDefinition { Height=new GridLength(16) });
+            names.RowDefinitions.Add(new RowDefinition { Height=new GridLength(16) });
             Grid.SetColumn(names,1);
             var title=new TextBlock{FontWeight=FontWeights.SemiBold,TextTrimming=TextTrimming.CharacterEllipsis,TextWrapping=TextWrapping.NoWrap};
             title.Inlines.Add(new System.Windows.Documents.Run(player.Profile?.DisplayName??player.Name));
@@ -209,9 +209,9 @@ public partial class MainWindow
                     ToolTip=T("Открыть профиль", "Open profile")};
                 System.Windows.Automation.AutomationProperties.SetName(button,T("Открыть профиль: ","Open profile: ")+linked.DisplayName);
                 button.Click+=async(_,e)=>{e.Handled=true;await OpenGameParticipantProfileAsync(linked);};
-                group.Children.Add(new Border{Child=button,Margin=new Thickness(0,0,0,6),Tag=player.Key});
+                group.Children.Add(new Border{Child=button,Margin=new Thickness(0,0,0,4),Tag=player.Key});
             }
-            else group.Children.Add(new Border{Child=grid,Background=SocialBrush("#1A324D"),BorderBrush=SocialBrush("#2A4564"),BorderThickness=new Thickness(1),CornerRadius=new CornerRadius(8),Padding=new Thickness(12,10,12,10),Margin=new Thickness(0,0,0,6),Tag=player.Key});
+            else group.Children.Add(new Border{Child=grid,Background=SocialBrush("#1A324D"),BorderBrush=SocialBrush("#2A4564"),BorderThickness=new Thickness(1),CornerRadius=new CornerRadius(8),Padding=new Thickness(12,6,12,6),Margin=new Thickness(0,0,0,4),Tag=player.Key});
             }
             GameActivityBody.Children.Add(group);
         }

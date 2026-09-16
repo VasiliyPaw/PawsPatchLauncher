@@ -39,7 +39,7 @@
             <Setter Property="Background" Value="#1A324D"/>
             <Setter Property="BorderBrush" Value="#2A4564"/>
             <Setter Property="Foreground" Value="{StaticResource TextMainBrush}"/>
-            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="Padding" Value="12,6"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="Template">
