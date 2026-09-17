@@ -1,37 +1,23 @@
-# Paw's Patch Launcher 0.5.6
+# Новый интерфейс и удобные настройки
 
-## Что нового
+- Добавлены плавные переходы, единое оформление и сохранение положения окна.
+- Добавлены справка, сравнение файлов с другом, очистка старого кэша и открытие архива диагностики.
+- Улучшены подтверждения и сообщения об ошибках.
+- Исправлены буфер обмена и перенос конфигурации между каналами.
 
-- Плавные переключатели, подсветка кнопок, вкладки и тёмная прокрутка. Единый стиль заголовков, пояснений, полей ввода и значков.
-- Сохранение размера, положения и монитора окна. Одинаковые модели мониторов различаются по подключению. Исправлено перетаскивание развёрнутого окна.
-- Страница «О патче» с разделами «Всегда включено», «Настраиваемое» и «В бете».
-- Подробное сравнение конфигураций с другом: настройки, версии компонентов, изменённые, отсутствующие и дополнительные файлы. Отчёт можно сохранить и открыть.
-- Понятные сообщения об ошибках с подходящими действиями. Исправлены ошибки буфера обмена и зависшие статусы операций.
-- Управление местом: размер кеша и резервных копий, безопасная очистка распознанных старых данных.
-- Подтверждения очистки и удаления внутри лаунчера с затемнением фона.
-- «Показать архив» для последнего созданного архива диагностики, в том числе после перезапуска. «Открыть папку игры» рядом с выбором папки.
-- Явный выбор «Канал патча: Релиз / Бета». Он не влияет на обновления самого лаунчера.
-- Исправлен код конфигурации после перехода из Беты в Релиз. Неактивные цвета не попадают в код; предпочтение для возвращения в Бету сохраняется, в том числе при изменении локализации в Релизе.
+- Добавлен переключатель отключения Powers и Shards.
+- Исправлены пропавшие переводы при отключении новых рот или осадного баланса.
+- Уточнено описание осадного баланса.
 
-## Компоненты патча
+---
 
-- Добавлено «Отключение Powers и Shards», по умолчанию включено. Выключение возвращает обе механики Arcane Wars, повторное включение снова их отключает. Настройка входит в код конфигурации и применяется перед запуском игры. Все варианты выбранного канала загружаются заранее.
-- Исправлено сохранение перевода при отключении новых блуждающих рот или осадного баланса. Три пакета профилей обновлены до `1.3.72-options.2`; числовые параметры не менялись.
-- Уточнено описание осадного баланса: он, как и прежде, меняет стоимость, урон и параметры атак.
-- Игровые EXE, сетевой протокол и пакет цветов `0.1.0-beta.6` не изменены. Следующие игровые исправления Беты выйдут отдельно.
+# Refined interface and easier configuration
 
-Переключение Powers/Shards следует проверять в новом матче; совместимость существующих сохранений с другим набором компонентов не гарантируется.
+- Added smooth transitions, consistent styling and saved window placement.
+- Added patch help, file comparison with friends, old-cache cleanup and diagnostic archive access.
+- Improved confirmations and error messages.
+- Fixed clipboard use and configuration transfer between channels.
 
-## Скачать и обновить
-
-Лаунчер обновляется при запуске; в открытом окне можно воспользоваться «Проверить обновления». Для ручной установки скачайте `PawsPatchLauncher.exe` или архив `PawsPatchLauncher-v0.5.6-win-x64.zip`. Маленькие ZIP-пакеты компонентов устанавливает сам лаунчер, вручную распаковывать их в игру не нужно.
-
-## Проверка
-
-До выпуска пройдены 379 основных автоматических проверок, проверки WPF-интерфейса на русском и английском, аудит 288 допустимых сочетаний новой сборки и установка/обновление/откат/удаление реальных пакетов в изолированных тестовых папках. Это не заменяет проверку всех сочетаний в живом матче.
-
-## English
-
-Refined animated UI, consistent typography and icons, window/monitor placement persistence, About the patch, detailed multiplayer configuration/file reports, actionable errors, safe cache cleanup, in-window confirmations and persistent access to the latest diagnostic archive. Clipboard and status handling are fixed. Release sharing no longer leaks inactive Beta colors while retaining the Beta preference.
-
-Disable Powers and Shards is now configurable and enabled by default. Three optional profile packages preserve localization when additional roaming companies or siege balance are off. Siege descriptions accurately cover the existing full rebalance. Game executables, network protocol and Beta colors remain unchanged. Component changes should be tested in a new match.
+- Added a switch to disable Powers and Shards.
+- Fixed missing translations when new companies or siege balance are disabled.
+- Clarified the siege-balance description.

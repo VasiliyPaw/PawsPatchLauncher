@@ -13,8 +13,8 @@
         "en": "Paw's Patch 0.3.0 — Arcane Wars release"
       },
       "body": {
-        "ru": "Все проверенные изменения беты 0.3.0-beta.9 теперь в релизе:\n\n- Автоулучшение городов: приоритет последнего улучшения центра, целей по ресурсам, дохода золота и затем прочего развития. Учитываются очередь, прибыльность рынков и запас золота; настройки сохраняются для партии и её сейвов.\n- Настройка открытия ополчения для стартовых, новых и захваченных городов и новых зданий. Состояние готовых зданий при загрузке сейва сохраняется; строительство в осаждённом городе остаётся запрещено.\n- Ускоренная передача сохранений в сетевом лобби и проверка версий игры, мода, патча и игровых компонентов перед подключением.\n- Компактный выбор 48 цветов рядом со значком игрока. В новой партии цвет следует за участником, в сохранениях остаётся привязан к королевству.\n- Защита от некорректных графических команд и исправленные анимации пророка.\n- Живые раненые защитники логов снова выходят с оставшимся здоровьем; погибшие ждут полного восстановления. После загрузки сейва раненые защитники, уже находящиеся внутри, также ждут полного восстановления.\n- Обновлённые рамки миникарты всех шести рас для 16:9, включая Full HD и 2560×1440.\n- Исправления Powers и Shards, сохранения владельцев королевств, подсказок и локализаций из текущей беты.",
-        "en": "All accepted changes from 0.3.0-beta.9 are now in the stable release:\n\n- City automation prioritizes the final city-center upgrade, resource targets, gold income, then other development. It accounts for queued work, market profitability and the gold reserve; preferences persist per match and its saves.\n- Militia preferences apply to starting, new and captured cities and newly completed buildings. Loading a save preserves existing building states; construction remains blocked during a siege.\n- Faster multiplayer save transfers and pre-join checks for game, mod, patch and gameplay-component compatibility.\n- A compact 48-color picker beside the player badge. Colors follow participants in new games and remain attached to kingdoms in saves.\n- Protection against invalid graphics commands and corrected Prophet animations.\n- Surviving lair defenders can redeploy with their remaining health; killed defenders must fully regenerate. After loading a save, wounded defenders already inside also wait for full recovery.\n- Updated minimap frames for all six races at 16:9, including Full HD and 2560×1440.\n- Powers and Shards fixes, preserved saved kingdom ownership, tooltips and localization updates from the current beta."
+        "ru": "- Автоулучшение городов с целями по ресурсам, запасом золота и сохранением настроек партии.\n- Настройка открытого ополчения для стартовых, новых и захваченных городов и новых зданий.\n- Быстрая передача сейвов и проверка совместимости перед входом в лобби.\n- Компактный выбор 48 цветов с привязкой к игроку.\n- Исправления вылетов и анимаций пророка.\n- Раненые защитники логов снова выходят в бой; погибшие ждут восстановления.\n- Обновлены рамки миникарты всех шести рас.\n- Исправлены Powers и Shards, переводы, подсказки и владельцы объектов в сейвах.",
+        "en": "- City automation with resource targets, a gold reserve and saved match preferences.\n- Open-militia settings for starting, new and captured cities and new buildings.\n- Faster save transfers and compatibility checks before joining a lobby.\n- A compact 48-color picker with colors tied to players.\n- Crash fixes and corrected Prophet animations.\n- Wounded lair defenders can fight again; killed defenders wait to recover.\n- Updated minimap frames for all six races.\n- Fixed Powers and Shards, translations, tooltips and saved object ownership."
       }
     },
     {
@@ -27,8 +27,8 @@
         "en": "Paw's Launcher 0.8.3"
       },
       "body": {
-        "ru": "- Карточки игроков в подробностях матча стали на 20% ниже: сохранены аватар, имя и игровые сведения.\n- В бете Paw's Patch для Vanilla и Immortals доступны расширенные цвета игроков и игнорирование рассинхронов. Выбор сохраняется отдельно для каждого мода и учитывается при копировании конфигурации друга.\n- Выключение Paw's Patch отключает его дополнительные переключатели. При несовместимом EXE доступны только игровые файлы, без функций движка.\n- Обновлены подсказки на русском, английском, немецком, французском, чешском и украинском.",
-        "en": "- Match-detail player cards are 20% shorter, retaining avatars, names and game information.\n- The Vanilla and Immortals Paw's Patch Beta offers extended player colors and Ignore desyncs. Choices are remembered separately for each mod and included when copying a friend's configuration.\n- Turning Paw's Patch off disables its optional switches. Unsupported game executables use file-only mode without engine features.\n- Updated help in Russian, English, German, French, Czech and Ukrainian."
+        "ru": "- Карточки игроков в подробностях матча стали на 20% ниже.\n- В бете Vanilla и Immortals добавлены расширенные цвета и игнорирование рассинхронов. Настройки запоминаются отдельно для каждого мода.\n- Выключение Paw’s Patch отключает его дополнительные переключатели.\n- Обновлены подсказки на шести языках.",
+        "en": "- Match-detail player cards are 20% shorter.\n- Added extended colors and Ignore desyncs to the Vanilla and Immortals Beta. Settings are saved separately for each mod.\n- Turning off Paw’s Patch disables its optional switches.\n- Updated help in six languages."
       }
     },
     {
@@ -44,8 +44,8 @@
         "en": "Paw's Patch 0.2.0 — Vanilla and Immortals"
       },
       "body": {
-        "ru": "- Быстрая передача сохранений участникам сетевого лобби перенесена из беты в релиз. Встроена в патч и работает средствами самой игры.\n- Сохранены исправления значков рот, отображения «−0», инициализации рельефа и управление WASD/F в профиле Dvorak.\n- Ускорение передачи требует поддерживаемого EXE 1.3.72. В файловом режиме остаётся обычная передача.",
-        "en": "- Fast saved-game transfers to multiplayer lobby participants move from Beta to Release. Built into the patch and handled by the game itself.\n- Retains company badge, negative-zero and terrain initialization fixes, plus WASD/F controls in the Dvorak profile.\n- Faster transfers require the supported 1.3.72 executable. File-only mode retains regular transfer speed."
+        "ru": "- Быстрая передача сохранений участникам сетевого лобби перенесена из беты в релиз.",
+        "en": "- Faster saved-game transfers to multiplayer lobby participants are now in the stable release."
       }
     },
     {
@@ -57,8 +57,8 @@
         "en": "Paw's Launcher 0.8.2 — interface and chat"
       },
       "body": {
-        "ru": "- Открытый список выбора или контекстное меню больше не позволяет прокручивать страницу под ним. Исправлено в том числе для выбора языка интерфейса; длинные списки продолжают прокручиваться внутри.\n- Выделение отправленных сообщений снимается при переходе к другому сообщению или клике вне текста. Несколько сообщений больше не остаются выделенными одновременно; убрано выделение пустого места после текста. Копирование выделенного текста и кнопка копирования сохранены.\n- Для недоступных вложений Discord с истёкшей ссылкой показывается понятное объяснение. Рабочие ссылки и уже загруженные изображения продолжают отображаться; остальные ошибки можно повторить.\n- Исправлено повторное открытие карточки игрока во время её закрытия.\n- Количество цветов в описании компонента берётся из выбранного канала: новая бета Arcane Wars показывает 48 цветов.",
-        "en": "- Open dropdowns and context menus now block scrolling of the page underneath, including the interface-language selector. Long lists still scroll internally.\n- Sent-message selection clears when selecting another message or clicking outside the text. Multiple messages no longer retain selection at once, and trailing blank space is no longer highlighted. Text selection and the copy button remain available.\n- Unavailable Discord attachments with expired links now show a clear explanation. Working links and cached images remain usable; other failures can still be retried.\n- Fixed reopening a player card while its closing animation was still running.\n- Color descriptions follow the selected channel: the new Arcane Wars Beta shows 48 colors."
+        "ru": "- Списки выбора и контекстные меню блокируют прокрутку страницы под ними.\n- Исправлено выделение сообщений и пустого места после текста.\n- Добавлено понятное сообщение для просроченных ссылок Discord.\n- Исправлено повторное открытие закрывающейся карточки игрока.\n- Количество цветов в описании соответствует выбранному выпуску патча.",
+        "en": "- Dropdowns and context menus block scrolling of the page beneath them.\n- Fixed message selection and selection of empty space after text.\n- Added a clear explanation for expired Discord links.\n- Fixed reopening a player card while it is closing.\n- Color counts in descriptions match the selected patch release."
       }
     },
     {
@@ -70,8 +70,8 @@
         "en": "Paw's Launcher 0.8.1 — game languages and chat improvements"
       },
       "body": {
-        "ru": "- Добавлены немецкий и французский текст и озвучка игры. Текст и озвучку можно выбирать независимо для Vanilla, Immortals и Arcane Wars.\n- Добавлен чешский и украинский текст основной игры, Immortals, Arcane Wars и Paw's Patch в обоих каналах. Немецкий и французский переводы также охватывают дополнения модов и патча. Чешская и украинская озвучка в этот выпуск не входят.\n- Добавлен украинский интерфейс лаунчера. Дополнены переводы описаний функций Paw's Patch; названия игровых цветов и дополнительные окна патча используют выбранный язык текста игры.\n- Шрифты с чешскими и украинскими символами устанавливаются вместе с соответствующей локализацией. Исправлены ошибки запуска новых языков, пропущенные фразы, названия ИИ и неточные игровые термины; для сверки использованы официальные локализации.\n- Для звука уведомлений поддерживаются WAV, MP3, OGG/Vorbis, Opus, FLAC, M4A, AAC, WMA и AIFF. Лаунчер сам преобразует поддерживаемый файл в подходящий формат. Максимальная длительность — 15 секунд, исходный файл — до 20 МиБ.\n- Отправленные и полученные сообщения можно выделять мышью и копировать. При наведении на сообщение появляется небольшая кнопка копирования.\n- Повторная заявка уже добавленному другу больше не отображается как новая отправленная заявка. Для существующих и входящих заявок показывается их настоящий статус.\n- Исправлена возможная ошибка запуска матча из-за сохранённых настроек лобби, несовместимых с выбранной конфигурацией. Перед исправлением сохраняется резервная копия.\n- Из истории обновлений убраны повторяющиеся инструкции об обновлении.\n\nЯзыковые пакеты скачиваются по выбору и сохраняются для повторного использования. Игровой баланс и состав исправлений Arcane Wars 0.3.0-beta.7 сохранены; вместе с локализациями обновлены вспомогательные программы отображения текста. Новые переводы прошли проверки и игровые тесты, но замечания по формулировкам и размещению текста по-прежнему полезны.",
-        "en": "- Added German and French game text and speech, selectable independently for Vanilla, Immortals and Arcane Wars.\n- Added Czech and Ukrainian text for the base game, Immortals, Arcane Wars and Paw's Patch in both channels. German and French translations also cover mod and patch additions. Czech and Ukrainian speech is not included.\n- Added a Ukrainian launcher interface. Expanded translations of Paw's Patch feature descriptions; in-game color names and additional patch windows follow the selected game text language.\n- Fonts with Czech and Ukrainian characters are installed with the corresponding localization. Fixed new-language startup errors, missing phrases, AI names and incorrect game terms, using official localizations as references.\n- Notification sounds support WAV, MP3, OGG/Vorbis, Opus, FLAC, M4A, AAC, WMA and AIFF. Supported files are converted automatically. The duration limit is 15 seconds and the input size limit is 20 MiB.\n- Sent and received messages can be selected with the mouse and copied. A small copy button appears when hovering over a message.\n- Sending a request to an existing friend no longer reports a newly sent request. Existing outgoing and incoming requests show their actual status.\n- Fixed a possible match-start failure caused by saved lobby settings that are incompatible with the selected configuration. A backup is saved before repair.\n- Removed repetitive update instructions from the changelog.\n\nLanguage packages are downloaded as selected and cached for reuse. Game balance and the Arcane Wars 0.3.0-beta.7 fixes are retained; text-display helpers are updated alongside the localizations. New translations have passed validation and gameplay tests; wording and layout feedback remains welcome."
+        "ru": "- Добавлены немецкий и французский текст и озвучка, чешский и украинский текст игры, модов и патча.\n- Добавлен украинский интерфейс лаунчера и переводы функций патча.\n- Исправлены шрифты, ошибки запуска локализаций, пропущенные фразы и неточные термины.\n- Звуки уведомлений поддерживают WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA и AIFF: до 15 секунд и 20 МиБ.\n- Сообщения можно выделять мышью и копировать кнопкой при наведении.\n- Исправлены статусы повторных заявок в друзья.\n- Исправлен запуск матча с несовместимыми сохранёнными настройками лобби.",
+        "en": "- Added German and French text and voices, plus Czech and Ukrainian text for the game, mods and patch.\n- Added a Ukrainian launcher interface and translated patch features.\n- Fixed fonts, localization startup errors, missing phrases and inaccurate terms.\n- Notification sounds support WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA and AIFF: up to 15 seconds and 20 MiB.\n- Messages can be selected with the mouse or copied with a button on hover.\n- Fixed the status of repeated friend requests.\n- Fixed match startup with incompatible saved lobby settings."
       }
     },
     {
@@ -84,8 +84,8 @@
         "en": "Paw's Launcher 0.8.0"
       },
       "body": {
-        "ru": "- Архив диагностики собирает пять последних доступных комплектов журналов игры и пять дампов, а также отдельные дампы и отчёты Windows. Добавлен поиск в VirtualStore, сбор журнала графической защиты и отчёт о найденных файлах, недоступных папках и ошибках чтения. Если файлов меньше пяти, сохраняются все доступные. Сбор и упаковка выполняются в фоне.\n- Добавлены чешский, немецкий и французский языки интерфейса. Выбор языка стал компактнее и получил значок перевода; названия языков интерфейса всегда написаны на своём языке. Названия языков текста и озвучки игры следуют языку лаунчера, а английский отмечен как оригинал.\n- Свою карточку игрока можно открыть нажатием на аватар в чате, имя в профиле или свою строку в подробностях матча. Из карточки доступен просмотр своего аватара.\n- Карточки участников матча имеют одинаковую высоту; игровой ник отображается рядом с именем. Таймер матча обновляется локально между ответами сервера; без свежих данных отсчёт останавливается через 40 секунд.\n- Если применённые настройки и версия патча уже совпадают с конфигурацией друга, повторное копирование недоступно. При необходимости установки или обновления соответствующее действие остаётся доступным.\n\nНекоторые описания модов и история обновлений в прежнем формате RU/EN показываются на английском при выборе новых языков интерфейса.\n\nУже существующие журналы и дампы можно собрать без повторного запуска игры. Лаунчер не создаёт задним числом отсутствующие дампы и не включает их запись в Windows: архив помогает установить причину, но сам по себе не исправляет вылет. Изменения игрового патча Arcane Wars 0.3.0-beta.5 распространяются отдельно.",
-        "en": "- Diagnostic archives collect the five newest available game log sets and five game dumps, plus separate Windows dumps and reports. Collection now checks VirtualStore and includes the graphics-guard log and a report of found files, inaccessible folders and read failures. If fewer than five files exist, all available files are included. Collection and compression run in the background.\n- Added Czech, German and French interface languages. The compact language selector has a translation icon, and interface language names always use their own language. Game text and speech language names follow the launcher language; English is marked as original.\n- Open your own player card from your chat avatar, profile name or entry in match details, and preview your avatar from that card.\n- Match participant cards have a consistent height, with the in-game nickname beside the profile name. Match time advances locally between server responses and stops after 40 seconds without fresh data.\n- Copying a friend's configuration is disabled when the applied settings and patch version already match. Required installation or updates remain available.\n\nSome mod descriptions and update history in the older RU/EN format use English for the new interface languages.\n\nExisting logs and dumps can be collected without starting the game again. The launcher cannot recreate missing dumps and does not enable Windows dump recording: the archive helps investigate crashes but is not a crash fix. Arcane Wars game patch 0.3.0-beta.5 is distributed separately."
+        "ru": "- Расширен архив диагностики: последние журналы игры, дампы и отчёты об ошибках Windows.\n- Добавлены чешский, немецкий и французский языки интерфейса и компактный выбор языка.\n- Свою карточку и аватарку можно открыть из чата, профиля и подробностей матча.\n- Улучшены карточки участников и таймер матча.\n- Убрано повторное копирование уже применённой конфигурации друга.",
+        "en": "- Expanded diagnostic archives with recent game logs, crash dumps and Windows error reports.\n- Added Czech, German and French interfaces and a compact language picker.\n- Open your player card and avatar from chat, your profile or match details.\n- Improved participant cards and the match timer.\n- Prevented copying a friend’s configuration when it is already applied."
       }
     },
     {
@@ -98,8 +98,8 @@
         "en": "Paw's Launcher 0.7.12"
       },
       "body": {
-        "ru": "- Подсказка частоты блуждающих рот учитывает исключение для Тёмного лорда: в новых выпусках Arcane Wars на ×4 его параметры совпадают с ×2 — 6 минут и 30%.\n- Подсказка использует описание выбранного канала или архивного выпуска и обновляется при переключении.\n- Подготовлены Paw's Patch 0.2.1 для релизного Arcane Wars и 0.3.0-beta.4 для беты. В бете также исправлено открытие ополчения стартового города при включённой настройке.",
-        "en": "- The roaming-frequency tooltip documents the Shadow Lord exception: in the new Arcane Wars patches, ×4 uses its ×2 settings of 6 minutes and 30%.\n- The tooltip follows the selected channel or archived release and refreshes when switching.\n- Paw's Patch 0.2.1 for stable Arcane Wars and 0.3.0-beta.4 for Beta are available. Beta also fixes starting-city militia opening when its preference is enabled."
+        "ru": "- Подсказка частоты блуждающих рот учитывает исключение для Тёмного лорда: на ×4 — попытка каждые 6 минут с шансом 30%.\n- Описания обновляются при выборе канала и архивного выпуска.",
+        "en": "- The roaming-company tooltip explains the Dark Lord exception: at ×4, a spawn attempt every 6 minutes with a 30% chance.\n- Descriptions update when selecting a channel or archived release."
       }
     },
     {
@@ -114,8 +114,8 @@
         "en": "Arcane Wars — Paw's Patch 0.2.1"
       },
       "body": {
-        "ru": "- При частоте блуждающих рот ×4 Тёмный лорд из Тёмного разлома (Врат теней) теперь использует частоту ×2: попытка каждые 6 игровых минут с шансом 30%, вместо 4 минут и 40%.\n- Исключение относится к Тёмному лорду при включённых «Новых блуждающих ротах». У остальных рот частота ×4 сохраняется. Режимы ×2 и стандартный не меняются.\n- Исключение указано в справке и подсказке частоты.",
-        "en": "- At roaming frequency ×4, the Shadow Lord from the Dark Rift now uses ×2 frequency: one attempt every 6 game minutes with a 30% chance, replacing 4 minutes and 40%.\n- This exception applies to the Shadow Lord with Additional roaming companies enabled. Other companies keep ×4 frequency. Standard and ×2 modes are unchanged.\n- The exception is documented in the guide and frequency tooltip."
+        "ru": "- При частоте блуждающих рот ×4 Тёмный лорд появляется по правилам ×2: попытка каждые 6 минут с шансом 30%.",
+        "en": "- At ×4 roaming frequency, the Dark Lord uses the ×2 rate: a spawn attempt every 6 minutes with a 30% chance."
       }
     },
     {
@@ -128,8 +128,8 @@
         "en": "Paw's Launcher 0.7.11"
       },
       "body": {
-        "ru": "- Обводка аватарки при наведении больше не перекрывает кружок статуса. После закрытия просмотра аватарки обводка исчезает, если курсор находится в другом месте. Для навигации клавиатурой сохранён отдельный указатель фокуса.\n- Подсказки Paw's Patch для Vanilla и Immortals обновляются при смене мода и канала. Они используют описание выбранного выпуска, даже если локально сохранён более старый пакет. При явном выборе архивного выпуска показываются его возможности.\n- В актуальных релизном и бета-каналах указаны камера на WASD и стрелках и союзная метка на F в профиле Dvorak. В бета-каналах также указана быстрая передача сохранений участникам сетевого лобби. При несовместимой версии игры эта функция отмечается как недоступная.\n- В подсказках Vanilla и Immortals больше не показывается авторство Arcane Wars.\n\nЭто исправления интерфейса. Переустанавливать моды или игровой патч не требуется.",
-        "en": "- Hovering over a profile avatar no longer draws its outline over the status dot. Closing the avatar preview clears the outline when the pointer is elsewhere. Keyboard navigation retains a separate focus indicator.\n- Paw's Patch tooltips for Vanilla and Immortals refresh when changing the mod or channel. They use the selected release's documentation even when an older package is cached locally. Explicitly selecting an archived release shows that release's features.\n- Current stable and beta tooltips include WASD and arrow-key camera controls and the F allied map marker in the Dvorak profile. Beta tooltips also include faster saved-game transfers to multiplayer lobby participants. That feature is listed as unavailable for incompatible game versions.\n- Vanilla and Immortals tooltips no longer include Arcane Wars author credits.\n\nThese are interface fixes. Reinstalling mods or the game patch is not required."
+        "ru": "- Исправлена обводка аватарки при наведении и закрытии просмотра.\n- Подсказки Vanilla и Immortals соответствуют выбранному моду, каналу и выпуску.\n- Из подсказок Vanilla и Immortals убрано ошибочное авторство Arcane Wars.",
+        "en": "- Fixed avatar hover outlines and outlines left after closing the viewer.\n- Vanilla and Immortals tooltips match the selected mod, channel and release.\n- Removed incorrect Arcane Wars attribution from Vanilla and Immortals tooltips."
       }
     },
     {
@@ -142,8 +142,8 @@
         "en": "Paw's Launcher 0.7.10"
       },
       "body": {
-        "ru": "- В сведениях об участниках лобби и матча «Подраса» переименована во «Фракцию»; в английском интерфейсе используется Faction.\n- В блоке «Установлено» рядом с названием всегда показывается версия установленного мода: например, Immortals 2.1 или Arcane Wars 0.82.1.8. Для Vanilla показывается фактическая версия игры.\n- Если Paw's Patch применён, его название и версия отображаются отдельной строкой под модом. При выключенном патче остаётся строка мода с версией. Выбор другого режима без применения настроек не меняет сведения об установленном моде.\n\nПереустанавливать моды или игровой патч не требуется.",
-        "en": "- Renamed Subrace to Faction in lobby and match participant details, including Russian labels and tooltips.\n- Installed now shows the installed mod name and version, such as Immortals 2.1 or Arcane Wars 0.82.1.8. Vanilla displays the actual game version.\n- When applied, Paw's Patch and its version appear on a separate line below the mod. Turning the patch off leaves the mod and its version visible. Selecting another mode without applying settings does not change the installed information.\n\nReinstalling mods or the game patch is not required."
+        "ru": "- «Подраса» переименована во «Фракцию» в сведениях об участниках.\n- В блоке «Установлено» показываются версии мода и применённого Paw’s Patch.",
+        "en": "- Renamed Subrace to Faction in participant details.\n- The Installed panel shows the mod version and applied Paw’s Patch version."
       }
     },
     {
@@ -156,8 +156,8 @@
         "en": "Paw's Launcher 0.7.9"
       },
       "body": {
-        "ru": "- Исправлено распознавание самого игрока в списке участников лобби и матча. Его игровой ник связывается с профилем лаунчера, даже если отличается от имени в профиле или игрок играет один с ботами.\n- Под именами участников показываются раса и подраса. В лобби случайный выбор отображается как «Случайно» отдельно для каждого параметра; после начала матча показываются фактические значения.\n- В окне «Сейчас в игре» увеличены отступы между карточками участников, полосой прокрутки и правым краем окна.\n\nЧтобы появились новые сведения, лаунчер должен быть обновлён и у игрока, который передаёт статус. Игровой патч переустанавливать не требуется.",
-        "en": "- Fixed recognition of the local player in lobby and match rosters. Their in-game nickname is linked to their launcher profile even when the names differ or they play alone against bots.\n- Participant rows show race and subrace. Random lobby choices remain independently marked as Random; matches show the actual assigned values.\n- Added space between participant cards, the scrollbar, and the right edge of the current game activity dialog.\n\nThe player sharing their activity also needs the updated launcher to send these details. Reinstalling the game patch is not required."
+        "ru": "- Исправлено сопоставление игрового ника с профилем лаунчера.\n- Добавлены раса и подраса участников лобби и матча.\n- Увеличены отступы между карточками в окне «Сейчас в игре».",
+        "en": "- Fixed matching in-game names to launcher profiles.\n- Added participant race and subrace to lobby and match details.\n- Improved spacing between cards in the In game window."
       }
     },
     {
@@ -170,8 +170,8 @@
         "en": "Paw's Launcher 0.7.8"
       },
       "body": {
-        "ru": "- Нажмите на аватарку в профиле игрока, чтобы открыть компактный просмотр. Закрытие крестиком, Esc или щелчком снаружи возвращает в тот же профиль. Кнопки под фотографией не срабатывают.\n- Просмотр использует уже загруженную фотографию; дополнительная загрузка с сервера не нужна.\n- Для Vanilla и Immortals доступны отдельные бета-каналы Paw's Patch. Описания компонентов учитывают выбранную версию патча и доступность функций для установленной игры.\n- Исправлено определение бета-канала: старый каталог с копией релизного патча больше не принимается за отдельную бету.\n\nОбновления игровых патчей распространяются отдельно: Vanilla и Immortals 0.1.1 добавляют WASD, стрелки и союзную метку F в раскладку Dvorak, а 0.2.0-beta.1 также включает ускоренную штатную передачу сохранений. Arcane Wars 0.3.0-beta.3 обновляет автопостройку и управление ополчением новых городов. Подробности находятся в справке выбранного мода.",
-        "en": "- Click a player's profile avatar to open a compact preview. Close it with the X, Esc, or an outside click to return to the same profile. Controls behind the image do not receive the click.\n- The preview reuses the downloaded photo without an extra server request.\n- Vanilla and Immortals have separate Paw's Patch Beta channels. Component descriptions follow the selected patch version and the installed game's feature compatibility.\n- Fixed Beta detection: an old catalog containing a copy of a stable patch no longer counts as a distinct Beta.\n\nGame patches update separately: Vanilla and Immortals 0.1.1 add WASD, arrow keys, and the F allied marker to the Dvorak profile; 0.2.0-beta.1 also enables faster native save transfers. Arcane Wars 0.3.0-beta.3 updates construction automation and militia control for new cities. See the selected mod's guide for details."
+        "ru": "- Добавлен компактный просмотр аватарки из профиля игрока.\n- Для Vanilla и Immortals появились отдельные бета-каналы Paw’s Patch.\n- Исправлены определение бета-канала и описания доступных компонентов.",
+        "en": "- Added a compact avatar viewer to player profiles.\n- Added separate Paw’s Patch Beta channels for Vanilla and Immortals.\n- Fixed Beta channel detection and descriptions of available components."
       }
     },
     {
@@ -186,8 +186,8 @@
         "en": "Vanilla — Paw's Patch 0.1.1"
       },
       "body": {
-        "ru": "- Для Vanilla и Immortals добавлено управление камерой на WASD в профиле Dvorak. Стрелки сохраняются, F выбирает союзную метку. Прежняя команда на A освобождена для камеры; остальные позиционные клавиши и клавиши построения сохранены.\n- Профиль Dvorak выбирается в настройках самой игры. Патч не переключает профиль автоматически. Исправление одинаково работает с английским и русским текстом, включая режим «Только игровые файлы».\n- Сохраняются исправленные значки рот, отображение нуля вместо отрицательного нуля, инициализация параметра рельефа и версия патча в меню. Игровые правила выбранного режима сохраняются.\n- Исправления включаются компонентом Paw's Patch отдельно для каждого режима. Нативные исправления требуют поддерживаемого EXE Kohan II 1.3.72; файловые исправления управления и значков доступны независимо от него.",
-        "en": "- Vanilla and Immortals gain WASD camera controls in the Dvorak profile. Arrow controls remain available, and F selects the allied marker. The old A action is freed for camera movement; the other positional and formation bindings are retained.\n- Select Dvorak in the game's settings. The patch does not switch profiles automatically. The correction works with English or Russian text, including file-only mode.\n- Retains corrected company badges, zero display in place of negative zero, terrain-parameter initialization and the patch version in the menu. The selected mode's game rules are preserved.\n- Enable the Paw's Patch component separately for each mode. Native fixes require the supported Kohan II 1.3.72 executable; the control and badge data fixes are executable-independent."
+        "ru": "- В профиле Dvorak добавлено управление камерой на WASD и выбор союзной метки клавишей F.",
+        "en": "- Added WASD camera controls and F to select the allied marker in the Dvorak profile."
       }
     },
     {
@@ -202,8 +202,8 @@
         "en": "Immortals — Paw's Patch 0.1.1"
       },
       "body": {
-        "ru": "- Для Vanilla и Immortals добавлено управление камерой на WASD в профиле Dvorak. Стрелки сохраняются, F выбирает союзную метку. Прежняя команда на A освобождена для камеры; остальные позиционные клавиши и клавиши построения сохранены.\n- Профиль Dvorak выбирается в настройках самой игры. Патч не переключает профиль автоматически. Исправление одинаково работает с английским и русским текстом, включая режим «Только игровые файлы».\n- Сохраняются исправленные значки рот, отображение нуля вместо отрицательного нуля, инициализация параметра рельефа и версия патча в меню. Игровые правила выбранного режима сохраняются.\n- Исправления включаются компонентом Paw's Patch отдельно для каждого режима. Нативные исправления требуют поддерживаемого EXE Kohan II 1.3.72; файловые исправления управления и значков доступны независимо от него.",
-        "en": "- Vanilla and Immortals gain WASD camera controls in the Dvorak profile. Arrow controls remain available, and F selects the allied marker. The old A action is freed for camera movement; the other positional and formation bindings are retained.\n- Select Dvorak in the game's settings. The patch does not switch profiles automatically. The correction works with English or Russian text, including file-only mode.\n- Retains corrected company badges, zero display in place of negative zero, terrain-parameter initialization and the patch version in the menu. The selected mode's game rules are preserved.\n- Enable the Paw's Patch component separately for each mode. Native fixes require the supported Kohan II 1.3.72 executable; the control and badge data fixes are executable-independent."
+        "ru": "- В профиле Dvorak добавлено управление камерой на WASD и выбор союзной метки клавишей F.",
+        "en": "- Added WASD camera controls and F to select the allied marker in the Dvorak profile."
       }
     },
     {
@@ -215,8 +215,8 @@
         "en": "Paw's Launcher 0.7.7 — participant avatars and profiles"
       },
       "body": {
-        "ru": "- Исправлены границы развёрнутого окна: панель задач Windows больше не закрывает нижние кнопки лаунчера, в том числе на дополнительных мониторах.\n- Нажатие на аватарку внутри уже открытого профиля больше не переоткрывает его и не повторяет анимацию.\n- У распознанных участников лобби и матча показываются аватарки. Нажатие на карточку открывает профиль; цвет игрока сохраняется на аватарке.\n- В профиле игрока не из друзей доступна кнопка «Добавить в друзья». Входящую заявку можно принять, а отправленная помечается как ожидающая ответа.\n- Аватарки сохраняются в памяти и скачиваются повторно только после изменения. Закрытые окна не открываются заново из-за запоздавшей загрузки.",
-        "en": "- Fixed maximized window bounds: the Windows taskbar no longer covers the launcher's bottom controls, including on secondary monitors.\n- Clicking the avatar inside an open profile no longer reopens it or restarts its animation.\n- Recognized lobby and match participants display their avatars. Click a participant card to open their profile; the game color remains visible on the avatar.\n- Profiles of players outside your friends list now offer Add friend. Incoming requests can be accepted and outgoing requests show their pending status.\n- Avatars are cached in memory and downloaded again after a revision changes. Late downloads cannot reopen a closed profile."
+        "ru": "- Развёрнутое окно больше не перекрывается панелью задач Windows.\n- В подробностях лобби и матча появились аватарки участников и переход в профиль.\n- Из профиля можно отправить или принять заявку в друзья.\n- Исправлены повторное открытие профиля и лишняя загрузка аватарок.",
+        "en": "- The Windows taskbar no longer covers controls in a maximized launcher.\n- Added participant avatars and profile links to lobby and match details.\n- Friend requests can be sent or accepted from profiles.\n- Fixed repeated profile opening and unnecessary avatar downloads."
       }
     },
     {
@@ -228,8 +228,8 @@
         "en": "Paw's Launcher 0.7.6 — teams and detailed game activity"
       },
       "body": {
-        "ru": "Исправлено определение подробного статуса игры при запуске через помощники патча.\nСлужебный или завершающийся процесс больше не мешает лаунчеру найти саму игру.\n\nВ обновление входят нововведения 0.7.5: список участников по командам с игровыми\nцветами, отдельная иконка бота, подробности лобби и матча и сохранение выбранных\nкомпонентов при отключении Paw's Patch. Случайный цвет показывается серым маркером,\nпока игра не назначит его при старте матча. Серверная поддержка включена.",
-        "en": "Fixed detailed game activity detection when starting through patch helpers.\nA helper or exiting Steam bootstrap no longer prevents the launcher from finding\nthe native game process.\n\nIncludes the 0.7.5 changes: participants grouped by team with in-game colors,\na dedicated bot icon, lobby/match details, and remembered optional components\nwhen Paw's Patch is disabled. Random colors use a neutral marker until the game\nassigns them at match start. Backend support is enabled."
+        "ru": "- Исправлено определение подробного статуса запущенной игры.",
+        "en": "- Fixed detection of detailed activity for a running game."
       }
     },
     {
@@ -241,8 +241,8 @@
         "en": "Paw's Launcher 0.7.5 — teams and detailed game activity"
       },
       "body": {
-        "ru": "При выключении Paw's Patch в Arcane Wars лаунчер запоминает выбранные дополнительные\nкомпоненты. Повторное включение возвращает прежний набор, даже после применения\nнастроек и перезапуска. Пока основной патч выключен, дополнительные компоненты\nпо-прежнему отключены и недоступны. Языки текста и озвучки не меняются.\n\nИз подсказки Paw's Team убрана фраза о правах администратора.\n\nДобавлен подробный статус игры: под временем игры можно увидеть меню, лобби,\nматч или редактор и открыть подробности с участниками, временем матча и размером\nкарты. Участники сгруппированы по командам, рядом показаны их игровые цвета.\nДля компьютера используется отдельная иконка бота. Случайный цвет до начала матча\nпоказывается серым маркером с пояснением. Аккаунты сопоставляются по игровой сессии и\nместу участника. По одному совпавшему нику аккаунт не определяется. Подробный статус\nможно отключить в настройках. При неизвестной версии игры остаётся общий статус\n«Играет». Серверная поддержка уже включена.",
-        "en": "Turning off Paw's Patch in Arcane Wars now remembers the selected optional\ncomponents. Turning it back on restores the selection, including after applying\nsettings and restarting the launcher. Dependent components remain disabled while\nthe main patch is off. Text and voice languages are preserved.\n\nThe Paw's Team tooltip no longer mentions administrator permissions.\n\nDetailed game activity is now available: menu, lobby, match or editor, with a details\ndialog for participants, match time and map dimensions. Participants are grouped by\nteam with their in-game colors. Computer players have a dedicated bot icon; random\ncolors use a neutral marker until the match assigns them. Bots are labelled separately;\naccount matching uses the game session and participant slot, never just a matching\nnickname. Sharing can be disabled in Settings. Unknown game versions retain the\ngeneral Playing status. Backend support is now enabled."
+        "ru": "- Выбранные компоненты Arcane Wars восстанавливаются после повторного включения Paw’s Patch.\n- Добавлен подробный статус игры: меню, лобби, матч или редактор.\n- В подробностях показываются команды, участники, игровые цвета, время матча и размер карты.\n- Подробный статус можно отключить в настройках.\n- Уточнена подсказка Paw’s Team.",
+        "en": "- Selected Arcane Wars components are restored when Paw’s Patch is enabled again.\n- Added detailed game status: menu, lobby, match or editor.\n- Details show teams, participants, player colors, match time and map size.\n- Detailed status sharing can be disabled in Settings.\n- Updated the Paw’s Team tooltip."
       }
     },
     {
@@ -254,8 +254,8 @@
         "en": "Paw's Launcher 0.7.4 — components and repeated notifications"
       },
       "body": {
-        "ru": "Блок слева внизу теперь называется «Установлено». Он показывает название применённого мода, а на второй строке — Paw's Patch и его версию, если патч включён. Без патча остаётся название мода. Выбор другой вкладки не меняет эту информацию до применения настроек.\n\nВыключение Paw's Patch в Arcane Wars выключает все дополнительные компоненты и делает их недоступными. Карточки затемняются; после включения основного патча компоненты можно выбрать заново. Языки текста и озвучки сохраняются. Правило действует также для старых сохранённых настроек и копируемых конфигураций, чтобы компоненты не запускались без основного патча.\n\nИсправлено мигание подсказки Paw's Team в карточке игрока: обновление присутствия больше не пересоздаёт неизменившуюся плашку роли.\n\nПовторное уведомление теперь только сбрасывает свой таймер на пять секунд и плавно обновляет счётчик ×2, ×3 и далее. Сама плашка не проигрывает анимацию появления заново. Для одиночного уведомления счётчик скрыт; после исчезновения или закрытия отсчёт начинается заново.",
-        "en": "The lower-left block is now named Installed. It shows the applied mod name, followed on a second line by Paw's Patch and its version when enabled. Without the patch, only the mod name is shown. Selecting another tab does not change this information until settings are applied.\n\nTurning off Paw's Patch in Arcane Wars disables all additional components and dims their cards. After re-enabling the main patch, components can be selected again. Text and speech languages are preserved. The same rule covers older saved settings and copied configurations, preventing components from running without the main patch.\n\nFixed the flickering Paw's Team tooltip on player profiles. Presence refreshes no longer recreate an unchanged role badge.\n\nRepeating a notification now only resets its five-second timer and smoothly updates a ×2, ×3 and subsequent repeat counter. The notification card no longer repeats its entrance animation. Single notices have no counter; after a notice expires or is dismissed, the count starts over."
+        "ru": "- Блок «Установлено» показывает применённый мод и версию патча.\n- Выключение Paw’s Patch отключает дополнительные компоненты Arcane Wars.\n- Исправлено мигание подсказки Paw’s Team.\n- Повторные уведомления объединяются в одну плашку со счётчиком.",
+        "en": "- The Installed panel shows the applied mod and patch version.\n- Turning off Paw’s Patch disables optional Arcane Wars components.\n- Fixed the flickering Paw’s Team tooltip.\n- Repeated notifications are combined into one card with a counter."
       }
     },
     {
@@ -267,8 +267,8 @@
         "en": "Paw's Launcher 0.7.3 — updater and installation reliability"
       },
       "body": {
-        "ru": "При нажатии «Обновить лаунчер» нижняя полоса загрузки больше не появляется на мгновение перед открытием отдельного окна обновления.\n\nВ окне загрузки обновления появилась тёмная кнопка «Отменить»: она прерывает скачивание и открывает установленную версию. Перед заменой программы отмена скрывается. При обрыве соединения текущая версия сохраняется; зависшая загрузка прекращается после 30 секунд без новых данных. Скачанная часть используется при следующей попытке, если сервер поддерживает продолжение. Обновление устанавливается только после полной загрузки и проверки файла.\n\nИсправлен сбой «Нет доступа к папке» при кратковременной блокировке файла состояния во время «Обновить и применить». Лаунчер повторяет сохранение в течение двух секунд. Если доступ остаётся закрыт, операция завершается ошибкой с откатом, а путь проблемного файла сохраняется в диагностике.\n\nУбраны двойные сообщения об одной ошибке. Повторное одинаковое уведомление теперь продлевает время уже показанного сообщения.\n\nИзменения окна обновления действуют начиная с установленной версии 0.7.3. Переход на неё из 0.7.2 выполняется прежним окном обновления.",
-        "en": "Clicking Update launcher no longer briefly displays the bottom download panel before the separate update window opens.\n\nThe update download window now has a dark Cancel button. It stops the download and opens the installed version. Cancellation is hidden before replacing the application. If the connection drops, the installed version is retained; a stalled download ends after 30 seconds without new data. Partial downloads are reused on the next attempt when the server supports resuming. Updates are installed only after the complete file has been downloaded and verified.\n\nFixed Folder access denied when the installation-state file is briefly locked during Update and apply. The launcher retries saving for up to two seconds. A persistent access failure still reports an error and rolls back the operation, with the affected file path included in diagnostics.\n\nRemoved duplicate reports of the same error. Repeating an identical notification now extends the existing notice instead of creating another copy.\n\nThe updated window is used by installed version 0.7.3 and later. Updating from 0.7.2 to this version still uses the previous update window."
+        "ru": "- Убрано мигание нижней полосы загрузки перед окном обновления.\n- Добавлены отмена и продолжение прерванной загрузки обновления.\n- Исправлена ошибка «Нет доступа к папке» при применении настроек.\n- Убраны двойные сообщения об одной ошибке.",
+        "en": "- Removed the flashing download bar before the updater opens.\n- Added cancellation and resuming of interrupted update downloads.\n- Fixed Folder access denied errors when applying settings.\n- Removed duplicate notifications for the same error."
       }
     },
     {
@@ -280,8 +280,8 @@
         "en": "Paw's Launcher 0.7.2 — retained mod selection fix"
       },
       "body": {
-        "ru": "Исправлена ошибка при переключении на сохранённый старый мод с разными языками текста и озвучки. Например, после Vanilla с русским текстом и английской озвучкой старый Arcane Wars мог показывать ошибку состояния установки и блокировать все действия.\n\nЕсли выбранные языки или компоненты требуют новых файлов, теперь доступна кнопка «Обновить и применить» с пояснением. Она обновляет выбранный мод и применяет настройки, сохраняя выбранные языки. Это работает для Arcane Wars, Immortals и Vanilla в обоих каналах.\n\nПереключение вкладок само по себе не устанавливает обновления и не меняет файлы игры. При возврате к настройкам, которые поддерживает сохранённый выпуск, снова доступно обычное применение. При отсутствии подходящего обновления или выборе старой версии показывается пояснение вместо ошибки проверки файлов.\n\nРаздельную озвучку можно выбрать и для старого установленного мода, если в каталоге уже доступен поддерживающий её выпуск. Старый каталог обновлений больше не блокирует языки, которые поддерживает сохранённая версия мода.",
-        "en": "Fixed an error when switching to a retained older mod with different text and speech languages. For example, switching from Vanilla with Russian text and English speech to an older Arcane Wars release could report an installation-state error and disable every action.\n\nWhen the selected languages or components need newer files, an explicit Update and apply button now explains and performs the required update. It updates the selected mod and applies the settings while keeping both language choices. This works for Arcane Wars, Immortals and Vanilla in both channels.\n\nSwitching tabs does not install updates or change game files. Returning to settings supported by the stored release restores the ordinary Apply action. If no suitable update is known, or an older release is pinned, the launcher explains the limitation instead of reporting a file-verification error.\n\nSeparate speech can also be selected for an older installed mod when a supporting release is already available in the catalog. An older update catalog no longer blocks languages supported by a retained mod release."
+        "ru": "- Исправлено переключение сохранённых модов с разными языками текста и озвучки.\n- Кнопка «Обновить и применить» помогает установить файлы, необходимые для выбранных языков и компонентов.",
+        "en": "- Fixed switching between retained mods with different text and voice languages.\n- Update and apply installs the files required by the selected languages and components."
       }
     },
     {
@@ -293,8 +293,8 @@
         "en": "Paw's Launcher 0.7.1 — Vanilla installation fix"
       },
       "body": {
-        "ru": "Исправлено исчезновение Paw's Patch и кнопки «Установить» у Vanilla после обновления со старого лаунчера. Пустая запись, созданная из старого каталога Arcane Wars, больше не считается установленным выпуском Vanilla и не скрывает новые компоненты и локализацию.\n\nИсправление действует и для уже затронутых установок 0.7.0: после обновления доступна обычная установка компонентов Vanilla. Сохранённые выпуски других модов и применённые настройки игры сохраняются.\n\nНазвание Vanilla теперь отображается на английском при любом языке лаунчера, включая выбор мода, справку и карточки игроков.",
-        "en": "Fixed missing Paw's Patch components and the Install button for Vanilla after upgrading an older launcher. An empty entry adopted from an old Arcane Wars catalog no longer counts as an installed Vanilla release or hides its new components and language packages.\n\nExisting affected 0.7.0 installations recover automatically after updating. Retained releases of other mods and applied game settings are preserved.\n\nThe Vanilla name now stays in English in every launcher language, including mod selection, the guide and player cards."
+        "ru": "- Восстановлены Paw’s Patch и кнопка установки Vanilla после обновления старого лаунчера.\n- Название Vanilla одинаково отображается при любом языке интерфейса.",
+        "en": "- Restored Paw’s Patch and the Vanilla install button after updating an older launcher.\n- The Vanilla name is consistent across interface languages."
       }
     },
     {
@@ -306,8 +306,8 @@
         "en": "Paw's Launcher 0.7.0 — mods, installations and chat"
       },
       "body": {
-        "ru": "Большое обновление: выбор модов, сохранённые установки и общая справка. Paw's Patch остаётся отдельным, отключаемым компонентом игры.\n\n- Vanilla, Immortals и Arcane Wars. Моды выбираются вверху компонентов. При первой установке сохраняются мод и доступные компоненты патча; уже скачанные выпуски можно переключать без повторной загрузки. Выбор становится действующим после применения настроек. Пока есть изменения, запуск игры заблокирован, а кнопка применения выделена.\n- Отдельные обновления модов. Релиз и Бета выбираются для каждого мода. Предложение обновить патч относится к установленному выпуску выбранного мода. Неустановленный мод предлагает установку. Для оригинальной игры и Immortals доступны отключаемые исправления Paw's Patch 0.1.0.\n- Язык текста и озвучки игры. English и Русский выбираются отдельно и сохраняются при переключении модов, включая Vanilla. Скачивается только выбранная локализация; готовые пакеты используются повторно. Исправлены русские шрифты Vanilla и Immortals, дополнены недостающие переводы Immortals. Язык самого лаунчера перенесён в настройки.\n- Обновление до открытия лаунчера. Отдельное компактное окно появляется на нужном мониторе, проверяет новую версию, показывает процент, размер и скорость загрузки. Без сети через 10 секунд появляется кнопка открытия, а через 30 секунд запускается установленный лаунчер. Ручное обновление использует то же окно. При сбое обновления предусмотрен возврат предыдущей версии.\n- Совместимость с версией игры. Внизу показана установленная версия. При несовпадении объясняется, что нужно обновить, а изменения EXE становятся недоступны. Файловые исправления остаются доступны; окно компонента перечисляет работающие и недоступные функции. Проверка учитывает сохранённый патч каждого мода.\n- Обновлённый интерфейс. Компактная загрузка с раскрывающимися подробностями, плавные окна, закрытие по клику снаружи без нажатия кнопок под ними, уведомления на пять секунд, отметки непрочитанной истории, Discord в верхней панели. Удаление лаунчера предлагает также удалить установленные моды и патч.\n- Общая справка и история изменений. Описания модов, их авторы, нововведения и справка по патчам объединены. История фильтруется по моду, источнику и каналу. Тексты справки и истории могут обновляться без новой версии EXE.\n- Друзья и чаты. Сохранённые чаты открываются из кеша и обновляются с сервера. Добавлены даты и разделитель новых входящих сообщений, оригинальные смайлики Kohan II и выбор нескольких смайликов с Shift. Обычные Ctrl+A/C/V работают. Исправлены расположение значков, карточки игроков, загрузка списка друзей при входе и подтверждения действий.\n- Копирование конфигурации. Карточка показывает мод и канал; язык игры не копируется. Подтверждение предлагает установить или обновить нужный выпуск и применить настройки. Конфигурации игрока с устаревшим либо неизвестным совместимым выпуском нельзя скопировать; причина показана рядом.\n- Соединение и аккаунт. Плашка потери связи не сдвигает интерфейс; сетевые действия недоступны до восстановления соединения. Исправлено восстановление сохранённого входа без сети. Заблокированный пользователь не может удалить аккаунт; ограничение почты сохраняется до окончания бана.\n- Диагностика. Архив включает ограниченный журнал действий, сведения о системе и видеодрайвере, выбранные и применённые настройки, состояние установок и обновления. Журнал не записывает пароли, содержимое сообщений или отдельные нажатия клавиш и не отправляется автоматически.\n\nArcane Wars пока доступен в лаунчере администраторам и участникам Paw's Team. Ранее подтверждённый участник может без сети запускать и переключать уже установленный выпуск. Для новой установки и обновлений требуется соединение. Авторы модов: Immortals — MartialDoctor; Arcane Wars — Darquan Mortis. Моды не являются частью авторства Paw's Patch.\n\nВерсии патчей: оригинальная игра и Immortals — 0.1.0; Arcane Wars — 0.2.0 (Релиз) и 0.3.0-beta.2 (Бета). Компонент баланса осадных машин в Arcane Wars добавляет расход 0,75 очка королевства четырём улучшенным машинам; стоимость в золоте, ресурсное содержание и атаки соответствуют исходному моду.",
-        "en": "A major update with mod selection, retained installations and a unified guide. Paw's Patch remains a separate, optional game component.\n\n- Vanilla, Immortals and Arcane Wars: install and retain mods with their available patch components, then switch cached releases without downloading them again. Selections take effect when applied. Pending changes highlight Apply and disable game launch.\n- Updates per mod: Release/Beta preferences and patch updates belong to each installed mod. Uninstalled mods offer installation. Vanilla and Immortals gain optional Paw's Patch 0.1.0 fixes.\n- Independent game text and speech: choose English or Russian; preferences survive mod switches, including Vanilla. Only selected language packages are downloaded and then cached. Fixed Russian fonts and completed missing Immortals translations. Launcher language is in Settings.\n- Startup updater: a compact window on the launcher monitor checks and installs updates with percentage, size and speed. When offline, Open launcher appears after 10 seconds and the installed version opens automatically after 30 seconds. Manual updates use the same window; failed updates can roll back.\n- Game compatibility: the installed game version and appropriate update advice are shown. Unsupported executable changes are disabled while file-only fixes remain available. Compatibility follows each retained mod release.\n- Interface: expandable compact download details, animated dialogs, outside-click dismissal that consumes the click, five-second notifications, unread history indicators and a top-bar Discord button. Uninstall offers to remove mods and patches too.\n- Unified help and history: mod descriptions, authors, additions and patch documentation, with history filters for mod, source and channel. Documentation can update independently of the EXE.\n- Friends and chat: cached conversations refresh from the server; date and unread separators, Kohan II emoji with Shift multi-selection, working Ctrl+A/C/V, refined badges and player cards, reliable account-startup loading and action confirmations.\n- Configuration copying: mod/channel information and an install/update-and-apply confirmation. Game language is not copied. Outdated or unverifiable peer versions block copying with an explanation.\n- Connection and accounts: an offline banner without layout shifts, network controls disabled until reconnection, reliable remembered-account restoration offline, and ban-aware account deletion with the email ban retained.\n- Diagnostics: bounded action history, system/GPU driver information, selected/applied settings, installation and update state. The journal excludes passwords, message contents and individual keystrokes and is never uploaded automatically.\n\nArcane Wars is currently available to administrators and Paw's Team. Previously verified members may use already installed releases offline; new installations and updates require a connection. Mod authors: Immortals — MartialDoctor; Arcane Wars — Darquan Mortis. Mod authorship is separate from Paw's Patch.\n\nPatch versions: Vanilla and Immortals 0.1.0; Arcane Wars Release 0.2.0 / Beta 0.3.0-beta.2. Its siege option adds 0.75 kingdom-point upkeep to four upgraded engines, retaining the original mod's gold costs, resource upkeep and attacks."
+        "ru": "- Добавлен выбор Vanilla, Immortals и Arcane Wars с отдельными каналами обновлений.\n- Скачанные моды можно переключать без повторной загрузки.\n- Текст и озвучка игры выбираются независимо. Исправлены русские шрифты и дополнен перевод Immortals.\n- Добавлено отдельное окно обновления лаунчера с прогрессом и скоростью загрузки.\n- Обновлены интерфейс, уведомления и история изменений с фильтрами.\n- Улучшены чаты, смайлики, список друзей и копирование конфигурации.\n- Исправлены восстановление входа и работа без соединения.\n- Расширен архив диагностики.",
+        "en": "- Added Vanilla, Immortals and Arcane Wars selection with separate update channels.\n- Downloaded mods can be switched without downloading them again.\n- Game text and voices can be selected independently. Fixed Russian fonts and expanded the Immortals translation.\n- Added a dedicated launcher updater with download progress and speed.\n- Updated the interface, notifications and filterable change history.\n- Improved chats, emoticons, friends and configuration copying.\n- Fixed sign-in recovery and offline behavior.\n- Expanded diagnostic archives."
       }
     },
     {
@@ -322,8 +322,8 @@
         "en": "Russian language and focused fixes"
       },
       "body": {
-        "ru": "Исправлено чтение русских строк. В компоненте Paw's Patch доступны исправления цветов значков рот, отображения «−0» в лимите рот и инициализации рельефа. Для исправлений движка требуется поддерживаемая 1.3.72; файловые исправления остаются доступны отдельно.",
-        "en": "Fixed Russian string loading. Paw's Patch offers company-badge colors, negative-zero display and terrain initialization fixes. Engine fixes require the supported 1.3.72 executable; file fixes remain separately available."
+        "ru": "- Исправлены русские строки, цвета значков рот, отображение «−0» и инициализация рельефа.",
+        "en": "- Fixed Russian text, company badge colors, negative-zero display and terrain initialization."
       }
     },
     {
@@ -338,8 +338,8 @@
         "en": "Russian language and focused fixes"
       },
       "body": {
-        "ru": "Исправлено чтение русских строк. В компоненте Paw's Patch доступны исправления цветов значков рот, отображения «−0» в лимите рот и инициализации рельефа. Для исправлений движка требуется поддерживаемая 1.3.72; файловые исправления остаются доступны отдельно.",
-        "en": "Fixed Russian string loading. Paw's Patch offers company-badge colors, negative-zero display and terrain initialization fixes. Engine fixes require the supported 1.3.72 executable; file fixes remain separately available."
+        "ru": "- Исправлены русские строки, цвета значков рот, отображение «−0» и инициализация рельефа.",
+        "en": "- Fixed Russian text, company badge colors, negative-zero display and terrain initialization."
       }
     },
     {
@@ -351,8 +351,8 @@
         "en": "Refreshed Friends and quick save sharing"
       },
       "body": {
-        "ru": "Постоянный поиск и отдельные окна заявок, добавления друзей, рассылки и блокировок. Чаты плавно поднимаются по новым входящим и исходящим сообщениям без потери черновика. «Отправить сейв» в папке игры сразу открывает выбор файла и закрывает рассылку после полной успешной отправки; обычная рассылка остаётся открытой. Регистрация подтверждается шестизначным кодом с автоматическим входом. Более крупный размер окна применяется один раз, затем снова сохраняется выбранный размер. В истории первыми открываются изменения лаунчера, отдельно доступны Релиз и Бета. Исправлена повторная ошибка чтения кода завершения игры. Игровые пакеты и настройки компонентов не изменились.",
-        "en": "Permanent search and separate dialogs for requests, adding friends, broadcast and blocked users. Chats move smoothly to the top for new incoming and outgoing messages without losing drafts. Game folder / Send save opens the file picker immediately and closes the broadcast after complete success; normal broadcasts stay open. Registration uses a six-digit email code with automatic sign-in. A larger default window is applied once, then user resizing is remembered again. Changelog opens on Launcher, with separate Release and Beta tabs. Fixed repeated game exit-code logging errors. Game packages and component settings are unchanged."
+        "ru": "- Добавлены постоянный поиск и отдельные окна заявок, друзей, рассылки и блокировок.\n- Чаты поднимаются по новым сообщениям, сохраняя черновик.\n- Упрощена отправка сейвов из папки игры.\n- Добавлены подтверждение регистрации кодом и автоматический вход.\n- Улучшены размер окна и навигация по истории.\n- Исправлена ошибка определения завершения игры.",
+        "en": "- Added persistent search and separate dialogs for requests, friends, broadcasts and bans.\n- Chats move up with new messages while keeping drafts.\n- Simplified sending saves from the game folder.\n- Added registration confirmation by code and automatic sign-in.\n- Improved window sizing and history navigation.\n- Fixed an error when detecting game exit."
       }
     },
     {
@@ -364,8 +364,8 @@
         "en": "Smooth download progress"
       },
       "body": {
-        "ru": "Полоса плавно заполняется при обновлении лаунчера и скачивании пакетов патча. Переходы между показаниями не меняют реальные данные загрузки; смена файла и отмена корректно сбрасывают анимацию. На этапе установки без известного процента сохраняется непрерывный индикатор. Настройки, язык и игровые файлы не изменились.",
-        "en": "Progress fills smoothly during launcher updates and patch package downloads. Transitions preserve real transfer measurements; switching files and cancellation reset the animation correctly. Installation stages without a known percentage retain the indeterminate indicator. Settings, language and game files are unchanged."
+        "ru": "- Добавлено плавное заполнение полосы загрузки при обновлении лаунчера и скачивании пакетов.",
+        "en": "- Added smooth download progress for launcher and package updates."
       }
     },
     {
@@ -377,8 +377,8 @@
         "en": "Pinned administration navigation"
       },
       "body": {
-        "ru": "Вкладки администрирования, кнопка обновления, поиск и время проверки остаются сверху. Прокручивается только содержимое вкладки, поэтому переключаться можно даже из конца списка. Сохранены плавная прокрутка и переходы. Игровые файлы и настройки не изменились.",
-        "en": "Administration tabs, refresh, search and check time stay at the top. Only the selected tab's content scrolls, so navigation remains available at the bottom of long lists. Smooth scrolling and transitions are preserved. Game files and settings are unchanged."
+        "ru": "- Вкладки, поиск и кнопки администрирования остаются видимыми при прокрутке списков.",
+        "en": "- Administration tabs, search and controls remain visible while scrolling lists."
       }
     },
     {
@@ -390,8 +390,8 @@
         "en": "Friends, profiles and sharing in the launcher"
       },
       "body": {
-        "ru": "Аккаунты с аватарками, именами и username; восстановление пароля кодом. Чаты, заявки, статусы, предложения конфигураций и передача сейвов, включая рассылку нескольким друзьям. Компактный интерфейс, плавная прокрутка, настраиваемые звуковые уведомления и кнопка возврата вниз чата. Админ-панель со статусами сервисов, ресурсами и модерацией. Добавлены два пакета частоты блуждающих рот ×2; остальные игровые пакеты не изменились. Исправлены очистка временных сейвов и обновлятор. Если старая 0.5.8 в очень глубокой папке откатывает обновление, закройте её и однократно замените EXE файлом выпуска 0.6.0.",
-        "en": "Accounts with avatars, display names and usernames; password recovery by code. Chats, friend requests, presence, configuration offers and save transfers, including sharing with several friends. Compact interface, smooth scrolling, customizable notification audio and a jump-to-latest chat button. Administration with service status, resources and moderation. Two ×2 roaming profiles are included; existing gameplay packages are unchanged. Temporary-save cleanup and the updater are fixed. If old 0.5.8 rolls back an update from a very deep folder, close it and replace its EXE once with the official 0.6.0 release file."
+        "ru": "- Добавлены аккаунты, аватарки, имена и восстановление пароля.\n- Добавлены друзья, чаты, статусы, обмен настройками и рассылка сейвов.\n- Обновлён интерфейс, добавлены звуковые уведомления и возврат вниз чата.\n- Добавлена админ-панель с модерацией и статусами сервисов.\n- Добавлена частота блуждающих рот ×2.\n- Исправлены обновлятор и очистка временных сейвов.",
+        "en": "- Added accounts, avatars, names and password recovery.\n- Added friends, chats, statuses, configuration sharing and save broadcasts.\n- Updated the interface with sound notifications and a jump-to-latest chat button.\n- Added administration tools, moderation and service status.\n- Added ×2 roaming-company frequency.\n- Fixed the updater and temporary-save cleanup."
       }
     },
     {
@@ -403,8 +403,8 @@
         "en": "Independent Release settings"
       },
       "body": {
-        "ru": "Расширенные цвета доступны в Релизе. В новых пакетах цвета, вражда независимых и пропуск рассинхрона переключаются независимо. Код конфигурации и импорт поддерживают все сочетания. «О патче» обновлено для Релиза 0.2.0, включая все 7 моделей затенения значков; во вкладке беты поясняется, что отдельных новых функций пока нет. Для закреплённых старых выпусков сохраняются ограничения реально отсутствующих файлов запуска.",
-        "en": "Extended colors are available in Release. New packages allow independent color, independent-hostility and desync-bypass switches. Friend codes and import support every combination. About is updated for Release 0.2.0, including all seven badge shading models; Beta explains that no exclusive features remain. Pinned old releases keep restrictions for launch helpers they actually lack."
+        "ru": "- Расширенные цвета доступны в релизе.\n- Цвета, вражда независимых и игнорирование рассинхронов выбираются независимо.\n- Обновлены копирование конфигурации и справка по патчу.",
+        "en": "- Extended player colors are available in the stable release.\n- Colors, independent hostility and Ignore desyncs can be selected independently.\n- Updated configuration sharing and patch help."
       }
     },
     {
@@ -416,8 +416,8 @@
         "en": "Beta features graduate to Release"
       },
       "body": {
-        "ru": "В Релиз перенесены случайный тип карты и время суток с сохранением настроек, исправление стартового рассинхрона и общие исправления интерфейса. Доступны 49 цветов с синхронизацией лобби, проверкой занятых цветов при подключении и отображением цветов сохранения. Все переключатели независимы: цвета работают с выключенной враждой независимых и с любым режимом контроля рассинхрона. Добавлены все 7 моделей значков рот и согласованное мягкое затенение, в том числе без расширенных цветов. Служебное окно перед запуском не появляется. Beta сейчас содержит тот же набор игровых файлов.",
-        "en": "Release now includes persistent random map type and time of day, the identified startup desync fix and common UI fixes. Includes 49 colors with lobby synchronization, occupied-color checks on reconnect and saved-game colors. All switches are independent: colors work with independent hostility disabled and with either desync mode. All 7 company badge models and consistent soft shading are included, even without extended colors. No helper window opens before launch. Beta currently uses the same gameplay files."
+        "ru": "- В релиз добавлены случайные тип карты и время суток с сохранением выбора.\n- Исправлен рассинхрон при повторном запуске матча.\n- Добавлены 49 цветов и синхронизация выбора в лобби.\n- Расширенные цвета можно сочетать с остальными компонентами.\n- Обновлены все семь моделей значков рот и их затенение.\n- Убрано служебное окно перед запуском.",
+        "en": "- Added persistent random map type and time-of-day selection to the stable release.\n- Fixed a desync when starting another match.\n- Added 49 colors and synchronized lobby color selection.\n- Extended colors can be combined with the other components.\n- Updated all seven company badge models and their shading.\n- Removed the extra window before game startup."
       }
     },
     {
@@ -429,8 +429,8 @@
         "en": "Automatic guide updates and colors with desync bypass"
       },
       "body": {
-        "ru": "«О патче» загружается из подписанных данных выбранного выпуска, обновляется без нового EXE и сохраняется для работы без интернета. Справка дополнена случайной картой, временем суток и новыми правилами сетевых цветов. В бете 7 расширенные цвета можно сочетать с пропуском рассинхрона; настройка сохраняется и передаётся кодом друга. У старых бет без соответствующего файла запуска это сочетание недоступно.",
-        "en": "About the patch comes from the selected release's signed feed, updates without a new EXE and remains available offline. The guide now covers random map type, time of day and multiplayer color behavior. Beta 7 allows extended colors with desync bypass, including saved settings and friend codes. Older Betas without the combined helper retain their compatibility restriction."
+        "ru": "- Справка по патчу обновляется вместе с выбранным выпуском.\n- В бете расширенные цвета можно сочетать с игнорированием рассинхронов и передавать этот выбор кодом конфигурации.",
+        "en": "- Patch help updates with the selected release.\n- In Beta, extended colors can be combined with Ignore desyncs and shared through configuration codes."
       }
     },
     {
@@ -442,8 +442,8 @@
         "en": "Refined interface and easier configuration"
       },
       "body": {
-        "ru": "Плавные переключатели, кнопки, вкладки и прокрутка, единое оформление текста и понятные статусы. Окно запоминает размер, положение и монитор. Добавлена страница «О патче», подробное сравнение файлов с другом, безопасная очистка старого кеша, понятные ошибки с действиями и открытие последнего архива диагностики. Подтверждения оформлены внутри лаунчера. Исправлены работа буфера обмена и код конфигурации при переходе из Беты в Релиз. Выбор цветов Беты сохраняется отдельно от активного набора. Канал патча теперь явно подписан и не влияет на обновления лаунчера.",
-        "en": "Smooth switches, buttons, tabs and scrolling, consistent typography and clear status messages. Window size, position and monitor are remembered. Includes About the patch, detailed peer file comparison, safe old-cache cleanup, actionable errors and access to the latest diagnostic archive. Confirmations are shown inside the launcher. Clipboard handling and Beta-to-Release configuration codes are fixed; the Beta color preference is retained separately from active settings. The patch channel is explicitly labelled and does not affect launcher updates."
+        "ru": "- Добавлены плавные переходы, единое оформление и сохранение положения окна.\n- Добавлены справка, сравнение файлов с другом, очистка старого кэша и открытие архива диагностики.\n- Улучшены подтверждения и сообщения об ошибках.\n- Исправлены буфер обмена и перенос конфигурации между каналами.",
+        "en": "- Added smooth transitions, consistent styling and saved window placement.\n- Added patch help, file comparison with friends, old-cache cleanup and diagnostic archive access.\n- Improved confirmations and error messages.\n- Fixed clipboard use and configuration transfer between channels."
       }
     },
     {
@@ -455,8 +455,8 @@
         "en": "Configurable Powers/Shards and preserved localization"
       },
       "body": {
-        "ru": "Новый пункт «Отключение Powers и Shards» по умолчанию включён. Его выключение возвращает обе механики Arcane Wars; вариант заранее загружается и применяется перед запуском. При отключении новых рот или осадного баланса больше не теряются ключи перевода. Описание осадного баланса уточнено: переключатель управляет стоимостью, уроном и атаками, как и прежде. Исправление перевода не меняет числовые параметры. Игровые EXE и версия цветов Беты не изменены.",
-        "en": "Disable Powers and Shards is enabled by default. Turning it off restores both Arcane Wars mechanics; the variant is preloaded and applied before launch. Disabling additional roaming companies or siege balance no longer loses localization references. Siege help now accurately describes its existing cost, damage and attack changes. The localization repair does not change gameplay numbers. Game executables and the Beta color version are unchanged."
+        "ru": "- Добавлен переключатель отключения Powers и Shards.\n- Исправлены пропавшие переводы при отключении новых рот или осадного баланса.\n- Уточнено описание осадного баланса.",
+        "en": "- Added a switch to disable Powers and Shards.\n- Fixed missing translations when new companies or siege balance are disabled.\n- Clarified the siege-balance description."
       }
     },
     {
@@ -468,8 +468,8 @@
         "en": "Refined launcher logo"
       },
       "body": {
-        "ru": "Новый логотип с буквой P в стиле Palatino Linotype, тонкой золотой рамкой и мягким градиентом. Обновлены значки EXE и окна. При запуске Windows получает уведомление об обновлении этого EXE. Остальные надписи остаются Arial. Игровые пакеты не изменены.",
-        "en": "A new Palatino Linotype-style P logo with a fine gold rim and soft gradient. Executable and window icons are updated. Startup notifies Windows that this executable has changed. Other interface text remains Arial. Game packages are unchanged."
+        "ru": "- Обновлены логотип и значки лаунчера.",
+        "en": "- Updated the launcher logo and icons."
       }
     },
     {
@@ -481,8 +481,8 @@
         "en": "New icon and Arial"
       },
       "body": {
-        "ru": "У лаунчера появилась собственная сине-золотая иконка с буквой P для файла, окна и панели задач. Все надписи переведены на Arial. Добавлена поддержка общих исправлений интерфейса во всех режимах запуска. Игровые пакеты Stable не изменены.",
-        "en": "The launcher now has a blue-and-gold P icon for its file, window and taskbar. All interface text uses Arial. Shared interface fixes are supported in every launch mode. Stable game packages are unchanged."
+        "ru": "- Добавлена сине-золотая иконка лаунчера.\n- Шрифт интерфейса изменён на Arial.",
+        "en": "- Added a blue-and-gold launcher icon.\n- Changed the interface font to Arial."
       }
     },
     {
@@ -494,8 +494,8 @@
         "en": "Uninstall and UI improvements"
       },
       "body": {
-        "ru": "В настройках появились отдельные кнопки удаления патча и лаунчера с подтверждением. Удаление патча сохраняет возможность отката и не затрагивает сейвы; удаление лаунчера оставляет игру и патч. После загрузки исчезают скорость и оставшееся время. Начальное окно увеличено до 1440×900 с адаптацией под экран, надпись «Мультиплеер» больше не обрезается. Игровые пакеты не изменены.",
-        "en": "Settings now has separately confirmed patch and launcher uninstall buttons. Patch removal retains rollback data and saves; launcher removal keeps the game and patch. Speed and ETA disappear after downloads. The default window is larger at 1440×900, capped to the screen, and Multiplayer is no longer clipped. Game packages are unchanged."
+        "ru": "- Добавлены отдельные кнопки удаления патча и лаунчера.\n- Увеличено начальное окно и исправлено обрезание надписи «Мультиплеер».\n- После завершения загрузки скрываются скорость и оставшееся время.",
+        "en": "- Added separate patch and launcher uninstall buttons.\n- Increased the initial window size and fixed the clipped Multiplayer label.\n- Download speed and remaining time are hidden when the download finishes."
       }
     },
     {
@@ -507,8 +507,8 @@
         "en": "Read history and settings import"
       },
       "body": {
-        "ru": "Открытая история изменений автоматически отмечается прочитанной, в том числе при запуске лаунчера. Отметка другой вкладки сохраняется до её открытия. Импорт настроек друга перенесён под код конфигурации в «Компонентах» и «Мультиплеере».",
-        "en": "The displayed changelog is automatically marked as read, including on launcher startup. The other tab keeps its unread marker until opened. Settings import now sits below the configuration code in Components and Multiplayer."
+        "ru": "- Открытая история изменений автоматически отмечается прочитанной.\n- Импорт настроек друга перенесён под код конфигурации.",
+        "en": "- Opened change history is automatically marked as read.\n- Moved friend-settings import below the configuration code."
       }
     },
     {
@@ -520,8 +520,8 @@
         "en": "Recovery and multiplayer"
       },
       "body": {
-        "ru": "Автоматический откат неудачного обновления лаунчера, резервная копия предыдущей установки патча, импорт кода настроек и проверка файлов перед мультиплеером. Добавлены рабочая конфигурация, уведомления об аварийном завершении, быстрая проверка запуска, продолжение скачивания со скоростью и оставшимся временем, отметки непрочитанных изменений и выбор предыдущих Beta.",
-        "en": "Automatic launcher update rollback, previous patch installation backups, configuration code import and multiplayer file comparison. Adds working settings, unexpected-exit notices, quick preflight checks, resumable downloads with speed and ETA, unread changelog markers and previous Beta selection."
+        "ru": "- Добавлены откат неудачного обновления, резервная копия патча и выбор предыдущих бет.\n- Добавлены импорт настроек, проверка файлов и уведомления о вылетах.\n- Скачивание можно продолжить после обрыва; показываются скорость и оставшееся время.\n- Добавлены отметки непрочитанных изменений.",
+        "en": "- Added failed-update rollback, patch backups and selection of earlier betas.\n- Added configuration import, file checks and crash notifications.\n- Interrupted downloads can resume, with speed and time remaining shown.\n- Added unread change markers."
       }
     },
     {
@@ -533,8 +533,8 @@
         "en": "Fixed startup after 0.4.5"
       },
       "body": {
-        "ru": "В самодостаточную сборку снова включены нативные библиотеки WPF. Лаунчер больше не падает до появления окна после обновления.",
-        "en": "Native WPF libraries are included in the self-contained build again. The launcher no longer crashes before showing its window after an update."
+        "ru": "- Исправлен вылет лаунчера до появления окна после обновления.",
+        "en": "- Fixed the launcher crashing before its window appears after an update."
       }
     },
     {
@@ -546,8 +546,8 @@
         "en": "Correct update-check status"
       },
       "body": {
-        "ru": "После стартовой или ручной проверки надпись «Проверяю обновления…» заменяется итоговым состоянием и индикатор останавливается.",
-        "en": "After a startup or manual check, Checking for updates is replaced by the final status and the progress indicator stops."
+        "ru": "- Исправлено зависание надписи «Проверяю обновления…» после завершения проверки.",
+        "en": "- Fixed Checking for updates remaining visible after the check finishes."
       }
     },
     {
@@ -559,8 +559,8 @@
         "en": "Automatic startup updates"
       },
       "body": {
-        "ru": "Доступное обновление лаунчера снова автоматически скачивается и устанавливается при запуске. Кнопка ручной проверки и обновления во время работы сохранена.",
-        "en": "Available launcher updates are automatically downloaded and installed on startup again. The manual check and update button remains available while the launcher is running."
+        "ru": "- Восстановлена автоматическая установка обновлений лаунчера при запуске.",
+        "en": "- Restored automatic launcher updates at startup."
       }
     },
     {
@@ -663,8 +663,8 @@
         "en": "Stable and Beta channels"
       },
       "body": {
-        "ru": "Появились отдельные подписанные каналы для проверенных и экспериментальных обновлений.",
-        "en": "Added separate signed channels for tested and experimental updates."
+        "ru": "- Добавлены отдельные каналы релизных и бета-обновлений.\n- В бете появились экспериментальные цвета игроков.",
+        "en": "- Added separate stable and beta update channels.\n- Added experimental player colors in Beta."
       }
     },
     {
@@ -695,8 +695,8 @@
         "en": "Paw's Patch 0.3.1-beta.1 — extended camera zoom"
       },
       "body": {
-        "ru": "- Увеличен предел отдаления игровой камеры: 2 вместо стандартного 1,21.\n- Отдаление встроено во все восемь вариантов EXE беты и работает обычным колёсиком мыши. Отдельная утилита не требуется.\n- Предел автоматически применяется к игровой камере, в том числе после загрузки сохранения. Ближний предел и камеры интерфейса сохранены.",
-        "en": "- Increased the gameplay camera's zoom-out limit from the stock 1.21 to 2.\n- Extended zoom is built into all eight beta EXE variants and uses the normal mouse wheel. No separate utility is required.\n- The limit applies automatically to the gameplay camera, including after loading a save. The near zoom limit and interface cameras are preserved."
+        "ru": "- Увеличен предел отдаления камеры с 1,21 до 2.",
+        "en": "- Increased the camera zoom-out limit from 1.21 to 2."
       }
     },
     {
@@ -712,8 +712,8 @@
         "en": "Paw's Patch 0.3.0-beta.9 — lairs and minimap"
       },
       "body": {
-        "ru": "- Исправлен повторный выход защитников из логов, включая логова драконов и штормовых существ. Вернувшиеся живыми защитники могут снова выйти с оставшимся здоровьем; погибшие восстанавливаются полностью перед следующим выходом. Счётчик готовых защитников использует то же правило.\n- Исправление работает во всех восьми вариантах EXE беты, при любых сочетаниях расширенных цветов, вражды независимых и игнорирования рассинхронов.\n- Обновлены рамки миникарты для людей, гаури, драуга, хароунов, нежити и теней: пустые чёрные промежутки заполнены материалом интерфейса, граница карты стала заметнее. Готовые файлы рассчитаны на 16:9, включая 1920×1080 и 2560×1440. Автоматического выбора по разрешению нет.\n- Формат сохранений и владельцы объектов сохранены. После загрузки сейва раненые защитники, уже находящиеся внутри логова, ждут полного восстановления: сейв не хранит признак того, вернулись они живыми или восстанавливаются после смерти. Живые защитники, вернувшиеся в логово после загрузки, используют новое правило.",
-        "en": "- Fixed repeat defender deployment from lairs, including dragon and storm-creature lairs. Defenders that return alive can deploy again with their remaining health; killed defenders must fully regenerate before deploying. The ready-defender count follows the same rule.\n- The fix is included in all eight Beta EXE variants, across every combination of extended colors, independent hostility and ignore-desync settings.\n- Updated minimap frames for Human, Gauri, Drauga, Haroun, Undead and Shadow: race-matching materials fill the empty black gutters and make the map boundary clearer. The supplied files are fitted to 16:9, including 1920×1080 and 2560×1440. There is no automatic resolution selection.\n- Save format and saved ownership are preserved. After loading any save, wounded defenders already inside a lair wait for full recovery because saves do not record whether they returned alive or are regenerating after death. Living defenders that return after loading use the new rule."
+        "ru": "- Исправлен повторный выход защитников логов: выжившие выходят с оставшимся здоровьем, погибшие ждут полного восстановления.\n- Обновлены рамки миникарты всех шести рас: убраны пустые чёрные промежутки, граница карты стала заметнее.",
+        "en": "- Fixed lair defenders redeploying: survivors return with their remaining health, while killed defenders wait for full recovery.\n- Updated minimap frames for all six races, filling empty black gaps and making the map border clearer."
       }
     },
     {
@@ -726,8 +726,8 @@
         "en": "Paw's Launcher 0.8.3"
       },
       "body": {
-        "ru": "- Карточки игроков в подробностях матча стали на 20% ниже: сохранены аватар, имя и игровые сведения.\n- В бете Paw's Patch для Vanilla и Immortals доступны расширенные цвета игроков и игнорирование рассинхронов. Выбор сохраняется отдельно для каждого мода и учитывается при копировании конфигурации друга.\n- Выключение Paw's Patch отключает его дополнительные переключатели. При несовместимом EXE доступны только игровые файлы, без функций движка.\n- Обновлены подсказки на русском, английском, немецком, французском, чешском и украинском.",
-        "en": "- Match-detail player cards are 20% shorter, retaining avatars, names and game information.\n- The Vanilla and Immortals Paw's Patch Beta offers extended player colors and Ignore desyncs. Choices are remembered separately for each mod and included when copying a friend's configuration.\n- Turning Paw's Patch off disables its optional switches. Unsupported game executables use file-only mode without engine features.\n- Updated help in Russian, English, German, French, Czech and Ukrainian."
+        "ru": "- Карточки игроков в подробностях матча стали на 20% ниже.\n- В бете Vanilla и Immortals добавлены расширенные цвета и игнорирование рассинхронов. Настройки запоминаются отдельно для каждого мода.\n- Выключение Paw’s Patch отключает его дополнительные переключатели.\n- Обновлены подсказки на шести языках.",
+        "en": "- Match-detail player cards are 20% shorter.\n- Added extended colors and Ignore desyncs to the Vanilla and Immortals Beta. Settings are saved separately for each mod.\n- Turning off Paw’s Patch disables its optional switches.\n- Updated help in six languages."
       }
     },
     {
@@ -743,8 +743,8 @@
         "en": "Paw's Patch 0.3.0-beta.1 — Vanilla and Immortals"
       },
       "body": {
-        "ru": "- Добавлены 48 цветов игроков с компактным списком возле кружка цвета — как в бете Arcane Wars. Цвет следует за участником при смене места; новый участник не наследует чужой выбор.\n- Добавлен отдельный переключатель игнорирования рассинхронов. Он позволяет продолжить матч, но не исправляет расхождения между игроками.\n- Цвета и игнорирование рассинхронов включаются независимо. Выключение Paw's Patch отключает обе функции.\n- Бета включает быструю передачу сохранений и базовые исправления релиза 0.2.0. Правила и баланс Vanilla и Immortals сохранены.",
-        "en": "- Adds 48 player colors with the compact picker beside the color circle from the Arcane Wars Beta. Colors follow participants between seats; newcomers do not inherit someone else's choice.\n- Adds a separate Ignore desyncs switch. It allows a match to continue but does not repair differences between players.\n- Colors and desync bypass are independent options. Turning Paw's Patch off disables both.\n- Includes fast saved-game transfers and the baseline fixes from Release 0.2.0. Vanilla and Immortals rules and balance are preserved."
+        "ru": "- Добавлен компактный выбор 48 цветов с привязкой к игроку.\n- Добавлен отдельный переключатель игнорирования рассинхронов.\n- Выключение Paw’s Patch отключает обе функции.",
+        "en": "- Added a compact 48-color picker with colors tied to players.\n- Added a separate Ignore desyncs switch.\n- Turning off Paw’s Patch disables both features."
       }
     },
     {
@@ -756,8 +756,8 @@
         "en": "Paw's Launcher 0.8.2 — interface and chat"
       },
       "body": {
-        "ru": "- Открытый список выбора или контекстное меню больше не позволяет прокручивать страницу под ним. Исправлено в том числе для выбора языка интерфейса; длинные списки продолжают прокручиваться внутри.\n- Выделение отправленных сообщений снимается при переходе к другому сообщению или клике вне текста. Несколько сообщений больше не остаются выделенными одновременно; убрано выделение пустого места после текста. Копирование выделенного текста и кнопка копирования сохранены.\n- Для недоступных вложений Discord с истёкшей ссылкой показывается понятное объяснение. Рабочие ссылки и уже загруженные изображения продолжают отображаться; остальные ошибки можно повторить.\n- Исправлено повторное открытие карточки игрока во время её закрытия.\n- Количество цветов в описании компонента берётся из выбранного канала: новая бета Arcane Wars показывает 48 цветов.",
-        "en": "- Open dropdowns and context menus now block scrolling of the page underneath, including the interface-language selector. Long lists still scroll internally.\n- Sent-message selection clears when selecting another message or clicking outside the text. Multiple messages no longer retain selection at once, and trailing blank space is no longer highlighted. Text selection and the copy button remain available.\n- Unavailable Discord attachments with expired links now show a clear explanation. Working links and cached images remain usable; other failures can still be retried.\n- Fixed reopening a player card while its closing animation was still running.\n- Color descriptions follow the selected channel: the new Arcane Wars Beta shows 48 colors."
+        "ru": "- Списки выбора и контекстные меню блокируют прокрутку страницы под ними.\n- Исправлено выделение сообщений и пустого места после текста.\n- Добавлено понятное сообщение для просроченных ссылок Discord.\n- Исправлено повторное открытие закрывающейся карточки игрока.\n- Количество цветов в описании соответствует выбранному выпуску патча.",
+        "en": "- Dropdowns and context menus block scrolling of the page beneath them.\n- Fixed message selection and selection of empty space after text.\n- Added a clear explanation for expired Discord links.\n- Fixed reopening a player card while it is closing.\n- Color counts in descriptions match the selected patch release."
       }
     },
     {
@@ -769,8 +769,8 @@
         "en": "Paw's Patch 0.3.0-beta.8 — cities and colors"
       },
       "body": {
-        "ru": "- Компактный выбор цвета по стрелке рядом с кружком: игрок занимает одну строку. Выбранный цвет привязан к участнику, а не к месту в списке. Светло-красный убран, осталось 48 цветов.\n- В управлении поселениями убрана кнопка «Правила», настройка ополчения перенесена выше автоулучшения и порогов ресурсов.\n- Приоритет авторазвития: последнее доступное улучшение центра города → цели по ресурсам → доход золота → случайные допустимые постройки и улучшения. Если на приоритетное действие не хватает золота, средства копятся на него, а не тратятся на дешёвые действия меньшего приоритета.\n- При достижении целей ресурсов учитывается вся ручная и автоматическая очередь, включая доход будущих зданий, центров и рудников. На этапе ресурсов прибыльный рынок может получить приоритет, если он даст больший прирост золота после расходов на дефицит. При равном результате выбираются ресурсы. Рынки допускаются даже при увеличении дефицита, если итоговый доход золота растёт.\n- На всех этапах рынки улучшаются только по ветке с наибольшим положительным приростом золота. Если такой ветки нет, рынок не улучшается. Запас золота сохраняется; строительство и улучшение в осаждённых городах запрещены.\n- Настройки авторазвития сохраняются локально отдельно для партии и её сейвов. Новая партия начинается со стандартных значений: автоулучшение включено, запас золота 2000, цели ресурсов 0. Передача настроек других игроков внутри сетевого сейва пока не добавлена.\n- Настройка ополчения применяется к стартовым, новым и захваченным городам и новым зданиям с ополчением. Временно недоступный приказ повторно проверяется после снятия блокировки; сама осада не мешает штатному переключению ополчения. Состояние готовых зданий при загрузке сейва и последующие ручные изменения сохраняются.\n- При загрузке владельцы объектов остаются такими, как записаны в сохранении: старые независимые лагеря больше не перераспределяются в королевства игроков. Правила новых партий сохранены. Уже записанная в сейв ошибочная принадлежность не меняется задним числом.\n- Версии файлов патча и запуска проверяются согласованно; обновлены описания и подсказки на поддерживаемых языках.",
-        "en": "- Compact color selection via the arrow beside the color swatch keeps each player on one row. Colors follow participants rather than lobby slots. Light red was removed, leaving 48 colors.\n- Removed the Rules button from settlement management and moved the militia option above auto-development and resource targets.\n- Development priority: final available city-center upgrade → resource targets → gold income → random eligible construction or upgrades. If a priority action is legal but unaffordable, the assistant saves for it instead of spending on cheaper, lower-priority actions.\n- All manual and automatic queued work is included in resource projections, including future buildings, centers and mine upgrades. During the resource stage, a profitable market can take priority when it offers a greater net gold increase after shortage costs. Ties favor resources. Markets may deepen deficits when net gold income improves.\n- At every stage, markets use only the upgrade branch with the greatest positive gold increase; without one, they are never upgraded. The gold reserve remains protected. Besieged cities remain excluded from construction and upgrades.\n- Auto-development preferences are stored locally per match and its saves. New matches use the defaults: auto-upgrade enabled, 2000 gold reserve and zero resource targets. Other players' preferences are not yet carried inside transferred multiplayer saves.\n- The militia option applies to starting, new and captured cities and newly completed militia buildings. Temporarily blocked orders remain pending; siege alone does not prevent native militia toggling. Loading preserves completed buildings' militia state, and later manual changes are respected.\n- Loading retains exact saved object owners: old independent camps are no longer reassigned to player kingdoms. Fresh-match rules remain unchanged. Ownership already saved incorrectly is not silently reversed.\n- Patch-file and startup identities are checked consistently; descriptions and tooltips were updated in the supported languages."
+        "ru": "- Выбор цвета стал компактнее и привязан к игроку. Удалён светло-красный, осталось 48 цветов.\n- В управлении поселениями убрана кнопка «Правила», настройка ополчения перенесена выше автоулучшения.\n- Исправлены приоритеты авторазвития: последнее улучшение центра, цели ресурсов, доход золота, затем прочие постройки.\n- Авторазвитие учитывает очередь, прибыльность рынков и запас золота. Рынки улучшаются только по самой выгодной золотой ветке.\n- Настройки авторазвития сохраняются отдельно для партии и её сейвов.\n- Открытое ополчение применяется к стартовым, новым и захваченным городам и новым зданиям.\n- Исправлено изменение владельцев объектов при загрузке сохранения.",
+        "en": "- Made the color picker compact and tied colors to players. Removed light red, leaving 48 colors.\n- Removed Rules from settlement management and moved the militia setting above city automation.\n- Fixed development priorities: final center upgrade, resource targets, gold income, then other buildings.\n- Automation accounts for queued work, market profit and the gold reserve. Markets use the most profitable gold upgrade branch.\n- Automation preferences are saved separately for each match and its saves.\n- Open militia applies to starting, new and captured cities and new buildings.\n- Fixed object ownership changing when loading saves."
       },
       "mod": "arcane-wars",
       "channel": "beta"
@@ -784,8 +784,8 @@
         "en": "Paw's Launcher 0.8.1 — game languages and chat improvements"
       },
       "body": {
-        "ru": "- Добавлены немецкий и французский текст и озвучка игры. Текст и озвучку можно выбирать независимо для Vanilla, Immortals и Arcane Wars.\n- Добавлен чешский и украинский текст основной игры, Immortals, Arcane Wars и Paw's Patch в обоих каналах. Немецкий и французский переводы также охватывают дополнения модов и патча. Чешская и украинская озвучка в этот выпуск не входят.\n- Добавлен украинский интерфейс лаунчера. Дополнены переводы описаний функций Paw's Patch; названия игровых цветов и дополнительные окна патча используют выбранный язык текста игры.\n- Шрифты с чешскими и украинскими символами устанавливаются вместе с соответствующей локализацией. Исправлены ошибки запуска новых языков, пропущенные фразы, названия ИИ и неточные игровые термины; для сверки использованы официальные локализации.\n- Для звука уведомлений поддерживаются WAV, MP3, OGG/Vorbis, Opus, FLAC, M4A, AAC, WMA и AIFF. Лаунчер сам преобразует поддерживаемый файл в подходящий формат. Максимальная длительность — 15 секунд, исходный файл — до 20 МиБ.\n- Отправленные и полученные сообщения можно выделять мышью и копировать. При наведении на сообщение появляется небольшая кнопка копирования.\n- Повторная заявка уже добавленному другу больше не отображается как новая отправленная заявка. Для существующих и входящих заявок показывается их настоящий статус.\n- Исправлена возможная ошибка запуска матча из-за сохранённых настроек лобби, несовместимых с выбранной конфигурацией. Перед исправлением сохраняется резервная копия.\n- Из истории обновлений убраны повторяющиеся инструкции об обновлении.\n\nЯзыковые пакеты скачиваются по выбору и сохраняются для повторного использования. Игровой баланс и состав исправлений Arcane Wars 0.3.0-beta.7 сохранены; вместе с локализациями обновлены вспомогательные программы отображения текста. Новые переводы прошли проверки и игровые тесты, но замечания по формулировкам и размещению текста по-прежнему полезны.",
-        "en": "- Added German and French game text and speech, selectable independently for Vanilla, Immortals and Arcane Wars.\n- Added Czech and Ukrainian text for the base game, Immortals, Arcane Wars and Paw's Patch in both channels. German and French translations also cover mod and patch additions. Czech and Ukrainian speech is not included.\n- Added a Ukrainian launcher interface. Expanded translations of Paw's Patch feature descriptions; in-game color names and additional patch windows follow the selected game text language.\n- Fonts with Czech and Ukrainian characters are installed with the corresponding localization. Fixed new-language startup errors, missing phrases, AI names and incorrect game terms, using official localizations as references.\n- Notification sounds support WAV, MP3, OGG/Vorbis, Opus, FLAC, M4A, AAC, WMA and AIFF. Supported files are converted automatically. The duration limit is 15 seconds and the input size limit is 20 MiB.\n- Sent and received messages can be selected with the mouse and copied. A small copy button appears when hovering over a message.\n- Sending a request to an existing friend no longer reports a newly sent request. Existing outgoing and incoming requests show their actual status.\n- Fixed a possible match-start failure caused by saved lobby settings that are incompatible with the selected configuration. A backup is saved before repair.\n- Removed repetitive update instructions from the changelog.\n\nLanguage packages are downloaded as selected and cached for reuse. Game balance and the Arcane Wars 0.3.0-beta.7 fixes are retained; text-display helpers are updated alongside the localizations. New translations have passed validation and gameplay tests; wording and layout feedback remains welcome."
+        "ru": "- Добавлены немецкий и французский текст и озвучка, чешский и украинский текст игры, модов и патча.\n- Добавлен украинский интерфейс лаунчера и переводы функций патча.\n- Исправлены шрифты, ошибки запуска локализаций, пропущенные фразы и неточные термины.\n- Звуки уведомлений поддерживают WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA и AIFF: до 15 секунд и 20 МиБ.\n- Сообщения можно выделять мышью и копировать кнопкой при наведении.\n- Исправлены статусы повторных заявок в друзья.\n- Исправлен запуск матча с несовместимыми сохранёнными настройками лобби.",
+        "en": "- Added German and French text and voices, plus Czech and Ukrainian text for the game, mods and patch.\n- Added a Ukrainian launcher interface and translated patch features.\n- Fixed fonts, localization startup errors, missing phrases and inaccurate terms.\n- Notification sounds support WAV, MP3, OGG, Opus, FLAC, M4A, AAC, WMA and AIFF: up to 15 seconds and 20 MiB.\n- Messages can be selected with the mouse or copied with a button on hover.\n- Fixed the status of repeated friend requests.\n- Fixed match startup with incompatible saved lobby settings."
       }
     },
     {
@@ -800,8 +800,8 @@
         "en": "Arcane Wars — Paw's Patch 0.3.0-beta.7"
       },
       "body": {
-        "ru": "- Перед входом в сетевое лобби игра дополнительно проверяет версию игры, мод и его версию, Paw's Patch и применённые игровые компоненты. Проверка учитывает содержимое EXE игры и используемого EXE патча, поэтому одинакового номера версии недостаточно при разных файлах.\n- При несовместимости окно игры показывает вашу версию игры, Arcane Wars и Paw's Patch, а также версии, необходимые для выбранного лобби. Подключение отклоняется до добавления игрока в лобби.\n- При запуске через Paw's Launcher проверка автоматически включена во всех восьми вариантах EXE беты. Язык лаунчера, текста и озвучки не влияет на новую проверку. Обычные проверки файлов игры, пароля и Steam сохранены.\n- Все исправления эффектов, рейнджера, пророка и Conjuror из beta.5–beta.6 сохранены. Логика боя, баланс и формат сохранений не изменены.\n\nБолее старые версии патча несовместимы с лобби новой беты; у старого клиента может отображаться обычное сообщение игры без подробностей.",
-        "en": "- Before admission to a multiplayer lobby, the game additionally checks the game version, mod and mod version, Paw's Patch version and applied gameplay components. Actual game and active patch EXE hashes are included, so matching version labels alone do not make different executables compatible.\n- On mismatch, the game dialog displays your game, Arcane Wars and Paw's Patch versions alongside the versions required by the host. The connection is rejected before the player is admitted to the lobby.\n- When launched through Paw's Launcher, the check starts automatically in all eight Beta EXE variants. Launcher, text and speech languages do not affect this additional check. The native game-file, password and Steam checks remain enabled.\n- All effect, Ranger, Prophet and Conjuror fixes from beta.5–beta.6 are retained. Combat logic, balance and save formats are unchanged.\n\nOlder patch versions cannot join new Beta lobbies; an older client may show the game's usual message without version details."
+        "ru": "- Добавлена проверка версий игры, мода, патча и компонентов перед входом в лобби.\n- При несовместимости показываются ваши версии и версии, необходимые для лобби.",
+        "en": "- Added checks for game, mod, patch and component compatibility before joining a lobby.\n- A mismatch dialog shows your versions and the versions required by the lobby."
       }
     },
     {
@@ -816,8 +816,8 @@
         "en": "Arcane Wars — Paw's Patch 0.3.0-beta.6"
       },
       "body": {
-        "ru": "- Исправлено ещё одно обращение анимации к уничтоженному объекту: проблемная дорожка свечения посоха убрана из 11 анимаций пророка и 11 анимаций Conjuror. Теперь она не используется ни при ожидании, ни при движении, атаке или смерти.\n- Модели и текстуры сохранены. Отдельная пульсация свечения посоха отключена; остальные движения, события атак, боевые параметры и сохранения не изменены.\n- Исправления графических эффектов и анимации рейнджера из beta.5 сохранены. В локальной проверке игра загрузила исправленные анимации, а ранее падавший бой удалось повторить без вылета. Совместная игра на разных компьютерах остаётся этапом бета-проверки.",
-        "en": "- Fixed another animation reference to a destroyed object: the problematic staff-glow track has been removed from all 11 Prophet animations and all 11 Conjuror animations, covering idle, movement, combat and death states.\n- Models and textures are preserved. The separate staff-glow pulse is disabled; all other movements, attack events, combat values and saves are unchanged.\n- The graphics-effect and Ranger animation fixes from beta.5 are retained. A local check confirmed that the game loaded the corrected animations, and the previously crashing battle was replayed without a crash. Multiplayer testing across different computers remains part of the beta evaluation."
+        "ru": "- Исправлены вылеты в анимациях пророка и Conjuror: отключено проблемное свечение посоха.",
+        "en": "- Fixed crashes in Prophet and Conjuror animations by disabling the faulty staff glow."
       }
     },
     {
@@ -830,8 +830,8 @@
         "en": "Paw's Launcher 0.8.0"
       },
       "body": {
-        "ru": "- Архив диагностики собирает пять последних доступных комплектов журналов игры и пять дампов, а также отдельные дампы и отчёты Windows. Добавлен поиск в VirtualStore, сбор журнала графической защиты и отчёт о найденных файлах, недоступных папках и ошибках чтения. Если файлов меньше пяти, сохраняются все доступные. Сбор и упаковка выполняются в фоне.\n- Добавлены чешский, немецкий и французский языки интерфейса. Выбор языка стал компактнее и получил значок перевода; названия языков интерфейса всегда написаны на своём языке. Названия языков текста и озвучки игры следуют языку лаунчера, а английский отмечен как оригинал.\n- Свою карточку игрока можно открыть нажатием на аватар в чате, имя в профиле или свою строку в подробностях матча. Из карточки доступен просмотр своего аватара.\n- Карточки участников матча имеют одинаковую высоту; игровой ник отображается рядом с именем. Таймер матча обновляется локально между ответами сервера; без свежих данных отсчёт останавливается через 40 секунд.\n- Если применённые настройки и версия патча уже совпадают с конфигурацией друга, повторное копирование недоступно. При необходимости установки или обновления соответствующее действие остаётся доступным.\n\nНекоторые описания модов и история обновлений в прежнем формате RU/EN показываются на английском при выборе новых языков интерфейса.\n\nУже существующие журналы и дампы можно собрать без повторного запуска игры. Лаунчер не создаёт задним числом отсутствующие дампы и не включает их запись в Windows: архив помогает установить причину, но сам по себе не исправляет вылет. Изменения игрового патча Arcane Wars 0.3.0-beta.5 распространяются отдельно.",
-        "en": "- Diagnostic archives collect the five newest available game log sets and five game dumps, plus separate Windows dumps and reports. Collection now checks VirtualStore and includes the graphics-guard log and a report of found files, inaccessible folders and read failures. If fewer than five files exist, all available files are included. Collection and compression run in the background.\n- Added Czech, German and French interface languages. The compact language selector has a translation icon, and interface language names always use their own language. Game text and speech language names follow the launcher language; English is marked as original.\n- Open your own player card from your chat avatar, profile name or entry in match details, and preview your avatar from that card.\n- Match participant cards have a consistent height, with the in-game nickname beside the profile name. Match time advances locally between server responses and stops after 40 seconds without fresh data.\n- Copying a friend's configuration is disabled when the applied settings and patch version already match. Required installation or updates remain available.\n\nSome mod descriptions and update history in the older RU/EN format use English for the new interface languages.\n\nExisting logs and dumps can be collected without starting the game again. The launcher cannot recreate missing dumps and does not enable Windows dump recording: the archive helps investigate crashes but is not a crash fix. Arcane Wars game patch 0.3.0-beta.5 is distributed separately."
+        "ru": "- Расширен архив диагностики: последние журналы игры, дампы и отчёты об ошибках Windows.\n- Добавлены чешский, немецкий и французский языки интерфейса и компактный выбор языка.\n- Свою карточку и аватарку можно открыть из чата, профиля и подробностей матча.\n- Улучшены карточки участников и таймер матча.\n- Убрано повторное копирование уже применённой конфигурации друга.",
+        "en": "- Expanded diagnostic archives with recent game logs, crash dumps and Windows error reports.\n- Added Czech, German and French interfaces and a compact language picker.\n- Open your player card and avatar from chat, your profile or match details.\n- Improved participant cards and the match timer.\n- Prevented copying a friend’s configuration when it is already applied."
       }
     },
     {
@@ -846,8 +846,8 @@
         "en": "Arcane Wars — Paw's Patch 0.3.0-beta.5"
       },
       "body": {
-        "ru": "- Добавлена защита от некорректных команд отрисовки, которые могли вызывать растянутые графические эффекты и вылеты во время матча. Защита пропускает команды, требующие больше индексов, чем находится в графическом буфере.\n- Исправлена анимация смерти рейнджера: убрана дорожка свечения лука, обращавшаяся к уже уничтоженному материалу. Движения и события анимации сохранены.\n- Исправления встроены в Paw's Patch в бета-канале Arcane Wars и работают при любых сочетаниях остальных компонентов. Баланс, автопостройка, сетевой протокол и формат сохранений не изменены.\n\nЭто бета-проверка защиты: она помогла завершить ранее падавшую партию, но не гарантирует устранение всех причин вылетов. Она рассчитана на штатный Direct3D 9; совместная работа со сторонними графическими обёртками, например DXVK, не поддерживается. Ранее существовавший d3d9.dll сохраняется установщиком и восстанавливается при отключении патча. При неподдерживаемой системной реализации проверка отрисовки не подключается. Состояние защиты записывается в paws_graphics_guard.log в папке игры.\n\nСохранения совместимы.",
-        "en": "- Added a guard against invalid indexed draw calls that could cause stretched visual effects and crashes during matches. Calls requiring more indices than the bound graphics buffer contains are skipped.\n- Fixed the Ranger death animation by removing the bow emissive-color track that could access a destroyed material. Movement tracks and animation events are preserved.\n- Both fixes are built into Paw's Patch in Arcane Wars Beta with every combination of the other components. Balance, city automation, network protocol and save format are unchanged.\n\nThis is a beta workaround: it helped complete a previously crashing match, but does not guarantee that every crash cause is fixed. It targets stock Direct3D 9; third-party graphics wrappers such as DXVK are not supported alongside it. The installer backs up a pre-existing d3d9.dll and restores it when the patch is disabled. The draw guard stays inactive on unsupported system implementations. Its status is recorded in paws_graphics_guard.log in the game folder.\n\nExisting saves are compatible."
+        "ru": "- Добавлена защита от графических ошибок, вызывавших растянутые эффекты и вылеты.\n- Исправлен вылет в анимации смерти рейнджера.",
+        "en": "- Added protection against graphics errors that caused stretched effects and crashes.\n- Fixed a crash in the Ranger death animation."
       }
     },
     {
@@ -860,8 +860,8 @@
         "en": "Paw's Launcher 0.7.12"
       },
       "body": {
-        "ru": "- Подсказка частоты блуждающих рот учитывает исключение для Тёмного лорда: в новых выпусках Arcane Wars на ×4 его параметры совпадают с ×2 — 6 минут и 30%.\n- Подсказка использует описание выбранного канала или архивного выпуска и обновляется при переключении.\n- Подготовлены Paw's Patch 0.2.1 для релизного Arcane Wars и 0.3.0-beta.4 для беты. В бете также исправлено открытие ополчения стартового города при включённой настройке.",
-        "en": "- The roaming-frequency tooltip documents the Shadow Lord exception: in the new Arcane Wars patches, ×4 uses its ×2 settings of 6 minutes and 30%.\n- The tooltip follows the selected channel or archived release and refreshes when switching.\n- Paw's Patch 0.2.1 for stable Arcane Wars and 0.3.0-beta.4 for Beta are available. Beta also fixes starting-city militia opening when its preference is enabled."
+        "ru": "- Подсказка частоты блуждающих рот учитывает исключение для Тёмного лорда: на ×4 — попытка каждые 6 минут с шансом 30%.\n- Описания обновляются при выборе канала и архивного выпуска.",
+        "en": "- The roaming-company tooltip explains the Dark Lord exception: at ×4, a spawn attempt every 6 minutes with a 30% chance.\n- Descriptions update when selecting a channel or archived release."
       }
     },
     {
@@ -876,8 +876,8 @@
         "en": "Arcane Wars — Paw's Patch 0.3.0-beta.4"
       },
       "body": {
-        "ru": "- При частоте ×4 Тёмный лорд из Тёмного разлома (Врат теней) теперь использует частоту ×2: попытка каждые 6 игровых минут с шансом 30%. У остальных рот частота ×4 сохраняется; стандартный режим и ×2 не меняются.\n- Включённая настройка открытого ополчения теперь применяется и к стартовому городу новой партии. Город открывает ополчение через обычную игровую команду, когда матч начал идти и команда доступна.\n- Позднейшее ручное закрытие ополчения сохраняется. При загрузке продолжающегося матча существующие города не открываются повторно. Настройка по-прежнему запоминается между играми и применяется к построенным и захваченным городам.\n- Подсказки частоты и ополчения уточнены.",
-        "en": "- At ×4 roaming frequency, the Shadow Lord from the Dark Rift now uses ×2 frequency: one attempt every 6 game minutes with a 30% chance. Other companies keep ×4 frequency; Standard and ×2 are unchanged.\n- The open-militia preference now also applies to the starting city of a new match. Militia opens through the ordinary game command once the simulation advances and the command is available.\n- Later manual militia closure is respected. Loading an ongoing match does not reopen existing cities. The preference remains persistent between games and applies to built and captured cities.\n- Frequency and militia tooltips have been clarified."
+        "ru": "- При частоте блуждающих рот ×4 Тёмный лорд использует частоту ×2: попытка каждые 6 минут с шансом 30%.\n- Настройка открытого ополчения теперь применяется и к стартовому городу.\n- Уточнены подсказки частоты и ополчения.",
+        "en": "- At ×4 roaming frequency, the Dark Lord uses the ×2 rate: an attempt every 6 minutes with a 30% chance.\n- The open-militia preference now applies to the starting city.\n- Clarified roaming-frequency and militia tooltips."
       }
     },
     {
@@ -890,8 +890,8 @@
         "en": "Paw's Launcher 0.7.11"
       },
       "body": {
-        "ru": "- Обводка аватарки при наведении больше не перекрывает кружок статуса. После закрытия просмотра аватарки обводка исчезает, если курсор находится в другом месте. Для навигации клавиатурой сохранён отдельный указатель фокуса.\n- Подсказки Paw's Patch для Vanilla и Immortals обновляются при смене мода и канала. Они используют описание выбранного выпуска, даже если локально сохранён более старый пакет. При явном выборе архивного выпуска показываются его возможности.\n- В актуальных релизном и бета-каналах указаны камера на WASD и стрелках и союзная метка на F в профиле Dvorak. В бета-каналах также указана быстрая передача сохранений участникам сетевого лобби. При несовместимой версии игры эта функция отмечается как недоступная.\n- В подсказках Vanilla и Immortals больше не показывается авторство Arcane Wars.\n\nЭто исправления интерфейса. Переустанавливать моды или игровой патч не требуется.",
-        "en": "- Hovering over a profile avatar no longer draws its outline over the status dot. Closing the avatar preview clears the outline when the pointer is elsewhere. Keyboard navigation retains a separate focus indicator.\n- Paw's Patch tooltips for Vanilla and Immortals refresh when changing the mod or channel. They use the selected release's documentation even when an older package is cached locally. Explicitly selecting an archived release shows that release's features.\n- Current stable and beta tooltips include WASD and arrow-key camera controls and the F allied map marker in the Dvorak profile. Beta tooltips also include faster saved-game transfers to multiplayer lobby participants. That feature is listed as unavailable for incompatible game versions.\n- Vanilla and Immortals tooltips no longer include Arcane Wars author credits.\n\nThese are interface fixes. Reinstalling mods or the game patch is not required."
+        "ru": "- Исправлена обводка аватарки при наведении и закрытии просмотра.\n- Подсказки Vanilla и Immortals соответствуют выбранному моду, каналу и выпуску.\n- Из подсказок Vanilla и Immortals убрано ошибочное авторство Arcane Wars.",
+        "en": "- Fixed avatar hover outlines and outlines left after closing the viewer.\n- Vanilla and Immortals tooltips match the selected mod, channel and release.\n- Removed incorrect Arcane Wars attribution from Vanilla and Immortals tooltips."
       }
     },
     {
@@ -904,8 +904,8 @@
         "en": "Paw's Launcher 0.7.10"
       },
       "body": {
-        "ru": "- В сведениях об участниках лобби и матча «Подраса» переименована во «Фракцию»; в английском интерфейсе используется Faction.\n- В блоке «Установлено» рядом с названием всегда показывается версия установленного мода: например, Immortals 2.1 или Arcane Wars 0.82.1.8. Для Vanilla показывается фактическая версия игры.\n- Если Paw's Patch применён, его название и версия отображаются отдельной строкой под модом. При выключенном патче остаётся строка мода с версией. Выбор другого режима без применения настроек не меняет сведения об установленном моде.\n\nПереустанавливать моды или игровой патч не требуется.",
-        "en": "- Renamed Subrace to Faction in lobby and match participant details, including Russian labels and tooltips.\n- Installed now shows the installed mod name and version, such as Immortals 2.1 or Arcane Wars 0.82.1.8. Vanilla displays the actual game version.\n- When applied, Paw's Patch and its version appear on a separate line below the mod. Turning the patch off leaves the mod and its version visible. Selecting another mode without applying settings does not change the installed information.\n\nReinstalling mods or the game patch is not required."
+        "ru": "- «Подраса» переименована во «Фракцию» в сведениях об участниках.\n- В блоке «Установлено» показываются версии мода и применённого Paw’s Patch.",
+        "en": "- Renamed Subrace to Faction in participant details.\n- The Installed panel shows the mod version and applied Paw’s Patch version."
       }
     },
     {
@@ -918,8 +918,8 @@
         "en": "Paw's Launcher 0.7.9"
       },
       "body": {
-        "ru": "- Исправлено распознавание самого игрока в списке участников лобби и матча. Его игровой ник связывается с профилем лаунчера, даже если отличается от имени в профиле или игрок играет один с ботами.\n- Под именами участников показываются раса и подраса. В лобби случайный выбор отображается как «Случайно» отдельно для каждого параметра; после начала матча показываются фактические значения.\n- В окне «Сейчас в игре» увеличены отступы между карточками участников, полосой прокрутки и правым краем окна.\n\nЧтобы появились новые сведения, лаунчер должен быть обновлён и у игрока, который передаёт статус. Игровой патч переустанавливать не требуется.",
-        "en": "- Fixed recognition of the local player in lobby and match rosters. Their in-game nickname is linked to their launcher profile even when the names differ or they play alone against bots.\n- Participant rows show race and subrace. Random lobby choices remain independently marked as Random; matches show the actual assigned values.\n- Added space between participant cards, the scrollbar, and the right edge of the current game activity dialog.\n\nThe player sharing their activity also needs the updated launcher to send these details. Reinstalling the game patch is not required."
+        "ru": "- Исправлено сопоставление игрового ника с профилем лаунчера.\n- Добавлены раса и подраса участников лобби и матча.\n- Увеличены отступы между карточками в окне «Сейчас в игре».",
+        "en": "- Fixed matching in-game names to launcher profiles.\n- Added participant race and subrace to lobby and match details.\n- Improved spacing between cards in the In game window."
       }
     },
     {
@@ -932,8 +932,8 @@
         "en": "Paw's Launcher 0.7.8"
       },
       "body": {
-        "ru": "- Нажмите на аватарку в профиле игрока, чтобы открыть компактный просмотр. Закрытие крестиком, Esc или щелчком снаружи возвращает в тот же профиль. Кнопки под фотографией не срабатывают.\n- Просмотр использует уже загруженную фотографию; дополнительная загрузка с сервера не нужна.\n- Для Vanilla и Immortals доступны отдельные бета-каналы Paw's Patch. Описания компонентов учитывают выбранную версию патча и доступность функций для установленной игры.\n- Исправлено определение бета-канала: старый каталог с копией релизного патча больше не принимается за отдельную бету.\n\nОбновления игровых патчей распространяются отдельно: Vanilla и Immortals 0.1.1 добавляют WASD, стрелки и союзную метку F в раскладку Dvorak, а 0.2.0-beta.1 также включает ускоренную штатную передачу сохранений. Arcane Wars 0.3.0-beta.3 обновляет автопостройку и управление ополчением новых городов. Подробности находятся в справке выбранного мода.",
-        "en": "- Click a player's profile avatar to open a compact preview. Close it with the X, Esc, or an outside click to return to the same profile. Controls behind the image do not receive the click.\n- The preview reuses the downloaded photo without an extra server request.\n- Vanilla and Immortals have separate Paw's Patch Beta channels. Component descriptions follow the selected patch version and the installed game's feature compatibility.\n- Fixed Beta detection: an old catalog containing a copy of a stable patch no longer counts as a distinct Beta.\n\nGame patches update separately: Vanilla and Immortals 0.1.1 add WASD, arrow keys, and the F allied marker to the Dvorak profile; 0.2.0-beta.1 also enables faster native save transfers. Arcane Wars 0.3.0-beta.3 updates construction automation and militia control for new cities. See the selected mod's guide for details."
+        "ru": "- Добавлен компактный просмотр аватарки из профиля игрока.\n- Для Vanilla и Immortals появились отдельные бета-каналы Paw’s Patch.\n- Исправлены определение бета-канала и описания доступных компонентов.",
+        "en": "- Added a compact avatar viewer to player profiles.\n- Added separate Paw’s Patch Beta channels for Vanilla and Immortals.\n- Fixed Beta channel detection and descriptions of available components."
       }
     },
     {
@@ -948,8 +948,8 @@
         "en": "Vanilla — Paw's Patch 0.2.0-beta.1"
       },
       "body": {
-        "ru": "- Первый отдельный Beta-канал Paw's Patch для Vanilla и Immortals. Включает исправления 0.1.1: значки рот, отображение нуля, инициализацию рельефа, версию в меню и управление WASD со стрелками и союзной меткой F в профиле Dvorak.\n- В Paw's Patch встроен прежний проверенный R2 для ускорения штатной передачи сохранения участникам сетевого лобби. Отдельного переключателя нет; дружба и ручное принятие файла в лаунчере не требуются.\n- Настройка R2 сохранена: файловый бюджет 1200 байт и до 16 пакетов участнику за проход отправки. Формат сохранения, размер блоков, подтверждения, повторы и штатные ограничения полосы передачи остаются прежними. Нативные инструкции и защитные проверки совпадают с ранее выбранным R2; новой скорости WAN эта версия не обещает.\n- Нужен поддерживаемый EXE Kohan II 1.3.72. При выключенном Paw's Patch и в режиме «Только игровые файлы» передача остаётся обычной.\n- Beta для этих двух режимов добавляет к базовым исправлениям только R2. Баланс, карты, палитра и автоматизация городов Arcane Wars в неё не входят.",
-        "en": "- The first separate Paw's Patch Beta channel for Vanilla and Immortals. Includes the 0.1.1 fixes: company badges, zero display, terrain initialization, menu version labels and Dvorak WASD controls with arrows and the F allied marker.\n- The previously verified R2 tuning is built into Paw's Patch to speed up the game's native lobby save transfer. There is no separate toggle, and launcher friendship or manual file acceptance is not required.\n- R2 retains its 1200-byte file-stage budget and at most 16 packets per participant per send pass. Save format, block sizes, acknowledgements, retries and native bandwidth limits remain unchanged. Native instructions and guards match the previously selected R2; this version promises no new WAN speed result.\n- Requires the supported Kohan II 1.3.72 executable. Disabling Paw's Patch or using file-only mode retains stock transfer.\n- For these two modes, Beta adds only R2 to the base fixes. Arcane Wars balance, maps, palettes and city automation are not included."
+        "ru": "- Открыт отдельный бета-канал Paw’s Patch для Vanilla и Immortals.\n- Ускорена передача сохранений участникам сетевого лобби.",
+        "en": "- Opened a separate Paw’s Patch Beta channel for Vanilla and Immortals.\n- Accelerated saved-game transfers to multiplayer lobby participants."
       }
     },
     {
@@ -964,8 +964,8 @@
         "en": "Immortals — Paw's Patch 0.2.0-beta.1"
       },
       "body": {
-        "ru": "- Первый отдельный Beta-канал Paw's Patch для Vanilla и Immortals. Включает исправления 0.1.1: значки рот, отображение нуля, инициализацию рельефа, версию в меню и управление WASD со стрелками и союзной меткой F в профиле Dvorak.\n- В Paw's Patch встроен прежний проверенный R2 для ускорения штатной передачи сохранения участникам сетевого лобби. Отдельного переключателя нет; дружба и ручное принятие файла в лаунчере не требуются.\n- Настройка R2 сохранена: файловый бюджет 1200 байт и до 16 пакетов участнику за проход отправки. Формат сохранения, размер блоков, подтверждения, повторы и штатные ограничения полосы передачи остаются прежними. Нативные инструкции и защитные проверки совпадают с ранее выбранным R2; новой скорости WAN эта версия не обещает.\n- Нужен поддерживаемый EXE Kohan II 1.3.72. При выключенном Paw's Patch и в режиме «Только игровые файлы» передача остаётся обычной.\n- Beta для этих двух режимов добавляет к базовым исправлениям только R2. Баланс, карты, палитра и автоматизация городов Arcane Wars в неё не входят.",
-        "en": "- The first separate Paw's Patch Beta channel for Vanilla and Immortals. Includes the 0.1.1 fixes: company badges, zero display, terrain initialization, menu version labels and Dvorak WASD controls with arrows and the F allied marker.\n- The previously verified R2 tuning is built into Paw's Patch to speed up the game's native lobby save transfer. There is no separate toggle, and launcher friendship or manual file acceptance is not required.\n- R2 retains its 1200-byte file-stage budget and at most 16 packets per participant per send pass. Save format, block sizes, acknowledgements, retries and native bandwidth limits remain unchanged. Native instructions and guards match the previously selected R2; this version promises no new WAN speed result.\n- Requires the supported Kohan II 1.3.72 executable. Disabling Paw's Patch or using file-only mode retains stock transfer.\n- For these two modes, Beta adds only R2 to the base fixes. Arcane Wars balance, maps, palettes and city automation are not included."
+        "ru": "- Открыт отдельный бета-канал Paw’s Patch для Vanilla и Immortals.\n- Ускорена передача сохранений участникам сетевого лобби.",
+        "en": "- Opened a separate Paw’s Patch Beta channel for Vanilla and Immortals.\n- Accelerated saved-game transfers to multiplayer lobby participants."
       }
     },
     {
@@ -980,8 +980,8 @@
         "en": "Arcane Wars — Paw's Patch 0.3.0-beta.3"
       },
       "body": {
-        "ru": "- Автоматизация учитывает полную принятую очередь ручных и автоматических построек: активные и ожидающие заказы. Будущий положительный доход уменьшает оставшуюся потребность в ресурсе, а отрицательные эффекты учитываются заранее при защите дохода. Незавершённая положительная прибавка не считается уже полученным доходом. Оплата проверяется по текущим ресурсам. Пока отправленные игроком приказы на строительство или улучшение ещё не обработаны игрой, автоматика ждёт; после обработки пересчитывает доступное золото и сохраняемый резерв.\n- Рынки всех шести рас доступны, когда до заказа доход каждого из четырёх ресурсов строго выше его порога с учётом ожидаемых отрицательных эффектов. Заказ рынка может опустить доход ниже порога; затем автоматика возвращается к восполнению ресурсов. Для остальных построек защита порогов сохраняется.\n- Когда нет доступной полезной постройки для ресурсов, золота или подготовки золотой ветки и доходы позволяют, автоматика продолжает случайно выбирать доступные варианты. Выбор повторяется постоянно после завершения экономических приоритетов; отдельная настройка «Другие здания» больше не требуется.\n- Независимые рудники всех рас участвуют в улучшениях по ресурсам, золоту и случайному выбору. Разные рудники получают отдельные приказы; занятый рудник не получает повторный приказ на тот же объект. Обычная очередь игры и её проверки законности сохраняются.\n- Открытое ополчение для новых собственных городов включено по умолчанию. Настройка доступна в F1 и сохраняется на компьютере. Она применяется к новым построенным и захваченным городам. Уже существующие на момент начала партии или загрузки города не изменяются.\n- Эти изменения и прежняя передача сохранений R2 встроены во все восемь вариантов Beta при любых сочетаниях цветов, вражды независимых и контроля рассинхрона. Общие городские правила сохраняются локально, исключения городов сбрасываются при новой партии или загрузке.",
-        "en": "- Automation accounts for the full accepted manual and automatic construction queue, including active and waiting orders. Future positive income reduces outstanding resource goals, while adverse effects protect income in advance. An unfinished positive gain is not treated as income already received. Payment uses current resources. Automation waits while the player's sent building or upgrade orders await game processing, then recomputes available gold and the protected reserve.\n- Markets of all six races are available when each of the four resource incomes is strictly above its target before the order, accounting for pending adverse effects. A market order may cross below a target; resource recovery then takes priority. Other buildings retain target protection.\n- When no useful resource, gold or gold-branch preparation choice is available and income permits, automation continues to select random eligible options. This fallback remains active after economic priorities are exhausted; it no longer requires a separate Other buildings setting.\n- Independent mines of every race can receive resource, gold and random upgrades. Different mines receive separate orders; a busy mine does not receive a duplicate order for the same object. The normal game queue and its legality checks remain in control.\n- Open militia for new owned cities is enabled by default. Its F1 setting persists on this PC and applies to newly built and captured cities. Cities already present at match start or save load are unchanged.\n- These changes and the existing R2 save transfer are built into all eight Beta variants, with every combination of colors, independent hostility and desync handling. General city rules persist locally; city exceptions reset on new matches or loads."
+        "ru": "- Авторазвитие учитывает всю очередь ручных и автоматических построек и ожидаемый доход.\n- Улучшены строительство рынков и восполнение ресурсов после него.\n- После экономических приоритетов продолжается случайное развитие.\n- В автоулучшении участвуют независимые рудники.\n- Добавлено автоматическое открытие ополчения в новых и захваченных городах.",
+        "en": "- City automation accounts for all manual and automatic queued construction and expected income.\n- Improved market construction and resource recovery afterward.\n- Random development continues after economic priorities.\n- Independent mines take part in automatic upgrades.\n- Added automatic militia opening in new and captured cities."
       }
     },
     {
@@ -993,8 +993,8 @@
         "en": "Paw's Launcher 0.7.7 — participant avatars and profiles"
       },
       "body": {
-        "ru": "- Исправлены границы развёрнутого окна: панель задач Windows больше не закрывает нижние кнопки лаунчера, в том числе на дополнительных мониторах.\n- Нажатие на аватарку внутри уже открытого профиля больше не переоткрывает его и не повторяет анимацию.\n- У распознанных участников лобби и матча показываются аватарки. Нажатие на карточку открывает профиль; цвет игрока сохраняется на аватарке.\n- В профиле игрока не из друзей доступна кнопка «Добавить в друзья». Входящую заявку можно принять, а отправленная помечается как ожидающая ответа.\n- Аватарки сохраняются в памяти и скачиваются повторно только после изменения. Закрытые окна не открываются заново из-за запоздавшей загрузки.",
-        "en": "- Fixed maximized window bounds: the Windows taskbar no longer covers the launcher's bottom controls, including on secondary monitors.\n- Clicking the avatar inside an open profile no longer reopens it or restarts its animation.\n- Recognized lobby and match participants display their avatars. Click a participant card to open their profile; the game color remains visible on the avatar.\n- Profiles of players outside your friends list now offer Add friend. Incoming requests can be accepted and outgoing requests show their pending status.\n- Avatars are cached in memory and downloaded again after a revision changes. Late downloads cannot reopen a closed profile."
+        "ru": "- Развёрнутое окно больше не перекрывается панелью задач Windows.\n- В подробностях лобби и матча появились аватарки участников и переход в профиль.\n- Из профиля можно отправить или принять заявку в друзья.\n- Исправлены повторное открытие профиля и лишняя загрузка аватарок.",
+        "en": "- The Windows taskbar no longer covers controls in a maximized launcher.\n- Added participant avatars and profile links to lobby and match details.\n- Friend requests can be sent or accepted from profiles.\n- Fixed repeated profile opening and unnecessary avatar downloads."
       }
     },
     {
@@ -1006,8 +1006,8 @@
         "en": "Paw's Launcher 0.7.6 — teams and detailed game activity"
       },
       "body": {
-        "ru": "Исправлено определение подробного статуса игры при запуске через помощники патча.\nСлужебный или завершающийся процесс больше не мешает лаунчеру найти саму игру.\n\nВ обновление входят нововведения 0.7.5: список участников по командам с игровыми\nцветами, отдельная иконка бота, подробности лобби и матча и сохранение выбранных\nкомпонентов при отключении Paw's Patch. Случайный цвет показывается серым маркером,\nпока игра не назначит его при старте матча. Серверная поддержка включена.",
-        "en": "Fixed detailed game activity detection when starting through patch helpers.\nA helper or exiting Steam bootstrap no longer prevents the launcher from finding\nthe native game process.\n\nIncludes the 0.7.5 changes: participants grouped by team with in-game colors,\na dedicated bot icon, lobby/match details, and remembered optional components\nwhen Paw's Patch is disabled. Random colors use a neutral marker until the game\nassigns them at match start. Backend support is enabled."
+        "ru": "- Исправлено определение подробного статуса запущенной игры.",
+        "en": "- Fixed detection of detailed activity for a running game."
       }
     },
     {
@@ -1019,8 +1019,8 @@
         "en": "Paw's Launcher 0.7.5 — teams and detailed game activity"
       },
       "body": {
-        "ru": "При выключении Paw's Patch в Arcane Wars лаунчер запоминает выбранные дополнительные\nкомпоненты. Повторное включение возвращает прежний набор, даже после применения\nнастроек и перезапуска. Пока основной патч выключен, дополнительные компоненты\nпо-прежнему отключены и недоступны. Языки текста и озвучки не меняются.\n\nИз подсказки Paw's Team убрана фраза о правах администратора.\n\nДобавлен подробный статус игры: под временем игры можно увидеть меню, лобби,\nматч или редактор и открыть подробности с участниками, временем матча и размером\nкарты. Участники сгруппированы по командам, рядом показаны их игровые цвета.\nДля компьютера используется отдельная иконка бота. Случайный цвет до начала матча\nпоказывается серым маркером с пояснением. Аккаунты сопоставляются по игровой сессии и\nместу участника. По одному совпавшему нику аккаунт не определяется. Подробный статус\nможно отключить в настройках. При неизвестной версии игры остаётся общий статус\n«Играет». Серверная поддержка уже включена.",
-        "en": "Turning off Paw's Patch in Arcane Wars now remembers the selected optional\ncomponents. Turning it back on restores the selection, including after applying\nsettings and restarting the launcher. Dependent components remain disabled while\nthe main patch is off. Text and voice languages are preserved.\n\nThe Paw's Team tooltip no longer mentions administrator permissions.\n\nDetailed game activity is now available: menu, lobby, match or editor, with a details\ndialog for participants, match time and map dimensions. Participants are grouped by\nteam with their in-game colors. Computer players have a dedicated bot icon; random\ncolors use a neutral marker until the match assigns them. Bots are labelled separately;\naccount matching uses the game session and participant slot, never just a matching\nnickname. Sharing can be disabled in Settings. Unknown game versions retain the\ngeneral Playing status. Backend support is now enabled."
+        "ru": "- Выбранные компоненты Arcane Wars восстанавливаются после повторного включения Paw’s Patch.\n- Добавлен подробный статус игры: меню, лобби, матч или редактор.\n- В подробностях показываются команды, участники, игровые цвета, время матча и размер карты.\n- Подробный статус можно отключить в настройках.\n- Уточнена подсказка Paw’s Team.",
+        "en": "- Selected Arcane Wars components are restored when Paw’s Patch is enabled again.\n- Added detailed game status: menu, lobby, match or editor.\n- Details show teams, participants, player colors, match time and map size.\n- Detailed status sharing can be disabled in Settings.\n- Updated the Paw’s Team tooltip."
       }
     },
     {
@@ -1032,8 +1032,8 @@
         "en": "Paw's Launcher 0.7.4 — components and repeated notifications"
       },
       "body": {
-        "ru": "Блок слева внизу теперь называется «Установлено». Он показывает название применённого мода, а на второй строке — Paw's Patch и его версию, если патч включён. Без патча остаётся название мода. Выбор другой вкладки не меняет эту информацию до применения настроек.\n\nВыключение Paw's Patch в Arcane Wars выключает все дополнительные компоненты и делает их недоступными. Карточки затемняются; после включения основного патча компоненты можно выбрать заново. Языки текста и озвучки сохраняются. Правило действует также для старых сохранённых настроек и копируемых конфигураций, чтобы компоненты не запускались без основного патча.\n\nИсправлено мигание подсказки Paw's Team в карточке игрока: обновление присутствия больше не пересоздаёт неизменившуюся плашку роли.\n\nПовторное уведомление теперь только сбрасывает свой таймер на пять секунд и плавно обновляет счётчик ×2, ×3 и далее. Сама плашка не проигрывает анимацию появления заново. Для одиночного уведомления счётчик скрыт; после исчезновения или закрытия отсчёт начинается заново.",
-        "en": "The lower-left block is now named Installed. It shows the applied mod name, followed on a second line by Paw's Patch and its version when enabled. Without the patch, only the mod name is shown. Selecting another tab does not change this information until settings are applied.\n\nTurning off Paw's Patch in Arcane Wars disables all additional components and dims their cards. After re-enabling the main patch, components can be selected again. Text and speech languages are preserved. The same rule covers older saved settings and copied configurations, preventing components from running without the main patch.\n\nFixed the flickering Paw's Team tooltip on player profiles. Presence refreshes no longer recreate an unchanged role badge.\n\nRepeating a notification now only resets its five-second timer and smoothly updates a ×2, ×3 and subsequent repeat counter. The notification card no longer repeats its entrance animation. Single notices have no counter; after a notice expires or is dismissed, the count starts over."
+        "ru": "- Блок «Установлено» показывает применённый мод и версию патча.\n- Выключение Paw’s Patch отключает дополнительные компоненты Arcane Wars.\n- Исправлено мигание подсказки Paw’s Team.\n- Повторные уведомления объединяются в одну плашку со счётчиком.",
+        "en": "- The Installed panel shows the applied mod and patch version.\n- Turning off Paw’s Patch disables optional Arcane Wars components.\n- Fixed the flickering Paw’s Team tooltip.\n- Repeated notifications are combined into one card with a counter."
       }
     },
     {
@@ -1045,8 +1045,8 @@
         "en": "Paw's Launcher 0.7.3 — updater and installation reliability"
       },
       "body": {
-        "ru": "При нажатии «Обновить лаунчер» нижняя полоса загрузки больше не появляется на мгновение перед открытием отдельного окна обновления.\n\nВ окне загрузки обновления появилась тёмная кнопка «Отменить»: она прерывает скачивание и открывает установленную версию. Перед заменой программы отмена скрывается. При обрыве соединения текущая версия сохраняется; зависшая загрузка прекращается после 30 секунд без новых данных. Скачанная часть используется при следующей попытке, если сервер поддерживает продолжение. Обновление устанавливается только после полной загрузки и проверки файла.\n\nИсправлен сбой «Нет доступа к папке» при кратковременной блокировке файла состояния во время «Обновить и применить». Лаунчер повторяет сохранение в течение двух секунд. Если доступ остаётся закрыт, операция завершается ошибкой с откатом, а путь проблемного файла сохраняется в диагностике.\n\nУбраны двойные сообщения об одной ошибке. Повторное одинаковое уведомление теперь продлевает время уже показанного сообщения.\n\nИзменения окна обновления действуют начиная с установленной версии 0.7.3. Переход на неё из 0.7.2 выполняется прежним окном обновления.",
-        "en": "Clicking Update launcher no longer briefly displays the bottom download panel before the separate update window opens.\n\nThe update download window now has a dark Cancel button. It stops the download and opens the installed version. Cancellation is hidden before replacing the application. If the connection drops, the installed version is retained; a stalled download ends after 30 seconds without new data. Partial downloads are reused on the next attempt when the server supports resuming. Updates are installed only after the complete file has been downloaded and verified.\n\nFixed Folder access denied when the installation-state file is briefly locked during Update and apply. The launcher retries saving for up to two seconds. A persistent access failure still reports an error and rolls back the operation, with the affected file path included in diagnostics.\n\nRemoved duplicate reports of the same error. Repeating an identical notification now extends the existing notice instead of creating another copy.\n\nThe updated window is used by installed version 0.7.3 and later. Updating from 0.7.2 to this version still uses the previous update window."
+        "ru": "- Убрано мигание нижней полосы загрузки перед окном обновления.\n- Добавлены отмена и продолжение прерванной загрузки обновления.\n- Исправлена ошибка «Нет доступа к папке» при применении настроек.\n- Убраны двойные сообщения об одной ошибке.",
+        "en": "- Removed the flashing download bar before the updater opens.\n- Added cancellation and resuming of interrupted update downloads.\n- Fixed Folder access denied errors when applying settings.\n- Removed duplicate notifications for the same error."
       }
     },
     {
@@ -1058,8 +1058,8 @@
         "en": "Paw's Launcher 0.7.2 — retained mod selection fix"
       },
       "body": {
-        "ru": "Исправлена ошибка при переключении на сохранённый старый мод с разными языками текста и озвучки. Например, после Vanilla с русским текстом и английской озвучкой старый Arcane Wars мог показывать ошибку состояния установки и блокировать все действия.\n\nЕсли выбранные языки или компоненты требуют новых файлов, теперь доступна кнопка «Обновить и применить» с пояснением. Она обновляет выбранный мод и применяет настройки, сохраняя выбранные языки. Это работает для Arcane Wars, Immortals и Vanilla в обоих каналах.\n\nПереключение вкладок само по себе не устанавливает обновления и не меняет файлы игры. При возврате к настройкам, которые поддерживает сохранённый выпуск, снова доступно обычное применение. При отсутствии подходящего обновления или выборе старой версии показывается пояснение вместо ошибки проверки файлов.\n\nРаздельную озвучку можно выбрать и для старого установленного мода, если в каталоге уже доступен поддерживающий её выпуск. Старый каталог обновлений больше не блокирует языки, которые поддерживает сохранённая версия мода.",
-        "en": "Fixed an error when switching to a retained older mod with different text and speech languages. For example, switching from Vanilla with Russian text and English speech to an older Arcane Wars release could report an installation-state error and disable every action.\n\nWhen the selected languages or components need newer files, an explicit Update and apply button now explains and performs the required update. It updates the selected mod and applies the settings while keeping both language choices. This works for Arcane Wars, Immortals and Vanilla in both channels.\n\nSwitching tabs does not install updates or change game files. Returning to settings supported by the stored release restores the ordinary Apply action. If no suitable update is known, or an older release is pinned, the launcher explains the limitation instead of reporting a file-verification error.\n\nSeparate speech can also be selected for an older installed mod when a supporting release is already available in the catalog. An older update catalog no longer blocks languages supported by a retained mod release."
+        "ru": "- Исправлено переключение сохранённых модов с разными языками текста и озвучки.\n- Кнопка «Обновить и применить» помогает установить файлы, необходимые для выбранных языков и компонентов.",
+        "en": "- Fixed switching between retained mods with different text and voice languages.\n- Update and apply installs the files required by the selected languages and components."
       }
     },
     {
@@ -1071,8 +1071,8 @@
         "en": "Paw's Launcher 0.7.1 — Vanilla installation fix"
       },
       "body": {
-        "ru": "Исправлено исчезновение Paw's Patch и кнопки «Установить» у Vanilla после обновления со старого лаунчера. Пустая запись, созданная из старого каталога Arcane Wars, больше не считается установленным выпуском Vanilla и не скрывает новые компоненты и локализацию.\n\nИсправление действует и для уже затронутых установок 0.7.0: после обновления доступна обычная установка компонентов Vanilla. Сохранённые выпуски других модов и применённые настройки игры сохраняются.\n\nНазвание Vanilla теперь отображается на английском при любом языке лаунчера, включая выбор мода, справку и карточки игроков.",
-        "en": "Fixed missing Paw's Patch components and the Install button for Vanilla after upgrading an older launcher. An empty entry adopted from an old Arcane Wars catalog no longer counts as an installed Vanilla release or hides its new components and language packages.\n\nExisting affected 0.7.0 installations recover automatically after updating. Retained releases of other mods and applied game settings are preserved.\n\nThe Vanilla name now stays in English in every launcher language, including mod selection, the guide and player cards."
+        "ru": "- Восстановлены Paw’s Patch и кнопка установки Vanilla после обновления старого лаунчера.\n- Название Vanilla одинаково отображается при любом языке интерфейса.",
+        "en": "- Restored Paw’s Patch and the Vanilla install button after updating an older launcher.\n- The Vanilla name is consistent across interface languages."
       }
     },
     {
@@ -1084,8 +1084,8 @@
         "en": "Paw's Launcher 0.7.0 — mods, installations and chat"
       },
       "body": {
-        "ru": "Большое обновление: выбор модов, сохранённые установки и общая справка. Paw's Patch остаётся отдельным, отключаемым компонентом игры.\n\n- Vanilla, Immortals и Arcane Wars. Моды выбираются вверху компонентов. При первой установке сохраняются мод и доступные компоненты патча; уже скачанные выпуски можно переключать без повторной загрузки. Выбор становится действующим после применения настроек. Пока есть изменения, запуск игры заблокирован, а кнопка применения выделена.\n- Отдельные обновления модов. Релиз и Бета выбираются для каждого мода. Предложение обновить патч относится к установленному выпуску выбранного мода. Неустановленный мод предлагает установку. Для оригинальной игры и Immortals доступны отключаемые исправления Paw's Patch 0.1.0.\n- Язык текста и озвучки игры. English и Русский выбираются отдельно и сохраняются при переключении модов, включая Vanilla. Скачивается только выбранная локализация; готовые пакеты используются повторно. Исправлены русские шрифты Vanilla и Immortals, дополнены недостающие переводы Immortals. Язык самого лаунчера перенесён в настройки.\n- Обновление до открытия лаунчера. Отдельное компактное окно появляется на нужном мониторе, проверяет новую версию, показывает процент, размер и скорость загрузки. Без сети через 10 секунд появляется кнопка открытия, а через 30 секунд запускается установленный лаунчер. Ручное обновление использует то же окно. При сбое обновления предусмотрен возврат предыдущей версии.\n- Совместимость с версией игры. Внизу показана установленная версия. При несовпадении объясняется, что нужно обновить, а изменения EXE становятся недоступны. Файловые исправления остаются доступны; окно компонента перечисляет работающие и недоступные функции. Проверка учитывает сохранённый патч каждого мода.\n- Обновлённый интерфейс. Компактная загрузка с раскрывающимися подробностями, плавные окна, закрытие по клику снаружи без нажатия кнопок под ними, уведомления на пять секунд, отметки непрочитанной истории, Discord в верхней панели. Удаление лаунчера предлагает также удалить установленные моды и патч.\n- Общая справка и история изменений. Описания модов, их авторы, нововведения и справка по патчам объединены. История фильтруется по моду, источнику и каналу. Тексты справки и истории могут обновляться без новой версии EXE.\n- Друзья и чаты. Сохранённые чаты открываются из кеша и обновляются с сервера. Добавлены даты и разделитель новых входящих сообщений, оригинальные смайлики Kohan II и выбор нескольких смайликов с Shift. Обычные Ctrl+A/C/V работают. Исправлены расположение значков, карточки игроков, загрузка списка друзей при входе и подтверждения действий.\n- Копирование конфигурации. Карточка показывает мод и канал; язык игры не копируется. Подтверждение предлагает установить или обновить нужный выпуск и применить настройки. Конфигурации игрока с устаревшим либо неизвестным совместимым выпуском нельзя скопировать; причина показана рядом.\n- Соединение и аккаунт. Плашка потери связи не сдвигает интерфейс; сетевые действия недоступны до восстановления соединения. Исправлено восстановление сохранённого входа без сети. Заблокированный пользователь не может удалить аккаунт; ограничение почты сохраняется до окончания бана.\n- Диагностика. Архив включает ограниченный журнал действий, сведения о системе и видеодрайвере, выбранные и применённые настройки, состояние установок и обновления. Журнал не записывает пароли, содержимое сообщений или отдельные нажатия клавиш и не отправляется автоматически.\n\nArcane Wars пока доступен в лаунчере администраторам и участникам Paw's Team. Ранее подтверждённый участник может без сети запускать и переключать уже установленный выпуск. Для новой установки и обновлений требуется соединение. Авторы модов: Immortals — MartialDoctor; Arcane Wars — Darquan Mortis. Моды не являются частью авторства Paw's Patch.\n\nВерсии патчей: оригинальная игра и Immortals — 0.1.0; Arcane Wars — 0.2.0 (Релиз) и 0.3.0-beta.2 (Бета). Компонент баланса осадных машин в Arcane Wars добавляет расход 0,75 очка королевства четырём улучшенным машинам; стоимость в золоте, ресурсное содержание и атаки соответствуют исходному моду.",
-        "en": "A major update with mod selection, retained installations and a unified guide. Paw's Patch remains a separate, optional game component.\n\n- Vanilla, Immortals and Arcane Wars: install and retain mods with their available patch components, then switch cached releases without downloading them again. Selections take effect when applied. Pending changes highlight Apply and disable game launch.\n- Updates per mod: Release/Beta preferences and patch updates belong to each installed mod. Uninstalled mods offer installation. Vanilla and Immortals gain optional Paw's Patch 0.1.0 fixes.\n- Independent game text and speech: choose English or Russian; preferences survive mod switches, including Vanilla. Only selected language packages are downloaded and then cached. Fixed Russian fonts and completed missing Immortals translations. Launcher language is in Settings.\n- Startup updater: a compact window on the launcher monitor checks and installs updates with percentage, size and speed. When offline, Open launcher appears after 10 seconds and the installed version opens automatically after 30 seconds. Manual updates use the same window; failed updates can roll back.\n- Game compatibility: the installed game version and appropriate update advice are shown. Unsupported executable changes are disabled while file-only fixes remain available. Compatibility follows each retained mod release.\n- Interface: expandable compact download details, animated dialogs, outside-click dismissal that consumes the click, five-second notifications, unread history indicators and a top-bar Discord button. Uninstall offers to remove mods and patches too.\n- Unified help and history: mod descriptions, authors, additions and patch documentation, with history filters for mod, source and channel. Documentation can update independently of the EXE.\n- Friends and chat: cached conversations refresh from the server; date and unread separators, Kohan II emoji with Shift multi-selection, working Ctrl+A/C/V, refined badges and player cards, reliable account-startup loading and action confirmations.\n- Configuration copying: mod/channel information and an install/update-and-apply confirmation. Game language is not copied. Outdated or unverifiable peer versions block copying with an explanation.\n- Connection and accounts: an offline banner without layout shifts, network controls disabled until reconnection, reliable remembered-account restoration offline, and ban-aware account deletion with the email ban retained.\n- Diagnostics: bounded action history, system/GPU driver information, selected/applied settings, installation and update state. The journal excludes passwords, message contents and individual keystrokes and is never uploaded automatically.\n\nArcane Wars is currently available to administrators and Paw's Team. Previously verified members may use already installed releases offline; new installations and updates require a connection. Mod authors: Immortals — MartialDoctor; Arcane Wars — Darquan Mortis. Mod authorship is separate from Paw's Patch.\n\nPatch versions: Vanilla and Immortals 0.1.0; Arcane Wars Release 0.2.0 / Beta 0.3.0-beta.2. Its siege option adds 0.75 kingdom-point upkeep to four upgraded engines, retaining the original mod's gold costs, resource upkeep and attacks."
+        "ru": "- Добавлен выбор Vanilla, Immortals и Arcane Wars с отдельными каналами обновлений.\n- Скачанные моды можно переключать без повторной загрузки.\n- Текст и озвучка игры выбираются независимо. Исправлены русские шрифты и дополнен перевод Immortals.\n- Добавлено отдельное окно обновления лаунчера с прогрессом и скоростью загрузки.\n- Обновлены интерфейс, уведомления и история изменений с фильтрами.\n- Улучшены чаты, смайлики, список друзей и копирование конфигурации.\n- Исправлены восстановление входа и работа без соединения.\n- Расширен архив диагностики.",
+        "en": "- Added Vanilla, Immortals and Arcane Wars selection with separate update channels.\n- Downloaded mods can be switched without downloading them again.\n- Game text and voices can be selected independently. Fixed Russian fonts and expanded the Immortals translation.\n- Added a dedicated launcher updater with download progress and speed.\n- Updated the interface, notifications and filterable change history.\n- Improved chats, emoticons, friends and configuration copying.\n- Fixed sign-in recovery and offline behavior.\n- Expanded diagnostic archives."
       }
     },
     {
@@ -1100,8 +1100,8 @@
         "en": "Russian language and focused fixes"
       },
       "body": {
-        "ru": "Исправлено чтение русских строк. В компоненте Paw's Patch доступны исправления цветов значков рот, отображения «−0» в лимите рот и инициализации рельефа. Для исправлений движка требуется поддерживаемая 1.3.72; файловые исправления остаются доступны отдельно.",
-        "en": "Fixed Russian string loading. Paw's Patch offers company-badge colors, negative-zero display and terrain initialization fixes. Engine fixes require the supported 1.3.72 executable; file fixes remain separately available."
+        "ru": "- Исправлены русские строки, цвета значков рот, отображение «−0» и инициализация рельефа.",
+        "en": "- Fixed Russian text, company badge colors, negative-zero display and terrain initialization."
       }
     },
     {
@@ -1116,8 +1116,8 @@
         "en": "Russian language and focused fixes"
       },
       "body": {
-        "ru": "Исправлено чтение русских строк. В компоненте Paw's Patch доступны исправления цветов значков рот, отображения «−0» в лимите рот и инициализации рельефа. Для исправлений движка требуется поддерживаемая 1.3.72; файловые исправления остаются доступны отдельно.",
-        "en": "Fixed Russian string loading. Paw's Patch offers company-badge colors, negative-zero display and terrain initialization fixes. Engine fixes require the supported 1.3.72 executable; file fixes remain separately available."
+        "ru": "- Исправлены русские строки, цвета значков рот, отображение «−0» и инициализация рельефа.",
+        "en": "- Fixed Russian text, company badge colors, negative-zero display and terrain initialization."
       }
     },
     {
@@ -1129,8 +1129,8 @@
         "en": "Advanced city upgrades and faster save transfers"
       },
       "body": {
-        "ru": "Расширенное автоулучшение городов и ускоренная штатная передача сохранений в сетевом лобби встроены в бету при любых настройках компонентов. В F1 под галочками расположены четыре поля порогов дохода с иконками камня, дерева, железа и кристаллов. Enter применяет значение, Esc или щелчок вне поля отменяет ввод. Резерв золота задаётся отдельно. Автоулучшение не снижает доход ресурса ниже порога и не усугубляет существующий дефицит. Если безопасно устранить нехватку сейчас невозможно, другие города могут повышать доход золота. Города строятся параллельно: учитываются уже начатые и ручные постройки; осада блокирует только осаждённый город. В отдельном окне доступны правила строительства, ветки улучшений и исключения городов. Выбираются выгодные золотые ветки рынков, если хватает ресурсов. Сохранения в лобби передаются штатным протоколом, без дружбы и ручного принятия: используется проверенный вариант R2 с ограниченными пакетами. Формат сейвов не меняется; новая партия и загрузка начинают с включённым автоулучшением и резервом 2000. Пороги ресурсов и общие правила сохраняются на этом компьютере, исключения городов сбрасываются. Релиз 0.2.0 и лаунчер 0.6.4 не обновляются.",
-        "en": "Advanced city upgrades and faster native saved-game transfers in multiplayer lobbies are built into Beta with every component configuration. F1 has four income-target fields with stone, wood, iron and mana icons beneath the checkboxes. Enter applies a value; Esc or clicking outside cancels editing. The gold reserve is separate. Automation never lowers resource income below its target or worsens an existing shortage. If no safe remedy is currently available, other cities can still grow gold income. Cities build in parallel, accounting for active and manual construction; a siege only excludes its own city. A separate settings window offers construction rules, exact upgrade branches and city exceptions. Profitable market conversion branches are chosen when resource targets permit. Lobby saves use the native protocol with no friendship or manual acceptance required, using the tested bounded R2 tuning. Save format is unchanged; new matches and loaded saves start with automation on and a 2000 reserve. Resource targets and general rules persist locally; city exceptions reset. Release 0.2.0 and launcher 0.6.4 are not updated."
+        "ru": "- В F1 добавлены цели дохода по четырём ресурсам и отдельный запас золота.\n- Улучшены экономические приоритеты и выбор золотых веток рынков.\n- Города строятся параллельно с учётом очереди; осаждённый город пропускается.\n- Добавлены правила строительства, ветки улучшений и исключения городов.\n- Ускорена передача сохранений в сетевом лобби.",
+        "en": "- Added four resource-income targets and a separate gold reserve in F1.\n- Improved economic priorities and selection of gold-producing market upgrades.\n- Cities build in parallel with queued work accounted for; besieged cities are skipped.\n- Added building rules, upgrade branches and city exclusions.\n- Accelerated saved-game transfers in multiplayer lobbies."
       }
     },
     {
@@ -1142,8 +1142,8 @@
         "en": "Refreshed Friends and quick save sharing"
       },
       "body": {
-        "ru": "Постоянный поиск и отдельные окна заявок, добавления друзей, рассылки и блокировок. Чаты плавно поднимаются по новым входящим и исходящим сообщениям без потери черновика. «Отправить сейв» в папке игры сразу открывает выбор файла и закрывает рассылку после полной успешной отправки; обычная рассылка остаётся открытой. Регистрация подтверждается шестизначным кодом с автоматическим входом. Более крупный размер окна применяется один раз, затем снова сохраняется выбранный размер. В истории первыми открываются изменения лаунчера, отдельно доступны Релиз и Бета. Исправлена повторная ошибка чтения кода завершения игры. Игровые пакеты и настройки компонентов не изменились.",
-        "en": "Permanent search and separate dialogs for requests, adding friends, broadcast and blocked users. Chats move smoothly to the top for new incoming and outgoing messages without losing drafts. Game folder / Send save opens the file picker immediately and closes the broadcast after complete success; normal broadcasts stay open. Registration uses a six-digit email code with automatic sign-in. A larger default window is applied once, then user resizing is remembered again. Changelog opens on Launcher, with separate Release and Beta tabs. Fixed repeated game exit-code logging errors. Game packages and component settings are unchanged."
+        "ru": "- Добавлены постоянный поиск и отдельные окна заявок, друзей, рассылки и блокировок.\n- Чаты поднимаются по новым сообщениям, сохраняя черновик.\n- Упрощена отправка сейвов из папки игры.\n- Добавлены подтверждение регистрации кодом и автоматический вход.\n- Улучшены размер окна и навигация по истории.\n- Исправлена ошибка определения завершения игры.",
+        "en": "- Added persistent search and separate dialogs for requests, friends, broadcasts and bans.\n- Chats move up with new messages while keeping drafts.\n- Simplified sending saves from the game folder.\n- Added registration confirmation by code and automatic sign-in.\n- Improved window sizing and history navigation.\n- Fixed an error when detecting game exit."
       }
     },
     {
@@ -1155,8 +1155,8 @@
         "en": "Automatic city upgrades and desync notification"
       },
       "body": {
-        "ru": "Автоулучшение городов встроено в бету и работает со всеми компонентами. Управление находится в F1: галочка, резерв золота и состояние очереди. Сначала устраняются дефициты ресурсов, затем повышается доход золота, затем выбирается другое доступное улучшение. Города обслуживаются по очереди с учётом стоимости, резерва и ручных приказов. Enter применяет введённый резерв, Esc и щелчок вне поля отменяют ввод; кнопки меняют его на 100. При новой партии и загрузке сохранения автоулучшение включено, резерв равен 2000; в сейв эти параметры пока не записываются. При включённом игнорировании рассинхронов предупреждение появляется в игровом чате со штатным звуком ошибки не чаще раза в 5 минут. Это предупреждение, а не исправление самого рассинхрона. Релиз 0.2.0 и лаунчер 0.6.3 не изменены. Исправлен запуск с возвращёнными Powers и Shards: ресурс Shards теперь регистрируется вне комментария и соответствует порядку статистики.",
-        "en": "Automatic city upgrades are built into Beta and work with every component combination. F1 contains the toggle, gold reserve and queue status. Resource deficits take priority, followed by gold income and then another legal upgrade. Cities are processed fairly with affordability, the reserve and manual orders respected. Enter applies the typed reserve; Esc or clicking outside cancels editing; buttons adjust it by 100. New matches and loaded saves start with automation enabled and a 2000 reserve; these preferences are not yet stored in saves. With Ignore desyncs enabled, a native chat warning and game error sound play at most once every 5 minutes. This warns about desyncs; it does not fix them. Release 0.2.0 and launcher 0.6.3 are unchanged. Fixed startup with restored Powers and Shards: the Shards resource is now registered outside the comment and matches scoring order."
+        "ru": "- Добавлено автоулучшение городов с управлением через F1: включение, запас золота и состояние очереди.\n- Сначала устраняются дефициты ресурсов, затем повышается доход золота и выбираются другие улучшения.\n- При игнорировании рассинхронов в чате появляется предупреждение.\n- Исправлен запуск с включёнными Powers и Shards.",
+        "en": "- Added city automation controlled through F1: enable switch, gold reserve and queue status.\n- Resource deficits are addressed first, followed by gold income and other upgrades.\n- Ignoring desyncs now shows a warning in chat.\n- Fixed startup with Powers and Shards enabled."
       }
     },
     {
@@ -1168,8 +1168,8 @@
         "en": "Smooth download progress"
       },
       "body": {
-        "ru": "Полоса плавно заполняется при обновлении лаунчера и скачивании пакетов патча. Переходы между показаниями не меняют реальные данные загрузки; смена файла и отмена корректно сбрасывают анимацию. На этапе установки без известного процента сохраняется непрерывный индикатор. Настройки, язык и игровые файлы не изменились.",
-        "en": "Progress fills smoothly during launcher updates and patch package downloads. Transitions preserve real transfer measurements; switching files and cancellation reset the animation correctly. Installation stages without a known percentage retain the indeterminate indicator. Settings, language and game files are unchanged."
+        "ru": "- Добавлено плавное заполнение полосы загрузки при обновлении лаунчера и скачивании пакетов.",
+        "en": "- Added smooth download progress for launcher and package updates."
       }
     },
     {
@@ -1181,8 +1181,8 @@
         "en": "Pinned administration navigation"
       },
       "body": {
-        "ru": "Вкладки администрирования, кнопка обновления, поиск и время проверки остаются сверху. Прокручивается только содержимое вкладки, поэтому переключаться можно даже из конца списка. Сохранены плавная прокрутка и переходы. Игровые файлы и настройки не изменились.",
-        "en": "Administration tabs, refresh, search and check time stay at the top. Only the selected tab's content scrolls, so navigation remains available at the bottom of long lists. Smooth scrolling and transitions are preserved. Game files and settings are unchanged."
+        "ru": "- Вкладки, поиск и кнопки администрирования остаются видимыми при прокрутке списков.",
+        "en": "- Administration tabs, search and controls remain visible while scrolling lists."
       }
     },
     {
@@ -1194,8 +1194,8 @@
         "en": "Friends, profiles and sharing in the launcher"
       },
       "body": {
-        "ru": "Аккаунты с аватарками, именами и username; восстановление пароля кодом. Чаты, заявки, статусы, предложения конфигураций и передача сейвов, включая рассылку нескольким друзьям. Компактный интерфейс, плавная прокрутка, настраиваемые звуковые уведомления и кнопка возврата вниз чата. Админ-панель со статусами сервисов, ресурсами и модерацией. Добавлены два пакета частоты блуждающих рот ×2; остальные игровые пакеты не изменились. Исправлены очистка временных сейвов и обновлятор. Если старая 0.5.8 в очень глубокой папке откатывает обновление, закройте её и однократно замените EXE файлом выпуска 0.6.0.",
-        "en": "Accounts with avatars, display names and usernames; password recovery by code. Chats, friend requests, presence, configuration offers and save transfers, including sharing with several friends. Compact interface, smooth scrolling, customizable notification audio and a jump-to-latest chat button. Administration with service status, resources and moderation. Two ×2 roaming profiles are included; existing gameplay packages are unchanged. Temporary-save cleanup and the updater are fixed. If old 0.5.8 rolls back an update from a very deep folder, close it and replace its EXE once with the official 0.6.0 release file."
+        "ru": "- Добавлены аккаунты, аватарки, имена и восстановление пароля.\n- Добавлены друзья, чаты, статусы, обмен настройками и рассылка сейвов.\n- Обновлён интерфейс, добавлены звуковые уведомления и возврат вниз чата.\n- Добавлена админ-панель с модерацией и статусами сервисов.\n- Добавлена частота блуждающих рот ×2.\n- Исправлены обновлятор и очистка временных сейвов.",
+        "en": "- Added accounts, avatars, names and password recovery.\n- Added friends, chats, statuses, configuration sharing and save broadcasts.\n- Updated the interface with sound notifications and a jump-to-latest chat button.\n- Added administration tools, moderation and service status.\n- Added ×2 roaming-company frequency.\n- Fixed the updater and temporary-save cleanup."
       }
     },
     {
@@ -1207,8 +1207,8 @@
         "en": "Independent Release settings"
       },
       "body": {
-        "ru": "Расширенные цвета доступны в Релизе. В новых пакетах цвета, вражда независимых и пропуск рассинхрона переключаются независимо. Код конфигурации и импорт поддерживают все сочетания. «О патче» обновлено для Релиза 0.2.0, включая все 7 моделей затенения значков; во вкладке беты поясняется, что отдельных новых функций пока нет. Для закреплённых старых выпусков сохраняются ограничения реально отсутствующих файлов запуска.",
-        "en": "Extended colors are available in Release. New packages allow independent color, independent-hostility and desync-bypass switches. Friend codes and import support every combination. About is updated for Release 0.2.0, including all seven badge shading models; Beta explains that no exclusive features remain. Pinned old releases keep restrictions for launch helpers they actually lack."
+        "ru": "- Расширенные цвета доступны в релизе.\n- Цвета, вражда независимых и игнорирование рассинхронов выбираются независимо.\n- Обновлены копирование конфигурации и справка по патчу.",
+        "en": "- Extended player colors are available in the stable release.\n- Colors, independent hostility and Ignore desyncs can be selected independently.\n- Updated configuration sharing and patch help."
       }
     },
     {
@@ -1220,8 +1220,8 @@
         "en": "Beta features graduate to Release"
       },
       "body": {
-        "ru": "В Релиз перенесены случайный тип карты и время суток с сохранением настроек, исправление стартового рассинхрона и общие исправления интерфейса. Доступны 49 цветов с синхронизацией лобби, проверкой занятых цветов при подключении и отображением цветов сохранения. Все переключатели независимы: цвета работают с выключенной враждой независимых и с любым режимом контроля рассинхрона. Добавлены все 7 моделей значков рот и согласованное мягкое затенение, в том числе без расширенных цветов. Служебное окно перед запуском не появляется. Beta сейчас содержит тот же набор игровых файлов.",
-        "en": "Release now includes persistent random map type and time of day, the identified startup desync fix and common UI fixes. Includes 49 colors with lobby synchronization, occupied-color checks on reconnect and saved-game colors. All switches are independent: colors work with independent hostility disabled and with either desync mode. All 7 company badge models and consistent soft shading are included, even without extended colors. No helper window opens before launch. Beta currently uses the same gameplay files."
+        "ru": "- В релиз добавлены случайные тип карты и время суток с сохранением выбора.\n- Исправлен рассинхрон при повторном запуске матча.\n- Добавлены 49 цветов и синхронизация выбора в лобби.\n- Расширенные цвета можно сочетать с остальными компонентами.\n- Обновлены все семь моделей значков рот и их затенение.\n- Убрано служебное окно перед запуском.",
+        "en": "- Added persistent random map type and time-of-day selection to the stable release.\n- Fixed a desync when starting another match.\n- Added 49 colors and synchronized lobby color selection.\n- Extended colors can be combined with the other components.\n- Updated all seven company badge models and their shading.\n- Removed the extra window before game startup."
       }
     },
     {
@@ -1233,8 +1233,8 @@
         "en": "Automatic guide updates and colors with desync bypass"
       },
       "body": {
-        "ru": "«О патче» загружается из подписанных данных выбранного выпуска, обновляется без нового EXE и сохраняется для работы без интернета. Справка дополнена случайной картой, временем суток и новыми правилами сетевых цветов. В бете 7 расширенные цвета можно сочетать с пропуском рассинхрона; настройка сохраняется и передаётся кодом друга. У старых бет без соответствующего файла запуска это сочетание недоступно.",
-        "en": "About the patch comes from the selected release's signed feed, updates without a new EXE and remains available offline. The guide now covers random map type, time of day and multiplayer color behavior. Beta 7 allows extended colors with desync bypass, including saved settings and friend codes. Older Betas without the combined helper retain their compatibility restriction."
+        "ru": "- Справка по патчу обновляется вместе с выбранным выпуском.\n- В бете расширенные цвета можно сочетать с игнорированием рассинхронов и передавать этот выбор кодом конфигурации.",
+        "en": "- Patch help updates with the selected release.\n- In Beta, extended colors can be combined with Ignore desyncs and shared through configuration codes."
       }
     },
     {
@@ -1246,8 +1246,8 @@
         "en": "Random maps, time of day and multiplayer colors"
       },
       "body": {
-        "ru": "Добавлен случайный выбор типа карты и времени суток с сохранением настроек. Исправлена найденная причина стартового рассинхрона после повторных матчей. Хост меняет цвета всех игроков, клиент только свой. Цвета сохраняются при возврате в лобби и повторном подключении; занятый цвет возвращающегося игрока заменяется на «Случайно». В лобби сохранения отображаются цвета королевств из сейва без возможности изменения. Расширенные цвета можно сочетать с пропуском рассинхрона в лаунчере 0.5.7. Служебное окно перед запуском больше не появляется. Игровые пакеты Релиза не изменены.",
-        "en": "Adds random map type and time of day with persistent settings. Fixes the identified startup desync cause after repeated matches. Hosts can change all player colors, clients only their own. Colors survive lobby returns and reconnects; a returning player whose old color is occupied becomes Random. Saved-game lobbies show the saved kingdom colors read-only. Extended colors can be combined with desync bypass in launcher 0.5.7. No helper window appears before launch. Release gameplay packages are unchanged."
+        "ru": "- Добавлены случайные тип карты и время суток с сохранением настроек.\n- Исправлен стартовый рассинхрон после повторных матчей.\n- Улучшены выбор цветов, повторное подключение и отображение цветов из сейва.\n- Расширенные цвета можно сочетать с игнорированием рассинхронов.\n- Убрано служебное окно перед запуском.",
+        "en": "- Added persistent random map type and time-of-day settings.\n- Fixed a startup desync after repeated matches.\n- Improved color selection, reconnects and saved-game color display.\n- Extended colors can be combined with Ignore desyncs.\n- Removed the extra window before game startup."
       }
     },
     {
@@ -1259,8 +1259,8 @@
         "en": "Refined interface and easier configuration"
       },
       "body": {
-        "ru": "Плавные переключатели, кнопки, вкладки и прокрутка, единое оформление текста и понятные статусы. Окно запоминает размер, положение и монитор. Добавлена страница «О патче», подробное сравнение файлов с другом, безопасная очистка старого кеша, понятные ошибки с действиями и открытие последнего архива диагностики. Подтверждения оформлены внутри лаунчера. Исправлены работа буфера обмена и код конфигурации при переходе из Беты в Релиз. Выбор цветов Беты сохраняется отдельно от активного набора. Канал патча теперь явно подписан и не влияет на обновления лаунчера.",
-        "en": "Smooth switches, buttons, tabs and scrolling, consistent typography and clear status messages. Window size, position and monitor are remembered. Includes About the patch, detailed peer file comparison, safe old-cache cleanup, actionable errors and access to the latest diagnostic archive. Confirmations are shown inside the launcher. Clipboard handling and Beta-to-Release configuration codes are fixed; the Beta color preference is retained separately from active settings. The patch channel is explicitly labelled and does not affect launcher updates."
+        "ru": "- Добавлены плавные переходы, единое оформление и сохранение положения окна.\n- Добавлены справка, сравнение файлов с другом, очистка старого кэша и открытие архива диагностики.\n- Улучшены подтверждения и сообщения об ошибках.\n- Исправлены буфер обмена и перенос конфигурации между каналами.",
+        "en": "- Added smooth transitions, consistent styling and saved window placement.\n- Added patch help, file comparison with friends, old-cache cleanup and diagnostic archive access.\n- Improved confirmations and error messages.\n- Fixed clipboard use and configuration transfer between channels."
       }
     },
     {
@@ -1272,8 +1272,8 @@
         "en": "Configurable Powers/Shards and preserved localization"
       },
       "body": {
-        "ru": "Новый пункт «Отключение Powers и Shards» по умолчанию включён. Его выключение возвращает обе механики Arcane Wars; вариант заранее загружается и применяется перед запуском. При отключении новых рот или осадного баланса больше не теряются ключи перевода. Описание осадного баланса уточнено: переключатель управляет стоимостью, уроном и атаками, как и прежде. Исправление перевода не меняет числовые параметры. Игровые EXE и версия цветов Беты не изменены.",
-        "en": "Disable Powers and Shards is enabled by default. Turning it off restores both Arcane Wars mechanics; the variant is preloaded and applied before launch. Disabling additional roaming companies or siege balance no longer loses localization references. Siege help now accurately describes its existing cost, damage and attack changes. The localization repair does not change gameplay numbers. Game executables and the Beta color version are unchanged."
+        "ru": "- Добавлен переключатель отключения Powers и Shards.\n- Исправлены пропавшие переводы при отключении новых рот или осадного баланса.\n- Уточнено описание осадного баланса.",
+        "en": "- Added a switch to disable Powers and Shards.\n- Fixed missing translations when new companies or siege balance are disabled.\n- Clarified the siege-balance description."
       }
     },
     {
@@ -1285,8 +1285,8 @@
         "en": "Colors: lobby desync fix"
       },
       "body": {
-        "ru": "Исправлена запись команды выбора цвета в контрольную сумму хоста: теперь она соответствует обработке у клиента. Контроль рассинхрона не отключён. Удалён тёмно-розовый, осталось 49 цветов. Сетевой протокол несовместим с предыдущей сборкой. Проверки кода пройдены; живая проверка мультиплеера продолжается. Stable и лаунчер не изменены.",
-        "en": "The host now records color-command boundaries in its checksum to match client processing. Desync detection remains enabled. Dark pink was removed, leaving 49 colors. The network protocol is incompatible with the previous build. Code checks passed; live multiplayer validation is ongoing. Stable and the launcher are unchanged."
+        "ru": "- Исправлен рассинхрон при выборе цвета в сетевом лобби.\n- Удалён тёмно-розовый цвет, осталось 49 цветов.",
+        "en": "- Fixed a desync when selecting colors in multiplayer lobbies.\n- Removed dark pink, leaving 49 colors."
       }
     },
     {
@@ -1298,8 +1298,8 @@
         "en": "Refined launcher logo"
       },
       "body": {
-        "ru": "Новый логотип с буквой P в стиле Palatino Linotype, тонкой золотой рамкой и мягким градиентом. Обновлены значки EXE и окна. При запуске Windows получает уведомление об обновлении этого EXE. Остальные надписи остаются Arial. Игровые пакеты не изменены.",
-        "en": "A new Palatino Linotype-style P logo with a fine gold rim and soft gradient. Executable and window icons are updated. Startup notifies Windows that this executable has changed. Other interface text remains Arial. Game packages are unchanged."
+        "ru": "- Обновлены логотип и значки лаунчера.",
+        "en": "- Updated the launcher logo and icons."
       }
     },
     {
@@ -1311,8 +1311,8 @@
         "en": "Multiplayer colors and common UI fixes"
       },
       "body": {
-        "ru": "Исправлена ошибка передачи выбранного цвета, вызывавшая краш в сетевом лобби. В главное меню добавлены версии Arcane Wars и Paw's Patch. В строке лимитов вместо точного -0 показывается 0; сами лимиты не меняются. Подписи и исправление нуля работают при любых настройках запуска.",
-        "en": "Fixed color-selection network encoding that caused a crash in multiplayer lobbies. The main menu now displays Arcane Wars and Paw's Patch versions. Exact negative zero is displayed as 0 in the limit row without changing the limits themselves. Version labels and zero normalization work with every launch configuration."
+        "ru": "- Исправлен вылет при передаче выбранного цвета в лобби.\n- В главное меню добавлены версии Arcane Wars и Paw’s Patch.\n- В лимитах исправлено отображение «−0».",
+        "en": "- Fixed a crash when sharing a selected lobby color.\n- Added Arcane Wars and Paw’s Patch versions to the main menu.\n- Fixed negative-zero display in limits."
       }
     },
     {
@@ -1324,8 +1324,8 @@
         "en": "New icon and Arial"
       },
       "body": {
-        "ru": "У лаунчера появилась собственная сине-золотая иконка с буквой P для файла, окна и панели задач. Все надписи переведены на Arial. Общие исправления интерфейса автоматически применяются даже с выключенными цветами, враждой независимых и обходом рассинхрона.",
-        "en": "The launcher now has a blue-and-gold P icon for its file, window and taskbar. All interface text uses Arial. Common interface fixes apply automatically even with colors, independent hostility and desync bypass disabled."
+        "ru": "- Добавлена сине-золотая иконка лаунчера.\n- Шрифт интерфейса изменён на Arial.",
+        "en": "- Added a blue-and-gold launcher icon.\n- Changed the interface font to Arial."
       }
     },
     {
@@ -1337,8 +1337,8 @@
         "en": "Uninstall and UI improvements"
       },
       "body": {
-        "ru": "В настройках появились отдельные кнопки удаления патча и лаунчера с подтверждением. Удаление патча сохраняет возможность отката и не затрагивает сейвы; удаление лаунчера оставляет игру и патч. После загрузки исчезают скорость и оставшееся время. Начальное окно увеличено до 1440×900 с адаптацией под экран, надпись «Мультиплеер» больше не обрезается. Игровые пакеты не изменены.",
-        "en": "Settings now has separately confirmed patch and launcher uninstall buttons. Patch removal retains rollback data and saves; launcher removal keeps the game and patch. Speed and ETA disappear after downloads. The default window is larger at 1440×900, capped to the screen, and Multiplayer is no longer clipped. Game packages are unchanged."
+        "ru": "- Добавлены отдельные кнопки удаления патча и лаунчера.\n- Увеличено начальное окно и исправлено обрезание надписи «Мультиплеер».\n- После завершения загрузки скрываются скорость и оставшееся время.",
+        "en": "- Added separate patch and launcher uninstall buttons.\n- Increased the initial window size and fixed the clipped Multiplayer label.\n- Download speed and remaining time are hidden when the download finishes."
       }
     },
     {
@@ -1350,8 +1350,8 @@
         "en": "Player colors: multiplayer and Random"
       },
       "body": {
-        "ru": "Исправлены выбор цветов в сетевом лобби и пустая надпись при первом входе. Случайные цвета теперь перемешиваются по общему числу матча, а не выдаются по порядку. Свободные слоты и «Случайно» отмечены серым. Смягчено затенение значков рот с сохранением объёма. На всех компьютерах нужна эта версия; полноценное сетевое тестирование продолжается. Stable и версия лаунчера не изменены.",
-        "en": "Fixed the multiplayer lobby color selector and the blank label on first entry. Random colors are now shuffled from the shared finalized match seed instead of assigned in palette order. Empty slots and Random use gray markers. Badge shading is softened while preserving depth. Every computer needs this version; full multiplayer testing is ongoing. Stable and the launcher version are unchanged."
+        "ru": "- Исправлены выбор цветов в сетевом лобби и пустая подпись при первом входе.\n- Случайные цвета перемешиваются; свободные места отмечаются серым.\n- Смягчено затенение значков рот.",
+        "en": "- Fixed multiplayer color selection and the empty label on first entry.\n- Random colors are shuffled; empty slots are marked gray.\n- Softened company badge shading."
       }
     },
     {
@@ -1363,8 +1363,8 @@
         "en": "Read history and settings import"
       },
       "body": {
-        "ru": "Открытая история изменений автоматически отмечается прочитанной, в том числе при запуске лаунчера. Отметка другой вкладки сохраняется до её открытия. Импорт настроек друга перенесён под код конфигурации в «Компонентах» и «Мультиплеере».",
-        "en": "The displayed changelog is automatically marked as read, including on launcher startup. The other tab keeps its unread marker until opened. Settings import now sits below the configuration code in Components and Multiplayer."
+        "ru": "- Открытая история изменений автоматически отмечается прочитанной.\n- Импорт настроек друга перенесён под код конфигурации.",
+        "en": "- Opened change history is automatically marked as read.\n- Moved friend-settings import below the configuration code."
       }
     },
     {
@@ -1376,8 +1376,8 @@
         "en": "Recovery and multiplayer"
       },
       "body": {
-        "ru": "Автоматический откат неудачного обновления лаунчера, резервная копия предыдущей установки патча, импорт кода настроек и проверка файлов перед мультиплеером. Добавлены рабочая конфигурация, уведомления об аварийном завершении, быстрая проверка запуска, продолжение скачивания со скоростью и оставшимся временем, отметки непрочитанных изменений и выбор предыдущих Beta.",
-        "en": "Automatic launcher update rollback, previous patch installation backups, configuration code import and multiplayer file comparison. Adds working settings, unexpected-exit notices, quick preflight checks, resumable downloads with speed and ETA, unread changelog markers and previous Beta selection."
+        "ru": "- Добавлены откат неудачного обновления, резервная копия патча и выбор предыдущих бет.\n- Добавлены импорт настроек, проверка файлов и уведомления о вылетах.\n- Скачивание можно продолжить после обрыва; показываются скорость и оставшееся время.\n- Добавлены отметки непрочитанных изменений.",
+        "en": "- Added failed-update rollback, patch backups and selection of earlier betas.\n- Added configuration import, file checks and crash notifications.\n- Interrupted downloads can resume, with speed and time remaining shown.\n- Added unread change markers."
       }
     },
     {
@@ -1389,8 +1389,8 @@
         "en": "Fixed startup after 0.4.5"
       },
       "body": {
-        "ru": "В самодостаточную сборку снова включены нативные библиотеки WPF. Лаунчер больше не падает до появления окна после обновления.",
-        "en": "Native WPF libraries are included in the self-contained build again. The launcher no longer crashes before showing its window after an update."
+        "ru": "- Исправлен вылет лаунчера до появления окна после обновления.",
+        "en": "- Fixed the launcher crashing before its window appears after an update."
       }
     },
     {
@@ -1402,8 +1402,8 @@
         "en": "Correct update-check status"
       },
       "body": {
-        "ru": "После стартовой или ручной проверки надпись «Проверяю обновления…» заменяется итоговым состоянием и индикатор останавливается.",
-        "en": "After a startup or manual check, Checking for updates is replaced by the final status and the progress indicator stops."
+        "ru": "- Исправлено зависание надписи «Проверяю обновления…» после завершения проверки.",
+        "en": "- Fixed Checking for updates remaining visible after the check finishes."
       }
     },
     {
@@ -1415,8 +1415,8 @@
         "en": "Automatic startup updates"
       },
       "body": {
-        "ru": "Доступное обновление лаунчера снова автоматически скачивается и устанавливается при запуске. Кнопка ручной проверки и обновления во время работы сохранена.",
-        "en": "Available launcher updates are automatically downloaded and installed on startup again. The manual check and update button remains available while the launcher is running."
+        "ru": "- Восстановлена автоматическая установка обновлений лаунчера при запуске.",
+        "en": "- Restored automatic launcher updates at startup."
       }
     },
     {
@@ -1428,8 +1428,8 @@
         "en": "Fixed initial color label"
       },
       "body": {
-        "ru": "Поле цвета сразу показывает «Случайно» при первом входе в лобби. Исправление находится в интерфейсном файле и не меняет сетевую логику цветов.",
-        "en": "The color field now immediately shows Random on the first lobby entry. The fix is in the UI file and does not change color networking."
+        "ru": "- При первом входе в лобби поле цвета сразу показывает «Случайно».",
+        "en": "- The color field immediately shows Random when first entering a lobby."
       }
     },
     {
@@ -1532,8 +1532,8 @@
         "en": "Stable and Beta channels"
       },
       "body": {
-        "ru": "Появились отдельные подписанные каналы и первый пакет экспериментальных цветов игроков.",
-        "en": "Added separate signed channels and the first experimental player-color package."
+        "ru": "- Добавлены отдельные каналы релизных и бета-обновлений.\n- В бете появились экспериментальные цвета игроков.",
+        "en": "- Added separate stable and beta update channels.\n- Added experimental player colors in Beta."
       }
     },
     {

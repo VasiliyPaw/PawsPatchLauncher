@@ -1,14 +1,13 @@
-# Paw's Patch Launcher 0.5.8
+# Независимые настройки Релиза
 
-- Расширенные цвета доступны в Релизе, не только в Бете.
-- В новых пакетах цвета, вражда независимых и пропуск рассинхрона переключаются независимо. Добавлены недостающие варианты запуска, поэтому выключенный переключатель действительно выключает соответствующую функцию.
-- Код конфигурации, импорт и восстановление настроек поддерживают все сочетания. Ограничения сохранены только для закреплённых старых выпусков, в которых нет нужного файла запуска.
-- «О патче» обновлено для Релиза 0.2.0. Все прежние нововведения беты перенесены в основные разделы; отдельно описаны семь моделей значков рот и мягкое затенение.
+- Расширенные цвета доступны в релизе.
+- Цвета, вражда независимых и игнорирование рассинхронов выбираются независимо.
+- Обновлены копирование конфигурации и справка по патчу.
 
+---
 
-## English
+# Independent Release settings
 
-- Extended colors are available in Release as well as Beta.
-- Colors, independent hostility and desync bypass are independently configurable with the new packages. Added the missing compiled startup variants, so an OFF switch genuinely disables its feature.
-- Friend codes, import and recovery support every combination. Pinned older releases retain only restrictions for helpers they lack.
-- About is updated for patch Release 0.2.0, including promoted Beta features and seven company-badge models with soft shading.
+- Extended player colors are available in the stable release.
+- Colors, independent hostility and Ignore desyncs can be selected independently.
+- Updated configuration sharing and patch help.
