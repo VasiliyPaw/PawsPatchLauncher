@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom)
 $ErrorActionPreference = 'Stop'
 if($LairWoundedTest){$LairRecovery=$true}
 $out = [IO.Path]::GetFullPath($OutputDirectory)
@@ -63,6 +63,20 @@ if($LairRecovery) {
     & $lairTests
     if($LASTEXITCODE -ne 0){throw 'Lair transaction regression failed.'}
 }
+if($CameraZoom) {
+    if(!$CityAssistant -or !$LobbyCompatibility -or !$LairRecovery){throw 'Camera zoom requires the complete Arcane beta helper.'}
+    $camera=Join-Path $PSScriptRoot '../camera-zoom'
+    $cameraNative=Join-Path $out 'camera-native'
+    & $python (Join-Path $camera 'build_native.py') --legacy $work --out $cameraNative
+    if($LASTEXITCODE -ne 0){throw 'Camera native build failed.'}
+    $cameraTests=Join-Path $out 'CameraZoomTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:CameraZoomTests "/out:$cameraTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $camera 'CameraZoomPatch.cs') (Join-Path $cameraNative 'CameraZoomPayload.cs') (Join-Path $camera 'CameraZoomTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Camera transaction tests compilation failed.'}
+    & $cameraTests $cameraNative
+    if($LASTEXITCODE -ne 0){throw 'Camera transaction regression failed.'}
+    & $python (Join-Path $camera 'test_native.py') --legacy $work --native $cameraNative
+    if($LASTEXITCODE -ne 0){throw 'Camera native regression failed.'}
+}
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_player_colors.ini') -Destination $out
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_patch_versions.ini') -Destination $out
 foreach ($variant in $variants.PSObject.Properties) {
@@ -70,6 +84,7 @@ foreach ($variant in $variants.PSObject.Properties) {
     $arguments = @('/nologo','/target:winexe','/platform:x86','/optimize+',
         '/r:System.Core.dll','/r:System.Windows.Forms.dll','/r:System.Drawing.dll',
         ("/define:" + $variant.Value + $(if($CityAssistant){';CITY_ASSISTANT;FAST_SAVE_TRANSFER'}else{''}) + $(if($LobbyCompatibility){';LOBBY_COMPATIBILITY'}else{''}) + $(if($LairWoundedTest){';LAIR_RECOVERY_TEST'}else{''}) + $(if($LairRecovery){';LAIR_RECOVERY'}else{''})), ("/out:" + $exe))
+    if($CameraZoom){$arguments += '/define:CAMERA_ZOOM_2';$arguments += (Join-Path $camera 'CameraZoomPatch.cs'),(Join-Path $cameraNative 'CameraZoomPayload.cs')}
     if($LairRecovery){$arguments += (Join-Path $lair 'LairRecoveryPatch.cs'),(Join-Path $lairNative 'LairRecoveryPayload.cs')}
     foreach ($resource in $resources) { $arguments += '/resource:' + (Join-Path $PSScriptRoot "$resource.bin") + ',' + $resource }
     $source = if ($variant.Name.StartsWith('k2_paws_lobby_colors_mp_nohostility')) { 'k2_paws_lobby_colors_mp_1372_experimental.cs' } else { [IO.Path]::GetFileNameWithoutExtension($variant.Name) + '.cs' }

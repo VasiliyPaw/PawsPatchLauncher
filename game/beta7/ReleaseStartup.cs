@@ -88,6 +88,9 @@ internal static class ReleaseStartup
                 // still intact. The r8 terrain and random-map payloads are unchanged.
                 TerrainPatch.Validate(memory, address);
                 RandomMapPatch.Validate(memory, address);
+#if CAMERA_ZOOM_2
+                CameraZoomPatch.Validate(memory, address);
+#endif
                 uint terrain = TerrainPatch.Install(memory, address, log);
                 uint map = RandomMapPatch.Install(memory, address, log);
                 TerrainPatch.Expect(memory, address + TerrainPatch.HookRva,
@@ -96,6 +99,9 @@ internal static class ReleaseStartup
                 RandomMapPatch.Verify(memory, address, map);
 #if LAIR_RECOVERY
                 LairRecoveryPatch.Install(memory, address, log);
+#endif
+#if CAMERA_ZOOM_2
+                CameraZoomPatch.Install(memory, address, log);
 #endif
             }
             finally { memory.Resume(); }

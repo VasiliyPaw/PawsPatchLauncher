@@ -44,6 +44,11 @@ internal static class BuildFeatures
 #else
         const string lairRecovery = "";
 #endif
+#if CAMERA_ZOOM_2
+        const string camera = ",\"gameplayCameraRevision\":1,\"gameplayCameraZoomMaximum\":2,\"gameplayCameraFarPlane\":1024";
+#else
+        const string camera = "";
+#endif
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
@@ -54,7 +59,7 @@ internal static class BuildFeatures
             ",\"automaticMines\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"newCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"startingCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
-            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + lairRecovery + "}");
+            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + lairRecovery + camera + "}");
         return 0;
     }
 }

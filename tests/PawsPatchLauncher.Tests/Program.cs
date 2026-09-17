@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==4&&args[0]=="--verify-arcane-031-beta1") {await Arcane031Beta1Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--verify-apparition-hotfix") {await ApparitionTextTests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--verify-arcane-030") {await Arcane030Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--verify-arcane-beta9") {await ArcaneBeta9Tests.RunAsync(args[1],args[2],args[3]);return;}
