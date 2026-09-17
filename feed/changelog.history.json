@@ -684,6 +684,23 @@
   "beta": [
     {
       "category": "patch",
+      "version": "0.3.1-beta.1",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "publishedAt": "2026-09-17",
+      "title": {
+        "ru": "Paw's Patch 0.3.1-beta.1 — отдаление камеры",
+        "en": "Paw's Patch 0.3.1-beta.1 — extended camera zoom"
+      },
+      "body": {
+        "ru": "- Увеличен предел отдаления игровой камеры: 2 вместо стандартного 1,21.\n- Отдаление встроено во все восемь вариантов EXE беты и работает обычным колёсиком мыши. Отдельная утилита не требуется.\n- Предел автоматически применяется к игровой камере, в том числе после загрузки сохранения. Ближний предел и камеры интерфейса сохранены.",
+        "en": "- Increased the gameplay camera's zoom-out limit from the stock 1.21 to 2.\n- Extended zoom is built into all eight beta EXE variants and uses the normal mouse wheel. No separate utility is required.\n- The limit applies automatically to the gameplay camera, including after loading a save. The near zoom limit and interface cameras are preserved."
+      }
+    },
+    {
+      "category": "patch",
       "version": "0.3.0-beta.9",
       "mods": [
         "arcane-wars"

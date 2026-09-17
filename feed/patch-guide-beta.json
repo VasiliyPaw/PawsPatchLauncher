@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.0-beta.9",
+  "version": "0.3.1-beta.1",
   "entries": [
+    {
+      "id": "gameplay-camera-zoom",
+      "category": "always",
+      "titleRu": "Отдаление камеры",
+      "titleEn": "Extended camera zoom",
+      "bodyRu": "Предел отдаления игровой камеры увеличен с 1,21 до 2. Работает обычное колёсико мыши; отдельная утилита не нужна. Включено во всех вариантах EXE беты. Ближний предел и камеры интерфейса сохранены.",
+      "bodyEn": "The gameplay camera zoom-out limit is increased from 1.21 to 2. Use the normal mouse wheel; no separate utility is needed. Included in every beta EXE variant. The near limit and interface cameras are preserved."
+    },
     {
       "id": "lair-survivors",
       "category": "always",
