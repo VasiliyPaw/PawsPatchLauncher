@@ -63,5 +63,7 @@
   "Localization\nCoordination Team:":{"cs":"Koordinační tým\nlokalizace:","uk":"Команда координації\nлокалізації:"},
   "Group Production\nCoordinator:":{"cs":"Koordinátor produkční\nskupiny:","uk":"Координатор виробничої\nгрупи:"},
   "Online Marketing\nManager:":{"cs":"Vedoucí internetového\nmarketingu:","uk":"Керівник інтернет-\nмаркетингу:"},
-  "International Sales\nManager:":{"cs":"Vedoucí mezinárodního\nprodeje:","uk":"Керівник міжнародних\nпродажів:"}
+  "International Sales\nManager:":{"cs":"Vedoucí mezinárodního\nprodeje:","uk":"Керівник міжнародних\nпродажів:"},
+  "Apparations":{"cs": "Duchové", "uk": "Привиди"},
+  "Apparitions":{"cs": "Duchové", "uk": "Привиди"}
 }

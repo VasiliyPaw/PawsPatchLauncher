@@ -33,6 +33,7 @@ def translated_table(path, language, values):
 
 def generate(feeds, out, cache, codes=(('de','Deutsch'),('fr','Français')), catalog_path=None,version='1.0.0-preview.1'):
     catalog=read(catalog_path or ROOT/'game/localization/mod-de-fr.json')['entries']
+    apparition=read(ROOT/'game/localization/apparition-term.json')
     audit={};built={}
     for channel,feed in feeds.items():
         packages={p['id']:p for p in feed['packages']}
@@ -47,7 +48,7 @@ def generate(feeds, out, cache, codes=(('de','Deutsch'),('fr','Français')), cat
                 for key,en in reference.items():
                     if key in catalog:
                         entry=catalog[key]
-                        assert entry['en']==en,(key,en,entry['en'])
+                        assert entry['en']==en or (key==apparition['key'] and en==apparition['previous']['en']),(key,en,entry['en'])
                         value=entry[code]
                         if code in ('cs','uk'):
                             from SlavicEditorial import keyed

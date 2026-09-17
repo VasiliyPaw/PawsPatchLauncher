@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==4&&args[0]=="--verify-apparition-hotfix") {await ApparitionTextTests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--verify-arcane-030") {await Arcane030Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--verify-arcane-beta9") {await ArcaneBeta9Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--stage-pure-options") {await PureOptionsTests.StageAsync(args[1],args[2],args[3]);return;}
@@ -246,9 +247,10 @@ try
         }
     };
     AssertTrue(!UpdateDetector.HasModuleChanges(currentState, [currentRelease]), "Current packages were reported as outdated.");
+    AssertTrue(UpdateDetector.HasModuleChanges(currentState, [new PackageRelease { Id = "core", Version = "1.0", Priority = 100, Sha256 = "DEF" }]), "A text-only archive revision with the same patch version was not detected.");
     AssertTrue(UpdateDetector.HasModuleChanges(currentState, [new PackageRelease { Id = "core", Version = "1.1", Priority = 100, Sha256 = "DEF" }]), "A newer package was not detected.");
     AssertTrue(UpdateDetector.HasModuleChanges(currentState, []), "A module removed from the selected channel was not detected.");
-    passed += 3;
+    passed += 4;
 
     var configurationCode = ConfigurationCode.Create(new UserSettings
     {

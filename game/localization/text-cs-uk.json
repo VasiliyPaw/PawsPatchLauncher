@@ -28187,8 +28187,8 @@
       "uk": "Атака літаючого призрака"
     },
     "Apparations": {
-      "cs": "Přílohy",
-      "uk": "Програми"
+      "cs": "Duchové",
+      "uk": "Привиди"
     },
     "Arbalest Company": {
       "cs": "Rota kušeřů",
@@ -37237,6 +37237,10 @@
     "Organizaton %s detached from %s": {
       "cs": "Rota %s odpojena od %s",
       "uk": "Роту %s від'єднано від %s"
+    },
+    "Apparitions": {
+      "cs": "Duchové",
+      "uk": "Привиди"
     }
   }
 }

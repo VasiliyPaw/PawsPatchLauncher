@@ -1,0 +1,20 @@
+{
+  "key": "awloc_apparations_ace6ef22",
+  "context": "Name of the summoned apparition company, referenced by Units/Tech/AW_apparation.tgi. Keep the existing key and gameplay references unchanged.",
+  "values": {
+    "en": "Apparitions",
+    "ru": "Призраки",
+    "de": "Erscheinungen",
+    "fr": "Apparitions",
+    "cs": "Duchové",
+    "uk": "Привиди"
+  },
+  "previous": {
+    "en": "Apparations",
+    "ru": "Приложения",
+    "de": "Erscheinungen",
+    "fr": "Apparitions",
+    "cs": "Přílohy",
+    "uk": "Програми"
+  }
+}
