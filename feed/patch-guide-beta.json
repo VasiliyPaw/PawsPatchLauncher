@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.1-beta.1",
+  "version": "0.3.1-beta.2",
   "entries": [
     {
       "id": "gameplay-camera-zoom",
@@ -143,8 +143,8 @@
       "category": "optional",
       "titleRu": "Расширенные цвета игроков",
       "titleEn": "Extended player colors",
-      "bodyRu": "48 цветов и вариант «Случайно». Нажмите стрелку рядом с цветным значком игрока: выбор больше не занимает дополнительную строку. Светло-красный удалён из списка, но сохранения с этим оттенком поддерживаются.\n\nВ новой игре цвет связан с участником и следует за ним при смене места или переходе в наблюдатели. Новый участник не получает цвет прежнего владельца места. Если прежний цвет уже занят, назначается «Случайно».\n\nХост может менять цвета всех участников, клиент — только свой. В сохранениях цвета принадлежат королевствам и доступны только для просмотра.",
-      "bodyEn": "48 colors plus Random. Click the arrow next to the player color badge; the picker no longer occupies a second row. Light Red is removed from the list, while existing saves using it remain supported.\n\nIn new games, colors belong to participants and follow them between seats or when spectating. New participants do not inherit the previous occupant’s color. If a former color is occupied, Random is selected.\n\nHosts may change all participant colors; clients only their own. Saved-game colors belong to kingdoms and are read-only."
+      "bodyRu": "39 цветов и вариант «Случайно». Список открывается стрелкой рядом со значком цвета. Удалены девять выбранных похожих оттенков; цвета в старых сохранениях сохраняются.\n\nВ новой игре цвет следует за участником при смене места. Хост может менять цвета всех участников, клиент — только свой. В сохранениях цвета принадлежат королевствам и доступны только для просмотра.",
+      "bodyEn": "39 colors plus Random. Open the list with the arrow beside the color badge. Nine selected similar shades have been removed; existing saved-game colors are preserved.\n\nIn new games, colors follow participants between seats. Hosts may change all participant colors; clients only their own. Saved-game colors belong to kingdoms and are read-only."
     },
     {
       "id": "common-ui",
