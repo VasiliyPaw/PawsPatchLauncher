@@ -715,15 +715,15 @@
   "beta": [
     {
       "category": "patch",
-      "version": "0.3.1-beta.2",
+      "version": "0.3.2-beta.1",
       "mods": [
         "arcane-wars"
       ],
       "channel": "beta",
       "publishedAt": "2026-09-18",
       "title": {
-        "ru": "Paw's Patch 0.3.1-beta.2 — палитра из 39 цветов",
-        "en": "Paw's Patch 0.3.1-beta.2 — 39-color palette"
+        "ru": "Paw's Patch 0.3.2-beta.1 — палитра из 39 цветов",
+        "en": "Paw's Patch 0.3.2-beta.1 — 39-color palette"
       },
       "body": {
         "ru": "- Убраны девять похожих оттенков: в выборе осталось 39 цветов и «Случайно».\n- Цвета королевств в старых сохранениях сохраняются, включая убранные оттенки.",
