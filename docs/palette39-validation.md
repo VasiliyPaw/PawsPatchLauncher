@@ -1,4 +1,8 @@
-# Arcane 0.3.1-beta.2 validation
+# Arcane 0.3.2-beta.1 validation
+
+The initial publication used 0.3.1-beta.2. The user corrected the release number
+to 0.3.2-beta.1; the same approved palette and native payloads are retained.
+All eight helpers are rebuilt with the corrected lobby/package identity.
 
 Scope: remove original palette entries 6, 18, 20, 22, 24, 29, 30, 35, 37.
 The 39 remaining entries preserve IDs, RGB bytes, names and order. Ten retired

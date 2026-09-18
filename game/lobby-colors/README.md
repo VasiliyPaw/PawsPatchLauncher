@@ -1,6 +1,6 @@
 # Arcane Wars player palette
 
-## 0.3.1-beta.2: 39 selectable colors
+## 0.3.2-beta.1: 39 selectable colors
 
 The Arcane beta palette removes original 48-color table entries 6, 18, 20,
 22, 24, 29, 30, 35 and 37. Remaining IDs, RGB bytes and ordering are unchanged.

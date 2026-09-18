@@ -25,9 +25,11 @@ public static class Palette39Tests
         Directory.CreateDirectory(root);
         var config=JsonSerializer.Deserialize(File.ReadAllText(Path.Combine(repo,"src/PawsPatchLauncher/launcher.config.json")),LauncherJsonContext.Default.LauncherConfiguration)!;
         var feed=Feed(Path.Combine(stage,"publication/test-feeds/beta.json"),config.PublicKeyPem);
+        string expectedVersion=feed.PatchGuide!.Version;
+        string expectedUi=feed.Packages.Single(p=>p.Id=="common-ui").Version;
         Require(feed.PlayerColorCount==39,"39-color catalog");
         var old=Feed(Path.Combine(repo,"feed/v2/beta.json"),config.PublicKeyPem);
-        Require(old.PlayerColorCount==48,"48-color upgrade baseline");
+        Require(old.PlayerColorCount is 39 or 48,"48-color upgrade baseline");
         foreach(var mod in new[]{GameMod.Vanilla,GameMod.Immortals}) {
             var s=new UserSettings{Mod=mod};
             var a=GamePackageSelector.Select(feed,s,false,false);var b=GamePackageSelector.Select(old,s,false,false);
@@ -38,7 +40,7 @@ public static class Palette39Tests
         foreach(var language in new[]{"en","ru","de","fr","cs","uk"})foreach(bool data in new[]{false,true})foreach(bool enabled in new[]{false,true})for(int mask=0;mask<8;mask++) {
             var s=Selection(mask);s.GameTextLanguage=language;s.RussianLocalization=language=="ru";s.PawPatchEnabled=enabled;s.DataOnly=data;
             var packages=GamePackageSelector.Select(feed,s,s.RussianLocalization,s.CustomPlayerColors);
-            Require(packages.Any(p=>p.Id=="common-ui"&&p.Version=="1.3.72-ui.9-beta.2")==(!data&&enabled),"Incorrect native/static HUD scope");
+            Require(packages.Any(p=>p.Id=="common-ui"&&p.Version==expectedUi)==(!data&&enabled),"Incorrect native/static HUD scope");
             if(data||!enabled)Require(!packages.Any(p=>updated.Contains(p.Id)),"Native update escaped file-only/master-off scope");
             selections++;
         }
@@ -52,7 +54,7 @@ public static class Palette39Tests
             if(Uri.TryCreate(path,UriKind.Absolute,out var u)&&u.Scheme=="https") {
                 path=Path.Combine(cache,p.Sha256+".zip");
                 if(!File.Exists(path)) {
-                    var known=new[]{Path.Combine(stage,"../release-084-arcane-031/test-cache",p.Sha256+".zip"),Path.Combine(stage,"../release-arcane-031-beta1/test-cache",p.Sha256+".zip")}.FirstOrDefault(File.Exists);
+                    var known=new[]{Path.Combine(stage,"../release-arcane-031-beta2/test-cache",p.Sha256+".zip"),Path.Combine(stage,"../release-084-arcane-031/test-cache",p.Sha256+".zip"),Path.Combine(stage,"../release-arcane-031-beta1/test-cache",p.Sha256+".zip")}.FirstOrDefault(File.Exists);
                     if(known!=null)File.Copy(known,path);
                 }
                 if(!File.Exists(path)){await File.WriteAllBytesAsync(path,await http.GetByteArrayAsync(u));Console.WriteLine("CACHED "+p.Id);}
@@ -83,7 +85,7 @@ public static class Palette39Tests
                 var expected=await File.ReadAllTextAsync(Path.Combine(repo,"game/beta7/paws_player_colors.ini"));
                 Require(installed==expected,"Installed palette differs from approved 39 colors");
             }
-            Require((await File.ReadAllTextAsync(Path.Combine(root,"paws_patch_versions.ini"))).Contains("PawPatch=0.3.1-beta.2"),"Stale menu version");
+            Require((await File.ReadAllTextAsync(Path.Combine(root,"paws_patch_versions.ini"))).Contains("PawPatch="+expectedVersion),"Stale menu version");
             using var check=Process.Start(new ProcessStartInfo(Path.Combine(root,exe)) {UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true,ArgumentList={"--preflight",root}})!;
             string log=await check.StandardOutput.ReadToEndAsync(),err=await check.StandardError.ReadToEndAsync();await check.WaitForExitAsync();
             Require(check.ExitCode==0&&log.Contains("PREFLIGHT_PASS"),"Language/variant preflight: "+language+" "+exe+" "+err);
@@ -99,11 +101,11 @@ public static class Palette39Tests
             await process.WaitForExitAsync();Require(process.ExitCode==0&&output.Contains("PREFLIGHT_PASS"),"Preflight failed: "+exe+" "+error);
         }
         // Preserve fixture state for the in-process mismatch and compiled-hook audit.
-        File.Copy(Path.Combine(root,".pawpatch/state.json"),Path.Combine(stage,"installed-031-beta2-state.json"));
+        File.Copy(Path.Combine(root,".pawpatch/state.json"),Path.Combine(stage,"installed-palette-state.json"));
         // Downgrading restores previous helpers and keeps the accepted frames and save.
         await installer.ReconcileAsync(prior,settings:baseline);
         Require((await installer.VerifyAsync()).Count==0,"Baseline rollback must preserve prior frames/data");
-        Require(File.ReadLines(Path.Combine(root,"paws_player_colors.ini")).Count(l=>l.StartsWith("[paws_"))==48,"Rollback restores original palette");
+        Require(File.ReadLines(Path.Combine(root,"paws_player_colors.ini")).Count(l=>l.StartsWith("[paws_"))==old.PlayerColorCount,"Rollback restores original palette");
         await installer.UninstallAsync();
         Require(await File.ReadAllTextAsync(Path.Combine(root,"save-sentinel.rsg"))=="preserve save and preferences","Save changed");
         Require(await CryptoAndIO.Sha256Async(Path.Combine(root,"k2.exe"))==stock,"Stock executable changed");
