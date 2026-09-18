@@ -1,0 +1,132 @@
+[
+  {
+    "id": "paws_light_red",
+    "name_ru": "Светло-красный",
+    "name_en": "Light Red",
+    "rgb": [
+      239,
+      128,
+      128
+    ],
+    "descriptor": 252416,
+    "name_pointer": 252544,
+    "wire_id": 1346699262
+  },
+  {
+    "id": "paws_lime",
+    "name_ru": "Лаймовый",
+    "name_en": "Lime",
+    "rgb": [
+      147,
+      242,
+      13
+    ],
+    "descriptor": 252672,
+    "name_pointer": 253440,
+    "wire_id": 1346699261
+  },
+  {
+    "id": "paws_light_orange",
+    "name_ru": "Светло-оранжевый",
+    "name_en": "Light Orange",
+    "rgb": [
+      239,
+      193,
+      128
+    ],
+    "descriptor": 252736,
+    "name_pointer": 253444,
+    "wire_id": 1346699260
+  },
+  {
+    "id": "paws_light_yellow",
+    "name_ru": "Светло-желтый",
+    "name_en": "Light Yellow",
+    "rgb": [
+      230,
+      239,
+      128
+    ],
+    "descriptor": 252800,
+    "name_pointer": 253448,
+    "wire_id": 1346699259
+  },
+  {
+    "id": "paws_light_green",
+    "name_ru": "Светло-зеленый",
+    "name_en": "Light Green",
+    "rgb": [
+      137,
+      239,
+      128
+    ],
+    "descriptor": 252864,
+    "name_pointer": 253452,
+    "wire_id": 1346699258
+  },
+  {
+    "id": "paws_light_mint",
+    "name_ru": "Светло-мятный",
+    "name_en": "Light Mint",
+    "rgb": [
+      128,
+      239,
+      221
+    ],
+    "descriptor": 252928,
+    "name_pointer": 253456,
+    "wire_id": 1346699257
+  },
+  {
+    "id": "paws_light_violet",
+    "name_ru": "Светло-фиолетовый",
+    "name_en": "Light Violet",
+    "rgb": [
+      211,
+      128,
+      239
+    ],
+    "descriptor": 252992,
+    "name_pointer": 253460,
+    "wire_id": 1346699256
+  },
+  {
+    "id": "paws_light_purple",
+    "name_ru": "Светло-пурпурный",
+    "name_en": "Light Purple",
+    "rgb": [
+      239,
+      128,
+      211
+    ],
+    "descriptor": 253056,
+    "name_pointer": 253464,
+    "wire_id": 1346699255
+  },
+  {
+    "id": "paws_dark_gold",
+    "name_ru": "Темно-золотой",
+    "name_en": "Dark Gold",
+    "rgb": [
+      136,
+      116,
+      17
+    ],
+    "descriptor": 253120,
+    "name_pointer": 253468,
+    "wire_id": 1346699254
+  },
+  {
+    "id": "paws_dark_lime",
+    "name_ru": "Темно-лаймовый",
+    "name_en": "Dark Lime",
+    "rgb": [
+      86,
+      136,
+      17
+    ],
+    "descriptor": 253184,
+    "name_pointer": 253472,
+    "wire_id": 1346699253
+  }
+]

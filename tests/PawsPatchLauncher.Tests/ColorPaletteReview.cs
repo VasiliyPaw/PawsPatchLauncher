@@ -35,7 +35,7 @@ static class ColorPaletteReview
         foreach(var key in new[]{"modules.colors.desc","modules.colors.help"})
         {
             var text=new Localization(lang);
-            foreach(int value in new[]{48,49,0,100})
+            foreach(int value in new[]{39,48,49,0,100})
             {
                 var expected=value is >=16 and <=64?value:49;
                 var actual=text.ColorText(key,new ChannelManifest{PlayerColorCount=value});

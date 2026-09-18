@@ -171,9 +171,27 @@ internal static class PawLobbyColorsNative
             PutSingle(bytes,entry+12,color.G/255.0f);
             PutSingle(bytes,entry+16,color.B/255.0f);
         }
-        // Removed from the picker, retained read-only for existing saves.
+        // Save-only names match game/lobby-colors/retired-colors.json.
         PutUInt32(bytes,0x3da80,unchecked((uint)cave.ToInt64()+(uint)cursor));
-        PutString(bytes,cursor,PawGameText.Color("Светло-красный","Light Red"));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Светло-красный","Light Red"));
+        PutUInt32(bytes,0x3de00,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Лаймовый","Lime"));
+        PutUInt32(bytes,0x3de04,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Светло-оранжевый","Light Orange"));
+        PutUInt32(bytes,0x3de08,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Светло-желтый","Light Yellow"));
+        PutUInt32(bytes,0x3de0c,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Светло-зеленый","Light Green"));
+        PutUInt32(bytes,0x3de10,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Светло-мятный","Light Mint"));
+        PutUInt32(bytes,0x3de14,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Светло-фиолетовый","Light Violet"));
+        PutUInt32(bytes,0x3de18,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Светло-пурпурный","Light Purple"));
+        PutUInt32(bytes,0x3de1c,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Темно-золотой","Dark Gold"));
+        PutUInt32(bytes,0x3de20,unchecked((uint)cave.ToInt64()+(uint)cursor));
+        cursor=PutString(bytes,cursor,PawGameText.Color("Темно-лаймовый","Dark Lime"));
     }
 
     private static byte[] Resource(string name)
@@ -286,7 +304,7 @@ internal static class PawLobbyColorsNative
                 Patch(process,Add(image,Sites[i]),branch);
             }
             File.AppendAllText(logPath,DateTime.Now.ToString("O")+
-                " LOBBY_COLOR_MP r21; participantOwnership=nativeId; compactPicker=true; retiredLightRedSaveSupport=true; completeSessionSnapshot=true; privateColorWireRoundtrip=true; savedColorNameLookup=true; rejoinConflictCheck=true; wireCodec=tagged-uint32-v3; hostDecreeSyncBoundaries=true; rejectInvalidWireIds=true; limitNegativeZeroDisplayFixed=true; menuModVersions=true; customPlayerPalette=true; paletteCount="+palette.Colors.Length+"; paletteSha256="+palette.Sha256+"; stockKingdomPaletteUntouched=true; paletteOrder=saturated_light_dark_neutral; selectAfterRepopulatorEnd=true; expectedStockOrders=334; customOrderIds=334,335; randomOuterLabelTemplateFallback=true; randomOuterLabelDeferredRefresh=true; preserveChoicesAfterMatch=true; lobbyIconRefreshFixed=true; lobbyIconPreview=true; randomIcon=gray; newGameEmptySlotIcon=gray; savedSlotIcon=savedColor; savedLobbyColorsReadOnly=true; savedSourceKind=2; emptySlotPreviewUiOnly=true; randomDefault=true; coloredLabels=true; nativeWorldColorCommit=true; multiplayer=true; hostAuthoritative=true; stableWireIds=true; deterministicMPRandom=true; mpRandomSeed=finalizedWorldSeed; mpRandomShuffle=privateXorshiftFisherYates; nativeRngUntouched=true; allPeersRequirePatch=true; stockSyncChecks=true; cave=0x"+
+                " LOBBY_COLOR_MP r22; participantOwnership=nativeId; compactPicker=true; retiredColorsSaveSupport=10; completeSessionSnapshot=true; privateColorWireRoundtrip=true; savedColorNameLookup=true; rejoinConflictCheck=true; wireCodec=tagged-uint32-v3; hostDecreeSyncBoundaries=true; rejectInvalidWireIds=true; limitNegativeZeroDisplayFixed=true; menuModVersions=true; customPlayerPalette=true; paletteCount="+palette.Colors.Length+"; paletteSha256="+palette.Sha256+"; stockKingdomPaletteUntouched=true; paletteOrder=saturated_light_dark_neutral; selectAfterRepopulatorEnd=true; expectedStockOrders=334; customOrderIds=334,335; randomOuterLabelTemplateFallback=true; randomOuterLabelDeferredRefresh=true; preserveChoicesAfterMatch=true; lobbyIconRefreshFixed=true; lobbyIconPreview=true; randomIcon=gray; newGameEmptySlotIcon=gray; savedSlotIcon=savedColor; savedLobbyColorsReadOnly=true; savedSourceKind=2; emptySlotPreviewUiOnly=true; randomDefault=true; coloredLabels=true; nativeWorldColorCommit=true; multiplayer=true; hostAuthoritative=true; stableWireIds=true; deterministicMPRandom=true; mpRandomSeed=finalizedWorldSeed; mpRandomShuffle=privateXorshiftFisherYates; nativeRngUntouched=true; allPeersRequirePatch=true; stockSyncChecks=true; cave=0x"+
                 cave.ToInt64().ToString("X8")+"; counters=0x"+Add(cave,0x100).ToInt64().ToString("X8")+
                 "; hooks=13; customOrders=2; menu=pcolors.tgi; live MP/gameplay/save acceptance pending."+Environment.NewLine);
         }

@@ -1,3 +1,39 @@
+# Arcane Wars player palette
+
+## 0.3.1-beta.2: 39 selectable colors
+
+The Arcane beta palette removes original 48-color table entries 6, 18, 20,
+22, 24, 29, 30, 35 and 37. Remaining IDs, RGB bytes and ordering are unchanged.
+`palette-48.ini` is the immutable comparison fixture, not an installable palette.
+
+`retired-colors.json` retains those nine shades and the earlier Light Red as
+save-only descriptors. They are not added to the native stock color database,
+selectable pointer array or random allocation. Saved color IDs still resolve to
+the original RGB. Each retired descriptor has a reserved tagged network ID;
+Light Red retains `0x5044fffe`. A loaded save keeps its kingdom colors.
+
+The payload keeps the accepted size and hook addresses. New descriptors and
+localized name pointers use the previously reserved region before `0x3e000`.
+The compiled loader supplies all ten localized names, including old saves.
+Existing peer compatibility checks require the matching patch version/palette.
+
+Build and validation commands use the verified `lobby_colors_1372` legacy input:
+
+- `build_native.py --legacy <directory> --out <candidate>`
+- `test_participant_colors.py --legacy <directory> --candidate <candidate>`
+- `test_popup_width.py --legacy <directory> --candidate <candidate>`
+- `PalettePayloadTests.cs`: compiled loader, selectable and retired names,
+  RGB/ID/order checks at two address layouts in all six text languages.
+- Launcher `--verify-palette39`: isolated 48-to-39 update, eight option variants,
+  explicit preflight, rollback and uninstall; source game and save sentinel stay intact.
+
+The release changes only the Arcane beta package feed. Launcher 0.8.4 and
+Vanilla/Immortals game packages remain unchanged. The current launcher has one
+feed-level count for its short color caption; per-mod help retains each mod's
+own palette description (39 for Arcane beta, 48 for the pure betas).
+
+## Historical compact-picker acceptance
+
 # Local Arcane Wars beta.8 color review
 
 This is a local test, not a published release. The launcher remains 0.8.2;

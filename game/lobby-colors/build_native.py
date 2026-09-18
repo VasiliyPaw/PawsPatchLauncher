@@ -39,8 +39,14 @@ DECREE_NAME, REQUEST_NAME = BASE+0x1960, BASE+0x1964
 # a disconnected/replaced participant receives a new ID, so cannot inherit a seat.
 OWNERS, PREFERENCES = BASE+0x3d000, BASE+0x3d100
 PREFERENCE_COUNT = 256
-RETIRED_DESC, RETIRED_NAME = BASE+0x3da00, BASE+0x3da80
-RETIRED_WIRE_ID = DESCRIPTOR_TAG | 0xfffe
+RETIRED = json.loads((Path(__file__).with_name("retired-colors.json")).read_text("utf-8"))
+assert len(RETIRED) == 10
+assert len({c['id'] for c in RETIRED}) == len({c['wire_id'] for c in RETIRED}) == 10
+assert RETIRED[0]['id']=='paws_light_red' and RETIRED[0]['wire_id']==0x5044fffe
+assert all(0x3da00<=c['descriptor']<c['descriptor']+36<=0x3de00 for c in RETIRED)
+assert all(0x3da00<=c['name_pointer']<c['name_pointer']+4<=0x3e000 for c in RETIRED)
+assert all(not (d['descriptor']<=c['name_pointer']<d['descriptor']+36) for c in RETIRED for d in RETIRED)
+assert all(0x5044ff00<=c['wire_id']<=0x5044fffe for c in RETIRED)
 NAMES = ['ensure','find','eligible','lookup','mask','apply','refresh','callback','create','clear','ctor_hook','tick_hook','dtor_hook']
 NAMES += ['state_init','allocate','commit','create_world_hook','configure_world_hook','active','index']
 NAMES += ['update_icon']
@@ -87,8 +93,10 @@ request_order_name=string('TGC_RequestPawSetKingdomColorOrder')
 default_id=string('default')
 gray_id=string('gray')
 label_format=string('<color=%g,%g,%g>%s<rc>')
-retired_id=string('paws_light_red')
-retired_label=string('Light Red')
+for color in RETIRED:
+    color['id_va'] = string(color['id'])
+    color['label_va'] = string(color['name_en'])
+assert cursor < 0x6000, 'Static strings overlap injected palette strings'
 def asm(name, source):
     va=F[name]
     try:
@@ -132,6 +140,26 @@ def asm(name, source):
 ensure_parts=[]
 for i,s in enumerate(kids):
     ensure_parts.append(f'push {s}; mov ecx,{KSTR+i*4}; call 0x4805de')
+# Save-only descriptors use separate storage and reserved wire IDs. They are
+# never inserted into COLORS, the picker, or random allocation.
+retired_init = []
+for i, color in enumerate(RETIRED):
+    desc, name = BASE + color['descriptor'], BASE + color['name_pointer']
+    rgb = [struct.unpack('<I', struct.pack('<f', c/255))[0] for c in color['rgb']]
+    retired_init.append(f"""
+    mov esi,ebx; mov edi,{desc}; mov ecx,9
+copy_retired_{i}:
+    mov eax,dword ptr [esi]; mov dword ptr [edi],eax
+    add esi,4; add edi,4; dec ecx; jnz copy_retired_{i}
+    push {color['id_va']}; mov ecx,{desc+8}; call 0x4805de
+    mov eax,dword ptr [{name}]; test eax,eax; jnz retired_name_{i}
+    mov eax,{color['label_va']}
+retired_name_{i}:
+    push eax; mov ecx,{desc+0x10}; call 0x4805de
+    mov dword ptr [{desc+0x18}],{rgb[0]}
+    mov dword ptr [{desc+0x1c}],{rgb[1]}
+    mov dword ptr [{desc+0x20}],{rgb[2]}
+    """)
 asm('ensure',f'''
     push ebx; push esi; push edi
     cmp dword ptr [{STATE}],1; je ready
@@ -166,18 +194,7 @@ copy_descriptor: mov eax,dword ptr [esi]; mov dword ptr [edi],eax
     mov edx,dword ptr [eax+16]; mov dword ptr [edi+0x20],edx
     mov dword ptr [esi*4+{COLORS}],edi
     inc esi; cmp esi,dword ptr [{PAL_COUNT}]; jb descriptors
-    mov esi,ebx; mov edi,{RETIRED_DESC}; mov ecx,9
-copy_retired:
-    mov eax,dword ptr [esi]; mov dword ptr [edi],eax
-    add esi,4; add edi,4; dec ecx; jnz copy_retired
-    push {retired_id}; mov ecx,{RETIRED_DESC+8}; call 0x4805de
-    mov eax,dword ptr [{RETIRED_NAME}]; test eax,eax; jnz retired_name
-    mov eax,{retired_label}
-retired_name:
-    push eax; mov ecx,{RETIRED_DESC+0x10}; call 0x4805de
-    mov dword ptr [{RETIRED_DESC+0x18}],{struct.unpack('<I',struct.pack('<f',239/255))[0]}
-    mov dword ptr [{RETIRED_DESC+0x1c}],{struct.unpack('<I',struct.pack('<f',128/255))[0]}
-    mov dword ptr [{RETIRED_DESC+0x20}],{struct.unpack('<I',struct.pack('<f',128/255))[0]}
+    { ''.join(retired_init) }
     push {random_id}; mov ecx,{RANDOM_ID}; call 0x4805de
     push {random_key}; mov ecx,{RANDOM_KEY}; call 0x4805de
     mov ecx,{RANDOM_LABEL}; call 0x480633
@@ -1064,8 +1081,7 @@ asm('color_wire_write',f'''
     mov ebx,dword ptr [edi]
     mov eax,0xffffffff; test ebx,ebx; jz write
     call {F['ensure']}
-    cmp ebx,{RETIRED_DESC}; jne palette
-    mov eax,{RETIRED_WIRE_ID}; jmp write
+    { ';'.join(f"cmp ebx,{BASE+c['descriptor']}; jne retired_write_next_{i}; mov eax,{c['wire_id']}; jmp write; retired_write_next_{i}:" for i,c in enumerate(RETIRED)) }
 palette:
     xor edi,edi
 find:
@@ -1090,13 +1106,11 @@ asm('color_wire_read',f'''
     mov eax,dword ptr [eax+0x24]; mov eax,dword ptr [eax+ebx*4]; jmp publish
 custom:
     and ebx,0xffff
-    cmp ebx,0xfffe; je retired
+    { ';'.join(f"cmp ebx,{c['wire_id'] & 0xffff}; je retired_read_{i}" for i,c in enumerate(RETIRED)) }
     cmp ebx,dword ptr [{PAL_COUNT}]; jae invalid
     call {F['ensure']}; test eax,eax; jz invalid
     mov eax,dword ptr [ebx*4+{COLORS}]; jmp publish
-retired:
-    call {F['ensure']}; test eax,eax; jz invalid
-    mov eax,{RETIRED_DESC}; jmp publish
+{ ';'.join(f"retired_read_{i}: call {F['ensure']}; test eax,eax; jz invalid; mov eax,{BASE+c['descriptor']}; jmp publish" for i,c in enumerate(RETIRED)) }
 invalid: xor eax,eax
 publish:
     mov dword ptr [edi],eax
@@ -1116,9 +1130,7 @@ find:
     push dword ptr [ebx+8]; push esi; call 0x481574; add esp,8
     test eax,eax; jz found
     inc edi; cmp edi,dword ptr [{PAL_COUNT}]; jb find
-    push {retired_id}; push esi; call 0x481574; add esp,8
-    test eax,eax; jnz unknown
-    mov eax,{RETIRED_DESC}; jmp done
+    { ';'.join(f"push {c['id_va']}; push esi; call 0x481574; add esp,8; test eax,eax; jnz retired_lookup_next_{i}; mov eax,{BASE+c['descriptor']}; jmp done; retired_lookup_next_{i}:" for i,c in enumerate(RETIRED)) }
 unknown:
     xor eax,eax; jmp done
 found: mov eax,ebx
@@ -1423,7 +1435,7 @@ manifest['saved_source_kind']=2
 manifest['saved_preview_preserves_new_game_choices']=True
 manifest['participant_color_ownership']='native replicated player ID, independent of seat and nickname'
 manifest['compact_color_control']=True
-manifest['retired_light_red']='save-only descriptor; hidden from selection and random allocation'
+manifest['retired_colors']=[{k:v for k,v in c.items() if not k.endswith('_va')} for c in RETIRED]
 (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
 (out/'payload.asm.txt').write_text('\n\n'.join(r['name']+'\n'+r['assembly'] for r in routines)+'\n',encoding='utf-8')
 
