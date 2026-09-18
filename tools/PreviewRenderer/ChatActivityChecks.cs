@@ -34,6 +34,15 @@ internal static class ChatActivityChecks
             Field<PawsPatchLauncher.Localization>("_text").SetLanguage(language);Call("ApplyLanguage");
             var players=SocialHubChecks.Populate(w).ToArray();Call("ResetBroadcast");
             var owner=Field<AccountService>("_account").UserId;
+            var initial=players.Select(p=>p with {LastMessageAt=DateTimeOffset.UtcNow.AddDays(-1)}).ToArray();
+            Call("SetSocialPlayers",Guid.Parse(owner),initial);
+            Set("_socialPeer",(Guid?)initial[0].Id);Call("RenderSocialRows");
+            C<ChatComposer>("FriendsMessageInput").Text="friend arrival draft";
+            var newcomer=new SocialPlayer(Guid.NewGuid(),"zzz_new_friend","friend");
+            Call("SetSocialPlayers",Guid.Parse(owner),initial.Append(newcomer).ToArray());Call("RenderSocialRows");
+            Check(((FrameworkElement)C<StackPanel>("FriendsRowsPanel").Children[0]).Tag.Equals(newcomer.Id),"new friend without messages did not appear first");
+            Check(Field<Guid?>("_socialPeer")==initial[0].Id&&C<ChatComposer>("FriendsMessageInput").Text=="friend arrival draft","friend arrival changed open chat or draft");
+            Call("SetSocialPlayers",Guid.Parse(owner),initial);Call("RenderSocialRows");
             var stamp=DateTimeOffset.UtcNow.AddHours(1);
             for(var i=0;i<players.Length;i++)players[i]=players[i] with {LastMessageAt=stamp.AddSeconds(-i),LastMessageOrdinal=100-i};
             Set("_socialPlayers",players); Set("_socialMessages",Array.Empty<SocialMessage>());Set("_socialPending",Array.Empty<PendingSocialMessage>());

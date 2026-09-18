@@ -17,7 +17,8 @@ public sealed class ChatActivityOrder
         if(!_confirmed.TryGetValue(peer,out var previous)||stamp.CompareTo(previous)>0)_confirmed[peer]=stamp;
     }
     public IReadOnlyList<SocialPlayer> Sort(string owner,IReadOnlyList<SocialPlayer> players,
-        IEnumerable<SocialMessage> messages,IEnumerable<PendingSocialMessage> pending,IEnumerable<SocialOffer> offers)
+        IEnumerable<SocialMessage> messages,IEnumerable<PendingSocialMessage> pending,IEnumerable<SocialOffer> offers,
+        IReadOnlyDictionary<Guid,DateTimeOffset?>? friendships=null)
     {
         SetOwner(owner);
         var peers=players.Where(p=>p.Relation=="friend").Select(p=>p.Id).ToHashSet();
@@ -34,6 +35,9 @@ public sealed class ChatActivityOrder
         {
             if(peers.Contains(peer)&&(!effective.TryGetValue(peer,out var prior)||at>prior.At))effective[peer]=(at,long.MaxValue);
         }
+        if(friendships is not null)
+            foreach(var (peer,at) in friendships)
+                if(at is not null)Local(peer,at.Value);
         foreach(var item in pending.Where(m=>m.Owner.ToString()==owner))Local(item.Target,item.CreatedAt);
         foreach(var offer in offers.Where(o=>o.Sender.ToString()==owner))Local(offer.Recipient,offer.CreatedAt);
         return players.Where(p=>p.Relation=="friend").DistinctBy(p=>p.Id)

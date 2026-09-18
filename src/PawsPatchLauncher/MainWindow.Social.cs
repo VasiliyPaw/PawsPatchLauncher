@@ -90,6 +90,7 @@ public partial class MainWindow
             ClearToastStack();
             FriendsSearchInput.Clear(); ResetFriendsDialog();
             _socialIdentity=_account.UserId; _socialPeer=null; _socialPlayers=[]; _socialMessages=[]; _socialPending=[];
+            _chatFriendships=new Dictionary<Guid,DateTimeOffset?>();
             ResetSocialHistory();
             _chatMemory.Clear();
             ClearSocialProfiles();
@@ -179,7 +180,7 @@ public partial class MainWindow
         var players=await _account.GetFriendsAsync(_accountLifetime.Token);
         if(_account.UserId!=owner.ToString())return;
         NotifySocialArrival(owner, players);
-        _socialPlayers=players;
+        SetSocialPlayers(owner,players);
         PruneChatMemory();
         _socialListReceived=DateTimeOffset.UtcNow;
         if(_socialPeer is not null && !players.Any(p=>p.Id==_socialPeer && p.Relation=="friend")){_socialPeer=null;_socialMessages=[];_socialOffers=[];ResetSocialHistory();FriendsMessageInput.Clear();}
@@ -231,7 +232,7 @@ public partial class MainWindow
             if(_socialDetailsPeer==player.Id&&action is "remove" or "block")CloseSocialDetails();
             var players=await _account.GetFriendsAsync(_accountLifetime.Token);
             if(_account.UserId!=owner.ToString())return;
-            _socialPlayers=players;
+            SetSocialPlayers(owner,players);
             PruneSocialProfiles();
             PruneChatMemory();
             if (action is "remove" or "block" or "hide_chat") _chatMemory.Remove(player.Id);

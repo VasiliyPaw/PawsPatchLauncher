@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==4&&args[0]=="--verify-arcane-031") {await Arcane031Tests.RunAsync(args[1],args[2],args[3]);return;}
+if(args.Length==1&&args[0]=="--chat-order") {ChatActivityTests.Run();ChatFriendActivityTests.Run();return;}
 if(args.Length==4&&args[0]=="--verify-arcane-031-beta1") {await Arcane031Beta1Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--verify-apparition-hotfix") {await ApparitionTextTests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--verify-arcane-030") {await Arcane030Tests.RunAsync(args[1],args[2],args[3]);return;}
@@ -222,6 +224,7 @@ try
     passed += PawPatchVersionTests.Run();
     passed += InstalledModVersionTests.Run();
     passed += PawsPatchLauncher.Tests.ChangelogTimelineTests.Run();
+    passed += ChatFriendActivityTests.Run();
     ExpectThrows<InvalidDataException>(() => CryptoAndIO.SafeChildPath(root, "..\\escape.txt"));
     passed++;
 

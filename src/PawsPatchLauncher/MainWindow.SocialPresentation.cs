@@ -141,7 +141,7 @@ public partial class MainWindow
             _chatRowsOwner=_account.UserId; _chatRowsScope=null;
         }
         foreach(var id in _chatRows.Keys.Where(id=>!_socialPlayers.Any(p=>p.Id==id&&p.Relation=="friend")).ToArray())_chatRows.Remove(id);
-        var friends = _chatActivity.Sort(_account.UserId,_socialPlayers,_socialMessages,_socialPending,_sendingOffers.Values)
+        var friends = _chatActivity.Sort(_account.UserId,_socialPlayers,_socialMessages,_socialPending,_sendingOffers.Values,_chatFriendships)
             .Where(Matches).ToArray();
         RenderSocialListState(friends.Length == 0);
         var rows=friends.Select(RenderSocialFriend).Cast<FrameworkElement>().ToArray();

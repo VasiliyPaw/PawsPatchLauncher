@@ -6,9 +6,18 @@ namespace PawsPatchLauncher;
 public partial class MainWindow
 {
     private readonly ChatActivityOrder _chatActivity=new();
+    private readonly ChatFriendActivity _chatFriends=new(ActivityStore.Root);
+    private IReadOnlyDictionary<Guid,DateTimeOffset?> _chatFriendships=new Dictionary<Guid,DateTimeOffset?>();
     private readonly Dictionary<Guid,(StackPanel Row,Button Open,string Signature,bool Selected)> _chatRows=[];
     private ChatListMotion? _chatListMotion;
     private string? _chatRowsOwner,_chatRowsScope;
+
+    private void SetSocialPlayers(Guid owner,IReadOnlyList<SocialPlayer> players)
+    {
+        if(_account.UserId!=owner.ToString())return;
+        _chatFriendships=_chatFriends.Update(owner,players,DateTimeOffset.UtcNow);
+        _socialPlayers=players;
+    }
 
     private void ObserveChatMessage(Guid owner,SocialMessage message)
     {
