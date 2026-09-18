@@ -8,9 +8,9 @@ internal static class ReleaseVariantTests
 {
     static int checks;
     static void Check(bool ok,string why){checks++;if(!ok)throw new Exception(why);}
-    static byte[] Build(Assembly assembly,uint image,uint cave)
+    static byte[] Build(Assembly assembly,uint image,uint cave,string type="LairRecoveryPayload")
     {
-        return (byte[])assembly.GetType("LairRecoveryPayload",true).GetMethod("Build",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{image,cave});
+        return (byte[])assembly.GetType(type,true).GetMethod("Build",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{image,cave});
     }
     static int Main(string[] args)
     {
@@ -31,6 +31,13 @@ internal static class ReleaseVariantTests
                 Check(startup.GetField("GameDataDirectory",BindingFlags.Static|BindingFlags.NonPublic)==null,"Standalone-only path handling absent");
                 foreach(uint image in new uint[]{0x460000,0xE40000,0x12000000})foreach(uint cave in new uint[]{0xD40000,0x60000000})
                     Check(Build(a,image,cave).SequenceEqual(Build(golden,image,cave)),"Accepted r3 native bytes preserved across relocation");
+                if(golden.GetType("CameraZoomPayload")!=null) {
+                    var camera=a.GetType("CameraZoomPatch",true).GetMethod("Install",BindingFlags.Static|BindingFlags.NonPublic);
+                    byte[] cameraCall=new byte[]{0x28}.Concat(BitConverter.GetBytes(camera.MetadataToken)).ToArray();
+                    Check(Enumerable.Range(0,il.Length-cameraCall.Length+1).Any(i=>il.Skip(i).Take(cameraCall.Length).SequenceEqual(cameraCall)),"Camera fix called by startup: "+path);
+                    foreach(uint image in new uint[]{0x460000,0xE40000,0x12000000})foreach(uint cave in new uint[]{0xD40000,0x60000000})
+                        Check(Build(a,image,cave,"CameraZoomPayload").SequenceEqual(Build(golden,image,cave,"CameraZoomPayload")),"Accepted camera payload preserved across relocation");
+                }
                 var lobby=a.GetType("PawLobbyCompatibility",true);
                 Check((string)lobby.GetField("Version",BindingFlags.Static|BindingFlags.NonPublic).GetRawConstantValue()==expected,"Release identity");
                 var identity=lobby.GetMethod("Identity",BindingFlags.Static|BindingFlags.NonPublic);

@@ -98,7 +98,7 @@ public static class Arcane031Tests
             foreach(var p in GamePackageSelector.Select(channel,s,s.RussianLocalization,s.CustomPlayerColors))desired[p.Id]=await Prepare(p);
             await installer.ReconcileAsync(desired,settings:s);Require((await installer.VerifyAsync()).Count==0,"Installed file verification failed");transitions++;
             if(s.PawPatchEnabled&&!s.DataOnly&&channel==feed){
-                Require((await File.ReadAllTextAsync(Path.Combine(root,"paws_patch_versions.ini"))).Contains("PawPatch=0.3.1\n"),"Wrong menu identity");
+                Require((await File.ReadAllLinesAsync(Path.Combine(root,"paws_patch_versions.ini"))).Contains("PawPatch=0.3.1"),"Wrong menu identity");
                 var frames=desired["common-ui"].Files.Where(f=>f.Path.Replace('\\','/').StartsWith("skins/")&&f.Path.EndsWith("/Background.tga")).ToList();
                 Require(frames.Count==18,"Missing installed frames");foreach(var f in frames){Require(await CryptoAndIO.Sha256Async(Path.Combine(root,f.Path))==f.Sha256,"Frame mismatch");frameChecks++;}
             }

@@ -1,6 +1,37 @@
 {
   "stable": [
     {
+      "category": "launcher",
+      "version": "0.8.4",
+      "mods": [],
+      "publishedAt": "2026-09-18",
+      "title": {
+        "ru": "Paw's Launcher 0.8.4",
+        "en": "Paw's Launcher 0.8.4"
+      },
+      "body": {
+        "ru": "- Новые друзья появляются вверху списка чатов. Порядок сохраняется после перезапуска; новые сообщения по-прежнему поднимают чат наверх.",
+        "en": "- New friends appear at the top of the chat list. The order persists after restarting; new messages still move chats to the top."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.3.1",
+      "mods": [
+        "arcane-wars"
+      ],
+      "publishedAt": "2026-09-18",
+      "title": {
+        "ru": "Paw's Patch 0.3.1",
+        "en": "Paw's Patch 0.3.1"
+      },
+      "body": {
+        "ru": "- Увеличен предел отдаления камеры с 1,21 до 2.",
+        "en": "- Increased the camera zoom-out limit from 1.21 to 2."
+      },
+      "channel": "stable"
+    },
+    {
       "category": "patch",
       "version": "0.3.0",
       "mods": [
@@ -682,6 +713,20 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.4",
+      "mods": [],
+      "publishedAt": "2026-09-18",
+      "title": {
+        "ru": "Paw's Launcher 0.8.4",
+        "en": "Paw's Launcher 0.8.4"
+      },
+      "body": {
+        "ru": "- Новые друзья появляются вверху списка чатов. Порядок сохраняется после перезапуска; новые сообщения по-прежнему поднимают чат наверх.",
+        "en": "- New friends appear at the top of the chat list. The order persists after restarting; new messages still move chats to the top."
+      }
+    },
     {
       "category": "patch",
       "version": "0.3.1-beta.1",

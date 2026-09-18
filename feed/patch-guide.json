@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "entries": [
+    {
+      "id": "gameplay-camera-zoom",
+      "category": "always",
+      "titleRu": "Отдаление камеры",
+      "titleEn": "Extended camera zoom",
+      "bodyRu": "Предел отдаления игровой камеры увеличен с 1,21 до 2. Работает обычное колёсико мыши; отдельная утилита не нужна. Включено во всех вариантах EXE беты. Ближний предел и камеры интерфейса сохранены.",
+      "bodyEn": "The gameplay camera zoom-out limit is increased from 1.21 to 2. Use the normal mouse wheel; no separate utility is needed. Included in every beta EXE variant. The near limit and interface cameras are preserved."
+    },
     {
       "id": "lair-survivors",
       "category": "always",
@@ -47,8 +55,8 @@
       "category": "always",
       "titleRu": "Paw's Patch и Arcane Wars",
       "titleEn": "Paw's Patch and Arcane Wars",
-      "bodyRu": "Лаунчер устанавливает Arcane Wars как основу и применяет Paw's Patch. Релиз 0.3.0 включает все проверенные изменения беты 0.3.0-beta.9: автоулучшение городов, ускоренную передачу сейвов, проверку совместимости лобби, компактный выбор 48 цветов, исправления вылетов и логов, обновлённые рамки миникарты.\n\nПереключатели компонентов независимы. Для сетевой игры нужны совместимые версии и игровые настройки.",
-      "bodyEn": "The launcher installs Arcane Wars as the base mod and applies Paw's Patch. Release 0.3.0 includes all accepted changes from 0.3.0-beta.9: city automation, faster save transfers, lobby compatibility checks, a compact 48-color picker, crash and lair fixes, and updated minimap frames.\n\nComponent switches are independent. Multiplayer requires compatible versions and gameplay settings."
+      "bodyRu": "Лаунчер устанавливает Arcane Wars как основу и применяет Paw's Patch: автоулучшение городов, ускоренную передачу сейвов, проверку совместимости лобби, компактный выбор 48 цветов, исправления вылетов и логов, обновлённые рамки миникарты и отдаление камеры до 2.",
+      "bodyEn": "The launcher installs Arcane Wars and applies Paw's Patch: city automation, faster save transfers, lobby compatibility checks, a compact 48-color picker, crash and lair fixes, updated minimap frames and a camera zoom-out limit of 2."
     },
     {
       "id": "powers-shards",
