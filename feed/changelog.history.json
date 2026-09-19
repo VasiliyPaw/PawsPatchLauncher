@@ -735,6 +735,41 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.3.2-beta.2",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "publishedAt": "2026-09-19",
+      "title": {
+        "ru": "Paw's Patch 0.3.2-beta.2 — движение рот",
+        "en": "Paw's Patch 0.3.2-beta.2 — company movement"
+      },
+      "body": {
+        "ru": "- Исправлено зависание значка и позиции роты, из-за которого бойцы могли оказаться далеко от неё, а рота переставала нормально двигаться и пополняться.",
+        "en": "- Fixed stuck company banners and positions that could leave troops far away and prevent normal movement and replenishment."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.3.0-beta.2",
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "beta",
+      "publishedAt": "2026-09-19",
+      "title": {
+        "ru": "Paw's Patch 0.3.0-beta.2 — Vanilla и Immortals",
+        "en": "Paw's Patch 0.3.0-beta.2 — Vanilla and Immortals"
+      },
+      "body": {
+        "ru": "- Убраны девять похожих оттенков: в выборе осталось 39 цветов и «Случайно».\n- Обновлены рамки миникарты для всех рас: убраны пустые зазоры по краям.",
+        "en": "- Removed nine similar shades, leaving 39 colors plus Random.\n- Updated minimap frames for every race to fill the empty gaps around the map."
+      }
+    },
+    {
       "category": "launcher",
       "version": "0.8.5",
       "publishedAt": "2026-09-19",

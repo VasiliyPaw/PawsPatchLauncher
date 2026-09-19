@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.2-beta.1",
+  "version": "0.3.2-beta.2",
   "entries": [
+    {
+      "id": "company-position-recovery",
+      "category": "always",
+      "titleRu": "Движение рот",
+      "titleEn": "Company movement",
+      "bodyRu": "Восстанавливает движение роты, если её значок и позиция зависли отдельно от бойцов. Работает и при загрузке сохранений.",
+      "bodyEn": "Restores company movement when its banner and position get stuck apart from its troops. Also works when loading saved games."
+    },
     {
       "id": "gameplay-camera-zoom",
       "category": "always",
