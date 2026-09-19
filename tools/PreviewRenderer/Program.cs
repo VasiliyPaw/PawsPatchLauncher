@@ -105,6 +105,7 @@ public static class Program
         var evolutionChecks = args.Contains("--evolution-checks");
         var chatInteractionChecks = args.Contains("--chat-interaction-checks");
         var friendCopyChecks = args.Contains("--friend-copy-checks");
+        var friendConfigurationCardChecks = args.Contains("--friend-configuration-card-checks");
         var peerOfferChecks = args.Contains("--peer-offer-checks");
         var friendsStartupChecks = args.Contains("--friends-startup-checks");
         var socialActionChecks = args.Contains("--social-action-checks");
@@ -128,6 +129,7 @@ public static class Program
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         if (pureOptionsConfig is not null) { PureOptionsUiChecks.Run(pureOptionsConfig); app.Shutdown(); return; }
+        if (friendConfigurationCardChecks) { FriendConfigurationCardChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (popupScrollChecks) { PopupScrollChecks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (mediaProbe is not null) { MediaLayoutChecks.Probe(new Uri(mediaProbe)); app.Shutdown(); return; }
         if (messageCopyChecks) { MessageCopyChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }

@@ -17,4 +17,9 @@ jobs:
         run: dotnet build src/PawsPatchLauncher/PawsPatchLauncher.csproj -c Release
       - name: Run tests
         run: dotnet run --project tests/PawsPatchLauncher.Tests/PawsPatchLauncher.Tests.csproj -c Release
+      - name: Test isolated account database
+        working-directory: tools/AdminDatabaseTests
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          node run.mjs
 

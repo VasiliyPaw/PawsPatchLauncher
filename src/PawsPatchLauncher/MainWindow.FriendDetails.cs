@@ -130,6 +130,8 @@ public partial class MainWindow
         SocialDetailsChannel.Text = player.Channel == "beta" ? T("Бета", "Beta") : player.Channel == "stable" ? T("Релиз", "Release") : T("Неизвестен", "Unknown");
         if (FriendConfiguration.TryParse(player.Configuration,player.Channel,out var gameSettings))
             SocialDetailsChannel.Text = GameMod.Name(gameSettings.Mod, _text.Language == "ru") + " · " + SocialDetailsChannel.Text;
+        else
+            SocialDetailsChannel.Text = T("Мод неизвестен", "Mod unknown") + " · " + SocialDetailsChannel.Text;
         SocialDetailsComponentsLabel.Text = T(player.Presence == "offline" ? "ПОСЛЕДНИЕ НАСТРОЙКИ" : "КОМПОНЕНТЫ", player.Presence == "offline" ? "LAST KNOWN SETTINGS" : "COMPONENTS");
         SocialDetailsCopyButton.Content = T("Скопировать конфигурацию", "Copy configuration");
         SocialDetailsRelationshipText.Text = T("Не в друзьях", "Not a friend");
@@ -197,7 +199,7 @@ public partial class MainWindow
         var exact = player is not null && FriendConfiguration.TryParse(player.Configuration, player.Channel, out _);
         var available = player?.Available == true && !_account.Restricted;
         var versionStatus=player is null?PeerVersionStatus.Unknown:FriendVersionStatus(player);
-        var hint = !available ? "" : !exact ? T("Игроку нужно открыть новую версию лаунчера с установленным патчем.", "The player needs to open the new launcher with the patch installed.")
+        var hint = !available ? "" : !exact ? T("Полная конфигурация игрока пока недоступна. Копирование станет доступно после получения настроек и проверки версий.", "The player's full configuration is not available yet. Copying will be available after their settings are received and versions are checked.")
             : versionStatus!=PeerVersionStatus.Current ? FriendVersionWarning(versionStatus)
             : _game is null ? T("Сначала выберите папку игры.", "Select the game folder first.")
             : IsGameRunning() ? T("Закройте игру, чтобы применить настройки.", "Close the game to apply settings.")

@@ -5,6 +5,7 @@ import { historyTests } from './history-tests.mjs';
 import { monitorTests } from './monitor-tests.mjs';
 import { versionTests } from './version-tests.mjs';
 import { gameActivityTests } from './game-activity-tests.mjs';
+import { configurationTests } from './configuration-tests.mjs';
 const db=new PGlite();
 await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;create role supabase_auth_admin;
 create schema auth;create schema storage;
@@ -17,7 +18,7 @@ grant usage on schema auth to authenticated,anon;grant execute on all functions 
 create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
 create table storage.objects(id uuid primary key default gen_random_uuid(),bucket_id text,name text,metadata jsonb,created_at timestamptz default now());`);
 const base=new URL('../../supabase/migrations/',import.meta.url);
-let activityBefore,participantBefore;
+let activityBefore,participantBefore,configurationBefore;
 const activitySchema=async()=> (await db.query(`select p.oid::regprocedure::text as function,
  md5(replace(p.prosrc,E'\\r','')) as source_md5, p.prosecdef as security_definer,
  has_function_privilege('anon',p.oid,'execute') as anon_execute,
@@ -28,17 +29,25 @@ const activitySchema=async()=> (await db.query(`select p.oid::regprocedure::text
  to_regprocedure('public.paw_game_activity(uuid)'),
  to_regprocedure('paw_private.valid_game_activity(jsonb)'),
  to_regprocedure('paw_private.presence_without_activity(boolean,text,jsonb,text)'),
+ to_regprocedure('public.paw_offer_create(uuid,uuid,text,text,text,bigint,text)'),
+ to_regprocedure('paw_private.valid_social_configuration(text)'),
  to_regprocedure('paw_private.activity_profile_allowed(uuid,uuid)'),
  to_regprocedure('public.paw_player_profile(uuid)'),
  to_regprocedure('public.paw_friend_avatar_allowed(uuid,uuid,uuid,uuid)'),
  to_regprocedure('public.paw_friend_action(text,uuid,text)'))
  order by 1`)).rows;
 for(const file of (await readdir(base)).filter(n=>n.endsWith('.sql')&&!n.includes('scheduler')&&!n.includes('founder_grant')).sort()){
+ if(process.argv.includes('--configuration-proof')&&file==='20260919000000_social_configuration_options.sql')configurationBefore=await activitySchema();
  if(process.argv.includes('--schema-proof')&&file==='20260914000000_game_activity.sql')activityBefore=await activitySchema();
  if(process.argv.includes('--schema-proof')&&file==='20260914010000_game_participant_profiles.sql')participantBefore=await activitySchema();
- try{await db.exec(await readFile(new URL(file,base),'utf8'));console.log('MIGRATION',file);}
+ try{
+  const input=file==='20260919000000_social_configuration_options.sql'&&process.argv.includes('--deployment-sql')
+   ? process.argv[process.argv.indexOf('--deployment-sql')+1] : new URL(file,base);
+  await db.exec(await readFile(input,'utf8'));console.log('MIGRATION',file);
+ }
  catch(e){console.error('FAILED',file,e.message,e.cause?.message);process.exit(1);}
 }
+if(process.argv.includes('--configuration-proof')){console.log(JSON.stringify({before:configurationBefore,after:await activitySchema()},null,2));await db.close();process.exit(0);}
 if(process.argv.includes('--schema-proof')){console.log(JSON.stringify({before:activityBefore,participantBefore,after:await activitySchema()},null,2));await db.close();process.exit(0);}
 let checks=0;
 const check=(v,msg)=>{assert.ok(v,msg);checks++;};
@@ -57,6 +66,7 @@ await query('insert into public.paw_friendships(low_id,high_id,requester,accepte
 const login=async id=>{await db.exec('reset role');await query("select set_config('request.jwt.claims',$1,false),set_config('request.headers',$2,false)",[JSON.stringify({sub:id,session_id:id}),JSON.stringify({'x-paw-launcher':instance})]);await db.exec('set role authenticated');};
 const rpc=async(name,args)=> (await query(`select public.${name}(${args.map((_,i)=>'$'+(i+1)).join(',')}) result`,args))[0].result;
 checks+=await versionTests(db,login,rpc,user,peer);
+checks+=await configurationTests(db,login,rpc,user,peer);
 checks+=await gameActivityTests(db,login,rpc,user,peer,admin);
 await login(user);
 check((await rpc('paw_admin_list',['users','',0])).status==='admin_required','ordinary user cannot enumerate users');
