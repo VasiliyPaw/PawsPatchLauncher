@@ -10,8 +10,8 @@ using System.Threading;
 [assembly: AssemblyTitle("Paw Pure Fixes for Kohan II 1.3.72")]
 #if PAW_PURE_CHANNEL
 #if PAW_PURE_BETA
-[assembly: AssemblyVersion("1.3.72.9")]
-[assembly: AssemblyFileVersion("1.3.72.9")]
+[assembly: AssemblyVersion("1.3.72.10")]
+[assembly: AssemblyFileVersion("1.3.72.10")]
 #else
 [assembly: AssemblyVersion("1.3.72.8")]
 [assembly: AssemblyFileVersion("1.3.72.8")]

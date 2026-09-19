@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery)
 $ErrorActionPreference = 'Stop'
 if($LairWoundedTest){$LairRecovery=$true}
 $out = [IO.Path]::GetFullPath($OutputDirectory)
@@ -77,6 +77,20 @@ if($CameraZoom) {
     & $python (Join-Path $camera 'test_native.py') --legacy $work --native $cameraNative
     if($LASTEXITCODE -ne 0){throw 'Camera native regression failed.'}
 }
+if($CompanyPositionRecovery) {
+    if(!$CityAssistant -or !$LobbyCompatibility -or !$CameraZoom -or !$LairRecovery){throw 'Company recovery requires the complete current Arcane helper.'}
+    $company=Join-Path $PSScriptRoot '../company-position'
+    $companyNative=Join-Path $out 'company-native'
+    & $python (Join-Path $company 'build_native.py') --legacy $work --out $companyNative
+    if($LASTEXITCODE -ne 0){throw 'Company native build failed.'}
+    $companyTests=Join-Path $out 'CompanyPositionTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:CompanyPositionTests "/out:$companyTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $company 'CompanyPositionPatch.cs') (Join-Path $companyNative 'CompanyPositionPayload.cs') (Join-Path $company 'CompanyPositionTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Company transaction tests compilation failed.'}
+    & $companyTests $companyNative
+    if($LASTEXITCODE -ne 0){throw 'Company transaction regression failed.'}
+    & $python (Join-Path $company 'test_native.py') --legacy $work --native $companyNative
+    if($LASTEXITCODE -ne 0){throw 'Company native regression failed.'}
+}
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_player_colors.ini') -Destination $out
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_patch_versions.ini') -Destination $out
 foreach ($variant in $variants.PSObject.Properties) {
@@ -84,6 +98,7 @@ foreach ($variant in $variants.PSObject.Properties) {
     $arguments = @('/nologo','/target:winexe','/platform:x86','/optimize+',
         '/r:System.Core.dll','/r:System.Windows.Forms.dll','/r:System.Drawing.dll',
         ("/define:" + $variant.Value + $(if($CityAssistant){';CITY_ASSISTANT;FAST_SAVE_TRANSFER'}else{''}) + $(if($LobbyCompatibility){';LOBBY_COMPATIBILITY'}else{''}) + $(if($LairWoundedTest){';LAIR_RECOVERY_TEST'}else{''}) + $(if($LairRecovery){';LAIR_RECOVERY'}else{''})), ("/out:" + $exe))
+    if($CompanyPositionRecovery){$arguments += '/define:COMPANY_POSITION_RECOVERY';$arguments += (Join-Path $company 'CompanyPositionPatch.cs'),(Join-Path $companyNative 'CompanyPositionPayload.cs')}
     if($CameraZoom){$arguments += '/define:CAMERA_ZOOM_2';$arguments += (Join-Path $camera 'CameraZoomPatch.cs'),(Join-Path $cameraNative 'CameraZoomPayload.cs')}
     if($LairRecovery){$arguments += (Join-Path $lair 'LairRecoveryPatch.cs'),(Join-Path $lairNative 'LairRecoveryPayload.cs')}
     foreach ($resource in $resources) { $arguments += '/resource:' + (Join-Path $PSScriptRoot "$resource.bin") + ',' + $resource }

@@ -91,6 +91,9 @@ internal static class ReleaseStartup
 #if CAMERA_ZOOM_2
                 CameraZoomPatch.Validate(memory, address);
 #endif
+#if COMPANY_POSITION_RECOVERY
+                CompanyPositionPatch.Validate(memory, address);
+#endif
                 uint terrain = TerrainPatch.Install(memory, address, log);
                 uint map = RandomMapPatch.Install(memory, address, log);
                 TerrainPatch.Expect(memory, address + TerrainPatch.HookRva,
@@ -102,6 +105,9 @@ internal static class ReleaseStartup
 #endif
 #if CAMERA_ZOOM_2
                 CameraZoomPatch.Install(memory, address, log);
+#endif
+#if COMPANY_POSITION_RECOVERY
+                CompanyPositionPatch.Install(memory, address, log);
 #endif
             }
             finally { memory.Resume(); }

@@ -16,7 +16,8 @@ internal static class PalettePayloadTests
     {
         try {
             var expected=new JavaScriptSerializer().Deserialize<Dictionary<string,object>>(File.ReadAllText(args[1]));
-            var files=Directory.GetFiles(Path.GetFullPath(args[0]),"k2_paws*.exe");Check(files.Length==8,"Eight assemblies required");
+            int required=args.Length>2?Int32.Parse(args[2]):8;
+            var files=Directory.GetFiles(Path.GetFullPath(args[0]),required==2?"k2_paws_pure_colors*.exe":"k2_paws*.exe");Check(files.Length==required,"Unexpected assembly count");
             foreach(var file in files) {
                 var assembly=Assembly.LoadFile(file);var colors=assembly.GetType("PawLobbyColorsNative",true);
                 var text=assembly.GetType("PawGameText",true);
@@ -45,7 +46,7 @@ internal static class PalettePayloadTests
                     }
                 }
             }
-            Console.WriteLine("PALETTE_PAYLOAD_PASS "+checks+" checks; 8 compiled loaders, 6 languages, 2 address layouts; no game launched");return 0;
+            Console.WriteLine("PALETTE_PAYLOAD_PASS "+checks+" checks; "+required+" compiled loaders, 6 languages, 2 address layouts; no game launched");return 0;
         } catch(Exception e){Console.Error.WriteLine(e);return 1;}
     }
 }

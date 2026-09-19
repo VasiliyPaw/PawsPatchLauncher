@@ -1,6 +1,6 @@
 # Paw's Patch for Vanilla and Immortals
 
-`build_options.py` builds stable 0.2.0 and beta 0.3.0-beta.1. It creates local,
+`build_options.py` builds stable 0.2.0 and beta 0.3.0-beta.2. It creates local,
 verified archives; it never installs, starts the game or publishes releases.
 `build_channels.py` records the previous 0.1.1 / 0.2.0-beta.1 workflow and is
 not the builder for current releases.
@@ -8,12 +8,14 @@ not the builder for current releases.
 | Channel | Patch / data | Runtime | Native transfer | Optional features |
 | --- | --- | --- | --- | --- |
 | Stable | 0.2.0 | 1.3.72-pure.8 | R2 | None |
-| Beta | 0.3.0-beta.1 | 1.3.72-pure.9-beta.1 | R2 | 48 colors, ignore desyncs |
+| Beta | 0.3.0-beta.2 | 1.3.72-pure.10-beta.2 | R2 | 39 colors, ignore desyncs |
 
 Both retain the accepted company badges, Dvorak controls (WASD and arrows,
 F allied marker), display-only negative-zero fix, terrain initialization,
-and menu version label. The 16-file data package is byte-identical to the
-previous pure beta. Language selection remains independent.
+and menu version label. The original 16 data files are byte-identical to the
+previous pure beta. Beta adds the 18 accepted Arcane minimap frame textures
+(six races, three texture groups); these remain available in file-only mode.
+There is no runtime resolution detection. Language selection remains independent.
 
 R2 uses the existing native transfer protocol, ACKs, retries and bandwidth
 checks. Its guarded code is shared with Arcane Wars; no R3 change is included.
@@ -23,11 +25,13 @@ Beta has four helpers: `k2_paws_pure_fixes_1372.exe`,
 `k2_paws_pure_colors_sync_1372.exe`. The launcher selects exactly one from the
 mode's two independent switches. Stable contains only the first helper.
 
-Colors reuse the exact accepted compact 48-color native payload, fixups and
+Colors reuse the exact accepted compact 39-color native payload, fixups and
 palette from Arcane Wars beta. `pure-player-colors` contains only the palette
 and a stock staging menu with the compact color control. It does not import
 Arcane Wars staging, kingdoms, city automation, balance or map changes.
 Color ownership uses native participant identity, as in Arcane Wars.
+Retired shades remain available for saved-game lookup but cannot be selected
+or randomly assigned in new games.
 
 `PureSync.cs` installs the two guarded suppression sites only when selected.
 It preserves registers, flags and the native stack contract, records ignored
@@ -44,6 +48,8 @@ Preferences are separate for each mod and restored when enabled again.
 ```text
 python game/pure-fixes/build_options.py --out <fresh-output> --dotnet <dotnet.exe> --analysis-work <verified-analysis-work> --rwd <stock-Data.rwd>
 ```
+
+Add `--beta-only` when staging a beta publication without rebuilding stable.
 
 The analysis image is hash-pinned. R2 guards cover 15 regions / 1815 bytes.
 All five helpers are built twice and must be byte-identical. The builder

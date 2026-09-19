@@ -38,6 +38,13 @@ internal static class ReleaseVariantTests
                     foreach(uint image in new uint[]{0x460000,0xE40000,0x12000000})foreach(uint cave in new uint[]{0xD40000,0x60000000})
                         Check(Build(a,image,cave,"CameraZoomPayload").SequenceEqual(Build(golden,image,cave,"CameraZoomPayload")),"Accepted camera payload preserved across relocation");
                 }
+                if(golden.GetType("CompanyPositionPayload")!=null) {
+                    var company=a.GetType("CompanyPositionPatch",true).GetMethod("Install",BindingFlags.Static|BindingFlags.NonPublic);
+                    byte[] companyCall=new byte[]{0x28}.Concat(BitConverter.GetBytes(company.MetadataToken)).ToArray();
+                    Check(Enumerable.Range(0,il.Length-companyCall.Length+1).Any(i=>il.Skip(i).Take(companyCall.Length).SequenceEqual(companyCall)),"Company recovery called by startup: "+path);
+                    foreach(uint image in new uint[]{0x460000,0xE40000,0x12000000})foreach(uint cave in new uint[]{0xD40000,0x60000000})
+                        Check(Build(a,image,cave,"CompanyPositionPayload").SequenceEqual(Build(golden,image,cave,"CompanyPositionPayload")),"Accepted company payload preserved across relocation");
+                }
                 var lobby=a.GetType("PawLobbyCompatibility",true);
                 Check((string)lobby.GetField("Version",BindingFlags.Static|BindingFlags.NonPublic).GetRawConstantValue()==expected,"Release identity");
                 var identity=lobby.GetMethod("Identity",BindingFlags.Static|BindingFlags.NonPublic);
