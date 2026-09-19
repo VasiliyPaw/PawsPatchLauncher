@@ -38,3 +38,16 @@ the card misleadingly asks the player to open a newer launcher.
 The release workflows repeat both client and isolated database tests before
 publishing the launcher. Signed feeds are updated only after public assets have
 been verified against the immutable CI artifact.
+
+## Release evidence
+
+- Source commit: `619c58389ec42b047311f098818a9ac2c98b4f59`; immutable tag `v0.8.5`.
+- Both GitHub workflows passed: [build and test](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/35442159868)
+  and [release](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/35442160895).
+- Public EXE: 73,106,054 bytes, version `0.8.5.0`, SHA-256
+  `623D0B011458872A693D88EA2274207D6AA5EDF29EAEE062A54CAB97C3D9F085`.
+- Public EXE and ZIP match GitHub asset digests and all four CI artifact entries;
+  the ZIP's executable is identical to the standalone download.
+- All 83 unique assets referenced by the four signed catalogs passed anonymous
+  download, size and SHA-256 verification before catalog publication. The four
+  catalogs preserve all existing game packages, guides and compatibility data.

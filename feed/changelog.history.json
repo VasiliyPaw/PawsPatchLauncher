@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.5",
+      "publishedAt": "2026-09-19",
+      "title": {
+        "ru": "Paw's Launcher 0.8.5",
+        "en": "Paw's Launcher 0.8.5",
+        "uk": "Paw's Launcher 0.8.5",
+        "cs": "Paw's Launcher 0.8.5",
+        "de": "Paw's Launcher 0.8.5",
+        "fr": "Paw's Launcher 0.8.5"
+      },
+      "body": {
+        "ru": "- Исправлены отображение мода и передача конфигураций Vanilla и Immortals с расширенными цветами и игнорированием рассинхронов.\n- Уточнены сообщения в карточке игрока, если настройки или сведения о версиях ещё не получены.",
+        "en": "- Fixed mod display and configuration sharing for Vanilla and Immortals with expanded colors and desync continuation.\n- Clarified player-card messages when settings or version information have not arrived yet.",
+        "uk": "- Виправлено відображення мода та передавання конфігурацій Vanilla й Immortals із розширеними кольорами та ігноруванням розсинхронізації.\n- Уточнено повідомлення в картці гравця, якщо налаштування або відомості про версії ще не отримано.",
+        "cs": "- Opraveno zobrazení modu a sdílení konfigurací Vanilla a Immortals s rozšířenými barvami a pokračováním při desynchronizaci.\n- Upřesněny zprávy v kartě hráče, pokud nastavení nebo informace o verzích ještě nebyly přijaty.",
+        "de": "- Mod-Anzeige und Konfigurationsfreigabe für Vanilla und Immortals mit erweiterten Farben und Fortsetzung bei Desynchronisation korrigiert.\n- Hinweise in der Spielerkarte bei noch fehlenden Einstellungen oder Versionsinformationen präzisiert.",
+        "fr": "- Correction de l’affichage du mod et du partage des configurations Vanilla et Immortals avec les couleurs étendues et la poursuite malgré les désynchronisations.\n- Clarification des messages de la fiche joueur lorsque les paramètres ou les informations de version n’ont pas encore été reçus."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.4",
       "mods": [],
       "publishedAt": "2026-09-18",
@@ -713,6 +734,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.5",
+      "publishedAt": "2026-09-19",
+      "title": {
+        "ru": "Paw's Launcher 0.8.5",
+        "en": "Paw's Launcher 0.8.5",
+        "uk": "Paw's Launcher 0.8.5",
+        "cs": "Paw's Launcher 0.8.5",
+        "de": "Paw's Launcher 0.8.5",
+        "fr": "Paw's Launcher 0.8.5"
+      },
+      "body": {
+        "ru": "- Исправлены отображение мода и передача конфигураций Vanilla и Immortals с расширенными цветами и игнорированием рассинхронов.\n- Уточнены сообщения в карточке игрока, если настройки или сведения о версиях ещё не получены.",
+        "en": "- Fixed mod display and configuration sharing for Vanilla and Immortals with expanded colors and desync continuation.\n- Clarified player-card messages when settings or version information have not arrived yet.",
+        "uk": "- Виправлено відображення мода та передавання конфігурацій Vanilla й Immortals із розширеними кольорами та ігноруванням розсинхронізації.\n- Уточнено повідомлення в картці гравця, якщо налаштування або відомості про версії ще не отримано.",
+        "cs": "- Opraveno zobrazení modu a sdílení konfigurací Vanilla a Immortals s rozšířenými barvami a pokračováním při desynchronizaci.\n- Upřesněny zprávy v kartě hráče, pokud nastavení nebo informace o verzích ještě nebyly přijaty.",
+        "de": "- Mod-Anzeige und Konfigurationsfreigabe für Vanilla und Immortals mit erweiterten Farben und Fortsetzung bei Desynchronisation korrigiert.\n- Hinweise in der Spielerkarte bei noch fehlenden Einstellungen oder Versionsinformationen präzisiert.",
+        "fr": "- Correction de l’affichage du mod et du partage des configurations Vanilla et Immortals avec les couleurs étendues et la poursuite malgré les désynchronisations.\n- Clarification des messages de la fiche joueur lorsque les paramètres ou les informations de version n’ont pas encore été reçus."
+      }
+    },
     {
       "category": "patch",
       "version": "0.3.2-beta.1",
