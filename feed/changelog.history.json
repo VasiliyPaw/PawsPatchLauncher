@@ -2,6 +2,52 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.6",
+      "publishedAt": "2026-09-20",
+      "title": {
+        "ru": "Paw’s Launcher 0.8.6",
+        "en": "Paw’s Launcher 0.8.6",
+        "uk": "Paw’s Launcher 0.8.6",
+        "cs": "Paw’s Launcher 0.8.6",
+        "de": "Paw’s Launcher 0.8.6",
+        "fr": "Paw’s Launcher 0.8.6"
+      },
+      "body": {
+        "ru": "- В бете Arcane Wars добавлен переключатель улучшений ботов, включённый по умолчанию.\n- Настройка ботов учитывается при копировании конфигурации и в карточках друзей.\n- Напоминание о совместимости сетевых настроек теперь показывается и для Vanilla.",
+        "en": "- Added an AI improvements switch to Arcane Wars Beta, enabled by default.\n- AI settings are included when sharing configurations and viewing friend profiles.\n- The multiplayer compatibility reminder is now also shown for Vanilla.",
+        "uk": "- У бета-версії Arcane Wars додано перемикач покращень ботів, увімкнений за замовчуванням.\n- Налаштування ботів враховуються під час копіювання конфігурації та в картках друзів.\n- Нагадування про сумісність мережевих налаштувань тепер показується й для Vanilla.",
+        "cs": "- Do beta verze Arcane Wars přidán přepínač vylepšení botů, ve výchozím stavu zapnutý.\n- Nastavení botů se přenáší při sdílení konfigurace a zobrazuje v profilech přátel.\n- Připomenutí kompatibility nastavení hry více hráčů se nyní zobrazuje i pro Vanilla.",
+        "de": "- Schalter für KI-Verbesserungen in Arcane Wars Beta hinzugefügt, standardmäßig aktiviert.\n- KI-Einstellungen werden beim Teilen von Konfigurationen und in Freundesprofilen berücksichtigt.\n- Der Hinweis zur Kompatibilität von Mehrspielereinstellungen wird jetzt auch für Vanilla angezeigt.",
+        "fr": "- Ajout d’un interrupteur d’amélioration de l’IA dans Arcane Wars Beta, activé par défaut.\n- Les paramètres de l’IA sont inclus dans le partage de configurations et les profils d’amis.\n- Le rappel de compatibilité multijoueur est désormais aussi affiché pour Vanilla."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.3.3",
+      "publishedAt": "2026-09-20",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "stable",
+      "title": {
+        "ru": "Paw’s Patch 0.3.3",
+        "en": "Paw’s Patch 0.3.3",
+        "uk": "Paw’s Patch 0.3.3",
+        "cs": "Paw’s Patch 0.3.3",
+        "de": "Paw’s Patch 0.3.3",
+        "fr": "Paw’s Patch 0.3.3"
+      },
+      "body": {
+        "ru": "- Исправлено зависание значка и позиции роты отдельно от бойцов.\n- Палитра сокращена до 39 цветов: убраны похожие оттенки.",
+        "en": "- Fixed company banners and positions getting stuck apart from their troops.\n- Reduced the palette to 39 colors by removing similar shades.",
+        "uk": "- Виправлено зависання значка й позиції роти окремо від бійців.\n- Палітру скорочено до 39 кольорів: прибрано схожі відтінки.",
+        "cs": "- Opraveno uvíznutí praporu a pozice roty odděleně od jejích vojáků.\n- Paleta zmenšena na 39 barev odstraněním podobných odstínů.",
+        "de": "- Feststeckende Kompaniebanner und Positionen abseits der Soldaten korrigiert.\n- Palette durch Entfernen ähnlicher Farbtöne auf 39 Farben reduziert.",
+        "fr": "- Correction des bannières et positions de compagnie bloquées à distance des soldats.\n- Palette réduite à 39 couleurs en supprimant les teintes similaires."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.5",
       "publishedAt": "2026-09-19",
       "title": {
@@ -734,6 +780,52 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.6",
+      "publishedAt": "2026-09-20",
+      "title": {
+        "ru": "Paw’s Launcher 0.8.6",
+        "en": "Paw’s Launcher 0.8.6",
+        "uk": "Paw’s Launcher 0.8.6",
+        "cs": "Paw’s Launcher 0.8.6",
+        "de": "Paw’s Launcher 0.8.6",
+        "fr": "Paw’s Launcher 0.8.6"
+      },
+      "body": {
+        "ru": "- В бете Arcane Wars добавлен переключатель улучшений ботов, включённый по умолчанию.\n- Настройка ботов учитывается при копировании конфигурации и в карточках друзей.\n- Напоминание о совместимости сетевых настроек теперь показывается и для Vanilla.",
+        "en": "- Added an AI improvements switch to Arcane Wars Beta, enabled by default.\n- AI settings are included when sharing configurations and viewing friend profiles.\n- The multiplayer compatibility reminder is now also shown for Vanilla.",
+        "uk": "- У бета-версії Arcane Wars додано перемикач покращень ботів, увімкнений за замовчуванням.\n- Налаштування ботів враховуються під час копіювання конфігурації та в картках друзів.\n- Нагадування про сумісність мережевих налаштувань тепер показується й для Vanilla.",
+        "cs": "- Do beta verze Arcane Wars přidán přepínač vylepšení botů, ve výchozím stavu zapnutý.\n- Nastavení botů se přenáší při sdílení konfigurace a zobrazuje v profilech přátel.\n- Připomenutí kompatibility nastavení hry více hráčů se nyní zobrazuje i pro Vanilla.",
+        "de": "- Schalter für KI-Verbesserungen in Arcane Wars Beta hinzugefügt, standardmäßig aktiviert.\n- KI-Einstellungen werden beim Teilen von Konfigurationen und in Freundesprofilen berücksichtigt.\n- Der Hinweis zur Kompatibilität von Mehrspielereinstellungen wird jetzt auch für Vanilla angezeigt.",
+        "fr": "- Ajout d’un interrupteur d’amélioration de l’IA dans Arcane Wars Beta, activé par défaut.\n- Les paramètres de l’IA sont inclus dans le partage de configurations et les profils d’amis.\n- Le rappel de compatibilité multijoueur est désormais aussi affiché pour Vanilla."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.4.0-beta.1",
+      "publishedAt": "2026-09-20",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.1",
+        "en": "Paw’s Patch 0.4.0-beta.1",
+        "uk": "Paw’s Patch 0.4.0-beta.1",
+        "cs": "Paw’s Patch 0.4.0-beta.1",
+        "de": "Paw’s Patch 0.4.0-beta.1",
+        "fr": "Paw’s Patch 0.4.0-beta.1"
+      },
+      "body": {
+        "ru": "- Добавлен переключатель улучшений ботов, включённый по умолчанию: оценка найма и лимитов, расширение и восстановление застрявших истощённых рот.\n- В лобби хоста появился общий выбор расы, фракции и сложности для текущих и новых ботов.\n- При выборе союзного объекта показывается экономика его королевства.\n- Королевства корректно показывают восемь зданий; подписи и отступы выровнены.\n- Очки королевства показываются с дробной частью. Разрушитель «Водоворот» расходует 0,75 очка при включённом балансе осадных машин.\n- Безобидные птицы и рыбы скрыты с миникарты, дальность реакции ополчения анклава слаан увеличена.\n- Расширена запись сведений о вылетах.",
+        "en": "- Added AI improvements, enabled by default: recruitment and capacity evaluation, expansion, and recovery of stuck exhausted companies.\n- Hosts can set the race, faction and difficulty for all current and new bots in the lobby.\n- Selecting an allied object displays its kingdom’s economy.\n- Kingdoms correctly display eight buildings; labels and spacing are aligned.\n- Kingdom points display fractional values. The Maelstrom Destroyer costs 0.75 points with siege engine balance enabled.\n- Harmless birds and fish are hidden from the minimap; Slaanri enclave militia react at a greater distance.\n- Expanded crash diagnostics.",
+        "uk": "- Додано перемикач покращень ботів, увімкнений за замовчуванням: оцінка найму й лімітів, розширення та відновлення застряглих виснажених рот.\n- У лобі хоста з’явився спільний вибір раси, фракції та складності для наявних і нових ботів.\n- Вибір союзного об’єкта показує економіку його королівства.\n- Королівства правильно показують вісім будівель; підписи та відступи вирівняно.\n- Очки королівства показуються з дробовою частиною. Руйнівник «Вир» витрачає 0,75 очка за ввімкненого балансу облогових машин.\n- Мирних птахів і риб приховано з мінікарти; збільшено дальність реакції ополчення анклаву слаан.\n- Розширено запис відомостей про збої.",
+        "cs": "- Přidán přepínač vylepšení botů, ve výchozím stavu zapnutý: hodnocení náboru a limitů, rozšiřování a zotavení uvízlých vyčerpaných rot.\n- Hostitel může v herní místnosti nastavit rasu, frakci a obtížnost všem stávajícím i novým botům.\n- Výběr spojeneckého objektu zobrazí ekonomiku jeho království.\n- Království správně zobrazují osm budov; popisky a rozestupy jsou zarovnané.\n- Body království zobrazují i desetinnou část. Ničitel Maelstrom spotřebuje 0,75 bodu při zapnutém vyvážení obléhacích strojů.\n- Neškodní ptáci a ryby se nezobrazují na minimapě; domobrana enklávy Slaanri reaguje na větší vzdálenost.\n- Rozšířeny záznamy diagnostiky pádů.",
+        "de": "- KI-Verbesserungen hinzugefügt und standardmäßig aktiviert: Bewertung von Rekrutierung und Kapazitätslimits, Expansion und Befreiung feststeckender erschöpfter Kompanien.\n- Der Host kann Volk, Fraktion und Schwierigkeit für alle vorhandenen und neuen Bots in der Lobby einstellen.\n- Die Auswahl eines verbündeten Objekts zeigt die Wirtschaft seines Königreichs.\n- Königreiche zeigen acht Gebäude korrekt an; Beschriftungen und Abstände wurden ausgerichtet.\n- Königreichspunkte werden mit Nachkommastellen angezeigt. Der Maelstrom-Zerstörer verbraucht bei aktivierter Belagerungsbalance 0,75 Punkte.\n- Harmlose Vögel und Fische werden auf der Minikarte ausgeblendet; die Miliz der Slaanri-Enklave reagiert auf größere Entfernung.\n- Erweiterte Absturzdiagnose.",
+        "fr": "- Ajout d’améliorations de l’IA, activées par défaut : évaluation du recrutement et des limites, expansion et récupération des compagnies épuisées bloquées.\n- L’hôte peut choisir le peuple, la faction et la difficulté de tous les bots actuels et nouveaux dans le salon.\n- La sélection d’un objet allié affiche l’économie de son royaume.\n- Les royaumes affichent correctement huit bâtiments ; les libellés et les espacements sont alignés.\n- Les points de royaume affichent les valeurs décimales. Le Destructeur Maelstrom consomme 0,75 point lorsque l’équilibrage des engins de siège est activé.\n- Les oiseaux et poissons inoffensifs sont masqués sur la minicarte ; la milice de l’enclave Slaanri réagit à plus grande distance.\n- Diagnostic des plantages enrichi."
+      }
+    },
     {
       "category": "patch",
       "version": "0.3.2-beta.2",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.2-beta.2",
+  "version": "0.4.0-beta.1",
   "entries": [
     {
       "id": "company-position-recovery",
@@ -123,14 +123,6 @@
       "bodyEn": "Adds roaming companies from bandit, barbarian, Rhaksha and Slaan camps on settlement and foundation sites. Spider and scorpion lairs, the Dark Rift and undead ruins also become sources.\n\nThe added companies have tuned spawning, morale and recovery parameters. The option can be disabled with Standard, ×2 or ×4 frequency, leaving the original roaming-company sources."
     },
     {
-      "id": "siege",
-      "category": "optional",
-      "titleRu": "Баланс осадных машин",
-      "titleEn": "Siege engine balance",
-      "bodyRu": "Добавляет расход 0,75 очка королевства за каждое орудие: Багровую катапульту, Чумную катапульту, Баллисту Драконьего огня и Ворпальную машину. В чистом Arcane Wars у этих четырёх машин такого расхода нет.\n\nИх стоимость в золоте, содержание в ресурсах и параметры атак остаются такими, как в Arcane Wars 0.82.1.8. При выключении компонента дополнительный расход очков королевства убирается. Для сетевой игры настройка должна совпадать у всех участников.",
-      "bodyEn": "Adds an upkeep of 0.75 kingdom points per engine to the Crimson Catapult, Plague Catapult, Dragonfire Ballista and Vorpal Engine. These four engines have no such upkeep in pure Arcane Wars.\n\nTheir gold cost, resource upkeep and attack parameters remain as defined in Arcane Wars 0.82.1.8. Turning this component off removes the additional kingdom-point upkeep. Every multiplayer participant must use the same setting."
-    },
-    {
       "id": "localization",
       "category": "optional",
       "titleRu": "Локализация игры",
@@ -193,6 +185,46 @@
       "titleEn": "Company badge colors and shading",
       "bodyRu": "Все семь типов значков используют исправленное освещение цветного фона. Цвет меньше искажается дополнительным освещением, при этом мягкое затенение сохраняет объём. Золотая рамка и обозначение типа роты не меняются.\n\nМодели и текстуры входят в обязательную часть патча, в том числе при выключенных расширенных цветах. Они устанавливаются одинаково у всех игроков.",
       "bodyEn": "All seven badge types use corrected lighting for the player-color background. Extra lighting no longer distorts the tint as much, while soft shading preserves depth. The gold frame and company-type symbol are unchanged.\n\nModels and textures are part of the required patch, including when extended colors are disabled. All players receive the same assets."
+    },
+    {
+      "id": "ai-improvements",
+      "category": "optional",
+      "titleRu": "Улучшения ботов",
+      "titleEn": "AI improvements",
+      "bodyRu": "Добавлен переключатель улучшений ботов, включённый по умолчанию: оценка найма и лимитов, расширение и восстановление застрявших истощённых рот.",
+      "bodyEn": "Added AI improvements, enabled by default: recruitment and capacity evaluation, expansion, and recovery of stuck exhausted companies."
+    },
+    {
+      "id": "bulk-bot-setup",
+      "category": "always",
+      "titleRu": "Общие настройки ботов",
+      "titleEn": "Shared bot setup",
+      "bodyRu": "В лобби хоста появился общий выбор расы, фракции и сложности для текущих и новых ботов.",
+      "bodyEn": "Hosts can set the race, faction and difficulty for all current and new bots in the lobby."
+    },
+    {
+      "id": "allied-economy",
+      "category": "always",
+      "titleRu": "Экономика союзников",
+      "titleEn": "Allied economy",
+      "bodyRu": "При выборе союзного объекта показывается экономика его королевства.",
+      "bodyEn": "Selecting an allied object displays its kingdom’s economy."
+    },
+    {
+      "id": "presentation-040",
+      "category": "always",
+      "titleRu": "Интерфейс и баланс",
+      "titleEn": "Interface and balance",
+      "bodyRu": "Королевства корректно показывают восемь зданий; подписи и отступы выровнены.\n\nОчки королевства показываются с дробной частью. Разрушитель «Водоворот» расходует 0,75 очка при включённом балансе осадных машин.\n\nБезобидные птицы и рыбы скрыты с миникарты, дальность реакции ополчения анклава слаан увеличена.\n\nРасширена запись сведений о вылетах.",
+      "bodyEn": "Kingdoms correctly display eight buildings; labels and spacing are aligned.\n\nKingdom points display fractional values. The Maelstrom Destroyer costs 0.75 points with siege engine balance enabled.\n\nHarmless birds and fish are hidden from the minimap; Slaanri enclave militia react at a greater distance.\n\nExpanded crash diagnostics."
+    },
+    {
+      "id": "siege",
+      "category": "optional",
+      "titleRu": "Баланс осадных машин",
+      "titleEn": "Siege engine balance",
+      "bodyRu": "Добавляет расход 0,75 очка королевства за каждое орудие: Багровую катапульту, Чумную катапульту, Баллисту Драконьего огня, Ворпальную машину и разрушитель «Водоворот». В чистом Arcane Wars у этих пяти машин такого расхода нет.\n\nИх стоимость в золоте, содержание в ресурсах и параметры атак остаются такими, как в Arcane Wars 0.82.1.8. При выключении компонента дополнительный расход очков королевства убирается. Для сетевой игры настройка должна совпадать у всех участников.",
+      "bodyEn": "Adds an upkeep of 0.75 kingdom points per engine to the Crimson Catapult, Plague Catapult, Dragonfire Ballista, Vorpal Engine and Maelstrom Destroyer. These five engines have no such upkeep in pure Arcane Wars.\n\nTheir gold cost, resource upkeep and attack parameters remain as defined in Arcane Wars 0.82.1.8. Turning this component off removes the additional kingdom-point upkeep. Every multiplayer participant must use the same setting."
     }
   ]
 }
