@@ -40,6 +40,7 @@ public partial class MainWindow
         [IndependentHostilityCard] = _settings.IndependentHostility.ToString(),
         [AdditionalRoamingCard] = _settings.AdditionalRoamingCompanies.ToString(),
         [SiegeBalanceCard] = _settings.SiegeBalance.ToString(),
+        [ImprovedAiCard] = _settings.ImprovedAi.ToString(),
         [PowersShardsCard] = _settings.DisablePowersAndShards.ToString(),
         [OosModuleCard] = GameMod.DesyncSelected(_settings).ToString(),
         [RoamingSpawnCard] = _settings.RoamingSpawnMode,

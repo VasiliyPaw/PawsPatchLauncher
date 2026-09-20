@@ -26,6 +26,7 @@ public partial class MainWindow
         "modules.spawn" => GuideChannel()?.PatchGuide?.Entries.FirstOrDefault(e => e.Id == "frequency")?.Body(_text.Language)
             ?? _text["modules.spawn.help"],
         "modules.colors" => ColorHelpText(),
+        "modules.siege" => _text[GameMod.HasImprovedAi(GuideChannel()) ? "modules.siege.beta.help" : "modules.siege.help"],
         _ => _text[key + ".help"]
     };
     private string ColorHelpText()
@@ -90,7 +91,7 @@ public partial class MainWindow
     }
 
     private Border[] ArcaneComponentCards() => [CoreModuleCard, ColorsModuleCard,
-        OosModuleCard, IndependentHostilityCard, RoamingSpawnCard, AdditionalRoamingCard, SiegeBalanceCard, PowersShardsCard];
+        OosModuleCard, IndependentHostilityCard, RoamingSpawnCard, AdditionalRoamingCard, SiegeBalanceCard, ImprovedAiCard, PowersShardsCard];
 
     private void RefreshPawComponentDependency()
     {
@@ -98,7 +99,7 @@ public partial class MainWindow
         var enabled = GameMod.PawPatchSelected(_settings) && (arcane || GameMod.HasPureOptions(_channel));
         foreach (var card in ArcaneComponentCards().Skip(1))
         {
-            var needsExe = card == ColorsModuleCard || card == OosModuleCard || card == IndependentHostilityCard;
+            var needsExe = card == ColorsModuleCard || card == OosModuleCard || card == IndependentHostilityCard || card == ImprovedAiCard;
             card.Opacity = !enabled || needsExe && DataOnlyMode ? .42 : 1;
             card.ToolTip = !enabled ? T("Включите Paw's Patch, чтобы выбрать этот компонент.", "Enable Paw's Patch to select this component.")
                 : needsExe && DataOnlyMode ? T("Недоступно: требуется совместимая версия EXE игры.", "Unavailable: a supported game executable is required.") : null;
@@ -108,6 +109,8 @@ public partial class MainWindow
         IgnoreDesyncToggle.IsChecked = enabled && !DataOnlyMode && GameMod.DesyncSelected(_settings);
         AdditionalRoamingToggle.IsChecked = enabled && _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = enabled && _settings.SiegeBalance;
+        ImprovedAiToggle.IsChecked = enabled && !DataOnlyMode && GameMod.HasImprovedAi(_channel) && _settings.ImprovedAi;
+        ImprovedAiToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && GameMod.HasImprovedAi(_channel);
         PowersShardsToggle.IsChecked = enabled && _settings.DisablePowersAndShards;
         SelectSpawnMode(enabled ? _settings.RoamingSpawnMode : "standard");
         ColorsToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && _colorsAvailable;
@@ -164,8 +167,9 @@ public partial class MainWindow
             RussianModuleCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
             SyncLanguageChoices();
             VanillaEmptyCard.Visibility = modules && !arcane && !pureAvailable ? Visibility.Visible : Visibility.Collapsed;
-            MultiplayerNoteCard.Visibility = modules && !vanilla ? Visibility.Visible : Visibility.Collapsed;
+            MultiplayerNoteCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
             foreach (var card in ArcaneComponentCards()) card.Visibility = modules && arcane ? Visibility.Visible : Visibility.Collapsed;
+            ImprovedAiCard.Visibility = modules && arcane && GameMod.HasImprovedAi(_channel) ? Visibility.Visible : Visibility.Collapsed;
             CoreModuleCard.Visibility = modules && (arcane || pureAvailable) ? Visibility.Visible : Visibility.Collapsed;
             if (modules && !arcane && GameMod.HasPureOptions(_channel))
                 ColorsModuleCard.Visibility = OosModuleCard.Visibility = Visibility.Visible;

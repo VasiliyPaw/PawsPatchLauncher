@@ -1,0 +1,508 @@
+;;  Human Hard SAI (Sofiya - The Expansionist SAI)
+;;
+;;	Description:
+;;		Sofia will play normally except for the thirst for expansion.  Settling and 
+;;		expanding the kingdom will have a high priority, upgrading settlements will
+;;		also be high, but not high enough to wreck the economy or the military
+;;		capabilities of the player
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;	Default human Template
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[template humanDefaultK2Ego_2 template = DefaultK2EgoHard]
+{
+	[GoalEngine]
+	{
+		[Recruiting]
+		{
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= role_settler
+				number_to_request			= 1
+				base_priority				= 4000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_melee
+				number_to_request			= 2
+				base_priority				= 6000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_ranged
+				number_to_request			= 1
+				base_priority				= 7000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+
+		} ;; Recruiting
+	} ;; GoalEngine
+} ;; humanDefaultEgo
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #1	( Initial Ego ) Build and Explore
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Ego template = humanDefaultK2Ego_2]
+{
+	IDS									= human_hard_initial_ego_2
+	name								= "#human_hard_2_human_hard_initial_ego_2_name"
+	
+	priority							= 1000
+
+	;;  NOTE:  Stay in this ego if we...
+	[Filters]
+	{		
+		;;  1.  have less than 2 settlements
+		[Item]
+		stat							= SETTLEMENTS_OWNED
+		min								= 0
+		max								= 1
+
+		;;  2.  haven't lost any settlements to the enemy
+		[Item]
+		stat							= SETTLEMENTS_SURRENDERED
+		min								= -1
+		max								= 0
+
+		;;  3.  don't have a great economy
+		[Item]
+		stat							= gold_rate
+		min								= 0
+		max								= 60
+	}	
+	[GoalEngine]
+	{	
+		[GeneralSettings]
+		{
+			think_frequency				= 20
+		}	
+
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;  INITIAL CONSTANT VALUES
+		[GoalPriority]
+		{
+			goal_IDS					= REPAIR
+			multiplier					= 20
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= CONSTRUCT
+			multiplier					= 3
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECOVER
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DESTROY
+			multiplier					= 1
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DEFEND_REGION
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RESEARCH
+			multiplier					= 0
+		}
+		;;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		[GoalPriority]
+		{
+			goal_IDS					= BUILD
+			multiplier					= 3
+			minimum						= 42
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= ATTACK_REGION
+			multiplier					= 1
+			bonus						= 750
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= EXPLORE
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECRUIT
+			multiplier					= 0.5
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= UPGRADE
+			multiplier					= 1
+			minimum						= 60
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= human_ironexport
+			value						= -500
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= human_woodexport
+			value						= -375
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= human_bank
+			value						= -375
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= human_bazaar
+			value						= -375
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= human_center_city
+			value						= -500
+		}
+
+		[ResourceManagement]
+		{
+			[ResourceNeed]
+			{
+				resource_IDS			= mana
+				short_need				= 0
+				enough_need				= 8
+				plenty_value			= 10
+				plenty_need				= 1
+			}
+
+			[ResourceNeed]
+			{
+				resource_IDS			= Kingdom_points_provided
+				short_need				= 0
+				enough_need				= 12
+				plenty_value			= 16
+				plenty_need				= 1
+			}
+
+		} ;; ResourceManagement
+
+		[Recruiting]
+		{
+			insufficient_income_level		= 15
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_sovereign_human
+				number_to_request			= 1
+				base_priority				= 8000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+		}
+
+		[Exploration]
+		{
+			[CloseGoals]
+			{
+				num_goals								= 2
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				intuition_region_bonus					= 150
+				intuition_count_mines					= false
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= false
+				intuition_count_other_buildings			= false
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= true
+
+				consider_distance_to_last_region		= true
+				last_region_distance_prefer_close		= true
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+
+			[DeepGoals]
+			{
+				num_goals								= 0
+				use_time_since_last_scouted				= false
+			}
+		}
+	} ;; GoalEngine			
+
+	[SettlementTemplate]
+	IDS									= initial_human_hard_build_template
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #2	( Main Path )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Ego template = humanDefaultK2Ego_2]
+{
+	IDS									= human_hard_main_path_ego_2
+	name								= "#human_hard_2_human_hard_main_path_ego_2_name"
+
+	priority							= 500
+
+	[Filters]
+	{
+		[Item]
+		stat							= gold_rate
+		min								= 20
+		max								= 200000
+	}
+	
+	[GoalEngine]
+	{
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;  MAIN CONSTANT VALUES
+		[GoalPriority]
+		{
+			goal_IDS					= REPAIR
+			multiplier					= 20
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= CONSTRUCT
+			multiplier					= 3
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECOVER
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DESTROY
+			multiplier					= 1
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= EXPLORE
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DEFEND_REGION
+			multiplier					= 2
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RESEARCH
+			multiplier					= 0.2
+		}
+		;;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		[GoalPriority]
+		{
+			goal_IDS					= BUILD
+			multiplier					= 3
+			minimum						= 42
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= ATTACK_REGION
+			multiplier					= 1
+			bonus						= 1250
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECRUIT
+			multiplier					= 0.5
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= UPGRADE
+			multiplier					= 1
+			minimum						= 60
+		}
+
+		[Recruiting]
+		{
+			int max_goals_per_think				= 5
+			int num_military_goals				= 3
+
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_sovereign_human
+				number_to_request			= 1
+				base_priority				= 8000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_melee
+				number_to_request			= 4
+				base_priority				= 3000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 6000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_ranged
+				number_to_request			= 2
+				base_priority				= 6000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 8000
+			}
+		
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_siege
+				number_to_request			= 6
+				base_priority				= 3000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 6000
+			}
+		
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_mage
+				number_to_request			= 2
+				base_priority				= 8000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+		}
+
+		[Exploration]
+		{
+			[CloseGoals]
+			{
+				num_goals								= 1
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				intuition_region_bonus					= 100
+				intuition_count_mines					= true
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= true
+				intuition_count_other_buildings			= true
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= true
+
+				consider_distance_to_last_region		= true
+				last_region_distance_prefer_close		= true
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+
+			[DeepGoals]
+			{
+				num_goals								= 2
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				current_region_bonus					= 0
+				actor_region_bonus						= 0
+				building_region_bonus					= 0
+				flare_region_bonus						= 1000
+
+				intuition_region_bonus					= 100
+				intuition_count_mines					= true
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= true
+				intuition_count_other_buildings			= true
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= false
+
+				consider_distance_to_last_region		= false
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+		}
+	} ;; GoalEngine
+		
+	[SettlementTemplate]
+	IDS									= economic_human_hard_build_template
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #3	( human Emergency Economy )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Ego template = DefaultK2EgoHardBleeding]
+{
+	IDS									= human_hard_emergency_ego_2
+	name								= "#human_hard_2_human_hard_emergency_ego_2_name"
+
+	priority							= 750
+}
+
+[SAI template = SAI]
+{
+	IDS									= human_hard_2
+	name								= "#human_hard_2_name"
+	description							= "#human_hard_2_description"
+	difficulty_level					= sai_difficulty_level_hard
+	initial_ego							= human_hard_initial_ego_2
+
+	[Ego]
+	ids									= human_hard_main_path_ego_2
+	[Ego]
+	ids									= human_hard_emergency_ego_2
+
+	[Nation]
+	ids									= human
+
+	[Faction]
+	ids									= council
+	[Faction]
+	ids									= nationalist
+	[Faction]
+	ids									= royalist
+	[Faction]
+	ids									= ceyah
+}

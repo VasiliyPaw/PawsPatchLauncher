@@ -1,4 +1,5 @@
-// Quiet startup integration. No Form, console window, helper child or attach mode.
+// Quiet startup integration. No Form or console window. Optional graphics
+// diagnostics start an embedded background worker after patch installation.
 // These routines are used only for the new game launched by this executable.
 using System;
 using System.ComponentModel;
@@ -72,6 +73,10 @@ internal static class ReleaseStartup
             if (!File.Exists(Path.Combine(root, f[0])) || Hash(Path.Combine(root, f[0])) != f[1])
                 throw new InvalidDataException("Нужны файлы текущего выпуска патча. Отличается " + f[0] + ". Выполните проверку файлов в лаунчере. Игра не запущена.");
         RandomMapPatch.GuardData(root);
+#if AI_POLICY
+        PawAiOptions.Enabled = PawAiOptions.Read(root);
+        Console.WriteLine("AI_IMPROVEMENTS " + (PawAiOptions.Enabled ? "on" : "off"));
+#endif
     }
 
     internal static void InstallTerrainAndMap(Process game, IntPtr image, Action<string> log)
@@ -94,6 +99,30 @@ internal static class ReleaseStartup
 #if COMPANY_POSITION_RECOVERY
                 CompanyPositionPatch.Validate(memory, address);
 #endif
+#if EXHAUSTION_RECOVERY
+                #if AI_POLICY
+                if (PawAiOptions.Enabled)
+#endif
+                ExhaustionRecoveryPatch.Validate(memory, address);
+#endif
+#if AI_POLICY
+                #if AI_POLICY
+                if (PawAiOptions.Enabled)
+#endif
+                AiPolicyRuntime.Validate(memory, address);
+#endif
+#if BOT_LOBBY
+                BotLobbyPatch.Validate(memory, address);
+#endif
+#if FRACTIONAL_KINGDOM_POINTS
+                FractionalPointsPatch.Validate(memory, address);
+#endif
+#if SETTLEMENT_SLOTS
+                SettlementSlotsPatch.Validate(memory, address);
+#endif
+#if ALLY_ECONOMY
+                AllyEconomyPatch.Validate(memory, address);
+#endif
                 uint terrain = TerrainPatch.Install(memory, address, log);
                 uint map = RandomMapPatch.Install(memory, address, log);
                 TerrainPatch.Expect(memory, address + TerrainPatch.HookRva,
@@ -108,6 +137,30 @@ internal static class ReleaseStartup
 #endif
 #if COMPANY_POSITION_RECOVERY
                 CompanyPositionPatch.Install(memory, address, log);
+#endif
+#if EXHAUSTION_RECOVERY
+                #if AI_POLICY
+                if (PawAiOptions.Enabled)
+#endif
+                ExhaustionRecoveryPatch.Install(memory, address, log);
+#endif
+#if AI_POLICY
+                #if AI_POLICY
+                if (PawAiOptions.Enabled)
+#endif
+                AiPolicyRuntime.Install(memory, address, game.Id, Path.GetDirectoryName(game.MainModule.FileName), log);
+#endif
+#if BOT_LOBBY
+                BotLobbyPatch.Install(memory, address, PawGameText.LanguageId, log);
+#endif
+#if FRACTIONAL_KINGDOM_POINTS
+                FractionalPointsPatch.Install(memory, address, log);
+#endif
+#if SETTLEMENT_SLOTS
+                SettlementSlotsPatch.Install(memory, address, log);
+#endif
+#if ALLY_ECONOMY
+                AllyEconomyPatch.Install(memory, address, log);
 #endif
             }
             finally { memory.Resume(); }

@@ -13,6 +13,7 @@ public static class EffectiveSettings
         active.SuspendedArcaneComponents = null;
         active.CustomPlayerColors = preferences.CustomPlayerColors && colorsAvailable;
         active.LargeMapSizes = active.PawPatchEnabled;
+        active.ImprovedAi &= GameMod.IsArcaneWars(active) && active.Channel == "beta" && active.PawPatchEnabled && !active.DataOnly;
         if (GameMod.IsArcaneWars(active) && !active.PawPatchEnabled) GameMod.DisableArcaneComponents(active);
         if (active.DataOnly)
         {
@@ -42,6 +43,7 @@ public static class EffectiveSettings
     {
         var active = ForChannel(preferences, feed is not null && feed.Channel.Equals(preferences.Channel, StringComparison.OrdinalIgnoreCase)
             && (GameMod.IsArcaneWars(preferences) ? feed.Packages.Any(p => p.Id.Equals("player-colors", StringComparison.OrdinalIgnoreCase)) : GameMod.HasPureOptions(feed)));
+        active.ImprovedAi &= GameMod.HasImprovedAi(feed);
         if (!GameMod.IsArcaneWars(active) && !GameMod.HasPureOptions(feed))
         {
             GameMod.PureComponents(active).IgnoreDesync = false;

@@ -1,0 +1,472 @@
+;;  Gauri hard SAI (Khosrau the Gold Hoarder)
+;;
+;;  Description:
+;;		Khosrau will aggressively accumulate wealth before striking out at his enemies
+;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;	Default Gauri Template
+;;
+;;	NOTE:  Everything in here is what makes this SAI a Gold Hoarder
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[template GauriDefaultK2Ego_2 template = DefaultK2EgoHard]
+{
+	[GoalEngine]
+	{
+		[ResourceManagement]
+		{		
+			stockpilable_enough_need		= 35
+		}
+
+		[Recruiting]
+		{
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_melee
+				number_to_request			= 2
+				base_priority				= 6000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 9000
+			}
+		
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_ranged
+				number_to_request			= 1
+				base_priority				= 7000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= role_settler
+				number_to_request			= 1
+				base_priority				= 4000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 10000
+			}
+
+		} ;; Recruiting
+	} ;; GoalEngine
+} ;; GauriDefaultEgo
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #1	( Initial Ego ) Build and Explore
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Ego template = GauriDefaultK2Ego_2]
+{
+	IDS									= gauri_hard_initial_ego_2
+	name								= "#gauri_hard_2_gauri_hard_initial_ego_2_name"
+	
+	priority							= 1000
+
+	[Filters]
+	{		
+		[Item]
+		stat							= SETTLEMENTS_OWNED
+		min								= 0
+		max								= 1
+
+		[Item]
+		stat							= SETTLEMENTS_SURRENDERED
+		min								= -1
+		max								= 0
+
+		[Item]
+		stat							= gold_rate
+		min								= 0
+		max								= 60
+	}
+	
+	[GoalEngine]
+	{	
+		[GeneralSettings]
+		{
+			think_frequency				= 20
+		}	
+
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;  INITIAL CONSTANT VALUES
+		[GoalPriority]
+		{
+			goal_IDS					= REPAIR
+			multiplier					= 20
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= CONSTRUCT
+			multiplier					= 3
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECOVER
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DESTROY
+			multiplier					= 1
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DEFEND_REGION
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RESEARCH
+			multiplier					= 0
+		}
+		;;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		[GoalPriority]
+		{
+			goal_IDS					= BUILD
+			multiplier					= 3
+			minimum						= 42
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= ATTACK_REGION
+			multiplier					= 1
+			bonus						= 750
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= EXPLORE
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECRUIT
+			multiplier					= 0.5
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= UPGRADE
+			multiplier					= 1
+			minimum						= 60
+		}
+
+		[ResourceManagement]
+		{
+			[ResourceNeed]
+			{
+				resource_IDS			= Kingdom_points_provided
+				short_need				= 0
+				enough_need				= 12
+				plenty_value			= 16
+				plenty_need				= 1
+			}
+
+		} ;; ResourceManagement
+
+		[Recruiting]
+		{
+			insufficient_income_level		= 15
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_sovereign_gauri
+				number_to_request			= 1
+				base_priority				= 8000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+		}
+
+		;;  NOTE:  Likes gold mines
+		[ActorPriority]
+		{
+			actor_IDS					= gauri_mine_gold
+			value						= 1000
+		}		
+
+		[ActorPriority]
+		{
+			actor_IDS					= gauri_center_city
+			value						= -500
+		}
+
+		[Exploration]
+		{
+			[CloseGoals]
+			{
+				num_goals								= 2
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				intuition_region_bonus					= 150
+				intuition_count_mines					= false
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= false
+				intuition_count_other_buildings			= false
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= true
+
+				consider_distance_to_last_region		= true
+				last_region_distance_prefer_close		= true
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+
+			[DeepGoals]
+			{
+				num_goals								= 0
+				use_time_since_last_scouted				= false
+			}
+		}
+	} ;;  GoalEngine
+
+	[SettlementTemplate]
+	IDS									= initial_gauri_hard_build_template
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #2	( Main Path )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Ego template = GauriDefaultK2Ego_2]
+{
+	IDS									= gauri_hard_main_path_ego_2
+	name								= "#gauri_hard_2_gauri_hard_main_path_ego_2_name"
+
+	priority							= 500
+
+	[Filters]
+	{
+		[Item]
+		stat							= gold_rate
+		min								= 20
+		max								= 999999
+	}
+	
+	[GoalEngine]
+	{
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;  MAIN CONSTANT VALUES
+		[GoalPriority]
+		{
+			goal_IDS					= REPAIR
+			multiplier					= 20
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= CONSTRUCT
+			multiplier					= 3
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECOVER
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DESTROY
+			multiplier					= 1
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= EXPLORE
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DEFEND_REGION
+			multiplier					= 2
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RESEARCH
+			multiplier					= 0.2
+		}
+		;;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		[GoalPriority]
+		{
+			goal_IDS					= BUILD
+			multiplier					= 3
+			minimum						= 42
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= ATTACK_REGION
+			multiplier					= 1
+			bonus						= 1250
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECRUIT
+			multiplier					= 0.5
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= UPGRADE
+			multiplier					= 1
+			minimum						= 60
+		}
+
+		[Recruiting]
+		{
+			int max_goals_per_think				= 5
+			int num_military_goals				= 3
+
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_sovereign_gauri
+				number_to_request			= 1
+				base_priority				= 8000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_ranged
+				number_to_request			= 4
+				base_priority				= 6000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 6000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_cavalry
+				number_to_request			= 6
+				base_priority				= 4000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 7000
+			}
+		
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_siege
+				number_to_request			= 4
+				base_priority				= 7000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 7000
+			}
+		}
+
+		[Exploration]
+		{
+			[CloseGoals]
+			{
+				num_goals								= 1
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				intuition_region_bonus					= 100
+				intuition_count_mines					= true
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= true
+				intuition_count_other_buildings			= true
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= true
+
+				consider_distance_to_last_region		= true
+				last_region_distance_prefer_close		= true
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+
+			[DeepGoals]
+			{
+				num_goals								= 2
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				current_region_bonus					= 0
+				actor_region_bonus						= 0
+				building_region_bonus					= 0
+				flare_region_bonus						= 1000
+
+				intuition_region_bonus					= 100
+				intuition_count_mines					= true
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= true
+				intuition_count_other_buildings			= true
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= false
+
+				consider_distance_to_last_region		= false
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+		}
+	} ;; GoalEngine
+		
+	[SettlementTemplate]
+	IDS									= economic_gauri_hard_build_template
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #3	( Gauri Emergency Economy )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Ego template = DefaultK2EgoHardBleeding]
+{
+	IDS									= gauri_hard_emergency_ego_2
+	name								= "#gauri_hard_2_gauri_hard_emergency_ego_2_name"
+
+	priority							= 750
+}
+
+[SAI template = SAI]
+{
+	IDS									= gauri_hard_2
+	name								= "#gauri_hard_2_name"
+	description							= "#gauri_hard_2_description"
+	difficulty_level					= sai_difficulty_level_hard
+	initial_ego							= gauri_hard_initial_ego_2
+
+	[Ego]
+	ids									= gauri_hard_main_path_ego_2
+	[Ego]
+	ids									= gauri_hard_emergency_ego_2
+
+	[Nation]
+	ids									= Gauri
+
+	[Faction]
+	ids									= council
+	[Faction]
+	ids									= nationalist
+}

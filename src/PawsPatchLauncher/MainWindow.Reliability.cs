@@ -213,6 +213,7 @@ public partial class MainWindow
             IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
             AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
             SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
+        ImprovedAiToggle.IsChecked = _settings.ImprovedAi;
             PowersShardsToggle.IsChecked = _settings.DisablePowersAndShards;
             SelectOosMode(_settings.DesyncMode); SelectSpawnMode(_settings.RoamingSpawnMode);
             _settingsStore.Save(_settings);

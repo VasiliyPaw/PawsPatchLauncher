@@ -54,6 +54,41 @@ internal static class BuildFeatures
 #else
         const string companyPosition = "";
 #endif
+#if EXHAUSTION_RECOVERY
+        const string exhaustion = ",\"exhaustionRecoveryRevision\":1";
+#else
+        const string exhaustion = "";
+#endif
+#if AI_POLICY
+        const string ai = ",\"aiPolicyRevision\":5,\"builtInAiDiagnostics\":true,\"aiImprovementsSelectable\":true";
+#else
+        const string ai = "";
+#endif
+#if BOT_LOBBY
+        const string botLobby = ",\"bulkBotLobbyRevision\":1";
+#else
+        const string botLobby = "";
+#endif
+#if FRACTIONAL_KINGDOM_POINTS
+        const string fractions=",\"fractionalKingdomPointsRevision\":1";
+#else
+        const string fractions="";
+#endif
+#if GRAPHICS_DIAGNOSTICS
+        const string graphics=",\"builtInGraphicsDiagnosticsRevision\":1";
+#else
+        const string graphics="";
+#endif
+#if SETTLEMENT_SLOTS
+        const string settlementSlots=",\"settlementBuildingSlotsRevision\":2,\"settlementBuildingSlots\":8";
+#else
+        const string settlementSlots="";
+#endif
+#if ALLY_ECONOMY
+        const string allyEconomy=",\"allyEconomyRevision\":2";
+#else
+        const string allyEconomy="";
+#endif
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
@@ -64,7 +99,7 @@ internal static class BuildFeatures
             ",\"automaticMines\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"newCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"startingCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
-            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + lairRecovery + camera + companyPosition + "}");
+            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + lairRecovery + camera + companyPosition + exhaustion + ai + botLobby + fractions + graphics + settlementSlots + allyEconomy + "}");
         return 0;
     }
 }

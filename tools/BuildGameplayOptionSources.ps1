@@ -152,7 +152,8 @@ foreach ($relative in @(
     'Units\CeyahAW\AW_plague_catapult.tgi',
     'Units\NationalistAW\AW_crimson_catapult.tgi',
     'Units\NationalistAW\AW_vorpal_engine.tgi',
-    'Units\RoyalistAW\AW_dragonfire_balistae.tgi'
+    'Units\RoyalistAW\AW_dragonfire_balistae.tgi',
+    'Units\Gauri\AW_maelstrom_destroyer.tgi'
 )) {
     Copy-RelativeFile $arcaneData $relative (Join-Path $siegeStandard 'data')
 }

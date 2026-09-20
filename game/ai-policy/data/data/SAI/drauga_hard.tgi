@@ -1,0 +1,639 @@
+;;  Drauga Hard SAI (Thurak)
+;;
+
+[SettlementTemplate template = SettlementTemplate]
+{
+	IDS										= drauga_ranged_build_template_1
+	name									= "#drauga_hard_drauga_ranged_build_template_1_name"
+
+	[Filters]
+	{
+		instances_max						= 1
+	}
+	
+	[Priority]
+	priority								= 500
+	
+	[Build]
+	IDS										= drauga_market
+	build_next_item_priority				= 400
+	build_later_item_priority				= 400
+	build_next_item_precursor_priority		= 400
+	build_later_item_precursor_priority		= 400
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_woodmill
+  	build_next_item_priority				= 100
+  	build_later_item_priority				= 100
+  	build_next_item_precursor_priority		= 100
+  	build_later_item_precursor_priority		= 100	
+  	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_library
+	build_next_item_priority				= 50
+	build_later_item_priority				= 50
+	build_next_item_precursor_priority		= 50
+	build_later_item_precursor_priority		= 50
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_blacksmith
+	build_next_item_priority				= 50
+	build_later_item_priority				= 50
+	build_next_item_precursor_priority		= 50
+	build_later_item_precursor_priority		= 50
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_shrine
+	build_next_item_priority				= 50
+	build_later_item_priority				= 50
+	build_next_item_precursor_priority		= 50
+	build_later_item_precursor_priority		= 50
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_barracks
+	build_next_item_priority				= 50
+	build_later_item_priority				= 50
+	build_next_item_precursor_priority		= 50
+	build_later_item_precursor_priority		= 50
+	destroy_mismatch_priority				= 0
+}
+
+[SettlementTemplate template = SettlementTemplate]
+{
+	IDS										= drauga_economic_build_template_1
+	name									= "#drauga_hard_drauga_economic_build_template_1_name"
+
+	[Filters]
+	{
+		instances_max						= 1
+	}
+								
+	[Priority]
+	priority								= 1000
+
+	[Build]
+	IDS										= drauga_market
+	build_next_item_priority				= 400
+	build_later_item_priority				= 400
+	build_next_item_precursor_priority		= 400
+	build_later_item_precursor_priority		= 400
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_blacksmith
+  	build_next_item_priority				= 100
+  	build_later_item_priority				= 100
+  	build_next_item_precursor_priority		= 100
+  	build_later_item_precursor_priority		= 100	
+  	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_shrine
+	build_next_item_priority				= 50
+	build_later_item_priority				= 50
+	build_next_item_precursor_priority		= 50
+	build_later_item_precursor_priority		= 50
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_barracks
+	build_next_item_priority				= 50
+	build_later_item_priority				= 50
+	build_next_item_precursor_priority		= 50
+	build_later_item_precursor_priority		= 50
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_library
+	build_next_item_priority				= 50
+	build_later_item_priority				= 50
+	build_next_item_precursor_priority		= 50
+	build_later_item_precursor_priority		= 50
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_woodmill
+	build_next_item_priority				= 50
+	build_later_item_priority				= 50
+	build_next_item_precursor_priority		= 50
+	build_later_item_precursor_priority		= 50
+	destroy_mismatch_priority				= 0
+}
+
+[SettlementTemplate template = SettlementTemplate]
+{
+	IDS										= drauga_intiial_build_template_1
+	name									= "#drauga_hard_drauga_intiial_build_template_1_name"
+
+	[Filters]
+	{
+		instances_max						= 1
+	}
+								
+	[Priority]
+	priority								= 1000
+
+
+	[Build]
+	IDS										= drauga_blacksmith
+	build_next_item_priority				= 200
+	build_later_item_priority				= 200
+	build_next_item_precursor_priority		= 200
+	build_later_item_precursor_priority		= 200
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_quarry
+	build_next_item_priority				= 100
+	build_later_item_priority				= 100
+	build_next_item_precursor_priority		= 100
+	build_later_item_precursor_priority		= 100
+	destroy_mismatch_priority				= 0
+
+	[Build]
+	IDS										= drauga_market
+	build_next_item_priority				= 100
+	build_later_item_priority				= 100
+	build_next_item_precursor_priority		= 100
+	build_later_item_precursor_priority		= 100
+	destroy_mismatch_priority				= 0
+
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;	Default Drauga Template
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[template DraugaDefaultK2Ego_1 template = DefaultK2EgoHard]
+{
+	[GoalEngine]
+	{		
+		[Recruiting]
+		{
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= role_settler
+				number_to_request			= 1
+				base_priority				= 4000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 8000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_melee
+				number_to_request			= 2
+				base_priority				= 6000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 8000
+			}
+		
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_ranged
+				number_to_request			= 1
+				base_priority				= 7000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 8000
+			}
+		} ;; Recruiting
+	} ;; GoalEngine
+} ;; DraugaDefaultEgo
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #1	( Initial Ego ) Build and Explore
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Ego template = DraugaDefaultK2Ego_1]
+{
+	IDS									= drauga_hard_initial_ego_1
+	name								= "#drauga_hard_initial_ego_1_name"
+	
+	priority							= 1000
+
+	[Filters]
+	{		
+		[Item]
+		stat							= SETTLEMENTS_OWNED
+		min								= 0
+		max								= 1
+
+		[Item]
+		stat							= SETTLEMENTS_SURRENDERED
+		min								= -1
+		max								= 0
+
+		[Item]
+		stat							= gold_rate
+		min								= 0
+		max								= 60
+	}
+	
+	[GoalEngine]
+	{	
+		[GeneralSettings]
+		{
+			think_frequency				= 20
+		}
+
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;  INITIAL CONSTANT VALUES
+		[GoalPriority]
+		{
+			goal_IDS					= REPAIR
+			multiplier					= 20
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= CONSTRUCT
+			multiplier					= 3
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECOVER
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DESTROY
+			multiplier					= 1
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DEFEND_REGION
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RESEARCH
+			multiplier					= 0
+		}
+		;;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		[GoalPriority]
+		{
+			goal_IDS					= BUILD
+			multiplier					= 2
+			minimum						= 28
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= ATTACK_REGION
+			multiplier					= 1
+			bonus						= 350
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= EXPLORE
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECRUIT
+			multiplier					= 0.5
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= UPGRADE
+			multiplier					= 1
+			minimum						= 60
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= drauga_ironexport
+			value						= -500
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= drauga_woodexport
+			value						= -375
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= drauga_center_city
+			value						= -500
+		}
+
+		[ResourceManagement]
+		{
+			[ResourceNeed]
+			{
+				resource_IDS			= mana
+				short_need				= 0
+				enough_need				= 8
+				plenty_value			= 10
+				plenty_need				= 1
+			}
+
+			[ResourceNeed]
+			{
+				resource_IDS			= Kingdom_points_provided
+				short_need				= 0
+				enough_need				= 12
+				plenty_value			= 16
+				plenty_need				= 1
+			}
+
+		} ;; ResourceManagement
+
+		[Recruiting]
+		{
+			insufficient_income_level		= 15
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_sovereign_drauga
+				number_to_request			= 1
+				base_priority				= 8000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+		}
+
+		[Exploration]
+		{
+			[CloseGoals]
+			{
+				num_goals								= 2
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				intuition_region_bonus					= 150
+				intuition_count_mines					= false
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= false
+				intuition_count_other_buildings			= false
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= true
+
+				consider_distance_to_last_region		= true
+				last_region_distance_prefer_close		= true
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+
+			[DeepGoals]
+			{
+				num_goals								= 0
+				use_time_since_last_scouted				= false
+			}
+		}
+	} ;; GoalEngine
+
+	[SettlementTemplate]
+	IDS									= drauga_intiial_build_template_1
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #2	( Main Path )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Ego template = DraugaDefaultK2Ego_1]
+{
+	IDS									= drauga_hard_main_path_ego_1
+	name								= "#drauga_hard_main_path_ego_1_name"
+
+	priority							= 500
+
+	[Filters]
+	{
+		[Item]
+		stat							= gold_rate
+		min								= 20
+		max								= 200000
+	}
+	
+	[GoalEngine]
+	{
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;  MAIN CONSTANT VALUES
+		[GoalPriority]
+		{
+			goal_IDS					= REPAIR
+			multiplier					= 20
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= CONSTRUCT
+			multiplier					= 3
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECOVER
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DESTROY
+			multiplier					= 1
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= EXPLORE
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DEFEND_REGION
+			multiplier					= 2
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RESEARCH
+			multiplier					= 0.2
+		}
+		;;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		[GoalPriority]
+		{
+			goal_IDS					= BUILD
+			multiplier					= 3
+			minimum						= 42
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= ATTACK_REGION
+			multiplier					= 1
+			bonus						= 750
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECRUIT
+			multiplier					= 0.5
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= UPGRADE
+			multiplier					= 1
+			minimum						= 60
+		}
+
+		[Recruiting]
+		{
+			int max_goals_per_think				= 5
+			int num_military_goals				= 3
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_sovereign_drauga
+				number_to_request			= 1
+				base_priority				= 8000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_melee
+				number_to_request			= 4
+				base_priority				= 5000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 8000
+			}
+		
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_ranged
+				number_to_request			= 4
+				base_priority				= 7000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 8000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_siege
+				number_to_request			= 3
+				base_priority				= 6000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 8000
+			}		
+		}
+
+		[Exploration]
+		{
+			[CloseGoals]
+			{
+				num_goals								= 1
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				intuition_region_bonus					= 100
+				intuition_count_mines					= true
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= true
+				intuition_count_other_buildings			= true
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= true
+
+				consider_distance_to_last_region		= true
+				last_region_distance_prefer_close		= true
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+
+			[DeepGoals]
+			{
+				num_goals								= 2
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				current_region_bonus					= 0
+				actor_region_bonus						= 0
+				building_region_bonus					= 0
+				flare_region_bonus						= 1000
+
+				intuition_region_bonus					= 100
+				intuition_count_mines					= true
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= true
+				intuition_count_other_buildings			= true
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= false
+
+				consider_distance_to_last_region		= false
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+		}
+	} ;; GoalEngine
+
+	[SettlementTemplate]
+	IDS									= drauga_ranged_build_template_1
+	[SettlementTemplate]
+	IDS									= drauga_economic_build_template_1
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #3	( Drauga Emergency Economy )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Ego template = DefaultK2EgoHardBleeding]
+{
+	IDS									= drauga_hard_emergency_ego_1
+	name								= "#drauga_hard_emergency_ego_1_name"
+
+	priority							= 750
+}
+
+[SAI template = SAI]
+{
+	IDS									= drauga_hard
+	name								= "#drauga_hard_name"
+	description							= "#drauga_hard_description"
+	difficulty_level					= sai_difficulty_level_HARD
+	initial_ego							= drauga_hard_initial_ego_1
+
+	[Ego]
+	ids									= drauga_hard_main_path_ego_1
+	[Ego]
+	ids									= drauga_hard_emergency_ego_1
+
+	[Nation]
+	ids									= Drauga
+
+	[Faction]
+	ids									= nationalist
+	[Faction]
+	ids									= royalist
+}

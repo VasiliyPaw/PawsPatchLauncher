@@ -13,7 +13,7 @@ internal static class GameDiagnosticsTests
         var locations = new DiagnosticLocations(Path.Combine(fixture, "game"), Path.Combine(fixture, "documents"),
             Path.Combine(fixture, "local"), Path.Combine(fixture, "program-data"), [Path.Combine(fixture, "custom-dumps")]);
         var epoch = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        var expected = new Dictionary<string, byte[]>();
+        var expected = new Dictionary<string, byte[]>(StringComparer.OrdinalIgnoreCase);
         var count = 0;
         void Check(bool condition, string reason) { if (!condition) throw new Exception(reason); count++; }
         string Add(string directory, string name, int age, string? text = null)
@@ -117,7 +117,20 @@ internal static class GameDiagnosticsTests
         var existing = Path.Combine(emptyStaging, "existing.log"); await File.WriteAllTextAsync(existing, "keep previous");
         Check(!await GameDiagnosticFiles.CopyFileAsync(Path.Combine(locations.GameRoot, "log-5.log"), emptyStaging, "existing.log", "test", empty, default), "Staging overwrite should fail");
         Check(await File.ReadAllTextAsync(existing) == "keep previous", "Copy failure deleted an existing staging file");
-        Console.WriteLine($"GAME DIAGNOSTICS PASS {count}: five recent readable groups, companion logs, VirtualStore, Windows/custom/WER filters, locked fallback, missing sources, original preservation, archive={completeArchive}");
+        var embeddedRoot = Path.Combine(fixture, "embedded-recorder-game");
+        var embeddedLogs = Path.Combine(embeddedRoot, "Logs", "PawsGraphics");
+        var faultLog = Add(embeddedLogs, "log-graphics-20260920-124344-506-22760.log", 1, "CAPTURE first_chance=1\nDUMP result=1");
+        var faultDump = Add(embeddedLogs, "log-graphics-20260920-124344-506-22760.dmp", 1, "synthetic dump");
+        for (var i = 2; i <= 9; i++) Add(embeddedLogs, $"log-graphics-normal-{i}.log", i);
+        var embeddedStage = Path.Combine(fixture, "embedded-recorder-staging"); Directory.CreateDirectory(embeddedStage);
+        var embedded = await GameDiagnosticFiles.CollectAsync(embeddedStage, new(embeddedRoot,
+            Path.Combine(fixture, "none-docs"), Path.Combine(fixture, "none-local"), Path.Combine(fixture, "none-system"), []));
+        Check(embedded.Files.Any(f => f.Source.Equals(faultDump, StringComparison.OrdinalIgnoreCase) && f.Status == "copied"), "Embedded recorder dump missing");
+        Check(embedded.Files.Any(f => f.Source.Equals(faultLog, StringComparison.OrdinalIgnoreCase) && f.Status == "copied"), "Embedded crash log lost after later normal sessions");
+        Check(embedded.Files.Count(f => f.Category == "game-logs" && f.Status == "copied") == 6, "Expected five recent logs plus crash companion");
+        foreach (var f in embedded.Files.Where(f => f.Status == "copied"))
+            Check(File.ReadAllBytes(Path.Combine(embeddedStage, f.ArchivePath)).SequenceEqual(expected[f.Source]), "Embedded recorder file bytes differ");
+        Console.WriteLine($"GAME DIAGNOSTICS PASS {count}: five recent readable groups, companion logs, embedded graphics recorder, VirtualStore, Windows/custom/WER filters, locked fallback, missing sources, original preservation, archive={completeArchive}");
         return count;
     }
 }

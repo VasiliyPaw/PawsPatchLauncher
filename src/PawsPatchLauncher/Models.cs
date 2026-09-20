@@ -43,6 +43,7 @@ public sealed class UserSettings
     public string RoamingSpawnMode { get; set; } = "x4";
     public bool AdditionalRoamingCompanies { get; set; } = true;
     public bool SiegeBalance { get; set; } = true;
+    public bool ImprovedAi { get; set; } = true;
     public bool DisablePowersAndShards { get; set; } = true;
     public bool LargeMapSizes { get; set; } = true;
     public string? PreparedChannel { get; set; }

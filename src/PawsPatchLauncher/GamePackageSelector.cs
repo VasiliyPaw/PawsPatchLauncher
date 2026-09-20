@@ -90,6 +90,10 @@ public static class GamePackageSelector
             if (fastSpawn && !settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-x4-no-new");
             if (!fastSpawn && !settings.AdditionalRoamingCompanies) ids.Add("roaming-profile-standard-no-new");
         }
+        var botUi = "localization-bot-ui-" + GameLanguages.Text(settings);
+        if (channel.Packages.Any(p => p.Id == botUi)) ids.Add(botUi);
+        if (settings.ImprovedAi && settings.Channel == "beta" && GameMod.HasImprovedAi(channel))
+            ids.Add("ai-improvements");
         if (!settings.SiegeBalance) ids.Add("siege-balance-standard");
         if (!settings.DisablePowersAndShards) ids.Add("powers-shards-original");
         bool changed;

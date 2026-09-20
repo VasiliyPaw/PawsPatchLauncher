@@ -1,0 +1,521 @@
+;;  Haroun Hard 2 (Phellas the Defensive Player)
+;;
+;;	DESCRIPTION:
+;;		Phellas will play the game defensively, not quite turtlling, and will expand
+;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;	Default Haroun Template
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[template HarounDefaultK2Ego_2 template = DefaultK2EgoHard]
+{
+	[GoalEngine]
+	{		
+		[Recruiting]
+		{
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= role_engineer
+				number_to_request			= 1
+				base_priority				= 1000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= role_settler
+				number_to_request			= 1
+				base_priority				= 4000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_melee
+				number_to_request			= 1
+				base_priority				= 6000
+				economic_value_multiplier	= 0
+				repeat_penalty				= 10000
+			}
+		
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_ranged
+				number_to_request			= 1
+				base_priority				= 7000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+
+		} ;; recruiting
+
+		[ActorValue]
+		{
+			;; smaller number means more aggressive - we value actors higher in areas of enemy influence more
+			enemy_influence_mult						= 0.75	;; 0.5
+
+			military_value_marker_value					= 300	;; 200
+			military_value_bottleneck_value				= 300	;; 200
+
+			[ComponentValue]
+			{
+				component_IDS							= DENIZEN
+				value									= 100	;; 0
+				new_construction_only					= true
+			}
+		} ;; ActorValue
+	} ;; GoalEngine
+} ;; HarounDefaultEgo
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #1	( Initial Ego ) Build and Explore
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Ego template = HarounDefaultK2Ego_2]
+{
+	IDS									= haroun_hard_initial_ego_2
+	name								= "#haroun_hard_2_haroun_hard_initial_ego_2_name"
+	
+	priority							= 1000
+	
+	[Filters]
+	{		
+		[Item]
+		stat							= SETTLEMENTS_OWNED
+		min								= 0
+		max								= 1
+
+		[Item]
+		stat							= SETTLEMENTS_SURRENDERED
+		min								= -1
+		max								= 0
+
+		[Item]
+		stat							= gold_rate
+		min								= 0
+		max								= 80
+	}
+		
+	[GoalEngine]
+	{	
+		[GeneralSettings]
+		{
+			think_frequency				= 20
+		}
+
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;  INITIAL CONSTANT VALUES
+		[GoalPriority]
+		{
+			goal_IDS					= REPAIR
+			multiplier					= 20
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= CONSTRUCT
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECOVER
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DESTROY
+			multiplier					= 1
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DEFEND_REGION
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RESEARCH
+			multiplier					= 0
+		}
+		;;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		[GoalPriority]
+		{
+			goal_IDS					= BUILD
+			multiplier					= 3
+			minimum						= 42
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= ATTACK_REGION
+			multiplier					= 1
+			bonus						= 350
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= EXPLORE
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECRUIT
+			multiplier					= 0.5
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= UPGRADE
+			multiplier					= 1
+			minimum						= 60
+		}
+
+		;;  NOTE:  This is what make Phellas attack with when not defensive
+		[OffensiveCV]
+		{
+			cv_advantage_target				= 1.2
+			cv_advantage_max				= 5
+			cv_exponent_under_target		= 4
+			cv_max_mult_over_target			= 10
+			min_cv_to_assign				= 10
+		} ;; CV
+
+		[ResourceManagement]
+		{
+			[ResourceNeed]
+			{
+				resource_IDS			= mana
+				short_need				= 0
+				enough_need				= 5
+				plenty_value			= 10
+				plenty_need				= 1
+			}
+
+			[ResourceNeed]
+			{
+				resource_IDS			= Kingdom_points_provided
+				short_need				= 0
+				enough_need				= 12
+				plenty_value			= 16
+				plenty_need				= 1
+			}
+
+		} ;; ResourceManagement
+
+		[Recruiting]
+		{
+			insufficient_income_level		= 10
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_sovereign_haroun
+				number_to_request			= 1
+				base_priority				= 5000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+		}
+
+		[Exploration]
+		{
+			[CloseGoals]
+			{
+				num_goals								= 2
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				intuition_region_bonus					= 150
+				intuition_count_mines					= false
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= false
+				intuition_count_other_buildings			= false
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= true
+
+				consider_distance_to_last_region		= true
+				last_region_distance_prefer_close		= true
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+
+			[DeepGoals]
+			{
+				num_goals								= 0
+				use_time_since_last_scouted				= false
+			}
+		}
+	} ;; GoalEngine		
+		
+	[SettlementTemplate]
+	IDS									= initial_haroun_build_template
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #2	( Main Path )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Ego template = HarounDefaultK2Ego_2]
+{
+	IDS									= haroun_hard_main_path_ego_2
+	name								= "#haroun_hard_2_haroun_hard_main_path_ego_2_name"
+	
+	priority							= 500
+	
+	[Filters]
+	{
+		[Item]
+		stat							= gold_rate
+		min								= 20
+		max								= 200000
+	}
+
+	[GoalEngine]
+	{
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;  MAIN CONSTANT VALUES
+		[GoalPriority]
+		{
+			goal_IDS					= REPAIR
+			multiplier					= 20
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= CONSTRUCT
+			multiplier					= 3
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECOVER
+			multiplier					= 3
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DESTROY
+			multiplier					= 1
+			minimum						= 100
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= EXPLORE
+			multiplier					= 1
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= DEFEND_REGION
+			multiplier					= 2
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RESEARCH
+			multiplier					= 0.2
+		}
+		;;
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+		[GoalPriority]
+		{
+			goal_IDS					= BUILD
+			multiplier					= 3
+			minimum						= 42
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= ATTACK_REGION
+			multiplier					= 1
+			bonus						= 750
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= RECRUIT
+			multiplier					= 0.5
+		}
+
+		[GoalPriority]
+		{
+			goal_IDS					= UPGRADE
+			multiplier					= 1
+			minimum						= 60
+		}
+
+		[Recruiting]
+		{
+			int max_goals_per_think				= 5
+			int num_military_goals				= 3
+
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_sovereign_haroun
+				number_to_request			= 1
+				base_priority				= 8000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 10000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_melee
+				number_to_request			= 4
+				base_priority				= 6000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 6000
+			}
+
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_mage
+				number_to_request			= 4
+				base_priority				= 7000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 6000
+			}
+		
+			[SpecificRecruitRequest]
+			{
+				property_ids				= company_siege
+				number_to_request			= 4
+				base_priority				= 5000
+				economic_value_multiplier	= 0.2
+				repeat_penalty				= 8000
+			}
+		}
+
+		;;  NOTE:  This is what make Phellas attack with when not defensive
+		[OffensiveCV]
+		{
+			cv_advantage_target				= 1.4
+			cv_advantage_max				= 5
+			cv_exponent_under_target		= 4
+			cv_max_mult_over_target			= 10
+			min_cv_to_assign				= 100
+		} ;; CV
+
+		[ActorPriority]
+		{
+			actor_IDS					= haroun_outpost
+			value						= 400
+			repeat_penalty				= 0
+			max_recruited_per_think		= 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS					= haroun_keep
+			value						= 600
+			repeat_penalty				= 0
+			max_recruited_per_think		= 1
+		}
+
+		[Exploration]
+		{
+			[CloseGoals]
+			{
+				num_goals								= 1
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				intuition_region_bonus					= 100
+				intuition_count_mines					= true
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= true
+				intuition_count_other_buildings			= true
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= true
+
+				consider_distance_to_last_region		= true
+				last_region_distance_prefer_close		= true
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+
+			[DeepGoals]
+			{
+				num_goals								= 2
+				
+				base_priority							= 200
+				repeat_penalty							= 0
+
+				current_region_bonus					= 0
+				actor_region_bonus						= 0
+				building_region_bonus					= 0
+				flare_region_bonus						= 1000
+
+				intuition_region_bonus					= 100
+				intuition_count_mines					= true
+				intuition_count_settlement_spots		= true
+				intuition_count_settlements				= true
+				intuition_count_other_buildings			= true
+
+				consider_distance_to_kingdom_center		= true
+				kingdom_center_distance_prefer_close	= false
+
+				consider_distance_to_last_region		= false
+
+				consider_distance_to_actor				= true
+				actor_distance_prefer_close				= true
+			}
+		}
+	}
+
+	[SettlementTemplate]
+	IDS									= economic_haroun_build_template
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Ego #3	( Serious Emergency Economy )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Ego template = DefaultK2EgoHardBleeding]
+{
+	IDS									= haroun_hard_emergency_ego_2
+	name								= "#haroun_hard_2_haroun_hard_emergency_ego_2_name"
+
+	priority							= 750
+}
+
+[SAI template = SAI]
+{
+	IDS									= haroun_hard_2
+	name								= "#haroun_hard_2_name"
+	description							= "#haroun_hard_2_description"
+	difficulty_level					= sai_difficulty_level_hard
+	initial_ego							= haroun_hard_initial_ego_2
+
+	[Ego]
+	ids									= haroun_hard_main_path_ego_2
+	[Ego]
+	ids									= haroun_hard_emergency_ego_2
+
+	[Nation]
+	ids									= Haroun
+
+	[Faction]
+	ids									= council
+	[Faction]
+	ids									= royalist
+}

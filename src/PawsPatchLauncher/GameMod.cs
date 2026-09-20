@@ -42,10 +42,12 @@ public static class GameMod
     public static void DisableArcaneComponents(UserSettings settings)
     {
         settings.CustomPlayerColors = settings.IndependentHostility = settings.AdditionalRoamingCompanies = false;
-        settings.SiegeBalance = settings.DisablePowersAndShards = settings.LargeMapSizes = false;
+        settings.SiegeBalance = settings.DisablePowersAndShards = settings.LargeMapSizes = settings.ImprovedAi = false;
         settings.DesyncMode = "official";
         settings.RoamingSpawnMode = "standard";
     }
+    public static bool HasImprovedAi(ChannelManifest? channel)
+        => channel is { Channel: "beta" } && channel.Packages.Any(p => p.Id == "ai-improvements");
     public static bool HasPureFixes(ChannelManifest? channel)
         => channel is not null && channel.Packages.Any(p => p.Id == "pure-fixes-data")
             && channel.Packages.Any(p => p.Id == "pure-fixes-runtime");

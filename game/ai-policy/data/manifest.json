@@ -1,0 +1,792 @@
+[
+  {
+    "path": "data/SAI/drauga_hard.tgi",
+    "before": "5f9edc2a99266a609c6ba0e0349696a3afed899749d02f1c9bf7ea2c3954f3d7",
+    "after": "245c35538042e9b689e32ffb80f2b2d20a55c417809246e546b55d2a1e9afde4",
+    "changes": [
+      {
+        "owner": "DraugaDefaultK2Ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "DraugaDefaultK2Ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "15"
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_drauga",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_drauga",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_melee",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/drauga_hard_2.tgi",
+    "before": "6849680b355d58406531d19e97ee70605c229fbd0d2cc4700107f4e51b86a221",
+    "after": "19c8921511947acdfa26dd2d7df58cb748e75ba057de4792e234e75a342a2198",
+    "changes": [
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_drauga",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_drauga",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_mage",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/gauri_hard.tgi",
+    "before": "34b45ed59706da65138da8ba7d00ddfe0256ba7cbe999c35004613499d1f9cfe",
+    "after": "d23d476a0e3eaab5aa51b463da82ef7a2b2993a00cecbe943cd00edb7138c9d1",
+    "changes": [
+      {
+        "owner": "GauriDefaultK2Ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "GauriDefaultK2Ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "15"
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_melee",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_gauri",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_gauri",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_melee",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/gauri_hard_2.tgi",
+    "before": "c88f3fa8ee438dea9d75aa6ffe5d575f8d77b8c56792ffb49a0c3a1e9429086f",
+    "after": "5a2cc15c2adf1b1bdc2f35173afc05f7155ce0853366255d52c0b9a15138c47a",
+    "changes": [
+      {
+        "owner": "GauriDefaultK2Ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "GauriDefaultK2Ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "15"
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_gauri",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_gauri",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/haroun_hard.tgi",
+    "before": "ed612ac1a9b7ab3ed71470ce34cd0b05810b718dff449091ffbefc48a1c1af82",
+    "after": "7d7a198243ea05279a523914cdde1e8de893ff4fde72656e71e04c0df65bece4",
+    "changes": [
+      {
+        "owner": "HarounDefaultK2Ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "HarounDefaultK2Ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "10"
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_haroun",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_haroun",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_mage",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/haroun_hard_2.tgi",
+    "before": "2385b534f75386a730e42744a3b9b5f289af7ef1e08300f5b7c38e511757886e",
+    "after": "a657096337facdf7cffd8ef28e0020915be43027663885e96eb2c45e627cba2d",
+    "changes": [
+      {
+        "owner": "HarounDefaultK2Ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "HarounDefaultK2Ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "10"
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_haroun",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_haroun",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_melee",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_mage",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/human_hard.tgi",
+    "before": "530e5f40f132f460484e8f8fba71ae447b321b37ae7c81bc086eece233b5eae2",
+    "after": "850b5dc5c78c413d7e760226b69d1582370ccf68a9e8310d2fd9caefc5c64e5b",
+    "changes": [
+      {
+        "owner": "HumanDefaultK2Ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "HumanDefaultK2Ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "15"
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_human",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_human",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_melee",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_mage",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/human_hard_2.tgi",
+    "before": "9ead860694200114f18f389ee5a3c7d7bacb96d302a25275f814530427812d75",
+    "after": "9cdfcec8d2e8f7a820b1704253b5615e10b85d4bedc5e565c8362d53e18a268a",
+    "changes": [
+      {
+        "owner": "humanDefaultK2Ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "humanDefaultK2Ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "15"
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_human",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_human",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_melee",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_mage",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/shadow_hard.tgi",
+    "before": "fc3c5e46f670846b6eda92ec0104e4401efb51527f7f447cb127e9a321c09c55",
+    "after": "69d4ceb6c23370c95c6ad9f66a8b73a71eacac6a0f513f4d42d3523514db0e61",
+    "changes": [
+      {
+        "owner": "ShadowDefaultK2Ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_initial_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_shadow",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_shadow",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_mage",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/shadow_hard_2.tgi",
+    "before": "cad87bcd4c329da746c97e618b3f3818b09f926e4f24d94180e94c5c43521e27",
+    "after": "20a1304fc442574abcf2d1dd3989fcbd595fb7f2664325765ae26e3c16216b38",
+    "changes": [
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_shadow",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_rusher_attack_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_shadow",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_rusher_attack_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "shadow_hard_rusher_attack_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/undead_hard.tgi",
+    "before": "0621dbe99e0e696318d3880b96cf2cb05e391b17be58b53df08d3fbb8d9c4fa0",
+    "after": "5d815236fe9d5569b68d3af00ce9772be2c0036bbbf0f4ac26dca60c356b759d",
+    "changes": [
+      {
+        "owner": "UndeadDefaultK2Ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "UndeadDefaultK2Ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "UndeadDefaultK2Ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "10"
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_undead",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_undead",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_melee",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_mage",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/SAI/undead_hard_2.tgi",
+    "before": "2b7fa7593de7ce85f3ff74b05d61852e49cf6b8667954b99e5a7883b14cb929b",
+    "after": "11e09935176735ccc115d2984c1bf10c14a871255d3ed1270a37ce61b64507f0",
+    "changes": [
+      {
+        "owner": "UndeadDefaultK2Ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "UndeadDefaultK2Ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_ranged",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "UndeadDefaultK2Ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "10"
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_undead",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "insufficient_income_level",
+        "before": "0",
+        "after": "inherit vanilla"
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_sovereign_undead",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_cavalry",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_siege",
+        "before": 0,
+        "after": 0.2
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "economic_value_multiplier",
+        "property_ids": "company_mage",
+        "before": 0,
+        "after": 0.2
+      }
+    ]
+  },
+  {
+    "path": "data/Game/SVars.tgi",
+    "before": "42a3c92be21f22bafe7aa088cf1025b60eb67420801206f8c24ad60c85b0f669",
+    "after": "32050f1853cc9789ca53131667fce7a55436a320192ab77ce0ff1c184c29c496",
+    "changes": [
+      {
+        "field": "settlement_cv_range_fudge_factor",
+        "before": 0.1,
+        "after": 1.7
+      }
+    ]
+  }
+]

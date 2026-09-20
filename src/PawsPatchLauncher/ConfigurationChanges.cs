@@ -35,6 +35,7 @@ public static class ConfigurationChanges
   Change(ru?"Враждебность независимых":"Independent hostility",Flag(before.IndependentHostility),Flag(after.IndependentHostility));
   Change(ru?"Дополнительные отряды":"Additional roaming",Flag(before.AdditionalRoamingCompanies),Flag(after.AdditionalRoamingCompanies));
   Change(ru?"Баланс осады":"Siege balance",Flag(before.SiegeBalance),Flag(after.SiegeBalance));
+  Change(ru?"Улучшения ботов":"AI improvements",Flag(before.ImprovedAi),Flag(after.ImprovedAi));
   Change(ru?"Большие карты":"Large maps",Flag(before.LargeMapSizes),Flag(after.LargeMapSizes));
   string LanguageName(string code)=>UiLanguages.GameLanguageName(code,ru?"ru":"en");
   Change(ru?"Язык текста":"Text language",LanguageName(GameLanguages.Text(before)),LanguageName(GameLanguages.Text(after)));

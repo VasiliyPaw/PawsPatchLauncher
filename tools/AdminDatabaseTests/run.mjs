@@ -37,7 +37,7 @@ const activitySchema=async()=> (await db.query(`select p.oid::regprocedure::text
  to_regprocedure('public.paw_friend_action(text,uuid,text)'))
  order by 1`)).rows;
 for(const file of (await readdir(base)).filter(n=>n.endsWith('.sql')&&!n.includes('scheduler')&&!n.includes('founder_grant')).sort()){
- if(process.argv.includes('--configuration-proof')&&file==='20260919000000_social_configuration_options.sql')configurationBefore=await activitySchema();
+ if(process.argv.includes('--configuration-proof')&&file==='20260920000000_ai_configuration.sql')configurationBefore=await activitySchema();
  if(process.argv.includes('--schema-proof')&&file==='20260914000000_game_activity.sql')activityBefore=await activitySchema();
  if(process.argv.includes('--schema-proof')&&file==='20260914010000_game_participant_profiles.sql')participantBefore=await activitySchema();
  try{

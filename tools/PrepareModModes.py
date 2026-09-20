@@ -5,6 +5,7 @@ only those reviewed feature deltas to Arcane Wars, preserving its other values.
 """
 import argparse, base64, copy, difflib, hashlib, json, re, zipfile, mmap, struct
 from pathlib import Path
+from GameplayPresentationData import MAELSTROM, maelstrom_cost
 
 def norm(p): return p.replace('\\', '/').lower()
 def sha(b): return hashlib.sha256(b).hexdigest().upper()
@@ -102,6 +103,8 @@ def main():
             evidence.append({'module':id,'path':path,'baseSha256':sha(original),'resultSha256':sha(result[path])})
         standalone[id]=result; priorities[id]=priority
     delta_module('aw-siege-balance',modules['siege-balance-standard'],core,600)
+    # The fifth engine remains an optional siege-balance change, never base AW.
+    standalone['aw-siege-balance'][MAELSTROM]=maelstrom_cost(baseline(MAELSTROM))
     delta_module('aw-powers-disabled',modules['powers-shards-original'],core,450)
     # Shard-free artwork belongs to the Powers/Shards switch, not the base patch.
     standalone['aw-powers-disabled'].update({p:b for p,b in core.items() if p.startswith('skins/') and p.endswith('economybar.png')})

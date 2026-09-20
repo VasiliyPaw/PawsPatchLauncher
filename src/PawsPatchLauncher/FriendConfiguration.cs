@@ -9,7 +9,7 @@ public static class FriendConfiguration
     {
         settings = new UserSettings();
         if (code is null || code.Length > 128 || !Regex.IsMatch(code,
-            @"\APAW-(STABLE|BETA)-((VANILLA|IMMORTALS)(-RU[01])?(-PP1)?(-CL1)?(-OOS1)?(-DATA)?|IW[01]-SP[124]-RM[01]-SG[01]-LM[01]-RU[01]-CL[01]-OOS[01](-PS[01])?(-PP0)?(-DATA)?)(-TX(DE|FR|CS|UK))?(-VO(EN|RU|DE|FR))?\z")) return false;
+            @"\APAW-(STABLE|BETA)-((VANILLA|IMMORTALS)(-RU[01])?(-PP1)?(-CL1)?(-OOS1)?(-DATA)?|IW[01]-SP[124]-RM[01]-SG[01]-LM[01]-RU[01]-CL[01]-OOS[01](-PS[01])?(-AI1)?(-PP0)?(-DATA)?)(-TX(DE|FR|CS|UK))?(-VO(EN|RU|DE|FR))?\z")) return false;
         try { settings = ConfigurationCode.Parse(code); return settings.Channel == channel; }
         catch (FormatException) { return false; }
     }
@@ -41,6 +41,7 @@ public static class FriendConfiguration
         values["roaming"] = settings.RoamingSpawnMode != "standard";
         values["additional_roaming"] = settings.AdditionalRoamingCompanies;
         values["siege"] = settings.SiegeBalance;
+        if (settings.Channel == "beta") values["improved_ai"] = settings.ImprovedAi;
         values["powers_shards"] = settings.DisablePowersAndShards;
         values["large_maps"] = settings.LargeMapSizes;
         return values;

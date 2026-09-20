@@ -35,7 +35,7 @@ public static class EnhancementTests
         Check(MultiplayerDetails.Compare(local, peer).Differences.Single().Peer == "MISSING", "Missing file not identified");
         peer = Clone(); peer.Files.Add(new() { Path = "extra.tgi", Sha256 = H('F') }); peer.Fingerprint = MultiplayerDetails.Fingerprint(peer);
         Check(MultiplayerDetails.Compare(local, peer).Differences.Single().Local == "NOT_LISTED", "Extra file not identified");
-        peer = Clone(); peer.Modules[0].Version = "2"; peer.Configuration = ConfigurationCode.Create(new UserSettings { Channel = "beta", SiegeBalance = false }); peer.Fingerprint = MultiplayerDetails.Fingerprint(peer);
+        peer = Clone(); peer.Modules[0].Version = "2"; peer.Configuration = ConfigurationCode.Create(new UserSettings { Channel = "beta", SiegeBalance = false, ImprovedAi = false }); peer.Fingerprint = MultiplayerDetails.Fingerprint(peer);
         Check(MultiplayerDetails.Compare(local, peer).Differences.Count == 3, "Component/settings differences missing");
         peer = Clone(); peer.IntegrityErrors.Add("gameplay.tgi");
         Check(!MultiplayerDetails.Compare(local, peer).Matches, "Damaged identical install reported green");

@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery, [switch]$ExhaustionRecovery, [switch]$AiPolicy, [switch]$BotLobby, [switch]$FractionalKingdomPoints, [switch]$GraphicsDiagnostics, [switch]$SettlementSlots, [switch]$AllyEconomy, [string]$PatchVersion)
 $ErrorActionPreference = 'Stop'
 if($LairWoundedTest){$LairRecovery=$true}
 $out = [IO.Path]::GetFullPath($OutputDirectory)
@@ -18,6 +18,13 @@ if($LobbyCompatibility) {
     $packageVersion=[regex]::Match([IO.File]::ReadAllText((Join-Path $PSScriptRoot 'paws_patch_versions.ini')),'(?m)^PawPatch=([^\r\n]+)').Groups[1].Value
     $helperVersion=[regex]::Match([IO.File]::ReadAllText((Join-Path $lobby 'PawLobbyCompatibility.cs')),'internal const string Version = "([^"]+)";').Groups[1].Value
     if(!$packageVersion -or $packageVersion -ne $helperVersion){throw 'Lobby compatibility version differs from package version.'}
+    $lobbySource=Join-Path $lobby 'PawLobbyCompatibility.cs'
+    if($PatchVersion){
+        if($PatchVersion -notmatch '^0\.\d+\.\d+(-beta\.\d+)?$'){throw 'Invalid patch identity override'}
+        $lobbySource=Join-Path $out 'PawLobbyCompatibility.cs'
+        [IO.File]::WriteAllText($lobbySource, [IO.File]::ReadAllText((Join-Path $lobby 'PawLobbyCompatibility.cs')).Replace('"'+$helperVersion+'"','"'+$PatchVersion+'"'), [Text.UTF8Encoding]::new($false))
+    }
+
     & $NativeCompiler -shared -Wall -Werror (Join-Path $lobby 'lobby_compatibility.c') -o (Join-Path $out 'paws_lobby_compatibility.dll') -lkernel32 -luser32
     if($LASTEXITCODE -ne 0){throw 'Lobby compatibility DLL build failed.'}
     & $NativeCompiler -Wall -Werror -DPAW_TEST (Join-Path $lobby 'lobby_compatibility.c') -o (Join-Path $out 'LobbyProtocolTests.exe') -lkernel32 -luser32
@@ -91,14 +98,127 @@ if($CompanyPositionRecovery) {
     & $python (Join-Path $company 'test_native.py') --legacy $work --native $companyNative
     if($LASTEXITCODE -ne 0){throw 'Company native regression failed.'}
 }
+if($ExhaustionRecovery) {
+    if(!$CityAssistant -or !$LobbyCompatibility -or !$CameraZoom -or !$LairRecovery -or !$CompanyPositionRecovery){throw 'Exhaustion recovery requires the complete current Arcane helper.'}
+    $exhaustion=Join-Path $PSScriptRoot '../exhaustion-recovery'
+    $exhaustionNative=Join-Path $out 'exhaustion-native'
+    & $python (Join-Path $exhaustion 'build_native.py') --legacy $work --out $exhaustionNative
+    if($LASTEXITCODE -ne 0){throw 'Exhaustion native build failed.'}
+    $exhaustionTests=Join-Path $out 'ExhaustionRecoveryTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:ExhaustionRecoveryTests "/out:$exhaustionTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $exhaustion 'ExhaustionRecoveryPatch.cs') (Join-Path $exhaustionNative 'ExhaustionRecoveryPayload.cs') (Join-Path $exhaustion 'ExhaustionRecoveryTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Exhaustion transaction tests compilation failed.'}
+    & $exhaustionTests $exhaustionNative
+    if($LASTEXITCODE -ne 0){throw 'Exhaustion transaction regression failed.'}
+    & $python (Join-Path $exhaustion 'test_native.py') --legacy $work --native $exhaustionNative
+    if($LASTEXITCODE -ne 0){throw 'Exhaustion native regression failed.'}
+}
+if($AiPolicy) {
+    if(!$ExhaustionRecovery -or !$NativeCompiler){throw 'AI local test requires exhaustion recovery and native compiler.'}
+    $ai=Join-Path $PSScriptRoot '../ai-policy'
+    $aiNative=Join-Path $out 'ai-native'
+    & $python (Join-Path $ai 'build_native.py') --legacy $work --out $aiNative --compiler $NativeCompiler
+    if($LASTEXITCODE -ne 0){throw 'AI policy native build failed.'}
+    & $python (Join-Path $ai 'test_native.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI native wrapper tests failed'}
+    & $python (Join-Path $ai 'test_limits.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI native regression failed.'}
+    $aiOptionsTests=Join-Path $out 'AiOptionsTests.exe'
+    & $compiler /nologo /target:exe /r:System.Web.Extensions.dll "/out:$aiOptionsTests" (Join-Path $ai 'PawAiOptions.cs') (Join-Path $ai 'OptionsTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'AI option tests compilation failed.'}
+    & $aiOptionsTests
+    if($LASTEXITCODE -ne 0){throw 'AI option tests failed.'}
+    $aiSnapshotTests=Join-Path $out 'AiSnapshotTests.exe'
+    & $compiler /nologo /target:exe /r:System.Web.Extensions.dll "/out:$aiSnapshotTests" (Join-Path $ai 'AiDiagnosticsSnapshot.cs') (Join-Path $ai 'SnapshotTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'AI snapshot test compilation failed.'}
+    & $aiSnapshotTests
+    if($LASTEXITCODE -ne 0){throw 'AI snapshot regression failed.'}
+    $aiRuntimeTests=Join-Path $out 'AiRuntimeTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /r:System.Web.Extensions.dll /main:AiRuntimeTests "/out:$aiRuntimeTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $ai 'AiPolicyRuntime.cs') (Join-Path $ai 'AiDiagnosticsSnapshot.cs') (Join-Path $aiNative 'AiPolicyPayload.cs') (Join-Path $ai 'AiRuntimeTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'AI runtime test compilation failed.'}
+    & $aiRuntimeTests
+    if($LASTEXITCODE -ne 0){throw 'AI runtime regression failed.'}
+}
+if($BotLobby){
+    if(!$AiPolicy){throw 'Bulk bot lobby is part of the local AI experiment.'}
+    $botLobbySource=Join-Path $PSScriptRoot '../bot-lobby'
+    $botLobbyNative=Join-Path $out 'bot-lobby-native'
+    & $python (Join-Path $botLobbySource 'build_native.py') --legacy $work --out $botLobbyNative --compiler $NativeCompiler
+    if($LASTEXITCODE -ne 0){throw 'Bot lobby native build failed.'}
+    & $python (Join-Path $botLobbySource 'test_native.py') --legacy $work --native $botLobbyNative
+    if($LASTEXITCODE -ne 0){throw 'Bot lobby native regression failed.'}
+    $botLobbyTests=Join-Path $out 'BotLobbyTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:BotLobbyTests "/out:$botLobbyTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $botLobbySource 'BotLobbyPatch.cs') (Join-Path $botLobbyNative 'BotLobbyPayload.cs') (Join-Path $botLobbySource 'BotLobbyTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Bot lobby transaction compilation failed.'}
+    & $botLobbyTests
+    if($LASTEXITCODE -ne 0){throw 'Bot lobby transaction regression failed.'}
+}
+if($FractionalKingdomPoints){
+    $fractions=Join-Path $PSScriptRoot '../fractional-points'
+    $fractionsNative=Join-Path $out 'fractional-native'
+    & $python (Join-Path $fractions 'build_native.py') --legacy $work --out $fractionsNative
+    if($LASTEXITCODE -ne 0){throw 'Fractional points build failed'}
+    & $python (Join-Path $fractions 'test_native.py') --legacy $work --native $fractionsNative
+    if($LASTEXITCODE -ne 0){throw 'Fractional points native tests failed'}
+    $fractionTests=Join-Path $out 'FractionalPointsTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:FractionalPointsTests "/out:$fractionTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $fractions 'FractionalPointsPatch.cs') (Join-Path $fractionsNative 'FractionalPointsPayload.cs') (Join-Path $fractions 'TransactionTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Fractional points transaction compilation failed'}
+    & $fractionTests
+    if($LASTEXITCODE -ne 0){throw 'Fractional points transactions failed'}
+}
+if($SettlementSlots){
+    $slots=Join-Path $PSScriptRoot '../settlement-slots'
+    $slotsNative=Join-Path $out 'slots-native'
+    & $python (Join-Path $slots 'build_native.py') --legacy $work --out $slotsNative
+    if($LASTEXITCODE -ne 0){throw 'Settlement layout build failed'}
+    & $python (Join-Path $slots 'test_native.py') --legacy $work --native $slotsNative
+    if($LASTEXITCODE -ne 0){throw 'Settlement slots native layout checks failed'}
+    $slotTests=Join-Path $out 'SettlementSlotsTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:SettlementSlotsTests "/out:$slotTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $slots 'SettlementSlotsPatch.cs') (Join-Path $slotsNative 'SettlementSlotsPayload.cs') (Join-Path $slots 'TransactionTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Settlement slots test compilation failed'}
+    & $slotTests
+    if($LASTEXITCODE -ne 0){throw 'Settlement slots transaction checks failed'}
+}
+if($AllyEconomy){
+    if(!$NativeCompiler){throw 'Ally economy requires the native compiler.'}
+    $ally=Join-Path $PSScriptRoot '../ally-economy'
+    $allyNative=Join-Path $out 'ally-native'
+    & $python (Join-Path $ally 'build_native.py') --legacy $work --out $allyNative --compiler $NativeCompiler
+    if($LASTEXITCODE -ne 0){throw 'Ally economy native build failed'}
+    & $python (Join-Path $ally 'test_native.py') --legacy $work --native $allyNative
+    if($LASTEXITCODE -ne 0){throw 'Ally economy native checks failed'}
+    $allyTests=Join-Path $out 'AllyEconomyTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:AllyEconomyTests "/out:$allyTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $ally 'AllyEconomyPatch.cs') (Join-Path $allyNative 'AllyEconomyPayload.cs') (Join-Path $ally 'TransactionTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Ally economy transaction compilation failed'}
+    & $allyTests
+    if($LASTEXITCODE -ne 0){throw 'Ally economy transactions failed'}
+}
+if($GraphicsDiagnostics){
+    if(!$NativeCompiler -or !$CityAssistant){throw 'Embedded graphics recorder requires native compiler and complete helper'}
+    $graphics=Join-Path $PSScriptRoot '../graphics-diagnostics'
+    $graphicsExe=Join-Path $out 'PawsGraphicsRecorder.exe'
+    & $NativeCompiler -mwindows -Wall -Werror (Join-Path $graphics 'recorder.c') (Join-Path $graphics 'debug-api.def') -o $graphicsExe -lkernel32 -lshell32
+    if($LASTEXITCODE -ne 0){throw 'Graphics recorder build failed'}
+}
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_player_colors.ini') -Destination $out
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_patch_versions.ini') -Destination $out
+if($PatchVersion){
+    $versionFile=Join-Path $out 'paws_patch_versions.ini'
+    [IO.File]::WriteAllText($versionFile, [regex]::Replace([IO.File]::ReadAllText($versionFile),'(?m)^PawPatch=[^\r\n]+','PawPatch='+$PatchVersion), [Text.UTF8Encoding]::new($false))
+}
+
 foreach ($variant in $variants.PSObject.Properties) {
     $exe = Join-Path $out $variant.Name
     $arguments = @('/nologo','/target:winexe','/platform:x86','/optimize+',
         '/r:System.Core.dll','/r:System.Windows.Forms.dll','/r:System.Drawing.dll',
         ("/define:" + $variant.Value + $(if($CityAssistant){';CITY_ASSISTANT;FAST_SAVE_TRANSFER'}else{''}) + $(if($LobbyCompatibility){';LOBBY_COMPATIBILITY'}else{''}) + $(if($LairWoundedTest){';LAIR_RECOVERY_TEST'}else{''}) + $(if($LairRecovery){';LAIR_RECOVERY'}else{''})), ("/out:" + $exe))
     if($CompanyPositionRecovery){$arguments += '/define:COMPANY_POSITION_RECOVERY';$arguments += (Join-Path $company 'CompanyPositionPatch.cs'),(Join-Path $companyNative 'CompanyPositionPayload.cs')}
+    if($ExhaustionRecovery){$arguments += '/define:EXHAUSTION_RECOVERY';$arguments += (Join-Path $exhaustion 'ExhaustionRecoveryPatch.cs'),(Join-Path $exhaustionNative 'ExhaustionRecoveryPayload.cs')}
+    if($AiPolicy){$arguments += '/define:AI_POLICY';$arguments += (Join-Path $ai 'AiPolicyRuntime.cs'),(Join-Path $ai 'PawAiOptions.cs'),(Join-Path $ai 'AiDiagnosticsSnapshot.cs'),(Join-Path $aiNative 'AiPolicyPayload.cs')}
+    if($BotLobby){$arguments += '/define:BOT_LOBBY';$arguments += (Join-Path $botLobbySource 'BotLobbyPatch.cs'),(Join-Path $botLobbyNative 'BotLobbyPayload.cs')}
+    if($FractionalKingdomPoints){$arguments += '/define:FRACTIONAL_KINGDOM_POINTS';$arguments += (Join-Path $fractions 'FractionalPointsPatch.cs'),(Join-Path $fractionsNative 'FractionalPointsPayload.cs')}
+    if($GraphicsDiagnostics){$arguments += '/define:GRAPHICS_DIAGNOSTICS';$arguments += (Join-Path $graphics 'GraphicsDiagnostics.cs');$arguments += '/resource:'+$graphicsExe+',PawsGraphicsRecorder'}
+    if($SettlementSlots){$arguments += '/define:SETTLEMENT_SLOTS';$arguments += (Join-Path $slots 'SettlementSlotsPatch.cs'),(Join-Path $slotsNative 'SettlementSlotsPayload.cs')}
+    if($AllyEconomy){$arguments += '/define:ALLY_ECONOMY';$arguments += (Join-Path $ally 'AllyEconomyPatch.cs'),(Join-Path $allyNative 'AllyEconomyPayload.cs')}
     if($CameraZoom){$arguments += '/define:CAMERA_ZOOM_2';$arguments += (Join-Path $camera 'CameraZoomPatch.cs'),(Join-Path $cameraNative 'CameraZoomPayload.cs')}
     if($LairRecovery){$arguments += (Join-Path $lair 'LairRecoveryPatch.cs'),(Join-Path $lairNative 'LairRecoveryPayload.cs')}
     foreach ($resource in $resources) { $arguments += '/resource:' + (Join-Path $PSScriptRoot "$resource.bin") + ',' + $resource }
@@ -115,11 +235,17 @@ if (args.Length == 1 && args[0] == "--assistant-self-test") return PawAssistantR
         $text = Replace-StartupAnchor $text 'startupComplete = true;' @'
 PawAssistantRuntime.Install(game, imageBase, syncSignal, gameDirectory, delegate(string m) { AppendLog(logPath, m); });
             PawFastTransfer.Install(game, imageBase, delegate(string m) { AppendLog(logPath, m); });
+#if GRAPHICS_DIAGNOSTICS
+            GraphicsDiagnostics.Start(game, gameDirectory, delegate(string m) { AppendLog(logPath, m); });
+#endif
             startupComplete = true;
 '@
         $text = Replace-StartupAnchor $text 'current = ReadCounters(process, counters);' @'
 PawAssistantRuntime.Tick();
                 PawFastTransfer.Tick();
+#if AI_POLICY
+                AiPolicyRuntime.Tick();
+#endif
                 current = ReadCounters(process, counters);
 '@
         if($LobbyCompatibility) {
@@ -127,7 +253,7 @@ PawAssistantRuntime.Tick();
             $text=Replace-StartupAnchor $text 'ReleaseStartup.GuardData(gameDirectory);' 'ReleaseStartup.GuardData(gameDirectory); PawLobbyCompatibility.Prepare(gameDirectory);'
             $text=Replace-StartupAnchor $text 'ReleaseStartup.InstallTerrainAndMap(game, imageBase, delegate(string m) { AppendLog(logPath, m); });' 'PawLobbyCompatibility.Install(game, imageBase, delegate(string m) { AppendLog(logPath, m); }); ReleaseStartup.InstallTerrainAndMap(game, imageBase, delegate(string m) { AppendLog(logPath, m); });'
             $arguments += '/r:System.Web.Extensions.dll'
-            $arguments += Join-Path $lobby 'PawLobbyCompatibility.cs'
+            $arguments += $lobbySource
             $arguments += '/resource:'+(Join-Path $out 'paws_lobby_compatibility.dll')+',PawLobbyCompatibilityNative'
         }
         if($LairWoundedTest) {

@@ -167,6 +167,7 @@ public partial class MainWindow
                 ("core", CoreTitleText), ("colors", ColorsTitleText),
                 ("desync", OosTitleText), ("hostility", IndependentTitleText), ("roaming", RoamingSpawnTitleText),
                 ("additional_roaming", AdditionalRoamingTitleText), ("siege", SiegeBalanceTitleText),
+                ("improved_ai", ImprovedAiTitleText),
                 ("powers_shards", PowersShardsTitleText) })
             {
                 if (!values.TryGetValue(name, out var enabled)) continue;

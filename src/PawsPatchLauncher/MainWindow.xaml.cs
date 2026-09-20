@@ -75,6 +75,7 @@ public partial class MainWindow : Window
         IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
+        ImprovedAiToggle.IsChecked = _settings.ImprovedAi;
         PowersShardsToggle.IsChecked = _settings.DisablePowersAndShards;
         SelectOosMode(_settings.DesyncMode);
         SelectSpawnMode(_settings.RoamingSpawnMode);
@@ -198,6 +199,8 @@ public partial class MainWindow : Window
         AdditionalRoamingDescriptionText.Text = _text["modules.roaming.desc"];
         SiegeBalanceTitleText.Text = _text["modules.siege"];
         SiegeBalanceDescriptionText.Text = _text["modules.siege.desc"];
+        ImprovedAiTitleText.Text = _text["modules.ai"];
+        ImprovedAiDescriptionText.Text = _text["modules.ai.desc"];
         PowersShardsTitleText.Text = _text["modules.powers"];
         System.Windows.Automation.AutomationProperties.SetName(PowersShardsToggle, _text["modules.powers"]);
         RefreshPowersShardsOption();
@@ -414,6 +417,7 @@ public partial class MainWindow : Window
         X4SpawnRadio.IsEnabled = !_busy;
         AdditionalRoamingToggle.IsEnabled = !_busy;
         SiegeBalanceToggle.IsEnabled = !_busy;
+        ImprovedAiToggle.IsEnabled = !_busy && GameMod.PawPatchSelected(_settings) && !DataOnlyMode && GameMod.HasImprovedAi(_channel);
         RefreshPowersShardsOption();
         CopyConfigurationButton.IsEnabled = !_busy;
         DiagnosticsButton.IsEnabled = !_busy;
@@ -808,6 +812,7 @@ public partial class MainWindow : Window
         if (!DataOnlyMode) _settings.IndependentHostility = IndependentHostilityToggle.IsChecked == true;
         _settings.AdditionalRoamingCompanies = AdditionalRoamingToggle.IsChecked == true;
         _settings.SiegeBalance = SiegeBalanceToggle.IsChecked == true;
+        if (ReferenceEquals(sender, ImprovedAiToggle)) _settings.ImprovedAi = ImprovedAiToggle.IsChecked == true;
         _settings.DisablePowersAndShards = PowersShardsToggle.IsChecked == true;
         _settingsStore.Save(_settings);
         InvalidateReadiness();
@@ -845,6 +850,7 @@ public partial class MainWindow : Window
         IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
+        ImprovedAiToggle.IsChecked = _settings.ImprovedAi;
         IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
         ColorsDescriptionText.Text = _colorsAvailable ? _text.ColorText("modules.colors.desc", _channel) : UiLanguages.Text(_text.Language, "Недоступно в выбранном старом выпуске. Выберите последнюю версию патча.", "Unavailable in this older release. Select the latest patch version.");
         }
