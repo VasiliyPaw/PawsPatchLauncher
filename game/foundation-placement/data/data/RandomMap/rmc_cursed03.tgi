@@ -1,0 +1,98 @@
+
+[RMC template=K2AllRMC]
+{
+	IDS = rmc_cursed03
+	name = "#awloc_cursed_land_c580678b"
+	description = "#awloc_vadis_per_atria_mortis_c6dc8552"
+	biome = cursed_land
+
+/*************************** AW TERRAIN ****************************/
+
+	[TerrainBlob Template=CursedGrassTerrainBlob]
+	
+	[TerrainStreak Template=CursedGrassYellowTerrainStreak]
+
+	[TerrainBlob Template=CursedGrassYellowTerrainBlob]
+	
+	[TerrainBlob Template=CursedRoughTerrainBlob]
+	
+	[TerrainBlob Template=CursedMarshTerrainBlob]
+	
+	[TerrainStreak Template=CursedDarkForestTerrainStreak]
+
+	[TerrainBlob Template=CursedDarkForestTerrainBlob]
+	
+	[TerrainBlob Template=CursedRoughTerrainBlob02]
+	
+	[TerrainBlob Template=CursedMarshTerrainBlob02]
+	
+	[TerrainBlob Template=CursedGrassYellowTerrainBlob02]
+	
+	[TerrainBlob Template=CursedGrassTerrainBlob02]
+	
+	[TerrainStreak Template=CursedDeadwoodsTerrainStreak]
+
+	[TerrainBlob Template=CursedDeadwoodsTerrainBlob]
+	
+	[TerrainBlob Template=CursedMistSwampTerrainBlob]
+	
+	[TerrainBlob Template=CursedMistSwampTerrainBlob02]
+	
+	[TerrainStreak Template=CursedMeadowTerrainStreak]
+
+/*************************** AW BLOCKING TERRAIN ****************************/
+
+	[TerrainBlob Template=CursedMountainTerrainBlob]
+	
+	[TerrainBlob Template=CursedMountainTerrainBlob02]
+
+	[TerrainBlob Template=CursedMountainTerrainBlob03]
+
+	[TerrainBlob Template=CursedLakeTerrainBlob]
+
+/*************************** AW TERRAIN NOISE ****************************/
+
+	[TerrainNoise Template=CursedNoisePhasePre01]
+	
+	[TerrainNoise Template=CursedNoisePhase01]
+	
+	[TerrainNoise Template=CursedNoisePhase02]
+	
+	[TerrainNoise Template=CursedNoisePhase03]
+	
+	[TerrainNoise Template=CursedNoisePhase04]
+
+	[TerrainNoise Template=CursedNoisePhase05]
+
+	[TerrainNoise Template=CursedNoisePhase06]
+
+/*************************** AW ACTOR GROUPS ASSIGNED TO KINGDOMS ****************************/
+
+	[ActorGroup Template=StartSettlement]
+	apply_to_all_major_kingdoms = true
+
+/*************************** AW OTHER ACTOR GROUPS ****************************/
+
+	[ActorGroup Template=RandomSettlementGroup]
+
+	[ActorGroup Template=FoundationCamps]
+
+	[ActorGroup Template=SettlementCamps]
+
+	[ActorGroup Template=RandomEnclaveGroup]
+
+
+	[ActorGroup Template=CampTechGroup]
+
+	[ActorGroup Template=CampArtifactGroup]
+
+	[ActorGroup Template=CampCursedLairGroup]
+
+	[ActorGroup Template=CampCursedTechGroup]
+
+	[ActorGroup Template=CampCursedLargeLairGroup]
+
+	[ActorGroup Template=CampResourceGroup]
+
+	[ActorGroup Template=CursedFlock]
+}

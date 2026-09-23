@@ -1,3 +1,88 @@
+;; PAW_AW_CITY_PLANS_R1: racial prerequisites, one military city, no demolition.
+[SettlementTemplate template = SettlementTemplate]
+{
+	IDS = paw_aw_shadow_hard_2_military_city
+	name = "Paw Arcane military city"
+	[Filters]
+	{
+		instances_max = 1
+		[Item]
+		stat = SETTLEMENTS_OWNED
+		min = 2
+		max = 10000
+		[Item]
+		stat = gold_rate
+		min = 20
+		max = 999999
+	}
+	[Priority]
+	priority = 1600
+	inertia = 400
+
+	[Build]
+	IDS = shadow_quarry
+	build_next_item_priority = 800
+	build_later_item_priority = 800
+	build_next_item_precursor_priority = 800
+	build_later_item_precursor_priority = 800
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = shadow_woodmill
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = shadow_blacksmith
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = shadow_barracks
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = shadow_shrine
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = shadow_library
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = shadow_manafocus
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+}
+
 ;;  Shadow Hard 2 SAI (Ravyn the Calculating Rusher)
 ;;
 ;;	DESCRIPTION:  
@@ -17,6 +102,15 @@
 
 	[Priority]
 	priority								= 750
+
+	[Build]
+	IDS = shadow_quarry
+	build_next_item_priority = 800
+	build_later_item_priority = 800
+	build_next_item_precursor_priority = 800
+	build_later_item_precursor_priority = 800
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
 
 	[Build]
 	IDS										= shadow_woodmill
@@ -79,6 +173,15 @@
 
 	[Priority]
 	priority								= 750
+
+	[Build]
+	IDS = shadow_quarry
+	build_next_item_priority = 800
+	build_later_item_priority = 800
+	build_next_item_precursor_priority = 800
+	build_later_item_precursor_priority = 800
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
 
 	[Build]
 	IDS										= shadow_woodmill
@@ -156,7 +259,7 @@
 	{
 		[GeneralSettings]
 		{
-			think_frequency				= 20
+			think_frequency				= 10
 		}
 
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -236,6 +339,48 @@
 
 		[Recruiting]
 		{
+			;; PAW_AI_MASS_SIEGE_R1
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_dragonfire_balistae
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_Maelstrom_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_vorpal_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_crimson_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_plague_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+
 			[SpecificRecruitRequest]
 			{
 				property_ids				= role_settler
@@ -297,7 +442,7 @@
 		{
 			[CloseGoals]
 			{
-				num_goals								= 2
+				num_goals								= 5
 				
 				base_priority							= 200
 				repeat_penalty							= 0
@@ -324,10 +469,81 @@
 				use_time_since_last_scouted				= false
 			}
 		}
-	} ;; GoalEngine
+	
+		[ActorPriority]
+		{
+			actor_IDS = shadow_center_citadel_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_center_sovereign_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_quarry
+			value = 0
+			one_time_bonus = 1500
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_woodmill
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_blacksmith
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_barracks
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_shrine
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_library
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_manafocus
+			value = 0
+			one_time_bonus = 300
+			max_recruited_per_think = 1
+		}
+} ;; GoalEngine
 
 	[SettlementTemplate]
 	IDS									= shadow_need_settlements_build_template_2
+
+	[SettlementTemplate]
+	IDS = paw_aw_shadow_hard_2_military_city
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -356,6 +572,10 @@
 
 	[GoalEngine]
 	{
+		[GeneralSettings]
+		{
+			think_frequency = 20
+		}
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 		;;  MAIN CONSTANT VALUES
 		[GoalPriority]
@@ -433,6 +653,48 @@
 
 		[Recruiting]
 		{
+			;; PAW_AI_MASS_SIEGE_R1
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_dragonfire_balistae
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_Maelstrom_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_vorpal_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_crimson_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_plague_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+
 			int max_goals_per_think				= 5
 			int num_military_goals				= 3
 
@@ -526,10 +788,81 @@
 				actor_distance_prefer_close				= true
 			}
 		}
-	} ;; GoalEngine
+	
+		[ActorPriority]
+		{
+			actor_IDS = shadow_center_citadel_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_center_sovereign_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_quarry
+			value = 0
+			one_time_bonus = 1500
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_woodmill
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_blacksmith
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_barracks
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_shrine
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_library
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_sovereign_manafocus
+			value = 0
+			one_time_bonus = 300
+			max_recruited_per_think = 1
+		}
+} ;; GoalEngine
 
 	[SettlementTemplate]
 	IDS									= shadow_attack_build_template_2
+
+	[SettlementTemplate]
+	IDS = paw_aw_shadow_hard_2_military_city
 }
 
 [Ego template = DefaultK2EgoHardBleeding]
@@ -538,6 +871,34 @@
 	name								= "#shadow_hard_2_shadowrusher_hard_emergency_ego_2_name"
 
 	priority							= 750
+
+	[GoalEngine]
+	{
+		[GeneralSettings]
+		{
+			think_frequency = 20
+		}
+	
+		[ActorPriority]
+		{
+			actor_IDS = shadow_center_citadel_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_center_sovereign_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = shadow_quarry
+			value = 0
+			one_time_bonus = 1500
+			max_recruited_per_think = 1
+		}
+}
 }
 
 [SAI template = SAI]

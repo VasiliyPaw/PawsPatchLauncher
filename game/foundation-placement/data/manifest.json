@@ -1,0 +1,27 @@
+[
+  {
+    "path": "data/Templates/template_rmc_k2.tgi",
+    "before": "a53b379fe200a4ba52a37c82c07c57a73915df5ed7c11dcd7647ea31fa87bfdb",
+    "after": "dfd1b5e15507d9fe70da7caede5874dd0fc2e420b467bd662c5ddde8df6655e8"
+  },
+  {
+    "path": "data/RandomMap/rmc_arctic03.tgi",
+    "before": "416f37e21f16bcb64f054fa94871849be84f044ca02f6952c5b334a48a06bbdf",
+    "after": "6599bff2fc37d0941cb5775a278bcddca9cb97213ebea5e53dc63ccc442314a5"
+  },
+  {
+    "path": "data/RandomMap/rmc_cursed03.tgi",
+    "before": "5d7e70a753b79c80c0df8b8c34617956f6761d1e85603a63d024386fa70591f0",
+    "after": "f71067be72f731905e56cafa43df59002b2eb9bded68960d516db85bcb12dba5"
+  },
+  {
+    "path": "data/RandomMap/rmc_desert03.tgi",
+    "before": "e05cc0da580fc253b2096d9a8b6ec9d0b1a39754fe2ea6e4edf1f8c0765ae37f",
+    "after": "6327e7b6be85dd8cea81daafa3352df6e6792e1e3d59c9a234d4ef0d953b937e"
+  },
+  {
+    "path": "data/RandomMap/rmc_temperate03.tgi",
+    "before": "547d5e51375cec17601a333332ea5ba87ac30580387636aff845dbe5c6812c49",
+    "after": "75c096d8095ea5edb93d27b06e74f8bbfbb0d557a05d311d0cfccd4889a3d7ab"
+  }
+]

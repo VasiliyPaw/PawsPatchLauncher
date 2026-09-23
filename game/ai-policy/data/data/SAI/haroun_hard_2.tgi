@@ -1,3 +1,88 @@
+;; PAW_AW_CITY_PLANS_R1: racial prerequisites, one military city, no demolition.
+[SettlementTemplate template = SettlementTemplate]
+{
+	IDS = paw_aw_haroun_hard_2_military_city
+	name = "Paw Arcane military city"
+	[Filters]
+	{
+		instances_max = 1
+		[Item]
+		stat = SETTLEMENTS_OWNED
+		min = 2
+		max = 10000
+		[Item]
+		stat = gold_rate
+		min = 20
+		max = 999999
+	}
+	[Priority]
+	priority = 1600
+	inertia = 400
+
+	[Build]
+	IDS = haroun_quarry
+	build_next_item_priority = 800
+	build_later_item_priority = 800
+	build_next_item_precursor_priority = 800
+	build_later_item_precursor_priority = 800
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = haroun_woodmill
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = haroun_market
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = haroun_blacksmith
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = haroun_barracks
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = haroun_shrine
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+
+	[Build]
+	IDS = haroun_library
+	build_next_item_priority = 250
+	build_later_item_priority = 100
+	build_next_item_precursor_priority = 250
+	build_later_item_precursor_priority = 100
+	destroy_mismatch_priority = 0
+	upgrade_settlement_priority = 120
+}
+
 ;;  Haroun Hard 2 (Phellas the Defensive Player)
 ;;
 ;;	DESCRIPTION:
@@ -14,6 +99,48 @@
 	{		
 		[Recruiting]
 		{
+			;; PAW_AI_MASS_SIEGE_R1
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_dragonfire_balistae
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_Maelstrom_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_vorpal_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_crimson_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_plague_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+
 
 			[SpecificRecruitRequest]
 			{
@@ -103,7 +230,7 @@
 	{	
 		[GeneralSettings]
 		{
-			think_frequency				= 20
+			think_frequency				= 10
 		}
 
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -214,6 +341,48 @@
 
 		[Recruiting]
 		{
+			;; PAW_AI_MASS_SIEGE_R1
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_dragonfire_balistae
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_Maelstrom_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_vorpal_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_crimson_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_plague_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+
 			insufficient_income_level		= 10
 
 			[SpecificRecruitRequest]
@@ -230,7 +399,7 @@
 		{
 			[CloseGoals]
 			{
-				num_goals								= 2
+				num_goals								= 5
 				
 				base_priority							= 200
 				repeat_penalty							= 0
@@ -257,10 +426,79 @@
 				use_time_since_last_scouted				= false
 			}
 		}
-	} ;; GoalEngine		
+	
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_citadel_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_sovereigncou_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_sovereignroy_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_quarry
+			value = 0
+			one_time_bonus = 1500
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_woodmill
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_blacksmith
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_barracks
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_shrine
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_library
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+} ;; GoalEngine		
 		
 	[SettlementTemplate]
 	IDS									= initial_haroun_build_template
+
+	[SettlementTemplate]
+	IDS = paw_aw_haroun_hard_2_military_city
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -284,6 +522,10 @@
 
 	[GoalEngine]
 	{
+		[GeneralSettings]
+		{
+			think_frequency = 20
+		}
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 		;;  MAIN CONSTANT VALUES
 		[GoalPriority]
@@ -361,6 +603,48 @@
 
 		[Recruiting]
 		{
+			;; PAW_AI_MASS_SIEGE_R1
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_dragonfire_balistae
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_Maelstrom_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_vorpal_engine
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_crimson_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+			[SpecificRecruitRequest]
+			{
+				recruit_ids = company_plague_catapult
+				number_to_request = 6
+				base_priority = 9000
+				economic_value_multiplier = 0.2
+				repeat_penalty = -1250
+			}
+
 			int max_goals_per_think				= 5
 			int num_military_goals				= 3
 
@@ -480,10 +764,79 @@
 				actor_distance_prefer_close				= true
 			}
 		}
-	}
+	
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_citadel_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_sovereigncou_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_sovereignroy_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_quarry
+			value = 0
+			one_time_bonus = 1500
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_woodmill
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_blacksmith
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_barracks
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_shrine
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_sovereign_library
+			value = 0
+			one_time_bonus = 250
+			max_recruited_per_think = 1
+		}
+}
 
 	[SettlementTemplate]
 	IDS									= economic_haroun_build_template
+
+	[SettlementTemplate]
+	IDS = paw_aw_haroun_hard_2_military_city
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -496,6 +849,40 @@
 	name								= "#haroun_hard_2_haroun_hard_emergency_ego_2_name"
 
 	priority							= 750
+
+	[GoalEngine]
+	{
+		[GeneralSettings]
+		{
+			think_frequency = 20
+		}
+	
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_citadel_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_sovereigncou_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_center_sovereignroy_militia
+			value = 100000
+		}
+
+		[ActorPriority]
+		{
+			actor_IDS = haroun_quarry
+			value = 0
+			one_time_bonus = 1500
+			max_recruited_per_think = 1
+		}
+}
 }
 
 [SAI template = SAI]

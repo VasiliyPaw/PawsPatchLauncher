@@ -36,7 +36,7 @@ class Fixture:
   self.asm(image+0x22607d,f'inc dword ptr [{self.stats}]; mov dword ptr [ecx+4],{self.cost}; mov dword ptr [ecx+8],{count}; mov eax,ecx; ret')
   self.asm(image+0x20dae6,f'inc dword ptr [{self.stats+4}]; mov eax,[esp+12]; mov [{self.stats+16}],eax; ret')
   self.asm(image+0x226166,f'inc dword ptr [{self.stats+8}]; ret')
-  self.w(image+0x5ef72c,self.reg);self.w(self.city+0x14,123);self.w(self.center+0x14,456);self.w(self.reg+0x20004+4*123,self.city);self.w(self.reg+0x20004+4*456,self.center)
+  self.w(image+0x5ef72c,self.reg);self.w(self.city,image+0x4e5c58);self.w(self.center,image+0x4e5c58);self.w(self.city+0x14,123);self.w(self.center+0x14,456);self.w(self.reg+0x20004+4*123,self.city);self.w(self.reg+0x20004+4*456,self.center)
   self.w(self.city+0x98,self.obj);self.w(self.city+0xe8,self.k);self.w(self.center+0xe8,self.k);self.w(self.center+0x60,self.body);self.w(self.body+4,self.center);self.f(self.body+0x10,15000);self.f(self.body+0x14,15000)
   self.w(self.obj+0x14,self.center)
  def w(self,p,v):self.u.mem_write(p,struct.pack('<I',v))

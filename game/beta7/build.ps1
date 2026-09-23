@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery, [switch]$ExhaustionRecovery, [switch]$AiPolicy, [switch]$BotLobby, [switch]$FractionalKingdomPoints, [switch]$GraphicsDiagnostics, [switch]$SettlementSlots, [switch]$AllyEconomy, [string]$PatchVersion)
+﻿param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery, [switch]$ExhaustionRecovery, [switch]$AiPolicy, [switch]$BotLobby, [switch]$FractionalKingdomPoints, [switch]$GraphicsDiagnostics, [switch]$SettlementSlots, [switch]$AllyEconomy, [switch]$EngineCrashFixes, [switch]$FoundationCounts, [switch]$NightmareDifficulty, [string]$PatchVersion)
 $ErrorActionPreference = 'Stop'
 if($LairWoundedTest){$LairRecovery=$true}
 $out = [IO.Path]::GetFullPath($OutputDirectory)
@@ -12,6 +12,20 @@ $assistant = Join-Path $PSScriptRoot '../city-assistant'
 $transfer = Join-Path $PSScriptRoot '../fast-transfer'
 $work = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $python = 'C:\Users\Paw\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
+if($NightmareDifficulty){
+    if(!$AiPolicy){throw 'Nightmare difficulty belongs to the selectable AI improvements module.'}
+    $nightmareData=Join-Path $out 'nightmare-data'
+    & $python (Join-Path $PSScriptRoot '../nightmare-difficulty/prepare.py') --out $nightmareData --language ru
+    if($LASTEXITCODE -ne 0){throw 'Nightmare difficulty preparation failed'}
+    $nightmareFixture=Join-Path $out 'nightmare-data-test'
+    & $python (Join-Path $PSScriptRoot '../nightmare-difficulty/prepare.py') --out $nightmareFixture --language ru
+    if($LASTEXITCODE -ne 0){throw 'Nightmare difficulty fixture failed'}
+    $nightmareTests=Join-Path $out 'NightmareDataTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 "/out:$nightmareTests" (Join-Path $PSScriptRoot '../nightmare-difficulty/DataTests.cs') (Join-Path $nightmareFixture 'NightmareDifficultyData.cs')
+    if($LASTEXITCODE -ne 0){throw 'Nightmare difficulty tests compilation failed'}
+    & $nightmareTests $nightmareFixture
+    if($LASTEXITCODE -ne 0){throw 'Nightmare difficulty data tests failed'}
+}
 if($LobbyCompatibility) {
     if(!$CityAssistant -or !$NativeCompiler){throw 'Lobby compatibility is part of the full beta helper build; specify -CityAssistant and -NativeCompiler.'}
     $lobby=Join-Path $PSScriptRoot '../lobby-compatibility'
@@ -122,6 +136,28 @@ if($AiPolicy) {
     if($LASTEXITCODE -ne 0){throw 'AI native wrapper tests failed'}
     & $python (Join-Path $ai 'test_limits.py') --legacy $work --native $aiNative
     if($LASTEXITCODE -ne 0){throw 'AI native regression failed.'}
+    & $python (Join-Path $ai 'test_routing.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI routing regression failed.'}
+    & $python (Join-Path $ai 'test_defense.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI peaceful defense regression failed.'}
+    & $python (Join-Path $ai 'test_scouting.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI pending exploration regression failed.'}
+    & $python (Join-Path $ai 'test_clearing.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI clearing regression failed.'}
+    & $python (Join-Path $ai 'test_clearing_priority.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI clearing priority regression failed.'}
+    & $python (Join-Path $ai 'test_region_clearing.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI regional defense and target selection regression failed.'}
+    & $python (Join-Path $ai 'test_opening_capture.py') --legacy $work --native $aiNative
+    if($LASTEXITCODE -ne 0){throw 'AI opening capture regression failed.'}
+    foreach($test in 'test_builder_clearing.py','test_clearing_rally.py','test_region_ratio.py','test_expansion_fallback.py','test_economy.py','test_clearing_readiness.py','test_militia.py'){
+        & $python (Join-Path $ai $test) --legacy $work --native $aiNative
+        if($LASTEXITCODE -ne 0){throw 'AI construction/staging regression failed.'}
+    }
+    foreach($test in 'test_opening_lairs.py','test_clearing_route.py','test_expansion_pulse.py','test_supply_notice.py','test_recruit_counts.py','test_builder_fleet.py'){
+        & $python (Join-Path $ai $test) --legacy $work --native $aiNative
+        if($LASTEXITCODE -ne 0){throw "AI release regression failed: $test"}
+    }
     $aiOptionsTests=Join-Path $out 'AiOptionsTests.exe'
     & $compiler /nologo /target:exe /r:System.Web.Extensions.dll "/out:$aiOptionsTests" (Join-Path $ai 'PawAiOptions.cs') (Join-Path $ai 'OptionsTests.cs')
     if($LASTEXITCODE -ne 0){throw 'AI option tests compilation failed.'}
@@ -192,6 +228,47 @@ if($AllyEconomy){
     & $allyTests
     if($LASTEXITCODE -ne 0){throw 'Ally economy transactions failed'}
 }
+if($FoundationCounts){
+    if(!$CityAssistant -or !$NativeCompiler){throw 'Foundation distribution requires the Arcane helper and native compiler.'}
+    $foundation=Join-Path $PSScriptRoot '../foundation-placement'
+    $foundationNative=Join-Path $out 'foundation-native'
+    & $python (Join-Path $foundation 'build_native.py') --legacy $work --out $foundationNative --compiler $NativeCompiler
+    if($LASTEXITCODE -ne 0){throw 'Foundation distribution build failed'}
+    & $python (Join-Path $foundation 'test_counts.py') --legacy $work --native $foundationNative
+    if($LASTEXITCODE -ne 0){throw 'Foundation distribution native tests failed'}
+    & $python (Join-Path $foundation 'test_final.py') --legacy $work --native $foundationNative
+    if($LASTEXITCODE -ne 0){throw 'Final placed-pool distribution tests failed'}
+    $foundationTests=Join-Path $out 'FoundationCountsTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:FoundationCountsTests "/out:$foundationTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $foundation 'FoundationCountsPatch.cs') (Join-Path $foundationNative 'FoundationCountsPayload.cs') (Join-Path $foundation 'TransactionTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Foundation distribution transaction compilation failed'}
+    & $foundationTests
+    if($LASTEXITCODE -ne 0){throw 'Foundation distribution transaction checks failed'}
+    $foundationMemoryTests=Join-Path $out 'FoundationNativeMemoryTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:FoundationNativeMemoryTests "/out:$foundationMemoryTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $foundation 'FoundationCountsPatch.cs') (Join-Path $foundationNative 'FoundationCountsPayload.cs') (Join-Path $foundation 'NativeMemoryTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Foundation native memory test compilation failed'}
+    $plannerOffset=(Get-Content (Join-Path $foundationNative 'counts.json') -Raw|ConvertFrom-Json).exports.plan_map
+    & $foundationMemoryTests $plannerOffset
+    if($LASTEXITCODE -ne 0){throw 'Foundation native memory checks failed'}
+}
+if($EngineCrashFixes){
+    if(!$CityAssistant){throw 'Engine crash fixes require the complete monitored helper.'}
+    $crashFixes=Join-Path $PSScriptRoot '../engine-crash-fixes'
+    $crashNative=Join-Path $out 'crash-native'
+    & $python (Join-Path $crashFixes 'build_native.py') --legacy $work --out $crashNative
+    if($LASTEXITCODE -ne 0){throw 'Engine crash fix build failed'}
+    & $python (Join-Path $crashFixes 'test_native.py') --legacy $work --native $crashNative
+    if($LASTEXITCODE -ne 0){throw 'Engine crash fix regressions failed'}
+    $crashTests=Join-Path $out 'EngineCrashTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /main:EngineCrashTests "/out:$crashTests" (Join-Path $PSScriptRoot 'TerrainRuntime.cs') (Join-Path $PSScriptRoot 'ReleaseStartup.cs') (Join-Path $PSScriptRoot 'RandomMapPatch.cs') (Join-Path $PSScriptRoot 'RandomMapBundle.cs') (Join-Path $crashFixes 'EngineCrashFixesPatch.cs') (Join-Path $crashNative 'EngineCrashPayload.cs') (Join-Path $crashFixes 'TransactionTests.cs')
+    if($LASTEXITCODE -ne 0){throw 'Engine crash transaction compilation failed'}
+    & $crashTests
+    if($LASTEXITCODE -ne 0){throw 'Engine crash transaction checks failed'}
+    $probeTests=Join-Path $out 'ProbeWindowsTests.exe'
+    & $compiler /nologo /target:exe /platform:x86 /optimize+ "/out:$probeTests" (Join-Path $crashFixes 'ProbeWindowsTests.cs') (Join-Path $crashNative 'EngineCrashPayload.cs')
+    if($LASTEXITCODE -ne 0){throw 'Windows probe test compilation failed'}
+    & $probeTests
+    if($LASTEXITCODE -ne 0){throw 'Windows probe checks failed'}
+}
 if($GraphicsDiagnostics){
     if(!$NativeCompiler -or !$CityAssistant){throw 'Embedded graphics recorder requires native compiler and complete helper'}
     $graphics=Join-Path $PSScriptRoot '../graphics-diagnostics'
@@ -215,10 +292,13 @@ foreach ($variant in $variants.PSObject.Properties) {
     if($ExhaustionRecovery){$arguments += '/define:EXHAUSTION_RECOVERY';$arguments += (Join-Path $exhaustion 'ExhaustionRecoveryPatch.cs'),(Join-Path $exhaustionNative 'ExhaustionRecoveryPayload.cs')}
     if($AiPolicy){$arguments += '/define:AI_POLICY';$arguments += (Join-Path $ai 'AiPolicyRuntime.cs'),(Join-Path $ai 'PawAiOptions.cs'),(Join-Path $ai 'AiDiagnosticsSnapshot.cs'),(Join-Path $aiNative 'AiPolicyPayload.cs')}
     if($BotLobby){$arguments += '/define:BOT_LOBBY';$arguments += (Join-Path $botLobbySource 'BotLobbyPatch.cs'),(Join-Path $botLobbyNative 'BotLobbyPayload.cs')}
+    if($NightmareDifficulty){$arguments += '/define:NIGHTMARE_DIFFICULTY';$arguments += (Join-Path $nightmareData 'NightmareDifficultyData.cs')}
     if($FractionalKingdomPoints){$arguments += '/define:FRACTIONAL_KINGDOM_POINTS';$arguments += (Join-Path $fractions 'FractionalPointsPatch.cs'),(Join-Path $fractionsNative 'FractionalPointsPayload.cs')}
     if($GraphicsDiagnostics){$arguments += '/define:GRAPHICS_DIAGNOSTICS';$arguments += (Join-Path $graphics 'GraphicsDiagnostics.cs');$arguments += '/resource:'+$graphicsExe+',PawsGraphicsRecorder'}
     if($SettlementSlots){$arguments += '/define:SETTLEMENT_SLOTS';$arguments += (Join-Path $slots 'SettlementSlotsPatch.cs'),(Join-Path $slotsNative 'SettlementSlotsPayload.cs')}
     if($AllyEconomy){$arguments += '/define:ALLY_ECONOMY';$arguments += (Join-Path $ally 'AllyEconomyPatch.cs'),(Join-Path $allyNative 'AllyEconomyPayload.cs')}
+    if($FoundationCounts){$arguments += '/define:FOUNDATION_COUNTS';$arguments += (Join-Path $foundation 'FoundationCountsPatch.cs'),(Join-Path $foundationNative 'FoundationCountsPayload.cs')}
+    if($EngineCrashFixes){$arguments += '/define:ENGINE_CRASH_FIXES';$arguments += (Join-Path $crashFixes 'EngineCrashFixesPatch.cs'),(Join-Path $crashNative 'EngineCrashPayload.cs')}
     if($CameraZoom){$arguments += '/define:CAMERA_ZOOM_2';$arguments += (Join-Path $camera 'CameraZoomPatch.cs'),(Join-Path $cameraNative 'CameraZoomPayload.cs')}
     if($LairRecovery){$arguments += (Join-Path $lair 'LairRecoveryPatch.cs'),(Join-Path $lairNative 'LairRecoveryPayload.cs')}
     foreach ($resource in $resources) { $arguments += '/resource:' + (Join-Path $PSScriptRoot "$resource.bin") + ',' + $resource }
@@ -246,6 +326,9 @@ PawAssistantRuntime.Tick();
 #if AI_POLICY
                 AiPolicyRuntime.Tick();
 #endif
+#if ENGINE_CRASH_FIXES
+                EngineCrashFixesPatch.Tick();
+#endif
                 current = ReadCounters(process, counters);
 '@
         if($LobbyCompatibility) {
@@ -255,6 +338,9 @@ PawAssistantRuntime.Tick();
             $arguments += '/r:System.Web.Extensions.dll'
             $arguments += $lobbySource
             $arguments += '/resource:'+(Join-Path $out 'paws_lobby_compatibility.dll')+',PawLobbyCompatibilityNative'
+        }
+        if($NightmareDifficulty){
+            $text=Replace-StartupAnchor $text 'ReleaseStartup.GuardData(gameDirectory);' 'ReleaseStartup.GuardData(gameDirectory); NightmareDifficultyData.Prepare(gameDirectory,PawGameText.Language,PawAiOptions.Enabled);'
         }
         if($LairWoundedTest) {
             $text=Replace-StartupAnchor $text 'if (args.Length == 1 && args[0] == "--features") return BuildFeatures.Write();' @'

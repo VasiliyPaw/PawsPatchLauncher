@@ -1,0 +1,100 @@
+
+[RMC template=K2AllRMC]
+{
+	IDS = rmc_arctic03
+	name = "#rmc_arctic03_name"
+	description = "#rmc_temperate03_description"
+	biome = arctic
+
+/*	TERRAINS		*/
+
+	[TerrainBlob Template=ArcTundraTerrainBlob]
+	
+	[TerrainStreak Template=ArcSnowTerrainStreak]
+	
+	[TerrainBlob Template=ArcSnowTerrainBlob]
+	
+	[TerrainBlob Template=ArcPackIceTerrainBlob]
+	
+	[TerrainStreak Template=ArcForestTerrainStreak]
+	
+	[TerrainBlob Template=ArcForestTerrainBlob]
+	
+	[TerrainStreak Template=ArcForestBorealTerrainStreak]
+	
+	[TerrainBlob Template=ArcForestBorealTerrainBlob]
+	
+	[TerrainStreak Template=ArcSnowTerrainStreak02]
+	
+	[TerrainBlob Template=ArcSnowTerrainBlob02]
+	
+	[TerrainBlob Template=ArcTundraTerrainBlob02]
+	
+	[TerrainBlob Template=ArcLakeFrozenTerrainBlob]
+
+/*************************** AW TERRAIN ****************************/
+
+	[TerrainStreak Template=ArcDenseForestTerrainStreak]
+
+	[TerrainStreak Template=ArcFrostlandTerrainStreak]
+	
+	[TerrainBlob Template=ArcSnowSwampTerrainBlob]
+
+/* 	BLOCKING TERRAIN		*/
+
+	[TerrainBlob Template=ArcMountainTerrainBlob]
+	
+	[TerrainBlob Template=ArcMountainTerrainBlob02]
+
+	[TerrainBlob Template=ArcMountainTerrainBlob03]
+
+	[TerrainBlob Template=ArcLakeTerrainBlob]
+
+/*	TERRAIN NOISE			*/
+
+	[TerrainNoise Template=ArcNoisePhasePre01]
+	
+	[TerrainNoise Template=ArcNoisePhase01]
+	
+	[TerrainNoise Template=ArcNoisePhase02]
+	
+	[TerrainNoise Template=ArcNoisePhase03]
+	
+	[TerrainNoise Template=ArcNoisePhase04]
+	
+	[TerrainNoise Template=ArcNoisePhase05]
+	
+/*	ACTOR GROUPS ASSIGNED TO KINGDOMS	*/
+
+	[ActorGroup Template=StartSettlement]
+	apply_to_all_major_kingdoms = true
+
+/*	OTHER ACTOR GROUPS 			*/
+
+	[ActorGroup Template=RandomSettlementGroup]
+
+	[ActorGroup Template=FoundationCamps]
+
+	[ActorGroup Template=SettlementCamps]
+
+	[ActorGroup Template=RandomEnclaveGroup]
+
+
+	[ActorGroup Template=CampTechGroup]
+
+	[ActorGroup Template=CampArtifactGroup]
+
+	[ActorGroup Template=CampArcticLairGroup]
+
+	[ActorGroup Template=CampArcticTechGroup]
+
+	[ActorGroup Template=CampArcticLargeLairGroup]
+
+	[ActorGroup Template=CampResourceGroup]
+
+	[ActorGroup Template=ArcticFlock]
+
+	[ActorGroup Template=ArcticHerd]
+
+	[ActorGroup Template=ArcticSchool]
+}

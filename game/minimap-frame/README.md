@@ -54,3 +54,14 @@ The preview is not evidence of in-game rendering. User checks still required:
 all six races, fog at the four diamond corners, minimap camera clicks, supply
 toggle, pause, chat and menu controls. Geometry is unchanged, but runtime asset
 loading and final appearance have not been verified in this turn.
+
+## Observer assets, September 23
+
+Pass `--observer` as the third importer argument to build the three unskinned
+`data/UI[/800|/1280]/Game/ControlPanel/Background.tga` overrides. The default
+observer background is Human stone; the stock 800/1280 alternatives are Gauri
+stone and reuse that accepted material plate. The importer preserves all alpha,
+the actual map diamond and the surrounding visible artwork, as for racial skins.
+This extends the same static 16:9 fit; it does not alter map coordinates.
+Artifacts and pixel/hash evidence are in
+`outputs/capture-observer-button-r31-20260923` at the workspace root.

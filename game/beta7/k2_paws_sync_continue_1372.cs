@@ -15,7 +15,7 @@ internal static class K2PawFamilyPostgen1372
     private const string ExpectedExeSha256 =
         "1EB79BBB678668BE5A05F8C98103CD9988048490CE7C53C74C9A1D0813E9CD45";
     private const string ExpectedTemplateSha256 =
-        "A53B379FE200A4BA52A37C82C07C57A73915DF5ED7C11DCD7647EA31FA87BFDB";
+        ReleaseStartup.TemplateDataHash;
     private const string ExpectedEnglishSha256 =
         "C1FFF9A67AE98AB0555DD19BF3711C085CA0DA95F700C24B5D5A60902E87FAE2";
     private const string ExpectedRussianSha256 =

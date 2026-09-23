@@ -1,0 +1,3337 @@
+/**************************************************************************
+
+template_randommap_k2.tgi
+Copyright � 2002-2004 TimeGate Studios
+
+DESCRIPTION:  Templates for K2 random maps
+
+REVISION HISTORY:
+ick010903 - created
+
+USAGE:
+
+
+**************************************************************************/
+[Template K2RMC template=RMC]
+{
+	;; Native RMG chooses one shared starting Sun; explicit world rules override it.
+	string sun = sun_default,sun_morning,sun_dusk,sun_night
+
+	reference_size = 256
+
+/*	RULES				*/
+
+	[Rules]
+	{
+		game_type = PLAYABLE
+
+		[Rule]
+		ids = Sun
+		default = sun_default
+		
+         [Rule]  
+         ids = difficultylevel
+         default = EASY
+         show_ui = false 
+	}
+	
+/*	KINGDOMS			*/
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom01
+		name = "#template_rmc_k2_kingdom01_name"
+		color = blue
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom02
+		name = "#template_rmc_k2_kingdom02_name"
+		color = red
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+/*	INDEPENDENT KINGDOMS		*/
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = kingdom_herd
+		name = "#template_rmc_k2_kingdom_herd_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_dark_rift
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_human
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_haroun
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_drauga
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_gauri
+		relation = NEUTRAL
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = kingdom_indie
+		name = "#paws_patch_hidden_faction_bandit_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}	
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = kingdom_enemy
+		name = "#template_rmc_k2_kingdom_enemy_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	/* PAW'S PATCH: INDEPENDENT SETTLEMENT FACTION BEGIN */
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_independent_settlements
+		name = "#paws_patch_independent_settlements_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+	}
+
+	/* PAW DATA-ONLY INDEPENDENT WARS: KINGDOMS BEGIN */
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_barbarian
+		name = "#paws_patch_hidden_faction_barbarian_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_branch
+		name = "#paws_patch_hidden_faction_forest_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_fire_dragon
+		name = "#paws_patch_hidden_faction_fire_dragon_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_ice_dragon
+		name = "#paws_patch_hidden_faction_ice_dragon_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_storm
+		name = "#paws_patch_hidden_faction_storm_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_wolf
+		name = "#paws_patch_hidden_faction_wolf_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_spider
+		name = "#paws_patch_hidden_faction_spider_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_scorpion
+		name = "#paws_patch_hidden_faction_scorpion_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_night
+		name = "#paws_patch_hidden_faction_night_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_rhaksha
+		name = "#paws_patch_hidden_faction_rhaksha_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_undead
+		name = "#paws_patch_hidden_faction_undead_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_slaan
+		name = "#paws_patch_hidden_faction_slaan_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	/* PAW EXPERIMENTAL 33RD KINGDOM: SHADOW RIFTS BEGIN */
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_dark_rift
+		name = "#paws_patch_hidden_faction_shadow_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	/* PAW EXPERIMENTAL 33RD KINGDOM: SHADOW RIFTS END */
+
+	/* PAW EXPERIMENTAL KINGDOMS 34-37: RACE FAMILIES BEGIN */
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_human
+		name = "#paws_patch_hidden_faction_human_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_dark_rift
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_haroun
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_drauga
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_gauri
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_haroun
+		name = "#paws_patch_hidden_faction_haroun_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_dark_rift
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_human
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_drauga
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_gauri
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_drauga
+		name = "#paws_patch_hidden_faction_drauga_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_dark_rift
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_human
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_haroun
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_gauri
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	[Kingdom Template=RMCKingdomMinor]
+	{
+		IDS = paws_war_gauri
+		name = "#paws_patch_hidden_faction_gauri_name"
+
+		[Relation]
+		kingdom_ids = kingdom0*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom1*
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = kingdom_enemy
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_herd
+		relation = NEUTRAL
+
+		[Relation]
+		kingdom_ids = kingdom_indie
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_barbarian
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_branch
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_fire_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_ice_dragon
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_storm
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_wolf
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_spider
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_scorpion
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_night
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_rhaksha
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_undead
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_slaan
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_dark_rift
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_human
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_haroun
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_war_drauga
+		relation = ENEMY
+
+		[Relation]
+		kingdom_ids = paws_independent_settlements
+		relation = ENEMY
+	}
+
+	/* PAW EXPERIMENTAL KINGDOMS 34-37: RACE FAMILIES END */
+
+	/* PAW DATA-ONLY INDEPENDENT WARS: KINGDOMS END */
+
+	/* PAW'S PATCH: INDEPENDENT SETTLEMENT FACTION END */
+
+/*	TEAMS				*/
+
+	[Team]
+	IDS = team01
+	name = "#template_rmc_k2_team01_name"
+
+	[Team]
+	IDS = team02
+	name = "#template_rmc_k2_team02_name"
+
+/*	HEROES ASSIGNED TO KINGDOMS	*/
+
+	[Heroes]
+	random_heroes_min = 0
+	random_heroes_max = 11
+}
+
+[Template K2AllRMC template=K2RMC]
+{
+/*	AVAILABLE MAP SIZES		*/
+
+	[MapSize]
+	width = 384
+	height = 384
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 2
+
+	[MapSize]
+	width = 448
+	height = 448
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 4
+	
+	[MapSize]
+	width = 512
+	height = 512
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 4
+
+	[MapSize]
+	width = 576
+	height = 576
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 6
+
+	[MapSize]
+	width = 640
+	height = 640
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 6
+
+	[MapSize]
+	width = 704
+	height = 704
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 8
+
+	[MapSize]
+	width = 768
+	height = 768
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 10
+
+	[MapSize]
+	width = 832
+	height = 832
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 12
+
+	[MapSize]
+	width = 896
+	height = 896
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 14
+
+	[MapSize]
+	width = 960
+	height = 960
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 16
+
+	[MapSize]
+	width = 1024
+	height = 1024
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 16
+
+	[MapSize]
+	width = 1152
+	height = 1152
+	recommended_kingdoms_min = 2
+	recommended_kingdoms_max = 16
+
+/*	KINGDOMS			*/
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom03
+		name = "#template_rmc_k2_kingdom03_name_4"
+		color = green
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+	
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom04
+		name = "#template_rmc_k2_kingdom04_name_4"
+		color = black
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+	
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom05
+		name = "#template_rmc_k2_kingdom05_name_3"
+		color = cyan
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+	
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom06
+		name = "#template_rmc_k2_kingdom06_name_3"
+		color = brown
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+	
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom07
+		name = "#template_rmc_k2_kingdom07_name_2"
+		color = yellow
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+	
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom08
+		name = "#template_rmc_k2_kingdom08_name_2"
+		color = pink
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom09
+		name = "#template_rmc_k2_kingdom09_name"
+		color = gray
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom10
+		name = "#template_rmc_k2_kingdom10_name"
+		color = maroon
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom11
+		name = "#template_rmc_k2_kingdom11_name"
+		color = lime
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom12
+		name = "#template_rmc_k2_kingdom12_name"
+		color = purple
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom13
+		name = "#template_rmc_k2_kingdom13_name"
+		color = sky
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom14
+		name = "#template_rmc_k2_kingdom14_name"
+		color = orange
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom15
+		name = "#template_rmc_k2_kingdom15_name"
+		color = gold
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+
+	[Kingdom Template=RMCKingdomMajor]
+	{
+		IDS = kingdom16
+		name = "#template_rmc_k2_kingdom16_name"
+		color = aqua
+		team = null
+		playable = true
+		required = false
+		SAI_default_ids = null
+	}
+	
+/*	TEAMS				*/
+
+	[Team]
+	IDS = team03
+	name = "#template_rmc_k2_team03_name_4"
+
+	[Team]
+	IDS = team04
+	name = "#template_rmc_k2_team04_name_4"
+
+	[Team]
+	IDS = team05
+	name = "#template_rmc_k2_team05_name_3"
+
+	[Team]
+	IDS = team06
+	name = "#template_rmc_k2_team06_name_3"
+
+	[Team]
+	IDS = team07
+	name = "#template_rmc_k2_team07_name_2"
+
+	[Team]
+	IDS = team08
+	name = "#template_rmc_k2_team08_name_2"
+}
+
+[Template StartSettlement Template=RMCActorGroup]
+{
+	ids = kingdom_start
+	name = "#template_rmc_k2_kingdom_start_name"
+
+	show_ui = false
+	kingdom_ids = null
+
+	range = 1,1
+	area_factor = 0
+	starting_location_weight = 100
+
+	intraproximity_min = 0
+	intraproximity_desired = 0
+	
+	[RequiredObject]
+	object_ids = placeholder_settlementvillage
+	position = 0,0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+}
+
+[Template RandomSettlementGroup Template=RMCActorGroup]
+{
+	ids = random_settlements
+	name = "#template_rmc_k2_random_settlements_name"
+
+	kingdom_ids = paws_independent_settlements
+
+	range = 0,1.6
+	area_factor = 1.4
+	objects_min = 0
+
+	balanced_placement = true
+
+	intraproximity_min = 128
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_settlement_village
+	weight = .5
+
+	[Object]
+	object_ids = random_settlement_town
+	weight = .1
+
+	[Object]
+	object_ids = random_settlement_city
+	weight = .01
+
+	[Object]
+	object_ids = random_settlement_citadel
+	weight = .001
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+}
+
+/* 	RMC SETTLEMENT CAMPS		*/
+
+[Template SettlementCamps Template=RMCActorGroup]
+{
+	ids = random_settlementcamps
+	name = "#template_rmc_k2_random_settlementcamps_name"
+
+	kingdom_ids = kingdom_enemy
+	show_ui = false
+
+	range = 3.2,6.4
+	area_factor = 1.4
+	objects_min = 0
+
+	balanced_placement = true
+
+	intraproximity_min = 128
+	intraproximity_desired = 0
+		
+	[Object]
+	object_ids = random_settlement_camps
+	weight = 2
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 128
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 128
+	proximity_desired = 0
+}
+
+/* 	RMC AW FOUNDATION CAMPS		*/
+
+[Template RandomEnclaveGroup Template=RMCActorGroup]
+{
+	ids = random_enclavecamps
+	name = "#awloc_random_enclave_camps_7d36caa4"
+
+	kingdom_ids = paws_independent_settlements
+
+	range = 0,1.6
+	area_factor = 1.4
+	objects_min = 0
+
+	balanced_placement = true
+
+	intraproximity_min = 128
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_enclave_camps
+	weight = .5
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 96
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 96
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 96
+	proximity_desired = 0
+
+}
+
+[Template FoundationCamps Template=RMCActorGroup]
+{
+	ids = random_foundationcamps
+	name = "#template_rmc_k2_random_settlementcamps_name"
+
+	kingdom_ids = kingdom_enemy
+	show_ui = false
+
+	range = 0.8,1.6
+	area_factor = 1.4
+	objects_min = 0
+
+	balanced_placement = true
+
+	intraproximity_min = 128
+	intraproximity_desired = 0
+		
+	[Object]
+	object_ids = random_foundation_camps
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 128
+	proximity_desired = 0
+}
+[Template CampTechGroup Template=RMCActorGroup]
+{
+	ids = random_techlaircamps
+	name = "#awloc_arcane_wars_tech_727dbb72"
+
+	kingdom_ids = paws_independent_settlements
+
+	range = 0,1.6
+	area_factor = 1.7
+	objects_min = 0
+
+	intraproximity_min = 64
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_special_lair
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 96
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 64
+	proximity_desired = 0
+
+}
+
+[Template CampArtifactGroup Template=RMCActorGroup]
+{
+	ids = random_artifactlaircamps
+	name = "#template_rmc_k2_random_artifactlaircamps_name"
+
+	kingdom_ids = paws_independent_settlements
+
+	range = 0,2
+	area_factor = 1.6
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairartifact
+	weight = .5
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 96
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 52
+	proximity_desired = 0
+
+}
+
+[Template CampArcticLairGroup Template=RMCActorGroup]
+{
+	ids = random_monsterlairarcticcamps
+	name = "#template_rmc_k2_random_monsterlairarcticcamps_name"
+
+	kingdom_ids = kingdom_enemy
+
+	range = 0,4.5
+	area_factor = 1.75
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairmonsterarctic
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 32
+	proximity_desired = 0
+
+}
+
+[Template CampDesertLairGroup Template=RMCActorGroup]
+{
+	ids = random_monsterlairdesertcamps
+	name = "#template_rmc_k2_random_monsterlairdesertcamps_name"
+
+	kingdom_ids = kingdom_enemy
+
+	range = 0,4.5
+	area_factor = 1.75
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairmonsterdesert
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 32
+	proximity_desired = 0
+
+}
+
+[Template CampTemperateLairGroup Template=RMCActorGroup]
+{
+	ids = random_monsterlairtemperatecamps
+	name = "#template_rmc_k2_random_monsterlairtemperatecamps_name"
+
+	kingdom_ids = kingdom_enemy
+
+	range = 0,4.5
+	area_factor = 1.75
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairmonstertemperate
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 32
+	proximity_desired = 0
+
+}
+
+[Template CampArcticTechGroup Template=RMCActorGroup]
+{
+	IDS = random_techlairarcticcamps
+	name = "#template_rmc_k2_random_techlairarcticcamps_name"
+
+	kingdom_ids = paws_independent_settlements
+
+	range = 0,2
+	area_factor = 1.7
+	objects_min = 0
+
+	intraproximity_min = 52
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairtecharctic
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_monsterlairarcticcamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 32
+	proximity_desired = 0
+
+}
+
+[Template CampDesertTechGroup Template=RMCActorGroup]
+{
+	IDS = random_techlairdesertcamps
+	name = "#template_rmc_k2_random_techlairdesertcamps_name"
+
+	kingdom_ids = paws_independent_settlements
+
+	range = 0,2
+	area_factor = 1.7
+	objects_min = 0
+
+	intraproximity_min = 52
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairtechdesert
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 88
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_monsterlairdesertcamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 32
+	proximity_desired = 0
+
+}
+
+[Template CampTemperateTechGroup Template=RMCActorGroup]
+{
+	IDS = random_techlairtemperatecamps
+	name = "#template_rmc_k2_random_techlairtemperatecamps_name"
+
+	kingdom_ids = paws_independent_settlements
+
+	range = 0,2
+	area_factor = 1.7
+	objects_min = 0
+
+	intraproximity_min = 52
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairtechtemperate
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 88
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_monsterlairtemperatecamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 32
+	proximity_desired = 0
+
+}
+
+[Template CampResourceGroup Template=RMCActorGroup]
+{
+	ids = random_resource
+	name = "#template_rmc_k2_random_resource_name"
+
+	kingdom_ids = null
+
+	range = 0,4
+	area_factor = 2
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_resource
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 32
+	proximity_desired = 0
+
+}
+
+[Template ArcticHerd Template=RMCActorGroup]
+{
+	ids = random_arcticherd
+	name = "#template_rmc_k2_random_arcticherd_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.25
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_herdarctic
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+[Template DesertHerd Template=RMCActorGroup]
+{
+	ids = random_desertherd
+	name = "#template_rmc_k2_random_desertherd_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.25
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_herddesert
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+[Template TemperateHerd Template=RMCActorGroup]
+{
+	ids = random_temperateherd
+	name = "#template_rmc_k2_random_temperateherd_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.25
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_herdtemperate
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+[Template ArcticFlock Template=RMCActorGroup]
+{
+	ids = random_arcticflock
+	name = "#template_rmc_k2_random_arcticflock_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.5
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_flockarctic
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+[Template DesertFlock Template=RMCActorGroup]
+{
+	ids = random_desertflock
+	name = "#template_rmc_k2_random_desertflock_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.5
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_flockdesert
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+[Template TemperateFlock Template=RMCActorGroup]
+{
+	ids = random_temperateflock
+	name = "#template_rmc_k2_random_temperateflock_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.5
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_flocktemperate
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+[Template ArcticSchool Template=RMCActorGroup]
+{
+	ids = random_arcticschool
+	name = "#template_rmc_k2_random_arcticschool_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.25
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_schoolarctic
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+[Template DesertSchool Template=RMCActorGroup]
+{
+	ids = random_desertschool
+	name = "#template_rmc_k2_random_desertschool_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.25
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_schooldesert
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+[Template TemperateSchool Template=RMCActorGroup]
+{
+	ids = random_temperateschool
+	name = "#template_rmc_k2_random_temperateschool_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.25
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_schooltemperate
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+/*************************** AW RANDOMGROUP ****************************/
+
+[Template CampCursedLairGroup Template=RMCActorGroup]
+{
+	ids = random_monsterlaircursedcamps
+	name = "#awloc_lairs_5a02e3e8"
+
+	kingdom_ids = kingdom_enemy
+
+	range = 0,4.5
+	area_factor = 1.75
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairmonstercursed
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+}
+
+[Template CampCursedTechGroup Template=RMCActorGroup]
+{
+	IDS = random_techlaircursedcamps
+	name = "#awloc_techs_bf5b11ee"
+
+	kingdom_ids = paws_independent_settlements
+
+	range = 0,2
+	area_factor = 1.7
+	objects_min = 0
+
+	intraproximity_min = 52
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairtechcursed
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 88
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 52
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_monsterlaircursedcamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 52
+	proximity_desired = 0
+}
+
+[Template CursedFlock Template=RMCActorGroup]
+{
+	ids = random_cursedflock
+	name = "#template_rmc_k2_random_temperateflock_name"
+
+	kingdom_ids = kingdom_herd
+	show_ui = false
+
+	range = 0,2
+	area_factor = 1.5
+	objects_min = 0
+
+	intraproximity_min = 32
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_flockcursed
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 48
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 48
+	proximity_desired = 0
+}
+
+/*******************  AW LARGE LAIRS *******************/
+
+[Template CampArcticLargeLairGroup Template=RMCActorGroup]
+{
+	ids = random_monsterlargelairarcticcamps
+	name = "#awloc_large_lairs_e72fd3c4"
+
+	kingdom_ids = kingdom_enemy
+
+	range = 0,3
+	area_factor = 1.4
+	objects_min = 0
+
+	intraproximity_min = 96
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairlargemonsterarctic
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_monsterlairarcticcamps
+	proximity_min = 32
+	proximity_desired = 0
+    
+	[GroupRestriction]
+	group_ids = random_techlairarcticcamps
+	proximity_min = 32
+	proximity_desired = 0
+}
+
+[Template CampDesertLargeLairGroup Template=RMCActorGroup]
+{
+	ids = random_monsterlargelairdesertcamps
+	name = "#awloc_large_lairs_e72fd3c4"
+
+	kingdom_ids = kingdom_enemy
+
+	range = 0,3
+	area_factor = 1.4
+	objects_min = 0
+
+	intraproximity_min = 96
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairlargemonsterdesert
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_monsterlairdesertcamps
+	proximity_min = 32
+	proximity_desired = 0
+    
+	[GroupRestriction]
+	group_ids = random_techlairdesertcamps
+	proximity_min = 32
+	proximity_desired = 0
+}
+
+[Template CampTemperateLargeLairGroup Template=RMCActorGroup]
+{
+	ids = random_monsterlargelairtemperatecamps
+	name = "#awloc_large_lairs_e72fd3c4"
+
+	kingdom_ids = kingdom_enemy
+
+	range = 0,3
+	area_factor = 1.4
+	objects_min = 0
+
+	intraproximity_min = 96
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairlargemonstertemperate
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_monsterlairtemperatecamps
+	proximity_min = 32
+	proximity_desired = 0
+    
+	[GroupRestriction]
+	group_ids = random_techlairtemperatecamps
+	proximity_min = 32
+	proximity_desired = 0
+}
+
+[Template CampCursedLargeLairGroup Template=RMCActorGroup]
+{
+	ids = random_monsterlargelaircursedcamps
+	name = "#awloc_large_lairs_e72fd3c4"
+
+	kingdom_ids = kingdom_enemy
+
+	range = 0,3
+	area_factor = 1.4
+	objects_min = 0
+
+	intraproximity_min = 96
+	intraproximity_desired = 0
+	
+	[Object]
+	object_ids = random_lairlargemonstercursed
+	weight = 1
+
+	[GroupRestriction]
+	group_ids = random_settlementcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_foundationcamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = kingdom_start*
+	proximity_min = 128
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_settlements
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_artifactlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_techlaircamps
+	proximity_min = 32
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_enclavecamps
+	proximity_min = 64
+	proximity_desired = 0
+
+	[GroupRestriction]
+	group_ids = random_monsterlaircursedcamps
+	proximity_min = 32
+	proximity_desired = 0
+    
+	[GroupRestriction]
+	group_ids = random_techlaircursedcamps
+	proximity_min = 32
+	proximity_desired = 0
+}

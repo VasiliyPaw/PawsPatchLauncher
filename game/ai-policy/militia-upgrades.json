@@ -1,0 +1,21 @@
+{
+  "drauga_center_citadel_militia": 10.0,
+  "drauga_center_sovereignnat_militia": 10.0,
+  "drauga_center_sovereignroy_militia": 10.0,
+  "gauri_center_citadel_militia": 75.0,
+  "gauri_center_sovereigncou_militia": 10.0,
+  "gauri_center_sovereignnat_militia": 10.0,
+  "haroun_center_citadel_militia": 10.0,
+  "haroun_center_sovereigncou_militia": 10.0,
+  "haroun_center_sovereignroy_militia": 10.0,
+  "human_center_citadel_militia": 10.0,
+  "human_center_sovereigncey_militia": 10.0,
+  "human_center_sovereigncou_militia": 10.0,
+  "human_center_sovereignnat_militia": 10.0,
+  "human_center_sovereignroy_militia": 10.0,
+  "shadow_center_citadel_militia": 10.0,
+  "shadow_center_sovereign_militia": 10.0,
+  "undead_center_citadel_militia": 10.0,
+  "undead_center_sovereigncey_militia": 10.0,
+  "undead_center_sovereignfal_militia": 10.0
+}

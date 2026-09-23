@@ -13,6 +13,7 @@ internal static class Program
     private static readonly JsonSerializerOptions Json = new() { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     private const string Marker = ".paw-live-matrix.json";
     private const string OracleRevision = "native-menu-live-helper-v2";
+    private static bool NightmareSmoke;
     private sealed record Case(string Id, UserSettings Settings);
     private sealed record Result(string Id, string Identity, string Channel, string Mod, string Executable,
         int Pid, double Seconds, string Phase, string HelperLog, string[] Modules, string CompletedAt, string StopMethod)
@@ -64,7 +65,8 @@ internal static class Program
         var feeds = new Dictionary<string, ChannelManifest>();
         foreach (var channel in new[] { "stable", "beta" })
             feeds[channel] = await client.GetChannelAsync(channel) ?? throw new InvalidDataException("Missing " + channel);
-        var cases = Cases().Where(c => !options.TryGetValue("channel", out var channel) || c.Settings.Channel == channel)
+        NightmareSmoke = options.GetValueOrDefault("nightmare-smoke") == "true";
+        var cases = (NightmareSmoke ? NightmareCases() : Cases()).Where(c => !options.TryGetValue("channel", out var channel) || c.Settings.Channel == channel)
             .Where(c => !options.TryGetValue("mod", out var mod) || c.Settings.Mod == mod)
             .Where(c => !options.TryGetValue("case", out var id) || c.Id == id).ToArray();
         if(mode=="apply"&&(!options.ContainsKey("case")||cases.Length!=1))throw new ArgumentException("Apply requires one exact --case.");
@@ -162,6 +164,16 @@ internal static class Program
                     AdditionalRoamingCompanies = Bit(3), SiegeBalance = Bit(4), DisablePowersAndShards = Bit(5), RoamingSpawnMode = spawn };
                 yield return new Case($"{mod}-{channel}-patch{(patch ? 1 : 0)}-{(russian ? "ru" : "en")}-{voice}-{spawn}-{bits:D2}", settings);
             }
+        }
+    }
+    private static IEnumerable<Case> NightmareCases()
+    {
+        foreach (var (id, enabled) in new[] { ("nightmare-on", true), ("nightmare-off", false), ("nightmare-on-again", true) })
+        {
+            var settings = new UserSettings { Mod = GameMod.ArcaneWars, Channel = "beta", PawPatchEnabled = true,
+                ImprovedAi = enabled, GameVoiceLanguage = "en" };
+            GameLanguages.SetText(settings, "ru");
+            yield return new Case(id, settings);
         }
     }
     private static void EnsureNoGame()
@@ -294,6 +306,15 @@ internal static class Program
                 else stableSamples = 0;
                 if (stableSamples >= 3)
                 {
+                    if (NightmareSmoke)
+                    {
+                        var definitions = NightmareDefinitionProbe.Read(game!);
+                        var expectedNames = new[] { "handicap_tutor", "handicap_easy", "handicap_medium", "handicap_hard", "handicap_impossible" }
+                            .Concat(item.Settings.ImprovedAi ? new[] { "handicap_paws_nightmare" } : Array.Empty<string>()).Order().ToArray();
+                        if (!definitions.Order().SequenceEqual(expectedNames)) throw new InvalidDataException("Unexpected live handicaps: " + string.Join(",", definitions));
+                        await File.WriteAllTextAsync(Path.Combine(root, item.Id + "-definitions.json"), JsonSerializer.Serialize(new
+                        { passed = true, pid = game!.Id, aiEnabled = item.Settings.ImprovedAi, definitions, access = "QUERY_LIMITED_INFORMATION | VM_READ", lobbyEdited = false }, Json));
+                    }
                     var evidence = Path.Combine(root, "logs", item.Id + ".txt"); Directory.CreateDirectory(Path.GetDirectoryName(evidence)!);
                     await File.WriteAllTextAsync(evidence, logs);
                     return new Result(item.Id, identity, item.Settings.Channel, item.Settings.Mod, executable, game!.Id,

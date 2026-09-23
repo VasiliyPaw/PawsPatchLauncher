@@ -1,0 +1,94 @@
+
+[RMC template=K2AllRMC]
+{
+	IDS = rmc_desert03
+	name = "#rmc_desert03_name"
+	description = "#rmc_desert03_description"
+	biome = desert
+
+/*	TERRAIN				*/
+
+	[TerrainBlob Template=DesScrubTerrainBlob]
+	
+	[TerrainStreak Template=DesSavannahTerrainStreak]
+	
+	[TerrainBlob Template=DesSavannahTerrainBlob]
+	
+	[TerrainStreak Template=DesSandTerrainStreak]
+	
+	[TerrainBlob Template=DesSandTerrainBlob]
+	
+	[TerrainStreak Template=DesForestTerrainStreak]
+	
+	[TerrainBlob Template=DesForestTerrainBlob]
+	
+	[TerrainBlob Template=DesSandTerrainBlob02]
+	
+	[TerrainBlob Template=DesSavannahTerrainBlob02]
+	
+	[TerrainBlob Template=DesScrubTerrainBlob02]
+
+/*************************** AW TERRAIN ****************************/
+
+	[TerrainStreak Template=DesDenseForestTerrainStreak]
+
+	[TerrainStreak Template=DesDeadlandTerrainStreak]
+	
+	[TerrainBlob Template=DesQuickSandTerrainBlob]
+	
+/* 	DESERT BLOCKING TERRAIN		*/
+
+	[TerrainBlob Template=DesMountainTerrainBlob]
+	
+	[TerrainBlob Template=DesMountainTerrainBlob02]
+
+	[TerrainBlob Template=DesMountainTerrainBlob03]
+
+	[TerrainBlob Template=DesLakeTerrainBlob]
+
+/*	TERRAIN NOISE			*/
+
+	[TerrainNoise Template=DesNoisePhasePre01]
+	
+	[TerrainNoise Template=DesNoisePhase01]
+	
+	[TerrainNoise Template=DesNoisePhase02]
+	
+	[TerrainNoise Template=DesNoisePhase03]
+	
+	[TerrainNoise Template=DesNoisePhase04]
+	
+/*	ACTOR GROUPS ASSIGNED TO KINGDOMS	*/
+
+	[ActorGroup Template=StartSettlement]
+	apply_to_all_major_kingdoms = true
+
+/*	OTHER ACTOR GROUPS 			*/
+
+	[ActorGroup Template=RandomSettlementGroup]
+
+	[ActorGroup Template=FoundationCamps]
+
+	[ActorGroup Template=SettlementCamps]
+
+	[ActorGroup Template=RandomEnclaveGroup]
+
+
+	[ActorGroup Template=CampTechGroup]
+
+	[ActorGroup Template=CampArtifactGroup]
+
+	[ActorGroup Template=CampDesertLairGroup]
+
+	[ActorGroup Template=CampDesertTechGroup]
+
+	[ActorGroup Template=CampDesertLargeLairGroup]
+
+	[ActorGroup Template=CampResourceGroup]
+
+	[ActorGroup Template=DesertHerd]
+
+	[ActorGroup Template=DesertFlock]
+
+	[ActorGroup Template=DesertSchool]
+}

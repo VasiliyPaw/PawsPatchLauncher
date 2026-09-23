@@ -28,6 +28,7 @@ public static class September20Tests
         var feed=Feed(Path.Combine(stage,"publication/test-feeds/stable.json"),config.PublicKeyPem);
         var old=Feed(Path.Combine(stage,"publication/previous/stable.json"),config.PublicKeyPem);
         var beta=Feed(Path.Combine(stage,"publication/test-feeds/beta.json"),config.PublicKeyPem);
+        bool nightmare=beta.PatchGuide?.Version=="0.4.0-beta.2";
         Require(feed.Channel=="stable"&&feed.PatchGuide!.Version=="0.3.3","Wrong release identity");
         Require(feed.PatchGuide!.Entries.All(e=>e.Category!="beta"),"Promoted features still beta-only");
         var installer=new ModuleInstaller(root);var cache=Path.Combine(stage,"test-cache");Directory.CreateDirectory(cache);
@@ -102,6 +103,20 @@ public static class September20Tests
             }
             if(scenario.Settings.Channel=="beta") {
                 var settings=scenario.Settings;
+                if(nightmare) {
+                    bool enabled=settings.PawPatchEnabled&&!settings.DataOnly&&settings.ImprovedAi;
+                    foreach(string n in new[]{"data\\game\\handicaps_paws_nightmare.tgi","data\\properties\\paws_handicap_nightmare.tgi"})
+                        Require(winners.ContainsKey(n)==enabled,"Nightmare option scope: "+ConfigurationCode.Create(settings));
+                    if(settings.PawPatchEnabled&&!settings.DataOnly){
+                        foreach(var row in JsonDocument.Parse(File.ReadAllText(Path.Combine(repo,"game/foundation-placement/data/manifest.json"))).RootElement.EnumerateArray()){
+                            string path=CryptoAndIO.NormalizeRelativePath(row.GetProperty("path").GetString()!);
+                            Require(winners[path].Sha256.Equals(row.GetProperty("after").GetString(),StringComparison.OrdinalIgnoreCase),"Foundation data shadowed: "+path);
+                        }
+                        Require(winners.ContainsKey("data\\ui\\game\\pawgoldsound.png"),"Missing sound button");
+                        foreach(string n in new[]{"data\\ui\\game\\controlpanel\\background.tga","data\\ui\\800\\game\\controlpanel\\background.tga","data\\ui\\1280\\game\\controlpanel\\background.tga"})
+                            Require(winners.ContainsKey(n),"Missing observer frame");
+                    }
+                }
                 string siegePath="data\\units\\gauri\\aw_maelstrom_destroyer.tgi";
                 Require(siegeCosts[winners[siegePath].Sha256]==(settings.SiegeBalance?0.75:0),"Maelstrom balance toggle mismatch: "+ConfigurationCode.Create(settings));
                 if(settings.PawPatchEnabled) {
@@ -134,6 +149,16 @@ public static class September20Tests
             var s=EffectiveSettings.ForFeed(raw,channel);var desired=new Dictionary<string,InstalledModule>();
             foreach(var p in GamePackageSelector.Select(channel,s,s.RussianLocalization,s.CustomPlayerColors))desired[p.Id]=await Prepare(p);
             await installer.ReconcileAsync(desired,settings:s);Require((await installer.VerifyAsync()).Count==0,"Installed file verification failed");transitions++;
+            if(nightmare){
+                bool enabled=channel==beta&&s.PawPatchEnabled&&!s.DataOnly&&s.ImprovedAi;
+                foreach(string n in new[]{"data/game/handicaps_paws_nightmare.tgi","data/properties/paws_handicap_nightmare.tgi"})
+                    Require(File.Exists(Path.Combine(root,n))==enabled,"Nightmare survived an option/channel transition");
+                if(enabled){
+                    string lang=GameLanguages.Text(s);
+                    string locale=Path.Combine(root,lang=="en"?"data/Localization/paws_nightmare.tgi":"Local_ru/Localization/paws_nightmare.tgi");
+                    Require(File.Exists(locale)&&File.ReadAllText(locale).Contains("paws_handicap_nightmare_name"),"Missing installed Nightmare translation");
+                }
+            }
             if(s.PawPatchEnabled&&!s.DataOnly&&channel==feed){
                 Require((await File.ReadAllLinesAsync(Path.Combine(root,"paws_patch_versions.ini"))).Contains("PawPatch=0.3.3"),"Wrong menu identity");
                 var frames=desired["common-ui"].Files.Where(f=>f.Path.Replace('\\','/').StartsWith("skins/")&&f.Path.EndsWith("/background.tga",StringComparison.OrdinalIgnoreCase)).ToList();
@@ -144,6 +169,7 @@ public static class September20Tests
                 using var process=Process.Start(new ProcessStartInfo(Path.Combine(root,exe)){UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true,ArgumentList={"--preflight",root}})!;
                 string output=await process.StandardOutput.ReadToEndAsync(),error=await process.StandardError.ReadToEndAsync();await process.WaitForExitAsync();
                 if(channel==beta)Require(output.Contains("AI_IMPROVEMENTS "+(s.ImprovedAi?"on":"off")),"Wrong native AI activation");
+                if(channel==beta&&nightmare)Require(output.Contains("NIGHTMARE_DIFFICULTY "+(s.ImprovedAi?"on":"off")),"Wrong Nightmare activation");
                 Require(process.ExitCode==0&&output.Contains("PREFLIGHT_PASS"),"Preflight failed: "+exe+" "+error);preflights++;
             }
         }

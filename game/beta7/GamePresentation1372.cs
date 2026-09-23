@@ -12,11 +12,12 @@ using System.Threading;
 internal static class PawGamePresentation
 {
     const int Size=4096;
-    static readonly int[] Sites={0xBF99F,0xFA979};
-    static readonly int[] Targets={0,0x400};
+    static readonly int[] Sites={0xBF99F,0xFA979,0xC772E};
+    static readonly int[] Targets={0,0x400,0x600};
     static readonly byte[][] Expected={
         new byte[]{0xE8,0xFB,0xD3,0x1F,0},
-        new byte[]{0xA1,0xC0,0x3F,0xA5,0}
+        new byte[]{0xA1,0xC0,0x3F,0xA5,0},
+        new byte[]{0xFF,0x92,0xD0,0,0,0}
     };
     [DllImport("kernel32.dll",SetLastError=true)] static extern bool ReadProcessMemory(IntPtr p,IntPtr a,byte[] b,int n,out IntPtr done);
     [DllImport("kernel32.dll",SetLastError=true)] static extern bool WriteProcessMemory(IntPtr p,IntPtr a,byte[] b,int n,out IntPtr done);
@@ -94,7 +95,7 @@ internal static class PawGamePresentation
         using(var r=new BinaryReader(new MemoryStream(Resource("PawCommonUiFixups"))))
         {
             uint count=r.ReadUInt32();
-            if(count>32 || r.BaseStream.Length!=4+12*count) throw new InvalidDataException("Invalid UI fixups");
+            if(count>128 || r.BaseStream.Length!=4+12*count) throw new InvalidDataException("Invalid UI fixups");
             var seen=new HashSet<uint>();
             for(int i=0;i<count;i++)
             {
@@ -117,7 +118,7 @@ internal static class PawGamePresentation
         foreach(uint image in new uint[]{0x460000,0x80000,0x6A0000})
         {
             byte[] menu=ExpectedAt(1,image);
-            if(menu[0]!=0xA1 || BitConverter.ToUInt32(menu,1)!=image+0x5F3FC0 || !Equal(ExpectedAt(0,image),Expected[0]))
+            if(menu[0]!=0xA1 || BitConverter.ToUInt32(menu,1)!=image+0x5F3FC0 || !Equal(ExpectedAt(0,image),Expected[0]) || !Equal(ExpectedAt(2,image),Expected[2]))
                 throw new InvalidDataException("Common UI ASLR signature self-test failed");
         }
         if(!Equal(ExpectedAt(1,0x460000),Expected[1])) throw new InvalidDataException("Baseline UI signature changed");
@@ -169,15 +170,20 @@ internal static class PawGamePresentation
         string suffix=VersionSuffix(File.ReadAllText(Path.Combine(root,menuOnly?"paws_launch_versions.ini":"paws_patch_versions.ini"),Encoding.UTF8));
         if(!File.Exists(Path.Combine(root,"data","UI","Menus","main.tgi")))
             throw new FileNotFoundException("Missing common UI main menu layout");
-        // Steam decrypts code during boot. Validate BOTH sites before any writes.
+        // Older data packages and menu-only launches have no sound-button asset.
+        bool soundButton=!menuOnly && File.Exists(Path.Combine(root,"data","UI","Game","PawGoldSound.png")) &&
+            File.Exists(Path.Combine(root,"data","UI","Game","game_interface.tgi")) &&
+            File.ReadAllText(Path.Combine(root,"data","UI","Game","game_interface.tgi")).Contains("[PawGoldSoundButton Template=PushButtonWidget]");
+        // Steam decrypts code during boot. Validate all selected sites before writes.
         var timer=System.Diagnostics.Stopwatch.StartNew();
         int firstSite=menuOnly?1:0;
-        for(int i=firstSite;i<Sites.Length;i++)
+        int lastSite=soundButton?3:2;
+        for(int i=firstSite;i<lastSite;i++)
         {
             while(true)
             {
-                byte[] found=new byte[5]; IntPtr done; uint exitCode;
-                if(ReadProcessMemory(process,Add(image,Sites[i]),found,5,out done) && done.ToInt64()==5 && Equal(found,ExpectedAt(i,(uint)image.ToInt64()))) break;
+                byte[] found=new byte[Expected[i].Length]; IntPtr done; uint exitCode;
+                if(ReadProcessMemory(process,Add(image,Sites[i]),found,found.Length,out done) && done.ToInt64()==found.Length && Equal(found,ExpectedAt(i,(uint)image.ToInt64()))) break;
                 if(timer.ElapsedMilliseconds>60000 || !GetExitCodeProcess(process,out exitCode) || exitCode!=259)
                     throw new InvalidOperationException("Common UI hook signature mismatch; no UI patch applied");
                 Thread.Sleep(20);
@@ -194,15 +200,16 @@ internal static class PawGamePresentation
             Buffer.BlockCopy(label,0,payload,0x800,label.Length);
             Write(process,cave,payload);
             if(!FlushInstructionCache(process,cave,Size)) throw new Win32Exception();
-            for(int i=firstSite;i<Sites.Length;i++)
+            for(int i=firstSite;i<lastSite;i++)
             {
-                byte[] branch=new byte[5]; branch[0]=(byte)(i==0?0xe8:0xe9);
+                byte[] branch=new byte[Expected[i].Length]; branch[0]=(byte)(i==1?0xe9:0xe8);
+                for(int j=5;j<branch.Length;j++) branch[j]=0x90;
                 int relative=unchecked((int)(cave.ToInt64()+Targets[i]-image.ToInt64()-Sites[i]-5));
                 Buffer.BlockCopy(BitConverter.GetBytes(relative),0,branch,1,4);
                 attempted=i+1; Patch(process,Add(image,Sites[i]),branch);
             }
             File.AppendAllText(logPath,DateTime.Now.ToString("O")+(menuOnly?" MENU_ONLY r1; versions=":" COMMON_UI r1; versions=")+suffix.Replace('\n',';')+
-                "; negativeZero="+(menuOnly?"untouched":"display-only")+"; simulationUntouched=true; cave=0x"+cave.ToInt64().ToString("X8")+Environment.NewLine);
+                "; negativeZero="+(menuOnly?"untouched":"display-only")+"; goldSoundButton="+soundButton+"; simulationUntouched=true; cave=0x"+cave.ToInt64().ToString("X8")+Environment.NewLine);
         }
         catch
         {

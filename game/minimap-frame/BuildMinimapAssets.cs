@@ -62,7 +62,8 @@ internal static class BuildMinimapAssets
         string input=Find(Path.Combine(Root,"source",race,variant));
         var t=new Tga(input);byte[] before=(byte[])t.Raw.Clone();
         using(var original=t.Bitmap())
-        using(var material=new Bitmap(Path.Combine(Root,"materials",race+".png")))
+        // Stock fallback UI is Human at 1024, but Gauri at 800/1280.
+        using(var material=new Bitmap(Path.Combine(Root,"materials",race=="Observer"&&variant!=Variants[0]?"Gauri.png":race+".png")))
         {
             // The game letterboxes its square minimap in a non-uniformly scaled UI.
             double cx=135.0*t.W/1024.0, cy=132.0*t.H/256.0;
@@ -112,7 +113,7 @@ internal static class BuildMinimapAssets
                 if(!hole[y*t.W+x])outsideChanges++;
             }
             if(insideChanges!=0||outsideChanges!=0||changed<300)throw new Exception("Invalid gutter clip "+race+" "+variant);
-            string relative="skins/"+race+"/"+variant+"/Background.tga";
+            string relative=(race=="Observer"?"data/":"skins/"+race+"/")+variant+"/Background.tga";
             string target=Path.Combine(Root,"payload",relative);Directory.CreateDirectory(Path.GetDirectoryName(target));File.WriteAllBytes(target,t.Raw);
             string texturePreview=Path.Combine(Root,"previews","textures",Path.ChangeExtension(relative,".png"));
             Directory.CreateDirectory(Path.GetDirectoryName(texturePreview));
@@ -180,9 +181,10 @@ internal static class BuildMinimapAssets
             Root=Path.GetFullPath(args[0]);Aspect=double.Parse(args[1],CultureInfo.InvariantCulture);
             if(Aspect<1.34||Aspect>3.6)throw new Exception("This local asset fitter is for widescreen displays");
             Directory.CreateDirectory(Path.Combine(Root,"previews"));
-            foreach(string race in Races)foreach(string variant in Variants)Build(race,variant);
+            bool observer=args.Length>2&&args[2]=="--observer";
+            foreach(string race in observer?new[]{"Observer"}:Races)foreach(string variant in Variants)Build(race,variant);
             File.WriteAllText(Path.Combine(Root,"assets.tsv"),"path\twidth\theight\tchangedPixels\tsourceSha256\tsha256\n"+string.Join("\n",Rows)+"\n",new UTF8Encoding(false));
-            Previews(args[2]);return 0;
+            if(!observer)Previews(args[2]);return 0;
         } catch(Exception e){Console.Error.WriteLine(e);return 1;}
     }
 }

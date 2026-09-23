@@ -1,5 +1,7 @@
-/* Local AI experiment. All callbacks run on the native decision-making thread.
- * No OS calls, RNG, commands, ownership or health writes. Native resource
+/* Local AI experiment. Decision callbacks run on the native AI thread;
+ * route callbacks use the engine's serialized synchronous path-query scope.
+ * No OS calls, RNG, ownership or health writes. Surplus civilian companies
+ * use the native Disband command transport on the AI thread. Native resource
  * queries use short-lived engine vectors on this same simulation thread. */
 typedef unsigned int U;
 typedef unsigned short W;
@@ -11,7 +13,33 @@ typedef struct { U serial, world; float time; U kind, kingdom, object, definitio
  float before,after,gold,income,used,capacity,x,y; char name[60]; U commit; } Event;
 typedef struct { U object,world,kind,hash; float time; } Seen;
 typedef struct { U world; float time; U used; } Budget;
-typedef struct { U sequence,mask,counts[30]; Event events[EVENTS]; Seen seen[8192]; Budget budget[2]; U query; } Data;
+#include "routing_types.h"
+typedef struct { U world,kingdom,camp,cities; float time,strength; } Expansion;
+typedef struct { U world,kingdom,id,city; float since,last,cooldown; U destination; } DefenseUnit;
+typedef struct { U world,kingdom; float last,dispatch; } DefensePlayer;
+typedef struct { U world,kingdom,id; float time,x,y; } DefenseDamage;
+typedef struct { U world,kingdom; float last; U camp; } ClearingPlayer;
+typedef struct { U world,kingdom,camp,goal; float time,x,y; } ClearingRally;
+typedef struct { U world,kingdom,target,site,recruit,layout; float time,observed; } Economy;
+typedef struct { U world,kingdom; float last; } ExpansionPulse;
+
+/* Mirror only native owned-field registration, never denizen registration.
+ * Keys encode an immutable definition pointer plus the property-table bit. */
+typedef struct { U key,count; } RecruitCountEntry;
+typedef struct { U id,definition; } RecruitCountMember;
+typedef struct { U player,ready; RecruitCountEntry entries[2048]; RecruitCountMember members[4096]; } RecruitCounts;
+typedef struct { U world,kingdom,target,valid,count,sites[512]; float time; U counted,owned[2],queued[2],unscored; } BuilderSites;
+typedef struct { U world,kingdom,id,camp,goal; float surplusSince,last,sent; } BuilderWork;
+typedef struct { U sequence,mask,counts[30]; Event events[EVENTS]; Seen seen[8192]; Budget budget[2]; U query; Route route; Expansion expansion[96]; DefenseUnit defenders[4096]; DefensePlayer defensePlayers[96]; DefenseDamage damage[4096]; ClearingPlayer clearing[96]; U constructionBusy; ClearingRally rallies[96]; Economy economy[192]; U economyBusy; } Data;
+typedef struct { Data base; ExpansionPulse pulses[96]; U fastPlayer; U pulseGoals[4096]; U commandCount,commandGoals[64],expansionRegions[2048]; U noticeWorld,noticeTime,noticeSeen; U recruitWorld,recruitScope; RecruitCounts recruitCounts[96]; BuilderSites builderSites[192]; BuilderWork builderWork[4096]; U builderBusy,recruitDefinition; } FastData;
+static void expansion_changed(Data*d,U pl,U goal){
+ FastData*f=(FastData*)d;U i;if(!f->fastPlayer||f->fastPlayer!=pl)return;
+ for(i=0;i<f->commandCount;i++)if(f->commandGoals[i]==goal)return;
+ if(i<64)f->commandGoals[f->commandCount++]=goal;
+}
+__attribute__((dllexport)) U policy_data_size=sizeof(FastData);
+__attribute__((dllexport)) U routing_size=sizeof(Route);
+__attribute__((dllexport)) U routing_report_offset=sizeof(Route)-sizeof(RouteReport);
 typedef U (*Query)(U image,U def,U layout,float* values);
 typedef struct { U resource; float need,used,cap; } Limit;
 static int finite(float a) { U b=*(U*)&a; return (b&0x7f800000)!=0x7f800000; }
@@ -40,7 +68,13 @@ static void limit_check(U image,Data*d,U k,U def,U layout,U production,U upkeep,
 }
 static int live_actor(U image,U actor) {
  U reg=P(image,0x5ef72c),id;if(!reg||!actor)return 0;
- id=P(actor,0x14);return id&&P(reg,0x20004+4*(id&65535))==actor;
+ /* The registry holds all KKC objects, not only gameplay actors. A valid
+  * registered ID does not authorize reading the larger GActor layout.
+  * Check its exact 1.3.7.2 primary vtable before any actor-specific field.
+  * Also reject a recycled ID using the native registry generation array. */
+ if(P(actor,0)!=image+0x4e5c58)return 0;
+ id=P(actor,0x14);return id&&P(reg,0x20004+4*(id&65535))==actor
+  &&*(W*)(reg+4+2*(id&65535))==(W)(id>>16);
 }
 static U invalid_center(U image,U component) {
  if(!component)return 1;
@@ -126,6 +160,7 @@ static void emit(U image,Data*d,U mode,U obj,U pl,U def,U result,float before,fl
  if(mode==3&&P(obj,4)){e->used=(float)P(P(obj,4),0x14);}
  if(mode==4||mode==5){e->used=limit->used;e->capacity=limit->cap;}
  if(mode>=6&&actor){e->used=(float)P(actor,0x14);}
+ if(((mode>=33&&mode<=35)||mode==39||mode==51||mode==53)&&obj)e->capacity=(float)P(obj,0x4c);
  if(mode==9&&P(obj,0x14)){e->capacity=(float)P(P(obj,0x14),0x14);}
  if(k){U pr=P(k,0x1a8),up=P(k,0x1c0),st=P(k,0x1cc);
   if(pr&&up){e->income=F(pr,0)-F(up,0);}
@@ -133,26 +168,88 @@ static void emit(U image,Data*d,U mode,U obj,U pl,U def,U result,float before,fl
  }
  name(e->name,def);e->commit=n;e->serial=n;d->sequence=n;
 }
+#include "routing.c"
+#include "expansion.c"
+#include "opening_capture.c"
+static int clearing_reserved(U image,Data*d,U pl,U sa);
+#include "defense.c"
+#include "clearing.c"
+static int builder_site_claimed(U image,U pl,U goal,U sa);
+#include "construction.c"
+#include "militia.c"
+static int builder_missing(U image,Data*d,U pl,U target);
+#include "economy.c"
+#include "builder_fleet.c"
+#include "scouting.c"
+#include "expansion_pulse.c"
+#include "supply.c"
+#include "notice.c"
+#include "recruit_counts.c"
 __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,float*result) {
+ if(mode==50){if((d->mask&8)&&(*(U*)result&255)){U a=P(obj,4),pl=live_actor(image,a)?ai_for_kingdom(image,P(a,0xe8)):0;if(builder_enabled(image,pl)&&route_builder(image,a))*(U*)result&=0xffffff00;}return;}
+ if(mode==49){if(d->mask&8)builder_hero_score(image,d,obj,args,result);return;}
+ if(mode>=40&&mode<=48){if(mode==46||mode==47||mode==48)builder_invalidate(d,mode==48?0:obj,mode==48);recruit_counts_evaluate(image,d,mode,obj,args,result);return;}
+ if(mode==39){goal_notice(image,d,result);return;}
+ if(mode==34){if(d->mask&8)expansion_pulse(image,d,obj);return;}
+ if(mode==35||mode==36||mode==37||mode==38){expansion_fast_dispatch(image,d,mode,obj,args,result);return;}
+ if(mode==33){if(d->mask&8)scouting_reveal(image,d,obj,args,result);return;}
+ /* At 5B738 args[5] is the caller's saved enemy CV, consumed by FDIVR
+  * at 5B73D. Only an empty/empty region gets a neutral ratio of zero.
+  * All nonzero, negative and nonfinite inputs retain native behavior. */
+ if(mode==25){if((d->mask&8)&&*result==0&&*(float*)&args[5]==0)*result=1;return;}
+ if(mode==29){
+  U pl=player(obj);
+  if(supply_capped(image,d,pl,P(obj,0x44))){*(U*)result=1;return;}
+  if((d->mask&8)&&pl&&args[0]&&args[1]&&economy_slot(image,d,pl,P(obj,0x44),P(obj,0x48),P(args[0],4),P(args[1],4))) *(U*)result=1;
+  return;
+ }
+ if(mode==30){if((d->mask&8)&&(*(U*)result&255)&&economy_spend(image,d,obj,args[0]))*(U*)result&=0xffffff00;return;}
+ if(mode==31){if(d->mask&8)economy_replace(image,d,args[0],result);return;}
+ if(mode==32){
+  U g=obj-0xc,pl;
+  if((d->mask&8)&&(*(U*)result&255)&&P(g,0)==image+0x4d9274&&args[0]==g+0x50
+    &&economy_center(P(g,0x44),P(g,0x48),0)){
+   pl=player(g);
+   if(!pl||!economy_swap_ready(image,d,pl,g)||!economy_swap_safe(image,d,pl,P(g,0x50),g,1))*(U*)result&=0xffffff00;
+  }
+  return;
+ }
+ if(mode==24){if((d->mask&8)&&!opening_large_candidate(image,d,obj,args[0],result))expansion_candidate(image,d,obj,args[0],result);return;}
+ if(mode==23){if(d->mask&8){construction_recruit(image,d,obj,args);clearing_recruit(image,d,obj,args);builder_wait(image,d,obj,args);clearing_rally_recruit(image,d,obj,args);scouting_evaluate(image,d,obj,args);}return;}
+ if(mode==18&&(d->mask&8)){builder_admission(image,d,obj,args[0],result);opening_capture_admission(image,d,obj,args[0],result);construction_admission(image,d,obj,args[0],result);clearing_staffed_admission(image,d,obj,args[0],result);}
+ if(mode==22){if(d->mask&8){construction_recruit(image,d,obj,args);clearing_evaluate(image,d,obj,args);builder_wait(image,d,obj,args);clearing_rally_recruit(image,d,obj,args);}return;}
+ if(mode==17||mode==18||mode==20||mode==21){if(d->mask&8)defense_evaluate(image,d,mode,obj,args,result);return;}
+ if(mode>=11){if(d->mask&8)route_evaluate(image,d,mode,obj,args,result);return;}
  U pl=0,def=0;float before=0,after=0;
  if(mode>=4){
   U k=0,code=*(U*)result,actor=0;Limit hit={0,0,0,0};
   if(mode==4||mode==5){pl=player(obj);k=pl?P(pl,8):0;def=mode==4?args[0]:P(obj,0x44);}
   else {actor=mode==8?args[0]:P(obj,4);k=actor?P(actor,0xe8):0;pl=ai_for_kingdom(image,k);def=mode==8?args[1]:args[0];}
   if(mode==4){
+   U target=0,layout=(P(def,0x174)&128)?P(def,0x2f0):0;
+   if((code&255)&&k&&(d->mask&8))target=economy_need(image,d,pl,def,layout);
    if((code&255)&&k&&(d->mask&2)){
-    U layout=(P(def,0x174)&128)?P(def,0x2f0):0;
     limit_check(image,d,k,def,layout,P(k,0x1a8),P(k,0x1c0),0,&hit);
-    if(hit.resource){*(U*)result=code&0xffffff00;d->counts[28]++;}
+    /* The native final planner can replace an old company for a genuinely
+     * needed builder. Other capacity shortages retain the strict veto. */
+    if(hit.resource&&!(target&&hit.resource==economy_unit_resource(image))){*(U*)result=code&0xffffff00;d->counts[28]++;}
    }
-   code=hit.resource?hit.resource:(code&255)?0:0xffffffffu;
+   if((*(U*)result&255)&&k&&(d->mask&8)&&economy_slot(image,d,pl,def,layout,P(k,0x1a8),P(k,0x1c0))){*(U*)result=code&0xffffff00;}
+   if((*(U*)result&255)&&supply_capped(image,d,pl,def)){*(U*)result=code&0xffffff00;emit(image,d,54,obj,pl,def,1,2,2,0,0,0,0);}
+   if((*(U*)result&255)&&builder_recruit_capped(image,d,pl,def,layout)){*(U*)result=code&0xffffff00;}
+   code=(*(U*)result&255)?0:hit.resource?hit.resource:(code&255)?0xfffffffdu:0xffffffffu;
   }else if(mode==5){
    /* Original function has already reserved the candidate's limited upkeep
     * on success (AL=0); a rejection (AL=1) leaves the two vectors unchanged. */
    if(k)limit_check(image,d,k,def,P(obj,0x48),P(args[0],4),P(args[1],4),(code&255)==0,&hit);
    code=hit.resource?hit.resource:(code&255)?0xfffffffeu:0;
-  }else if(mode==6){code=1;}
-  else if(mode==7||mode==10){code=code&255;}
+  }else if(mode==6){builder_invalidate(d,pl,0);code=1;}
+  else if(mode==7||mode==10){
+   if(mode==10)builder_invalidate(d,pl,0);
+   if(mode==7&&(code&255)&&supply_capped(image,d,pl,def)){*(U*)result=code&0xffffff00;emit(image,d,54,obj,pl,def,2,2,2,0,0,actor,0);}
+   if(mode==7&&(*(U*)result&255)&&builder_recruit_capped(image,d,pl,def,args[1]))*(U*)result=code&0xffffff00;
+   code=*(U*)result&255;
+  }
   else if(mode==8){U blocked=args[4]?P(args[4],0):0;code=blocked?P(blocked,0xc)+1:0;}
   else if(mode==9){
    code=(d->mask&4)?invalid_center(image,obj):0;
@@ -169,6 +266,14 @@ __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,floa
  else if(mode==2){pl=obj;def=args[0];before=after=*result;}
  else if(mode==1){def=P(obj,0x44);before=after=F(obj,0x38);}
  else {U vt=P(obj,0)-image;if(vt==0x4d9274)def=P(obj,0x44);else if(vt==0x4da6b0)def=P(obj,0x44);else if(vt==0x4da628||vt==0x4da738)def=P(obj,0x40);before=after=F(obj,0x38);}
+ if(mode==0&&(d->mask&8)){
+  U reason=5,blocked=finite(before)&&before>0?opening_large_target(image,obj,pl):0;
+  if(!blocked){reason=4;blocked=finite(before)&&before>0?opening_capture_target(image,obj,pl):0;}
+  if(blocked){
+   after=0;F(obj,0x38)=0;d->counts[19]++;
+   emit(image,d,31,obj,pl,P(blocked,4),reason,before,0,F(blocked,0x20),F(blocked,0x24),blocked,0);
+  }else {after=expansion_priority(image,d,obj,pl,before);after=militia_priority(image,d,obj,pl,after);}
+ }
  if(mode==2&&(d->mask&1)&&finite(before)&&before>0&&allied_site_busy(image,pl,def,*(float*)&args[1],*(float*)&args[2])){after=0;*result=0;d->counts[20]++;}
  /* result is not an EAX return for void callees. Publish goal vtable RVA
   * there instead; preparation reports whether a city was selected. */

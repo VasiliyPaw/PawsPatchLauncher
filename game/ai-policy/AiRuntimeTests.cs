@@ -9,7 +9,15 @@ internal static class AiRuntimeTests {
   internal int Operations,FailAt=-1;internal bool Allocated,PersistentFailure;
   internal void Seed(uint a,byte[] b){for(int i=0;i<b.Length;i++){uint p=a+(uint)i;if(p>=0x60000000&&p<0x60000000+allocated.Length)allocated[p-0x60000000]=b[i];else bytes[p]=b[i];}}
   void Op(){if(++Operations==FailAt)throw new IOException("injected failure");}
-  internal Memory(uint image){for(int i=0;i<AiPolicyPayload.Sites.Length;i++)Seed(image+AiPolicyPayload.Sites[i]-3,TerrainPatch.Hex(AiPolicyPayload.Guards[i]));}
+  internal Memory(uint image){for(int i=0;i<AiPolicyPayload.Sites.Length;i++){
+   var guard=TerrainPatch.Hex(AiPolicyPayload.Guards[i]);
+   // Independent native-instruction fixture: mov eax,[image+0x5f3fb8]
+   // follows the grid-cost call. Do not seed this from production Guard().
+   if(AiPolicyPayload.Sites[i]==0x262c71)Buffer.BlockCopy(BitConverter.GetBytes(image+0x5f3fb8),0,guard,9,4);
+   if(AiPolicyPayload.Sites[i]==0x1e4807)Buffer.BlockCopy(BitConverter.GetBytes(image+0x5f3fc8),0,guard,10,4);
+   if(AiPolicyPayload.Sites[i]==0x1e15c1)Buffer.BlockCopy(BitConverter.GetBytes(image+0x5f8720),0,guard,1,4);
+   Seed(image+AiPolicyPayload.GuardStarts[i],guard);
+  }}
   public byte[] Read(uint a,int n){Op();var result=new byte[n];for(int i=0;i<n;i++){uint p=a+(uint)i;if(p>=0x60000000&&p<0x60000000+allocated.Length)result[i]=allocated[p-0x60000000];else bytes.TryGetValue(p,out result[i]);}return result;}
   public void Write(uint a,byte[] b){Seed(a,b.Take(2).ToArray());Op();Seed(a,b);}
   public void WriteCode(uint a,byte[] b){Seed(a,b.Take(2).ToArray());Op();if(PersistentFailure)throw new IOException("persistent partial write");Seed(a,b);}
@@ -20,9 +28,9 @@ internal static class AiRuntimeTests {
  }
  static int checks;
  static void Check(bool ok){checks++;if(!ok)throw new Exception("Check "+checks);}
- internal static int Main(){foreach(uint image in new uint[]{0x460000,0xf20000,0x18000000}){
+ internal static int Main(){foreach(uint image in new uint[]{0x460000,0x3a0000,0x860000,0x18000000}){
   var success=new Memory(image);uint cave=AiPolicyRuntime.InstallNative(success,image,delegate{});int operations=success.Operations;
-  Check(success.Allocated);Check(BitConverter.ToUInt32(success.Read(cave+(uint)AiPolicyPayload.DataOffset+4,4),0)==7);
+  Check(success.Allocated);Check(BitConverter.ToUInt32(success.Read(cave+(uint)AiPolicyPayload.DataOffset+4,4),0)==15);
   Check(BitConverter.ToUInt32(success.Read(cave+(uint)AiPolicyPayload.DataOffset+(uint)AiPolicyPayload.QueryPointerOffset,4),0)==cave+(uint)AiPolicyPayload.QueryOffset);
   for(int i=0;i<AiPolicyPayload.Sites.Length;i++)Check(success.Read(image+AiPolicyPayload.Sites[i],5).SequenceEqual(TerrainPatch.Call(image+AiPolicyPayload.Sites[i],cave+AiPolicyPayload.Offsets[i])));
   for(int fault=1;fault<=operations;fault++){

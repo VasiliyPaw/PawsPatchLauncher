@@ -60,7 +60,7 @@ internal static class BuildFeatures
         const string exhaustion = "";
 #endif
 #if AI_POLICY
-        const string ai = ",\"aiPolicyRevision\":5,\"builtInAiDiagnostics\":true,\"aiImprovementsSelectable\":true";
+        const string ai = ",\"aiPolicyRevision\":31,\"builtInAiDiagnostics\":true,\"aiImprovementsSelectable\":true";
 #else
         const string ai = "";
 #endif
@@ -89,6 +89,21 @@ internal static class BuildFeatures
 #else
         const string allyEconomy="";
 #endif
+#if FOUNDATION_COUNTS
+        const string foundationCounts=",\"foundationDistributionRevision\":2,\"settlementCampPercent\":80,\"foundationCampPercent\":20";
+#else
+        const string foundationCounts="";
+#endif
+#if ENGINE_CRASH_FIXES
+        const string crashFixes=",\"sharedAnimationTargetGuardRevision\":1,\"missingNetworkClientGuardRevision\":1";
+#else
+        const string crashFixes="";
+#endif
+#if NIGHTMARE_DIFFICULTY
+        const string nightmare=",\"nightmareDifficultyRevision\":3,\"nightmareRequiresAiImprovements\":true";
+#else
+        const string nightmare="";
+#endif
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
@@ -99,7 +114,7 @@ internal static class BuildFeatures
             ",\"automaticMines\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"newCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"startingCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
-            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + lairRecovery + camera + companyPosition + exhaustion + ai + botLobby + fractions + graphics + settlementSlots + allyEconomy + "}");
+            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + lairRecovery + camera + companyPosition + exhaustion + ai + botLobby + fractions + graphics + settlementSlots + allyEconomy + crashFixes + foundationCounts + nightmare + "}");
         return 0;
     }
 }

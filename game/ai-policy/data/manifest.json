@@ -2,7 +2,7 @@
   {
     "path": "data/SAI/drauga_hard.tgi",
     "before": "5f9edc2a99266a609c6ba0e0349696a3afed899749d02f1c9bf7ea2c3954f3d7",
-    "after": "245c35538042e9b689e32ffb80f2b2d20a55c417809246e546b55d2a1e9afde4",
+    "after": "1a7184219095bde53032a61eee0912f32a6ca4cce600e78d19656df58fe19c93",
     "changes": [
       {
         "owner": "DraugaDefaultK2Ego_1",
@@ -57,13 +57,153 @@
         "property_ids": "company_siege",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "drauga_hard_emergency_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "drauga_ranged_build_template_1",
+        "target": "drauga_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "drauga_economic_build_template_1",
+        "target": "drauga_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "drauga_intiial_build_template_1",
+        "target": "drauga_quarry"
+      },
+      {
+        "owner": "drauga_hard_initial_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_drauga_hard_military_city"
+      },
+      {
+        "owner": "drauga_hard_main_path_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_drauga_hard_military_city"
+      },
+      {
+        "owner": "drauga_hard_emergency_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/drauga_hard_2.tgi",
     "before": "6849680b355d58406531d19e97ee70605c229fbd0d2cc4700107f4e51b86a221",
-    "after": "19c8921511947acdfa26dd2d7df58cb748e75ba057de4792e234e75a342a2198",
+    "after": "81b03a7aea4db859ca91623e000f519bb8a6879b642afbe4bd33f6fe62dd8a07",
     "changes": [
       {
         "owner": "drauga_hard_rusher_need_settlements_ego_2",
@@ -112,13 +252,148 @@
         "property_ids": "company_siege",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "draugarusher_hard_emergency_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "draugarusher_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "draugarusher_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "draugarusher_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "drauga_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "drauga_need_settlements_build_template_2",
+        "target": "drauga_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "drauga_attack_build_template_2",
+        "target": "drauga_quarry"
+      },
+      {
+        "owner": "drauga_hard_rusher_need_settlements_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_drauga_hard_2_military_city"
+      },
+      {
+        "owner": "drauga_hard_rusher_attack_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_drauga_hard_2_military_city"
+      },
+      {
+        "owner": "draugarusher_hard_emergency_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/gauri_hard.tgi",
     "before": "34b45ed59706da65138da8ba7d00ddfe0256ba7cbe999c35004613499d1f9cfe",
-    "after": "d23d476a0e3eaab5aa51b463da82ef7a2b2993a00cecbe943cd00edb7138c9d1",
+    "after": "417ffb9904326491be6bdf0043c5dd1c135dcbfa82cb5ebf1bc43251d99a21c6",
     "changes": [
       {
         "owner": "GauriDefaultK2Ego_1",
@@ -193,13 +468,148 @@
         "property_ids": "company_siege",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "economic_gauri_hard_build_template",
+        "target": "gauri_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "initial_gauri_hard_build_template",
+        "target": "gauri_quarry"
+      },
+      {
+        "owner": "gauri_hard_initial_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_gauri_hard_military_city"
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_gauri_hard_military_city"
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/gauri_hard_2.tgi",
     "before": "c88f3fa8ee438dea9d75aa6ffe5d575f8d77b8c56792ffb49a0c3a1e9429086f",
-    "after": "5a2cc15c2adf1b1bdc2f35173afc05f7155ce0853366255d52c0b9a15138c47a",
+    "after": "fc474eeb14585f5b775f9c1bc05c237a2d227edaef84ebba5cd6813ce8474485",
     "changes": [
       {
         "owner": "GauriDefaultK2Ego_2",
@@ -260,13 +670,138 @@
         "property_ids": "company_siege",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "gauri_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "owner": "gauri_hard_initial_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_gauri_hard_2_military_city"
+      },
+      {
+        "owner": "gauri_hard_main_path_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_gauri_hard_2_military_city"
+      },
+      {
+        "owner": "gauri_hard_emergency_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/haroun_hard.tgi",
     "before": "ed612ac1a9b7ab3ed71470ce34cd0b05810b718dff449091ffbefc48a1c1af82",
-    "after": "7d7a198243ea05279a523914cdde1e8de893ff4fde72656e71e04c0df65bece4",
+    "after": "93ca23774a8e12dd988003576de56f37e83fdd7a6c2db827c4093d92887a57ea",
     "changes": [
       {
         "owner": "HarounDefaultK2Ego_1",
@@ -327,13 +862,148 @@
         "property_ids": "company_mage",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "economic_haroun_build_template",
+        "target": "haroun_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "initial_haroun_build_template",
+        "target": "haroun_quarry"
+      },
+      {
+        "owner": "haroun_hard_initial_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_haroun_hard_military_city"
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_haroun_hard_military_city"
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/haroun_hard_2.tgi",
     "before": "2385b534f75386a730e42744a3b9b5f289af7ef1e08300f5b7c38e511757886e",
-    "after": "a657096337facdf7cffd8ef28e0020915be43027663885e96eb2c45e627cba2d",
+    "after": "407a07296036caecb0825edab12439f5d45723cc8c30d59fbd8c1013dfdb5517",
     "changes": [
       {
         "owner": "HarounDefaultK2Ego_2",
@@ -394,13 +1064,138 @@
         "property_ids": "company_siege",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "haroun_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "owner": "haroun_hard_initial_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_haroun_hard_2_military_city"
+      },
+      {
+        "owner": "haroun_hard_main_path_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_haroun_hard_2_military_city"
+      },
+      {
+        "owner": "haroun_hard_emergency_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/human_hard.tgi",
     "before": "530e5f40f132f460484e8f8fba71ae447b321b37ae7c81bc086eece233b5eae2",
-    "after": "850b5dc5c78c413d7e760226b69d1582370ccf68a9e8310d2fd9caefc5c64e5b",
+    "after": "727246b956e784b46183ce74a9bee8719f0d81122480fc8d51be6a712da97313",
     "changes": [
       {
         "owner": "HumanDefaultK2Ego_1",
@@ -461,13 +1256,184 @@
         "property_ids": "company_mage",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "human_hard_emergency_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "economic_human_hard_build_template",
+        "target": "human_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "initial_human_hard_build_template",
+        "target": "human_quarry"
+      },
+      {
+        "owner": "human_hard_initial_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_human_hard_military_city"
+      },
+      {
+        "owner": "human_hard_main_path_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_human_hard_military_city"
+      },
+      {
+        "owner": "human_hard_emergency_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/human_hard_2.tgi",
     "before": "9ead860694200114f18f389ee5a3c7d7bacb96d302a25275f814530427812d75",
-    "after": "9cdfcec8d2e8f7a820b1704253b5615e10b85d4bedc5e565c8362d53e18a268a",
+    "after": "c6938315c3f0a7eefc4ac12cf2d4d50b839761e45fd54e30da92a51c1a8f2e78",
     "changes": [
       {
         "owner": "humanDefaultK2Ego_2",
@@ -535,13 +1501,174 @@
         "property_ids": "company_mage",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "human_hard_emergency_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereigncou_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignnat_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "human_center_sovereignroy_militia",
+        "after": 100000
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "owner": "human_hard_initial_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_human_hard_2_military_city"
+      },
+      {
+        "owner": "human_hard_main_path_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_human_hard_2_military_city"
+      },
+      {
+        "owner": "human_hard_emergency_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/shadow_hard.tgi",
     "before": "fc3c5e46f670846b6eda92ec0104e4401efb51527f7f447cb127e9a321c09c55",
-    "after": "69d4ceb6c23370c95c6ad9f66a8b73a71eacac6a0f513f4d42d3523514db0e61",
+    "after": "44e438bd21d570097e7e54374d76ea8cb96eee4242def6ba7c1d9c63f61447d7",
     "changes": [
       {
         "owner": "ShadowDefaultK2Ego_1",
@@ -584,13 +1711,130 @@
         "property_ids": "company_mage",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "shadow_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "shadow_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "shadow_hard_initial_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "shadow_hard_main_path_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "shadow_hard_emergency_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "shadow_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_sovereign_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_sovereign_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_sovereign_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "shadow_economic_build_template_1",
+        "target": "shadow_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "shadow_initial_build_template_1",
+        "target": "shadow_quarry"
+      },
+      {
+        "owner": "shadow_hard_initial_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_shadow_hard_military_city"
+      },
+      {
+        "owner": "shadow_hard_main_path_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_shadow_hard_military_city"
+      },
+      {
+        "owner": "shadow_hard_emergency_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/shadow_hard_2.tgi",
     "before": "cad87bcd4c329da746c97e618b3f3818b09f926e4f24d94180e94c5c43521e27",
-    "after": "20a1304fc442574abcf2d1dd3989fcbd595fb7f2664325765ae26e3c16216b38",
+    "after": "5b8e6ef7a0da4d5ca4fe8d08c94a3b8bfc0cf4a26801f43257312e08b7ec06ae",
     "changes": [
       {
         "owner": "shadow_hard_rusher_need_settlements_ego_2",
@@ -626,13 +1870,130 @@
         "property_ids": "company_siege",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "shadow_hard_rusher_attack_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "shadowrusher_hard_emergency_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_sovereign_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_rusher_attack_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_rusher_attack_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_sovereign_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadowrusher_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadowrusher_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "shadow_center_sovereign_militia",
+        "after": 100000
+      },
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "shadow_need_settlements_build_template_2",
+        "target": "shadow_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "shadow_attack_build_template_2",
+        "target": "shadow_quarry"
+      },
+      {
+        "owner": "shadow_hard_rusher_need_settlements_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_shadow_hard_2_military_city"
+      },
+      {
+        "owner": "shadow_hard_rusher_attack_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_shadow_hard_2_military_city"
+      },
+      {
+        "owner": "shadowrusher_hard_emergency_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/undead_hard.tgi",
     "before": "0621dbe99e0e696318d3880b96cf2cb05e391b17be58b53df08d3fbb8d9c4fa0",
-    "after": "5d815236fe9d5569b68d3af00ce9772be2c0036bbbf0f4ac26dca60c356b759d",
+    "after": "19309c2af8ec00c88520a6ea0ca8ed9d671e4cae7c8a258925a83e28ce253b08",
     "changes": [
       {
         "owner": "UndeadDefaultK2Ego_1",
@@ -700,13 +2061,153 @@
         "property_ids": "company_mage",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "undead_hard_emergency_ego_1",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereignfal_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereignfal_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_emergency_ego_1",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereignfal_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "ranged_undead_build_template",
+        "target": "undead_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "economic_undead_build_template",
+        "target": "undead_quarry"
+      },
+      {
+        "field": "city_plan_quarry_first",
+        "plan": "initial_undead_build_template",
+        "target": "undead_quarry"
+      },
+      {
+        "owner": "undead_hard_initial_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_undead_hard_military_city"
+      },
+      {
+        "owner": "undead_hard_main_path_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_undead_hard_military_city"
+      },
+      {
+        "owner": "undead_hard_emergency_ego_1",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },
   {
     "path": "data/SAI/undead_hard_2.tgi",
     "before": "2b7fa7593de7ce85f3ff74b05d61852e49cf6b8667954b99e5a7883b14cb929b",
-    "after": "11e09935176735ccc115d2984c1bf10c14a871255d3ed1270a37ce61b64507f0",
+    "after": "3562ccbf7605d0f4f4902f5c38bb9cac55f8954c88c7fdf25904a976bc405626",
     "changes": [
       {
         "owner": "UndeadDefaultK2Ego_2",
@@ -774,6 +2275,131 @@
         "property_ids": "company_mage",
         "before": 0,
         "after": 0.2
+      },
+      {
+        "field": "elite siege exact-ID recruitment requests",
+        "basePriority": 9000,
+        "repeatPenalty": -1250,
+        "economicWeight": 0.2,
+        "numberToRequest": 6,
+        "definitions": [
+          "company_dragonfire_balistae",
+          "company_Maelstrom_engine",
+          "company_vorpal_engine",
+          "company_crimson_catapult",
+          "company_plague_catapult"
+        ]
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 2,
+        "after": 5
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 5,
+        "after": 3
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "20",
+        "after": 10
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "undead_hard_emergency_ego_2",
+        "field": "strategic_think_frequency",
+        "before": "inherit",
+        "after": 20
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereignfal_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereignfal_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_citadel_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereigncey_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_emergency_ego_2",
+        "field": "final_militia_upgrade_priority",
+        "target": "undead_center_sovereignfal_militia",
+        "after": 100000
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "group": "Exploration/CloseGoals",
+        "field": "num_goals",
+        "before": 3,
+        "after": 5
+      },
+      {
+        "owner": "undead_hard_initial_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_undead_hard_2_military_city"
+      },
+      {
+        "owner": "undead_hard_main_path_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": "paw_aw_undead_hard_2_military_city"
+      },
+      {
+        "owner": "undead_hard_emergency_ego_2",
+        "field": "aw_city_prerequisites",
+        "quarry_one_time_bonus": 1500,
+        "military_template": null
       }
     ]
   },

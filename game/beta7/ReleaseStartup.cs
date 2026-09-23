@@ -11,6 +11,7 @@ using System.Threading;
 
 internal static class ReleaseStartup
 {
+    internal const string TemplateDataHash = "DFD1B5E15507D9FE70DA7CAEDE5874DD0FC2E420B467BD662C5DDDE8DF6655E8";
 #if LOBBY_COMPATIBILITY
     internal const string Build = "beta." + PawLobbyCompatibility.Version + "-1372-city-policy23-transfer-r2-lobby1-quiet";
 #elif FAST_SAVE_TRANSFER
@@ -66,8 +67,8 @@ internal static class ReleaseStartup
     {
         string[][] files = {
             new[] { @"data\Game\world_rules_k2.tgi", "22282E6C584F37B697FC919EA16126FFE15327248B9A8E1B9965FE3568DD146C" },
-            new[] { @"data\Templates\template_rmc_k2.tgi", "A53B379FE200A4BA52A37C82C07C57A73915DF5ED7C11DCD7647EA31FA87BFDB" },
-            new[] { @"data\RandomMap\rmc_temperate03.tgi", "547D5E51375CEC17601A333332EA5BA87AC30580387636AFF845DBE5C6812C49" }
+            new[] { @"data\Templates\template_rmc_k2.tgi", TemplateDataHash },
+            new[] { @"data\RandomMap\rmc_temperate03.tgi", "75C096D8095EA5EDB93D27B06E74F8BBFBB0D557A05D311D0CFCCD4889A3D7AB" }
         };
         foreach (string[] f in files)
             if (!File.Exists(Path.Combine(root, f[0])) || Hash(Path.Combine(root, f[0])) != f[1])
@@ -77,6 +78,10 @@ internal static class ReleaseStartup
         PawAiOptions.Enabled = PawAiOptions.Read(root);
         Console.WriteLine("AI_IMPROVEMENTS " + (PawAiOptions.Enabled ? "on" : "off"));
 #endif
+#if NIGHTMARE_DIFFICULTY
+        NightmareDifficultyData.Validate(root, PawAiOptions.Enabled);
+        Console.WriteLine("NIGHTMARE_DIFFICULTY " + (PawAiOptions.Enabled ? "on" : "off"));
+#endif
     }
 
     internal static void InstallTerrainAndMap(Process game, IntPtr image, Action<string> log)
@@ -84,6 +89,9 @@ internal static class ReleaseStartup
         if (game.Id != verifiedPid || game.StartTime.ToUniversalTime() != verifiedStart)
             throw new InvalidOperationException("Процесс не принадлежит этому запуску.");
         uint address = unchecked((uint)image.ToInt32());
+#if ENGINE_CRASH_FIXES
+        uint addProbeHandler = EngineCrashFixesPatch.ResolveHandlerRegistration(game);
+#endif
         using (NativeMemory memory = new NativeMemory(game.Id))
         {
             memory.Suspend();
@@ -93,6 +101,12 @@ internal static class ReleaseStartup
                 // still intact. The r8 terrain and random-map payloads are unchanged.
                 TerrainPatch.Validate(memory, address);
                 RandomMapPatch.Validate(memory, address);
+#if FOUNDATION_COUNTS
+                FoundationCountsPatch.Validate(memory, address);
+#endif
+#if ENGINE_CRASH_FIXES
+                EngineCrashFixesPatch.Validate(memory, address);
+#endif
 #if CAMERA_ZOOM_2
                 CameraZoomPatch.Validate(memory, address);
 #endif
@@ -129,6 +143,13 @@ internal static class ReleaseStartup
                     TerrainPatch.Call(address + TerrainPatch.HookRva, terrain));
                 TerrainPatch.Expect(memory, terrain, TerrainPatch.Stub(address, terrain));
                 RandomMapPatch.Verify(memory, address, map);
+#if FOUNDATION_COUNTS
+                FoundationCountsPatch.Install(memory, address, log);
+#endif
+#if ENGINE_CRASH_FIXES
+                uint crashGuard = EngineCrashFixesPatch.Install(memory, address, addProbeHandler, log);
+                EngineCrashFixesPatch.Monitor(game.Id, crashGuard, log);
+#endif
 #if LAIR_RECOVERY
                 LairRecoveryPatch.Install(memory, address, log);
 #endif
