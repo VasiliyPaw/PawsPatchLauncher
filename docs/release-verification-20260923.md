@@ -69,3 +69,17 @@ This release verification is not a new full-match progression test for all six
 races or a two-machine multiplayer acceptance test. The saved match used for UI
 acceptance no longer had an active major bot army and cannot establish those
 claims.
+
+## Publication
+
+The prerelease `patch-0.4.0-beta.2` points to source commit
+`85f875f46b4afa398d588515a75ba6bf62c8cdb4`. All ten public release archives were
+downloaded again and matched their prepared sizes and SHA-256 digests before
+the beta catalog was promoted. No stable or launcher catalog was promoted.
+
+After inspecting the installed game's menus, its automatic preference writes
+were preserved separately for diagnosis and the pre-test Preferences.rup was
+restored while the game was closed. Preferences.rup and UVars.tgi were verified
+byte-identical to their backups again after relaunch. The game was left at the
+main menu; the separately saved match remains intact. No room-name or
+player-count controls were changed.
