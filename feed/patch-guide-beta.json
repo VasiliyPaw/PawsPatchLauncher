@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.4.0-beta.2",
+  "version": "0.4.0-beta.3",
   "entries": [
     {
       "id": "company-position-recovery",
@@ -219,20 +219,28 @@
       "bodyEn": "Adds an upkeep of 0.75 kingdom points per engine to the Crimson Catapult, Plague Catapult, Dragonfire Ballista, Vorpal Engine and Maelstrom Destroyer. These five engines have no such upkeep in pure Arcane Wars.\n\nTheir gold cost, resource upkeep and attack parameters remain as defined in Arcane Wars 0.82.1.8. Turning this component off removes the additional kingdom-point upkeep. Every multiplayer participant must use the same setting."
     },
     {
-      "id": "ai-improvements",
-      "category": "optional",
-      "titleRu": "Улучшения ботов",
-      "titleEn": "AI improvements",
-      "bodyRu": "Работают при включённой опции «Улучшения ботов».\n\n- Добавлена сложность «Кошмар»: строительство и найм дешевле на 90%.\n- Ускорены разведка, зачистка мест поселений и отправка строителей. Боты используют до пяти разведчиков.\n- Исправлен найм с учётом ополчения, свободных площадок и лимитов рот. Рот снабжения нанимается не более двух.\n- Строители закрепляются за разными площадками, не получают героев и плановых боевых задач. Лишние рабочие могут расформировываться; строителям нежити достаточно 20% здоровья.\n- Улучшены планы городов всех рас, подготовка королевства и приоритет улучшений ополчения. Большие логова откладываются до третьего города.\n- Уменьшена частота предупреждений о времени работы ИИ.",
-      "bodyEn": "Apply when “AI improvements” is enabled.\n\n- Added Nightmare difficulty: construction and recruitment cost 90% less.\n- Faster exploration, settlement clearing and builder dispatch. Bots use up to five scouts.\n- Fixed recruitment accounting for militia, available sites and company limits. Bots recruit no more than two supply companies.\n- Builders keep separate settlement assignments and receive no heroes or planned combat tasks. Surplus workers can be disbanded; Undead builders need only 20% health.\n- Improved city plans for all races, kingdom preparation and militia upgrade priorities. Large lairs are postponed until the third city.\n- Reduced the frequency of AI time-limit warnings."
-    },
-    {
       "id": "arcane-beta2-general",
       "category": "always",
       "titleRu": "Карты, интерфейс и стабильность",
       "titleEn": "Maps, interface and stability",
       "bodyRu": "- На новых случайных картах соотношение лагерей поселений и фундаментов изменено на 80/20; фундаменты размещаются равномернее.\n- Исправлены чёрные промежутки возле миникарты наблюдателя. Добавлена кнопка с картинкой и звуком золотого рудника.\n- Добавлена защита от отдельных вылетов при обработке анимаций и загрузке сетевой игры.",
       "bodyEn": "- New random maps use an 80/20 split between settlement camps and foundation camps, with more evenly distributed foundations.\n- Fixed black gaps around the observer minimap. Added a picture button that plays the gold-mine selection sound.\n- Added protection against specific animation and multiplayer-loading crashes."
+    },
+    {
+      "id": "ai-improvements",
+      "category": "optional",
+      "titleRu": "Улучшения ботов",
+      "titleEn": "AI improvements",
+      "bodyRu": "Работают при включённой опции «Улучшения ботов».\n\n- Добавлена сложность «Кошмар»: строительство и найм дешевле на 90%.\n- Ускорены разведка, зачистка мест поселений и отправка строителей. Боты используют до пяти разведчиков.\n- Исправлен найм с учётом ополчения, свободных площадок и лимитов рот. Рот снабжения нанимается не более двух.\n- Строители закрепляются за разными площадками, не получают героев и плановых боевых задач. Лишние рабочие могут расформировываться; строителям нежити и харунов достаточно одного живого рабочего.\n- Улучшены планы городов всех рас, подготовка королевства и приоритет улучшений ополчения. Большие логова откладываются до третьего города.\n- Уменьшена частота предупреждений о времени работы ИИ.\n\n- При заполненном лимите боты могут заменить слабую боевую роту на доступную роту минимум на 35% сильнее. Герои возвращаются обычным способом при расформировании.\n- Исправлены повторный найм строителей и отвлечение назначенных строителей на ремонт. Рабочие разных союзников больше не резервируют площадки друг для друга.\n- Харунам достаточно одной многоразовой роты строителей. Строители харунов и нежити могут идти строить с одним живым рабочим независимо от его здоровья и боевого духа. Усилена защита от назначения героев строителям.\n- Бот может передать менее развитый город союзнику, если у него как минимум на пять городов больше.\n- Новые боты по умолчанию получают сложность «Кошмар». Предупреждения о превышении времени работы ИИ появляются не чаще одного раза в пять минут.",
+      "bodyEn": "Apply when “AI improvements” is enabled.\n\n- Added Nightmare difficulty: construction and recruitment cost 90% less.\n- Faster exploration, settlement clearing and builder dispatch. Bots use up to five scouts.\n- Fixed recruitment accounting for militia, available sites and company limits. Bots recruit no more than two supply companies.\n- Builders keep separate settlement assignments and receive no heroes or planned combat tasks. Surplus workers can be disbanded; Undead and Haroun builders need only one living worker.\n- Improved city plans for all races, kingdom preparation and militia upgrade priorities. Large lairs are postponed until the third city.\n- Reduced the frequency of AI time-limit warnings.\n\n- At the company cap, bots can replace a weak military company with an available company at least 35% stronger. Heroes return through normal disbanding.\n- Fixed duplicate builder recruitment and optional repair interrupting assigned construction. Allied bots no longer reserve settlement sites for one another.\n- Haroun keeps one reusable settlement company. Haroun and Undead builders can set out with one living worker regardless of its remaining health or morale. Improved hero exclusion from builder recruitment.\n- A bot can give a less developed city to an ally when it owns at least five more cities.\n- New bots default to Nightmare. AI time-limit warnings appear at most once every five minutes."
+    },
+    {
+      "id": "arcane-beta3-ui-balance",
+      "category": "always",
+      "titleRu": "Лобби, подсказки и кнопка звука",
+      "titleEn": "Lobby, tooltips and sound button",
+      "bodyRu": "- Сложность ботов сохраняется при смене типа карты. В общей панели фракция остаётся случайной, пока не выбрана раса; у клиентов панель больше не перекрывает список игроков.\n- Убраны лишние подсказки общей панели. Подсказки сложности кратко показывают разницу стоимости найма и строительства.\n- Кнопка звука уменьшена до 100×100 при 2560×1440. Подсказка появляется над ней; повторные нажатия воспроизводят звук без задержки и без прерывания предыдущего.\n- В списке сетевых игр поле карты/сохранения помечается «Paws Launcher»; название комнаты и число игроков сохраняются.\n- Водоворот гаури со стоимостью 0,75 очка королевства требует построенного королевства гаури.",
+      "bodyEn": "- Bot difficulty survives map-type changes. Bulk faction selection stays Random until a race is chosen; the client panel no longer obstructs the player list.\n- Removed redundant bulk-panel tooltips. Difficulty tooltips briefly show recruitment and construction cost differences.\n- The sound button is 100×100 at 2560×1440, with its tooltip above it. Repeated clicks play immediately and overlap previous playback.\n- The multiplayer map/save display field reads “Paws Launcher”, preserving room names and player counts.\n- The Gauri Maelstrom costing 0.75 kingdom points requires a Gauri kingdom."
     }
   ]
 }

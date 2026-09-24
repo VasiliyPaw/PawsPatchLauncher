@@ -44,10 +44,15 @@ English family catalog. Publication stopped before any upload. The package
 assembler now keeps that English table common to every language and modifies
 only localized depots. A new package assertion rejects the incorrect override;
 all eight helpers passed the reproduced Russian preflight without relaxing
-any runtime hash guard. The corrected packages receive a fresh installation
-matrix. Stable packages are unchanged: the final run focuses actual install
-transitions on beta while retaining all 73,728 selection checks and stable
-installation/rollback.
+any runtime hash guard. The corrected packages passed a fresh installation
+matrix: 73,728 selections, 15,024 unique plans, 69 verified archives, all eight
+helper variants, 18 frame checks, 30 preflights and 45 transitions. Save-sentinel
+and stock-executable preservation, stable rollback and uninstall passed.
+Stable packages are unchanged: the final run focuses actual install transitions
+on beta while retaining the full selection matrix and stable installation/rollback.
+
+The source commit `abaa43cfaaf74756dd7f07cba77d322e02f33414` also passed
+[GitHub CI](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/36031020095).
 
 ## Observed match and limitations
 
@@ -69,5 +74,6 @@ a permanent stall. Its cause is unresolved and is disclosed in the release notes
 No claim is made that all large Goal-engine timing warnings are fixed.
 
 The user's game was not restarted during release preparation. Lobby room name
-and player count were not edited. Public assets must pass anonymous download,
-size and SHA-256 checks before the signed beta catalog is promoted.
+and player count were not edited. All ten published assets passed anonymous
+download, size, SHA-256 and GitHub digest checks before promotion of the signed
+beta catalog. The prerelease tag resolves to the source commit recorded above.
