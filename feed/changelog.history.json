@@ -797,12 +797,12 @@
         "cs": "Paw’s Patch 0.4.0-beta.3"
       },
       "body": {
-        "ru": "## Изменения ботов\n\nРаботают при включённой опции «Улучшения ботов».\n\n- При заполненном лимите боты могут заменить слабую боевую роту на доступную роту минимум на 35% сильнее. Герои возвращаются обычным способом при расформировании.\n- Исправлены повторный найм строителей и отвлечение назначенных строителей на ремонт. Рабочие разных союзников больше не резервируют площадки друг для друга.\n- Харунам достаточно одной многоразовой роты строителей. Строители харунов и нежити могут идти строить с одним живым рабочим независимо от его здоровья и боевого духа. Усилена защита от назначения героев строителям.\n- Бот может передать менее развитый город союзнику, если у него как минимум на пять городов больше.\n- Новые боты по умолчанию получают сложность «Кошмар». Предупреждения о превышении времени работы ИИ появляются не чаще одного раза в пять минут.\n\n## Интерфейс и баланс\n\n- Сложность ботов сохраняется при смене типа карты. В общей панели фракция остаётся случайной, пока не выбрана раса; у клиентов панель больше не перекрывает список игроков.\n- Убраны лишние подсказки общей панели. Подсказки сложности кратко показывают разницу стоимости найма и строительства.\n- Кнопка звука уменьшена до 100×100 при 2560×1440. Подсказка появляется над ней; повторные нажатия воспроизводят звук без задержки и без прерывания предыдущего.\n- В списке сетевых игр поле карты/сохранения помечается «Paws Launcher»; название комнаты и число игроков сохраняются.\n- Водоворот гаури со стоимостью 0,75 очка королевства требует построенного королевства гаури.\n\nИзвестное ограничение: в наблюдаемом матче рабочий задерживался перед строительством шахты. Причина ещё не установлена; исправление этой задержки в выпуск не заявлено.",
-        "en": "## AI changes\n\nApply when “AI improvements” is enabled.\n\n- At the company cap, bots can replace a weak military company with an available company at least 35% stronger. Heroes return through normal disbanding.\n- Fixed duplicate builder recruitment and optional repair interrupting assigned construction. Allied bots no longer reserve settlement sites for one another.\n- Haroun keeps one reusable settlement company. Haroun and Undead builders can set out with one living worker regardless of its remaining health or morale. Improved hero exclusion from builder recruitment.\n- A bot can give a less developed city to an ally when it owns at least five more cities.\n- New bots default to Nightmare. AI time-limit warnings appear at most once every five minutes.\n\n## Interface and balance\n\n- Bot difficulty survives map-type changes. Bulk faction selection stays Random until a race is chosen; the client panel no longer obstructs the player list.\n- Removed redundant bulk-panel tooltips. Difficulty tooltips briefly show recruitment and construction cost differences.\n- The sound button is 100×100 at 2560×1440, with its tooltip above it. Repeated clicks play immediately and overlap previous playback.\n- The multiplayer map/save display field reads “Paws Launcher”, preserving room names and player counts.\n- The Gauri Maelstrom costing 0.75 kingdom points requires a Gauri kingdom.\n\nKnown limitation: a worker delayed building a mine in the observed match. The cause is unresolved; this release does not claim to fix that delay.",
-        "uk": "## Зміни ботів\n\nПрацюють з опцією «Покращення ботів».\n\n- За повного ліміту боти можуть замінити слабку бойову роту доступною ротою, сильнішою щонайменше на 35%. Герої повертаються звичайним способом під час розформування.\n- Виправлено повторний найм будівельників і відволікання призначених будівельників на ремонт. Союзні боти більше не резервують місця один для одного.\n- Харунам достатньо однієї багаторазової роти будівельників. Харуни й нежить можуть будувати з одним живим робітником незалежно від здоров’я та бойового духу. Посилено виключення героїв із найму будівельників.\n- Бот може передати менш розвинене місто союзнику, якщо має щонайменше на п’ять міст більше.\n- Нові боти типово отримують «Кошмар». Попередження про час роботи ШІ з’являються не частіше ніж раз на п’ять хвилин.\n\n## Інтерфейс і баланс\n\n- Складність зберігається після зміни типу карти. Загальний вибір фракції лишається випадковим до вибору раси; клієнтська панель більше не перекриває список гравців.\n- Прибрано зайві підказки панелі. Підказки складності коротко показують різницю вартості найму й будівництва.\n- Звукова кнопка має розмір 100×100 при 2560×1440, підказку над нею й повторне відтворення без затримки або переривання попереднього звуку.\n- Поле карти/збереження в списку ігор показує «Paws Launcher», зберігаючи назву кімнати та кількість гравців.\n- Водоверт гаурі за 0,75 очка королівства потребує королівства гаурі.\n\nВідоме обмеження: у спостережуваній грі робітник затримував будівництво шахти. Причину ще не встановлено; виправлення цієї затримки не заявлено.",
-        "de": "## KI-Änderungen\n\nGelten bei aktivierten „KI-Verbesserungen“.\n\n- Bei vollem Kompanielimit können Bots eine schwache Kampfkompanie durch eine verfügbare, mindestens 35 % stärkere ersetzen. Helden kehren beim normalen Auflösen zurück.\n- Doppelter Bautrupp-Rekrutierung und Unterbrechungen zugewiesener Bauaufträge durch Reparaturen entgegengewirkt. Verbündete Bots reservieren keine Siedlungsplätze mehr füreinander.\n- Haroun behalten einen wiederverwendbaren Siedlungsbautrupp. Haroun und Untote können mit einem lebenden Arbeiter unabhängig von Gesundheit und Moral bauen. Helden werden zuverlässiger von Bautrupps ausgeschlossen.\n- Ein Bot kann einem Verbündeten eine weniger ausgebaute Stadt geben, wenn er mindestens fünf Städte mehr besitzt.\n- Neue Bots erhalten standardmäßig „Albtraum“. KI-Zeitwarnungen erscheinen höchstens alle fünf Minuten.\n\n## Oberfläche und Balance\n\n- Bot-Schwierigkeiten bleiben beim Kartenwechsel erhalten. Die gemeinsame Fraktionsauswahl bleibt bis zur Volkswahl zufällig; bei Clients verdeckt das Panel die Spielerliste nicht mehr.\n- Überflüssige Panelhinweise entfernt. Schwierigkeits-Hinweise zeigen kurz die Kostenunterschiede für Rekrutierung und Bau.\n- Die Tonschaltfläche misst 100×100 bei 2560×1440. Ihr Hinweis steht darüber; wiederholte Klicks spielen ohne Wartezeit und ohne Abbruch vorheriger Töne.\n- Das Karten-/Spielstandfeld der Mehrspielerliste zeigt „Paws Launcher“; Raumname und Spielerzahl bleiben erhalten.\n- Der Gauri-Maelstrom für 0,75 Königreichspunkte benötigt ein Gauri-Königreich.\n\nBekannte Einschränkung: Ein Arbeiter verzögerte im beobachteten Spiel den Minenbau. Die Ursache ist noch offen; diese Verzögerung gilt nicht als behoben.",
-        "fr": "## Modifications des bots\n\nAvec l’option « Améliorations de l’IA » activée.\n\n- À la limite de compagnies, les bots peuvent remplacer une compagnie militaire faible par une compagnie disponible au moins 35 % plus forte. Les héros reviennent par la dissolution normale.\n- Correction du recrutement en double des bâtisseurs et des réparations interrompant un chantier attribué. Les bots alliés ne réservent plus de sites entre eux.\n- Les Haroun conservent une seule compagnie de bâtisseurs réutilisable. Haroun et morts-vivants peuvent construire avec un ouvrier vivant, quels que soient sa santé et son moral. Meilleure exclusion des héros du recrutement des bâtisseurs.\n- Un bot peut donner une ville moins développée à un allié s’il possède au moins cinq villes de plus.\n- Les nouveaux bots utilisent « Cauchemar » par défaut. Les avertissements de temps de l’IA apparaissent au plus toutes les cinq minutes.\n\n## Interface et équilibrage\n\n- La difficulté persiste lors d’un changement de type de carte. La faction commune reste aléatoire avant le choix d’une race ; le panneau client ne masque plus la liste des joueurs.\n- Suppression des infobulles superflues du panneau. Celles des difficultés indiquent brièvement les écarts de coût du recrutement et de la construction.\n- Le bouton sonore mesure 100×100 à 2560×1440. Son infobulle apparaît au-dessus ; les clics répétés jouent sans délai et sans interrompre les sons précédents.\n- Le champ carte/sauvegarde de la liste multijoueur affiche « Paws Launcher », sans changer le nom de salle ni le nombre de joueurs.\n- Le Maelstrom gauri coûtant 0,75 point de royaume nécessite un royaume gauri.\n\nLimite connue : un ouvrier a tardé à construire une mine dans la partie observée. La cause reste inconnue ; cette version ne prétend pas corriger ce délai.",
-        "cs": "## Změny botů\n\nPlatí se zapnutou volbou „Vylepšení botů“.\n\n- Při plném limitu mohou boti nahradit slabou bojovou rotu dostupnou rotou alespoň o 35 % silnější. Hrdinové se vracejí běžným rozpuštěním roty.\n- Opraven dvojitý nábor stavitelů a přerušování přidělené výstavby opravami. Spojenečtí boti si již vzájemně nerezervují místa pro osady.\n- Haroun si ponechávají jednu opakovaně použitelnou stavební rotu. Haroun a nemrtví mohou stavět s jedním živým dělníkem bez ohledu na zdraví a morálku. Zpřesněno vyloučení hrdinů z náboru stavitelů.\n- Bot může dát méně rozvinuté město spojenci, pokud má alespoň o pět měst více.\n- Noví boti mají standardně obtížnost „Noční můra“. Upozornění na čas AI se zobrazí nejvýše jednou za pět minut.\n\n## Rozhraní a vyvážení\n\n- Obtížnost botů zůstává při změně typu mapy. Společná frakce je náhodná, dokud není vybrána rasa; klientský panel již nezakrývá seznam hráčů.\n- Odstraněny nadbytečné nápovědy panelu. Nápovědy obtížnosti stručně ukazují rozdíly ceny náboru a výstavby.\n- Zvukové tlačítko má 100×100 při 2560×1440. Nápověda je nad ním; opakovaná kliknutí hrají bez prodlevy a bez přerušení předchozího zvuku.\n- Pole mapy/uložené hry v seznamu her zobrazuje „Paws Launcher“ a zachovává název místnosti i počet hráčů.\n- Gauri Maelstrom za 0,75 bodu království vyžaduje království Gauri.\n\nZnámé omezení: dělník v pozorované hře odkládal stavbu dolu. Příčina není vyřešena; tato verze netvrdí, že prodlevu opravuje."
+        "ru": "## Изменения ботов\n\nРаботают при включённой опции «Улучшения ботов».\n\n- При заполненном лимите боты могут заменить слабую боевую роту на доступную роту минимум на 35% сильнее. Герои возвращаются обычным способом при расформировании.\n- Исправлены повторный найм строителей и приказы на строительство.\n- Харунам достаточно одной многоразовой роты строителей. Строители харунов и нежити могут идти строить с одним живым рабочим. Герои не попадают в роты строителей.\n- Бот может передать менее развитый город союзнику, если у него как минимум на пять городов больше.\n- Новые боты по умолчанию получают сложность «Кошмар». Предупреждения о превышении времени работы ИИ появляются не чаще одного раза в пять минут.\n\n## Интерфейс и баланс\n\n- Сложность ботов сохраняется при смене типа карты. В общей панели фракция остаётся случайной, пока не выбрана раса; у клиентов панель больше не перекрывает список игроков.\n- Убраны лишние подсказки общей панели. Подсказки сложности кратко показывают разницу стоимости найма и строительства.\n- Повторные нажатия на кнопку звука золотого рудника воспроизводятся сразу и не прерывают предыдущий звук.\n- В списке сетевых игр поле карты/сохранения помечается «Paws Launcher».\n- Водоворот гаури со стоимостью 0,75 очка королевства требует построенного королевства гаури.",
+        "en": "## AI changes\n\nApply when “AI improvements” is enabled.\n\n- At the company cap, bots can replace a weak military company with an available company at least 35% stronger. Heroes return through normal disbanding.\n- Fixed duplicate builder recruitment and construction orders.\n- Haroun keeps one reusable settlement company. Haroun and Undead builders can set out with one living worker. Builders do not receive heroes.\n- A bot can give a less developed city to an ally when it owns at least five more cities.\n- New bots default to Nightmare. AI time-limit warnings appear at most once every five minutes.\n\n## Interface and balance\n\n- Bot difficulty survives map-type changes. Bulk faction selection stays Random until a race is chosen; the client panel no longer obstructs the player list.\n- Removed redundant bulk-panel tooltips. Difficulty tooltips briefly show recruitment and construction cost differences.\n- Repeated clicks on the gold-mine sound button play immediately and overlap previous playback.\n- The multiplayer map/save display field reads “Paws Launcher”.\n- The Gauri Maelstrom costing 0.75 kingdom points requires a Gauri kingdom.",
+        "uk": "## Зміни ботів\n\nПрацюють з опцією «Покращення ботів».\n\n- За повного ліміту боти можуть замінити слабку бойову роту доступною ротою, сильнішою щонайменше на 35%. Герої повертаються звичайним способом під час розформування.\n- Виправлено повторний найм будівельників і накази на будівництво.\n- Харунам достатньо однієї багаторазової роти будівельників. Харуни й нежить можуть будувати з одним живим робітником. Герої не потрапляють до рот будівельників.\n- Бот може передати менш розвинене місто союзнику, якщо має щонайменше на п’ять міст більше.\n- Нові боти типово отримують «Кошмар». Попередження про час роботи ШІ з’являються не частіше ніж раз на п’ять хвилин.\n\n## Інтерфейс і баланс\n\n- Складність зберігається після зміни типу карти. Загальний вибір фракції лишається випадковим до вибору раси; клієнтська панель більше не перекриває список гравців.\n- Прибрано зайві підказки панелі. Підказки складності коротко показують різницю вартості найму й будівництва.\n- Повторні натискання кнопки звуку золотої копальні відтворюються одразу й не переривають попередній звук.\n- Поле карти/збереження в списку ігор показує «Paws Launcher».\n- Водоверт гаурі за 0,75 очка королівства потребує королівства гаурі.",
+        "de": "## KI-Änderungen\n\nGelten bei aktivierten „KI-Verbesserungen“.\n\n- Bei vollem Kompanielimit können Bots eine schwache Kampfkompanie durch eine verfügbare, mindestens 35 % stärkere ersetzen. Helden kehren beim normalen Auflösen zurück.\n- Doppelter Bautrupp-Rekrutierung und Bauaufträge wurden korrigiert.\n- Haroun behalten einen wiederverwendbaren Siedlungsbautrupp. Haroun und Untote können mit einem lebenden Arbeiter bauen. Bautrupps erhalten keine Helden.\n- Ein Bot kann einem Verbündeten eine weniger ausgebaute Stadt geben, wenn er mindestens fünf Städte mehr besitzt.\n- Neue Bots erhalten standardmäßig „Albtraum“. KI-Zeitwarnungen erscheinen höchstens alle fünf Minuten.\n\n## Oberfläche und Balance\n\n- Bot-Schwierigkeiten bleiben beim Kartenwechsel erhalten. Die gemeinsame Fraktionsauswahl bleibt bis zur Volkswahl zufällig; bei Clients verdeckt das Panel die Spielerliste nicht mehr.\n- Überflüssige Panelhinweise entfernt. Schwierigkeits-Hinweise zeigen kurz die Kostenunterschiede für Rekrutierung und Bau.\n- Wiederholte Klicks auf die Goldminen-Tonschaltfläche werden sofort abgespielt und überlagern vorherige Wiedergaben.\n- Das Karten-/Spielstandfeld der Mehrspielerliste zeigt „Paws Launcher“.\n- Der Gauri-Maelstrom für 0,75 Königreichspunkte benötigt ein Gauri-Königreich.",
+        "fr": "## Modifications des bots\n\nAvec l’option « Améliorations de l’IA » activée.\n\n- À la limite de compagnies, les bots peuvent remplacer une compagnie militaire faible par une compagnie disponible au moins 35 % plus forte. Les héros reviennent par la dissolution normale.\n- Correction du recrutement en double des bâtisseurs et des ordres de construction.\n- Les Haroun conservent une seule compagnie de bâtisseurs réutilisable. Haroun et morts-vivants peuvent construire avec un ouvrier vivant. Les bâtisseurs ne reçoivent pas de héros.\n- Un bot peut donner une ville moins développée à un allié s’il possède au moins cinq villes de plus.\n- Les nouveaux bots utilisent « Cauchemar » par défaut. Les avertissements de temps de l’IA apparaissent au plus toutes les cinq minutes.\n\n## Interface et équilibrage\n\n- La difficulté persiste lors d’un changement de type de carte. La faction commune reste aléatoire avant le choix d’une race ; le panneau client ne masque plus la liste des joueurs.\n- Suppression des infobulles superflues du panneau. Celles des difficultés indiquent brièvement les écarts de coût du recrutement et de la construction.\n- Les clics répétés sur le bouton du son de mine d’or sont joués immédiatement et se superposent aux sons précédents.\n- Le champ carte/sauvegarde de la liste multijoueur affiche « Paws Launcher ».\n- Le Maelstrom gauri coûtant 0,75 point de royaume nécessite un royaume gauri.",
+        "cs": "## Změny botů\n\nPlatí se zapnutou volbou „Vylepšení botů“.\n\n- Při plném limitu mohou boti nahradit slabou bojovou rotu dostupnou rotou alespoň o 35 % silnější. Hrdinové se vracejí běžným rozpuštěním roty.\n- Opraven dvojitý nábor stavitelů a stavební příkazy.\n- Haroun si ponechávají jednu opakovaně použitelnou stavební rotu. Haroun a nemrtví mohou stavět s jedním živým dělníkem. Stavitelé nedostávají hrdiny.\n- Bot může dát méně rozvinuté město spojenci, pokud má alespoň o pět měst více.\n- Noví boti mají standardně obtížnost „Noční můra“. Upozornění na čas AI se zobrazí nejvýše jednou za pět minut.\n\n## Rozhraní a vyvážení\n\n- Obtížnost botů zůstává při změně typu mapy. Společná frakce je náhodná, dokud není vybrána rasa; klientský panel již nezakrývá seznam hráčů.\n- Odstraněny nadbytečné nápovědy panelu. Nápovědy obtížnosti stručně ukazují rozdíly ceny náboru a výstavby.\n- Opakovaná kliknutí na tlačítko zvuku zlatého dolu se přehrají hned a překrývají předchozí zvuk.\n- Pole mapy/uložené hry v seznamu her zobrazuje „Paws Launcher“.\n- Gauri Maelstrom za 0,75 bodu království vyžaduje království Gauri."
       }
     },
     {
@@ -822,12 +822,12 @@
         "fr": "Paw’s Patch 0.4.0-beta.2"
       },
       "body": {
-        "ru": "## Изменения ботов\n\nРаботают при включённой опции «Улучшения ботов».\n\n- Добавлена сложность «Кошмар»: строительство и найм дешевле на 90%.\n- Ускорены разведка, зачистка мест поселений и отправка строителей. Боты используют до пяти разведчиков.\n- Исправлен найм с учётом ополчения, свободных площадок и лимитов рот. Рот снабжения нанимается не более двух.\n- Строители закрепляются за разными площадками, не получают героев и плановых боевых задач. Лишние рабочие могут расформировываться; строителям нежити достаточно 20% здоровья.\n- Улучшены планы городов всех рас, подготовка королевства и приоритет улучшений ополчения. Большие логова откладываются до третьего города.\n- Уменьшена частота предупреждений о времени работы ИИ.\n\n## Общие изменения\n\n- На новых случайных картах соотношение лагерей поселений и фундаментов изменено на 80/20; фундаменты размещаются равномернее.\n- Исправлены чёрные промежутки возле миникарты наблюдателя. Добавлена кнопка с картинкой и звуком золотого рудника.\n- Добавлена защита от отдельных вылетов при обработке анимаций и загрузке сетевой игры.",
-        "en": "## AI changes\n\nApply when “AI improvements” is enabled.\n\n- Added Nightmare difficulty: construction and recruitment cost 90% less.\n- Faster exploration, settlement clearing and builder dispatch. Bots use up to five scouts.\n- Fixed recruitment accounting for militia, available sites and company limits. Bots recruit no more than two supply companies.\n- Builders keep separate settlement assignments and receive no heroes or planned combat tasks. Surplus workers can be disbanded; Undead builders need only 20% health.\n- Improved city plans for all races, kingdom preparation and militia upgrade priorities. Large lairs are postponed until the third city.\n- Reduced the frequency of AI time-limit warnings.\n\n## General changes\n\n- New random maps use an 80/20 split between settlement camps and foundation camps, with more evenly distributed foundations.\n- Fixed black gaps around the observer minimap. Added a picture button that plays the gold-mine selection sound.\n- Added protection against specific animation and multiplayer-loading crashes.",
-        "uk": "## Зміни ботів\n\nПрацюють, коли ввімкнено опцію «Покращення ботів».\n\n- Додано складність «Кошмар»: будівництво й найм дешевші на 90%.\n- Прискорено розвідку, зачистку місць поселень і відправлення будівельників. Боти використовують до п’яти розвідників.\n- Виправлено найм з урахуванням ополчення, вільних місць і лімітів рот. Боти наймають не більше двох рот постачання.\n- Будівельники закріплюються за різними місцями, не отримують героїв і планових бойових завдань. Зайвих робітників можна розформувати; будівельникам нежиті достатньо 20% здоров’я.\n- Покращено плани міст усіх рас, підготовку королівства й пріоритет покращень ополчення. Великі лігва відкладаються до третього міста.\n- Зменшено частоту попереджень про час роботи ШІ.\n\n## Загальні зміни\n\n- На нових випадкових картах співвідношення таборів поселень і фундаментів змінено на 80/20; фундаменти розміщуються рівномірніше.\n- Виправлено чорні проміжки біля мінікарти спостерігача. Додано кнопку із зображенням і звуком золотої копальні.\n- Додано захист від окремих вильотів під час обробки анімацій і завантаження мережевої гри.",
-        "cs": "## Změny botů\n\nPlatí při zapnuté volbě „Vylepšení botů“.\n\n- Přidána obtížnost „Noční můra“: výstavba a nábor jsou o 90 % levnější.\n- Zrychlen průzkum, čištění míst pro osady a vysílání stavitelů. Boti využívají až pět průzkumníků.\n- Opraven nábor s ohledem na domobranu, volná místa a limity rot. Boti najímají nejvýše dvě zásobovací roty.\n- Stavitelé si drží různá stavební místa a nedostávají hrdiny ani plánované bojové úkoly. Přebytečné pracovníky lze rozpustit; nemrtvým stavitelům stačí 20 % zdraví.\n- Vylepšeny plány měst všech ras, příprava království a priority vylepšení domobrany. Velká doupata se odkládají do třetího města.\n- Snížena četnost upozornění na překročení času AI.\n\n## Obecné změny\n\n- Na nových náhodných mapách je poměr táborů osad a základů 80/20; základy jsou rozmístěny rovnoměrněji.\n- Opraveny černé mezery kolem minimapy pozorovatele. Přidáno obrázkové tlačítko se zvukem výběru zlatého dolu.\n- Přidána ochrana před některými pády při animacích a načítání hry více hráčů.",
-        "de": "## KI-Änderungen\n\nGelten bei aktivierter Option „KI-Verbesserungen“.\n\n- Schwierigkeitsgrad „Albtraum“ hinzugefügt: Bau und Rekrutierung kosten 90 % weniger.\n- Schnellere Erkundung, Räumung von Siedlungsplätzen und Entsendung von Bautrupps. Bots nutzen bis zu fünf Späher.\n- Rekrutierung unter Berücksichtigung von Miliz, freien Bauplätzen und Kompanielimits korrigiert. Bots rekrutieren höchstens zwei Versorgungskompanien.\n- Bautrupps behalten unterschiedliche Bauplätze und erhalten weder Helden noch geplante Kampfaufträge. Überzählige Arbeiter können aufgelöst werden; untote Bautrupps benötigen nur 20 % Gesundheit.\n- Stadtpläne aller Völker, die Vorbereitung des Königreichs und Prioritäten für Milizverbesserungen verbessert. Große Lager werden bis zur dritten Stadt aufgeschoben.\n- Warnungen zur KI-Zeitüberschreitung erscheinen seltener.\n\n## Allgemeine Änderungen\n\n- Neue Zufallskarten verwenden ein Verhältnis von 80/20 zwischen Siedlungs- und Fundamentlagern; Fundamente werden gleichmäßiger verteilt.\n- Schwarze Lücken an der Beobachter-Minimap behoben. Eine Bildschaltfläche spielt den Auswahlton einer Goldmine ab.\n- Schutz vor bestimmten Abstürzen bei Animationen und beim Laden von Mehrspielerpartien hinzugefügt.",
-        "fr": "## Modifications des bots\n\nS’appliquent lorsque l’option « Améliorations de l’IA » est activée.\n\n- Ajout de la difficulté « Cauchemar » : construction et recrutement coûtent 90 % de moins.\n- Exploration, nettoyage des sites de colonie et envoi des bâtisseurs accélérés. Les bots utilisent jusqu’à cinq éclaireurs.\n- Recrutement corrigé pour tenir compte de la milice, des sites libres et des limites de compagnies. Les bots recrutent au maximum deux compagnies de ravitaillement.\n- Les bâtisseurs conservent des sites distincts et ne reçoivent ni héros ni missions de combat planifiées. Les ouvriers excédentaires peuvent être dissous ; les bâtisseurs morts-vivants n’ont besoin que de 20 % de santé.\n- Plans urbains de toutes les races, préparation du royaume et priorité des améliorations de milice améliorés. Les grands repaires sont reportés jusqu’à la troisième ville.\n- Réduction de la fréquence des avertissements de dépassement du temps de l’IA.\n\n## Modifications générales\n\n- Les nouvelles cartes aléatoires utilisent un rapport de 80/20 entre camps de colonie et de fondation ; les fondations sont réparties plus régulièrement.\n- Correction des espaces noirs autour de la minicarte de l’observateur. Ajout d’un bouton illustré jouant le son de sélection d’une mine d’or.\n- Ajout de protections contre certains plantages liés aux animations et au chargement multijoueur."
+        "ru": "## Изменения ботов\n\nРаботают при включённой опции «Улучшения ботов».\n\n- Добавлена сложность «Кошмар»: строительство и найм дешевле на 90%.\n- Ускорены разведка, зачистка мест поселений и отправка строителей. Боты используют до пяти разведчиков.\n- Исправлен найм с учётом ополчения, свободных площадок и лимитов рот. Рот снабжения нанимается не более двух.\n- Строители не получают героев и плановых боевых задач. Лишние рабочие могут расформировываться.\n- Улучшены планы городов всех рас, подготовка королевства и приоритет улучшений ополчения. Большие логова откладываются до третьего города.\n- Уменьшена частота предупреждений о времени работы ИИ.\n\n## Общие изменения\n\n- На новых случайных картах соотношение лагерей поселений и фундаментов изменено на 80/20; фундаменты размещаются равномернее.\n- Исправлены чёрные промежутки возле миникарты наблюдателя. Добавлена кнопка с картинкой и звуком золотого рудника.\n- Добавлена защита от отдельных вылетов при обработке анимаций и загрузке сетевой игры.",
+        "en": "## AI changes\n\nApply when “AI improvements” is enabled.\n\n- Added Nightmare difficulty: construction and recruitment cost 90% less.\n- Faster exploration, settlement clearing and builder dispatch. Bots use up to five scouts.\n- Fixed recruitment accounting for militia, available sites and company limits. Bots recruit no more than two supply companies.\n- Builders receive no heroes or planned combat tasks. Surplus workers can be disbanded.\n- Improved city plans for all races, kingdom preparation and militia upgrade priorities. Large lairs are postponed until the third city.\n- Reduced the frequency of AI time-limit warnings.\n\n## General changes\n\n- New random maps use an 80/20 split between settlement camps and foundation camps, with more evenly distributed foundations.\n- Fixed black gaps around the observer minimap. Added a picture button that plays the gold-mine selection sound.\n- Added protection against specific animation and multiplayer-loading crashes.",
+        "uk": "## Зміни ботів\n\nПрацюють, коли ввімкнено опцію «Покращення ботів».\n\n- Додано складність «Кошмар»: будівництво й найм дешевші на 90%.\n- Прискорено розвідку, зачистку місць поселень і відправлення будівельників. Боти використовують до п’яти розвідників.\n- Виправлено найм з урахуванням ополчення, вільних місць і лімітів рот. Боти наймають не більше двох рот постачання.\n- Будівельники не отримують героїв і планових бойових завдань. Зайвих робітників можна розформувати.\n- Покращено плани міст усіх рас, підготовку королівства й пріоритет покращень ополчення. Великі лігва відкладаються до третього міста.\n- Зменшено частоту попереджень про час роботи ШІ.\n\n## Загальні зміни\n\n- На нових випадкових картах співвідношення таборів поселень і фундаментів змінено на 80/20; фундаменти розміщуються рівномірніше.\n- Виправлено чорні проміжки біля мінікарти спостерігача. Додано кнопку із зображенням і звуком золотої копальні.\n- Додано захист від окремих вильотів під час обробки анімацій і завантаження мережевої гри.",
+        "cs": "## Změny botů\n\nPlatí při zapnuté volbě „Vylepšení botů“.\n\n- Přidána obtížnost „Noční můra“: výstavba a nábor jsou o 90 % levnější.\n- Zrychlen průzkum, čištění míst pro osady a vysílání stavitelů. Boti využívají až pět průzkumníků.\n- Opraven nábor s ohledem na domobranu, volná místa a limity rot. Boti najímají nejvýše dvě zásobovací roty.\n- Stavitelé nedostávají hrdiny ani plánované bojové úkoly. Přebytečné pracovníky lze rozpustit.\n- Vylepšeny plány měst všech ras, příprava království a priority vylepšení domobrany. Velká doupata se odkládají do třetího města.\n- Snížena četnost upozornění na překročení času AI.\n\n## Obecné změny\n\n- Na nových náhodných mapách je poměr táborů osad a základů 80/20; základy jsou rozmístěny rovnoměrněji.\n- Opraveny černé mezery kolem minimapy pozorovatele. Přidáno obrázkové tlačítko se zvukem výběru zlatého dolu.\n- Přidána ochrana před některými pády při animacích a načítání hry více hráčů.",
+        "de": "## KI-Änderungen\n\nGelten bei aktivierter Option „KI-Verbesserungen“.\n\n- Schwierigkeitsgrad „Albtraum“ hinzugefügt: Bau und Rekrutierung kosten 90 % weniger.\n- Schnellere Erkundung, Räumung von Siedlungsplätzen und Entsendung von Bautrupps. Bots nutzen bis zu fünf Späher.\n- Rekrutierung unter Berücksichtigung von Miliz, freien Bauplätzen und Kompanielimits korrigiert. Bots rekrutieren höchstens zwei Versorgungskompanien.\n- Bautrupps erhalten weder Helden noch geplante Kampfaufträge. Überzählige Arbeiter können aufgelöst werden.\n- Stadtpläne aller Völker, die Vorbereitung des Königreichs und Prioritäten für Milizverbesserungen verbessert. Große Lager werden bis zur dritten Stadt aufgeschoben.\n- Warnungen zur KI-Zeitüberschreitung erscheinen seltener.\n\n## Allgemeine Änderungen\n\n- Neue Zufallskarten verwenden ein Verhältnis von 80/20 zwischen Siedlungs- und Fundamentlagern; Fundamente werden gleichmäßiger verteilt.\n- Schwarze Lücken an der Beobachter-Minimap behoben. Eine Bildschaltfläche spielt den Auswahlton einer Goldmine ab.\n- Schutz vor bestimmten Abstürzen bei Animationen und beim Laden von Mehrspielerpartien hinzugefügt.",
+        "fr": "## Modifications des bots\n\nS’appliquent lorsque l’option « Améliorations de l’IA » est activée.\n\n- Ajout de la difficulté « Cauchemar » : construction et recrutement coûtent 90 % de moins.\n- Exploration, nettoyage des sites de colonie et envoi des bâtisseurs accélérés. Les bots utilisent jusqu’à cinq éclaireurs.\n- Recrutement corrigé pour tenir compte de la milice, des sites libres et des limites de compagnies. Les bots recrutent au maximum deux compagnies de ravitaillement.\n- Les bâtisseurs ne reçoivent ni héros ni missions de combat planifiées. Les ouvriers excédentaires peuvent être dissous.\n- Plans urbains de toutes les races, préparation du royaume et priorité des améliorations de milice améliorés. Les grands repaires sont reportés jusqu’à la troisième ville.\n- Réduction de la fréquence des avertissements de dépassement du temps de l’IA.\n\n## Modifications générales\n\n- Les nouvelles cartes aléatoires utilisent un rapport de 80/20 entre camps de colonie et de fondation ; les fondations sont réparties plus régulièrement.\n- Correction des espaces noirs autour de la minicarte de l’observateur. Ajout d’un bouton illustré jouant le son de sélection d’une mine d’or.\n- Ajout de protections contre certains plantages liés aux animations et au chargement multijoueur."
       }
     },
     {
@@ -896,19 +896,14 @@
     {
       "category": "patch",
       "version": "0.3.0-beta.2",
-      "mods": [
-        "vanilla",
-        "immortals"
-      ],
-      "channel": "beta",
-      "publishedAt": "2026-09-19",
+      "publishedAt": "2026-09-09",
       "title": {
-        "ru": "Paw's Patch 0.3.0-beta.2 — Vanilla и Immortals",
-        "en": "Paw's Patch 0.3.0-beta.2 — Vanilla and Immortals"
+        "ru": "Умное автоулучшение городов и быстрая передача сейвов",
+        "en": "Advanced city upgrades and faster save transfers"
       },
       "body": {
-        "ru": "- Убраны девять похожих оттенков: в выборе осталось 39 цветов и «Случайно».\n- Обновлены рамки миникарты для всех рас: убраны пустые зазоры по краям.",
-        "en": "- Removed nine similar shades, leaving 39 colors plus Random.\n- Updated minimap frames for every race to fill the empty gaps around the map."
+        "ru": "- В F1 добавлены цели дохода по четырём ресурсам и отдельный запас золота.\n- Улучшены экономические приоритеты и выбор золотых веток рынков.\n- Города строятся параллельно с учётом очереди; осаждённый город пропускается.\n- Добавлены правила строительства, ветки улучшений и исключения городов.\n- Ускорена передача сохранений в сетевом лобби.",
+        "en": "- Added four resource-income targets and a separate gold reserve in F1.\n- Improved economic priorities and selection of gold-producing market upgrades.\n- Cities build in parallel with queued work accounted for; besieged cities are skipped.\n- Added building rules, upgrade branches and city exclusions.\n- Accelerated saved-game transfers in multiplayer lobbies."
       }
     },
     {
@@ -1014,18 +1009,14 @@
     {
       "category": "patch",
       "version": "0.3.0-beta.1",
-      "mods": [
-        "vanilla",
-        "immortals"
-      ],
-      "publishedAt": "2026-09-16",
+      "publishedAt": "2026-09-08",
       "title": {
-        "ru": "Paw's Patch 0.3.0-beta.1 — Vanilla и Immortals",
-        "en": "Paw's Patch 0.3.0-beta.1 — Vanilla and Immortals"
+        "ru": "Автоулучшение городов и предупреждение о рассинхроне",
+        "en": "Automatic city upgrades and desync notification"
       },
       "body": {
-        "ru": "- Добавлен компактный выбор 48 цветов с привязкой к игроку.\n- Добавлен отдельный переключатель игнорирования рассинхронов.\n- Выключение Paw’s Patch отключает обе функции.",
-        "en": "- Added a compact 48-color picker with colors tied to players.\n- Added a separate Ignore desyncs switch.\n- Turning off Paw’s Patch disables both features."
+        "ru": "- Добавлено автоулучшение городов с управлением через F1: включение, запас золота и состояние очереди.\n- Сначала устраняются дефициты ресурсов, затем повышается доход золота и выбираются другие улучшения.\n- При игнорировании рассинхронов в чате появляется предупреждение.\n- Исправлен запуск с включёнными Powers и Shards.",
+        "en": "- Added city automation controlled through F1: enable switch, gold reserve and queue status.\n- Resource deficits are addressed first, followed by gold income and other upgrades.\n- Ignoring desyncs now shows a warning in chat.\n- Fixed startup with Powers and Shards enabled."
       }
     },
     {
@@ -1222,11 +1213,11 @@
       "version": "0.2.0-beta.1",
       "publishedAt": "2026-09-14",
       "mods": [
-        "vanilla"
+        "immortals"
       ],
       "title": {
-        "ru": "Vanilla — Paw's Patch 0.2.0-beta.1",
-        "en": "Vanilla — Paw's Patch 0.2.0-beta.1"
+        "ru": "Immortals — Paw's Patch 0.2.0-beta.1",
+        "en": "Immortals — Paw's Patch 0.2.0-beta.1"
       },
       "body": {
         "ru": "- Открыт отдельный бета-канал Paw’s Patch для Vanilla и Immortals.\n- Ускорена передача сохранений участникам сетевого лобби.",
@@ -1370,35 +1361,29 @@
       }
     },
     {
-      "category": "patch",
-      "mods": [
-        "vanilla"
-      ],
+      "category": "launcher",
       "version": "0.1.0",
-      "publishedAt": "2026-09-13",
+      "publishedAt": "2026-09-05",
       "title": {
-        "ru": "Русский язык и чистые исправления",
-        "en": "Russian language and focused fixes"
+        "ru": "Первый выпуск",
+        "en": "Initial release"
       },
       "body": {
-        "ru": "- Исправлены русские строки, цвета значков рот, отображение «−0» и инициализация рельефа.",
-        "en": "- Fixed Russian text, company badge colors, negative-zero display and terrain initialization."
+        "ru": "Первый публичный установщик и обновлятор Paw's Patch для Kohan II.",
+        "en": "The first public Paw's Patch installer and updater for Kohan II."
       }
     },
     {
-      "category": "patch",
-      "mods": [
-        "immortals"
-      ],
+      "category": "launcher",
       "version": "0.1.0",
-      "publishedAt": "2026-09-13",
+      "publishedAt": "2026-09-05",
       "title": {
-        "ru": "Русский язык и чистые исправления",
-        "en": "Russian language and focused fixes"
+        "ru": "Первый выпуск",
+        "en": "Initial release"
       },
       "body": {
-        "ru": "- Исправлены русские строки, цвета значков рот, отображение «−0» и инициализация рельефа.",
-        "en": "- Fixed Russian text, company badge colors, negative-zero display and terrain initialization."
+        "ru": "Первый публичный установщик и обновлятор Paw's Patch для Kohan II.",
+        "en": "The first public Paw's Patch installer and updater for Kohan II."
       }
     },
     {
@@ -1493,16 +1478,16 @@
       }
     },
     {
-      "category": "patch",
+      "category": "launcher",
       "version": "0.2.0",
-      "publishedAt": "2026-09-07",
+      "publishedAt": "2026-09-05",
       "title": {
-        "ru": "Возможности беты теперь в Релизе",
-        "en": "Beta features graduate to Release"
+        "ru": "Каналы Stable и Beta",
+        "en": "Stable and Beta channels"
       },
       "body": {
-        "ru": "- В релиз добавлены случайные тип карты и время суток с сохранением выбора.\n- Исправлен рассинхрон при повторном запуске матча.\n- Добавлены 49 цветов и синхронизация выбора в лобби.\n- Расширенные цвета можно сочетать с остальными компонентами.\n- Обновлены все семь моделей значков рот и их затенение.\n- Убрано служебное окно перед запуском.",
-        "en": "- Added persistent random map type and time-of-day selection to the stable release.\n- Fixed a desync when starting another match.\n- Added 49 colors and synchronized lobby color selection.\n- Extended colors can be combined with the other components.\n- Updated all seven company badge models and their shading.\n- Removed the extra window before game startup."
+        "ru": "- Добавлены отдельные каналы релизных и бета-обновлений.\n- В бете появились экспериментальные цвета игроков.",
+        "en": "- Added separate stable and beta update channels.\n- Added experimental player colors in Beta."
       }
     },
     {
@@ -1584,16 +1569,16 @@
       }
     },
     {
-      "category": "patch",
+      "category": "launcher",
       "version": "0.4.6",
-      "publishedAt": "2026-09-06",
+      "publishedAt": "2026-09-05",
       "title": {
-        "ru": "Сетевые цвета и общие исправления интерфейса",
-        "en": "Multiplayer colors and common UI fixes"
+        "ru": "Корректный статус проверки",
+        "en": "Correct update-check status"
       },
       "body": {
-        "ru": "- Исправлен вылет при передаче выбранного цвета в лобби.\n- В главное меню добавлены версии Arcane Wars и Paw’s Patch.\n- В лимитах исправлено отображение «−0».",
-        "en": "- Fixed a crash when sharing a selected lobby color.\n- Added Arcane Wars and Paw’s Patch versions to the main menu.\n- Fixed negative-zero display in limits."
+        "ru": "- Исправлено зависание надписи «Проверяю обновления…» после завершения проверки.",
+        "en": "- Fixed Checking for updates remaining visible after the check finishes."
       }
     },
     {
@@ -1688,16 +1673,16 @@
       }
     },
     {
-      "category": "launcher",
+      "category": "patch",
       "version": "0.4.5",
       "publishedAt": "2026-09-05",
       "title": {
-        "ru": "Автообновление при запуске",
-        "en": "Automatic startup updates"
+        "ru": "Исправлена первая подпись цвета",
+        "en": "Fixed initial color label"
       },
       "body": {
-        "ru": "- Восстановлена автоматическая установка обновлений лаунчера при запуске.",
-        "en": "- Restored automatic launcher updates at startup."
+        "ru": "- При первом входе в лобби поле цвета сразу показывает «Случайно».",
+        "en": "- The color field immediately shows Random when first entering a lobby."
       }
     },
     {

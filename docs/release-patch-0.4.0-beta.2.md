@@ -7,7 +7,7 @@
 - Добавлена сложность «Кошмар»: строительство и найм дешевле на 90%.
 - Ускорены разведка, зачистка мест поселений и отправка строителей. Боты используют до пяти разведчиков.
 - Исправлен найм с учётом ополчения, свободных площадок и лимитов рот. Рот снабжения нанимается не более двух.
-- Строители закрепляются за разными площадками, не получают героев и плановых боевых задач. Лишние рабочие могут расформировываться; строителям нежити достаточно 20% здоровья.
+- Строители не получают героев и плановых боевых задач. Лишние рабочие могут расформировываться.
 - Улучшены планы городов всех рас, подготовка королевства и приоритет улучшений ополчения. Большие логова откладываются до третьего города.
 - Уменьшена частота предупреждений о времени работы ИИ.
 
@@ -28,7 +28,7 @@ Apply when “AI improvements” is enabled.
 - Added Nightmare difficulty: construction and recruitment cost 90% less.
 - Faster exploration, settlement clearing and builder dispatch. Bots use up to five scouts.
 - Fixed recruitment accounting for militia, available sites and company limits. Bots recruit no more than two supply companies.
-- Builders keep separate settlement assignments and receive no heroes or planned combat tasks. Surplus workers can be disbanded; Undead builders need only 20% health.
+- Builders receive no heroes or planned combat tasks. Surplus workers can be disbanded.
 - Improved city plans for all races, kingdom preparation and militia upgrade priorities. Large lairs are postponed until the third city.
 - Reduced the frequency of AI time-limit warnings.
 
