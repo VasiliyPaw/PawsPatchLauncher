@@ -172,7 +172,11 @@ internal static class ReleaseStartup
                 AiPolicyRuntime.Install(memory, address, game.Id, Path.GetDirectoryName(game.MainModule.FileName), log);
 #endif
 #if BOT_LOBBY
+#if AI_POLICY
+                BotLobbyPatch.Install(memory, address, PawGameText.LanguageId, PawAiOptions.Enabled, log);
+#else
                 BotLobbyPatch.Install(memory, address, PawGameText.LanguageId, log);
+#endif
 #endif
 #if FRACTIONAL_KINGDOM_POINTS
                 FractionalPointsPatch.Install(memory, address, log);

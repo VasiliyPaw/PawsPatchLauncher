@@ -4,6 +4,10 @@
 static int builder_enabled(U image,U pl){
  return pl&&*(unsigned char*)(pl+4)&&P(pl,8)&&P(image,0x5f3fb8)&&P(image,0x5f9218)==2;
 }
+static int builder_reusable(U pl,U target){
+ U k=pl?P(pl,8):0,nation=k?P(k,0x240):0;
+ return target&&!economy_sovereign(target)&&nation&&(ids_equal(nation,"haroun")||ids_equal(nation,"Haroun"));
+}
 static U builder_target(U image,U a){
  U org=P(a,0x7c),target;
  if(!org||P(a,0x144)==2||P(a,0x144)==3||(P(a,0x100)&4)||!route_builder(image,a))return 0;
@@ -11,6 +15,8 @@ static U builder_target(U image,U a){
 }
 static void builder_invalidate(Data*d,U pl,int reset){
  FastData*f=(FastData*)d;U i;
+ f->claimValid=0;
+ if(reset){f->claimWorld=0;f->claimCount=0;}
  for(i=0;i<192;i++)if(reset||!pl||f->builderSites[i].kingdom==P(pl,8)){
   f->builderSites[i].counted=0;
   if(reset)f->builderSites[i].world=0;
@@ -113,6 +119,9 @@ static int builder_desired(U image,Data*d,U pl,U target){
  builder_census(image,pl,r);if(!r->valid||!r->counted)return -1;
  /* An existing/ordered first-kingdom builder consumes one settlement too. */
  if(!economy_has_kingdom(image,pl)&&(r->owned[1]||r->queued[1])&&count)count--;
+ /* Haroun settlement workers survive construction and service sites serially.
+  * Keep that one reusable company between discoveries, not a hire/disband loop. */
+ if(builder_reusable(pl,target))return (count||r->owned[0]||r->queued[0])?1:0;
  return (int)count;
 }
 static int builder_missing(U image,Data*d,U pl,U target){
@@ -145,6 +154,19 @@ static void builder_hero_score(U image,Data*d,U pl,U*args,float*result){
  if(!builder_enabled(image,pl)||!sa||P(sa,0xc)!=pl)return;
  a=actor_id(image,P(sa,8));if(a&&P(a,0xe8)==P(pl,8)&&route_builder(image,a))*result=0;
 }
+/* Prepare iterates available unit definitions, including recalled heroes.
+ * Filter before scoring/putting a candidate into the private recruit layout;
+ * the ordinary captain is still selected and priced by the native planner.
+ * Definition component bit 17 is CharacterComponent (heroes), not an IDS or
+ * faction heuristic. The caller passes its Recruit goal from EBP-0x34. */
+static void builder_recruit_hero(U image,Data*d,U def,U goal,float*result){
+ U pl;
+ if(!(*(U*)result&255)||!def||!(P(def,0x174)&0x20000)||!goal||P(goal,0)!=image+0x4d9274)return;
+ pl=player(goal);
+ if(!builder_enabled(image,pl)||!economy_center(P(goal,0x44),0,0))return;
+ *(U*)result&=0xffffff00;
+ emit(image,d,61,goal,pl,def,1,0,0,0,0,0,0);
+}
 static void builder_admission(U image,Data*d,U a,U goal,float*result){
  U pl,sa,g;float time;BuilderWork*r;
  if((*(U*)result&255)||!goal||!live_actor(image,a)||!route_builder(image,a))return;
@@ -152,7 +174,7 @@ static void builder_admission(U image,Data*d,U a,U goal,float*result){
  /* Never plan an offensive expedition for a civilian builder, even wounded
   * or currently without a construction site. Tactical self-defense is native. */
  if(offense(image,goal)){*(U*)result|=1;return;}
- if(P(goal,0)==image+0x4da6b0){sa=construction_sa(pl,a);if(builder_site_claimed(image,pl,goal,sa))*(U*)result|=1;return;}
+ if(P(goal,0)==image+0x4da6b0){sa=construction_sa(pl,a);if(builder_site_claimed(image,pl,goal,sa)) *(U*)result|=1;return;}
  sa=construction_sa(pl,a);g=sa?P(sa,0x10):0;time=F(P(image,0x5f3fb8),0xe8);
  r=builder_work(image,d,a,time);
  /* Regional defense is also a military assignment. Only this worker's safe

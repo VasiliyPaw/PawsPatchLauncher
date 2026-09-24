@@ -17,10 +17,16 @@ static U route_cell(U image,float x,float y){
  shift=P(grid,4);if(shift>8)return 0;ix=route_int(x)>>shift;iy=route_int(y)>>shift;
  return P(grid,0x28)+(iy*P(grid,0x1c)+ix)*0x30;
 }
+static U economy_center(U def,U layout,U depth);
 static int route_builder(U image,U actor){
  U b=P(actor,0xa8),org=P(actor,0x7c),i,n,list;
  if(b&&P(b,0)==image+0x4df830&&P(b,4)==actor)return 1;
- if(!org)return 0;n=P(org,0x2c);list=P(org,0x28);if(n>64||!list)return 0;
+ if(!org)return 0;
+ /* A newly hired company initially contains only its captain. Its actual
+  * organization layout already identifies the workers which will arrive.
+  * Purpose is distinct from construction readiness/capability below. */
+ if(P(actor,4)&&(P(P(actor,4),0x174)&128)&&economy_center(P(actor,4),org+0x10,0))return 1;
+ n=P(org,0x2c);list=P(org,0x28);if(n>64||!list)return 0;
  for(i=0;i<n;i++){U unit=P(list,4*i);if(!unit||!live_actor(image,unit))continue;b=P(unit,0xa8);if(b&&P(b,0)==image+0x4df830&&P(b,4)==unit)return 1;}
  return 0;
 }

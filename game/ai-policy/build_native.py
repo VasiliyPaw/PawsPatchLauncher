@@ -33,6 +33,7 @@ SITES += [(0x1dd748,0x05c7b9,3,40,True), # recruitment-only actor/property prior
  (0x1e0253,0x1ec21c,4,48,False)] # native player reconstruction, before actor registration
 SITES += [(s,0x1ee81a,2,49,True) for s in (0x1d54ee,0x1d5557)] # reject builders in native hero-target selection
 SITES += [(0x1d5937,0x214a99,1,50,False)] # final native hero attachment validation
+SITES += [(0x1dcaf9,0x02995d,1,51,False)] # unit candidate property during Recruit::Prepare
 def main():
  p=argparse.ArgumentParser();p.add_argument('--legacy',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--compiler',required=True);a=p.parse_args()
  sys.path[:0]=[str(a.legacy/'pydeps_readable'),str(a.legacy/'lobby_colors_1372/deps_r15')]
@@ -54,6 +55,7 @@ def main():
   args='mov eax,[ebp]; add eax,8;' if mode in (11,18) else 'lea eax,[ebp+8];'
   if mode==41:args='lea eax,[ebp-28];'
   if mode in (46,47):args='lea eax,[ebp-36];'
+  if mode==51:args='mov eax,[ebp]; sub eax,0x34;'
   # Native callers may keep live x87 temporaries below their return value.
   # Give the C callback its own empty stack with the caller's control word;
   # restore the complete original x87/SSE state afterwards.
@@ -106,7 +108,7 @@ def main():
   if mode not in (9,12,31,35,36,38):asm+=callback(41 if mode==40 else mode)
   if fp:asm+='mov eax,[ebp-8]; cmp eax,[ebp-12]; jne changed; fld tbyte ptr [ebp-24]; jmp returned; changed: fld dword ptr [ebp-8]; returned:;'
   if mode not in (9,12,31,35,36,38):asm+='popad; popfd;'
-  if mode in (4,7,13,14,18,30,32,42,43,44,45,50):asm+='mov eax,[ebp-8];'
+  if mode in (4,7,13,14,18,30,32,42,43,44,45,50,51):asm+='mov eax,[ebp-8];'
   if mode==9:asm+='skipped:;'
   if mode==31:asm+='replacement_done:;'
   if mode==39:

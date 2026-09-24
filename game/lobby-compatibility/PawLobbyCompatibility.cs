@@ -18,8 +18,8 @@ internal static class PawLobbyCompatibility
     internal const string Version = "0.4.0-beta.1";
     private static byte[] configuration;
     private static string nativePath;
-    private static readonly uint[] Sites = {0x151092,0x150e40,0x151c8a,0x1519ef,0x151bf3};
-    private static readonly uint[] Originals = {0x7c92f,0x7c92f,0x149033,0x149046,0x23fb6};
+    private static readonly uint[] Sites = {0x151092,0x150e40,0x151c8a,0x1519ef,0x151bf3,0x7d3eb,0x77417};
+    private static readonly uint[] Originals = {0x7c92f,0x7c92f,0x149033,0x149046,0x23fb6,0x23ee7,0x77fdc};
     private static string Hex(byte[] b) {return BitConverter.ToString(b).Replace("-", "");}
     private static string Hash(byte[] b) {using(var sha=SHA256.Create())return Hex(sha.ComputeHash(b));}
     private static string FileHash(string p) {using(var f=File.OpenRead(p))using(var sha=SHA256.Create())return Hex(sha.ComputeHash(f));}
@@ -100,7 +100,7 @@ internal static class PawLobbyCompatibility
     internal static void Install(Process game,IntPtr image,Action<string> log) {
         if(configuration==null||nativePath==null)throw new InvalidOperationException("Compatibility check was not prepared.");
         using(var native=new Installer(game,image))native.Install(nativePath,configuration);
-        log("LOBBY_COMPATIBILITY_READY protocol=1 patch="+Version+" nativeCalls=5 identity="+Encoding.ASCII.GetString(configuration,8,256).TrimEnd('\0'));
+        log("LOBBY_COMPATIBILITY_READY protocol=1 patch="+Version+" nativeCalls=7 browserLabel=Paws-Launcher identity="+Encoding.ASCII.GetString(configuration,8,256).TrimEnd('\0'));
     }
 
     private sealed class Installer:IDisposable {

@@ -5,12 +5,19 @@ independent `PushButtonWidget` child to the existing Game interface and copies
 the user-provided PNG byte for byte. It refuses a duplicate button. The input
 interface hash and resulting hashes are recorded in `button-input.json`.
 
-The button occupies x=960..1020, y=490..570 in the 1024x768 virtual interface,
+The button occupies x=980..1020, y=516.666667..570 in the 1024x768 virtual interface,
 above the lower-right command panel (right offset 4, bottom offset 198).
-At 2560x1440 the frame is 150x150 and its image is 145x145 pixels,
+At 2560x1440 the frame is 100x100 and its image is 95x95 pixels,
 preserving the annotated Haroun artwork's square ratio on the user's 16:9 viewport.
 The source is the 1254x1254 generated edit with two red arrows and a circle.
-No tooltip name or body is set, so hovering does not open a tooltip.
+The tooltip title is `Paw's Patch`; its body uses the localized
+`paws_gold_sound_tooltip` key (Russian `Сиске`, English `Boobes`).
+The native tooltip rectangle hook at RVA `0xC88BD` identifies this button by
+its private vtable, measures the text with the original game function, and
+anchors the tooltip above the button at virtual y=512. It restores the
+interface's original anchor fields immediately after measurement; every other
+widget retains its native tooltip placement. `test_tooltip.py` checks this
+wrapper and restoration at three ASLR bases with native measurement stubbed.
 It does not consume a native action slot. It is not nested under the ally or
 selected-object controls, so its definition is available in solo and observer
 interfaces as well. The complete image is used, without cropping.
@@ -35,8 +42,12 @@ FP/SSE preservation, attachment/deletion and the game's original click code.
 `PresentationTests.cs` checks installation into disposable process allocations,
 including menu-only and missing-asset combinations. Neither is a rendering test.
 
-Native `ButtonWidget.set_sound = resource_gold_select` points to the same
-Audio definition used by a gold mine's selection event. No command, network
+Native `ButtonWidget.set_sound = paws_gold_button_select` uses the same gold
+mine WAV through a separate AudioFeedback definition (`audio.tgi`). Explicit
+`control_flags = NULL` and `simultaneous_limit = 64` allow overlapping presses
+without interrupting earlier instances or adding a click cooldown. Available
+engine audio channels still bound playback. The normal gold mine selection
+sound is unchanged. No command, network
 message, simulated action or per-frame callback is added. Native focus/pressed
 border textures supply the button states; releasing it is silent.
 

@@ -70,7 +70,7 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
  f.asm(image+0x2fe35d,f'inc dword ptr [{f.stats+4}];mov eax,[esp+4];mov dword ptr [eax],0x123456;ret')
  f.asm(image+0x1378e2,f'inc dword ptr [{f.stats+8}];ret')
  shown=0
- for index,(now,world,mask,expected) in enumerate([(0,f.world,8,True),(1,f.world,8,False),(29999,f.world,8,False),(30000,f.world,8,True),(30001,f.world,8,False),(60000,f.world,8,True),(10,f.world,8,True),(11,f.world+4,8,True),(12,f.world+4,0,True),(13,f.world+4,0,True)]):
+ for index,(now,world,mask,expected) in enumerate([(0,f.world,8,True),(1,f.world,8,False),(30000,f.world,8,False),(299999,f.world,8,False),(300000,f.world,8,True),(300001,f.world,8,False),(600000,f.world,8,True),(10,f.world,8,True),(11,f.world+4,8,True),(12,f.world+4,0,True),(13,f.world+4,0,True)]):
   f.w(f.stats+16,now);f.w(image+0x5f3fb8,world);f.w(f.data+4,mask)
   registers={UC_X86_REG_ESP:f.sp,UC_X86_REG_EBP:0xabcdef01,UC_X86_REG_ESI:0xabcdef02,UC_X86_REG_EDI:59}
   for reg,v in registers.items():f.u.reg_write(reg,v)

@@ -17,9 +17,9 @@ internal static class K2PawFamilyPostgen1372
     private const string ExpectedTemplateSha256 =
         ReleaseStartup.TemplateDataHash;
     private const string ExpectedEnglishSha256 =
-        "C1FFF9A67AE98AB0555DD19BF3711C085CA0DA95F700C24B5D5A60902E87FAE2";
+        "1E5974B5B1FBEEBDC5B7968B051917A2910CE87216F9C5D0199DE6D422560C22";
     private const string ExpectedRussianSha256 =
-        "20D244E73DACFA543D3E29FD6599ABFC2D18E3DC789AC98AE0CC80C14CD5A70C";
+        "3C218AA048A9591C64B1FBBFDB4B3162640D296F44E30E230C8A6B19DCB8C74A";
 
 #if SYNC_ONLY
     private const string WindowTitle =

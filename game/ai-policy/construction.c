@@ -2,9 +2,22 @@
  * Use native capability/site/score queries and native goal membership methods.
  * Never pin a company in combat/retreat or synthesize a construction order. */
 typedef float (FAST *ConstructionF5)(U,U,U,U,U,U,U);
-static int construction_undead(U a){
+static int construction_one_worker(U a){
  U k=P(a,0xe8),def=k?P(k,0x240):0;
- return def&&(ids_equal(def,"Undead")||ids_equal(def,"undead"));
+ return def&&(ids_equal(def,"Undead")||ids_equal(def,"undead")||ids_equal(def,"Haroun")||ids_equal(def,"haroun"));
+}
+static int construction_live_worker(U image,U a){
+ U org=P(a,0x7c),list,n,i;
+ if(!org||P(org,4)!=a)return 0;
+ list=P(org,0x28);n=P(org,0x2c);if(!list||!n||n>64)return 0;
+ for(i=0;i<n;i++){
+  U u=P(list,4*i),body,element;
+  if(!live_actor(image,u)||(P(u,8)&1)||P(u,0xe8)!=P(a,0xe8)||!route_center_capable(image,u))continue;
+  body=P(u,0x60);element=P(u,0x80);
+  if(body&&P(body,4)==u&&element&&P(element,4)==u&&P(element,0x10)==a
+    &&finite(F(body,0x10))&&F(body,0x10)>0)return 1;
+ }
+ return 0;
 }
 static int construction_ready(U image,U a,int assigned){
  U s=defense_state(a),vt=s?P(s,0)-image:0,org=P(a,0x7c),n,i,list;
@@ -14,9 +27,12 @@ static int construction_ready(U image,U a,int assigned){
  if(vt!=0x4f4d98&&vt!=0x4f4f28&&vt!=0x4f4df0&&vt!=0x4f5038
    &&!(assigned&&vt==0x4f4ed0))return 0;
  /* Do not reclaim a child Move that belongs to native recovery/retreat. */
- if((P(a,0x100)&0x4000)||((P(a,0x100)&0x2000)&&!construction_undead(a)))return 0;
- if(!route_builder(image,a)||!company_readiness(image,a,construction_undead(a)?20:70,0,0))return 0;
+ if((P(a,0x100)&0x4000)||((P(a,0x100)&0x2000)&&!construction_one_worker(a)))return 0;
+ if(!route_builder(image,a))return 0;
+ if(construction_one_worker(a)){if(!construction_live_worker(image,a))return 0;}
+ else if(!company_readiness(image,a,70,0,0))return 0;
  n=P(org,0x2c);list=P(org,0x28);
+ if(!list||!n||n>64)return 0;
  for(i=0;i<n;i++){U u=P(list,4*i);if(u&&route_fighting(image,u))return 0;}
  return 1;
 }
@@ -53,17 +69,19 @@ static void construction_admission(U image,Data*d,U a,U goal,float*result){
  /* A second Construct goal is optional too: native optimization can otherwise
   * exchange the same builder between several valid settlement sites in one
   * planning pass. Keep the accepted site through pending native activation.
-  * Ready Undead workers also keep valid construction instead of a health/
-  * morale-only Recover reassignment. Danger, insufficient HP, combat, repair
-  * and retreat still release this protection. Other races keep recovery. */
- if(!offense(image,goal)&&vt!=0x4d79e8&&vt!=0x4da510&&vt!=0x4da6b0
-   &&!(vt==0x4da5a0&&construction_undead(a)))return;
+  * Haroun/Undead with a living worker also keep construction instead of health/
+  * morale-only Recover reassignment. Optional repair cannot steal this plan.
+  * Danger, insufficient HP, combat and retreat still release protection.
+  * Other races keep their normal recovery behavior. */
+ if(!offense(image,goal)&&vt!=0x4d79e8&&vt!=0x4da510&&vt!=0x4da6b0&&vt!=0x4da3f8
+   &&!(vt==0x4da5a0&&construction_one_worker(a)))return;
  pl=player(goal);if(!pl||P(a,0xe8)!=P(pl,8))return;
  sa=construction_sa(pl,a);source=sa?P(sa,0x10):0;
  if(!source||source==goal||P(source,0)!=image+0x4da6b0
    ||(P(source,8)!=1&&P(source,8)!=2)||!construction_ready(image,a,1))return;
  d->constructionBusy=1;
- if(construction_available(image,pl,source,sa)&&!defense_danger(image,d,0,a,P(pl,8),F(world,0xe8),1)){
+ if(construction_available(image,pl,source,sa)
+   &&!defense_danger(image,d,0,a,P(pl,8),F(world,0xe8),1)){
   *(U*)result|=1;
   emit(image,d,41,goal,pl,P(a,4),1,0,1,F(source,0x48),F(source,0x4c),a,0);
  }
@@ -84,13 +102,12 @@ static void construction_recruit(U image,Data*d,U goal,U*args){
   if(g){
    if(P(g,4)!=engine||P(g,8)!=2)continue;
    vt=P(g,0)-image;if(!offense(image,g)&&vt!=0x4da510&&vt!=0x4d79e8
-     &&!(vt==0x4da5a0&&construction_undead(actor)))continue;
+     &&!(vt==0x4da5a0&&construction_one_worker(actor)))continue;
   }
   if(!construction_ready(image,actor,0)||!construction_available(image,pl,goal,sa))continue;
-  /* Native Recover locks its actor until full healing. Undead builders can
-   * leave that strategic recovery task when fit to build. Capability, valid
-   * site, state, health and local danger still have to pass. */
-  if(!(g&&P(g,0)==image+0x4da5a0&&construction_undead(actor))
+  /* Native Recover locks its actor until full healing. A surviving Haroun or
+   * Undead worker can leave recovery; capability, site and danger still pass. */
+  if(!(g&&P(g,0)==image+0x4da5a0&&construction_one_worker(actor))
     &&!(((DefenseM2)P(P(sa,0),0x20))(sa,0,goal,0)&255))continue;
   if(defense_danger(image,d,0,actor,P(pl,8),time,1))continue;
   distance=dist2(F(actor,0x20),F(actor,0x24),F(goal,0x48),F(goal,0x4c));if(!finite(distance))continue;

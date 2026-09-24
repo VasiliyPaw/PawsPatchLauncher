@@ -1,0 +1,13 @@
+;; Same recording as the gold mine; repeated presses overlap existing playback.
+;; A separate ID keeps the resource-selection audio behavior unchanged.
+[Audio Template=AudioFeedback]
+{
+    IDS = paws_gold_button_select
+    name = "#sound_game_event_k2_resource_gold_select_name"
+    files = sounds/Feedback/ResourceGoldSelect.wav
+    control_flags = NULL
+    who_flags = LOCAL
+    simultaneous_limit = 64
+    delay_ms = 0, 0
+    ignore_rate = true
+}

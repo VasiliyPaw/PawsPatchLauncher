@@ -13,7 +13,8 @@ def build(analysis, out):
     # Our three reserved areas are outside both existing hooks and menu labels.
     raw[0x1fc:0x2d4] = bytes(0xd8)
     raw[0x600:0x800] = bytes(0x200)
-    fixes = [f for f in fixes if not (0x1fc <= f[1] < 0x2d4 or 0x600 <= f[1] < 0x800)]
+    raw[0xa00:0xb00] = bytes(0x100)
+    fixes = [f for f in fixes if not (0x1fc <= f[1] < 0x2d4 or 0x600 <= f[1] < 0x800 or 0xa00 <= f[1] < 0xb00)]
     assert hashlib.sha256(raw).hexdigest() == 'fcb67709ac4cc85ea8f67252fff7c083b11de3e4ab0c28d5505d9896368df2a3'
     assert len(fixes) == 5
     native = (analysis/'k2_runtime_1372_20260904.bin').read_bytes()
@@ -99,6 +100,61 @@ def build(analysis, out):
             at=ins.address-cave+ins.imm_offset
             if image <= value < image+0x700000 and ins.mnemonic=='call': fixes.append((3,at,value-image))
             elif cave <= value < cave+0x1000 and ins.mnemonic in ('push','mov'): fixes.append((2,at,value-cave))
+    # Only this button gets a different anchor. The native tooltip panel stores
+    # its source widget at +0x74 before layout, including the first hover.
+    # Temporarily override the owning Game interface's anchor while the native
+    # text measurement runs, then restore it before any other tooltip can use it.
+    tooltip = f'''
+        mov eax, dword ptr [{image+0x5f3fc0}]
+        test eax, eax
+        jz ordinary
+        mov eax, [eax+0x104]
+        test eax, eax
+        jz ordinary
+        mov eax, [eax+0x74]
+        test eax, eax
+        jz ordinary
+        cmp dword ptr [eax], {cave+0x200}
+        jne ordinary
+        push ebp
+        mov ebp, esp
+        push esi
+        mov esi, ecx
+        push dword ptr [esi+0x94]
+        push dword ptr [esi+0x98]
+        push dword ptr [esi+0x9c]
+        movzx eax, byte ptr [esi+0xa4]
+        push eax
+        mov dword ptr [esi+0x94], 0x447f0000
+        mov dword ptr [esi+0x98], 0x44000000
+        mov dword ptr [esi+0x9c], 0x42f00000
+        mov byte ptr [esi+0xa4], 0
+        push dword ptr [ebp+16]
+        push dword ptr [ebp+12]
+        push dword ptr [ebp+8]
+        call {image+0x2b8185}
+        pop edx
+        mov byte ptr [esi+0xa4], dl
+        pop dword ptr [esi+0x9c]
+        pop dword ptr [esi+0x98]
+        pop dword ptr [esi+0x94]
+        pop esi
+        leave
+        ret 12
+    ordinary:
+        jmp {image+0x2b8185}
+    '''
+    tip_code=bytes(Ks(KS_ARCH_X86,KS_MODE_32).asm(tooltip,cave+0xa00)[0])
+    assert len(tip_code)<=0x100
+    raw[0xa00:0xa00+len(tip_code)]=tip_code
+    for ins in md.disasm(tip_code,cave+0xa00):
+        if ins.disp_size==4 and ins.disp==image+0x5f3fc0: fixes.append((1,ins.address-cave+ins.disp_offset,0x5f3fc0))
+        for operand in ins.operands:
+            if operand.type!=CS_OP_IMM:continue
+            value=operand.imm&0xffffffff;at=ins.address-cave+ins.imm_offset
+            if value==image+0x2b8185:fixes.append((3,at,0x2b8185))
+            elif value==cave+0x200:fixes.append((2,at,0x200))
+    assert native[0xc88bd:0xc88c2]==b'\xe8'+struct.pack('<i',0x2b8185-0xc88bd-5)
     assert len({f[1] for f in fixes})==len(fixes) <=128
     (beta/'PawCommonUiPayload.bin').write_bytes(raw)
     (beta/'PawCommonUiFixups.bin').write_bytes(struct.pack('<I',len(fixes))+b''.join(struct.pack('<III',*f) for f in fixes))
@@ -106,6 +162,7 @@ def build(analysis, out):
     assert native[0xc772e:0xc7734] == bytes.fromhex('ff92d0000000')
     (out/'sound-button-native.json').write_text(json.dumps({'hookRva':0xc772e,'originalVirtualMethodOffset':0xd0,'caveOffset':0x600,'codeBytes':len(code),'fixups':len(fixes),'payloadSha256':hashlib.sha256(raw).hexdigest(),'simulationCommands':False},indent=2))
     (out/'sound-button.asm').write_text(source)
+    (out/'sound-button-tooltip.asm').write_text(tooltip)
     print('SOUND_BUTTON_NATIVE_BUILT',len(code),'bytes;',len(fixes),'relocations')
 
 if __name__=='__main__':

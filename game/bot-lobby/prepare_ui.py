@@ -11,7 +11,8 @@ TEXT={
  'uk':['Усі боти: Раса','Усі боти: Фракція','Усі боти: Складність','Застосовується до наявних і нових ботів. Користувацький — залишити цей параметр без змін.']}
 def transform(raw,language):
  enc='utf-16' if raw[:2]==b'\xff\xfe' else 'utf-8-sig';s=raw.decode(enc);assert 'PawBotsRace' not in s
- start,end=span(s,'Slots');block=s[start:end];block,n=re.subn(r'B\s*=\s*\+405\b','B = +365',block,count=1);assert n==1;s=s[:start]+block+s[end:]
+ # Preserve native client geometry. The host-only runtime uses SetHeight to
+ # reserve room for its controls after the visual tree has initialized.
  nodes=[];labels=TEXT[language]
  for i,kind in enumerate(['Race','Faction','Difficulty']):
   left=55+i*246
@@ -35,7 +36,6 @@ def transform(raw,language):
     }}
     [PawBots{kind} Template=SharedDropDownWidget]
     {{
-        ToolTip = "{labels[3]}"
         [View]
         {{
             L = {left}

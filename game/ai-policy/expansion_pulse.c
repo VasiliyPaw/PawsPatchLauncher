@@ -18,9 +18,10 @@ static int expansion_regions(U image,FastData*f,U pl){
  }
  return 1;
 }
-static int expansion_fast_goal(U image,U pl,U g){
+static int expansion_fast_goal(U image,Data*d,U pl,U g){
  U target,def;
  if(!g||P(g,4)!=P(pl,0xc)||P(g,8)>2)return 0;
+ if(P(g,0)==image+0x4d9274)return army_reserved(image,d,pl,g);
  if(P(g,0)==image+0x4da6b0){
   def=P(g,0x44);return def&&P(def,0x430)&&settlement_site(def);
  }
@@ -35,15 +36,15 @@ static void expansion_fast_dispatch(U image,Data*d,U mode,U goal,U*args,float*re
  /* 35: skip unrelated activation. 36: active-goal transfers only; no native
   * optional exchange. 37: pending recruiting is supplied by mode23's complete
   * group/builder callbacks, then the original caller finalizes activation. */
- if(mode==35){if(P(goal,8)!=1||!expansion_fast_goal(image,pl,goal))*(U*)result=1;return;}
+ if(mode==35){if(P(goal,8)!=1||!expansion_fast_goal(image,d,pl,goal))*(U*)result=1;return;}
  if(mode==38){
   /* Execute only assignments actually changed in this pass, once, through
    * the native affordability/command path. Never reissue ongoing orders. */
-  for(i=0;i<f->commandCount;i++)if(f->commandGoals[i]==goal&&P(goal,8)==2&&expansion_fast_goal(image,pl,goal))return;
+  for(i=0;i<f->commandCount;i++)if(f->commandGoals[i]==goal&&P(goal,8)==2&&expansion_fast_goal(image,d,pl,goal))return;
   *(U*)result=1;return;
  }
  *(U*)result=1;
- if(mode==36&&expansion_fast_goal(image,pl,goal)){
+ if(mode==36&&expansion_fast_goal(image,d,pl,goal)){
   construction_recruit(image,d,goal,args);clearing_evaluate(image,d,goal,args);
  }
 }
@@ -64,6 +65,7 @@ static void expansion_pulse(U image,Data*d,U pl){
  if(!engine||P(engine,4)!=pl||!table||P(engine,0x18))return;
  cache->last=time;
  builder_tick(image,d,pl);
+ city_share(image,d,pl,i);
  if(!expansion_regions(image,f,pl))return;
  for(type=0;type<23;type++){
   U lists=P(table,4*type);if(!lists)return;
@@ -71,14 +73,18 @@ static void expansion_pulse(U image,Data*d,U pl){
    for(node=P(lists,8*state),steps=0;node&&steps++<4096;node=P(node,4)){
     U g=P(node,0),vt=g?P(g,0)-image:0;
     if(!g||P(g,4)!=engine||P(g,8)!=state)return;
+    if(vt==0x4d9274){
+     if(army_reserved(image,d,pl,g)){if(count==4096)return;goals[count++]=g;}
+     continue;
+    }
     if(vt!=0x4da6b0&&vt!=0x4da480&&vt!=0x4d84d4)continue;
     /* Re-evaluate dormant regional goals too: their native target/recipe can
      * first become available after exploration or the destruction of a camp. */
-    if(state==2&&!expansion_fast_goal(image,pl,g))continue;
+    if(state==2&&!expansion_fast_goal(image,d,pl,g))continue;
     if(state!=2&&vt==0x4d84d4){
      /* A direct structure goal is not a regional goal: do not interpret its
       * tail as a region pointer. Its known target is sufficient. */
-     if(!expansion_fast_goal(image,pl,g))continue;
+     if(!expansion_fast_goal(image,d,pl,g))continue;
     }else if(state!=2){
      U region=vt==0x4da6b0?P(g,0x40):P(g,0x48),id;
      if(!region)continue;id=P(region,0);
@@ -93,11 +99,16 @@ static void expansion_pulse(U image,Data*d,U pl){
  for(i=0;i<count;i++){
   U g=goals[i];
   if(((ClearingRoute0)P(P(g,0),0x14))(g,0)&255)continue;
+  /* A selected replacement can miss the full execution pass's budget. It
+   * used to wait twenty seconds and be borrowed by exploration/attacks.
+   * Retry the existing reservation with a fresh native execution budget;
+   * never create a new recruit goal or bypass final Disband validation. */
+  if(P(g,0)==image+0x4d9274){if(army_reserved(image,d,pl,g))expansion_changed(d,pl,g);continue;}
   /* Keep targets of already occupied construction/attacks stable. The full
    * strategic update remains responsible for their reevaluation. */
   if(P(g,0xc))continue;
   ((RouteM1)P(P(g,0),0x60))(g,0,P(pl,8)+0x1cc);
-  if(P(g,8)==0&&finite(F(g,0x38))&&F(g,0x38)>0&&expansion_fast_goal(image,pl,g))
+  if(P(g,8)==0&&finite(F(g,0x38))&&F(g,0x38)>0&&expansion_fast_goal(image,d,pl,g))
    ((DefenseM2)(image+0x1e481e))(g,0,1,1);
  }
  /* Native selection supplies fresh affordability/resource accounting, owns

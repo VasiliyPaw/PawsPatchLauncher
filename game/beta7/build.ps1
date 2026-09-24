@@ -57,6 +57,13 @@ if ($CityAssistant) {
     foreach ($required in 'city_assistant_1372','city_policy_v2','fast_transfer_1372') {
         if (-not (Test-Path -LiteralPath (Join-Path $work $required))) { throw "Missing accepted legacy source $required. Set -LegacyWorkDirectory to its work directory." }
     }
+    if($LobbyCompatibility){
+        $browserTest=Join-Path $out 'LobbyBrowserTest.dll'
+        & $NativeCompiler -shared -DPAW_TEST -Wall -Werror (Join-Path $lobby 'lobby_compatibility.c') -o $browserTest -lkernel32 -luser32
+        if($LASTEXITCODE -ne 0){throw 'Browser label test build failed'}
+        & $python (Join-Path $lobby 'test_browser_label.py') --legacy $work --dll $browserTest
+        if($LASTEXITCODE -ne 0){throw 'Browser label regression failed'}
+    }
     Write-Output "Verified legacy sources: $work"
     & $python (Join-Path $assistant 'build_policy_native.py') --legacy (Join-Path $work 'city_assistant_1372') --out (Join-Path $out 'native')
     if ($LASTEXITCODE -ne 0) { throw 'Native city policy generation failed.' }
@@ -154,7 +161,7 @@ if($AiPolicy) {
         & $python (Join-Path $ai $test) --legacy $work --native $aiNative
         if($LASTEXITCODE -ne 0){throw 'AI construction/staging regression failed.'}
     }
-    foreach($test in 'test_opening_lairs.py','test_clearing_route.py','test_expansion_pulse.py','test_supply_notice.py','test_recruit_counts.py','test_builder_fleet.py'){
+    foreach($test in 'test_opening_lairs.py','test_clearing_route.py','test_expansion_pulse.py','test_supply_notice.py','test_recruit_counts.py','test_builder_fleet.py','test_builder_claims.py','test_army_upgrade.py','test_upgrade_completion.py','test_worker_survival.py','test_city_sharing.py'){
         & $python (Join-Path $ai $test) --legacy $work --native $aiNative
         if($LASTEXITCODE -ne 0){throw "AI release regression failed: $test"}
     }

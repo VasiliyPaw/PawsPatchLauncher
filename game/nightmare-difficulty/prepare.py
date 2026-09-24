@@ -3,12 +3,12 @@ import argparse,hashlib,json
 from pathlib import Path
 R=Path(__file__).resolve().parent
 TEXT={
- 'en':('Nightmare','Recruitment and construction cost 90% less. Uses the hard AI behavior. Upkeep, build times and company and kingdom-point limits are unchanged.'),
- 'ru':('Кошмар','Найм и строительство дешевле на 90%. Используется сложный профиль поведения ботов. Содержание, время строительства и лимиты рот и очков королевства не меняются.'),
- 'de':('Albtraum','Rekrutierung und Bau kosten 90% weniger. Verwendet das schwere KI-Verhalten. Unterhalt, Bauzeiten sowie Kompanie- und Königreichspunktelimits bleiben unverändert.'),
- 'fr':('Cauchemar','Le recrutement et la construction coûtent 90% de moins. Utilise le comportement difficile de l’IA. L’entretien, les temps de construction et les limites de compagnies et de points de royaume restent inchangés.'),
- 'cs':('Noční můra','Nábor a výstavba jsou o 90% levnější. Používá obtížné chování AI. Údržba, doba výstavby a limity rot a bodů království se nemění.'),
- 'uk':('Кошмар','Найм і будівництво дешевші на 90%. Використовується складний профіль поведінки ботів. Утримання, час будівництва та ліміти рот і очок королівства не змінюються.'),
+ 'en':('Nightmare','Recruitment and construction cost 90% less.'),
+ 'ru':('Кошмар','Найм и строительство дешевле на 90%.'),
+ 'de':('Albtraum','Rekrutierung und Bau kosten 90% weniger.'),
+ 'fr':('Cauchemar','Le recrutement et la construction coûtent 90% de moins.'),
+ 'cs':('Noční můra','Nábor a výstavba jsou o 90% levnější.'),
+ 'uk':('Кошмар','Найм і будівництво дешевші на 90%.'),
 }
 DEFINITION='''[Handicap Template=Handicap]
 {

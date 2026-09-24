@@ -77,7 +77,7 @@ static int economy_free_site(U image,U pl,U target,U a){
  }
  if(node)return 0;
  for(node=P(cell,8),steps=0;node&&steps++<1024;node=P(node,4))if(P(node,0)==a)break;
- return node&&!allied_site_busy(image,pl,target,F(a,0x20),F(a,0x24));
+ return node!=0;
 }
 static U economy_site(U image,Data*d,U pl,U target){
  Economy*r=economy_record(image,d,pl,target);U reg,i,k,cities,n,best=0;float time,nearBest=1e20f;
@@ -188,7 +188,7 @@ static int economy_swap_fits(U image,Data*d,U pl,U goal,U old){
  }
  return shortage;
 }
-static int economy_swap_ready(U image,Data*d,U pl,U goal){
+static int economy_factory_ready(U image,U pl,U goal){
  U sa=P(goal,0x4c),city=sa?actor_id(image,P(sa,8)):0,factory,ego=P(pl,0x1c);
  if(!city||P(sa,0xc)!=pl||P(city,0xe8)!=P(pl,8)||!P(city,0x94)||invalid_center(image,P(city,0x98)))return 0;
  factory=((EconomyM0)(image+0x1df308))(sa,0);if(!factory)return 0;
@@ -203,7 +203,11 @@ static int economy_swap_ready(U image,Data*d,U pl,U goal){
   }
   if(steps>=4096)return 0;
  }
- return economy_need(image,d,pl,P(goal,0x44),P(goal,0x48))&&economy_affordable(image,pl,goal)&&economy_swap_fits(image,d,pl,goal,0);
+ return 1;
+}
+static int economy_swap_ready(U image,Data*d,U pl,U goal){
+ return economy_factory_ready(image,pl,goal)&&economy_need(image,d,pl,P(goal,0x44),P(goal,0x48))
+   &&economy_affordable(image,pl,goal)&&economy_swap_fits(image,d,pl,goal,0);
 }
 /* Replacement is attached to the native Recruit goal exactly as at 1DF1B2.
  * Its stock execution validates CanDisband, sends the simulation command and

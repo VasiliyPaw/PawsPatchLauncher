@@ -20,8 +20,8 @@ class PresentationTests
         foreach(string name in new[]{"paws_patch_versions.ini","paws_launch_versions.ini"})
             File.WriteAllText(Path.Combine(root,name),"[Versions]\nMod=arcane-wars\nModVersion=0.82.1.8\nPawPatch=0.2.0\nPatchChannel=beta");
         var install=typeof(PawGamePresentation).GetMethod("InstallPresentation",BindingFlags.NonPublic|BindingFlags.Static);
-        int[] sites={0xBF99F,0xFA979,0xC772E};
-        byte[][] originals={new byte[]{0xe8,0xfb,0xd3,0x1f,0},new byte[5],new byte[]{0xff,0x92,0xd0,0,0,0}};
+        int[] sites={0xBF99F,0xFA979,0xC772E,0xC88BD};
+        byte[][] originals={new byte[]{0xe8,0xfb,0xd3,0x1f,0},new byte[5],new byte[]{0xff,0x92,0xd0,0,0,0},new byte[]{0xe8,0xc3,0xf8,0x1e,0}};
         foreach(bool menuOnly in new[]{false,true})
         foreach(bool icon in new[]{false,true})
         foreach(bool layout in new[]{false,true})
@@ -34,19 +34,19 @@ class PresentationTests
             try
             {
                 originals[1][0]=0xa1;Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image.ToInt32()+0x5f3fc0)),0,originals[1],1,4);
-                for(int i=0;i<3;i++)Marshal.Copy(originals[i],0,Add(image,sites[i]),originals[i].Length);
+                for(int i=0;i<4;i++)Marshal.Copy(originals[i],0,Add(image,sites[i]),originals[i].Length);
                 using(var proc=Process.GetCurrentProcess())
                     install.Invoke(null,new object[]{proc.Handle,image,Path.Combine(root,"test.log"),root,menuOnly});
                 cave=Add(image,unchecked(0xFA979+5+Marshal.ReadInt32(Add(image,0xFA97A))-0x400));
                 bool button=!menuOnly && icon && layout;
-                for(int i=0;i<3;i++)
+                for(int i=0;i<4;i++)
                 {
-                    bool changed=i==1 || (i==0 && !menuOnly) || (i==2 && button);
+                    bool changed=i==1 || (i==0 && !menuOnly) || (i>=2 && button);
                     if(changed)
                     {
                         Check(Marshal.ReadByte(Add(image,sites[i]))==(i==1?0xe9:0xe8),"proper call/jump kind");
                         int dest=unchecked(image.ToInt32()+sites[i]+5+Marshal.ReadInt32(Add(image,sites[i]+1)));
-                        Check(dest==unchecked(cave.ToInt32()+(i==0?0:i==1?0x400:0x600)),"branch destination");
+                        Check(dest==unchecked(cave.ToInt32()+(i==0?0:i==1?0x400:i==2?0x600:0xa00)),"branch destination");
                         if(i==2)Check(Marshal.ReadByte(Add(image,sites[i]+5))==0x90,"six-byte virtual call padded with NOP");
                     }
                     else for(int j=0;j<originals[i].Length;j++)Check(Marshal.ReadByte(Add(image,sites[i]+j))==originals[i][j],"unselected hook untouched");

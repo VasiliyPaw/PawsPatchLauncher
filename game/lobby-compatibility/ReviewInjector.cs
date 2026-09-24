@@ -32,8 +32,8 @@ class ReviewInjector {
     static string Sha(string path){using(var sha=SHA256.Create())using(var f=File.OpenRead(path))return BitConverter.ToString(sha.ComputeHash(f)).Replace("-","");}
     static ProcessModule Module(Process p,string name){p.Refresh();return p.Modules.Cast<ProcessModule>().Single(m=>m.ModuleName.Equals(name,StringComparison.OrdinalIgnoreCase));}
     static uint ExportRva(IntPtr local,string name){var a=GetProcAddress(local,name);if(a==IntPtr.Zero)a=GetProcAddress(local,"_"+name+"@4");if(a==IntPtr.Zero)throw new Exception("Missing export: "+name);return U(a)-U(local);}
-    static readonly uint[] sites={0x151092,0x150e40,0x151c8a,0x1519ef,0x151bf3};
-    static readonly uint[] originals={0x7c92f,0x7c92f,0x149033,0x149046,0x23fb6};
+    static readonly uint[] sites={0x151092,0x150e40,0x151c8a,0x1519ef,0x151bf3,0x7d3eb,0x77417};
+    static readonly uint[] originals={0x7c92f,0x7c92f,0x149033,0x149046,0x23fb6,0x23ee7,0x77fdc};
     static void Guard(uint image){
         var session=U32(image+0x5f3fe4);if(session<0x10000||U32(session+0xf0)!=0)throw new Exception("Install only in the main menu, outside a lobby or match.");
         for(int i=0;i<sites.Length;i++){var b=Read(image+sites[i],5);var target=unchecked(image+sites[i]+5+BitConverter.ToUInt32(b,1));if(b[0]!=0xe8||target!=image+originals[i])throw new Exception("Native call guard failed: "+sites[i].ToString("X"));}

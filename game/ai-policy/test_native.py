@@ -105,10 +105,10 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
    uc.emu_start(0x62000100,0x62000106,count=1)
    assert bytes(uc.mem_read(resources+544,10))==extended,(bytes(uc.mem_read(resources+544,10)).hex(),extended.hex(),hex(uc.reg_read(UC_X86_REG_FPSW)))
    # Independently vary ownership, committed work, position, and list order.
-   # The filter only controls the candidate score; it writes no game objects.
+   # Allied plans no longer veto scores; native results and precision stay intact.
    other,otherK,otherE,goal,node,city,container,center= [obj+x for x in (0x8000,0x9000,0xa000,0xb000,0xc000,0xd000,0xe000,0xf000)]
    base_fixture=bytes(uc.mem_read(obj,0x10000))
-   for scenario,veto in [('disabled',False),('ally',True),('enemy',False),('no_parent',False),('far',False),('inactive',False),('unassigned',False),('repair',False),('own_committed_first',False),('own_committed_second',True),('ally_city',True),('enemy_city',False),('other_definition',False),('self_only',False)]:
+   for scenario,veto in [('disabled',False),('ally',False),('enemy',False),('no_parent',False),('far',False),('inactive',False),('unassigned',False),('repair',False),('own_committed_first',False),('own_committed_second',False),('ally_city',False),('enemy_city',False),('other_definition',False),('self_only',False)]:
     uc.mem_write(obj,base_fixture);uc.mem_write(cave+meta['dataOffset'],bytes(meta['allocation']-meta['dataOffset']))
     w(cave+meta['dataOffset']+4,0 if scenario=='disabled' else 1)
     w(pl+0xc,engine);w(k+0x1f8,0 if scenario=='no_parent' else 0x5555)

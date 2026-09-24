@@ -15,6 +15,10 @@ class FleetFixture(EconomyFixture):
   self.nation=self.rs+0x1000;self.w(self.kingdom+0x240,self.nation);self.w(self.nation+8,self.nation+0x100)
   self.race('human')
  def race(self,name):self.u.mem_write(self.nation+0x100,(name+'\0').encode('utf-16le'))
+ def builder_alive(self):
+  super().builder_alive()
+  self.w(self.leader+4,self.builder);self.w(self.leader+0xa8,self.rs+0x1600)
+  self.w(self.rs+0x1600,self.image+0x4df830);self.w(self.rs+0x1604,self.leader)
  def eligible(self):return self.invoke(4,self.recruit,[self.builder])
  def advance(self):self.f(self.world+0xe8,struct.unpack('<f',self.u.mem_read(self.world+0xe8,4))[0]+5)
  def site(self,i):
@@ -102,31 +106,34 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
  for prop in (False,True):check(f.native_priority(prop)==-4650,'real native repeat penalty restored when queue covers demand')
  for race in ('human','drauga','gauri','haroun','Undead','fallen'):
   f=FleetFixture(image,cave);f.race(race);f.site(1);f.site(2);f.builder_alive()
-  check(f.eligible()==1,('three sites one worker needs more',race))
-  f.queued(1);f.native_invalidation();check(f.eligible()==1,'one queued still leaves a vacancy')
+  check(f.eligible()==int(race!='haroun'),('reusable Haroun versus consumable workers',race))
+  f.queued(1);f.native_invalidation();check(f.eligible()==int(race!='haroun'),'one queued still leaves a vacancy except Haroun')
   f.queued(2);f.native_invalidation();check(f.eligible()==0,'existing plus queued covers all sites')
-  f.queued(0);f.native_invalidation();check(f.eligible()==1,'cancelled queue restores demand same tick')
+  f.queued(0);f.native_invalidation();check(f.eligible()==int(race!='haroun'),'cancelled queue restores uncovered demand')
   f.w(f.marker+0x408,1);f.w(f.marker+0x808,1)
   check(f.eligible()==0,'occupied/disappeared sites reduce demand immediately')
   f.w(f.marker+8,1);check(f.eligible()==0,'no vacancy no extra workers')
- for case in ('militia','field','born-before-SA','hidden','disabled','sovereign'):
+ for case in ('militia','field','born-before-SA','captain-only','hidden','disabled','sovereign'):
   f=FleetFixture(image,cave);f.builder_alive()
   if case=='militia':f.w(f.actor+0x144,2)
   if case=='born-before-SA':f.w(f.player+0x2c,0)
+  if case=='captain-only':
+   f.w(f.actor+0xa8,0);f.w(f.leader+0xa8,0)
+   f.w(f.org+0x28,f.org+0x180);f.w(f.org+0x2c,1);f.w(f.org+0x180,f.leader)
   if case=='hidden':f.w(f.stats+16,0);f.w(f.actor+8,1)
   if case=='disabled':f.w(f.data+4,0)
   if case=='sovereign':f.sovereign();f.site(1)
   check(f.eligible()==int(case in ('militia','disabled')),('field census/cap',case))
- # Ordinary builders retain 70%; Undead use 20%, aggregate living HP only.
- for race in ('human','Undead'):
-  for hp in (19.99,20,69.99,70):
+ # A living capable Haroun/Undead worker suffices, even below 1% HP.
+ for race in ('human','Undead','haroun'):
+  for hp in (0,0.01,1,19.99,20,69.99,70):
    for recovery in (False,True):
     f=FleetFixture(image,cave);f.race(race);f.builder_alive();f.build_goal()
     f.f(f.leader+0x910,hp);f.f(f.org+0x5c,0);f.w(f.layout+0x204,f.ldef)
     if recovery:
      f.w(f.source,image+0x4da5a0);f.w(image+0x4da5a0+0x68,image+0x2200)
      f.w(f.state,image+0x4f4df0);f.w(f.actor+0x100,0x2000);f.w(f.stats+120,0)
-    check(f.reclaim()==(hp>=(20 if race=='Undead' else 70) and (not recovery or race=='Undead')),('partial builder recovery',race,hp,recovery))
+    check(f.reclaim()==((hp>0 if race!='human' else hp>=70) and (not recovery or race!='human')),('partial builder recovery',race,hp,recovery))
  # Recover must not reclaim a fit Undead worker after the construction handoff.
  for case in ('undead20','undead19','human70','danger','retreat','invalid-site','combat','disabled'):
   f=FleetFixture(image,cave);f.race('human' if case=='human70' else 'Undead');f.builder_alive();f.build_goal()
@@ -137,7 +144,7 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   if case=='invalid-site':f.w(f.marker+8,1)
   if case=='combat':f.w(f.state,image+0x4f4e20)
   if case=='disabled':f.w(f.data+4,0)
-  check(f.admission(f.source)==int(case=='undead20'),('no construction/recovery oscillation',case))
+  check(f.admission(f.source)==int(case in ('undead20','undead19')),('no construction/recovery oscillation',case))
  for case in ('combat','retreat','danger','nan'):
   f=FleetFixture(image,cave);f.race('Undead');f.builder_alive();f.build_goal();f.f(f.leader+0x910,20)
   if case=='combat':f.w(f.state,image+0x4f4e20)

@@ -22,6 +22,7 @@ typedef struct { U world,kingdom; float last; U camp; } ClearingPlayer;
 typedef struct { U world,kingdom,camp,goal; float time,x,y; } ClearingRally;
 typedef struct { U world,kingdom,target,site,recruit,layout; float time,observed; } Economy;
 typedef struct { U world,kingdom; float last; } ExpansionPulse;
+typedef struct { U world,kingdom,city,recipient; float last; } CityGift;
 
 /* Mirror only native owned-field registration, never denizen registration.
  * Keys encode an immutable definition pointer plus the property-table bit. */
@@ -30,8 +31,13 @@ typedef struct { U id,definition; } RecruitCountMember;
 typedef struct { U player,ready; RecruitCountEntry entries[2048]; RecruitCountMember members[4096]; } RecruitCounts;
 typedef struct { U world,kingdom,target,valid,count,sites[512]; float time; U counted,owned[2],queued[2],unscored; } BuilderSites;
 typedef struct { U world,kingdom,id,camp,goal; float surplusSince,last,sent; } BuilderWork;
+typedef struct { U kingdom,actor,job,target,site,assigned; float x,y; } BuilderClaim;
 typedef struct { U sequence,mask,counts[30]; Event events[EVENTS]; Seen seen[8192]; Budget budget[2]; U query; Route route; Expansion expansion[96]; DefenseUnit defenders[4096]; DefensePlayer defensePlayers[96]; DefenseDamage damage[4096]; ClearingPlayer clearing[96]; U constructionBusy; ClearingRally rallies[96]; Economy economy[192]; U economyBusy; } Data;
-typedef struct { Data base; ExpansionPulse pulses[96]; U fastPlayer; U pulseGoals[4096]; U commandCount,commandGoals[64],expansionRegions[2048]; U noticeWorld,noticeTime,noticeSeen; U recruitWorld,recruitScope; RecruitCounts recruitCounts[96]; BuilderSites builderSites[192]; BuilderWork builderWork[4096]; U builderBusy,recruitDefinition; } FastData;
+typedef struct { Data base; ExpansionPulse pulses[96]; U fastPlayer; U pulseGoals[4096]; U commandCount,commandGoals[64],expansionRegions[2048]; U noticeWorld,noticeTime,noticeSeen; U recruitWorld,recruitScope; RecruitCounts recruitCounts[96]; BuilderSites builderSites[192]; BuilderWork builderWork[4096]; U builderBusy,recruitDefinition;
+ U claimWorld,claimBusy,claimValid,claimCount,claimSiteCount; float claimTime;
+ BuilderClaim claims[2048],oldClaims[2048]; U claimSites[512];
+ CityGift cityGifts[96];
+} FastData;
 static void expansion_changed(Data*d,U pl,U goal){
  FastData*f=(FastData*)d;U i;if(!f->fastPlayer||f->fastPlayer!=pl)return;
  for(i=0;i<f->commandCount;i++)if(f->commandGoals[i]==goal)return;
@@ -88,37 +94,6 @@ static U invalid_center(U image,U component) {
 }
 static U player(U goal) { U engine=P(goal,4);return engine?P(engine,4):0; }
 static int same_spot(float x,float y,U obj,U off) {float dx=x-F(obj,off),dy=y-F(obj,off+4);return finite(dx)&&finite(dy)&&dx*dx+dy*dy<=16;}
-static int constructing(U image,U pl,float x,float y) {
- U engine=P(pl,0xc),node=engine?P(engine,0xc):0,i=0;
- for(;node&&i++<4096;node=P(node,4)){U g=P(node,0);if(g&&P(g,0)==image+0x4da6b0&&P(g,4)==engine&&P(g,8)==2&&P(g,0xc)&&same_spot(x,y,g,0x48))return 1;}
- return 0;
-}
-/* A settlement already started by an ally belongs to that ally. Do not let
- * an expansion goal silently become allied construction assistance. Repair
- * goals and player commands never pass through this filter. */
-static int allied_site_busy(U image,U pl,U def,float x,float y) {
- U k=P(pl,8),parent=k?P(k,0x1f8):0,sai=P(image,0x5f3fc8),list,count,i,self=96;
- int committed;
- if(!parent||!sai||!finite(x)||!finite(y))return 0;
- count=P(sai,0x70);list=P(sai,0x6c);if(!list||count>96)return 0;
- for(i=0;i<count;i++)if(P(list,i*4)==pl)self=i;
- if(self==96)return 0;committed=constructing(image,pl,x,y);
- for(i=0;i<count;i++){
-  U other=P(list,i*4),otherK,j,cities,n;if(!other||other==pl)continue;
-  otherK=P(other,8);if(!otherK||P(otherK,0x1f8)!=parent)continue;
-  cities=P(otherK,0x2dc);n=P(otherK,0x2e0);
-  if(cities&&n<=256)for(j=0;j<n;j++){
-   U city=P(cities,j*4),container,center;
-   if(!city||P(city,0xe8)!=otherK||!P(city,0x94))continue;
-   container=P(city,0x98);center=container?P(container,0x14):0;
-   if(center&&P(center,4)==def&&same_spot(x,y,city,0x20))return 1;
-  }
-  /* Existing committed plans win over new plans; simultaneous committed
-   * plans use native player-list order, never pointer addresses or clocks. */
-  if((!committed||i<self)&&constructing(image,other,x,y))return 2;
- }
- return 0;
-}
 static void name(char* dst,U def) {
  U p=def?P(def,8):0;int i;
  for(i=0;i<59 && p;i++){W c=*(W*)(p+i*2);if(!c)break;dst[i]=(c<128)?(char)c:'?';}
@@ -181,14 +156,17 @@ static int builder_missing(U image,Data*d,U pl,U target);
 #include "economy.c"
 #include "builder_fleet.c"
 #include "scouting.c"
-#include "expansion_pulse.c"
+#include "city_sharing.c"
 #include "supply.c"
+#include "army_upgrade.c"
+#include "expansion_pulse.c"
 #include "notice.c"
 #include "recruit_counts.c"
 __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,float*result) {
+ if(mode==51){if(d->mask&8)builder_recruit_hero(image,d,obj,args[0],result);return;}
  if(mode==50){if((d->mask&8)&&(*(U*)result&255)){U a=P(obj,4),pl=live_actor(image,a)?ai_for_kingdom(image,P(a,0xe8)):0;if(builder_enabled(image,pl)&&route_builder(image,a))*(U*)result&=0xffffff00;}return;}
  if(mode==49){if(d->mask&8)builder_hero_score(image,d,obj,args,result);return;}
- if(mode>=40&&mode<=48){if(mode==46||mode==47||mode==48)builder_invalidate(d,mode==48?0:obj,mode==48);recruit_counts_evaluate(image,d,mode,obj,args,result);return;}
+ if(mode>=40&&mode<=48){if(mode==48){U i;for(i=0;i<96;i++)((FastData*)d)->cityGifts[i].world=0;}if(mode==46||mode==47||mode==48)builder_invalidate(d,mode==48?0:obj,mode==48);recruit_counts_evaluate(image,d,mode,obj,args,result);return;}
  if(mode==39){goal_notice(image,d,result);return;}
  if(mode==34){if(d->mask&8)expansion_pulse(image,d,obj);return;}
  if(mode==35||mode==36||mode==37||mode==38){expansion_fast_dispatch(image,d,mode,obj,args,result);return;}
@@ -204,19 +182,23 @@ __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,floa
   return;
  }
  if(mode==30){if((d->mask&8)&&(*(U*)result&255)&&economy_spend(image,d,obj,args[0]))*(U*)result&=0xffffff00;return;}
- if(mode==31){if(d->mask&8)economy_replace(image,d,args[0],result);return;}
+ if(mode==31){if(d->mask&8){U g=args[0];if(g&&economy_center(P(g,0x44),P(g,0x48),0))economy_replace(image,d,g,result);else army_replace(image,d,g,result);}return;}
  if(mode==32){
   U g=obj-0xc,pl;
-  if((d->mask&8)&&(*(U*)result&255)&&P(g,0)==image+0x4d9274&&args[0]==g+0x50
-    &&economy_center(P(g,0x44),P(g,0x48),0)){
+  if((d->mask&8)&&(*(U*)result&255)&&P(g,0)==image+0x4d9274&&args[0]==g+0x50){
    pl=player(g);
-   if(!pl||!economy_swap_ready(image,d,pl,g)||!economy_swap_safe(image,d,pl,P(g,0x50),g,1))*(U*)result&=0xffffff00;
+   if(economy_center(P(g,0x44),P(g,0x48),0)){
+    if(!pl||!economy_swap_ready(image,d,pl,g)||!economy_swap_safe(image,d,pl,P(g,0x50),g,1))*(U*)result&=0xffffff00;
+   }else {U valid=pl?army_validate(image,d,pl,g):0;U sa=P(g,0x50),a=sa?actor_id(image,P(sa,8)):0;
+    if(!valid)*(U*)result&=0xffffff00;
+    emit(image,d,60,g,pl,P(g,0x44),valid,0,0,0,0,a,0);
+   }
   }
   return;
  }
  if(mode==24){if((d->mask&8)&&!opening_large_candidate(image,d,obj,args[0],result))expansion_candidate(image,d,obj,args[0],result);return;}
  if(mode==23){if(d->mask&8){construction_recruit(image,d,obj,args);clearing_recruit(image,d,obj,args);builder_wait(image,d,obj,args);clearing_rally_recruit(image,d,obj,args);scouting_evaluate(image,d,obj,args);}return;}
- if(mode==18&&(d->mask&8)){builder_admission(image,d,obj,args[0],result);opening_capture_admission(image,d,obj,args[0],result);construction_admission(image,d,obj,args[0],result);clearing_staffed_admission(image,d,obj,args[0],result);}
+ if(mode==18&&(d->mask&8)){army_admission(image,d,obj,args[0],result);builder_admission(image,d,obj,args[0],result);opening_capture_admission(image,d,obj,args[0],result);construction_admission(image,d,obj,args[0],result);clearing_staffed_admission(image,d,obj,args[0],result);}
  if(mode==22){if(d->mask&8){construction_recruit(image,d,obj,args);clearing_evaluate(image,d,obj,args);builder_wait(image,d,obj,args);clearing_rally_recruit(image,d,obj,args);}return;}
  if(mode==17||mode==18||mode==20||mode==21){if(d->mask&8)defense_evaluate(image,d,mode,obj,args,result);return;}
  if(mode>=11){if(d->mask&8)route_evaluate(image,d,mode,obj,args,result);return;}
@@ -230,9 +212,9 @@ __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,floa
    if((code&255)&&k&&(d->mask&8))target=economy_need(image,d,pl,def,layout);
    if((code&255)&&k&&(d->mask&2)){
     limit_check(image,d,k,def,layout,P(k,0x1a8),P(k,0x1c0),0,&hit);
-    /* The native final planner can replace an old company for a genuinely
-     * needed builder. Other capacity shortages retain the strict veto. */
-    if(hit.resource&&!(target&&hit.resource==economy_unit_resource(image))){*(U*)result=code&0xffffff00;d->counts[28]++;}
+    /* A feasible single-company upgrade must reach the final planner.
+     * It still has to pass actual-layout, money and pre-disband checks. */
+    if(hit.resource&&!(target&&hit.resource==economy_unit_resource(image))&&!army_early(image,d,pl,def,layout)){*(U*)result=code&0xffffff00;d->counts[28]++;}
    }
    if((*(U*)result&255)&&k&&(d->mask&8)&&economy_slot(image,d,pl,def,layout,P(k,0x1a8),P(k,0x1c0))){*(U*)result=code&0xffffff00;}
    if((*(U*)result&255)&&supply_capped(image,d,pl,def)){*(U*)result=code&0xffffff00;emit(image,d,54,obj,pl,def,1,2,2,0,0,0,0);}
@@ -274,7 +256,8 @@ __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,floa
    emit(image,d,31,obj,pl,P(blocked,4),reason,before,0,F(blocked,0x20),F(blocked,0x24),blocked,0);
   }else {after=expansion_priority(image,d,obj,pl,before);after=militia_priority(image,d,obj,pl,after);}
  }
- if(mode==2&&(d->mask&1)&&finite(before)&&before>0&&allied_site_busy(image,pl,def,*(float*)&args[1],*(float*)&args[2])){after=0;*result=0;d->counts[20]++;}
+ /* Allies compete for settlement markers again. Native occupancy and the
+  * bot's own builder/site assignments remain authoritative. */
  /* result is not an EAX return for void callees. Publish goal vtable RVA
   * there instead; preparation reports whether a city was selected. */
  emit(image,d,mode,obj,pl,def,mode>=2?*(U*)result:mode==1?(P(obj,0x4c)?1:0):P(obj,0)-image,before,after,mode==2?*(float*)&args[1]:0,mode==2?*(float*)&args[2]:0,0,0);

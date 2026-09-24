@@ -1,14 +1,16 @@
 	;; Independent local sound button; never registered as an actor/team command.
 	;; Above the lower-right command panel, with room for its complete tab row.
-	;; At 2560x1440: frame 150x150; image 145x145 (1:1).
+	;; At 2560x1440: frame 100x100; image 95x95 (1:1).
 	[PawGoldSoundButton Template=PushButtonWidget]
 	{
-		set_sound = resource_gold_select
+		tooltip_name = "Paw's Patch"
+		tooltip = "#paws_gold_sound_tooltip"
+		set_sound = paws_gold_button_select
 		unset_sound = NULL
 		[View Template=GroupVE]
 		{
-			L = 64r
-			T = 278b
+			L = 44r
+			T = 251.333333b
 			R = 4r
 			B = 198b
 			[Child Template=DecalVE]
@@ -24,8 +26,8 @@
 			{
 				L = 1
 				T = 1.333333
-				R = 59
-				B = 78.666667
+				R = 39
+				B = 52
 				texture = /UI/Game/PawGoldSound.png
 			}
 		}

@@ -144,8 +144,26 @@ static void *__cdecl format_disconnect(void *dst,const void *src,int reason) {
     return result;
 }
 
-static const uint32_t sites[]={0x151092,0x150e40,0x151c8a,0x1519ef,0x151bf3};
-static const uint32_t originals[]={0x7c92f,0x7c92f,0x149033,0x149046,0x23fb6};
+/* Steam's published "map" is a display label, separate from "mst" and
+ * "mids" (the actual map/save identity). Change only the temporary conversion
+ * used for that one key; never touch session preferences or the source string. */
+static void * __attribute__((fastcall)) advertised_map(void *out,void *unused,const wchar_t *name) {
+    return ((Ctor)(image+0x23ee7))(out,0,L"Paws Launcher");
+}
+/* The stock browser prefers a locally translated map title over that label.
+ * Respect the host marker after the original resolver, leaving ordinary
+ * lobbies and every map ID, save path, room name and player count intact. */
+static void __attribute__((fastcall)) browser_map(void *self,void *unused,const void *type,const void *id,const void *label) {
+    typedef void (__attribute__((fastcall)) *Resolve)(void*,void*,const void*,const void*,const void*);
+    typedef void *(__attribute__((fastcall)) *WideAssign)(void*,void*,const wchar_t*);
+    ((Resolve)(image+0x77fdc))(self,0,type,id,label);
+    const wchar_t *text=label?*(const wchar_t*const*)label:0;
+    if(text&&!wcscmp(text,L"Paws Launcher"))
+        ((WideAssign)(image+0x214d4))((char*)self+0x50,0,L"Paws Launcher");
+}
+static const uint32_t sites[]={0x151092,0x150e40,0x151c8a,0x1519ef,0x151bf3,0x7d3eb,0x77417};
+static const uint32_t originals[]={0x7c92f,0x7c92f,0x149033,0x149046,0x23fb6,0x23ee7,0x77fdc};
+#define SITE_COUNT (sizeof(sites)/sizeof(sites[0]))
 static void call_bytes(unsigned char *out,uintptr_t site,uintptr_t dest) {
     out[0]=0xe8;uint32_t delta=(uint32_t)(dest-site-5);memcpy(out+1,&delta,4);
 }
@@ -163,7 +181,7 @@ __declspec(dllexport) DWORD WINAPI PawInstall(void *raw) {
     __asm__("movl %%fs:0x30, %0":"=r"(peb));
     image=*(uintptr_t*)(peb+8);
     if(*(uint16_t*)image!=0x5a4d) return 13;
-    for(i=0;i<5;i++) {
+    for(i=0;i<SITE_COUNT;i++) {
         call_bytes(expect,image+sites[i],image+originals[i]);
         if(memcmp((void*)(image+sites[i]),expect,5)) return 20+i;
     }
@@ -180,8 +198,8 @@ __declspec(dllexport) DWORD WINAPI PawInstall(void *raw) {
     memcpy(formatThunk,thunk,sizeof thunk);
     if(!VirtualProtect(formatThunk,64,PAGE_EXECUTE_READ,&old)) return 31;
     FlushInstructionCache(GetCurrentProcess(),formatThunk,64);
-    void *targets[]={version_string,version_string,write_disconnect,read_disconnect,formatThunk};
-    for(i=0;i<5;i++) {
+    void *targets[]={version_string,version_string,write_disconnect,read_disconnect,formatThunk,advertised_map,browser_map};
+    for(i=0;i<SITE_COUNT;i++) {
         void *site=(void*)(image+sites[i]);
         if(!VirtualProtect(site,5,PAGE_EXECUTE_READWRITE,&old)) {failed=1;break;}
         call_bytes(branch,(uintptr_t)site,(uintptr_t)targets[i]);memcpy(site,branch,5);
@@ -216,6 +234,9 @@ __declspec(dllexport) DWORD WINAPI PawInstallQueued(void *raw) {
 }
 
 #ifdef PAW_TEST
+__declspec(dllexport) void PawTestImage(uintptr_t value) {image=value;}
+__declspec(dllexport) void * __attribute__((fastcall)) PawTestAdvertisedMap(void*out,void*unused,const wchar_t*name) {return advertised_map(out,0,name);}
+__declspec(dllexport) void __attribute__((fastcall)) PawTestBrowserMap(void*self,void*unused,const void*type,const void*id,const void*label) {browser_map(self,0,type,id,label);}
 int main(void) {
     const char *token="PWLC1|1.3.72|arcane-wars|0.82.1.8|0.3.0-beta.6|0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
     unsigned n=strlen(token),checks=0,i;

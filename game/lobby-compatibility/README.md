@@ -2,7 +2,7 @@
 
 The eight Arcane Wars beta helpers embed this x86 native library. They compute an
 identity from the applied installation before launching, load the library into
-only their own fresh, verified Steam 1.3.72 process, then install five guarded
+only their own fresh, verified Steam 1.3.72 process, then install seven guarded
 CALL replacements in a short suspended transaction. No launcher update is needed.
 Failure stops the incomplete fresh launch. Stable/Vanilla/Immortals are unchanged.
 
@@ -43,6 +43,16 @@ Analysis image base 0x460000; all listed addresses are RVAs:
 | Disconnect reason write | 0x151C8A | 0x149033 |
 | Disconnect reason read | 0x1519EF | 0x149046 |
 | Disconnect message assignment | 0x151BF3 | 0x023FB6 |
+| Steam advertised map label | 0x07D3EB | 0x023EE7 |
+| Steam browser resolved map label | 0x077417 | 0x077FDC |
+
+The two local browser-label hooks advertise `Paws Launcher` in the map/save
+display field and retain that label after the native browser resolves a map ID.
+They preserve the room name, player count, map type, map/save IDs and original
+resolver calls. Unmarked lobbies retain their native labels. The receiving hook
+uses native UTF-16 strings; the publishing hook calls the original ANSI converter.
+These hooks target the Steam browser path; a two-machine live join has not yet
+been performed for this local revision.
 
 ## Build and tests
 
@@ -52,7 +62,11 @@ eight variants in three signed-beta packages while byte-checking preservation of
 all other payloads. `FinalizeLobbyBeta7.py` verifies public immutable assets before
 promoting beta feeds; it does not publish uploads or push commits itself.
 
-- Protocol parser/format: 225 checks.
+- Protocol parser/format: 229 checks.
+- `test_browser_label.py`: 171 checks at three relocation bases covering random
+  maps, fixed maps and saves, exact marker matching, argument preservation and
+  x86 calling conventions. Engine string helpers are stubbed; this is not a
+  network integration test.
 - `native_tests.c`: 2,613 checks with the actual 1.3.72 bit reader/writer, cursors
   0–8, disconnect reasons 0–13, truncation and x86 calling conventions. Allocation
   growth alone is replaced with a preallocated test buffer.

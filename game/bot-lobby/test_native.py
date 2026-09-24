@@ -25,6 +25,9 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
  def order(kind,self,args):
   orders.append((kind,self,args[0]))
   if kind==0:w(entry+0x18,race)
+  if kind==2:
+   for df in (difficulty,difficulty+0x400):
+    if args[0]==r(df+8):w(r(self+0xf0)+0x24,df)
  for kind,rva in enumerate([0x1286cd,0x1287c1,0x128871]):stub(rva,1,lambda self,args,k=kind:order(k,self,args))
  def setup():
   u.mem_write(data,bytes(16384));u.mem_write(session,bytes(0x10000));orders.clear()
@@ -34,9 +37,11 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   for i,choice in enumerate([race,faction,difficulty]):
    at=data+32+i*36;w(at,data);w(at+4,i);w(at+12,choice);w(at+16,1)
  def tick():
+  invoke('row_tick',row)
+ def invoke(name,obj):
   sp=0x6100f000;w(sp,0x62000000)
-  for i,arg in enumerate([image,data,row]):w(sp+4+4*i,arg)
-  u.reg_write(UC_X86_REG_ESP,sp);u.emu_start(cave+meta['exports']['row_tick'],0x62000000,count=100000)
+  for i,arg in enumerate([image,data,obj]):w(sp+4+4*i,arg)
+  u.reg_write(UC_X86_REG_ESP,sp);u.emu_start(cave+meta['exports'][name],0x62000000,count=100000)
  for scenario,expected in [('new bot',3),('custom all',0),('human',0),('remote bot',0),('client',0),('AL host false',0),('saved game',0),('campaign',0),('observer',0),('unbound',0),('only difficulty',1)]:
   setup()
   if scenario=='custom all':
@@ -54,6 +59,56 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   if expected==3:
    w(data+48,2);tick();assert len(orders)==4 and orders[-1][0]==0,'Only edited property reapplied'
    w(pl+0x20,18);tick();assert len(orders)==7,'New participant inherits all defaults'
+  cases+=1
+ for scenario in ('new','initial','off','manual','map-entry','map-type','row-recreated','participant-recreated','saved','campaign'):
+  setup()
+  for i in range(3):w(data+32+i*36+12,0)
+  w(data+16,int(scenario!='initial'));w(data+1688,int(scenario!='off'))
+  db=session+0xa000;w(image+0x5f3fb4,db);w(db+0x43c,db+0x800);w(db+0x440,2)
+  w(db+0x800,difficulty);w(db+0x804,difficulty+0x400)
+  w(difficulty+0x408,difficulty+0x500)
+  u.mem_write(difficulty+256,'handicap_hard\0'.encode('utf-16le'))
+  u.mem_write(difficulty+0x500,'handicap_paws_nightmare\0'.encode('utf-16le'))
+  w(entry+0x24,difficulty)
+  if scenario=='saved':w(session+0x64,2)
+  if scenario=='campaign':w(session+0x6c,3)
+  tick();expected=scenario not in ('initial','off','saved','campaign')
+  assert len(orders)==int(expected),(scenario,orders)
+  if expected:assert r(entry+0x24)==difficulty+0x400
+  tick();assert len(orders)==int(expected),'Default must only apply once'
+  if scenario in ('manual','map-entry','map-type','row-recreated','participant-recreated'):
+   w(entry+0x24,difficulty);tick();assert len(orders)==1,'Manual choice retained'
+   if scenario=='map-entry':
+    w(row+0xf0,entry+0x100);w(entry+0x124,difficulty+0x400)
+   if scenario=='map-type':w(session+0x6c,1);w(entry+0x24,difficulty+0x400)
+   if scenario=='participant-recreated':
+    u.mem_write(pl+0x800,bytes(u.mem_read(pl,0x100)));w(row+0xec,pl+0x800);w(entry+0x24,difficulty+0x400)
+   if scenario=='row-recreated':
+    invoke('row_destroy',row);w(row+0xf0,entry+0x100);w(entry+0x124,difficulty+0x400)
+   tick()
+   assert len(orders)==(1 if scenario=='manual' else 2),(scenario,orders)
+   assert r(r(row+0xf0)+0x24)==difficulty
+   tick();assert len(orders)==(1 if scenario=='manual' else 2)
+  cases+=1
+ # Use the game's real SetHeight and visibility/enabled propagation. Only
+ # visual invalidation is stubbed: no renderer/input driver in this fixture.
+ game=(a.legacy/'k2_runtime_1372_20260904.bin').read_bytes()
+ for start,end in ((0x2b7149,0x2b7172),(0x2b7271,0x2b72ad),(0x2b73cf,0x2b7486)):
+  u.mem_write(image+start,game[start:end]);u.ctl_remove_cache(image+start,image+end)
+ stub(0x2acaa4,0,lambda self,args:None)
+ setup();menu=session+0x10000;slot=menu+0x1000;node=menu+0x2000
+ w(data+8,menu);w(menu+0x28,node);w(node,slot);w(slot+0x1c,slot+0x400)
+ u.mem_write(slot+0x400,'StagingMenu/WorldParamsPanel/Slots\0'.encode('utf-16le'))
+ w(slot+0x10,slot+0x800)
+ for i in range(3):
+  w(data+32+i*36+8,menu+0x3000+i*0x400);w(data+140+i*4,menu+0x3100+i*0x400)
+ for hosting in (True,False,True):
+  w(conn,int(hosting));invoke('menu_tick',menu)
+  h=struct.unpack('<f',bytes(u.mem_read(slot+0x81c,4)))[0]
+  assert h==(365 if hosting else 405),('client full list/host panel',h)
+  for i in range(3):
+   for wid in (r(data+32+i*36+8),r(data+140+i*4)):
+    assert (r(wid+0x24)&7)==(7 if hosting else 0),'Hidden controls cannot receive input'
   cases+=1
  # Execute every call-site wrapper too: the constructor uses ESI for the
  # menu, while its original callee receives ECX (a temporary string).

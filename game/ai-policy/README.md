@@ -718,3 +718,57 @@ references, phase/instance gates, emergency exclusions, strategy preservation
 and transformation idempotency. Save loading and UI were smoke-tested; the
 loaded match's only major AI had no remaining cities or companies, so that
 match does not validate all six races' actual construction progression.
+
+
+## Revision 34 (included in 0.4.0-beta.3)
+
+Allied settlement reservations are disabled: each bot plans its own workers and
+uses native occupancy/feasibility. Own builders still reserve distinct sites.
+Haroun keeps one reusable ordinary settlement company, including queued hires.
+Haroun and Undead need one registered living unit with settlement BuildActor
+capability and positive finite HP; a surviving captain alone is insufficient.
+Other races retain the 70% aggregate HP rule. Morale/full rosters are not required.
+
+Revision 34 let a full army replace one safe non-hero field company with a recruit whose
+native full combat value is at least 35% higher. Both hard resource capacities,
+affordable gold, city quota, factory prerequisites, a second remaining military
+company, and current danger are checked before the native Disband branch.
+Militia, builders and supply companies are excluded. The revision 34 hero exclusion
+is superseded by revision 35 below. Kind58 means
+staged replacement, not proof of completed hire. Normal native recruitment and
+its failure handling retain responsibility for the resulting command.
+
+On the AI tactical thread, every 60 game seconds a bot with at least five more
+cities than an ally may give one non-sovereign, non-besieged city. Choose the ally
+with fewest valid cities (humans included), then the transferable city with
+fewest container buildings. Execute the same TeamCommand GIVE_ACTOR constructor,
+validation and command transport as native SAIGoalGiveActor, with no ownership
+writes. Pending commands are not retried for 120 seconds; changed counts are
+checked again. Kind59 records queued command, not completed transfer. Caches
+reset on world/time changes and native player creation; save formats unchanged.
+
+These native policy changes require Bot improvements. Regression fixtures run
+the compiled code at three image bases with controlled native services; they
+are not a substitute for live multiplayer acceptance.
+
+## Revision 35 (included in 0.4.0-beta.3)
+
+Keep a selected military replacement assigned while its current safety,
+funds, prerequisites and capacity checks still pass. The four-second AI pulse
+retries this existing Recruit reservation through native selection, execution
+budgeting and final Disband validation. Combat, recovery, lost funds or
+prerequisites release the reservation; regular recruitment retains its normal
+cadence. Kind60 records final replacement validation, not completed recruitment.
+
+Initial civilian-company recruitment also excludes CharacterComponent hero
+candidates before native scoring and pricing. This closes the initial-formation
+path which bypassed the later hero-attachment checks. The native captain
+fallback remains available; existing saved companies are not rewritten.
+Kind61 records an initial builder hero exclusion. Military replacement may
+disband companies with heroes: the ordinary game command handles their return
+to the kingdom's pool. No direct hero, company or roster mutation is added.
+
+`test_upgrade_completion.py` exercises the compiled filter and reservation at
+three image bases, including original native affordability/debit and Disband
+code. Engine selection/command transport are controlled stubs, so this test
+does not by itself demonstrate the replacement company's creation in a match.

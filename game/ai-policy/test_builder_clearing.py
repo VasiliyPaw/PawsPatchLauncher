@@ -77,7 +77,7 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   if case=='failed-add':check(f.r(f.sa+0x10)==f.source,'failed native construction add restores old task')
  # A ready builder with a live free site cannot be taken by attack/explore/
  # calm defense. Retreat/recovery are outside the new admission veto.
- for vt,blocked in ((0x4da480,True),(0x4d84d4,True),(0x4d79e8,True),(0x4da510,True),(0x4da6b0,True),(0x4d0000,False)):
+ for vt,blocked in ((0x4da480,True),(0x4d84d4,True),(0x4d79e8,True),(0x4da510,True),(0x4da6b0,True),(0x4da3f8,True),(0x4d0000,False)):
   f=BuilderFixture(image,cave);f.w(f.construct+8,2);f.w(f.sa+0x10,f.construct);f.w(f.source,image+vt)
   check(bool(f.admission(f.source))==blocked,('construction admission',hex(vt)))
  f=BuilderFixture(image,cave);f.w(f.construct+8,2);f.w(f.sa+0x10,f.construct);f.w(f.marker+8,1)
@@ -90,7 +90,7 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   check(bool(f.admission(f.source))==protected,('partial builder protection',hp,morale,flags))
  # Recorded 51:08/51:57 regression: a builder walking to a live free marker
  # was in Construct, so quiet mine/city Defense could repeatedly steal it.
- for goalvt in (0x4da480,0x4d84d4,0x4d79e8,0x4da510,0x4da6b0):
+ for goalvt in (0x4da480,0x4d84d4,0x4d79e8,0x4da510,0x4da6b0,0x4da3f8):
   for case in ('travel','hp70','hp69','low-morale','partial','member-combat','enemy','damage','retreat','recover','marker-gone','native-refusal','disabled','source-pending','repair','kill','unknown-state'):
    f=BuilderFixture(image,cave);f.w(f.construct+8,2);f.w(f.sa+0x10,f.construct)
    f.w(f.source,image+goalvt);f.w(f.state,image+0x4f4ed0)

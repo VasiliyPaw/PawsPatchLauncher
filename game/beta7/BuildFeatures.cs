@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 internal static class BuildFeatures
 {
@@ -60,12 +60,12 @@ internal static class BuildFeatures
         const string exhaustion = "";
 #endif
 #if AI_POLICY
-        const string ai = ",\"aiPolicyRevision\":31,\"builtInAiDiagnostics\":true,\"aiImprovementsSelectable\":true";
+        const string ai = ",\"aiPolicyRevision\":35,\"builtInAiDiagnostics\":true,\"aiImprovementsSelectable\":true";
 #else
         const string ai = "";
 #endif
 #if BOT_LOBBY
-        const string botLobby = ",\"bulkBotLobbyRevision\":1";
+        const string botLobby = ",\"bulkBotLobbyRevision\":2";
 #else
         const string botLobby = "";
 #endif

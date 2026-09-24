@@ -28,13 +28,14 @@ public static class September20Tests
         var feed=Feed(Path.Combine(stage,"publication/test-feeds/stable.json"),config.PublicKeyPem);
         var old=Feed(Path.Combine(stage,"publication/previous/stable.json"),config.PublicKeyPem);
         var beta=Feed(Path.Combine(stage,"publication/test-feeds/beta.json"),config.PublicKeyPem);
-        bool nightmare=beta.PatchGuide?.Version=="0.4.0-beta.2";
+        bool september24=beta.PatchGuide?.Version=="0.4.0-beta.3";
+        bool nightmare=september24||beta.PatchGuide?.Version=="0.4.0-beta.2";
         Require(feed.Channel=="stable"&&feed.PatchGuide!.Version=="0.3.3","Wrong release identity");
         Require(feed.PatchGuide!.Entries.All(e=>e.Category!="beta"),"Promoted features still beta-only");
         var installer=new ModuleInstaller(root);var cache=Path.Combine(stage,"test-cache");Directory.CreateDirectory(cache);
         var localArchives=Directory.EnumerateFiles(Path.GetDirectoryName(stage)!,"*.zip",SearchOption.AllDirectories)
             .Select(p=>new FileInfo(p)).GroupBy(p=>p.Length).ToDictionary(g=>g.Key,g=>g.Select(p=>p.FullName).ToArray());
-        var prepared=new Dictionary<string,InstalledModule>();var siegeCosts=new Dictionary<string,double>();using var http=new HttpClient{Timeout=TimeSpan.FromMinutes(5)};
+        var prepared=new Dictionary<string,InstalledModule>();var siegeCosts=new Dictionary<string,double>();var siegeRequirements=new Dictionary<string,bool>();using var http=new HttpClient{Timeout=TimeSpan.FromMinutes(5)};
         http.DefaultRequestHeaders.UserAgent.ParseAdd("PawsPatchSeptember20Validation/1");
         async Task<InstalledModule> Prepare(PackageRelease p)
         {
@@ -55,6 +56,7 @@ public static class September20Tests
             foreach(var f in m.Files.Where(f=>CryptoAndIO.NormalizeRelativePath(f.Path).Equals("data\\units\\gauri\\aw_maelstrom_destroyer.tgi",StringComparison.OrdinalIgnoreCase))) {
                 string text=await File.ReadAllTextAsync(Path.Combine(root,".pawpatch","packages",p.Id,p.Version,"payload",f.Path));
                 var match=System.Text.RegularExpressions.Regex.Match(text,@"(?im)^\s*Kingdom_points_consumed\s*=\s*([0-9.]+)\s*$");
+                siegeRequirements[f.Sha256]=System.Text.RegularExpressions.Regex.IsMatch(text,@"(?im)^\s*required_properties\s*=\s*gauri_kingdom\s*$");
                 siegeCosts[f.Sha256]=match.Success?double.Parse(match.Groups[1].Value,System.Globalization.CultureInfo.InvariantCulture):0;
             }
             prepared[key]=m;return m;
@@ -113,12 +115,14 @@ public static class September20Tests
                             Require(winners[path].Sha256.Equals(row.GetProperty("after").GetString(),StringComparison.OrdinalIgnoreCase),"Foundation data shadowed: "+path);
                         }
                         Require(winners.ContainsKey("data\\ui\\game\\pawgoldsound.png"),"Missing sound button");
+                        if(september24) Require(winners.ContainsKey("data\\audio\\paws_gold_button.tgi"),"Missing overlapping button audio");
                         foreach(string n in new[]{"data\\ui\\game\\controlpanel\\background.tga","data\\ui\\800\\game\\controlpanel\\background.tga","data\\ui\\1280\\game\\controlpanel\\background.tga"})
                             Require(winners.ContainsKey(n),"Missing observer frame");
                     }
                 }
                 string siegePath="data\\units\\gauri\\aw_maelstrom_destroyer.tgi";
                 Require(siegeCosts[winners[siegePath].Sha256]==(settings.SiegeBalance?0.75:0),"Maelstrom balance toggle mismatch: "+ConfigurationCode.Create(settings));
+                if(september24 && settings.SiegeBalance) Require(siegeRequirements[winners[siegePath].Sha256],"Missing Gauri kingdom prerequisite: "+ConfigurationCode.Create(settings));
                 if(settings.PawPatchEnabled) {
                     var presentation=modules[beta.Packages.Single(p=>p.Id=="pawpatch-core").Sha256];
                     var paths=new[]{"eagle","snowowl","vulture","aw_duck","aw_ikaris","aw_raven","aw_spineling","lake_fish"}
@@ -134,6 +138,8 @@ public static class September20Tests
                 if(settings.PawPatchEnabled&&!settings.DataOnly){
                     string id=GameLanguages.Text(settings)=="en"?"common-ui":"localization-bot-ui-"+GameLanguages.Text(settings);
                     var ui=modules[scenario.Packages.Single(p=>p.Id==id).Sha256];
+                    if(september24) foreach(var f in ui.Files.Where(f=>f.Path.Replace('\\','/').EndsWith("/localization/strings_data_k2.tgi",StringComparison.OrdinalIgnoreCase)))
+                        Require(winners[CryptoAndIO.NormalizeRelativePath(f.Path)].Sha256==f.Sha256,"Localized cost/button tooltips shadowed: "+ConfigurationCode.Create(settings));
                     foreach(var name in new[]{"pcolors","staging"}){
                         string path="data\\ui\\menus\\"+name+".tgi";
                         Require(winners[path].Sha256==ui.Files.Single(f=>CryptoAndIO.NormalizeRelativePath(f.Path).Equals(path,StringComparison.OrdinalIgnoreCase)).Sha256,"Wrong localized lobby template");
@@ -168,15 +174,19 @@ public static class September20Tests
                 string exe=GameExecutableSelector.Select(config,s,channel);
                 using var process=Process.Start(new ProcessStartInfo(Path.Combine(root,exe)){UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true,ArgumentList={"--preflight",root}})!;
                 string output=await process.StandardOutput.ReadToEndAsync(),error=await process.StandardError.ReadToEndAsync();await process.WaitForExitAsync();
-                if(channel==beta)Require(output.Contains("AI_IMPROVEMENTS "+(s.ImprovedAi?"on":"off")),"Wrong native AI activation");
+                if(channel==beta)Require(output.Contains("AI_IMPROVEMENTS "+(s.ImprovedAi?"on":"off")),"Wrong native AI activation: "+exe+" "+GameLanguages.Text(s)+" "+output+" "+error);
                 if(channel==beta&&nightmare)Require(output.Contains("NIGHTMARE_DIFFICULTY "+(s.ImprovedAi?"on":"off")),"Wrong Nightmare activation");
                 Require(process.ExitCode==0&&output.Contains("PREFLIGHT_PASS"),"Preflight failed: "+exe+" "+error);preflights++;
             }
+            Console.WriteLine("TRANSITION "+transitions+" "+channel.Channel+" "+GameLanguages.Text(s)+" ai="+s.ImprovedAi+" data="+s.DataOnly+" patch="+s.PawPatchEnabled+" preflights="+preflights);
         }
         await Apply(old,Selection(7),false);
-        for(int mask=0;mask<8;mask++)await Apply(feed,Selection(mask),true);
-        File.Copy(Path.Combine(root,".pawpatch/state.json"),Path.Combine(stage,"installed-033-state.json"));
-        for(int i=0;i<GameLanguages.Choices.Count;i++){
+        // Beta.3 changes no stable package. Its complete selection matrix still
+        // covers stable; real install transitions focus on the changed beta,
+        // with stable installation before and rollback/uninstall afterwards.
+        if(!september24) for(int mask=0;mask<8;mask++)await Apply(feed,Selection(mask),true);
+        File.Copy(Path.Combine(root,".pawpatch/state.json"),Path.Combine(stage,"installed-033-state.json"),true);
+        if(!september24) for(int i=0;i<GameLanguages.Choices.Count;i++){
             var s=Selection(i%8);GameLanguages.SetText(s,GameLanguages.Choices[i]);s.GameVoiceLanguage=GameLanguages.VoiceChoices[i%4];
             s.RoamingSpawnMode=new[]{"standard","x2","x4"}[i%3];s.AdditionalRoamingCompanies=i%2==0;s.SiegeBalance=i%2!=0;s.DisablePowersAndShards=i%3==0;
             await Apply(feed,s,true);
