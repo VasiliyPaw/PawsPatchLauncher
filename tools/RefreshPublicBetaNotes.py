@@ -43,6 +43,8 @@ def concise_beta2(body):
         "cs": ("Stavitelé si drží různá stavební místa a nedostávají hrdiny ani plánované bojové úkoly. Přebytečné pracovníky lze rozpustit; nemrtvým stavitelům stačí 20 % zdraví.", "Stavitelé nedostávají hrdiny ani plánované bojové úkoly. Přebytečné pracovníky lze rozpustit."),
     }
     old, new = replacements[body[0]]
+    if new in body[1]:
+        return body[1]
     assert old in body[1], body[0]
     return body[1].replace(old, new)
 
@@ -57,6 +59,7 @@ def main():
 
     feed_path = REPO / "feed/v2/beta.json"
     feed = verify(read(feed_path), key())
+    original_feed = deepcopy(feed)
     assert feed["patchGuide"]["version"] == "0.4.0-beta.3"
     note = next(x for x in feed["changelog"] if x["version"] == "0.4.0-beta.3")
     note["body"] = deepcopy(BETA3)
@@ -67,7 +70,8 @@ def main():
     guide = next(x for x in feed["patchGuide"]["entries"] if x["id"] == "ai-improvements")
     guide["bodyRu"] = BETA_GUIDE["ru"]
     guide["bodyEn"] = BETA_GUIDE["en"]
-    write(feed_path, sign(feed, private))
+    if feed != original_feed:
+        write(feed_path, sign(feed, private))
 
     source_path = REPO / "docs/release-20260924.json"
     source = read(source_path)
