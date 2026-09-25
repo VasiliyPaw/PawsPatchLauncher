@@ -35,6 +35,7 @@ for image,cave in BASES:
 class CompletionFixture(ArmyFixture):
  def __init__(self,image,cave):
   super().__init__(image,cave);self.old=self.military_army(40);check(self.replace()==1,'prepare retry')
+  self.w(self.player+0x168,1) # idle strategic fiber, not tactical/main
   self.w(self.recruit+8,2);self.w(self.player+0x12c,1);self.w(self.engine+0x18,0)
   self.table=self.rs+0x4000;self.w(self.engine+8,self.table)
   for i in range(23):self.w(self.table+4*i,self.table+0x100+i*32)
@@ -67,7 +68,7 @@ class CompletionFixture(ArmyFixture):
   self.asm(image+0x1e8925,code)
  def pulse(self,t):
   self.f(self.world+0xe8,t)
-  return self.invoke(34,self.player,[],allowed=[self.engine+0x20]+list(range(self.command,self.vector+12,4))+[self.old[0]+4])
+  return self.invoke(34,self.player,[0]*8,allowed=[self.player+0x178,self.player+0x181,self.engine+0x20]+list(range(self.command,self.vector+12,4))+[self.old[0]+4])
 
 for image,cave in BASES:
  for case in ('retry','funds','combat','hero','requirements','disabled','normal-recruit','replacement-gone','expansion-budget-flag'):

@@ -15,6 +15,7 @@ REPO=Path(__file__).resolve().parents[1]
 WORK=REPO.parents[1]
 VERSION='0.4.0-beta.4'
 BASELINE_VERSION='0.4.0-beta.3'
+AI_POLICY_REVISION=36
 TAG='patch-'+VERSION
 URL='https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/'+TAG+'/'
 VARIANTS=read(REPO/'game/beta7/variants.json')
@@ -37,13 +38,13 @@ def prepare(a):
     native=(helpers/'ai-native/ai-policy.bin').read_bytes()
     embedded=native.hex().encode('utf-16le')
     for name,row in features.items():
-        assert row['patchVersion']==VERSION and row['aiPolicyRevision']==36,(name,row)
+        assert row['patchVersion']==VERSION and row['aiPolicyRevision']==AI_POLICY_REVISION,(name,row)
         assert row['aiImprovementsSelectable'] and row['nightmareDifficultyRevision']==3
         assert embedded in (helpers/name).read_bytes(),'Helper does not embed tested native policy: '+name
     for c,p in FEEDS.items():
         dest=out/'previous'/(c+'.json');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(REPO/p,dest)
     cached={}
-    for root in (WORK/'outputs/release-20260925-beta4',WORK/'outputs/release-20260924',WORK/'outputs/release-20260920',REPO/'packages'):
+    for root in (WORK/'outputs/release-20260925-beta5',WORK/'outputs/release-20260925-beta4',WORK/'outputs/release-20260924',WORK/'outputs/release-20260920',REPO/'packages'):
         for p in root.rglob('*.zip'):cached.setdefault(p.stat().st_size,[]).append(p)
     resolved={};assets=[];replacements={};scope={};seen=set()
     for p in {p['sha256']:p for f in (feeds['stable'],beta) for p in f['packages']}.values():

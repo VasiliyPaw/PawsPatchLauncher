@@ -77,7 +77,7 @@ for image,cave in BASES:
 class PulseFixture(PriorityFixture):
  def __init__(self,image,cave,state=1):
   super().__init__(image,cave);self.army();self.warm();self.w(self.target+8,state)
-  self.w(self.player+4,1);self.w(self.player+0x12c,1)
+  self.w(self.player+4,1);self.w(self.player+0x12c,1);self.w(self.player+0x168,1)
   self.table=0x510e0000;self.w(self.engine+8,self.table);self.w(self.engine+0x18,0)
   for i in range(23):self.w(self.table+4*i,self.table+0x100+i*32)
   self.list=self.table+0x100;self.link=self.table+0x800
@@ -91,6 +91,9 @@ class PulseFixture(PriorityFixture):
   self.f(self.world+0xe8,30)
  def pulse(self,t):
   self.f(self.world+0xe8,t);self.call(self.hook(34),obj=self.player,allowed=[self.target+8])
+ def call(self,h,*args,allowed=(),**kwargs):
+  if h['mode']==34:allowed=list(allowed)+[self.player+0x178,self.player+0x181]
+  return super().call(h,*args,allowed=allowed,**kwargs)
 
 for image,cave in BASES:
  f=PulseFixture(image,cave)
@@ -177,7 +180,7 @@ for image,cave in BASES:
  # native marker/capability/score checks still enforced.
  for case in ('ready','no-score','no-marker','wounded','fighting','recovery'):
   f=BuilderFixture(image,cave);f.w(f.sa+0x10,0);f.w(f.construct+8,2)
-  f.w(f.player+4,1);f.w(f.player+0x12c,1);f.w(f.engine+0x18,0)
+  f.w(f.player+4,1);f.w(f.player+0x12c,1);f.w(f.player+0x168,1);f.w(f.engine+0x18,0)
   table=0x510e8000;f.w(f.engine+8,table)
   for i in range(23):f.w(table+4*i,table+0x100+i*32)
   f.w(table+0x110,table+0x800);f.w(table+0x800,f.construct)
@@ -192,7 +195,7 @@ for image,cave in BASES:
   if case=='wounded':f.f(f.leader+0x910,69)
   if case=='fighting':f.w(f.state,image+0x4f4e20)
   if case=='recovery':f.w(f.actor+0x100,0x2000)
-  f.call(f.hook(34),obj=f.player,allowed=f.allowed()+[f.engine+0x18]+execution_writes)
+  f.call(f.hook(34),obj=f.player,allowed=f.allowed()+[f.engine+0x18,f.player+0x178,f.player+0x181]+execution_writes)
   check((f.r(f.sa+0x10)==f.construct)==(case=='ready'),('fast builder checks',case))
   check(not f.r(f.stats+108),'fast builder pass skips stock exchange')
   check(f.r(f.commands+4)==int(case=='ready') and not f.r(f.commands+8),'builder command follows fast assignment only when feasible')

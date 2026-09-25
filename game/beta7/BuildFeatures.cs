@@ -62,7 +62,7 @@ internal static class BuildFeatures
         const string exhaustion = "";
 #endif
 #if AI_POLICY
-        const string ai = ",\"aiPolicyRevision\":36,\"builtInAiDiagnostics\":true,\"aiImprovementsSelectable\":true";
+        const string ai = ",\"aiPolicyRevision\":37,\"builtInAiDiagnostics\":true,\"aiImprovementsSelectable\":true";
 #else
         const string ai = "";
 #endif

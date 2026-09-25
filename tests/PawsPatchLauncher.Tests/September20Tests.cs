@@ -28,7 +28,7 @@ public static class September20Tests
         var feed=Feed(Path.Combine(stage,"publication/test-feeds/stable.json"),config.PublicKeyPem);
         var old=Feed(Path.Combine(stage,"publication/previous/stable.json"),config.PublicKeyPem);
         var beta=Feed(Path.Combine(stage,"publication/test-feeds/beta.json"),config.PublicKeyPem);
-        bool september24=beta.PatchGuide?.Version is "0.4.0-beta.3" or "0.4.0-beta.4" or "0.4.0-beta.5";
+        bool september24=beta.PatchGuide?.Version is "0.4.0-beta.3" or "0.4.0-beta.4" or "0.4.0-beta.5" or "0.4.0-beta.6";
         bool nightmare=september24||beta.PatchGuide?.Version=="0.4.0-beta.2";
         Require(feed.Channel=="stable"&&feed.PatchGuide!.Version=="0.3.3","Wrong release identity");
         Require(feed.PatchGuide!.Entries.All(e=>e.Category!="beta"),"Promoted features still beta-only");

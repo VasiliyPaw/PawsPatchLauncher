@@ -42,8 +42,9 @@ class EconomyFixture(BuilderFixture):
   self.w(self.actor+4,self.builder);self.w(self.actor+0xa8,self.org+0x100)
  def invoke(self,mode,obj,args,native=1,fp=10,allowed=()):
   h=self.hook(mode);self.f(self.stats+20,fp)
-  self.asm(self.image+h['target'],f'inc dword ptr [{self.stats}];'+(f'fld dword ptr [{self.stats+20}];' if h['fp'] else '')+f'mov eax,{native};stc;ret {4*h["argc"]}')
-  driver='fninit;stc;'+''.join(f'push {v};' for v in reversed(args))+f'mov ecx,{obj};call {self.cave+h["offset"]};'+(f'fstp dword ptr [{self.stats+24}];' if h['fp'] else '')+'nop'
+  self.asm(self.image+h['target'],f'inc dword ptr [{self.stats}];'+(f'fld dword ptr [{self.stats+20}];' if h['fp'] else '')+f'mov eax,{native};stc;ret {0 if h.get("cdecl") else 4*h["argc"]}')
+  check(len(args)==h['argc'],('fixture native argument count',mode))
+  driver='fninit;stc;'+''.join(f'push {v};' for v in reversed(args))+f'mov ecx,{obj};call {self.cave+h["offset"]};'+(f'lea esp,[esp+{4*h["argc"]}];' if h.get('cdecl') else '')+(f'fstp dword ptr [{self.stats+24}];' if h['fp'] else '')+'nop'
   blob=bytes(ks.asm(driver,0x62000000)[0]);self.u.mem_write(0x62000000,blob);self.u.ctl_remove_cache(0x62000000,0x62001000)
   regs={UC_X86_REG_EBP:self.frame,UC_X86_REG_EBX:111,UC_X86_REG_ESI:222,UC_X86_REG_EDI:333}
   for k,v in regs.items():self.u.reg_write(k,v)

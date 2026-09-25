@@ -21,7 +21,7 @@ SITES += [(s,0x1e3cda,2,30,False) for s in (0x1e5547,0x1e58ee,0x1dc76a)] # nativ
 SITES += [(s,0x1deee8,1,31,False) for s in (0x1deccd,0x1decf3)] # replace company in final recruiting pass
 SITES += [(0x1dc3c6,0x2f397,1,32,False)] # revalidate reserved replacement before native Disband command
 SITES += [(0x1d48e3,0x5cee6,9,33,True)] # finish exploring a remembered settlement camp without an attack goal
-SITES += [(0x1ef0d9,0x1f2cda,0,34,False), # native player's tactical update, AI-thread scope
+SITES += [(0x1e1b87,0x1e20c1,8,34,False), # completed strategic scheduler iteration; cdecl, outside player work
  (0x1e8538,0x1e4736,3,35,False),(0x1e877f,0x1e47be,3,36,False),
  (0x1e89dd,0x1e3e34,1,38,False)] # native command affordability after a changed assignment
 SITES += [(0x1e15c1,0x135740,6,39,False)] # log every overrun; rate-limit only the following UI formatting/notice
@@ -101,7 +101,7 @@ def main():
   if mode in (23,35,36):asm+='fast_skipped:;'
   if mode==38:asm+='jmp fast_returned; fast_skipped: xor eax,eax; fast_returned:;'
   if mode==5:asm+='capacity_done:;'
-  if mode in (8,39):asm+=f'lea esp,[esp+{argc*4}];' # cdecl caller removes copied arguments, preserving callee flags.
+  if mode in (8,34,39):asm+=f'lea esp,[esp+{argc*4}];' # cdecl caller removes copied arguments, preserving callee flags.
   # Keep the original extended-precision return for unchanged candidates.
   # Logging must not silently round every native priority to float32.
   asm+='fst dword ptr [ebp-8]; fstp tbyte ptr [ebp-24]; push eax; mov eax,[ebp-8]; mov [ebp-12],eax; pop eax;' if fp else 'mov [ebp-8],eax;'
@@ -116,13 +116,13 @@ def main():
    # temporary string exists yet. RET 24 removes those original arguments.
    # Preserve the native logger's flags in either branch.
    asm+=f'pushfd; cmp dword ptr [ebp-8],0; je notice_shown; popfd; mov dword ptr [ebp+4],{image+0x1e15e5}; mov esp,ebp; pop ebp; ret 24; notice_shown: popfd;'
-  asm+=f'mov esp,ebp; pop ebp; ret {0 if mode in (8,39) else argc*4};'
+  asm+=f'mov esp,ebp; pop ebp; ret {0 if mode in (8,34,39) else argc*4};'
   put(off,asm,[target]+([0x1e15e5] if mode==39 else []))
   original=raw[site:site+5];assert original==b'\xe8'+struct.pack('<i',target-site-5)
   guard_start=site-(5 if mode==39 else 3);guard_end=site+(14 if mode==22 else 10)
   guard_relocs=[r-guard_start for r in game_relocs if guard_start<=r<guard_end]
   assert all(0<=r<=guard_end-guard_start-4 for r in guard_relocs),'Guard cannot split a relocation'
-  wrappers.append(dict(site=site,target=target,offset=off,original=original.hex(),guard=raw[guard_start:guard_end].hex(),guardStart=guard_start,guardRelocations=guard_relocs,argc=argc,mode=mode,fp=fp,cdecl=mode in (8,39),pre=mode in (9,12,31,35,36,38)))
+  wrappers.append(dict(site=site,target=target,offset=off,original=original.hex(),guard=raw[guard_start:guard_end].hex(),guardStart=guard_start,guardRelocations=guard_relocs,argc=argc,mode=mode,fp=fp,cdecl=mode in (8,34,39),pre=mode in (9,12,31,35,36,38)))
  query=size+len(SITES)*512
  # cdecl bridge: native ResourceVector constructor, aggregate upkeep and destructor.
  asm='push ebp; mov ebp,esp; push ebx; push esi; push edi; sub esp,16; lea ecx,[ebp-28];'

@@ -1,6 +1,7 @@
-/* Runs after the player's native tactical update, on the AI thread. Reuses
- * the native goal lists, SelectGoals resource budget and activation protocol.
- * No planning is invoked from the render/frame observer or another thread. */
+/* Runs between completed iterations of the native strategic fiber. SelectGoals
+ * can yield through the strategic scheduler; calling it on the tactical fiber
+ * leaves the tactical flag set while the world runs and poisons sync logging.
+ * No planning is invoked from the render/frame observer or another fiber. */
 #define EXPANSION_PULSE_SECONDS 4
 static int expansion_regions(U image,FastData*f,U pl){
  U regions=P(image,0x5f3fcc),table,n,registry=P(image,0x5ef72c),i;
@@ -126,4 +127,23 @@ static void expansion_pulse(U image,Data*d,U pl){
  f->commandCount=0;
  f->fastPlayer=0;
  emit(image,d,52,engine,pl,0,1,(float)count,EXPANSION_PULSE_SECONDS,0,0,0,0);
+}
+static void expansion_dispatch(U image,Data*d){
+ U sai=P(image,0x5f3fc8),players,n,i,saved;
+ if(!sai||((FastData*)d)->fastPlayer||P(image,0x5f9218)!=2)return;
+ /* Match native strategic ownership, not merely the OS thread. Both fibers
+  * share that thread. A suspended normal player update must finish first. */
+ if(*(unsigned char*)(sai+0x68)!=1||*(unsigned char*)(sai+0x69)||*(unsigned char*)(sai+0x81))return;
+ players=P(sai,0x6c);n=P(sai,0x70);if(!players||!n||n>96)return;
+ for(i=0;i<n;i++){
+  U pl;
+  if(P(image,0x5f3fc8)!=sai||P(sai,0x6c)!=players||P(sai,0x70)!=n)return;
+  /* The native tactical scheduler may have yielded while updating this
+   * player. Respect its exclusion, and publish ours across every yield. */
+  if(*(unsigned char*)(sai+0x80)&&P(sai,0x7c)==i)continue;
+  pl=P(players,4*i);if(!pl)continue;
+  saved=P(sai,0x78);P(sai,0x78)=i;*(unsigned char*)(sai+0x81)=1;
+  expansion_pulse(image,d,pl);
+  *(unsigned char*)(sai+0x81)=0;P(sai,0x78)=saved;
+ }
 }

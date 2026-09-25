@@ -39,6 +39,7 @@ class FleetFixture(EconomyFixture):
   self.call(self.hook(23),obj=self.target,args=[self.budget,self.engine+0x14,1],allowed=self.allowed())
   return self.r(self.sa+0x10)==self.target
  def pulse_setup(self):
+  self.w(self.player+0x168,1) # idle strategic fiber, not tactical/main
   self.w(self.player+0x12c,1);self.w(self.engine+0x18,0);table=self.rs+0x1800;self.w(self.engine+8,table)
   for i in range(23):self.w(table+i*4,table+0x100+i*32)
   self.command=self.rs+0x2000;self.commandlog=self.command+0x100
@@ -50,7 +51,7 @@ class FleetFixture(EconomyFixture):
   self.asm(self.image+0x1f397b,'mov eax,[ecx+16];dec dword ptr [eax+4];ret')
  def pulse(self,t):
   self.f(self.world+0xe8,t)
-  self.invoke(34,self.player,[],allowed=list(range(self.command,self.command+0x110,4)))
+  self.invoke(34,self.player,[0]*8,allowed=[self.player+0x178,self.player+0x181]+list(range(self.command,self.command+0x110,4)))
  def native_priority_setup(self):
   self.pl=self.player;self.k=self.kingdom;self.df=self.builder
   cfg=self.rs+0x2800;prop=cfg+0x300;self.prop=prop

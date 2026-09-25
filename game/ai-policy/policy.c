@@ -168,7 +168,7 @@ __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,floa
  if(mode==49){if(d->mask&8)builder_hero_score(image,d,obj,args,result);return;}
  if(mode>=40&&mode<=48){if(mode==48){U i;for(i=0;i<96;i++)((FastData*)d)->cityGifts[i].world=0;}if(mode==46||mode==47||mode==48)builder_invalidate(d,mode==48?0:obj,mode==48);recruit_counts_evaluate(image,d,mode,obj,args,result);return;}
  if(mode==39){goal_notice(image,d,result);return;}
- if(mode==34){if(d->mask&8)expansion_pulse(image,d,obj);return;}
+ if(mode==34){if(d->mask&8)expansion_dispatch(image,d);return;}
  if(mode==35||mode==36||mode==37||mode==38){expansion_fast_dispatch(image,d,mode,obj,args,result);return;}
  if(mode==33){if(d->mask&8)scouting_reveal(image,d,obj,args,result);return;}
  /* At 5B738 args[5] is the caller's saved enemy CV, consumed by FDIVR

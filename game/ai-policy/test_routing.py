@@ -65,7 +65,7 @@ class Fixture:
   if mode==11:native_code+=f'mov dword ptr [{self.stats+4}],1;'
   if mode==12:native_code+=f'mov eax,[{self.route+36}]; mov [{self.stats+8}],eax; mov dword ptr [{self.stats+4}],0;'
   native_code+=f'fld dword ptr [{self.stats+20}];' if h['fp'] else ''
-  native_code+=f'mov eax,{native}; mov ecx,0x11223344; mov edx,0x55667788; stc; ret {h["argc"]*4}'
+  native_code+=f'mov eax,{native}; mov ecx,0x11223344; mov edx,0x55667788; stc; ret {0 if h["cdecl"] else h["argc"]*4}'
   self.asm(self.image+h['target'],native_code)
   self.asm(0x62000000,('fstp dword ptr ['+str(self.stats+24)+'];' if h['fp'] else '')+'nop')
   end=0x62000000+len(bytes(ks.asm(('fstp dword ptr ['+str(self.stats+24)+'];' if h['fp'] else '')+'nop',0x62000000)[0]))
@@ -81,7 +81,7 @@ class Fixture:
   calls=self.r(self.stats)
   u.emu_start(self.cave+h['offset'],end,count=getattr(self,'instruction_limit',12000000));u.hook_del(hook)
   check(u.reg_read(UC_X86_REG_EIP)==end,'wrapper returned within instruction budget')
-  check(u.reg_read(UC_X86_REG_ESP)==self.sp+4+h['argc']*4,'stack balanced')
+  check(u.reg_read(UC_X86_REG_ESP)==self.sp+4+(0 if h['cdecl'] else h['argc']*4),'stack balanced')
   check(all(u.reg_read(k)==v for k,v in regs.items()),'callee-save registers')
   check(all(u.reg_read(UC_X86_REG_XMM0+i)==0xabcdefabcd+i for i in range(8)),'XMM preservation')
   check(u.reg_read(UC_X86_REG_EFLAGS)&1,'callee flags')

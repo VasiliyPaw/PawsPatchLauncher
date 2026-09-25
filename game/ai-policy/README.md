@@ -527,16 +527,16 @@ network synchronization or save/load acceptance.
 
 ### r27: responsive settlement expansion
 
-An extra pass runs after the native player's tactical update, on the AI
-simulation thread, at most once per four game seconds. It reevaluates existing
+The original r27 pass ran after the native player's tactical update; r37 below
+moves it to the strategic fiber. At most once per four game seconds it reevaluates existing
 regional settlement construction/camp goals in explored settlement-site regions
 (including dormant goals) and uses native SelectGoals resource
 accounting and activation. Extra activation/exchange is restricted to settlement
 expansion; unrelated goals retain their strategic cadence (opening 10 seconds,
 later modes 20). No planning is performed by the asynchronous frame observer.
 New candidate goals still depend on native region registration. Four seconds is
-the throttle; dispatch also depends on the native tactical scheduler (two seconds
-in the observed match), sufficient force, route, money and native acceptance.
+the throttle; dispatch also depends on the native strategic scheduler reaching
+an idle boundary, sufficient force, route, money and native acceptance.
 
 City defenders can transfer to settlement clearing when neither the city nor
 its center has the native siege flag 0x00100000. Nearby fights or city damage
@@ -738,7 +738,7 @@ is superseded by revision 35 below. Kind58 means
 staged replacement, not proof of completed hire. Normal native recruitment and
 its failure handling retain responsibility for the resulting command.
 
-On the AI tactical thread, every 60 game seconds a bot with at least five more
+In the expansion pass, every 60 game seconds a bot with at least five more
 cities than an ally may give one non-sovereign, non-besieged city. Choose the ally
 with fewest valid cities (humans included), then the transferable city with
 fewest container buildings. Execute the same TeamCommand GIVE_ACTOR constructor,
@@ -785,3 +785,26 @@ queued/direct command execution preserves the native admission result.
 controllers and different strategic goals. Native service stubs are explicit.
 See `docs/desync-audit-20260925.md` for the audit scope and multiplayer acceptance
 limits; the first desync in the supplied match is not conclusively attributed.
+
+## Revision 37 (0.4.0-beta.6)
+
+Move mode 34 from tactical player call site `1EF0D9` to the completed strategic
+scheduler iteration at `1E1B87`. The native selector invokes strategic yield
+`1E156B`; using it from the tactical fiber left `sai+69` set during world ticks
+and subsequently set `sai+68` on tactical resume. The native synchronizer then
+discarded world records on the host. It also compared the clock against a stale
+strategic deadline, producing enormous apparent goal-engine overruns.
+
+The extra pass requires an idle strategic fiber. It respects a suspended
+tactical player's reservation and publishes/restores the native strategic
+player index and busy flag around each pulse, including every native yield.
+Four-game-second throttling, settlement rules and native network commands stay
+in place. No sync checks are disabled or checksum state overwritten.
+
+`test_fiber_sync.py` executes original 1372 strategic/tactical yields, native
+synchronizer guard and scheduler under three relocated image bases. It
+reproduces the former missing-record/flag leak, rejects invalid contexts and
+checks checksum retention, player exclusion and cdecl stack/argument integrity
+in the compiled replacement. OS switching and engine services are controlled
+stubs. See `docs/desync-live-peers-20260925.md` for captured-match evidence and
+the still-required two-peer acceptance test.
