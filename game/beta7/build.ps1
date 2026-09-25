@@ -6,7 +6,7 @@ if (Test-Path -LiteralPath $out) { throw 'Choose an unused output directory.' }
 New-Item -ItemType Directory -Path $out | Out-Null
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework\v4.0.30319\csc.exe'
 $variants = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'variants.json') -Raw | ConvertFrom-Json
-$shared = 'TerrainRuntime.cs','RandomMapPatch.cs','ReleaseStartup.cs','LobbyColorsNative.cs','GamePresentation1372.cs','RandomMapBundle.cs','BuildFeatures.cs','GameText.cs'
+$shared = 'TerrainRuntime.cs','RandomMapPatch.cs','ReleaseStartup.cs','LobbyColorsNative.cs','GamePresentation1372.cs','RandomMapBundle.cs','BuildFeatures.cs','GameText.cs','SyncDiagnostics1372.cs'
 $resources = 'PawLobbyColorsPayload','PawLobbyColorsFixups','PawCommonUiPayload','PawCommonUiFixups','RandomMapPayload','RandomMapFixups'
 $assistant = Join-Path $PSScriptRoot '../city-assistant'
 $transfer = Join-Path $PSScriptRoot '../fast-transfer'
@@ -76,6 +76,16 @@ if ($CityAssistant) {
 function Replace-StartupAnchor([string]$text, [string]$before, [string]$after) {
     if (($text.Split([string[]]@($before),[StringSplitOptions]::None).Length-1) -ne 1) { throw "Startup source anchor changed: $before" }
     return $text.Replace($before,$after)
+}
+if ($CityAssistant) {
+    $syncTests = Join-Path $out 'SyncDiagnosticsTests.exe'
+    $syncFixtures = Join-Path $out 'sync-diagnostics'
+    & $compiler /nologo /target:exe /platform:x86 "/out:$syncTests" (Join-Path $PSScriptRoot 'SyncDiagnostics1372.cs') (Join-Path $PSScriptRoot 'SyncDiagnosticsTests.cs')
+    if ($LASTEXITCODE -ne 0) { throw 'Sync diagnostics test compilation failed.' }
+    & $syncTests $syncFixtures (Join-Path $work 'k2_runtime_1372_20260904.bin')
+    if ($LASTEXITCODE -ne 0) { throw 'Sync diagnostics guard/fixture failed.' }
+    & $python (Join-Path $PSScriptRoot 'test_sync_diagnostics.py') --fixtures $syncFixtures --deps (Join-Path $work 'lobby_colors_1372/deps_r15')
+    if ($LASTEXITCODE -ne 0) { throw 'Sync diagnostics native regression failed.' }
 }
 if($LairRecovery) {
     if(!$CityAssistant -or !$LobbyCompatibility){throw 'Lair recovery requires the full beta helper and lobby compatibility.'}

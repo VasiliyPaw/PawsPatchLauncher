@@ -14,6 +14,7 @@ from PrepareSeptember20Release import contents,feature
 REPO=Path(__file__).resolve().parents[1]
 WORK=REPO.parents[1]
 VERSION='0.4.0-beta.4'
+BASELINE_VERSION='0.4.0-beta.3'
 TAG='patch-'+VERSION
 URL='https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/'+TAG+'/'
 VARIANTS=read(REPO/'game/beta7/variants.json')
@@ -29,7 +30,7 @@ def prepare(a):
     head=json.loads(fetch(API+'/git/ref/heads/main'))['object']['sha']
     for name in TRACKED:assert normalize(fetch(RAW.replace('/main/','/'+head+'/')+name))==normalize((REPO/name).read_bytes()),'Baseline moved: '+name
     feeds={c:verify(read(REPO/p),key()) for c,p in FEEDS.items()};beta=feeds['beta']
-    assert beta['patchGuide']['version']=='0.4.0-beta.3'
+    assert beta['patchGuide']['version']==BASELINE_VERSION
     private=serialization.load_pem_private_key((a.signing_dir/'pawpatch-signing-private.pem').read_bytes(),None)
     assert private.public_key().public_numbers()==key().public_numbers()
     features={name:feature(helpers/name) for name in VARIANTS}
@@ -42,7 +43,7 @@ def prepare(a):
     for c,p in FEEDS.items():
         dest=out/'previous'/(c+'.json');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(REPO/p,dest)
     cached={}
-    for root in (WORK/'outputs/release-20260924',WORK/'outputs/release-20260920',REPO/'packages'):
+    for root in (WORK/'outputs/release-20260925-beta4',WORK/'outputs/release-20260924',WORK/'outputs/release-20260920',REPO/'packages'):
         for p in root.rglob('*.zip'):cached.setdefault(p.stat().st_size,[]).append(p)
     resolved={};assets=[];replacements={};scope={};seen=set()
     for p in {p['sha256']:p for f in (feeds['stable'],beta) for p in f['packages']}.values():
@@ -74,7 +75,7 @@ def prepare(a):
     final=copy.deepcopy(beta);final['packages']=[replacements.get(p['id'],p) for p in beta['packages']]
     assert final['launcher']==beta['launcher']
     assert [p for p in final['packages'] if p.get('mods')!=['arcane-wars']]==[p for p in beta['packages'] if p.get('mods')!=['arcane-wars']]
-    bodies=read(REPO/'docs/release-patch-0.4.0-beta.4.json')
+    bodies=read(REPO/('docs/release-patch-'+VERSION+'.json'))
     note=dict(category='patch',version=VERSION,publishedAt='2026-09-25',mods=['arcane-wars'],channel='beta',title={c:'Paw’s Patch '+VERSION for c in bodies},body=bodies)
     final['changelog']=[note]+final['changelog'];final['publishedAt']=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ');final['patchGuide']['version']=VERSION
     write(out/'final/beta.json',sign(final,private))

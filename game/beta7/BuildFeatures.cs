@@ -26,8 +26,10 @@ internal static class BuildFeatures
 #endif
 #if SYNC_CONTINUE
         const bool bypass = true;
+        const string syncDiagnostics = ",\"syncDiagnosticsRevision\":1";
 #else
         const bool bypass = false;
+        const string syncDiagnostics = "";
 #endif
 #if SYNC_ONLY
         const bool hostility = false;
@@ -105,7 +107,7 @@ internal static class BuildFeatures
         const string nightmare="";
 #endif
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() +
-            ",\"bypass\":" + bypass.ToString().ToLowerInvariant() +
+            ",\"bypass\":" + bypass.ToString().ToLowerInvariant() + syncDiagnostics +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
             ",\"commonFixes\":" + commonFixes.ToString().ToLowerInvariant() + ",\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"advancedCityPolicy\":" + (cityAssistant && fastSaveTransfer).ToString().ToLowerInvariant() +

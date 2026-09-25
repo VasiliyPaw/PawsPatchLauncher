@@ -505,7 +505,7 @@ internal static class K2PawFamilyPostgen1372
             if (!ReadBytes(process, Add(imageBase, LocalOutOfSyncMarkerRva), 4)
                 .SequenceEqual(LocalOutOfSyncMarkerOriginal))
                 throw new InvalidOperationException("OOS marker signature mismatch before patching.");
-            AppendLog(logPath, "MODE optional-sync-bypass; stockSyncChecks=false; notifications=false.");
+            AppendLog(logPath, "MODE optional-sync-bypass; stockChecksumChecks=true; nativeFailureHandling=false; firstFailureNativeLog=true; notifications=false.");
 #else
             AppendLog(logPath, "MODE primary; stockSyncChecks=true; syncBypass=false.");
 #endif
@@ -911,18 +911,24 @@ internal static class K2PawFamilyPostgen1372
                 "Не совпала сигнатура локального флага рассинхрона: " +
                 BitConverter.ToString(markerOriginal));
 
+        IntPtr reset = Add(imageBase, PawSyncDiagnostics.ResetRva);
+        byte[] resetOriginal = ReadBytes(process, reset, PawSyncDiagnostics.ResetSignature.Length);
+        if (!resetOriginal.SequenceEqual(PawSyncDiagnostics.ResetSignature))
+            throw new InvalidOperationException("Network synchronizer reset signature mismatch.");
+
         IntPtr signal = VirtualAllocEx(
-            process, IntPtr.Zero, 16, MemCommit | MemReserve, PageReadWrite);
+            process, IntPtr.Zero, PawSyncDiagnostics.SignalSize, MemCommit | MemReserve, PageReadWrite);
         if (signal == IntPtr.Zero)
             ThrowWin32("VirtualAllocEx(sync signal)");
-        WriteBytes(process, signal, new byte[16]);
+        WriteBytes(process, signal, PawSyncDiagnostics.InitialSignal());
 
         IntPtr stub = VirtualAllocEx(
-            process, IntPtr.Zero, 128,
+            process, IntPtr.Zero, PawSyncDiagnostics.CodeSize,
             MemCommit | MemReserve, PageExecuteReadWrite);
         if (stub == IntPtr.Zero)
             ThrowWin32("VirtualAllocEx(sync stub)");
-        byte[] stubCode = BuildSuppressionStub(signal);
+        byte[] stubCode = PawSyncDiagnostics.Build(unchecked((uint)imageBase.ToInt64()),
+            unchecked((uint)stub.ToInt64()), unchecked((uint)signal.ToInt64()));
         WriteBytes(process, stub, stubCode);
         if (!FlushInstructionCache(process, stub, stubCode.Length))
             ThrowWin32("FlushInstructionCache(sync stub)");
@@ -931,8 +937,12 @@ internal static class K2PawFamilyPostgen1372
         detour[0] = 0xE9;
         Buffer.BlockCopy(
             BitConverter.GetBytes(RelativeBranch(target, stub)), 0, detour, 1, 4);
+        byte[] resetDetour = new byte[5]; resetDetour[0] = 0xE9;
+        Buffer.BlockCopy(BitConverter.GetBytes(RelativeBranch(reset,
+            Add(stub, PawSyncDiagnostics.ResetOffset))), 0, resetDetour, 1, 4);
         try
         {
+            WriteCodePatch(process, reset, resetDetour, "Sync diagnostic baseline observer");
             WriteCodePatch(process, target, detour, "SyncFailure detour");
             WriteCodePatch(
                 process,
@@ -956,6 +966,8 @@ internal static class K2PawFamilyPostgen1372
                     "SyncFailure detour rollback");
             }
             catch { }
+            try { WriteCodePatch(process, reset, resetOriginal.Take(5).ToArray(),
+                "Sync diagnostic baseline rollback"); } catch { }
             throw;
         }
 
@@ -966,7 +978,7 @@ internal static class K2PawFamilyPostgen1372
             " localOosMarker=0x" + localOutOfSyncMarker.ToInt64().ToString("X8") +
             " stub=0x" + stub.ToInt64().ToString("X8") +
             " signal=0x" + signal.ToInt64().ToString("X8") +
-            " notifications=false logOnly=true gameContinues=true.");
+            " notifications=false firstFailureNativeLog=true diagnosticsRevision=1 gameContinues=true.");
         return signal;
     }
 
@@ -1019,21 +1031,6 @@ internal static class K2PawFamilyPostgen1372
             BitConverter.ToUInt32(code, 27) == baseValue + SyncFailureQualifiedNameRva;
     }
 
-    private static byte[] BuildSuppressionStub(IntPtr signal)
-    {
-        List<byte> code = new List<byte>();
-        code.Add(0x9C);                                                        // pushfd
-        code.Add(0x60);                                                        // pushad
-        code.Add(0xB8);                                                        // mov eax,signal
-        code.AddRange(BitConverter.GetBytes(signal.ToInt32()));
-        code.AddRange(new byte[] { 0x8B, 0x54, 0x24, 0x28 });                  // mov edx,[esp+40]
-        code.AddRange(new byte[] { 0x89, 0x50, 0x04 });                        // mov [eax+4],edx
-        code.AddRange(new byte[] { 0xF0, 0xFF, 0x00 });                        // lock inc dword [eax]
-        code.Add(0x61);                                                        // popad
-        code.Add(0x9D);                                                        // popfd
-        code.AddRange(new byte[] { 0xC2, 0x04, 0x00 });                        // ret 4
-        return code.ToArray();
-    }
 #endif
 
 #if RACE_RELATIONS
@@ -3691,6 +3688,7 @@ internal static class K2PawFamilyPostgen1372
         string logPath)
     {
         int[] previous = ReadCounters(process, counters);
+        int observedCaptureAttempt = 0, observedCaptureReturn = 0;
         int observedSync = syncSignal == IntPtr.Zero
             ? 0
             : ReadInt32(process, syncSignal);
@@ -3719,7 +3717,19 @@ internal static class K2PawFamilyPostgen1372
             }
             if (syncSignal != IntPtr.Zero)
             {
-                int currentSync = ReadInt32(process, syncSignal);
+                byte[] diagnostic = ReadBytes(process, syncSignal, PawSyncDiagnostics.SignalSize);
+                int attempt = BitConverter.ToInt32(diagnostic, 16), returned = BitConverter.ToInt32(diagnostic, 20);
+                if (attempt != observedCaptureAttempt || returned != observedCaptureReturn)
+                {
+                    observedCaptureAttempt = attempt; observedCaptureReturn = returned;
+                    AppendLog(logPath, "[Paw Sync] nativeCaptureAttempts=" + attempt + " nativeCaptureReturns=" + returned +
+                        " epoch=" + BitConverter.ToUInt32(diagnostic, 8) +
+                        " firstIndex=" + BitConverter.ToUInt32(diagnostic, 24) +
+                        " localRange=" + BitConverter.ToUInt32(diagnostic, 32) + ".." + BitConverter.ToUInt32(diagnostic, 36) +
+                        " gameTime=" + BitConverter.ToSingle(diagnostic, 44).ToString(System.Globalization.CultureInfo.InvariantCulture) +
+                        "; see native log for synclog filename or write error.");
+                }
+                int currentSync = BitConverter.ToInt32(diagnostic, 0);
                 if (currentSync != observedSync)
                 {
                     observedSync = currentSync;

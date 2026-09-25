@@ -34,6 +34,10 @@ internal static class GameDiagnosticsTests
         Add(Path.Combine(locations.Documents, "Kohan2"), "log-7.log", 15, "documents log");
         Add(locations.GameRoot, "paws_graphics_guard.log", 25);
         Add(locations.GameRoot, "paws_sync_family_herd_relations_1372_status.txt", 25);
+        var syncFolder = Path.Combine(locations.Documents, "Kohan2", "data", "synclogs");
+        for (var i = 1; i <= 6; i++) Add(syncFolder, $"synclog_film_{i}.txt", i, "Old replay history");
+        var firstDesync = Add(syncFolder, "synclog_7.txt", 30,
+            "Host/Client: Client\nIndex: 304230\nControl Word: 0x9001F\nName Type Value Checksum\nfirst mismatch evidence\n");
         Add(locations.GameRoot, "d3d9.dll", 25, "synthetic DLL, never executed");
         Add(locations.GameRoot, "k2.exe", 25, "synthetic EXE, never executed");
         Add(locations.GameRoot, "save-sentinel.rsg", 100, "DO NOT CHANGE");
@@ -72,6 +76,8 @@ internal static class GameDiagnosticsTests
             Check(copied.Any(f => f.Source == Path.Combine(locations.GameRoot, "SAI_log-5.log")), "SAI companion missing");
             Check(copied.All(f => !f.Source.EndsWith("log-1.dmp")), "Old dump should be outside retention");
             Check(copied.Any(f => f.Source.EndsWith("paws_graphics_guard.log")), "Graphics guard status missing");
+            Check(copied.Any(f => f.Source == firstDesync), "First network desync capture missing from diagnostics");
+            Check(copied.Count(f => f.Category == "sync-logs") == 5, "Native sync log retention changed");
             Check(copied.Any(f => f.Source.Contains("windows-custom-")) || copied.Any(f => f.ArchivePath.Contains("windows-custom-")), "Custom Windows folder ignored");
             Check(copied.All(f => !f.Source.Contains("chrome.exe") && !f.Source.Contains("notk2.exe") && !f.Source.Contains("other.exe") && !f.Source.Contains("spoof")), "Unrelated application dump collected");
             Check(copied.All(f => !f.Source.Contains("PawsPatchBackups") && !f.Source.Contains("data orig") && !f.Source.EndsWith("passwords.txt") && !f.Source.EndsWith(".rsg")), "Private/unrelated or backup file collected");
