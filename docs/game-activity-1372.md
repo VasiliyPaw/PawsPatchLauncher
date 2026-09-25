@@ -18,6 +18,9 @@ base `0x460000`. No game image is added to this repository.
 | Editor | application state at RVA `0x5f92f4`, values 5 or 13, from the same Steam routine. |
 | Multiplayer | session `+0x100`, also used by the native Steam presence routine. |
 | World/time | global RVA `0x5f3fb8`; float at world `+0xe8`; native `0x5c0eb6` labels this `g_gworld->GetGameTimeBeginTick()`. |
+| Match timing controller | Global RVA `0x5f3fe8`. Native `SetPaused` at reference VA `0x5c12a2` writes controller `+0x28`; multiplayer vote-to-pause/unpause branches at `0x5abc13` / `0x5abf6b` call this setter. |
+| Effective pause | `0x5c1381` returns whether simulation runs: controller bytes `+0x28` and `+0x29` must both be zero. Single-player focus auto-pause additionally applies when bit 1 at RVA `0x5f921c` is clear and the option at `[global RVA 0x5f9480]+0x37c` points to an enabled boolean. Multiplayer ignores this focus branch. GamePausedLabel also reads controller `+0x28` at `0x532de2`. The launcher mirrors the effective gate, including automatic pause, without treating a stalled clock or network as proof of pause. |
+| Selected simulation speed | Controller float `+0x20` is logarithmic: `0x5c102d` stores it and computes `pow(2, value)`, multiplied by 100 for the native speed notice (`0x5c10f3`). The hotkey routine at `0x5c1231` updates this same field. Read current memory, not the starting configuration. Timing getter/signature checks use RVAs `0x1612a2`, `0x1613aa`, `0x16107b`; stable controller/state reads bracket the time sample. |
 | Participants | session linked-list head `+0xc8`; node `[player,next]`. Native lookup at `0x5c6c0a`; wrapper constructor at `0x5bd080` (vtable RVA `0x4bd914`). |
 | Player fields and local identity | wrapper `+0x20` ID, `+8` UTF-16 name, `+0xc` bot, `+4` network peer. Manager global RVA `0x5f3fec`, `+0xc` is the local **wrapper itself**, not its network peer. `0x5c94ba` returns it; `0x5c94c3` passes that same pointer to `0x5bd1d7`, which reads the wrapper's kingdom at `+0x28`. Compare the roster wrapper address directly. |
 | Lobby matching | cached native Steam connect string at RVA `0x5f21e0`; accepts only `+connect_lobby <uint64>`, hashes it with a Kohan-specific prefix. No join command/Steam ID is published. |
@@ -43,6 +46,13 @@ terminate the search. Only the successful game's disk hash is retained in the ca
 
 ## Transport and lifecycle
 
+- The local timing candidate adds optional `paused` and `speed` fields to matches.
+  Speed is a positive simulation multiplier, not a percentage; the UI formats it
+  as a percentage. Unknown native layouts and legacy publishers omit the fields.
+  The bounded display clock scales both sample age and local progression by speed,
+  and freezes immediately upon receiving a paused sample. Pause/resume and speed
+  changes arrive through the existing heartbeat/detail cadence; they are not instant
+  remote notifications. Stale running estimates stop after forty wall-clock seconds.
 - From 0.8.7 the optional boolean `observer` is sent explicitly and validated by
   the server. Legacy participants without it retain an unknown role. A true
   observer is human and carries no kingdom-derived team, color, race or faction.

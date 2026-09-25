@@ -128,7 +128,7 @@ internal static class GameActivityTests
         modules.BaseGameSha256="unknown";Check(KohanActivityReader.SupportedExecutables(modules).Count==1,"future native layouts not guessed");
         Console.WriteLine($"GAME ACTIVITY PASS {checks}");return checks;
     }
-    private sealed class Memory(uint image)
+    internal sealed class Memory(uint image)
     {
         private readonly byte[] data=Make(image);
         public uint Session=>0x1000000;public uint World=>0x1020000;public uint Creator=>0x1030000;

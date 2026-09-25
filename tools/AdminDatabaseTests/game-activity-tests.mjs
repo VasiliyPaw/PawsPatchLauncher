@@ -12,6 +12,19 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
  check(!('players' in player.activity)&&!('room' in player.activity)&&!('self' in player.activity),'regular polling never downloads roster or matching metadata');
  let details=await rpc('paw_game_activity',[user]);
  check(details.status==='ok'&&details.activity.players.length===3,'authorized details');
+ for(const timing of [{paused:true,speed:1.5},{paused:false,speed:0.5},{paused:null,speed:null},{speed:1024},{speed:0.001}]){
+  await ready(user);check((await send({...a,...timing})).status==='ok','explicit timing accepted');await login(peer);
+  const match=(await rpc('paw_game_activity',[user])).activity;
+  const summary=(await rpc('paw_social_list',[])).players.find(p=>p.id===user).activity;
+  check(match.paused===timing.paused&&match.speed===timing.speed,'details retain native timing');
+  check(summary.paused===timing.paused&&summary.speed===timing.speed,'summary retains native timing');
+ }
+ await ready(user);await send(a);await login(peer);
+ check(!('paused' in (await rpc('paw_game_activity',[user])).activity),'legacy publisher remains supported without invented pause');
+ await db.exec('reset role');
+ for(const invalidTiming of [{paused:'true'},{paused:1},{speed:'1.5'},{speed:true},{speed:0},{speed:-1},{speed:0.0001},{speed:1025},{phase:'lobby',paused:false},{phase:'lobby',speed:1}])
+  check(!(await q('select paw_private.valid_game_activity($1::jsonb) as valid',[JSON.stringify({...a,...invalidTiming})]))[0].valid,'malformed or non-match timing rejected');
+ await login(peer);
  check(details.activity.players[0].team===2&&details.activity.players[0].color==='#FF8000'&&details.activity.players[1].team===1,'teams and colors survive heartbeat, identity enrichment and details');
  await ready(user);check((await send({...a,players:[{key:'p1',name:'Observer',bot:false,observer:true},{...a.players[1]}]})).status==='ok','explicit observer accepted');await login(peer);
  details=await rpc('paw_game_activity',[user]);check(details.activity.players[0].observer===true&&details.activity.players[0].team===undefined,'observer survives detail response without a team');

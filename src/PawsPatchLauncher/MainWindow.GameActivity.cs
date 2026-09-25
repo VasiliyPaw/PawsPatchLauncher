@@ -142,18 +142,25 @@ public partial class MainWindow
         if(key==_gameActivityRenderKey)return;
         _gameActivityRenderKey=key;GameActivityBody.Children.Clear();_gameActivityAvatarViews.Clear();
         GameActivityBody.Children.Add(new TextBlock{Text=GameActivityPhaseName(activity.Phase),FontSize=19,FontWeight=FontWeights.SemiBold,Foreground=SocialBrush("#72DDAA"),Margin=new Thickness(0,0,0,14)});
-        TextBlock Information(string label,string value)
+        TextBlock Information(string label,string value,bool timing=false)
         {
             var grid=new Grid{Margin=new Thickness(0,0,0,9)};grid.ColumnDefinitions.Add(new ColumnDefinition());grid.ColumnDefinitions.Add(new ColumnDefinition{Width=GridLength.Auto});
             grid.Children.Add(new TextBlock{Text=label,Foreground=SocialBrush("#A8BBD2")});
-            var text=new TextBlock{Text=value,FontWeight=FontWeights.SemiBold,Margin=new Thickness(16,0,0,0)};Grid.SetColumn(text,1);grid.Children.Add(text);GameActivityBody.Children.Add(grid);return text;
+            var values=new StackPanel{Orientation=Orientation.Horizontal,Margin=new Thickness(16,0,0,0)};
+            Grid.SetColumn(values,1);grid.Children.Add(values);
+            if(timing && activity.Phase=="match")
+            {
+                if(activity.Paused==true)values.Children.Add(new TextBlock{Text=T("Пауза","Paused"),Tag="match-paused",Foreground=SocialBrush("#FFD36A"),FontWeight=FontWeights.SemiBold,Margin=new Thickness(0,0,12,0)});
+                if(activity.Speed is double speed)values.Children.Add(new TextBlock{Text=$"{speed*100:0.#}%",Tag="match-speed",Foreground=SocialBrush("#AEC2D9"),ToolTip=T("Скорость игры","Game speed"),Margin=new Thickness(0,0,12,0)});
+            }
+            var text=new TextBlock{Text=value,FontWeight=FontWeights.SemiBold};values.Children.Add(text);GameActivityBody.Children.Add(grid);return text;
         }
         if(activity.Phase is "lobby" or "match")Information(T("Режим", "Mode"),activity.Multiplayer?T("Сетевая игра", "Multiplayer"):T("Одиночная игра", "Single player"));
         _gameActivityElapsedText=null;
         if(activity.ElapsedSeconds is int elapsed)
         {
-            _gameActivityElapsedText=Information(T("Время матча", "Match time"),GameActivityClock.Format(elapsed));
-            _gameActivityElapsedText.ToolTip=T("Время идёт локально и уточняется при получении данных. При паузе или изменении скорости игры возможна поправка.", "Time advances locally and is corrected by new samples. Pauses or game-speed changes may cause a correction.");
+            _gameActivityElapsedText=Information(T("Время матча", "Match time"),GameActivityClock.Format(elapsed),timing:true);
+            _gameActivityElapsedText.ToolTip=T("Время учитывает последнюю полученную скорость и паузу. Данные периодически уточняются из игры.", "Time follows the latest reported speed and pause state. It is periodically corrected from the game.");
             RefreshGameActivityClock();
         }
         if(activity.Width is int width&&activity.Height is int height)Information(T("Размер карты", "Map size"),$"{width} × {height}");

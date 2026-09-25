@@ -9,19 +9,21 @@ public sealed class GameActivityClock
     private double initialAge;
     private int? seconds;
     private bool running;
+    private double speed = 1;
     public void Observe(GameActivityDetails details, long monotonic, DateTimeOffset now)
     {
         if (observed is not null && details.ObservedAt <= observed) return;
         observed = details.ObservedAt; anchor = monotonic;
         initialAge = Math.Clamp((now - details.ObservedAt).TotalSeconds, 0, 40);
         seconds = details.Activity.ElapsedSeconds;
-        running = details.Activity.Phase == "match";
+        running = details.Activity.Phase == "match" && details.Activity.Paused != true;
+        speed = details.Activity.Speed is double value && GameActivity.ValidSpeed(value) ? value : 1;
     }
     public int? Seconds(long monotonic)
     {
         if (seconds is null) return null;
         var age = Math.Min(40, initialAge + Math.Max(0, monotonic - anchor) / 1000d);
-        return seconds + (running ? (int)age : 0);
+        return Math.Min(604800, seconds.Value + (running ? (int)(age * speed) : 0));
     }
     public static string Format(int seconds)
     {

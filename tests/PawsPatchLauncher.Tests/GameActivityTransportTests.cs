@@ -10,7 +10,7 @@ internal static class GameActivityTransportTests
         foreach(var legacy in new[]{false,true})
         {
             var now=DateTimeOffset.UtcNow;var owner=Guid.NewGuid();var peer=Guid.NewGuid();var attempts=0;var regular=0;var mode="ok";
-            var activity=new GameActivity("match",true,125,192,192,Self:"p1",Players:[new("p1","Player",false,Race:"haroun",Subrace:"royalist")]);
+            var activity=new GameActivity("match",true,125,192,192,Self:"p1",Players:[new("p1","Player",false,Race:"haroun",Subrace:"royalist")],Paused:true,Speed:1.5);
             var versions=new SocialVersions("0.7.5.0");
             HttpResponseMessage Json(object body)=>new(HttpStatusCode.OK){Content=new StringContent(JsonSerializer.Serialize(body))};
             using var service=new AccountService(new AccountSessionStore(Path.Combine(root,"activity-transport-"+legacy)),new Mock(async request=>
@@ -24,7 +24,7 @@ internal static class GameActivityTransportTests
                 {
                     using var body=JsonDocument.Parse(await request.Content!.ReadAsStringAsync());var components=body.RootElement.GetProperty("components");
                     Check(SocialVersions.Read(components.GetProperty("_versions"))==versions,"version envelope retained");
-                    if(components.TryGetProperty("_activity",out var payload)){attempts++;Check(GameActivity.Read(payload)?.Phase=="match","activity envelope valid");return Json(new{status=legacy?"invalid_presence":"ok"});}
+                    if(components.TryGetProperty("_activity",out var payload)){attempts++;Check(GameActivity.Read(payload) is {Phase:"match",Paused:true,Speed:1.5},"activity envelope retains explicit timing");return Json(new{status=legacy?"invalid_presence":"ok"});}
                     regular++;return Json(new{status="ok"});
                 }
                 if(path.EndsWith("paw_game_activity"))
@@ -45,6 +45,8 @@ internal static class GameActivityTransportTests
             var before=attempts;await Send(false);Check(attempts==before,"closed game sent stale activity");
             Check((await service.GetFriendsAsync()).Single().Activity?.Phase=="match","profile summary parse");
             Check((await service.GetGameActivityAsync(peer))?.Activity.Width==192,"detail response parse");
+            Check((await service.GetGameActivityAsync(peer))?.Activity is {Paused:true,Speed:1.5},"detail transport retains timing");
+            Check((await service.GetFriendsAsync()).Single().Activity is {Paused:true,Speed:1.5},"friend summary retains timing");
             Check((await service.GetGameActivityAsync(peer))?.Activity.Players?[0] is {Race:"haroun",Subrace:"royalist"},"race/subrace detail fields survive account transport");
             activity=activity with { Players=[new("p1","Observer",false,Observer:true)] };
             Check((await service.GetGameActivityAsync(peer))?.Activity.Players?[0] is {Observer:true},"explicit observer field survives account transport");

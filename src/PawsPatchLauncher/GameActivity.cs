@@ -30,7 +30,10 @@ public sealed record GameActivity(
     [property: JsonPropertyName("height")] int? Height = null,
     [property: JsonPropertyName("room")] string? Room = null,
     [property: JsonPropertyName("self")] string? Self = null,
-    [property: JsonPropertyName("players")] IReadOnlyList<GameParticipant>? Players = null)
+    [property: JsonPropertyName("players")] IReadOnlyList<GameParticipant>? Players = null,
+    [property: JsonPropertyName("paused"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] bool? Paused = null,
+    // Simulation seconds per real second; null means an older or unknown source.
+    [property: JsonPropertyName("speed"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] double? Speed = null)
 {
     public const int MaximumBytes = 16384;
     public static bool ValidPhase(string? phase) => phase is "menu" or "lobby" or "match" or "loading" or "editor";
@@ -42,6 +45,8 @@ public sealed record GameActivity(
             if (value.ValueKind != JsonValueKind.Object || Encoding.UTF8.GetByteCount(value.GetRawText()) > (details ? MaximumBytes * 2 : MaximumBytes)) return null;
             var result = value.Deserialize<GameActivity>();
             if (result is null || !ValidPhase(result.Phase) || result.ElapsedSeconds is < 0 or > 604800
+                || result.Speed is double speed && !ValidSpeed(speed)
+                || result.Phase != "match" && (result.Paused is not null || result.Speed is not null)
                 || (result.Width is not null || result.Height is not null) && (result.Width is not (>= 16 and <= 8192) || result.Height is not (>= 16 and <= 8192))
                 || result.Room is not null && (result.Room.Length != 64 || !result.Room.All(Uri.IsHexDigit))
                 || result.Self is not null && !ValidKey(result.Self)) return null;
@@ -67,6 +72,7 @@ public sealed record GameActivity(
         catch (Exception error) when (error is JsonException or InvalidOperationException or AccountException or ArgumentException) { return null; }
     }
     public static bool ValidKey(string? value) => value is { Length: > 0 and <= 32 } && value.All(c => char.IsAsciiLetterOrDigit(c) || c is '-' or '_');
+    public static bool ValidSpeed(double value) => double.IsFinite(value) && value is >= 0.001 and <= 1024;
     public static bool ValidColor(string? value) => value is { Length: 7 } && value[0] == '#' && value.AsSpan(1).ToString().All(Uri.IsHexDigit);
     public static bool ValidFactionId(string? value) => value is { Length: > 0 and <= 80 } && value.All(c => char.IsAsciiLetterOrDigit(c) || c is '-' or '_');
     public GameActivity Summary() => this with { Room = null, Self = null, Players = null };

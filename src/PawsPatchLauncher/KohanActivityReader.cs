@@ -274,6 +274,7 @@ public sealed class KohanActivityReader
                 if (connect.StartsWith(prefix, StringComparison.Ordinal) && ulong.TryParse(connect[prefix.Length..], out var lobby) && lobby != 0)
                     room = Convert.ToHexString(SHA256.HashData(Encoding.ASCII.GetBytes("KohanII/SteamLobby/" + lobby.ToString(System.Globalization.CultureInfo.InvariantCulture))));
             }
+            var timing = phase == "match" ? ReadTiming(image, multiplayer, read) : default;
             int? elapsed = null;
             if (phase == "match") { var seconds = F32(world + 0xe8); if (float.IsFinite(seconds) && seconds is >= 0 and <= 604800) elapsed = (int)seconds; }
             // Follow the same WorldCreator selection used by the native lobby map preview.
@@ -290,12 +291,43 @@ public sealed class KohanActivityReader
                 || manager != U32(image + 0x5f3fec) || manager >= 0x10000 && local != U32(manager + 0xc)) return null;
             if(sourceKind<=5 && creator>=0x10000 && (teamArray!=U32(creator+8)||teamCount!=U32(creator+0xc)
                 ||kingdomArray!=U32(creator+0x14)||kingdomCount!=U32(creator+0x18)))return null;
-            var result=new GameActivity(phase, multiplayer, elapsed, width, height, Room: room, Self: self, Players: players);
+            if (phase == "match" && timing != ReadTiming(image, multiplayer, read)) return null;
+            var result=new GameActivity(phase, multiplayer, elapsed, width, height, Room: room, Self: self, Players: players,
+                Paused: timing.Paused, Speed: timing.Speed);
             // Escaped Unicode can make an otherwise valid large roster exceed the wire
             // envelope. Keep the phase/time instead of poisoning the normal heartbeat.
             return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(result).Length>GameActivity.MaximumBytes-1024 ? result.Summary() : result;
         }
         catch (Exception error) when (error is IOException or ArgumentException or OverflowException) { return null; }
+    }
+
+    // KKC simulation controller: native SetPaused writes +0x28; IsRunning also
+    // checks +0x29 and single-player focus auto-pause. SetGameSpeed stores a
+    // logarithmic value at +0x20 and uses pow(2, value), including hotkey changes.
+    private static (uint Controller, bool? Paused, double? Speed) ReadTiming(uint image, bool multiplayer, Func<uint,int,byte[]> read)
+    {
+        try
+        {
+            if (!read(image + 0x1612a2, 10).SequenceEqual(new byte[] { 0x8a,0x44,0x24,0x04,0x88,0x41,0x28,0xc2,0x04,0x00 })
+                || !read(image + 0x1613aa, 18).SequenceEqual(new byte[] { 0x80,0x79,0x28,0x00,0x75,0x09,0x80,0x79,0x29,0x00,0x75,0x03,0xb0,0x01,0xc3,0x32,0xc0,0xc3 })
+                || !read(image + 0x16107b, 9).SequenceEqual(new byte[] { 0xf3,0x0f,0x5c,0xca,0xf3,0x0f,0x11,0x57,0x20 })) return default;
+            uint U32(uint at) => BitConverter.ToUInt32(read(at, 4));
+            var controller = U32(image + 0x5f3fe8);
+            if (controller < 0x10000) return default;
+            var flags = read(controller + 0x28, 2);
+            bool? paused = flags[0] > 1 || flags[1] > 1 ? null : flags[0] != 0 || flags[1] != 0;
+            if (paused == false && !multiplayer && (U32(image + 0x5f921c) & 2) == 0)
+            {
+                var options = U32(image + 0x5f9480);
+                var autoPause = options >= 0x10000 ? U32(options + 0x37c) : 0;
+                var enabled = autoPause >= 0x10000 ? read(autoPause, 1)[0] : (byte)255;
+                paused = enabled > 1 ? null : enabled != 0;
+            }
+            var exponent = BitConverter.ToSingle(read(controller + 0x20, 4));
+            var speed = Math.Pow(2, exponent);
+            return (controller, paused, GameActivity.ValidSpeed(speed) ? speed : null);
+        }
+        catch (Exception error) when (error is IOException or ArgumentException or OverflowException) { return default; }
     }
 
     [DllImport("kernel32.dll", SetLastError = true)] private static extern SafeProcessHandle OpenProcess(uint access, bool inherit, int processId);
