@@ -845,6 +845,31 @@
   "beta": [
     {
       "category": "patch",
+      "version": "0.4.0-beta.6",
+      "publishedAt": "2026-09-25",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.6",
+        "en": "Paw’s Patch 0.4.0-beta.6",
+        "de": "Paw’s Patch 0.4.0-beta.6",
+        "fr": "Paw’s Patch 0.4.0-beta.6",
+        "es": "Paw’s Patch 0.4.0-beta.6",
+        "it": "Paw’s Patch 0.4.0-beta.6"
+      },
+      "body": {
+        "ru": "## Сетевая игра\n- Исправлена ошибка улучшенных ботов, которая могла вызвать рассинхронизацию уже в начале матча.\n- Исправлен связанный с ней случай аномально большого предупреждения о времени работы ИИ.\n\nПеред новым сетевым матчем всем участникам нужно обновиться до одной версии. Расширенные журналы первого рассинхрона продолжают сохраняться.",
+        "en": "## Multiplayer\n- Fixed an improved-AI error that could cause desynchronization at the start of a match.\n- Fixed the related case of an abnormally large AI time-limit warning.\n\nAll players must update to the same version before starting a new multiplayer match. Extended diagnostics for the first desync remain enabled.",
+        "de": "## Mehrspieler\n- Ein Fehler der verbesserten KI wurde behoben, der bereits zu Beginn einer Partie eine Desynchronisation verursachen konnte.\n- Die damit verbundene ungewöhnlich hohe Zeitüberschreitungsmeldung der KI wurde behoben.\n\nVor einer neuen Mehrspielerpartie müssen alle Teilnehmer auf dieselbe Version aktualisieren. Die erweiterte Diagnose der ersten Desynchronisation bleibt erhalten.",
+        "fr": "## Multijoueur\n- Correction d’une erreur de l’IA améliorée pouvant provoquer une désynchronisation dès le début d’une partie.\n- Correction de l’avertissement de dépassement du temps de l’IA anormalement élevé lié à cette erreur.\n\nTous les joueurs doivent installer la même version avant de lancer une nouvelle partie multijoueur. Le diagnostic étendu de la première désynchronisation est conservé.",
+        "es": "## Multijugador\n- Corregido un error de la IA mejorada que podía causar una desincronización al inicio de la partida.\n- Corregida la advertencia de tiempo de la IA anormalmente alto relacionada con este error.\n\nTodos los jugadores deben actualizar a la misma versión antes de iniciar una nueva partida multijugador. Se mantiene el diagnóstico ampliado de la primera desincronización.",
+        "it": "## Multigiocatore\n- Corretto un errore dell’IA migliorata che poteva causare una desincronizzazione all’inizio della partita.\n- Corretto il relativo avviso di superamento del tempo dell’IA con un valore anormalmente elevato.\n\nTutti i giocatori devono aggiornare alla stessa versione prima di avviare una nuova partita multigiocatore. La diagnostica estesa della prima desincronizzazione rimane disponibile."
+      }
+    },
+    {
+      "category": "patch",
       "version": "0.4.0-beta.5",
       "publishedAt": "2026-09-25",
       "mods": [
