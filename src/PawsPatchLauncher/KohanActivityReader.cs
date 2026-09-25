@@ -222,7 +222,8 @@ public sealed class KohanActivityReader
                 if (name.Length > 0)
                 {
                     int? team=null;string? color=null;string? race=null;string? subrace=null;
-                    var kingdomId=Wide(U32(player+0x24));
+                    var kingdomIdAddress=U32(player+0x24);
+                    var kingdomId=Wide(kingdomIdAddress);
                     var liveKingdom=phase=="match"?U32(player+0x28):0;
                     if(liveKingdom>=0x10000)
                     {
@@ -250,7 +251,15 @@ public sealed class KohanActivityReader
                         if(entry.team!=U32(entry.address+0x14)||entry.color!=U32(entry.address+0x20)
                             ||entry.nation!=U32(entry.address+0x18)||entry.faction!=U32(entry.address+0x1c))return null;
                     }
-                    players.Add(new GameParticipant(key, name, bot,Team:team,Color:color,Race:race,Subrace:subrace));
+                    // A failed WorldCreator lookup is not evidence of an observer.
+                    // In the lobby require a readable, empty native kingdom IDS;
+                    // in a match the native ObserverGlyphInfo branch uses +0x28 == 0.
+                    var observer=!bot && (phase=="lobby"
+                        ? kingdomIdAddress>=0x10000 && kingdomId.Length==0
+                        : liveKingdom==0);
+                    if(kingdomIdAddress!=U32(player+0x24) || kingdomId!=Wide(kingdomIdAddress)
+                        || phase=="match" && liveKingdom!=U32(player+0x28))return null;
+                    players.Add(new GameParticipant(key, name, bot,Observer:observer,Team:team,Color:color,Race:race,Subrace:subrace));
                     if (!bot && player == local) self = key;
                 }
                 node = U32(node + 4);

@@ -13,7 +13,8 @@ public sealed record GameParticipant(
     [property: JsonPropertyName("color")] string? Color = null,
     [property: JsonPropertyName("race"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Race = null,
     // The existing wire name is retained for compatibility; this value is the participant's faction.
-    [property: JsonPropertyName("subrace"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Subrace = null);
+    [property: JsonPropertyName("subrace"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Subrace = null,
+    [property: JsonPropertyName("observer"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)] bool Observer = false);
 
 public sealed record GameParticipantProfile(
     [property: JsonPropertyName("id")] Guid Id,
@@ -49,6 +50,7 @@ public sealed record GameActivity(
             foreach (var player in players)
             {
                 if (!ValidKey(player.Key) || string.IsNullOrWhiteSpace(player.Name) || player.Name.Length > 80 || player.Name.Any(char.IsControl)) return null;
+                if (player.Observer && (player.Bot || player.Team is not null || player.Color is not null || player.Race is not null || player.Subrace is not null)) return null;
                 if (player.Team is < 1 or > 64 || player.Color is not null && !ValidColor(player.Color)) return null;
                 if (player.Race is not null && !ValidFactionId(player.Race) || player.Subrace is not null && !ValidFactionId(player.Subrace)) return null;
                 if (player.Profile is { } profile)

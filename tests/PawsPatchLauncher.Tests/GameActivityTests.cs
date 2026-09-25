@@ -20,6 +20,11 @@ internal static class GameActivityTests
         var activity=new GameActivity("match",true,131,192,256,new string('A',64),"p1",[person,new("p2","Computer",true)]);
         GameActivity? Parse(object value,bool details=false)=>GameActivity.Read(JsonSerializer.SerializeToElement(value),details);
         Check(Parse(activity)?.Players?.Count==2,"valid Unicode roster");
+        Check(Parse(activity with { Players=[person with { Observer=true }]} )?.Players?[0].Observer==true,"observer role roundtrip");
+        Check(JsonSerializer.Serialize(person with { Observer=true }).Contains("\"observer\":true")&&!JsonSerializer.Serialize(person).Contains("\"observer\""),"observer role has a compact explicit wire form");
+        Check(Parse(activity with { Players=[person with { Team=null,Color=null,Race=null,Subrace=null }]} )?.Players?[0].Observer==false,"kingdom-free participant is not guessed to be an observer");
+        Check(Parse(activity with { Players=[person with { Observer=true,Team=1 }]} ) is null,"observer cannot carry a team assignment");
+        Check(Parse(activity with { Players=[person with { Bot=true,Observer=true }],Self=null}) is null,"bots cannot impersonate observers");
         foreach(var race in new string?[]{null,"random","human","drauga","gauri","haroun","shadow","undead",new string('r',80)})
             foreach(var subrace in new string?[]{null,"random","ceyah","council","fallen","nationalist","royalist","Mod_faction-2"})
             {
@@ -70,6 +75,17 @@ internal static class GameActivityTests
             m.Appearance();read=KohanActivityReader.ReadSnapshot(image,m.Read);
             Check(read?.Players?[0] is {Team:2,Color:"#FF8000"},"lobby joins kingdom and team by ID, preserves native order and RGB");
             Check(read?.Players?[1] is {Team:null,Color:null},"unassigned participant has no invented team/color");
+            m.Player(2,3,"Observer",false,false);
+            m.U32(m.Person(2)+0x24,0x1072300); // Native allocated empty kingdom IDS.
+            Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[2] is {Observer:true,Team:null,Color:null},"kingdom-free native slot is published as an observer");
+            m.U32(m.Person(2)+0x24,0);
+            Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[2].Observer==false,"uninitialized lobby slot is not an observer");
+            m.Bytes(0x1072300,Encoding.Unicode.GetBytes("unresolved_kingdom\0"));m.U32(m.Person(2)+0x24,0x1072300);
+            Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[2].Observer==false,"unresolved kingdom lookup is not an observer");
+            m.Bytes(0x1072300,[0,0]);
+            var kingdomReads=0;
+            byte[] ObserverTransition(uint at,int size){if(at==m.Person(2)+0x24&&++kingdomReads==2)return BitConverter.GetBytes(0u);return m.Read(at,size);}
+            Check(KohanActivityReader.ReadSnapshot(image,ObserverTransition) is null,"observer transition during sample discarded");
             m.PendingAppearance();Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[0].Color=="#0040FF","Paw lobby choice overrides uncommitted template color");
             m.U32(0xf00600,1);Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[0].Color is null,"random color stays unspecified in lobby");m.U32(0xf00600,0);
             m.U8(0xf20000,0);Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[0].Color is null,"unknown palette detour never guessed");
@@ -84,6 +100,7 @@ internal static class GameActivityTests
             m.U32(image+0x5f3fb8,m.World);m.U32(m.Session+0xf0,2);m.F32(m.World+0xe8,131.8f);
             Check(KohanActivityReader.ReadSnapshot(image,m.Read) is {Phase:"match",ElapsedSeconds:131},"native simulation time");
             Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[0] is {Team:1,Color:"#0040FF"},"match uses actual team/color rather than template (save/random/diplomacy)");
+            Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[2].Observer==true,"match observer follows native null kingdom branch");
             m.F32(0x1075318,float.NaN);Check(KohanActivityReader.ReadSnapshot(image,m.Read)?.Players?[0] is {Team:1,Color:null},"bad native RGB omitted");m.F32(0x1075318,0);
             var teamReads=0;
             byte[] TeamTransition(uint at,int size){if(at==0x10741f8&&++teamReads==2)return BitConverter.GetBytes(0u);return m.Read(at,size);}

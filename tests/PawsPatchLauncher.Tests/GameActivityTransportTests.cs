@@ -46,6 +46,8 @@ internal static class GameActivityTransportTests
             Check((await service.GetFriendsAsync()).Single().Activity?.Phase=="match","profile summary parse");
             Check((await service.GetGameActivityAsync(peer))?.Activity.Width==192,"detail response parse");
             Check((await service.GetGameActivityAsync(peer))?.Activity.Players?[0] is {Race:"haroun",Subrace:"royalist"},"race/subrace detail fields survive account transport");
+            activity=activity with { Players=[new("p1","Observer",false,Observer:true)] };
+            Check((await service.GetGameActivityAsync(peer))?.Activity.Players?[0] is {Observer:true},"explicit observer field survives account transport");
             mode="missing";Check(await service.GetGameActivityAsync(peer) is null,"unavailable details invented data");
             foreach(var malformed in new[]{"bad_stamp","invalid"})
             {

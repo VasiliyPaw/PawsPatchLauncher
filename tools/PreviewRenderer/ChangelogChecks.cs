@@ -25,7 +25,7 @@ internal static class ChangelogChecks
             var stable=new ChannelManifest {Channel="stable",PublishedAt="2030-09-10"};
             var beta=new ChannelManifest {Channel="beta",PublishedAt="2030-09-10"};
             foreach(var feed in new[]{stable,beta}) foreach(var category in new[]{"patch","launcher","mod"})
-                for(int i=0;i<8;i++)feed.Changelog.Add(new(){Category=category,Mods=[GameMod.ArcaneWars],Version=i.ToString(),PublishedAt="2026-09-10",Title=new(){Ru=category+" RU "+i,En=category+" EN "+i},Body=new(){Ru=string.Concat(Enumerable.Repeat("Длинные изменения. ",80)),En=string.Concat(Enumerable.Repeat("Long change details. ",80))}});
+                for(int i=0;i<8;i++)feed.Changelog.Add(new(){Category=category,Mods=[GameMod.ArcaneWars],Version=i.ToString(),PublishedAt="2026-09-10",Title=new(){Ru=category+" RU "+i,En=category+" EN "+i},Body=new(){Ru="## Изменения ботов\n\n- Первый пункт\n- Второй пункт\n\n## Интерфейс\n\n"+string.Concat(Enumerable.Repeat("Длинные изменения. ",80)),En="## AI improvements\n\n- First item\n- Second item\n\n## Interface\n\n"+string.Concat(Enumerable.Repeat("Long change details. ",80))}});
             Set("_channel",stable);Set("_latestChannel",stable);
             var remember=typeof(FeedClient).GetMethod("RememberChannel",flags)!;remember.Invoke(Field<FeedClient>("_feedClient"),[stable]);remember.Invoke(Field<FeedClient>("_feedClient"),[beta]);
             Call("ApplyLanguage");Call("SetActivePage","home");window.UpdateLayout();await Task.Delay(200);
@@ -41,9 +41,15 @@ internal static class ChangelogChecks
             await Switch(GameMod.ArcaneWars,"mod","beta");await Task.Delay(220);
             Check(Heading().StartsWith("mod")&&C<ComboBox>("HistoryBranchCombo").Visibility==Visibility.Collapsed,"author history depends on patch branch");
             var card=(StackPanel)((Border)C<StackPanel>("NewsEntriesPanel").Children[0]).Child;
-            var body=card.Children.OfType<TextBlock>().Last();var button=card.Children.OfType<Button>().Single();var shortLength=body.Text.Length;
-            button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Check(body.Text.Length>shortLength,"expand lost full release notes");
-            button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Check(body.Text.Length==shortLength,"collapse failed");
+            var body=card.Children.OfType<StackPanel>().Single(p=>Equals(p.Tag,"changelog-body"));var button=card.Children.OfType<Button>().Single();
+            int BodyLength()=>body.Children.OfType<TextBlock>().Sum(t=>t.Text.Length);
+            var shortLength=BodyLength();
+            Check(body.Children.OfType<TextBlock>().First() is {FontSize:15,FontWeight:var weight}&&weight==FontWeights.SemiBold,"heading has distinct typography");
+            Check(body.Children.OfType<TextBlock>().All(t=>!t.Text.StartsWith('#')),"literal markdown heading leaked into UI");
+            button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Check(BodyLength()>shortLength,"expand lost full release notes");
+            Check(body.Children.OfType<TextBlock>().Count(t=>t.Text.StartsWith("• "))==2,"bullets survive expansion");
+            Check(body.Children.OfType<TextBlock>().Count(t=>t.FontWeight==FontWeights.SemiBold)==2,"both headings rendered after expansion");
+            button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));Check(BodyLength()==shortLength,"collapse failed");
             var a=Switch("launcher","all","stable");await Task.Delay(15);var b=Switch(GameMod.ArcaneWars,"patch","beta");await Task.WhenAll(a,b);await Task.Delay(220);
             Check(Field<string>("_historySource")=="patch"&&Heading().StartsWith("patch")&&scroll.Opacity==1,"rapid filters restored stale content");
             await Switch(GameMod.ArcaneWars,"patch","all");await Task.Delay(220);

@@ -43,6 +43,13 @@ terminate the search. Only the successful game's disk hash is retained in the ca
 
 ## Transport and lifecycle
 
+- From 0.8.7 the optional boolean `observer` is sent explicitly and validated by
+  the server. Legacy participants without it retain an unknown role. A true
+  observer is human and carries no kingdom-derived team, color, race or faction.
+  Lobby detection requires a readable, empty native kingdom IDS at player `+0x24`;
+  missing/unresolved WorldCreator entries alone never establish this role.
+  During a match the native glyph routine at RVA `0x15d3d9` selects
+  `ObserverGlyphInfo` when player `+0x28` is null. Pointer changes discard the sample.
 - Optional `_activity` envelope on the existing authenticated heartbeat; legacy
   server rejection falls back to ordinary presence and backs off for 15 minutes.
 - Maximum 16 KiB incoming activity; one current private row, no match history.

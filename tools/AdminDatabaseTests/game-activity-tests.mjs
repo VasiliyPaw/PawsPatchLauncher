@@ -13,6 +13,10 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
  let details=await rpc('paw_game_activity',[user]);
  check(details.status==='ok'&&details.activity.players.length===3,'authorized details');
  check(details.activity.players[0].team===2&&details.activity.players[0].color==='#FF8000'&&details.activity.players[1].team===1,'teams and colors survive heartbeat, identity enrichment and details');
+ await ready(user);check((await send({...a,players:[{key:'p1',name:'Observer',bot:false,observer:true},{...a.players[1]}]})).status==='ok','explicit observer accepted');await login(peer);
+ details=await rpc('paw_game_activity',[user]);check(details.activity.players[0].observer===true&&details.activity.players[0].team===undefined,'observer survives detail response without a team');
+ await ready(user);await send(a);await login(peer);
+ details=await rpc('paw_game_activity',[user]);
  check(details.activity.players[0].profile?.id===user&&details.activity.players[1].profile===undefined&&details.activity.players[2].profile===undefined,'only matching human resolves; bots and unknown remain unlinked');
  check(!('room' in details.activity)&&!('self' in details.activity)&&details.observed_at,'detail response strips join fingerprint');
  await ready(user);await send({...a,multiplayer:false,room:null});await login(peer);
@@ -36,6 +40,9 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
   {...a,players:[...a.players,a.players[0]]},{...a,players:[{...a.players[0],name:'line\nsecret'}]},
   {...a,players:[{...a.players[0],profile:{id:peer,nickname:'impersonated'}}]},
   {...a,players:[{...a.players[0],bot:'false'}]},{...a,players:[null]}, {...a,players:42},
+  {...a,players:[{...a.players[0],observer:'true'}]},{...a,players:[{...a.players[0],observer:true,team:1}]},
+  {...a,self:null,players:[{key:'bot',name:'Bot',bot:true,observer:true}]},
+  ...['color','race','subrace'].map(field=>({...a,players:[{key:'p1',name:'Observer',bot:false,observer:true,[field]:field==='color'?'#FFFFFF':'human'}]})),
   {...a,players:Array.from({length:65},(_,i)=>({key:'p'+i,name:'x',bot:false}))},{...a,extra:'private'},
   {...a,players:[{...a.players[0],name:'x'.repeat(81)}]},
   ...[0,-1,65,1.5,'1',{},[]].map(team=>({...a,players:[{...a.players[0],team}]})),

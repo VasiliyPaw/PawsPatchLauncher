@@ -104,14 +104,27 @@ public partial class MainWindow
         else if (!row.Overview) metadata += T(" · дата не указана", " · date not specified");
         item.Children.Add(new TextBlock { Text = metadata, Style = (Style)FindResource("SmallMetadataText"), Margin = new Thickness(0, 4, 0, 0) });
         var body = row.Source == "patch" ? ChannelPresentation.ChangelogText(entry.Body.Get(_text.Language), _text.Language) : entry.Body.Get(_text.Language);
-        var content = new TextBlock { Text = body, Style = (Style)FindResource("CardDescription"), Foreground = SocialBrush("#CDD5E1"), Margin = new Thickness(0, 9, 0, 0) }; item.Children.Add(content);
+        var content = new StackPanel { Margin = new Thickness(0, 9, 0, 0), Tag = "changelog-body" }; item.Children.Add(content);
+        void RenderBody(string text)
+        {
+            content.Children.Clear();
+            foreach (var line in ChangelogTextLayout.Parse(text))
+            {
+                var block = new TextBlock { Text = line.Kind == ChangelogTextKind.Bullet ? "• " + line.Text : line.Text,
+                    TextWrapping = TextWrapping.Wrap, Foreground = SocialBrush(line.Kind == ChangelogTextKind.Heading ? "#E7D099" : "#CDD5E1") };
+                if (line.Kind == ChangelogTextKind.Heading)
+                { block.FontSize = 15; block.FontWeight = FontWeights.SemiBold; block.Margin = new Thickness(0, content.Children.Count == 0 ? 0 : 10, 0, 3); }
+                else { block.Style = (Style)FindResource("CardDescription"); block.Margin = new Thickness(line.Kind == ChangelogTextKind.Bullet ? 9 : 0, 0, 0, 5); }
+                content.Children.Add(block);
+            }
+        }
+        RenderBody(body);
         if (body.Length > 420 || body.Count(c => c == '\n') > 5)
         {
-            var preview = body.Split(["\r\n\r\n", "\n\n"], StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? body;
-            if (preview.Length > 300) preview = preview[..300].TrimEnd() + "…";
-            content.Text = preview; var expanded = false;
+            var preview = ChangelogTextLayout.Preview(body);
+            RenderBody(preview); var expanded = false;
             var button = new Button { Content = T("Показать полностью ▾", "Show all ▾"), Style = (Style)FindResource("GhostButton"), HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 10, 0, 0), Padding = new Thickness(9, 5, 9, 5) };
-            button.Click += (_, _) => { expanded = !expanded; content.Text = expanded ? body : preview; button.Content = expanded ? T("Свернуть ▴", "Collapse ▴") : T("Показать полностью ▾", "Show all ▾"); Motion.Reveal(content); }; item.Children.Add(button);
+            button.Click += (_, _) => { expanded = !expanded; RenderBody(expanded ? body : preview); button.Content = expanded ? T("Свернуть ▴", "Collapse ▴") : T("Показать полностью ▾", "Show all ▾"); Motion.Reveal(content); }; item.Children.Add(button);
         }
         return new Border { Child = item, Background = SocialBrush("#132840"), BorderBrush = SocialBrush("#40536E"), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(7), Padding = new Thickness(12), Margin = new Thickness(0, 0, 0, 10) };
     }

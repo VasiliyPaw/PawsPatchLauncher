@@ -8,6 +8,9 @@ internal static class ChangelogTimelineTests
         int count = 0;
         void Check(bool value, string reason) { if (!value) throw new Exception(reason); count++; }
         LocalizedText Both(string s) => new() { Ru=s, En=s };
+        var formatted=ChangelogTextLayout.Parse("## Заголовок\n\nТекст строки\n\n- Первый пункт\n- Второй пункт");
+        Check(formatted.Select(x=>x.Kind).SequenceEqual([ChangelogTextKind.Heading,ChangelogTextKind.Paragraph,ChangelogTextKind.Bullet,ChangelogTextKind.Bullet])&&formatted[0].Text=="Заголовок","markdown headings and bullets become UI lines");
+        Check(ChangelogTextLayout.Preview("## Заголовок\n\nПервый абзац\n\nВторой абзац").StartsWith("## Заголовок\n\nПервый абзац"),"preview preserves its visible heading");
         ChangelogEntry Entry(string mod, string source, string version, string body="body") => new() { Category=source, Mods=[mod], Version=version, PublishedAt="2026-09-10", Title=Both(source+version), Body=Both(body) };
         var stable = new ChannelManifest { Channel="stable", PublishedAt="2026-09-10" };
         var beta = new ChannelManifest { Channel="beta", PublishedAt="2026-09-11" };

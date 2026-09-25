@@ -121,6 +121,18 @@ internal static class GameActivityChecks
             Check(C<Border>("GameActivityCard").ActualWidth-right>=29,"scrollbar has room before right card edge");
             scroll.ScrollToBottom();w.UpdateLayout();Check(scroll.VerticalOffset>0,"last team is reachable");scroll.ScrollToTop();w.UpdateLayout();
             Capture("game-details-roster");
+            foreach(var phase in new[]{"lobby","match"})
+            {
+                var observed=activity with{Phase=phase,ElapsedSeconds=phase=="match"?3702:null,Players=[..activity.Players!,new("observer","Observer nickname",false,Profile:profile,Observer:true),new("legacy","Unknown team",false)]};
+                ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=observed}));
+                await (Task)Call("RefreshGameActivityAsync")!;await Task.Delay(260);w.UpdateLayout();
+                var observedGroups=C<StackPanel>("GameActivityBody").Children.OfType<StackPanel>().ToArray();
+                Check(observedGroups.Length==4&&Equals(observedGroups[0].Tag,-1)&&observedGroups.Last().Tag is null,"observer group remains distinct from unknown team in "+phase);
+                Check(observedGroups[0].Children.OfType<Border>().Single().Child is Button,"observer keeps linked profile access in "+phase);
+                Check(Visuals<TextBlock>(observedGroups[0]).Any(t=>t.Text==(language=="ru"?"Наблюдатели":"Observers")),"localized observer heading in "+phase);
+                Check(!Visuals<TextBlock>(observedGroups[0]).Any(t=>Equals(t.Tag,"factions")),"observers do not show inapplicable race details in "+phase);
+                Capture("observers-"+phase);
+            }
             ReadWith((_,_)=>Task.FromResult<GameActivityDetails?>(response with{Activity=activity with{Players=Enumerable.Range(0,64).Select(i=>new GameParticipant("p"+i,new string('W',80),i%2==0,Team:i%3==0?null:i%16+1,Color:i%2==0?"#000000":"#FFFFFF",Race:new string('r',80),Subrace:new string('s',80))).ToArray()}}));
             await (Task)Call("RefreshGameActivityAsync")!;await Task.Delay(260);w.UpdateLayout();
             Check(C<Border>("GameActivityCard").ActualHeight<=590&&C<Button>("GameActivityClose").IsVisible,"large roster exceeds card");
