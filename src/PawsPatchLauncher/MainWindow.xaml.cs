@@ -159,6 +159,7 @@ public partial class MainWindow : Window
         System.Windows.Automation.AutomationProperties.SetName(MinimizeWindowButton, (string)MinimizeWindowButton.ToolTip);
         System.Windows.Automation.AutomationProperties.SetName(CloseWindowButton, (string)CloseWindowButton.ToolTip);
         ApplyPatchChannelLanguage();
+        ApplyGameSettingsLanguage();
         HomeWelcomeTitleText.Text = _text["home.welcome.title"];
         HomeWelcomeBodyText.Text = _text["home.welcome.body"];
         SettingsTitleText.Text = _text["settings.title"];

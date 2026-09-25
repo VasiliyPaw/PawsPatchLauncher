@@ -66,6 +66,7 @@ public static class Program
         var combinationAudit = args.Contains("--combination-audit");
         var launcherUpdateChecks = args.Contains("--launcher-update-checks");
         var componentSettingsChecks = args.Contains("--component-settings-checks");
+        var gameSettingsChecks = args.Contains("--game-settings-checks");
         var helpCreditChecks = args.Contains("--help-credit-checks");
         var accountChecks = args.Contains("--account-checks");
         var socialChecks = args.Contains("--social-checks");
@@ -203,6 +204,7 @@ public static class Program
         if (combinationAudit) CombinationUiAudit.Run();
         if (launcherUpdateChecks) LauncherUpdateChecks.Run();
         if (componentSettingsChecks) ComponentSettingsChecks.Run(language);
+        if (gameSettingsChecks) { GameSettingsChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (helpCreditChecks) HelpCreditChecks.Run(language);
         if (accountChecks) AccountChecks.Run(language);
         if (languageReliabilityConfig is not null) { LanguageReliabilityChecks.Run(languageReliabilityConfig, language); app.Shutdown(); return; }

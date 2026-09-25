@@ -217,7 +217,7 @@ public partial class MainWindow
         var identity = _compatibilityNoticeKey.Length > 0 ? _compatibilityNoticeKey : _compatibilityKey;
         if (_compatibilityPopup is not null) { _compatibilityPopupKey = identity; return; }
         if (_selectedHasInstalledPatch && _compatibilityState != GameCompatibilityState.Checking
-            && _compatibilityPopup is null && _compatibilityPopupKey != identity && !_busy && !ConfirmationActive && ModNoticeOverlay.Visibility != Visibility.Visible)
+            && _compatibilityPopup is null && _compatibilityPopupKey != identity && !_busy && !ConfirmationActive && ModNoticeOverlay.Visibility != Visibility.Visible && GameSettingsOverlay.Visibility != Visibility.Visible)
             ShowCompatibilityPopup();
     }
 

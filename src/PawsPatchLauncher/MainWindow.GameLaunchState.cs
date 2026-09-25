@@ -18,6 +18,7 @@ public partial class MainWindow
 
     private void ApplyGameLaunchState(bool running)
     {
+        RefreshGameSettingsState(running);
         RefreshCompatibility();
         LaunchButton.Content = running ? T("Игра запущена", "Game running") : _text["button.launch"];
         LaunchButton.IsEnabled = !running && !_busy && !_launchStarting && !FeedBlocksActions && !ArcaneAccessBlocked && !_settingsPending && _patchInstalled && _installationFailure is null && !_fileCheckFailed

@@ -941,7 +941,10 @@
                     <TextBlock x:Name="ModPatchVersionText" Visibility="Collapsed"/>
                     <RadioButton x:Name="ModReleaseRadio" GroupName="ModPatchChannel" Tag="stable" Style="{StaticResource PatchChannelChoice}" Checked="PatchChannel_Checked"/>
                     <RadioButton x:Name="ModBetaRadio" GroupName="ModPatchChannel" Tag="beta" Style="{StaticResource PatchChannelChoice}" Margin="6,0,6,0" Checked="PatchChannel_Checked"/>
-                    <Button x:Name="BetaDetailsButton" Style="{StaticResource HelpButton}" Content="?" Click="BetaDetails_Click"/>
+                                <Button x:Name="BetaDetailsButton" Style="{StaticResource HelpButton}" Content="?" Click="BetaDetails_Click"/>
+                                <Button x:Name="GameSettingsButton" Style="{StaticResource GhostButton}" Width="34" Height="34" Padding="7" Margin="12,0,0,0" Click="GameSettings_Click">
+                                    <local:LauncherIcon Kind="Gear" Width="19" Height="19"/>
+                                </Button>
                 </StackPanel>
             </Border>
         </Grid>
@@ -1327,6 +1330,36 @@
                         </StackPanel>
                     </Border>
                 </Grid>
+            </Border>
+            <Border x:Name="GameSettingsOverlay" Grid.RowSpan="2" Panel.ZIndex="800" Background="#D907101F" Visibility="Collapsed"
+                    WindowChrome.IsHitTestVisibleInChrome="True" PreviewMouseDown="GameSettings_MouseDown" PreviewKeyDown="GameSettings_KeyDown">
+                <Border x:Name="GameSettingsCard" MaxWidth="610" MaxHeight="740" Margin="24" Padding="24" CornerRadius="14" Background="#11243B"
+                        BorderBrush="#536F8E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                        KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle">
+                    <Grid>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,0,18,0">
+                                <TextBlock x:Name="GameSettingsTitle" FontSize="23" FontWeight="Bold"/>
+                                <TextBlock x:Name="GameSettingsHint" Style="{StaticResource CardDescription}" Margin="0,7,0,0"/>
+                            </StackPanel>
+                            <Button x:Name="GameSettingsClose" Grid.Column="1" Style="{StaticResource GhostButton}" Width="32" Height="32" Padding="8" VerticalAlignment="Top" Click="GameSettingsCancel_Click">
+                                <local:LauncherIcon Kind="Close" Width="14" Height="14"/>
+                            </Button>
+                        </Grid>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,10,0">
+                            <StackPanel x:Name="GameSettingsBody"/>
+                        </ScrollViewer>
+                        <StackPanel Grid.Row="2" Margin="0,12,0,0">
+                            <TextBlock x:Name="GameSettingsStatus" Style="{StaticResource CardDescription}" Foreground="#F4C877" Margin="0,0,0,10"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button x:Name="GameSettingsCancel" Style="{StaticResource GhostButton}" Padding="18,9" Margin="0,0,8,0" Click="GameSettingsCancel_Click"/>
+                                <Button x:Name="GameSettingsSave" Style="{StaticResource GoldButton}" Padding="22,9" Click="GameSettingsSave_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
             <Border x:Name="SocialDetailsOverlay" Grid.RowSpan="2" Panel.ZIndex="110" Background="#D907101F" Visibility="Collapsed"
                     WindowChrome.IsHitTestVisibleInChrome="True" PreviewMouseDown="Overlay_MouseDown">
