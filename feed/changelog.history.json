@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.9",
+      "publishedAt": "2026-09-25",
+      "title": {
+        "ru": "Paw's Launcher 0.8.9 — пауза и скорость матча",
+        "en": "Paw's Launcher 0.8.9 — match pause and speed",
+        "uk": "Paw's Launcher 0.8.9 — пауза та швидкість матчу",
+        "cs": "Paw's Launcher 0.8.9 — pauza a rychlost zápasu",
+        "de": "Paw's Launcher 0.8.9 — Pause und Spielgeschwindigkeit",
+        "fr": "Paw's Launcher 0.8.9 — pause et vitesse de jeu"
+      },
+      "body": {
+        "ru": "- В подробностях матча рядом со временем показывается скорость игры в процентах с подсказкой «Скорость игры».\n- Во время паузы слева от скорости появляется жёлтая надпись «Пауза», а таймер останавливается.\n- Таймер учитывает ускорение и замедление игры, в том числе при изменении скорости горячими клавишами во время матча.",
+        "en": "- Match details show the game speed as a percentage beside the timer, with a ‘Game speed’ tooltip.\n- A yellow ‘Paused’ label appears to the left of the speed while the match is paused, and the timer stops.\n- The timer follows the game speed, including changes made with hotkeys during a match.",
+        "uk": "- У подробицях матчу поруч із часом показується швидкість гри у відсотках із підказкою «Швидкість гри».\n- Під час паузи ліворуч від швидкості з’являється жовтий напис «Пауза», а таймер зупиняється.\n- Таймер враховує прискорення та сповільнення гри, зокрема зміни швидкості гарячими клавішами під час матчу.",
+        "cs": "- Podrobnosti zápasu zobrazují vedle časovače rychlost hry v procentech s nápovědou „Rychlost hry“.\n- Během pauzy se vlevo od rychlosti zobrazí žlutý nápis „Pozastaveno“ a časovač se zastaví.\n- Časovač zohledňuje rychlost hry včetně změn provedených klávesovými zkratkami během zápasu.",
+        "de": "- Die Spieldetails zeigen neben der Spielzeit die Geschwindigkeit in Prozent mit dem Hinweis „Spielgeschwindigkeit“.\n- Während einer Pause erscheint links neben der Geschwindigkeit der gelbe Hinweis „Pausiert“, und die Zeitanzeige bleibt stehen.\n- Die Zeitanzeige berücksichtigt die Spielgeschwindigkeit, auch wenn sie während des Spiels per Tastenkürzel geändert wird.",
+        "fr": "- Les détails de la partie affichent la vitesse du jeu en pourcentage à côté du chronomètre, avec l’infobulle « Vitesse du jeu ».\n- Pendant une pause, la mention jaune « En pause » apparaît à gauche de la vitesse et le chronomètre s’arrête.\n- Le chronomètre suit la vitesse du jeu, y compris les changements effectués par raccourci clavier pendant la partie."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.8",
       "publishedAt": "2026-09-25",
       "title": {
@@ -822,6 +843,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.9",
+      "publishedAt": "2026-09-25",
+      "title": {
+        "ru": "Paw's Launcher 0.8.9 — пауза и скорость матча",
+        "en": "Paw's Launcher 0.8.9 — match pause and speed",
+        "uk": "Paw's Launcher 0.8.9 — пауза та швидкість матчу",
+        "cs": "Paw's Launcher 0.8.9 — pauza a rychlost zápasu",
+        "de": "Paw's Launcher 0.8.9 — Pause und Spielgeschwindigkeit",
+        "fr": "Paw's Launcher 0.8.9 — pause et vitesse de jeu"
+      },
+      "body": {
+        "ru": "- В подробностях матча рядом со временем показывается скорость игры в процентах с подсказкой «Скорость игры».\n- Во время паузы слева от скорости появляется жёлтая надпись «Пауза», а таймер останавливается.\n- Таймер учитывает ускорение и замедление игры, в том числе при изменении скорости горячими клавишами во время матча.",
+        "en": "- Match details show the game speed as a percentage beside the timer, with a ‘Game speed’ tooltip.\n- A yellow ‘Paused’ label appears to the left of the speed while the match is paused, and the timer stops.\n- The timer follows the game speed, including changes made with hotkeys during a match.",
+        "uk": "- У подробицях матчу поруч із часом показується швидкість гри у відсотках із підказкою «Швидкість гри».\n- Під час паузи ліворуч від швидкості з’являється жовтий напис «Пауза», а таймер зупиняється.\n- Таймер враховує прискорення та сповільнення гри, зокрема зміни швидкості гарячими клавішами під час матчу.",
+        "cs": "- Podrobnosti zápasu zobrazují vedle časovače rychlost hry v procentech s nápovědou „Rychlost hry“.\n- Během pauzy se vlevo od rychlosti zobrazí žlutý nápis „Pozastaveno“ a časovač se zastaví.\n- Časovač zohledňuje rychlost hry včetně změn provedených klávesovými zkratkami během zápasu.",
+        "de": "- Die Spieldetails zeigen neben der Spielzeit die Geschwindigkeit in Prozent mit dem Hinweis „Spielgeschwindigkeit“.\n- Während einer Pause erscheint links neben der Geschwindigkeit der gelbe Hinweis „Pausiert“, und die Zeitanzeige bleibt stehen.\n- Die Zeitanzeige berücksichtigt die Spielgeschwindigkeit, auch wenn sie während des Spiels per Tastenkürzel geändert wird.",
+        "fr": "- Les détails de la partie affichent la vitesse du jeu en pourcentage à côté du chronomètre, avec l’infobulle « Vitesse du jeu ».\n- Pendant une pause, la mention jaune « En pause » apparaît à gauche de la vitesse et le chronomètre s’arrête.\n- Le chronomètre suit la vitesse du jeu, y compris les changements effectués par raccourci clavier pendant la partie."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.8.8",

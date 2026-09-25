@@ -48,3 +48,19 @@ Authenticode policy is unchanged. `tools/PrepareLauncher089.py` verifies the
 published tag, manifest, GitHub asset digests and downloaded package contents,
 then signs all four stable/beta legacy/v2 catalogs with the production ECDSA key.
 All game data and earlier release-history entries must remain unchanged.
+
+## Published artifacts
+
+- Source/tag: `be8401c3e5e085c54788d38d2cf95bbb4d545890`, `v0.8.9`.
+- [Release](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/v0.8.9).
+- [Release workflow](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/36138488014): success.
+- [Independent build/test workflow](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/36138484610): success.
+- Downloaded EXE: **73,126,503 bytes**, file version `0.8.9.0`, product version `0.8.9`.
+  SHA-256: `65682FBF2180FA4B68622582D04766838FFC896D489FAAF2BC74B2B600C4FA26`.
+- Downloaded ZIP: **67,720,491 bytes**.
+  SHA-256: `B41C8BB805FB0695AD8EE85F53A38CDB6C61CBE9506B239B0D537921BA8AFE16`.
+- EXE/ZIP sizes and digests match the artifact manifest and GitHub asset digests.
+  Each packaged file matches its manifest. Windows reports `NotSigned`, consistent
+  with the unchanged release policy and the manifest.
+- The four catalog signatures were verified before promotion, preserving all
+  game/catalog fields and earlier release-history entries.
