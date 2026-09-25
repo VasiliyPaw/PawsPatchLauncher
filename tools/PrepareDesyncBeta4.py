@@ -78,7 +78,9 @@ def prepare(a):
     note=dict(category='patch',version=VERSION,publishedAt='2026-09-25',mods=['arcane-wars'],channel='beta',title={c:'Paw’s Patch '+VERSION for c in bodies},body=bodies)
     final['changelog']=[note]+final['changelog'];final['publishedAt']=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ');final['patchGuide']['version']=VERSION
     write(out/'final/beta.json',sign(final,private))
-    history=read(REPO/'feed/changelog.history.json');history['beta']=final['changelog']
+    # The standalone history has independently curated older entries. Do not
+    # replace those with a catalog's historical copy during a runtime release.
+    history=read(REPO/'feed/changelog.history.json');history['beta']=[note]+history['beta']
     write(out/'final/changelog.history.json',history);write(out/'final/patch-guide-beta.json',final['patchGuide'])
     for c,f in [('stable',feeds['stable']),('beta',final)]:
         test=copy.deepcopy(f)

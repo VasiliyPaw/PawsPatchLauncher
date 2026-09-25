@@ -844,6 +844,23 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.4.0-beta.4",
+      "publishedAt": "2026-09-25",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.4",
+        "en": "Paw’s Patch 0.4.0-beta.4"
+      },
+      "body": {
+        "ru": "- Исправлены различия в движении строителей у хоста и клиентов при включённых улучшениях ботов.\n- Исправлено неодинаковое применение ограничений найма ботов в сетевой игре.\n\nПеред новым матчем обновиться нужно всем участникам. Уже рассинхронизированный матч обновление не восстанавливает.\n\nАвтоматические проверки пройдены; проверка новым матчем на разных компьютерах ещё требуется.",
+        "en": "- Fixed host/client differences in builder movement with AI improvements enabled.\n- Fixed inconsistent application of bot recruitment limits in multiplayer.\n\nAll participants must update before a new match. An already desynchronized match cannot be repaired by this update.\n\nAutomated checks passed; validation in a new match on separate computers is still needed."
+      }
+    },
+    {
       "category": "launcher",
       "version": "0.8.9",
       "publishedAt": "2026-09-25",
