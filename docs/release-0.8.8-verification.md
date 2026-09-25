@@ -47,3 +47,19 @@ stable/beta catalogs with the existing production ECDSA P1363 key. Every field
 outside launcher metadata, publication time and release notes must remain identical.
 The separate history file receives one localized launcher entry per channel;
 all previous history entries are preserved.
+
+## Published artifacts
+
+- Source/tag: `7779bbc84d845df6cb6f748286e6e30c1508f538`, `v0.8.8`.
+- [Release](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/v0.8.8).
+- [Release workflow](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/36134099372): success.
+- [Independent build/test workflow](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/36134097138): success.
+- Downloaded EXE: **73,124,465 bytes**, file version `0.8.8.0`, product version `0.8.8`.
+  SHA-256: `8203012D548B3790923B66059B66938B41B157968BC2AE199F1CCB50090F3140`.
+- Downloaded ZIP: **67,717,814 bytes**.
+  SHA-256: `14CC653BD270F1DF069F2FA643D46E937ACC0868EDA54FAD2077B16462F776B7`.
+- EXE/ZIP sizes and digests match the artifact manifest and GitHub asset digests.
+  Every packaged file matches its manifest. Windows independently reports
+  `NotSigned`, matching the unchanged release policy and manifest.
+- All four staged catalog signatures were verified before promotion, and all
+  prior game/catalog fields and previous release-history entries were preserved.

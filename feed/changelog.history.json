@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.8",
+      "publishedAt": "2026-09-25",
+      "title": {
+        "ru": "Paw's Launcher 0.8.8 — настройки игры",
+        "en": "Paw's Launcher 0.8.8 — game settings",
+        "uk": "Paw's Launcher 0.8.8 — налаштування гри",
+        "cs": "Paw's Launcher 0.8.8 — nastavení hry",
+        "de": "Paw's Launcher 0.8.8 — Spieleinstellungen",
+        "fr": "Paw's Launcher 0.8.8 — paramètres du jeu"
+      },
+      "body": {
+        "ru": "- В «Компонентах» появилась шестерёнка настроек игры рядом с выбором канала.\n- Перед запуском можно выбрать разрешение 16:9 до 4K, ограничение FPS, громкость, таймер матча и цвета миникарты.\n- Настройки сохраняются только на этом компьютере и не передаются при копировании конфигурации. При сохранении создаётся резервная копия.",
+        "en": "- Game settings are available in Components through the gear button next to the channel selector.\n- Before launching, choose a 16:9 resolution up to 4K, FPS limit, audio volume, match timer and minimap colors.\n- These settings stay on this computer and are not included when copying configurations. A backup is created when saving.",
+        "uk": "- У «Компонентах» з’явилася шестерня налаштувань гри поруч із вибором каналу.\n- Перед запуском можна вибрати роздільну здатність 16:9 до 4K, ліміт FPS, гучність, таймер матчу й кольори мінікарти.\n- Ці налаштування зберігаються лише на цьому комп’ютері й не передаються під час копіювання конфігурації. Під час збереження створюється резервна копія.",
+        "cs": "- V Komponentech je vedle výběru kanálu nové tlačítko s ozubeným kolem pro nastavení hry.\n- Před spuštěním lze zvolit rozlišení 16:9 až do 4K, limit FPS, hlasitost, časovač zápasu a barvy minimapy.\n- Tato nastavení zůstávají pouze na tomto počítači a nepřenášejí se při kopírování konfigurace. Při uložení se vytvoří záloha.",
+        "de": "- Unter Komponenten gibt es neben der Kanalauswahl eine Zahnrad-Schaltfläche für die Spieleinstellungen.\n- Vor dem Start lassen sich eine 16:9-Auflösung bis 4K, FPS-Limit, Lautstärke, Spielzeit und Minikartenfarben einstellen.\n- Diese Einstellungen bleiben auf diesem Computer und werden beim Kopieren von Konfigurationen nicht übertragen. Beim Speichern wird eine Sicherung erstellt.",
+        "fr": "- Dans Composants, un bouton en forme d’engrenage permet d’ouvrir les paramètres du jeu à côté du choix du canal.\n- Avant le lancement, choisissez une résolution 16:9 jusqu’à 4K, la limite de FPS, le volume, le chronomètre et les couleurs de la minicarte.\n- Ces paramètres restent sur cet ordinateur et ne sont pas inclus lors de la copie de configurations. Une sauvegarde est créée à l’enregistrement."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.7",
       "publishedAt": "2026-09-25",
       "title": {
@@ -801,6 +822,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.8",
+      "publishedAt": "2026-09-25",
+      "title": {
+        "ru": "Paw's Launcher 0.8.8 — настройки игры",
+        "en": "Paw's Launcher 0.8.8 — game settings",
+        "uk": "Paw's Launcher 0.8.8 — налаштування гри",
+        "cs": "Paw's Launcher 0.8.8 — nastavení hry",
+        "de": "Paw's Launcher 0.8.8 — Spieleinstellungen",
+        "fr": "Paw's Launcher 0.8.8 — paramètres du jeu"
+      },
+      "body": {
+        "ru": "- В «Компонентах» появилась шестерёнка настроек игры рядом с выбором канала.\n- Перед запуском можно выбрать разрешение 16:9 до 4K, ограничение FPS, громкость, таймер матча и цвета миникарты.\n- Настройки сохраняются только на этом компьютере и не передаются при копировании конфигурации. При сохранении создаётся резервная копия.",
+        "en": "- Game settings are available in Components through the gear button next to the channel selector.\n- Before launching, choose a 16:9 resolution up to 4K, FPS limit, audio volume, match timer and minimap colors.\n- These settings stay on this computer and are not included when copying configurations. A backup is created when saving.",
+        "uk": "- У «Компонентах» з’явилася шестерня налаштувань гри поруч із вибором каналу.\n- Перед запуском можна вибрати роздільну здатність 16:9 до 4K, ліміт FPS, гучність, таймер матчу й кольори мінікарти.\n- Ці налаштування зберігаються лише на цьому комп’ютері й не передаються під час копіювання конфігурації. Під час збереження створюється резервна копія.",
+        "cs": "- V Komponentech je vedle výběru kanálu nové tlačítko s ozubeným kolem pro nastavení hry.\n- Před spuštěním lze zvolit rozlišení 16:9 až do 4K, limit FPS, hlasitost, časovač zápasu a barvy minimapy.\n- Tato nastavení zůstávají pouze na tomto počítači a nepřenášejí se při kopírování konfigurace. Při uložení se vytvoří záloha.",
+        "de": "- Unter Komponenten gibt es neben der Kanalauswahl eine Zahnrad-Schaltfläche für die Spieleinstellungen.\n- Vor dem Start lassen sich eine 16:9-Auflösung bis 4K, FPS-Limit, Lautstärke, Spielzeit und Minikartenfarben einstellen.\n- Diese Einstellungen bleiben auf diesem Computer und werden beim Kopieren von Konfigurationen nicht übertragen. Beim Speichern wird eine Sicherung erstellt.",
+        "fr": "- Dans Composants, un bouton en forme d’engrenage permet d’ouvrir les paramètres du jeu à côté du choix du canal.\n- Avant le lancement, choisissez une résolution 16:9 jusqu’à 4K, la limite de FPS, le volume, le chronomètre et les couleurs de la minicarte.\n- Ces paramètres restent sur cet ordinateur et ne sont pas inclus lors de la copie de configurations. Une sauvegarde est créée à l’enregistrement."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.8.7",
