@@ -845,6 +845,31 @@
   "beta": [
     {
       "category": "patch",
+      "version": "0.4.0-beta.5",
+      "publishedAt": "2026-09-25",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.5",
+        "en": "Paw’s Patch 0.4.0-beta.5",
+        "de": "Paw’s Patch 0.4.0-beta.5",
+        "fr": "Paw’s Patch 0.4.0-beta.5",
+        "es": "Paw’s Patch 0.4.0-beta.5",
+        "it": "Paw’s Patch 0.4.0-beta.5"
+      },
+      "body": {
+        "ru": "При включённом пропуске рассинхрона теперь сохраняется подробный журнал первой ошибки в матче. Повторные ошибки не создают дубли; в новом матче или после загрузки сохранения запись снова доступна. Журналы автоматически попадают в архив диагностики лаунчера. Это улучшение диагностики: продолжение игры не устраняет уже возникший рассинхрон.",
+        "en": "Continuing after a desync now preserves a detailed log of the first error in a match. Repeated errors do not create duplicate logs; a new match or loaded save enables another capture. The launcher includes these logs in diagnostic archives automatically. This improves diagnostics; continuing play does not repair an existing desync.",
+        "de": "Beim Fortsetzen nach einem Synchronisationsfehler wird jetzt ein detailliertes Protokoll des ersten Fehlers gespeichert. Wiederholte Fehler erzeugen keine doppelten Protokolle. Ein neues Spiel oder ein geladener Spielstand ermöglicht eine neue Aufzeichnung. Der Launcher nimmt die Protokolle automatisch in das Diagnosearchiv auf. Diese Änderung verbessert die Diagnose, behebt aber keinen bereits entstandenen Synchronisationsfehler.",
+        "fr": "La poursuite d’une partie après une désynchronisation conserve désormais un journal détaillé de la première erreur. Les erreurs répétées ne créent pas de doublons. Une nouvelle partie ou le chargement d’une sauvegarde permet une nouvelle capture. Le lanceur inclut automatiquement ces journaux dans les archives de diagnostic. Cette amélioration facilite le diagnostic, sans corriger une désynchronisation existante.",
+        "es": "Continuar tras una desincronización ahora conserva un registro detallado del primer error de la partida. Los errores repetidos no crean duplicados; una partida nueva o una partida guardada cargada permite otra captura. El lanzador incluye estos registros automáticamente en los archivos de diagnóstico. Esto mejora el diagnóstico, pero no corrige una desincronización existente.",
+        "it": "Continuare dopo una desincronizzazione ora conserva un registro dettagliato del primo errore della partita. Gli errori ripetuti non creano duplicati; una nuova partita o il caricamento di un salvataggio consente una nuova registrazione. Il launcher include automaticamente questi registri negli archivi diagnostici. Questo migliora la diagnosi, ma non corregge una desincronizzazione già avvenuta."
+      }
+    },
+    {
+      "category": "patch",
       "version": "0.4.0-beta.4",
       "publishedAt": "2026-09-25",
       "mods": [
