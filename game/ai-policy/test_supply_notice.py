@@ -25,7 +25,7 @@ class SupplyFixture(Fixture):
   self.w(definition+8,at+0x800);self.u.mem_write(at+0x800,((name or names[index%4])+'\0').encode('utf-16le'));self.w(self.reg+0x20004+ident*4,at)
   return at
 for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x38000000)]:
- for mode in (4,7):
+ for mode in (4,):
   for h in [h for h in meta['wrappers'] if h['mode']==mode]:
    for n in range(5):
     f=SupplyFixture(image,cave)

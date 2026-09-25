@@ -50,20 +50,27 @@ static int route_fighting(U image,U actor){
   * members too: a company can still be in Move while its members engage. */
  return vt==0x4f4dc4||vt==0x4f4e20||vt==0x4f4e4c||vt==0x4f4e78||vt==0x4f4ea4||vt==0x4f4fb4;
 }
-static int route_protected_builder(U image,U actor,U pl,U query){
- U org=P(actor,0x7c),list,n,i,node,engine=P(pl,0xc),id=P(actor,0x14),target=P(query,0x20);
+/* Session player records exist on every peer. Strategic AI controllers and
+ * goals exist only on the host and must never decide a simulation path. The
+ * native player type (+c) and assigned live kingdom (+28) are shared slots,
+ * also used by the game's player/observer interface after loading a save. */
+static U route_bot_player(U image,U kingdom){
+ U session=P(image,0x5f3fe4),node,i,found=0;
+ if(!session||!kingdom)return 0;
+ for(node=P(session,0xc8),i=0;node&&i++<64;node=P(node,4)){
+  U p=P(node,0);if(!p||P(p,0)!=image+0x4bd914)return 0;
+  if(P(p,0x28)==kingdom){if(found||!*(unsigned char*)(p+0xc))return 0;found=p;}
+ }
+ return node?0:found;
+}
+static int route_protected_builder(U image,U actor,U query){
+ U org=P(actor,0x7c),list,n,i,target=P(query,0x20);
  int capable=route_center_capable(image,actor);
  if(route_fighting(image,actor))return 0;
  /* Attack paths can start while the low-level company state is still Move.
-  * An explicit hostile target or native offensive assignment bypasses the
-  * entire avoidance context, including overlapping neighboring guard zones. */
+  * An explicit hostile target bypasses the entire avoidance context, including
+  * neighboring guard zones. Only replicated orders and combat states count. */
  if(live_actor(image,target)&&((RouteM1)P(P(target,0),0x144))(target,0,P(actor,0xe8))==3)return 0;
- for(node=P(pl,0x2c),i=0;node&&i++<4096;node=P(node,4)){
-  U sa=P(node,0),goal,vt;
-  if(!sa||P(sa,8)!=id||P(sa,0xc)!=pl)continue;
-  goal=P(sa,0x10);if(!goal||P(goal,4)!=engine||P(goal,8)!=2)continue;
-  vt=P(goal,0)-image;if(vt==0x4da480||vt==0x4d84d4)return 0;
- }
  if(!org||P(org,4)!=actor)return 0;
  list=P(org,0x28);n=P(org,0x2c);if(n>64||(n&&!list))return 0;
  for(i=0;i<n;i++){
@@ -111,8 +118,8 @@ static void route_begin(U image,Data*d,U*args){
  r->image=image;r->world=P(image,0x5f3fb8);
  if(!query||!r->world||P(image,0x5f9218)!=2)return;
  a=route_company(image,P(query,0x1c));if(!a)return;
- k=P(a,0xe8);if(!k||(r->player=ai_for_kingdom(image,k))==0)return;
- if(!route_protected_builder(image,a,r->player,query))return;
+ k=P(a,0xe8);if(!k||(r->player=route_bot_player(image,k))==0)return;
+ if(!route_protected_builder(image,a,query))return;
  r->sx=*(float*)&args[1];r->sy=*(float*)&args[2];r->tx=*(float*)&args[3];r->ty=*(float*)&args[4];
  if(!finite(r->sx)||!finite(r->sy)||!finite(r->tx)||!finite(r->ty))return;
  r->actor=a;r->kingdom=k;r->builder=1;target=structure_center(image,P(query,0x20));

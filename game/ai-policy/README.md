@@ -772,3 +772,16 @@ to the kingdom's pool. No direct hero, company or roster mutation is added.
 three image bases, including original native affordability/debit and Disband
 code. Engine selection/command transport are controlled stubs, so this test
 does not by itself demonstrate the replacement company's creation in a match.
+
+## Revision 36 (0.4.0-beta.4)
+
+Shared path queries identify bots using replicated session player records,
+never host-only strategic controllers or goals. Explicit hostile targets and
+native combat states retain the attack bypass on every peer. Builder and supply
+recruitment limits run in host selection and final AI budget admission; common
+queued/direct command execution preserves the native admission result.
+
+`test_peer_parity.py` compares compiled host/client behavior with absent local AI
+controllers and different strategic goals. Native service stubs are explicit.
+See `docs/desync-audit-20260925.md` for the audit scope and multiplayer acceptance
+limits; the first desync in the supplied match is not conclusively attributed.

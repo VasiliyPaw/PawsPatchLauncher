@@ -1,5 +1,5 @@
 /* Arcane Wars' four supply-company recipes share one per-kingdom cap.
- * Count live companies, including incomplete/new recruits, at execution too.
+ * Count live companies, including incomplete/new recruits, before AI command creation.
  * Never disband existing supply, block replacement soldiers, or affect humans. */
 static int supply_definition(U def){
  return ids_equal(def,"human_company_supply")||ids_equal(def,"drauga_company_supply")

@@ -161,7 +161,7 @@ if($AiPolicy) {
         & $python (Join-Path $ai $test) --legacy $work --native $aiNative
         if($LASTEXITCODE -ne 0){throw 'AI construction/staging regression failed.'}
     }
-    foreach($test in 'test_opening_lairs.py','test_clearing_route.py','test_expansion_pulse.py','test_supply_notice.py','test_recruit_counts.py','test_builder_fleet.py','test_builder_claims.py','test_army_upgrade.py','test_upgrade_completion.py','test_worker_survival.py','test_city_sharing.py'){
+    foreach($test in 'test_opening_lairs.py','test_clearing_route.py','test_expansion_pulse.py','test_supply_notice.py','test_recruit_counts.py','test_builder_fleet.py','test_builder_claims.py','test_army_upgrade.py','test_upgrade_completion.py','test_worker_survival.py','test_city_sharing.py','test_peer_parity.py'){
         & $python (Join-Path $ai $test) --legacy $work --native $aiNative
         if($LASTEXITCODE -ne 0){throw "AI release regression failed: $test"}
     }

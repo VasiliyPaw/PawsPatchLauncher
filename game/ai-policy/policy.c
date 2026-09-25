@@ -178,6 +178,7 @@ __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,floa
  if(mode==29){
   U pl=player(obj);
   if(supply_capped(image,d,pl,P(obj,0x44))){*(U*)result=1;return;}
+  if(builder_recruit_capped(image,d,pl,P(obj,0x44),P(obj,0x48))){*(U*)result=1;return;}
   if((d->mask&8)&&pl&&args[0]&&args[1]&&economy_slot(image,d,pl,P(obj,0x44),P(obj,0x48),P(args[0],4),P(args[1],4))) *(U*)result=1;
   return;
  }
@@ -228,8 +229,9 @@ __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,floa
   }else if(mode==6){builder_invalidate(d,pl,0);code=1;}
   else if(mode==7||mode==10){
    if(mode==10)builder_invalidate(d,pl,0);
-   if(mode==7&&(code&255)&&supply_capped(image,d,pl,def)){*(U*)result=code&0xffffff00;emit(image,d,54,obj,pl,def,2,2,2,0,0,actor,0);}
-   if(mode==7&&(*(U*)result&255)&&builder_recruit_capped(image,d,pl,def,args[1]))*(U*)result=code&0xffffff00;
+   /* Common recruitment execution must preserve native admission on every
+    * peer. Host-only demand/cap policy runs before AI budget reservation
+    * (modes 4/29), never after an order reaches the simulation. */
    code=*(U*)result&255;
   }
   else if(mode==8){U blocked=args[4]?P(args[4],0):0;code=blocked?P(blocked,0xc)+1:0;}

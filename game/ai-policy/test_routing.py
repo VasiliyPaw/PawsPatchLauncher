@@ -28,6 +28,9 @@ class Fixture:
   self.w(image+0x5f3fb8,self.world);self.w(image+0x5f9218,2);self.w(image+0x5ef72c,self.reg)
   self.f(self.world+0xe8,600);self.w(self.world+0x30,self.grid)
   self.w(image+0x5f3fc8,self.player+0x100);self.w(self.player+0x16c,self.player+0x200);self.w(self.player+0x170,1);self.w(self.player+0x200,self.player);self.w(self.player+8,self.kingdom)
+  self.session=self.player+0x500;self.slot=self.player+0x700;self.slotnode=self.player+0x900
+  self.w(image+0x5f3fe4,self.session);self.w(self.session+0xc8,self.slotnode);self.w(self.slotnode,self.slot)
+  self.w(self.slot,image+0x4bd914);self.w(self.slot+0xc,1);self.w(self.slot+0x28,self.kingdom)
   for actor,idx in [(self.actor,1),(self.lair,2)]:self.w(actor,image+0x4e5c58);self.w(actor+0x14,idx);self.w(self.reg+0x20004+idx*4,actor)
   self.w(self.actor+0xe8,self.kingdom);self.w(self.actor+0x7c,self.org);self.f(self.org+0x68,10);self.w(self.query+0x1c,self.actor)
   self.leader=self.actor+0x300;self.element=self.actor+0x600
@@ -94,7 +97,7 @@ class Fixture:
 for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x38000000)]:
  for scenario,expected in [('builder',1),('human',0),('member',0),('friend',0),('neutral',0),('hidden',0),('dead',0),('weak_lair',0),('attack_target',0),('builder_target',0),('disabled',0),('removed',0),('nonfinite',0),('strong_army',0),('weak_army',0),('capturable',1),('direct_org',1),('broken_backlink',0),('dead_leader',0),('removed_company',0),('actual_builder_member',1),('foundation_builder',0),('mine_builder',0),('empty_build_list',0),('cyclic_build_list',0)]:
   f=Fixture(image,cave)
-  if scenario=='human':f.w(f.player+0x170,0)
+  if scenario=='human':f.w(f.slot+0xc,0)
   if scenario=='member':f.w(f.actor+0x7c,0)
   if scenario=='capturable':f.w(f.lair+0xc4,0)
   if scenario=='direct_org':f.w(f.query+0x1c,f.actor)
@@ -134,11 +137,11 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
    f.w(unit+0x70,cai);f.w(cai+0x14,stack);f.w(stack,s);f.w(s,image+state)
    f.w(f.org+0x28,f.org+0x200);f.w(f.org+0x2c,1);f.w(f.org+0x200,f.leader)
    check(f.begin()==0,('combat bypass',hex(state),member));f.end()
- for goalvt,active,expected in [(0x4da480,2,0),(0x4d84d4,2,0),(0x4da480,0,1),(0x4d79e8,2,1),(0x4da6b0,2,1),(0x4da510,2,1)]:
+ for goalvt,active,expected in [(0x4da480,2,1),(0x4d84d4,2,1),(0x4da480,0,1),(0x4d79e8,2,1),(0x4da6b0,2,1),(0x4da510,2,1)]:
   f=Fixture(image,cave);node=0x51012000;sa=node+0x100;g=sa+0x100;eng=g+0x100
   f.w(f.player+0x2c,node);f.w(f.player+0xc,eng);f.w(node,sa);f.w(sa+8,1);f.w(sa+0xc,f.player);f.w(sa+0x10,g)
   f.w(g,image+goalvt);f.w(g+4,eng);f.w(g+8,active)
-  check(f.begin()==expected,('strategic order',hex(goalvt),active));f.end()
+  check(f.begin()==expected,('local strategic order cannot affect shared routing',hex(goalvt),active));f.end()
  # Hostile explicit actor target bypasses unrelated lairs; allied construction
  # targets must still retain avoidance. Target itself need not have denizens.
  f=Fixture(image,cave);f.w(f.query+0x20,f.leader)

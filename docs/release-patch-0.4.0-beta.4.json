@@ -1,0 +1,4 @@
+{
+  "ru": "- Исправлены различия в движении строителей у хоста и клиентов при включённых улучшениях ботов.\n- Исправлено неодинаковое применение ограничений найма ботов в сетевой игре.\n\nПеред новым матчем обновиться нужно всем участникам. Уже рассинхронизированный матч обновление не восстанавливает.\n\nАвтоматические проверки пройдены; проверка новым матчем на разных компьютерах ещё требуется.",
+  "en": "- Fixed host/client differences in builder movement with AI improvements enabled.\n- Fixed inconsistent application of bot recruitment limits in multiplayer.\n\nAll participants must update before a new match. An already desynchronized match cannot be repaired by this update.\n\nAutomated checks passed; validation in a new match on separate computers is still needed."
+}
