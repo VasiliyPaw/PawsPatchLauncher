@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.7",
+      "publishedAt": "2026-09-25",
+      "title": {
+        "ru": "Paw's Launcher 0.8.7 — история изменений и наблюдатели",
+        "en": "Paw's Launcher 0.8.7 — changelog and observers",
+        "uk": "Paw's Launcher 0.8.7 — історія змін і спостерігачі",
+        "de": "Paw's Launcher 0.8.7 — Änderungsverlauf und Zuschauer",
+        "fr": "Paw's Launcher 0.8.7 — historique des modifications et observateurs",
+        "cs": "Paw's Launcher 0.8.7 — přehled změn a pozorovatelé"
+      },
+      "body": {
+        "ru": "- Заголовки в истории изменений теперь оформлены как заголовки.\n- В подробностях лобби и матча наблюдатели показываются отдельной группой.",
+        "en": "- Changelog headings now use proper heading formatting.\n- Observers appear in their own group in lobby and match details.",
+        "uk": "- Заголовки в історії змін тепер мають належне оформлення.\n- У подробицях лобі та матчу спостерігачі відображаються окремою групою.",
+        "de": "- Überschriften im Änderungsverlauf werden jetzt als Überschriften formatiert.\n- Zuschauer erscheinen in den Lobby- und Spieldetails als eigene Gruppe.",
+        "fr": "- Les titres de l’historique des modifications sont désormais correctement mis en forme.\n- Les observateurs apparaissent dans un groupe distinct dans les détails du salon et de la partie.",
+        "cs": "- Nadpisy v přehledu změn se nyní zobrazují se správným formátováním.\n- Pozorovatelé se v podrobnostech lobby a zápasu zobrazují jako samostatná skupina."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.6",
       "publishedAt": "2026-09-20",
       "title": {
@@ -780,6 +801,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.7",
+      "publishedAt": "2026-09-25",
+      "title": {
+        "ru": "Paw's Launcher 0.8.7 — история изменений и наблюдатели",
+        "en": "Paw's Launcher 0.8.7 — changelog and observers",
+        "uk": "Paw's Launcher 0.8.7 — історія змін і спостерігачі",
+        "de": "Paw's Launcher 0.8.7 — Änderungsverlauf und Zuschauer",
+        "fr": "Paw's Launcher 0.8.7 — historique des modifications et observateurs",
+        "cs": "Paw's Launcher 0.8.7 — přehled změn a pozorovatelé"
+      },
+      "body": {
+        "ru": "- Заголовки в истории изменений теперь оформлены как заголовки.\n- В подробностях лобби и матча наблюдатели показываются отдельной группой.",
+        "en": "- Changelog headings now use proper heading formatting.\n- Observers appear in their own group in lobby and match details.",
+        "uk": "- Заголовки в історії змін тепер мають належне оформлення.\n- У подробицях лобі та матчу спостерігачі відображаються окремою групою.",
+        "de": "- Überschriften im Änderungsverlauf werden jetzt als Überschriften formatiert.\n- Zuschauer erscheinen in den Lobby- und Spieldetails als eigene Gruppe.",
+        "fr": "- Les titres de l’historique des modifications sont désormais correctement mis en forme.\n- Les observateurs apparaissent dans un groupe distinct dans les détails du salon et de la partie.",
+        "cs": "- Nadpisy v přehledu změn se nyní zobrazují se správným formátováním.\n- Pozorovatelé se v podrobnostech lobby a zápasu zobrazují jako samostatná skupina."
+      }
+    },
     {
       "category": "patch",
       "version": "0.4.0-beta.3",

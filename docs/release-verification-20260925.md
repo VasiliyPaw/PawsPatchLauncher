@@ -68,3 +68,20 @@ downloads and verifies EXE/ZIP contents, stages the signed catalogs, and checks
 that every field outside launcher metadata/news/history remains identical.
 Promotion rejects a changed local or public baseline. Its `readback` action
 verifies the published four catalogs and history against the final main commit.
+
+## Published artifacts
+
+- Source/tag: `522e25a972250314c072ceff8b3af8ec55f6c39f`, `v0.8.7`.
+- [Release](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/v0.8.7).
+- [Release workflow](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/36092548636): success.
+- [Independent build/test workflow](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/36092546254): success.
+- Downloaded EXE: 73,119,334 bytes, file version `0.8.7.0`, product version `0.8.7`.
+  SHA-256: `92F640947C5679BF9CC236F2E38E8665B40F2B453C4B9E4E09C54196AC5A1D62`.
+- Downloaded ZIP: 67,712,612 bytes.
+  SHA-256: `B80E112E2FFF10A52F9770C35A24E6ED11AE81949D2F0E8D5071219AC9A584E7`.
+- Both hashes match the published manifest and GitHub asset digests. Every file
+  inside the ZIP matches its manifest record. Windows independently reports
+  `NotSigned`, matching the existing workflow policy and artifact manifest.
+- Four staged production catalogs passed ECDSA verification and preserve all
+  prior game data and notes. The separate history JSON receives only the new
+  launcher entry in each channel; older entries are left as they were.
