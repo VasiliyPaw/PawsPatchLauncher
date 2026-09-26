@@ -1,6 +1,7 @@
 # Paw's Patch 0.4.0-beta.7 verification
 
 Arcane Wars beta only; native AI policy revision 38.
+Source: `57877fd942140d2faf0230325858e953a07f3f6e`.
 Release tag: `patch-0.4.0-beta.7`.
 
 ## Changes
@@ -38,6 +39,8 @@ position, with unchanged artwork and overlapping audio.
   archives, eight helpers, 30 preflights, 45 transitions and 18 frame checks
   passed. The isolated fixture preserved its save sentinel and stock EXE;
   the source game directory was read-only and no game was launched.
+- All nine published package downloads passed anonymous size and SHA-256
+  verification against the tested signed catalog and GitHub asset digests.
 
 The first installation attempt caught the old strict localization hash guards
 after removal of the translated tooltip body. Both guards were updated in all

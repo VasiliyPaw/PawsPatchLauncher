@@ -845,6 +845,31 @@
   "beta": [
     {
       "category": "patch",
+      "version": "0.4.0-beta.7",
+      "publishedAt": "2026-09-26",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.7",
+        "en": "Paw’s Patch 0.4.0-beta.7",
+        "de": "Paw’s Patch 0.4.0-beta.7",
+        "fr": "Paw’s Patch 0.4.0-beta.7",
+        "es": "Paw’s Patch 0.4.0-beta.7",
+        "it": "Paw’s Patch 0.4.0-beta.7"
+      },
+      "body": {
+        "ru": "## Боты\n- Исправлена передача городов союзникам: при преимуществе минимум в пять городов бот может передать менее развитый город союзнику.\n\n## Интерфейс\n- Подсказка кнопки со звуком золота теперь содержит только заголовок Paw’s Patch на всех языках. Размер окна подстраивается под заголовок.\n\nПеред сетевым матчем всем участникам нужно обновиться до одной версии.",
+        "en": "## Bots\n- Fixed city gifts to allies: a bot with at least five more cities can give a less developed city to an ally.\n\n## Interface\n- The gold-sound button tooltip now shows only the Paw’s Patch heading in every language. Its window fits the heading.\n\nAll players must update to the same version before a multiplayer match.",
+        "de": "## Bots\n- Die Stadtübergabe an Verbündete wurde korrigiert: Ein Bot mit mindestens fünf Städten mehr kann einem Verbündeten eine weniger entwickelte Stadt übergeben.\n\n## Oberfläche\n- Der Tooltip der Goldton-Schaltfläche zeigt in allen Sprachen nur noch Paw’s Patch. Das Fenster passt sich der Überschrift an.\n\nVor einer Mehrspielerpartie müssen alle Teilnehmer dieselbe Version installieren.",
+        "fr": "## Bots\n- Correction du don de villes aux alliés : un bot possédant au moins cinq villes de plus peut céder une ville moins développée à un allié.\n\n## Interface\n- L’infobulle du bouton de son de l’or affiche uniquement le titre Paw’s Patch dans toutes les langues. Sa fenêtre s’adapte au titre.\n\nTous les joueurs doivent installer la même version avant une partie multijoueur.",
+        "es": "## Bots\n- Corregida la entrega de ciudades a aliados: un bot con al menos cinco ciudades más puede ceder una ciudad menos desarrollada a un aliado.\n\n## Interfaz\n- La ayuda del botón de sonido de oro muestra solo el título Paw’s Patch en todos los idiomas. La ventana se ajusta al título.\n\nTodos los jugadores deben instalar la misma versión antes de una partida multijugador.",
+        "it": "## Bot\n- Corretta la cessione delle città agli alleati: un bot con almeno cinque città in più può cedere una città meno sviluppata a un alleato.\n\n## Interfaccia\n- Il suggerimento del pulsante del suono dell’oro mostra solo il titolo Paw’s Patch in tutte le lingue. La finestra si adatta al titolo.\n\nTutti i giocatori devono installare la stessa versione prima di una partita multigiocatore."
+      }
+    },
+    {
+      "category": "patch",
       "version": "0.4.0-beta.6",
       "publishedAt": "2026-09-25",
       "mods": [
