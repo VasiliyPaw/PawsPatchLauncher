@@ -104,6 +104,8 @@ def build(analysis, out):
     # its source widget at +0x74 before layout, including the first hover.
     # Temporarily override the owning Game interface's anchor while the native
     # text measurement runs, then restore it before any other tooltip can use it.
+    # Measure with the same formatted string/font and add the active style
+    # padding. Native layout measures height again using that exact width.
     tooltip = f'''
         mov eax, dword ptr [{image+0x5f3fc0}]
         test eax, eax
@@ -111,6 +113,7 @@ def build(analysis, out):
         mov eax, [eax+0x104]
         test eax, eax
         jz ordinary
+        mov edx, eax
         mov eax, [eax+0x74]
         test eax, eax
         jz ordinary
@@ -119,6 +122,8 @@ def build(analysis, out):
         push ebp
         mov ebp, esp
         push esi
+        push edi
+        mov edi, edx
         mov esi, ecx
         push dword ptr [esi+0x94]
         push dword ptr [esi+0x98]
@@ -127,8 +132,28 @@ def build(analysis, out):
         push eax
         mov dword ptr [esi+0x94], 0x447f0000
         mov dword ptr [esi+0x98], 0x44000000
-        mov dword ptr [esi+0x9c], 0x42f00000
         mov byte ptr [esi+0xa4], 0
+        xor eax, eax
+        push eax
+        push eax
+        mov eax, esp
+        push 0
+        push 0
+        push 0x447a0000
+        push 0
+        push 0
+        push dword ptr [ebp+12]
+        push eax
+        push dword ptr [ebp+8]
+        call {image+0x1b0f17}
+        add esp, 32
+        movss xmm0, [esp]
+        addss xmm0, [edi+0xb4]
+        addss xmm0, [edi+0xb4]
+        addss xmm0, dword ptr [{image+0x458c40}]
+        movss [esi+0x9c], xmm0
+        add esp, 8
+        mov ecx, esi
         push dword ptr [ebp+16]
         push dword ptr [ebp+12]
         push dword ptr [ebp+8]
@@ -138,6 +163,7 @@ def build(analysis, out):
         pop dword ptr [esi+0x9c]
         pop dword ptr [esi+0x98]
         pop dword ptr [esi+0x94]
+        pop edi
         pop esi
         leave
         ret 12
@@ -148,11 +174,11 @@ def build(analysis, out):
     assert len(tip_code)<=0x100
     raw[0xa00:0xa00+len(tip_code)]=tip_code
     for ins in md.disasm(tip_code,cave+0xa00):
-        if ins.disp_size==4 and ins.disp==image+0x5f3fc0: fixes.append((1,ins.address-cave+ins.disp_offset,0x5f3fc0))
+        if ins.disp_size==4 and ins.disp in (image+0x5f3fc0,image+0x458c40): fixes.append((1,ins.address-cave+ins.disp_offset,ins.disp-image))
         for operand in ins.operands:
             if operand.type!=CS_OP_IMM:continue
             value=operand.imm&0xffffffff;at=ins.address-cave+ins.imm_offset
-            if value==image+0x2b8185:fixes.append((3,at,0x2b8185))
+            if value in (image+0x2b8185,image+0x1b0f17):fixes.append((3,at,value-image))
             elif value==cave+0x200:fixes.append((2,at,0x200))
     assert native[0xc88bd:0xc88c2]==b'\xe8'+struct.pack('<i',0x2b8185-0xc88bd-5)
     assert len({f[1] for f in fixes})==len(fixes) <=128

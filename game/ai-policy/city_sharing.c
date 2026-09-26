@@ -39,13 +39,17 @@ static void city_share(U image,Data*d,U pl,U slot){
    * Native tribute validation also rejects non-transferable settlements. */
   size=P(container,0x1c);if(size>256)continue;
   ((GiftM3)(image+0x287201))((U)command,0,4,k,recipient);
-  ((RouteM1)(image+0x287257))((U)command,0,P(a,0x14));
+  /* The settlement container is not a selectable/transferable actor. The
+   * native UI and GiveActor goal target its current central building. */
+  ((RouteM1)(image+0x287257))((U)command,0,P(center,0x14));
   if(!(((ClearingM0)(image+0x287287))((U)command,0)&255))continue;
   if(!best||size<bestSize||(size==bestSize&&P(a,0x14)<P(best,0x14))){best=a;bestSize=size;}
  }
  if(!best)return;
+ /* Resolve again: an upgrade may have replaced the center since selection. */
+ if(invalid_center(image,P(best,0x98)))return;
  ((GiftM3)(image+0x287201))((U)command,0,4,k,recipient);
- ((RouteM1)(image+0x287257))((U)command,0,P(best,0x14));
+ ((RouteM1)(image+0x287257))((U)command,0,P(P(P(best,0x98),0x14),0x14));
  if(!(((ClearingM0)(image+0x287287))((U)command,0)&255))return;
  c->city=P(best,0x14);c->recipient=P(recipient,0x14);
  ((RouteM1)(image+0xb8e65))((U)command,0,P(pl,0x198));

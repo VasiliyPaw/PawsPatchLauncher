@@ -747,6 +747,11 @@ writes. Pending commands are not retried for 120 seconds; changed counts are
 checked again. Kind59 records queued command, not completed transfer. Caches
 reset on world/time changes and native player creation; save formats unchanged.
 
+The r38 correction documented in `docs/city-sharing-live-20260926.md`
+targets the current central building in GIVE_ACTOR. Settlement-container IDs
+lack the native selectable-target flag and were rejected in beta.6. Pending
+tracking still uses the settlement ID across center upgrades.
+
 These native policy changes require Bot improvements. Regression fixtures run
 the compiled code at three image bases with controlled native services; they
 are not a substitute for live multiplayer acceptance.

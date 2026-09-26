@@ -20,6 +20,11 @@ TAG='patch-'+VERSION
 URL='https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/'+TAG+'/'
 VARIANTS=read(REPO/'game/beta7/variants.json')
 TRACKED=[*FEEDS.values(),'feed/changelog.history.json','feed/patch-guide-beta.json']
+RELEASE_DATE='2026-09-25'
+
+def extra_payload_transform(package,payload):
+    """A later release may opt into explicitly scoped presentation changes."""
+    return set()
 
 def prepare(a):
     stage=a.stage.resolve();out=stage/'publication';helpers=stage/'beta-helpers'
@@ -44,7 +49,7 @@ def prepare(a):
     for c,p in FEEDS.items():
         dest=out/'previous'/(c+'.json');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(REPO/p,dest)
     cached={}
-    for root in (WORK/'outputs/release-20260925-beta5',WORK/'outputs/release-20260925-beta4',WORK/'outputs/release-20260924',WORK/'outputs/release-20260920',REPO/'packages'):
+    for root in (WORK/'outputs/release-20260925-beta6',WORK/'outputs/release-20260925-beta5',WORK/'outputs/release-20260925-beta4',WORK/'outputs/release-20260924',WORK/'outputs/release-20260920',REPO/'packages'):
         for p in root.rglob('*.zip'):cached.setdefault(p.stat().st_size,[]).append(p)
     resolved={};assets=[];replacements={};scope={};seen=set()
     for p in {p['sha256']:p for f in (feeds['stable'],beta) for p in f['packages']}.values():
@@ -60,15 +65,17 @@ def prepare(a):
             if n in VARIANTS or n=='paws_patch_versions.ini':
                 payload[n]=(helpers/n).read_bytes()
                 if n in VARIANTS:seen.add(n)
+        extra=extra_payload_transform(p,payload)
+        assert set(payload)==set(original),'Unexpected added or removed payload files'
         if payload==original:continue
         changed=[n for n in payload if payload[n]!=original[n]]
-        assert all(n in VARIANTS or n=='paws_patch_versions.ini' for n in changed)
+        assert all(n in VARIANTS or n=='paws_patch_versions.ini' or n in extra for n in changed)
         package=copy.deepcopy(p);package['version']=VERSION
         manifest=dict(id=p['id'],version=VERSION,files=[dict(path=n,size=len(b),sha256=hashlib.sha256(b).hexdigest().upper()) for n,b in sorted(payload.items())],remove=[])
         path=out/'assets'/TAG/(p['id']+'-'+VERSION+'.zip');path.parent.mkdir(parents=True,exist_ok=True)
         with zipfile.ZipFile(path,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
             for n,b in [('module.json',encode(manifest))]+[('payload/'+n,b) for n,b in sorted(payload.items())]:
-                info=zipfile.ZipInfo(n,(2026,9,25,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o100644<<16;z.writestr(info,b)
+                info=zipfile.ZipInfo(n,tuple(map(int,RELEASE_DATE.split('-')))+(0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o100644<<16;z.writestr(info,b)
         package.update(size=path.stat().st_size,sha256=sha(path),urls=[URL+path.name]);validate_package(path,package)
         replacements[p['id']]=package;scope[p['id']]=changed
         assets.append(dict(path=str(path),id=p['id'],size=package['size'],sha256=package['sha256'],url=package['urls'][0]))
@@ -77,7 +84,7 @@ def prepare(a):
     assert final['launcher']==beta['launcher']
     assert [p for p in final['packages'] if p.get('mods')!=['arcane-wars']]==[p for p in beta['packages'] if p.get('mods')!=['arcane-wars']]
     bodies=read(REPO/('docs/release-patch-'+VERSION+'.json'))
-    note=dict(category='patch',version=VERSION,publishedAt='2026-09-25',mods=['arcane-wars'],channel='beta',title={c:'Paw’s Patch '+VERSION for c in bodies},body=bodies)
+    note=dict(category='patch',version=VERSION,publishedAt=RELEASE_DATE,mods=['arcane-wars'],channel='beta',title={c:'Paw’s Patch '+VERSION for c in bodies},body=bodies)
     final['changelog']=[note]+final['changelog'];final['publishedAt']=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ');final['patchGuide']['version']=VERSION
     write(out/'final/beta.json',sign(final,private))
     # The standalone history has independently curated older entries. Do not
@@ -93,7 +100,7 @@ def prepare(a):
     write(out/'scope.json',scope);write(out/'features.json',features)
     write(out/'native-payload-verification.json',dict(passed=True,helpers=len(features),sha256=hashlib.sha256(native).hexdigest().upper()))
     write(out/'preparation.json',dict(version=VERSION,baselineCommit=head,assets=assets,before={p:sha(REPO/p) for p in TRACKED}))
-    print('STAGED',len(assets),'runtime-only beta packages; other payload bytes unchanged')
+    print('STAGED',len(assets),'beta packages; unrelated payload bytes unchanged')
 
 def public(a):
     out=a.stage/'publication';prep=read(out/'preparation.json')

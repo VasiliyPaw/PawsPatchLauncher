@@ -2,7 +2,7 @@
 
 `prepare.py --game <installed root> --out <artifact directory>` appends an
 independent `PushButtonWidget` child to the existing Game interface and copies
-the user-provided PNG byte for byte. It refuses a duplicate button. The input
+the user-provided PNG byte for byte. An existing button definition is replaced without creating a duplicate. The input
 interface hash and resulting hashes are recorded in `button-input.json`.
 
 The button occupies x=980..1020, y=516.666667..570 in the 1024x768 virtual interface,
@@ -10,14 +10,19 @@ above the lower-right command panel (right offset 4, bottom offset 198).
 At 2560x1440 the frame is 100x100 and its image is 95x95 pixels,
 preserving the annotated Haroun artwork's square ratio on the user's 16:9 viewport.
 The source is the 1254x1254 generated edit with two red arrows and a circle.
-The tooltip title is `Paw's Patch`; its body uses the localized
-`paws_gold_sound_tooltip` key (Russian `Сиске`, English `Boobes`).
+The tooltip contains only the `Paw's Patch` heading in every language.
+An empty body makes the native formatter skip paragraph separators. The old
+localized body key is removed from all shipped language tables.
 The native tooltip rectangle hook at RVA `0xC88BD` identifies this button by
-its private vtable, measures the text with the original game function, and
-anchors the tooltip above the button at virtual y=512. It restores the
+its private vtable, measures the formatted heading width with the native text
+function at RVA `0x1B0F17`, adds the current tooltip horizontal padding, and
+uses the original rectangle layout to fit its height above the button at
+virtual y=512. It restores the
 interface's original anchor fields immediately after measurement; every other
 widget retains its native tooltip placement. `test_tooltip.py` checks this
 wrapper and restoration at three ASLR bases with native measurement stubbed.
+`test_tooltip_layout.py` also runs the original rectangle calculation with
+three font metrics at each base and checks a single-line fitted rectangle.
 It does not consume a native action slot. It is not nested under the ally or
 selected-object controls, so its definition is available in solo and observer
 interfaces as well. The complete image is used, without cropping.

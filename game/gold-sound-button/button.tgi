@@ -4,7 +4,7 @@
 	[PawGoldSoundButton Template=PushButtonWidget]
 	{
 		tooltip_name = "Paw's Patch"
-		tooltip = "#paws_gold_sound_tooltip"
+		tooltip = ""
 		set_sound = paws_gold_button_select
 		unset_sound = NULL
 		[View Template=GroupVE]
