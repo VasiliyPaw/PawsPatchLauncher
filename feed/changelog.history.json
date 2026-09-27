@@ -2,6 +2,53 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.10",
+      "publishedAt": "2026-09-27",
+      "title": {
+        "ru": "Paw's Launcher 0.8.10",
+        "en": "Paw's Launcher 0.8.10",
+        "de": "Paw's Launcher 0.8.10",
+        "fr": "Paw's Launcher 0.8.10",
+        "cs": "Paw's Launcher 0.8.10",
+        "uk": "Paw's Launcher 0.8.10"
+      },
+      "body": {
+        "ru": "- Дополнительные настройки Paw's Patch для Vanilla и Immortals теперь доступны в релизном канале и при копировании конфигурации.",
+        "en": "- Optional Paw's Patch settings for Vanilla and Immortals are now available in the stable channel and shared configurations.",
+        "de": "- Optionale Einstellungen von Paw's Patch für Vanilla und Immortals sind jetzt im stabilen Kanal und in geteilten Konfigurationen verfügbar.",
+        "fr": "- Les options de Paw's Patch pour Vanilla et Immortals sont désormais disponibles dans le canal stable et les configurations partagées.",
+        "cs": "- Volitelné nastavení Paw's Patch pro Vanilla a Immortals je nyní dostupné ve stabilním kanálu i ve sdílených konfiguracích.",
+        "uk": "- Додаткові налаштування Paw's Patch для Vanilla та Immortals тепер доступні в релізному каналі й при копіюванні конфігурації."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.3.0",
+      "publishedAt": "2026-09-27",
+      "title": {
+        "ru": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "en": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "de": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "fr": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "cs": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "uk": "Paw's Patch 0.3.0 — Vanilla / Immortals"
+      },
+      "body": {
+        "ru": "- Возможности беты Vanilla и Immortals теперь доступны в релизе.\n- 39 цветов игроков с компактным выбором в лобби.\n- Исправлены чёрные промежутки возле миникарты для всех шести рас.\n- При включённом пропуске рассинхронов сохраняется диагностический журнал первой ошибки в матче.",
+        "en": "- Vanilla and Immortals beta features are now available in the stable release.\n- 39 player colors with a compact lobby picker.\n- Fixed black gaps around the minimap for all six races.\n- Continuing after desyncs now saves a diagnostic log of the first error in the match.",
+        "de": "- Die Beta-Funktionen für Vanilla und Immortals sind jetzt in der stabilen Version verfügbar.\n- 39 Spielerfarben mit kompakter Auswahl in der Lobby.\n- Schwarze Lücken um die Minikarte für alle sechs Völker behoben.\n- Beim Fortsetzen nach Desynchronisationen wird ein Diagnoseprotokoll des ersten Fehlers im Spiel gespeichert.",
+        "fr": "- Les fonctionnalités bêta de Vanilla et Immortals sont désormais disponibles dans la version stable.\n- 39 couleurs de joueurs avec un sélecteur compact dans le salon.\n- Correction des espaces noirs autour de la minicarte pour les six races.\n- Continuer après une désynchronisation enregistre désormais un journal de diagnostic de la première erreur de la partie.",
+        "cs": "- Funkce betaverze Vanilla a Immortals jsou nyní dostupné ve stabilním vydání.\n- 39 barev hráčů s kompaktním výběrem v lobby.\n- Opraveny černé mezery kolem minimapy u všech šesti ras.\n- Při pokračování po desynchronizaci se ukládá diagnostický protokol první chyby v zápase.",
+        "uk": "- Можливості бети Vanilla та Immortals тепер доступні в релізі.\n- 39 кольорів гравців із компактним вибором у лобі.\n- Виправлено чорні проміжки біля мінікарти для всіх шести рас.\n- При ввімкненому пропуску розсинхронізацій зберігається діагностичний журнал першої помилки в матчі."
+      },
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "stable"
+    },
+    {
+      "category": "launcher",
       "version": "0.8.9",
       "publishedAt": "2026-09-25",
       "title": {
@@ -843,6 +890,53 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.10",
+      "publishedAt": "2026-09-27",
+      "title": {
+        "ru": "Paw's Launcher 0.8.10",
+        "en": "Paw's Launcher 0.8.10",
+        "de": "Paw's Launcher 0.8.10",
+        "fr": "Paw's Launcher 0.8.10",
+        "cs": "Paw's Launcher 0.8.10",
+        "uk": "Paw's Launcher 0.8.10"
+      },
+      "body": {
+        "ru": "- Дополнительные настройки Paw's Patch для Vanilla и Immortals теперь доступны в релизном канале и при копировании конфигурации.",
+        "en": "- Optional Paw's Patch settings for Vanilla and Immortals are now available in the stable channel and shared configurations.",
+        "de": "- Optionale Einstellungen von Paw's Patch für Vanilla und Immortals sind jetzt im stabilen Kanal und in geteilten Konfigurationen verfügbar.",
+        "fr": "- Les options de Paw's Patch pour Vanilla et Immortals sont désormais disponibles dans le canal stable et les configurations partagées.",
+        "cs": "- Volitelné nastavení Paw's Patch pro Vanilla a Immortals je nyní dostupné ve stabilním kanálu i ve sdílených konfiguracích.",
+        "uk": "- Додаткові налаштування Paw's Patch для Vanilla та Immortals тепер доступні в релізному каналі й при копіюванні конфігурації."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.3.0",
+      "publishedAt": "2026-09-27",
+      "title": {
+        "ru": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "en": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "de": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "fr": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "cs": "Paw's Patch 0.3.0 — Vanilla / Immortals",
+        "uk": "Paw's Patch 0.3.0 — Vanilla / Immortals"
+      },
+      "body": {
+        "ru": "- Возможности беты Vanilla и Immortals теперь доступны в релизе.\n- 39 цветов игроков с компактным выбором в лобби.\n- Исправлены чёрные промежутки возле миникарты для всех шести рас.\n- При включённом пропуске рассинхронов сохраняется диагностический журнал первой ошибки в матче.",
+        "en": "- Vanilla and Immortals beta features are now available in the stable release.\n- 39 player colors with a compact lobby picker.\n- Fixed black gaps around the minimap for all six races.\n- Continuing after desyncs now saves a diagnostic log of the first error in the match.",
+        "de": "- Die Beta-Funktionen für Vanilla und Immortals sind jetzt in der stabilen Version verfügbar.\n- 39 Spielerfarben mit kompakter Auswahl in der Lobby.\n- Schwarze Lücken um die Minikarte für alle sechs Völker behoben.\n- Beim Fortsetzen nach Desynchronisationen wird ein Diagnoseprotokoll des ersten Fehlers im Spiel gespeichert.",
+        "fr": "- Les fonctionnalités bêta de Vanilla et Immortals sont désormais disponibles dans la version stable.\n- 39 couleurs de joueurs avec un sélecteur compact dans le salon.\n- Correction des espaces noirs autour de la minicarte pour les six races.\n- Continuer après une désynchronisation enregistre désormais un journal de diagnostic de la première erreur de la partie.",
+        "cs": "- Funkce betaverze Vanilla a Immortals jsou nyní dostupné ve stabilním vydání.\n- 39 barev hráčů s kompaktním výběrem v lobby.\n- Opraveny černé mezery kolem minimapy u všech šesti ras.\n- Při pokračování po desynchronizaci se ukládá diagnostický protokol první chyby v zápase.",
+        "uk": "- Можливості бети Vanilla та Immortals тепер доступні в релізі.\n- 39 кольорів гравців із компактним вибором у лобі.\n- Виправлено чорні проміжки біля мінікарти для всіх шести рас.\n- При ввімкненому пропуску розсинхронізацій зберігається діагностичний журнал першої помилки в матчі."
+      },
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "stable"
+    },
     {
       "category": "patch",
       "version": "0.4.0-beta.9",

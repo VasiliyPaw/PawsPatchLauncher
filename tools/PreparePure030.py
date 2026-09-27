@@ -3,7 +3,7 @@
 Preparation, public verification and catalog promotion are separate stages.
 No game installation, launch, Git mutation or upload is performed here.
 """
-import argparse, copy, hashlib, json, shutil, subprocess, zipfile
+import argparse, copy, hashlib, io, json, shutil, subprocess, zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 from cryptography.hazmat.primitives import serialization
@@ -110,11 +110,17 @@ def finalize(a):
     for p in prep['assets']+[dict(launcher,id='launcher',url=launcher['urls'][0])]:
         data=fetch(p['url']);assert len(data)==p['size'] and hashlib.sha256(data).hexdigest().upper()==p['sha256'].upper()
         print('PUBLIC_BYTES_PASS',p['id'],flush=True)
-    for record in artifact['files']:
-        if record['name']=='PawsPatchLauncher.exe':continue
-        data=fetch(DOWNLOAD+'v'+VERSION+'/'+record['name'])
-        assert len(data)==record['size'] and hashlib.sha256(data).hexdigest().upper()==record['sha256'].upper()
-        print('PUBLIC_BYTES_PASS',record['name'],flush=True)
+    archive=next(f for f in artifact['files'] if f['name']=='PawsPatchLauncher-v'+VERSION+'-win-x64.zip')
+    data=fetch(DOWNLOAD+'v'+VERSION+'/'+archive['name'])
+    assert len(data)==archive['size'] and hashlib.sha256(data).hexdigest().upper()==archive['sha256'].upper()
+    with zipfile.ZipFile(io.BytesIO(data)) as z:
+        expected={f['name'] for f in artifact['files'] if f['name']!=archive['name']}
+        assert set(z.namelist())==expected
+        for record in artifact['files']:
+            if record['name']==archive['name']:continue
+            content=z.read(record['name'])
+            assert len(content)==record['size'] and hashlib.sha256(content).hexdigest().upper()==record['sha256'].upper()
+    print('PUBLIC_BYTES_PASS',archive['name'],flush=True)
     for name in FEEDS:
         f=read(out/'payloads'/(name+'.json'));f.update(launcher=launcher,publishedAt=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
         write(out/'signed'/(name+'.json'),sign(f,private(a)))
