@@ -62,7 +62,7 @@ public static class GameMod
     public static void SetDesync(UserSettings settings, bool enabled)
     { if (IsArcaneWars(settings)) settings.DesyncMode = enabled ? "continue" : "official"; else PureComponents(settings).IgnoreDesync = enabled; }
     public static bool HasPureOptions(ChannelManifest? channel)
-        => channel is { Channel: "beta", PureRuntimeOptions: true } && HasPureFixes(channel)
+        => channel is { PureRuntimeOptions: true } && HasPureFixes(channel)
             && channel.Packages.Any(p => p.Id == "pure-player-colors" && p.Mods.Contains(Vanilla) && p.Mods.Contains(Immortals));
     public static GameRequirement Requirement(ChannelManifest channel, string mod)
         => channel.ModGames.TryGetValue(mod, out var requirement) ? requirement : channel.Game;

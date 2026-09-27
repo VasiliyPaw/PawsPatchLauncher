@@ -219,7 +219,7 @@ namespace PawPureFixes
 #endif
 #if PAW_PURE_SYNC
                         syncCounter = PureSync.Install(memory, address);
-                        Log(log, "SYNC_PATCH_APPLIED signal=0x" + syncCounter.ToString("X8") + "; notifications=false; logOnly=true; gameContinues=true");
+                        Log(log, "SYNC_PATCH_APPLIED signal=0x" + syncCounter.ToString("X8") + "; notifications=false; firstFailureNativeLog=true; diagnosticsRevision=1; gameContinues=true");
 #endif
                     }
                     finally { memory.Resume(); }
@@ -238,10 +238,15 @@ namespace PawPureFixes
                     {
                     using (var monitor = new NativeMemory(game.Id, gamePath, verifiedStart))
                     {
-                        uint current = BitConverter.ToUInt32(monitor.Read(syncCounter, 4), 0);
+                        byte[] diagnostic = monitor.Read(syncCounter, PawSyncDiagnostics.SignalSize);
+                        uint current = BitConverter.ToUInt32(diagnostic, 0);
                         if (current != observedSync)
                         {
-                            Log(log, "SYNC_IGNORED count=" + current + "; previous=" + observedSync);
+                            Log(log, "SYNC_IGNORED count=" + current + "; previous=" + observedSync
+                                + "; epoch=" + BitConverter.ToUInt32(diagnostic, 8)
+                                + "; writerAttempts=" + BitConverter.ToUInt32(diagnostic, 16)
+                                + "; writerReturns=" + BitConverter.ToUInt32(diagnostic, 20)
+                                + "; firstIndex=" + BitConverter.ToUInt32(diagnostic, 24));
                             observedSync = current;
                         }
                     }

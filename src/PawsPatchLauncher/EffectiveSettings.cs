@@ -26,7 +26,7 @@ public static class EffectiveSettings
             active.PawPatchEnabled = GameMod.PawPatchSelected(preferences);
             active.DataOnly &= active.PawPatchEnabled || active.Mod == GameMod.Immortals;
             var options = GameMod.PureComponents(active);
-            var enabled = active.PawPatchEnabled && !active.DataOnly && active.Channel == "beta";
+            var enabled = active.PawPatchEnabled && !active.DataOnly;
             options.Colors &= enabled && colorsAvailable;
             options.IgnoreDesync &= enabled;
             options.SuspendedColors = options.SuspendedDesync = null;

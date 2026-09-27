@@ -14,7 +14,8 @@ namespace PawPureFixes
         {
             var m = new TransferFakeMemory(image);
             m.Seed(image + PureSync.FailureRva, PureSync.Signature(image));
-            m.Seed(image + PureSync.MarkerRva, PurePatch.Hex("C6403501")); return m;
+            m.Seed(image + PureSync.MarkerRva, PurePatch.Hex("C6403501"));
+            m.Seed(image + PawSyncDiagnostics.ResetRva, PawSyncDiagnostics.ResetSignature); return m;
         }
         static void Main(string[] args)
         {
@@ -24,7 +25,10 @@ namespace PawPureFixes
                 var m = Seed(image); var original = new Dictionary<uint, byte>(m.Bytes);
                 uint signal = PureSync.Install(m, image); int ops = m.Operations;
                 Check(signal != 0 && BitConverter.ToUInt32(m.Read(signal, 4), 0) == 0);
-                Check(m.CodeWrites.SequenceEqual(new[] { image + PureSync.FailureRva, image + PureSync.MarkerRva }));
+                Check(BitConverter.ToUInt32(m.Read(signal + 8, 4), 0) == 1);
+                Check(m.CodeWrites.SequenceEqual(new[] { image + (uint)PawSyncDiagnostics.ResetRva, image + PureSync.FailureRva, image + PureSync.MarkerRva }));
+                Check(m.ExecutableRanges.All(p => signal >= p.Key + p.Value || signal + PawSyncDiagnostics.SignalSize <= p.Key));
+                Check(m.Read(signal - 4096, PawSyncDiagnostics.CodeSize).SequenceEqual(PawSyncDiagnostics.Build(image, signal - 4096, signal)));
                 for (int i = 1; i <= ops; i++)
                 {
                     var b = Seed(image); b.FailAt = i;
@@ -41,7 +45,6 @@ namespace PawPureFixes
                 Check(Fails(delegate { PureSync.Install(partial, image); }));
                 Check(original.All(p => partial.Bytes[p.Key] == p.Value) && !partial.Allocated);
             }
-            File.WriteAllBytes(Path.Combine(args[0], "sync-stub.bin"), PureSync.Stub(0x20000100));
             Console.WriteLine("PURE_SYNC_MANAGED_PASS checks=" + checks);
         }
     }

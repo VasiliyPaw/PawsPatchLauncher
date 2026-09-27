@@ -34,7 +34,8 @@ namespace PawPureFixes
             Op(); uint result = next; next += (uint)((size + 4095) & ~4095);
             Blocks.Add(result, size); Allocations++; return result;
         }
-        public void MakeExecutable(uint address, int count) { Op(); }
+        internal readonly List<KeyValuePair<uint, uint>> ExecutableRanges = new List<KeyValuePair<uint, uint>>();
+        public void MakeExecutable(uint address, int count) { Op(); ExecutableRanges.Add(new KeyValuePair<uint, uint>(address, (uint)count)); }
         public void Flush(uint address, int count) { Op(); }
         public void Free(uint address) { Op(); if (!Blocks.Remove(address)) throw new Exception("Unknown allocation freed"); Frees++; }
     }

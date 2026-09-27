@@ -29,8 +29,8 @@ public static class ConfigurationCode
             if (index < parts.Length && parts[index] == "OOS1") { GameMod.SetDesync(mod, true); index++; }
             if (index < parts.Length && parts[index] == "DATA" && (GameMod.PawPatchSelected(mod) || mod.Mod == GameMod.Immortals)) { mod.DataOnly = true; index++; }
             if (index != parts.Length) throw new FormatException("Invalid mod configuration field.");
-            if ((GameMod.ColorsSelected(mod) || GameMod.DesyncSelected(mod)) && (!GameMod.PawPatchSelected(mod) || mod.DataOnly || mod.Channel != "beta"))
-                throw new FormatException("Executable options require the enabled Beta patch.");
+            if ((GameMod.ColorsSelected(mod) || GameMod.DesyncSelected(mod)) && (!GameMod.PawPatchSelected(mod) || mod.DataOnly))
+                throw new FormatException("Executable options require the enabled patch.");
             return EffectiveSettings.ForChannel(mod);
         }
         var core = parts.LastOrDefault() != "PP0";

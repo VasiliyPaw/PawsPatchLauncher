@@ -4,8 +4,8 @@ using System.Linq;
 
 namespace PawPureFixes
 {
-    // Same two sites and register-preserving suppression stub as Arcane Wars.
-    // Isolated from family, map, city and combat hooks. The counter remains observable.
+    // Use the same first-failure native log writer as Arcane Wars. Only the
+    // continuation marker is suppressed; checksum calculation is unchanged.
     internal static class PureSync
     {
         internal const uint FailureRva = 0x14A5F2, MarkerRva = 0x14A4FE;
@@ -16,32 +16,32 @@ namespace PawPureFixes
                 .Concat(BitConverter.GetBytes(image + 0x4B7F44)).Concat(new byte[] { 0x68 })
                 .Concat(BitConverter.GetBytes(image + 0x4B7F64)).ToArray();
         }
-        internal static byte[] Stub(uint signal)
-        {
-            return PurePatch.Hex("9C60B8").Concat(BitConverter.GetBytes(signal))
-                .Concat(PurePatch.Hex("8B542428895004F0FF00619DC20400")).ToArray();
-        }
         internal static void Validate(IPatchMemory memory, uint image)
         {
             PurePatch.Expect(memory, image + FailureRva, Signature(image));
             PurePatch.Expect(memory, image + MarkerRva, PurePatch.Hex("C6403501"));
+            PurePatch.Expect(memory, image + PawSyncDiagnostics.ResetRva, PawSyncDiagnostics.ResetSignature);
         }
         internal static uint Install(IPatchMemory memory, uint image)
         {
             Validate(memory, image);
             uint block = 0; int attempted = 0;
-            var sites = new[] { FailureRva, MarkerRva };
-            var originals = new[] { Signature(image).Take(5).ToArray(), PurePatch.Hex("C6403501") };
+            var sites = new[] { (uint)PawSyncDiagnostics.ResetRva, FailureRva, MarkerRva };
+            var originals = new[] { PawSyncDiagnostics.ResetSignature.Take(5).ToArray(), Signature(image).Take(5).ToArray(), PurePatch.Hex("C6403501") };
             try
             {
-                block = memory.Allocate(4096);
-                var payload = new byte[4096];
-                var stub = Stub(block + 0x100);
+                // Keep the signal on its own writable page after making code RX.
+                block = memory.Allocate(8192);
+                var payload = new byte[8192];
+                var stub = PawSyncDiagnostics.Build(image, block, block + 4096);
                 Buffer.BlockCopy(stub, 0, payload, 0, stub.Length);
+                var initial = PawSyncDiagnostics.InitialSignal();
+                Buffer.BlockCopy(initial, 0, payload, 4096, initial.Length);
                 memory.Write(block, payload);
                 PurePatch.Expect(memory, block, payload);
-                memory.MakeExecutable(block, payload.Length); memory.Flush(block, payload.Length);
-                var patches = new[] { PurePatch.Branch(0xE9, image + FailureRva, block), PurePatch.Hex("90909090") };
+                memory.MakeExecutable(block, 4096); memory.Flush(block, 4096);
+                var patches = new[] { PurePatch.Branch(0xE9, image + PawSyncDiagnostics.ResetRva, block + PawSyncDiagnostics.ResetOffset),
+                    PurePatch.Branch(0xE9, image + FailureRva, block), PurePatch.Hex("90909090") };
                 for (int i = 0; i < sites.Length; i++)
                 {
                     attempted = i + 1;
@@ -49,7 +49,7 @@ namespace PawPureFixes
                     PurePatch.Expect(memory, image + sites[i], patches[i]);
                     memory.Flush(image + sites[i], patches[i].Length);
                 }
-                return block + 0x100;
+                return block + 4096;
             }
             catch
             {

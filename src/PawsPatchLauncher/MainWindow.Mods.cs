@@ -198,8 +198,8 @@ public partial class MainWindow
         if (hasFastTransfer) text += T("\n• Ускоренная штатная передача сохранений участникам сетевого лобби.",
             "\n• Faster native saved-game transfers to multiplayer lobby participants.");
         if (GameMod.HasPureOptions(GuideChannel()))
-            text += T("\n\nДополнительные переключатели беты: 48 цветов с компактным выбором и игнорирование рассинхронов. Для них требуется совместимый EXE игры. При выключении Paw's Patch оба переключателя отключаются.",
-                "\n\nOptional Beta switches: 48 colors with a compact picker and Ignore desyncs. Both require a supported game executable. Turning Paw's Patch off disables both switches.");
+            text += T("\n\nДополнительные переключатели: 39 цветов с компактным выбором и игнорирование рассинхронов. При пропуске рассинхрона сохраняется диагностический журнал первой ошибки в матче. Требуется совместимый EXE игры. При выключении Paw's Patch оба переключателя отключаются.",
+                "\n\nOptional switches: 39 colors with a compact picker and Ignore desyncs. Continuing after a desync saves a diagnostic log of the first error in the match. A supported game executable is required. Turning Paw's Patch off disables both switches.");
         if (!partial) text += T("\n\nПравила и баланс выбранного режима сохраняются. По умолчанию используется стандартная обработка рассинхронов.",
             "\n\nThe selected mode's rules and balance are preserved. Standard desync handling is used by default.");
         return text;

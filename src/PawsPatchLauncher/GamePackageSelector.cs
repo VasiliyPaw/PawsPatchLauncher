@@ -61,7 +61,7 @@ public static class GamePackageSelector
             {
                 baseIds.Add("pure-fixes-data");
                 if (!settings.DataOnly) baseIds.Add("pure-fixes-runtime");
-                if (!settings.DataOnly && settings.Channel == "beta" && customPlayerColors)
+                if (!settings.DataOnly && customPlayerColors)
                 {
                     if (!GameMod.HasPureOptions(channel)) throw new InvalidDataException("This release does not support extended player colors.");
                     baseIds.Add("pure-player-colors");

@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==4&&args[0]=="--verify-pure-030") {await Pure030Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==1&&args[0]=="--game-user-settings") {GameUserSettingsTests.Run();return;}
 if(args.Length==4&&args[0]=="--verify-september20") {await September20Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==4&&args[0]=="--verify-september-betas") {await SeptemberBetaTests.RunAsync(args[1],args[2],args[3]);return;}

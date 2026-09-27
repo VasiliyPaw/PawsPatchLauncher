@@ -24,7 +24,7 @@ if args.attach_only and args.keep_draft:
     raise RuntimeError("Attach-only and keep-draft are mutually exclusive")
 repo = "VasiliyPaw/PawsPatchLauncher"
 tag = args.tag or "v" + args.version
-if args.tag and (tag.startswith("v") or not args.prerelease and tag != "patch-" + args.version):
+if args.tag and (tag.startswith("v") or not args.prerelease and tag not in ("patch-" + args.version, "patch-pure-" + args.version)):
     raise RuntimeError("Package releases require patch-<version>, or a prerelease tag outside the launcher v* workflow")
 token = os.environ.get("GH_TOKEN")
 if not token:

@@ -7,7 +7,9 @@ internal static class PureOptionsTests
     {
         int checks = 0;
         void Check(bool ok, string why) { checks++; if (!ok) throw new Exception("Pure options: " + why); }
-        var beta = new ChannelManifest { Channel = "beta", PureRuntimeOptions = true,
+        foreach (string channel in new[] { "stable", "beta" })
+        {
+        var beta = new ChannelManifest { Channel = channel, PureRuntimeOptions = true,
             Packages = [new() { Id = "pure-fixes-data" }, new() { Id = "pure-fixes-runtime", ExecutableIndependent = false },
                 new() { Id = "pure-player-colors", Mods = ["vanilla", "immortals"], DependsOn = ["pure-fixes-runtime"] },
                 new() { Id = "immortals", ExecutableIndependent = true }, new() { Id = "startup-base", ExecutableIndependent = true }] };
@@ -18,7 +20,7 @@ internal static class PureOptionsTests
         foreach (bool data in new[] { false, true })
         foreach (bool patch in new[] { false, true })
         {
-            var prefs = new UserSettings { Mod = mod, Channel = "beta", DataOnly = data, RussianLocalization = false,
+            var prefs = new UserSettings { Mod = mod, Channel = channel, DataOnly = data, RussianLocalization = false,
                 CustomPlayerColors = true, DesyncMode = "continue" };
             GameMod.SetPawPatch(prefs, true); GameMod.SetColors(prefs, colors); GameMod.SetDesync(prefs, sync);
             if (!patch) GameMod.SetPawPatch(prefs, false);
@@ -27,7 +29,7 @@ internal static class PureOptionsTests
             Check((active.DesyncMode == "continue") == (sync && patch && !data), "sync gating");
             Check(prefs.CustomPlayerColors && prefs.DesyncMode == "continue", "pure selection mutated AW preferences");
             var code = ConfigurationCode.Create(active);
-            Check(FriendConfiguration.TryParse(code, "beta", out var parsed) && ConfigurationCode.Create(parsed) == code, "peer roundtrip");
+            Check(FriendConfiguration.TryParse(code, channel, out var parsed) && ConfigurationCode.Create(parsed) == code, "peer roundtrip");
             var packages = GamePackageSelector.Select(beta, active, false, active.CustomPlayerColors);
             Check(packages.Any(p => p.Id == "pure-player-colors") == (colors && patch && !data), "color package");
             Check(!data || packages.All(p => p.ExecutableIndependent), "data-only native package");
@@ -45,12 +47,13 @@ internal static class PureOptionsTests
             ConfigurationCode.Apply(parsed, other);
             Check(ConfigurationCode.Create(EffectiveSettings.ForFeed(other, beta)) == code, "import exact feature choices");
             Check(!other.CustomPlayerColors, "copy modified remembered AW colors");
-            var old = new ChannelManifest { Channel = "beta", Packages = beta.Packages };
+            var old = new ChannelManifest { Channel = channel, Packages = beta.Packages };
             var masked = EffectiveSettings.ForFeed(prefs, old);
             Check(!masked.CustomPlayerColors && masked.DesyncMode == "official", "old feed must not expose new runtime options");
         }
-        foreach (string bad in new[] { "PAW-BETA-VANILLA-CL1", "PAW-STABLE-IMMORTALS-PP1-OOS1", "PAW-BETA-VANILLA-PP1-CL1-DATA" })
+        foreach (string bad in new[] { "PAW-BETA-VANILLA-CL1", "PAW-STABLE-IMMORTALS-OOS1", "PAW-BETA-VANILLA-PP1-CL1-DATA" })
             Check(!FriendConfiguration.TryParse(bad, bad.Contains("BETA") ? "beta" : "stable", out _), "invalid options accepted");
+        }
         Console.WriteLine("PURE OPTIONS PASS " + checks + ": all feature/master/data combinations, mod isolation, imports and legacy feeds");
         return checks;
     }

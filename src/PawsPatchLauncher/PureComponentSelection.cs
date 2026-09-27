@@ -1,6 +1,6 @@
 namespace PawsPatchLauncher;
 
-/// <summary>Independent preferences for the optional Vanilla/Immortals beta features.</summary>
+/// <summary>Independent preferences for the optional Vanilla/Immortals features.</summary>
 public sealed class PureComponentSelection
 {
     public bool Colors { get; set; }

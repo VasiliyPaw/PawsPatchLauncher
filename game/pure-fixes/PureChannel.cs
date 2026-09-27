@@ -7,11 +7,7 @@ namespace PawPureFixes
     // The shared R2 source supplies the exact same native code as Arcane Wars.
     internal static class PureChannel
     {
-#if PAW_PURE_BETA
-        internal const string Channel = "beta", Version = "1.3.72-pure.10-beta.2", PatchVersion = "0.3.0-beta.2";
-#else
-        internal const string Channel = "stable", Version = "1.3.72-pure.8", PatchVersion = "0.2.0";
-#endif
+        internal const string Channel = "stable", Version = "1.3.72-pure.11", PatchVersion = "0.3.0";
 #if PAW_PURE_FAST_TRANSFER
         internal const bool FastTransfer = true;
 #else
@@ -36,6 +32,7 @@ namespace PawPureFixes
                     .Replace("\"fastSaveTransfer\":false", "\"fastSaveTransfer\":" + (FastTransfer ? "true" : "false"))
                     .Replace("\"colors\":false", "\"colors\":" + (Colors ? "true" : "false"))
                     .Replace("\"bypass\":false", "\"bypass\":" + (Bypass ? "true" : "false"))
+                    .Replace("\"quiet\":true", "\"quiet\":true" + (Bypass ? ",\"syncDiagnosticsRevision\":1" : ""))
                     .Replace("\"stockSyncChecks\":true", "\"stockSyncChecks\":" + (Bypass ? "false" : "true"))
                     .Replace("{", "{\"channel\":\"" + Channel + "\",\"patchVersion\":\"" + PatchVersion + "\",\"nativeTransferRevision\":\"" + (FastTransfer ? "R2" : "stock") + "\",");
             }

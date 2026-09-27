@@ -1,4 +1,4 @@
-"""Build Vanilla/Immortals stable 0.2.0 and optional beta 0.3.0. No install or publication."""
+"""Build Vanilla/Immortals 0.3.0 with optional colors and first-desync logs. No install or publication."""
 import argparse, importlib.util, json, mmap, re, shutil, sys
 from pathlib import Path
 import build as b
@@ -8,13 +8,12 @@ ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'tools'));sys.path.insert(0,str(ROOT/'game/lobby-colors'))
 from PrepareRelease081 import key, verify, read, fetch
 from compact_menu import span
-VERSIONS={'stable':('0.2.0','1.3.72-pure.8'),'beta':('0.3.0-beta.2','1.3.72-pure.10-beta.2')}
+VERSIONS={'stable':('0.3.0','1.3.72-pure.11')}
 VARIANTS={'k2_paws_pure_fixes_1372.exe':'', 'k2_paws_pure_colors_1372.exe':'PAW_PURE_COLORS',
  'k2_paws_pure_sync_1372.exe':'PAW_PURE_SYNC','k2_paws_pure_colors_sync_1372.exe':'PAW_PURE_COLORS;PAW_PURE_SYNC'}
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument('--beta-only',action='store_true',help='Build only the requested beta; do not stage stable packages')
     for n in ('out','dotnet','analysis-work','rwd'):p.add_argument('--'+n,type=Path,required=True)
     a=p.parse_args();out=a.out.resolve();out.mkdir(parents=True,exist_ok=False)
     assert b.sha((a.analysis_work/'k2_runtime_1372_20260904.bin').read_bytes())==ANALYSIS_HASH
@@ -55,16 +54,15 @@ def main():
     resources+=['/resource:'+str(guards/'FastTransferGuards.bin')+',FastTransferGuards']
     result={};report={}
     for channel,(patch,version) in VERSIONS.items():
-        if a.beta_only and channel!='beta':continue
         target=out/channel;target.mkdir();report[channel]={};files={}
-        variants=VARIANTS if channel=='beta' else {b.EXE:''}
+        variants=VARIANTS
         for name,flags in variants.items():
-            flags='PAW_MENU_PRESENTATION;PAW_PURE_CHANNEL;PAW_PURE_FAST_TRANSFER'+(';'+'PAW_PURE_BETA' if channel=='beta' else '')+(';' + flags if flags else '')
+            flags='PAW_MENU_PRESENTATION;PAW_PURE_CHANNEL;PAW_PURE_FAST_TRANSFER'+(';' + flags if flags else '')
             src=list(sources);res=list(resources)
             if 'PAW_PURE_COLORS' in flags:
                 src += [ROOT/'game/beta7/LobbyColorsNative.cs',ROOT/'game/beta7/GameText.cs']
                 res += ['/resource:'+str(ROOT/'game/beta7'/(n+'.bin'))+','+n for n in ('PawLobbyColorsPayload','PawLobbyColorsFixups')]
-            if 'PAW_PURE_SYNC' in flags:src+=[b.SOURCE/'PureSync.cs']
+            if 'PAW_PURE_SYNC' in flags:src+=[b.SOURCE/'PureSync.cs',ROOT/'game/beta7/SyncDiagnostics1372.cs']
             options=common+['/define:'+flags]+res
             exe=target/name;b.run(compiler+options+['/target:winexe','/out:'+str(exe)]+src)
             repro=target/'repro';repro.mkdir(exist_ok=True);b.run(compiler+options+['/target:winexe','/out:'+str(repro/name)]+src)
@@ -72,6 +70,7 @@ def main():
             feature=json.loads(b.run([exe,'--features']))
             assert feature['patchVersion']==patch and feature['version']==version and feature['fastSaveTransfer']
             assert feature['colors']==('PAW_PURE_COLORS' in flags) and feature['bypass']==('PAW_PURE_SYNC' in flags)
+            assert feature.get('syncDiagnosticsRevision',0)==(1 if 'PAW_PURE_SYNC' in flags else 0)
             assert all(not feature[k] for k in ('hostility','cityAssistant','randomMap','randomTime','changesGameFiles'))
             assert b.run([exe,'--preflight',a.rwd.parent]).strip()=='PURE_PREFLIGHT_PASS 1.3.72'
             files[name]=exe.read_bytes();report[channel][name]={'sha256':b.sha(files[name]),'features':feature}
@@ -87,19 +86,22 @@ def main():
                 log=b.run([sys.executable,ROOT/'game/fast-transfer/test_native.py','--work',a.analysis_work,'--out',target/'checks-Channel'])
                 (target/'transfer-native.txt').write_text(log)
         channel_data=dict(base_data)
-        if channel=='beta':channel_data.update(frames)
+        channel_data.update(frames)
         d=b.package(target,'pure-fixes-data',patch,channel_data,True,900,{'ru':"Paw's Patch: значки и управление",'en':"Paw's Patch: badges and controls"},packages['pure-fixes-data']['description'])
         r=b.package(target,'pure-fixes-runtime',version,files,False,910,packages['pure-fixes-runtime']['name'],{'ru':'Исправления рельефа и отображения чисел; быстрая передача сохранений.','en':'Terrain and number-display fixes; fast saved-game transfers.'})
         r.update(dependsOn=['menu-runtime'],experimental=channel=='beta');result[channel]=[d,r]
-        if channel=='beta':
-            c=b.package(target,'pure-player-colors',patch,colors,False,920,{'ru':'Расширенные цвета игроков','en':'Extended player colors'}, {'ru':'39 цветов и компактный выбор возле значка игрока.','en':'39 colors and a compact picker beside the player badge.'})
-            c.update(dependsOn=['pure-fixes-runtime'],experimental=True);result[channel].append(c)
+        c=b.package(target,'pure-player-colors',patch,colors,False,920,{'ru':'Расширенные цвета игроков','en':'Extended player colors'}, {'ru':'39 цветов и компактный выбор возле значка игрока.','en':'39 colors and a compact picker beside the player badge.'})
+        c.update(dependsOn=['pure-fixes-runtime'],experimental=False);result[channel].append(c)
         b.writejson(target/'packages.json',result[channel])
     # Exercise the actual optional suppression implementation independently of launch.
     testexe=out/'Sync.Tests.exe';args=common+['/define:PAW_MENU_PRESENTATION;PAW_PURE_CHANNEL;PAW_PURE_FAST_TRANSFER']+resources
-    b.run(compiler+args+['/target:exe','/main:PawPureFixes.SyncTests','/out:'+str(testexe)]+sources+[b.SOURCE/n for n in ('PureSync.cs','SyncTests.cs','ChannelTests.cs')]+[ROOT/'game/fast-transfer/FastTransferTests.cs'])
+    b.run(compiler+args+['/target:exe','/main:PawPureFixes.SyncTests','/out:'+str(testexe)]+sources+[ROOT/'game/beta7/SyncDiagnostics1372.cs']+[b.SOURCE/n for n in ('PureSync.cs','SyncTests.cs','ChannelTests.cs')]+[ROOT/'game/fast-transfer/FastTransferTests.cs'])
     print(b.run([testexe,out/'sync-checks']),flush=True)
-    log=b.run([sys.executable,b.SOURCE/'test_sync_native.py','--stub',out/'sync-checks/sync-stub.bin','--deps',a.analysis_work/'lobby_colors_1372/pydeps_r3'])
+    diagnostic=out/'SyncDiagnostics.Tests.exe'
+    b.run(compiler+common+['/target:exe','/out:'+str(diagnostic)]+[ROOT/'game/beta7'/n for n in ('SyncDiagnostics1372.cs','SyncDiagnosticsTests.cs')])
+    log=b.run([diagnostic,out/'sync-diagnostics',a.analysis_work/'k2_runtime_1372_20260904.bin'])
+    (out/'sync-hardware.txt').write_text(log);print(log,flush=True)
+    log=b.run([sys.executable,ROOT/'game/beta7/test_sync_diagnostics.py','--fixtures',out/'sync-diagnostics','--deps',a.analysis_work/'lobby_colors_1372/pydeps_r3'])
     (out/'sync-native.txt').write_text(log);print(log,flush=True)
     b.writejson(out/'packages.json',result);b.writejson(out/'features.json',report)
     b.writejson(out/'scope.json',dict(sourceData=packages['pure-fixes-data'],sourceColors=packages['player-colors'],sourceFrames=packages['common-ui'],frameHashes={n:b.sha(v) for n,v in frames.items()},stockStagingOnly=True,colorPayloadSha256=b.sha((ROOT/'game/beta7/PawLobbyColorsPayload.bin').read_bytes()),versions={c:VERSIONS[c] for c in result},gameLaunched=False,published=False))

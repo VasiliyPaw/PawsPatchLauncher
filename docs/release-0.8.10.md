@@ -1,0 +1,33 @@
+# Paw's Launcher 0.8.10 (ru)
+
+- Дополнительные настройки Paw's Patch для Vanilla и Immortals теперь доступны в релизном канале и при копировании конфигурации.
+
+---
+
+# Paw's Launcher 0.8.10 (en)
+
+- Optional Paw's Patch settings for Vanilla and Immortals are now available in the stable channel and shared configurations.
+
+---
+
+# Paw's Launcher 0.8.10 (de)
+
+- Optionale Einstellungen von Paw's Patch für Vanilla und Immortals sind jetzt im stabilen Kanal und in geteilten Konfigurationen verfügbar.
+
+---
+
+# Paw's Launcher 0.8.10 (fr)
+
+- Les options de Paw's Patch pour Vanilla et Immortals sont désormais disponibles dans le canal stable et les configurations partagées.
+
+---
+
+# Paw's Launcher 0.8.10 (cs)
+
+- Volitelné nastavení Paw's Patch pro Vanilla a Immortals je nyní dostupné ve stabilním kanálu i ve sdílených konfiguracích.
+
+---
+
+# Paw's Launcher 0.8.10 (uk)
+
+- Додаткові налаштування Paw's Patch для Vanilla та Immortals тепер доступні в релізному каналі й при копіюванні конфігурації.
