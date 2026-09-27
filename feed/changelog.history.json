@@ -845,6 +845,31 @@
   "beta": [
     {
       "category": "patch",
+      "version": "0.4.0-beta.8",
+      "publishedAt": "2026-09-27",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.8",
+        "en": "Paw’s Patch 0.4.0-beta.8",
+        "de": "Paw’s Patch 0.4.0-beta.8",
+        "fr": "Paw’s Patch 0.4.0-beta.8",
+        "es": "Paw’s Patch 0.4.0-beta.8",
+        "it": "Paw’s Patch 0.4.0-beta.8"
+      },
+      "body": {
+        "ru": "- Исправлен сброс выбранной сложности ботов при смене типа карты, тумана войны и других параметров лобби.\n- Восстановлена подсказка «Paw’s Patch» над кнопкой со звуком золота. Окно подстраивается под заголовок.",
+        "en": "- Fixed bot difficulty resetting when changing the map type, fog of war or other lobby settings.\n- Restored the “Paw’s Patch” tooltip above the gold-sound button. Its window fits the heading.",
+        "de": "- Die gewählte Bot-Schwierigkeit wird beim Ändern des Kartentyps, des Kriegsnebels oder anderer Lobby-Einstellungen nicht mehr zurückgesetzt.\n- Der Tooltip „Paw’s Patch“ über der Goldton-Schaltfläche wird wieder angezeigt. Das Fenster passt sich der Überschrift an.",
+        "fr": "- La difficulté choisie pour les bots n’est plus réinitialisée lors d’un changement du type de carte, du brouillard de guerre ou des autres paramètres du salon.\n- L’infobulle « Paw’s Patch » au-dessus du bouton de son de l’or s’affiche à nouveau. Sa fenêtre s’adapte au titre.",
+        "es": "- La dificultad elegida de los bots ya no se restablece al cambiar el tipo de mapa, la niebla de guerra u otros ajustes de la sala.\n- Vuelve a mostrarse la ayuda «Paw’s Patch» sobre el botón de sonido de oro. La ventana se ajusta al título.",
+        "it": "- La difficoltà scelta per i bot non viene più reimpostata cambiando il tipo di mappa, la nebbia di guerra o altre impostazioni della sala.\n- Ripristinato il suggerimento «Paw’s Patch» sopra il pulsante del suono dell’oro. La finestra si adatta al titolo."
+      }
+    },
+    {
+      "category": "patch",
       "version": "0.4.0-beta.7",
       "publishedAt": "2026-09-26",
       "mods": [
@@ -860,12 +885,12 @@
         "it": "Paw’s Patch 0.4.0-beta.7"
       },
       "body": {
-        "ru": "## Боты\n- Исправлена передача городов союзникам: при преимуществе минимум в пять городов бот может передать менее развитый город союзнику.\n\n## Интерфейс\n- Подсказка кнопки со звуком золота теперь содержит только заголовок Paw’s Patch на всех языках. Размер окна подстраивается под заголовок.\n\nПеред сетевым матчем всем участникам нужно обновиться до одной версии.",
-        "en": "## Bots\n- Fixed city gifts to allies: a bot with at least five more cities can give a less developed city to an ally.\n\n## Interface\n- The gold-sound button tooltip now shows only the Paw’s Patch heading in every language. Its window fits the heading.\n\nAll players must update to the same version before a multiplayer match.",
-        "de": "## Bots\n- Die Stadtübergabe an Verbündete wurde korrigiert: Ein Bot mit mindestens fünf Städten mehr kann einem Verbündeten eine weniger entwickelte Stadt übergeben.\n\n## Oberfläche\n- Der Tooltip der Goldton-Schaltfläche zeigt in allen Sprachen nur noch Paw’s Patch. Das Fenster passt sich der Überschrift an.\n\nVor einer Mehrspielerpartie müssen alle Teilnehmer dieselbe Version installieren.",
-        "fr": "## Bots\n- Correction du don de villes aux alliés : un bot possédant au moins cinq villes de plus peut céder une ville moins développée à un allié.\n\n## Interface\n- L’infobulle du bouton de son de l’or affiche uniquement le titre Paw’s Patch dans toutes les langues. Sa fenêtre s’adapte au titre.\n\nTous les joueurs doivent installer la même version avant une partie multijoueur.",
-        "es": "## Bots\n- Corregida la entrega de ciudades a aliados: un bot con al menos cinco ciudades más puede ceder una ciudad menos desarrollada a un aliado.\n\n## Interfaz\n- La ayuda del botón de sonido de oro muestra solo el título Paw’s Patch en todos los idiomas. La ventana se ajusta al título.\n\nTodos los jugadores deben instalar la misma versión antes de una partida multijugador.",
-        "it": "## Bot\n- Corretta la cessione delle città agli alleati: un bot con almeno cinque città in più può cedere una città meno sviluppata a un alleato.\n\n## Interfaccia\n- Il suggerimento del pulsante del suono dell’oro mostra solo il titolo Paw’s Patch in tutte le lingue. La finestra si adatta al titolo.\n\nTutti i giocatori devono installare la stessa versione prima di una partita multigiocatore."
+        "ru": "## Боты\n- Исправлена передача городов союзникам: при преимуществе минимум в пять городов бот может передать менее развитый город союзнику.\n\n## Интерфейс\n- Подсказка кнопки со звуком золота теперь содержит только заголовок Paw’s Patch на всех языках. Размер окна подстраивается под заголовок.",
+        "en": "## Bots\n- Fixed city gifts to allies: a bot with at least five more cities can give a less developed city to an ally.\n\n## Interface\n- The gold-sound button tooltip now shows only the Paw’s Patch heading in every language. Its window fits the heading.",
+        "de": "## Bots\n- Die Stadtübergabe an Verbündete wurde korrigiert: Ein Bot mit mindestens fünf Städten mehr kann einem Verbündeten eine weniger entwickelte Stadt übergeben.\n\n## Oberfläche\n- Der Tooltip der Goldton-Schaltfläche zeigt in allen Sprachen nur noch Paw’s Patch. Das Fenster passt sich der Überschrift an.",
+        "fr": "## Bots\n- Correction du don de villes aux alliés : un bot possédant au moins cinq villes de plus peut céder une ville moins développée à un allié.\n\n## Interface\n- L’infobulle du bouton de son de l’or affiche uniquement le titre Paw’s Patch dans toutes les langues. Sa fenêtre s’adapte au titre.",
+        "es": "## Bots\n- Corregida la entrega de ciudades a aliados: un bot con al menos cinco ciudades más puede ceder una ciudad menos desarrollada a un aliado.\n\n## Interfaz\n- La ayuda del botón de sonido de oro muestra solo el título Paw’s Patch en todos los idiomas. La ventana se ajusta al título.",
+        "it": "## Bot\n- Corretta la cessione delle città agli alleati: un bot con almeno cinque città in più può cedere una città meno sviluppata a un alleato.\n\n## Interfaccia\n- Il suggerimento del pulsante del suono dell’oro mostra solo il titolo Paw’s Patch in tutte le lingue. La finestra si adatta al titolo."
       }
     },
     {
@@ -885,12 +910,12 @@
         "it": "Paw’s Patch 0.4.0-beta.6"
       },
       "body": {
-        "ru": "## Сетевая игра\n- Исправлена ошибка улучшенных ботов, которая могла вызвать рассинхронизацию уже в начале матча.\n- Исправлен связанный с ней случай аномально большого предупреждения о времени работы ИИ.\n\nПеред новым сетевым матчем всем участникам нужно обновиться до одной версии. Расширенные журналы первого рассинхрона продолжают сохраняться.",
-        "en": "## Multiplayer\n- Fixed an improved-AI error that could cause desynchronization at the start of a match.\n- Fixed the related case of an abnormally large AI time-limit warning.\n\nAll players must update to the same version before starting a new multiplayer match. Extended diagnostics for the first desync remain enabled.",
-        "de": "## Mehrspieler\n- Ein Fehler der verbesserten KI wurde behoben, der bereits zu Beginn einer Partie eine Desynchronisation verursachen konnte.\n- Die damit verbundene ungewöhnlich hohe Zeitüberschreitungsmeldung der KI wurde behoben.\n\nVor einer neuen Mehrspielerpartie müssen alle Teilnehmer auf dieselbe Version aktualisieren. Die erweiterte Diagnose der ersten Desynchronisation bleibt erhalten.",
-        "fr": "## Multijoueur\n- Correction d’une erreur de l’IA améliorée pouvant provoquer une désynchronisation dès le début d’une partie.\n- Correction de l’avertissement de dépassement du temps de l’IA anormalement élevé lié à cette erreur.\n\nTous les joueurs doivent installer la même version avant de lancer une nouvelle partie multijoueur. Le diagnostic étendu de la première désynchronisation est conservé.",
-        "es": "## Multijugador\n- Corregido un error de la IA mejorada que podía causar una desincronización al inicio de la partida.\n- Corregida la advertencia de tiempo de la IA anormalmente alto relacionada con este error.\n\nTodos los jugadores deben actualizar a la misma versión antes de iniciar una nueva partida multijugador. Se mantiene el diagnóstico ampliado de la primera desincronización.",
-        "it": "## Multigiocatore\n- Corretto un errore dell’IA migliorata che poteva causare una desincronizzazione all’inizio della partita.\n- Corretto il relativo avviso di superamento del tempo dell’IA con un valore anormalmente elevato.\n\nTutti i giocatori devono aggiornare alla stessa versione prima di avviare una nuova partita multigiocatore. La diagnostica estesa della prima desincronizzazione rimane disponibile."
+        "ru": "## Сетевая игра\n- Исправлена ошибка улучшенных ботов, которая могла вызвать рассинхронизацию уже в начале матча.\n- Исправлен связанный с ней случай аномально большого предупреждения о времени работы ИИ.",
+        "en": "## Multiplayer\n- Fixed an improved-AI error that could cause desynchronization at the start of a match.\n- Fixed the related case of an abnormally large AI time-limit warning.",
+        "de": "## Mehrspieler\n- Ein Fehler der verbesserten KI wurde behoben, der bereits zu Beginn einer Partie eine Desynchronisation verursachen konnte.\n- Die damit verbundene ungewöhnlich hohe Zeitüberschreitungsmeldung der KI wurde behoben.",
+        "fr": "## Multijoueur\n- Correction d’une erreur de l’IA améliorée pouvant provoquer une désynchronisation dès le début d’une partie.\n- Correction de l’avertissement de dépassement du temps de l’IA anormalement élevé lié à cette erreur.",
+        "es": "## Multijugador\n- Corregido un error de la IA mejorada que podía causar una desincronización al inicio de la partida.\n- Corregida la advertencia de tiempo de la IA anormalmente alto relacionada con este error.",
+        "it": "## Multigiocatore\n- Corretto un errore dell’IA migliorata che poteva causare una desincronizzazione all’inizio della partita.\n- Corretto il relativo avviso di superamento del tempo dell’IA con un valore anormalmente elevato."
       }
     },
     {
@@ -910,12 +935,12 @@
         "it": "Paw’s Patch 0.4.0-beta.5"
       },
       "body": {
-        "ru": "При включённом пропуске рассинхрона теперь сохраняется подробный журнал первой ошибки в матче. Повторные ошибки не создают дубли; в новом матче или после загрузки сохранения запись снова доступна. Журналы автоматически попадают в архив диагностики лаунчера. Это улучшение диагностики: продолжение игры не устраняет уже возникший рассинхрон.",
-        "en": "Continuing after a desync now preserves a detailed log of the first error in a match. Repeated errors do not create duplicate logs; a new match or loaded save enables another capture. The launcher includes these logs in diagnostic archives automatically. This improves diagnostics; continuing play does not repair an existing desync.",
-        "de": "Beim Fortsetzen nach einem Synchronisationsfehler wird jetzt ein detailliertes Protokoll des ersten Fehlers gespeichert. Wiederholte Fehler erzeugen keine doppelten Protokolle. Ein neues Spiel oder ein geladener Spielstand ermöglicht eine neue Aufzeichnung. Der Launcher nimmt die Protokolle automatisch in das Diagnosearchiv auf. Diese Änderung verbessert die Diagnose, behebt aber keinen bereits entstandenen Synchronisationsfehler.",
-        "fr": "La poursuite d’une partie après une désynchronisation conserve désormais un journal détaillé de la première erreur. Les erreurs répétées ne créent pas de doublons. Une nouvelle partie ou le chargement d’une sauvegarde permet une nouvelle capture. Le lanceur inclut automatiquement ces journaux dans les archives de diagnostic. Cette amélioration facilite le diagnostic, sans corriger une désynchronisation existante.",
-        "es": "Continuar tras una desincronización ahora conserva un registro detallado del primer error de la partida. Los errores repetidos no crean duplicados; una partida nueva o una partida guardada cargada permite otra captura. El lanzador incluye estos registros automáticamente en los archivos de diagnóstico. Esto mejora el diagnóstico, pero no corrige una desincronización existente.",
-        "it": "Continuare dopo una desincronizzazione ora conserva un registro dettagliato del primo errore della partita. Gli errori ripetuti non creano duplicati; una nuova partita o il caricamento di un salvataggio consente una nuova registrazione. Il launcher include automaticamente questi registri negli archivi diagnostici. Questo migliora la diagnosi, ma non corregge una desincronizzazione già avvenuta."
+        "ru": "При включённом пропуске рассинхрона теперь сохраняется подробный журнал первой ошибки в матче. Повторные ошибки не создают дубли; в новом матче или после загрузки сохранения запись снова доступна. Журналы автоматически попадают в архив диагностики лаунчера.",
+        "en": "Continuing after a desync now preserves a detailed log of the first error in a match. Repeated errors do not create duplicate logs; a new match or loaded save enables another capture. The launcher includes these logs in diagnostic archives automatically.",
+        "de": "Beim Fortsetzen nach einem Synchronisationsfehler wird jetzt ein detailliertes Protokoll des ersten Fehlers gespeichert. Wiederholte Fehler erzeugen keine doppelten Protokolle. Ein neues Spiel oder ein geladener Spielstand ermöglicht eine neue Aufzeichnung. Der Launcher nimmt die Protokolle automatisch in das Diagnosearchiv auf.",
+        "fr": "La poursuite d’une partie après une désynchronisation conserve désormais un journal détaillé de la première erreur. Les erreurs répétées ne créent pas de doublons. Une nouvelle partie ou le chargement d’une sauvegarde permet une nouvelle capture. Le lanceur inclut automatiquement ces journaux dans les archives de diagnostic.",
+        "es": "Continuar tras una desincronización ahora conserva un registro detallado del primer error de la partida. Los errores repetidos no crean duplicados; una partida nueva o una partida guardada cargada permite otra captura. El lanzador incluye estos registros automáticamente en los archivos de diagnóstico.",
+        "it": "Continuare dopo una desincronizzazione ora conserva un registro dettagliato del primo errore della partita. Gli errori ripetuti non creano duplicati; una nuova partita o il caricamento di un salvataggio consente una nuova registrazione. Il launcher include automaticamente questi registri negli archivi diagnostici."
       }
     },
     {
@@ -931,8 +956,8 @@
         "en": "Paw’s Patch 0.4.0-beta.4"
       },
       "body": {
-        "ru": "- Исправлены различия в движении строителей у хоста и клиентов при включённых улучшениях ботов.\n- Исправлено неодинаковое применение ограничений найма ботов в сетевой игре.\n\nПеред новым матчем обновиться нужно всем участникам. Уже рассинхронизированный матч обновление не восстанавливает.\n\nАвтоматические проверки пройдены; проверка новым матчем на разных компьютерах ещё требуется.",
-        "en": "- Fixed host/client differences in builder movement with AI improvements enabled.\n- Fixed inconsistent application of bot recruitment limits in multiplayer.\n\nAll participants must update before a new match. An already desynchronized match cannot be repaired by this update.\n\nAutomated checks passed; validation in a new match on separate computers is still needed."
+        "ru": "- Исправлены различия в движении строителей у хоста и клиентов при включённых улучшениях ботов.\n- Исправлено неодинаковое применение ограничений найма ботов в сетевой игре.",
+        "en": "- Fixed host/client differences in builder movement with AI improvements enabled.\n- Fixed inconsistent application of bot recruitment limits in multiplayer."
       }
     },
     {
