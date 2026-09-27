@@ -20,9 +20,10 @@ public partial class MainWindow
         RefreshOfferActions();
         var unreadBoundary = ChatUnreadBoundary();
         var context = _account.UserId + "|" + _text.Language + "|" + _socialSection + "|" + _socialPeer + "|" + _socialAvatarGeneration + "|" + _account.AvatarChangedAt + "|" +_account.AdminLevel+":"+_account.PawsTeam+"|"+ string.Join(";", _socialPlayers.Select(p => p.Id + ":" + p.Nickname + ":" + p.Name + ":" + p.Relation+":"+p.AdminLevel+":"+p.PawsTeam+":"+p.Banned+":"+p.Deleted));
-        context += "|" + string.Join(";",_socialOffers.Where(o=>o.Sender==_socialPeer||o.Recipient==_socialPeer).OrderBy(o=>o.Id).Select(o=>o.Id+":"+o.State));
-        context += "|" + string.Join(";",_sendingOffers.Values.Select(o=>o.Id+":"+o.State));
         context += "|" + _account.DisplayName;
+        var appearance = context;
+        context += "|" + string.Join(";",_socialOffers.Where(o=>o.Sender==_socialPeer||o.Recipient==_socialPeer).OrderBy(o=>o.Id));
+        context += "|" + string.Join(";",_sendingOffers.Values);
         context += "|" + _socialLoadedChat;
         context += "|" + _historyViewStart + "|" + _historyRevision;
         context += "|" + _chatUnreadDivider.Revision + "|" + unreadBoundary;
@@ -50,8 +51,8 @@ public partial class MainWindow
         }
         var oldOffset = FriendsChatScroll.VerticalOffset;
         var atEnd = FriendsChatScroll.ScrollableHeight - oldOffset < 20;
-        ResetChatMedia();
-        FriendsMessagesPanel.Children.Clear(); FriendsOutboxPanel.Children.Clear(); FriendsOtherOutboxPanel.Children.Clear();
+        BeginChatRows(appearance);
+        FriendsOutboxPanel.Children.Clear(); FriendsOtherOutboxPanel.Children.Clear();
         var visibleMessages=_socialMessages.Skip(_historyViewStart).Take(HistoryVisibleLimit).Concat(_sendingOffers.Values.Where(o=>o.Sender.ToString()==_account.UserId&&o.Recipient==_socialPeer&&!_socialMessages.Any(m=>m.MessageId==o.Id)).Select(o=>new SocialMessage(o.Sender,o.Id,o.Recipient,"","offer",o.CreatedAt)));
         var timeline = visibleMessages.Select(m => (time: m.CreatedAt, message: (SocialMessage?)m, pending: (PendingSocialMessage?)null))
             .Concat(_socialPending.Where(p => p.Target == _socialPeer && !_socialMessages.Any(m => m.SenderId == p.Owner && m.MessageId == p.Id))
@@ -60,16 +61,26 @@ public partial class MainWindow
         var arrived=_messageArrivals.Observe(scope, timeline.Select(e=>(e.message?.SenderId??e.pending!.Owner,e.message?.MessageId??e.pending!.Id)),_socialLoadedChat==scope);
         if(_historyNavigating)arrived.Clear();
         var entrances=new List<FrameworkElement>();
+        var rows=new List<FrameworkElement>();
+        var mediaRemaining=16;
         DateTime? previousDay = null;
         foreach (var entry in timeline)
         {
             var day = entry.time.LocalDateTime.Date;
-            if (day != previousDay) { FriendsMessagesPanel.Children.Add(ChatDivider(ChatDay(day), false)); previousDay = day; }
+            if (day != previousDay) { rows.Add(ChatDividerRow("day:" + day.Ticks, ChatDay(day), false)); previousDay = day; }
             if (entry.message?.MessageId == unreadBoundary && unreadBoundary is not null)
-                FriendsMessagesPanel.Children.Add(ChatDivider(T("НОВОЕ", "NEW"), true));
+                rows.Add(ChatDividerRow("unread:" + unreadBoundary, T("НОВОЕ", "NEW"), true));
             var isNew=arrived.Contains((entry.message?.SenderId??entry.pending!.Owner,entry.message?.MessageId??entry.pending!.Id));
-            if(entry.message is SocialMessage message && (_sendingOffers.GetValueOrDefault(message.MessageId) ?? _socialOffers.FirstOrDefault(o=>o.Id==message.MessageId&&o.Sender==message.SenderId)) is SocialOffer offer)
-            { var card=RenderOfferCard(offer); card.Tag=message.MessageId; FriendsMessagesPanel.Children.Add(card); if(isNew)entrances.Add(card); continue; }
+            var offer=entry.message is SocialMessage message
+                ? _sendingOffers.GetValueOrDefault(message.MessageId) ?? _socialOffers.FirstOrDefault(o=>o.Id==message.MessageId&&o.Sender==message.SenderId) : null;
+            var mediaSlots=entry.message is not null && offer is null ? Math.Min(mediaRemaining,ChatMedia.Find(entry.message.Body).Count) : 0;
+            mediaRemaining-=mediaSlots;
+            var key="message:"+(entry.message?.SenderId??entry.pending!.Owner)+":"+(entry.message?.MessageId??entry.pending!.Id);
+            var state=new ChatRowState(entry.message,entry.pending,offer,mediaSlots);
+            if(_messageRows.TryGetValue(key,out var cached) && cached.State==state) { rows.Add(cached.Element); continue; }
+            RemoveChatRow(key);
+            if(offer is not null)
+            { var card=RenderOfferCard(offer); card.Tag=entry.message!.MessageId; _messageRows[key]=new(state,card); rows.Add(card); if(isNew)entrances.Add(card); continue; }
             var sender = entry.message?.SenderId ?? entry.pending!.Owner;
             var own = sender.ToString() == _account.UserId;
             var pending = entry.pending;
@@ -107,7 +118,7 @@ public partial class MainWindow
             content.Children.Add(new ChatMessageText { Tag="message-body", UiLanguage=_text.Language, Text=body, FontSize=14,
                 CopyTextRequested=value=>CopyTextAsync(value,()=>T("Скопировано.","Copied."),(message,failed)=>{if(failed)ShowToast(message,true);}),
                 Foreground=SocialBrush(pending is not null && !failed ? "#8195AD" : "#F4F1E7"),Margin=new(0,4,0,0)});
-            if(pending is null)AddChatMedia(content,entry.message!.Body);
+            if(pending is null) { _mediaBudget=mediaSlots; AddChatMedia(content,entry.message!.Body); }
             if (pending is not null)
             {
                 content.Children.Add(new TextBlock { Text = failed ? SocialError(pending.Error) : T("Отправляется…", "Sending…"), TextWrapping = TextWrapping.Wrap, FontSize = 11,
@@ -120,9 +131,11 @@ public partial class MainWindow
                     content.Children.Add(actions);
                 }
             }
-            FriendsMessagesPanel.Children.Add(row);
+            _messageRows[key]=new(state,row); rows.Add(row);
             if(isNew)entrances.Add(row);
         }
+        ReconcileChatRows(rows);
+        _socialRenderedContext = context;
         RefreshOfferActions();
         if (!_historyPreserveScroll) { if (atEnd) FriendsChatScroll.ScrollToEnd(); else FriendsChatScroll.ScrollToVerticalOffset(oldOffset); }
         if(_activePage=="friends" && _socialSection=="chats")

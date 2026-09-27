@@ -45,12 +45,16 @@ public partial class MainWindow
         var from = OperationExpandedDetails.ActualHeight;
         OperationExpandedDetails.BeginAnimation(HeightProperty, null);
         _operationDetailsAnimation = null;
-        OperationExpandedDetails.Height = target;
         if (!working || !IsLoaded || !SystemParameters.ClientAreaAnimation)
         {
+            OperationExpandedDetails.Height = target;
             OperationExpandedDetails.Visibility = target > 0 ? Visibility.Visible : Visibility.Collapsed;
             return;
         }
+        // Keep the current size until the first animation tick. On Home the Auto
+        // row also resizes the history viewport: setting the final size here made
+        // both jump to the destination and then back at the start of the animation.
+        OperationExpandedDetails.Height = from;
         OperationExpandedDetails.Visibility = Visibility.Visible;
         var animation = new DoubleAnimation(from, target, TimeSpan.FromMilliseconds(220))
             { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };

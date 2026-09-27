@@ -13,13 +13,29 @@ public partial class MainWindow
     private ChatMedia? _chatMedia;
     private string? _mediaOwner;
     private CancellationTokenSource _mediaRender=new();
-    private readonly List<Action> _mediaCleanup=[];
+    private sealed class ChatMediaRow(CancellationTokenSource lifetime) : IDisposable
+    {
+        internal CancellationTokenSource Lifetime { get; } = lifetime;
+        internal List<Action> Cleanup { get; } = [];
+        public void Dispose()
+        {
+            Lifetime.Cancel();
+            foreach(var clean in Cleanup)clean();
+            Cleanup.Clear();Lifetime.Dispose();
+        }
+    }
+    private readonly Dictionary<StackPanel,ChatMediaRow> _mediaRows=[];
     private int _mediaBudget;
     private void ResetChatMedia(bool dispose=false)
     {
         _mediaRender.Cancel();_mediaRender.Dispose();_mediaRender=new();_mediaBudget=16;
-        foreach(var clean in _mediaCleanup)clean();_mediaCleanup.Clear();
+        foreach(var row in _mediaRows.Values)row.Dispose();_mediaRows.Clear();
+        _messageRows.Clear();_messageRowsAppearance=null;_socialRenderedContext=null;
         if(dispose||_mediaOwner!=_account.UserId){_chatMedia?.Dispose();_chatMedia=null;_mediaOwner=_account.UserId;}
+    }
+    private void ReleaseChatMedia(StackPanel content)
+    {
+        if(_mediaRows.Remove(content,out var row))row.Dispose();
     }
     private ContextMenu CreateChatMediaMenu(FrameworkElement anchor,Uri uri,CancellationToken token)
     {
@@ -37,6 +53,9 @@ public partial class MainWindow
     }
     private void AddChatMedia(StackPanel content,string body)
     {
+        if(_mediaBudget<=0||ChatMedia.Find(body).Count==0)return;
+        var resources=new ChatMediaRow(CancellationTokenSource.CreateLinkedTokenSource(_mediaRender.Token));
+        _mediaRows.Add(content,resources);
         var bodyText=content.Children.OfType<ChatMessageText>().FirstOrDefault(t=>t.Tag as string=="message-body");
         var loaded=new HashSet<string>(StringComparer.Ordinal);
         void RefreshBody()
@@ -52,7 +71,7 @@ public partial class MainWindow
             var host=new Border {Margin=new Thickness(0,9,0,0),CornerRadius=new CornerRadius(6),Background=SocialBrush("#0E2033"),Padding=new Thickness(3),HorizontalAlignment=HorizontalAlignment.Left};
             var load=new Button {Style=(Style)FindResource("GhostButton"),Content=T("Показать изображение · ","Load image · ")+uri.IdnHost,HorizontalAlignment=HorizontalAlignment.Left};
             host.Child=load;content.Children.Add(host);
-            var token=_mediaRender.Token;bool started=false;Action? releaseCurrent=null;
+            var token=resources.Lifetime.Token;bool started=false;Action? releaseCurrent=null;
             void LinkVisible(bool visible)
             {
                 if(visible?loaded.Remove(uri.AbsoluteUri):loaded.Add(uri.AbsoluteUri))RefreshBody();
@@ -101,7 +120,7 @@ public partial class MainWindow
                         property.RemoveValueChanged(picture,sourceChanged);
                         AnimationBehavior.SetSourceStream(picture,null);picture.Source=null;stream?.Dispose();
                     }
-                    releaseCurrent=Release;_mediaCleanup.Add(Release);
+                    releaseCurrent=Release;resources.Cleanup.Add(Release);
                     if(ChatMedia.IsGif(bytes))
                     {
                         AnimationBehavior.AddErrorHandler(picture,(_,e)=>{

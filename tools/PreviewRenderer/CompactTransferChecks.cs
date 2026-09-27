@@ -56,11 +56,24 @@ internal static class CompactTransferChecks
                 Call("SetTransferDetails", language == "ru" ? "50,0 MB / 100,0 MB\n8,2 MB/с · осталось 00:06" : "50.0 MB / 100.0 MB\n8.2 MB/s · remaining 00:06", false);
                 C<Button>("CancelDownloadButton").Visibility = Visibility.Visible;
                 Save($"transfer-{page}-{width}-compact");
-                detailsButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Layout();
+                detailsButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                // Force layout before the first animation tick, as Home's star/auto
+                // grid does when the history viewport changes. It must not flash open.
+                w.UpdateLayout();
+                if(SystemParameters.ClientAreaAnimation)
+                    Check(Math.Abs(card.ActualHeight-compact)<.5,"panel jumped to its destination before the first frame: "+page);
+                await Layout();
                 Check(expanded.Visibility == Visibility.Visible && Math.Abs(card.ActualHeight - compact - 84) < 1, "expanded panel has wrong height");
                 Check(C<TextBlock>("TransferText").IsVisible && C<Button>("CancelDownloadButton").IsVisible, "expanded details/actions missing");
                 Save($"transfer-{page}-{width}-expanded");
-                for (var i = 0; i < 3; i++) { detailsButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Layout(35); }
+                for (var i = 0; i < 3; i++)
+                {
+                    var before=expanded.ActualHeight;
+                    detailsButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));w.UpdateLayout();
+                    if(SystemParameters.ClientAreaAnimation)
+                        Check(Math.Abs(expanded.ActualHeight-before)<.5,"retarget jumped before the first frame: "+page);
+                    await Layout(35);
+                }
                 await Layout(); Check(expanded.Visibility == Visibility.Collapsed && Math.Abs(card.ActualHeight - compact) < .5, "rapid expand/collapse leaves a stale animation");
                 Call("FinishTransfer"); await Layout(30);
                 Check(C<TextBlock>("TransferSummaryText").Text.Contains("50%") && Math.Abs(card.ActualHeight - compact) < .5, "verification shifts layout or discards last measurement");

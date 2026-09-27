@@ -2,7 +2,10 @@ namespace PawsPatchLauncher;
 public partial class MainWindow
 {
     private readonly Dictionary<Guid,SocialOffer> _sendingOffers=[];
-    private UserSettings LocalAppliedConfiguration()=>_game is null?_settings:new ModuleInstaller(_game.Directory).LoadState()?.AppliedSettings??_settings;
+    // RefreshStatus refreshes this snapshot after discovery/install/repair. A
+    // chat repaint must not reparse the multi-megabyte installation journal for
+    // every offer button; applying an offer still uses the normal installer checks.
+    private UserSettings LocalAppliedConfiguration()=>_game is null?_settings:_friendCopyAppliedState?.AppliedSettings??_settings;
     private bool ConfigurationMatches(string? code)
     {
         if(string.IsNullOrEmpty(code))return false;

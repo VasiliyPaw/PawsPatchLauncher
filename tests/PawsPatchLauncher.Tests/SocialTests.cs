@@ -20,6 +20,21 @@ internal static class SocialTests
         var owner=Guid.NewGuid();var peer=Guid.NewGuid();var outsider=Guid.NewGuid();
         var boxRoot=Path.Combine(root,"social");var box=new SocialOutbox(boxRoot);
         var message=new PendingSocialMessage(owner,peer,Guid.NewGuid(),"fixture-private-message","text");
+        // An uncontended transaction must leave the calling thread before doing
+        // its synchronous DPAPI/file work, not only when waiting for another process.
+        var workerMethod=typeof(SocialOutbox).GetMethod("ChangeAsync",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)!.MakeGenericMethod(typeof(int));
+        var leftCaller=await Task.Factory.StartNew(()=>
+        {
+            var callerThread=Environment.CurrentManagedThreadId;
+            var transaction=(Task<int>)workerMethod.Invoke(box,[owner,new Func<List<PendingSocialMessage>,int>(_=>Environment.CurrentManagedThreadId),CancellationToken.None,false])!;
+            return transaction.GetAwaiter().GetResult()!=callerThread;
+        },CancellationToken.None,TaskCreationOptions.LongRunning,TaskScheduler.Default);
+        Check(leftCaller,"uncontended outbox transaction blocked its caller thread");
+        using(var cancelled=new CancellationTokenSource())
+        {
+            cancelled.Cancel();await Reject(()=>box.AddAsync(message,cancelled.Token));
+            Check((await box.ReadAsync(owner)).Count==0,"cancelled enqueue wrote a message");
+        }
         await box.AddAsync(message);await box.AddAsync(message);
         Check((await box.ReadAsync(owner)).Count==1,"enqueue is not idempotent");
         var disk=await File.ReadAllBytesAsync(Path.Combine(boxRoot,"account","outbox",owner.ToString("N")+".dat"));

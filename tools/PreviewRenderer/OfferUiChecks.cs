@@ -87,10 +87,10 @@ internal static class OfferUiChecks
    }
    foreach(var presence in new[]{"online","playing","offline"}) {
     Set("_socialPlayers",(IReadOnlyList<SocialPlayer>)new[]{peer with{Presence=presence}});
-    var avatar=(Grid)Invoke("SocialAvatar",peer.Id,40d,true)!;
+    var avatar=(Grid)Invoke("SocialAvatar",peer.Id,40d,true,true)!;
     var dot=avatar.Children.OfType<Ellipse>().Last();
     Check(dot.Width==16&&dot.Fill.ToString()==(presence=="online"?"#FF72ACFF":presence=="playing"?"#FF5CE5A1":"#FF718095"),"presence dot");
-    var profile=(Grid)Invoke("SocialAvatar",peer.Id,68d,true)!;
+    var profile=(Grid)Invoke("SocialAvatar",peer.Id,68d,true,true)!;
     Check(profile.Children.OfType<Ellipse>().Last().Width==20,"large profile dot");
    }
    foreach(var size in new[]{new Size(1440,900),new Size(1050,680)}) {

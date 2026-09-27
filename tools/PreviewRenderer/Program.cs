@@ -112,6 +112,7 @@ public static class Program
         var socialActionChecks = args.Contains("--social-action-checks");
         var chatRegressionChecks = args.Contains("--chat-regression-checks");
         var chatCacheChecks = args.Contains("--chat-cache-checks");
+        var chatRowsChecks = args.Contains("--chat-rows-checks");
         var connectionChecks = args.Contains("--connection-checks");
         var connectionPreview = args.Contains("--connection-preview");
         var launcher074Checks = args.Contains("--launcher-074-checks");
@@ -149,6 +150,7 @@ public static class Program
         if (connectionPreview) { ConnectionUiChecks.Preview(language); app.Run(); return; }
         if (connectionChecks) { ConnectionUiChecks.Run(language); ChatInteractionChecks.Run(language); ChatPresentationChecks.Run(language); app.Shutdown(); return; }
         if (chatCacheChecks) { ChatCacheChecks.Run(language); SocialRefreshChecks.Run(language); app.Shutdown(); return; }
+        if (chatRowsChecks) { ChatRowsChecks.Run(language); app.Shutdown(); return; }
         if (chatInteractionChecks) { ChatInteractionChecks.Run(language); FriendSettingsChecks.Run(language); app.Shutdown(); return; }
         if (friendCopyChecks) { FriendSettingsChecks.Run(language); app.Shutdown(); return; }
         if (peerOfferChecks) { OfferUiChecks.Run(language); app.Shutdown(); return; }

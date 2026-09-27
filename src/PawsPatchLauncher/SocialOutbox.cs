@@ -37,7 +37,11 @@ public sealed class SocialOutbox(string root)
         if(i>=0 && items[i].CreatedAt==attempt.CreatedAt && items[i].RetriedAt==attempt.RetriedAt)
             items[i]=items[i] with {Error=code};return true;
     },ct);
-    private async Task<T> ChangeAsync<T>(Guid owner,Func<List<PendingSocialMessage>,T> change,CancellationToken ct,bool write=true)
+    // DPAPI and durable file writes are synchronous. Even an uncontended lock must
+    // never make the caller's UI thread perform encryption or wait for the disk.
+    private Task<T> ChangeAsync<T>(Guid owner,Func<List<PendingSocialMessage>,T> change,CancellationToken ct,bool write=true) =>
+        Task.Run(() => ChangeOnWorkerAsync(owner,change,ct,write),ct);
+    private async Task<T> ChangeOnWorkerAsync<T>(Guid owner,Func<List<PendingSocialMessage>,T> change,CancellationToken ct,bool write)
     {
         if(owner==Guid.Empty)throw new InvalidDataException("Missing outbox owner.");
         Directory.CreateDirectory(directory);
