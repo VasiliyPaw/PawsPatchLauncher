@@ -845,6 +845,31 @@
   "beta": [
     {
       "category": "patch",
+      "version": "0.4.0-beta.9",
+      "publishedAt": "2026-09-27",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.9",
+        "en": "Paw’s Patch 0.4.0-beta.9",
+        "de": "Paw’s Patch 0.4.0-beta.9",
+        "fr": "Paw’s Patch 0.4.0-beta.9",
+        "es": "Paw’s Patch 0.4.0-beta.9",
+        "it": "Paw’s Patch 0.4.0-beta.9"
+      },
+      "body": {
+        "ru": "При включённых улучшениях ботов:\n- Исправлено зависание ботов после загрузки сохранения: они продолжают нанимать войска и отдавать новые приказы.\n- Исправлены задержки в строительстве новых поселений.",
+        "en": "With bot improvements enabled:\n- Fixed bots becoming inactive after loading a saved game. They continue recruiting troops and issuing new orders.\n- Fixed delays in founding new settlements.",
+        "de": "Bei aktivierten Bot-Verbesserungen:\n- Bots bleiben nach dem Laden eines Spielstands nicht mehr untätig. Sie rekrutieren weiterhin Truppen und erteilen neue Befehle.\n- Verzögerungen beim Bau neuer Siedlungen wurden behoben.",
+        "fr": "Avec les améliorations des bots activées :\n- Les bots ne restent plus inactifs après le chargement d’une sauvegarde. Ils continuent de recruter des troupes et de donner de nouveaux ordres.\n- Correction des retards dans la construction de nouvelles colonies.",
+        "es": "Con las mejoras de los bots activadas:\n- Los bots ya no se quedan inactivos al cargar una partida guardada. Continúan reclutando tropas y dando nuevas órdenes.\n- Corregidos los retrasos en la construcción de nuevos asentamientos.",
+        "it": "Con i miglioramenti dei bot attivati:\n- I bot non rimangono più inattivi dopo aver caricato un salvataggio. Continuano a reclutare truppe e impartire nuovi ordini.\n- Corretti i ritardi nella costruzione di nuovi insediamenti."
+      }
+    },
+    {
+      "category": "patch",
       "version": "0.4.0-beta.8",
       "publishedAt": "2026-09-27",
       "mods": [
