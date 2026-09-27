@@ -75,8 +75,11 @@ def stage(a):
         write(out / 'previous' / (name + '.json'), json.loads(raw))
         write(out / 'signed' / (name + '.json'), sign(updated, private))
         if name in ('stable', 'beta'):
-            assert history[name] == before['changelog']
-            history[name] = updated['changelog']
+            # The history includes older entries from several mod branches; a
+            # scoped signed feed can carry different archived notes/metadata.
+            # Prepend this release independently, preserving both histories.
+            assert not any(n['category'] == 'launcher' and n['version'] == a.version for n in history[name])
+            history[name] = [notes] + history[name]
     write(out / 'changelog.history.json', history)
     write(out / 'launcher-artifact.json', artifact)
     (out / 'PawsPatchLauncher.exe').write_bytes(exe)

@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.11",
+      "publishedAt": "2026-09-27",
+      "title": {
+        "ru": "Paw's Launcher 0.8.11",
+        "en": "Paw's Launcher 0.8.11",
+        "de": "Paw's Launcher 0.8.11",
+        "fr": "Paw's Launcher 0.8.11",
+        "cs": "Paw's Launcher 0.8.11",
+        "uk": "Paw's Launcher 0.8.11"
+      },
+      "body": {
+        "ru": "- Устранены задержки интерфейса при отправке сообщений. Изображения в переписке больше не перезагружаются при обновлении сообщений.\n- Подробности установки на главной странице теперь разворачиваются и сворачиваются плавно, в том числе при повторных нажатиях.",
+        "en": "- Fixed interface stalls when sending messages. Images in conversations no longer reload when messages update.\n- Installation details on the Home page now expand and collapse smoothly, including after repeated clicks.",
+        "de": "- Verzögerungen der Oberfläche beim Senden von Nachrichten behoben. Bilder im Chat werden bei Nachrichtenaktualisierungen nicht mehr neu geladen.\n- Installationsdetails auf der Startseite lassen sich jetzt flüssig ein- und ausklappen, auch bei wiederholtem Klicken.",
+        "fr": "- Correction des blocages de l’interface lors de l’envoi de messages. Les images des conversations ne se rechargent plus à chaque mise à jour des messages.\n- Les détails de l’installation sur la page d’accueil se déplient et se replient désormais de façon fluide, même après plusieurs clics.",
+        "cs": "- Opraveno zasekávání rozhraní při odesílání zpráv. Obrázky v konverzacích se při aktualizaci zpráv již znovu nenačítají.\n- Podrobnosti instalace na hlavní stránce se nyní plynule rozbalují a sbalují, a to i při opakovaném kliknutí.",
+        "uk": "- Усунено затримки інтерфейсу під час надсилання повідомлень. Зображення в листуванні більше не перезавантажуються при оновленні повідомлень.\n- Подробиці встановлення на головній сторінці тепер плавно розгортаються та згортаються, зокрема при повторних натисканнях."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.10",
       "publishedAt": "2026-09-27",
       "title": {
@@ -890,6 +911,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.11",
+      "publishedAt": "2026-09-27",
+      "title": {
+        "ru": "Paw's Launcher 0.8.11",
+        "en": "Paw's Launcher 0.8.11",
+        "de": "Paw's Launcher 0.8.11",
+        "fr": "Paw's Launcher 0.8.11",
+        "cs": "Paw's Launcher 0.8.11",
+        "uk": "Paw's Launcher 0.8.11"
+      },
+      "body": {
+        "ru": "- Устранены задержки интерфейса при отправке сообщений. Изображения в переписке больше не перезагружаются при обновлении сообщений.\n- Подробности установки на главной странице теперь разворачиваются и сворачиваются плавно, в том числе при повторных нажатиях.",
+        "en": "- Fixed interface stalls when sending messages. Images in conversations no longer reload when messages update.\n- Installation details on the Home page now expand and collapse smoothly, including after repeated clicks.",
+        "de": "- Verzögerungen der Oberfläche beim Senden von Nachrichten behoben. Bilder im Chat werden bei Nachrichtenaktualisierungen nicht mehr neu geladen.\n- Installationsdetails auf der Startseite lassen sich jetzt flüssig ein- und ausklappen, auch bei wiederholtem Klicken.",
+        "fr": "- Correction des blocages de l’interface lors de l’envoi de messages. Les images des conversations ne se rechargent plus à chaque mise à jour des messages.\n- Les détails de l’installation sur la page d’accueil se déplient et se replient désormais de façon fluide, même après plusieurs clics.",
+        "cs": "- Opraveno zasekávání rozhraní při odesílání zpráv. Obrázky v konverzacích se při aktualizaci zpráv již znovu nenačítají.\n- Podrobnosti instalace na hlavní stránce se nyní plynule rozbalují a sbalují, a to i při opakovaném kliknutí.",
+        "uk": "- Усунено затримки інтерфейсу під час надсилання повідомлень. Зображення в листуванні більше не перезавантажуються при оновленні повідомлень.\n- Подробиці встановлення на головній сторінці тепер плавно розгортаються та згортаються, зокрема при повторних натисканнях."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.8.10",
