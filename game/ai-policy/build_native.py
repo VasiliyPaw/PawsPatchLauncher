@@ -34,6 +34,8 @@ SITES += [(0x1dd748,0x05c7b9,3,40,True), # recruitment-only actor/property prior
 SITES += [(s,0x1ee81a,2,49,True) for s in (0x1d54ee,0x1d5557)] # reject builders in native hero-target selection
 SITES += [(0x1d5937,0x214a99,1,50,False)] # final native hero attachment validation
 SITES += [(0x1dcaf9,0x02995d,1,51,False)] # unit candidate property during Recruit::Prepare
+SITES += [(0x1e0bee,0x1e1d25,2,52,False),(0x1e0c03,0x1e1d08,1,52,False), # keep inserted strategic deadlines
+ (0x1e20dc,0x1e1eaf,1,53,False),(0x1e210a,0x0494a9,0,54,False)] # pace actual dispatch, not future entries
 def main():
  p=argparse.ArgumentParser();p.add_argument('--legacy',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--compiler',required=True);a=p.parse_args()
  sys.path[:0]=[str(a.legacy/'pydeps_readable'),str(a.legacy/'lobby_colors_1372/deps_r15')]
@@ -116,10 +118,19 @@ def main():
    # temporary string exists yet. RET 24 removes those original arguments.
    # Preserve the native logger's flags in either branch.
    asm+=f'pushfd; cmp dword ptr [ebp-8],0; je notice_shown; popfd; mov dword ptr [ebp+4],{image+0x1e15e5}; mov esp,ebp; pop ebp; ret 24; notice_shown: popfd;'
+  if mode==52:
+   # Insertion already completed. Skip only ScheduleThink's deadline-shifting
+   # tail; its SEH/register epilogue remains native. Tactical calls fall through.
+   asm+=f'pushfd; cmp dword ptr [ebp-8],1; jne spacing_native; mov dword ptr [ebp+4],{image+0x1e0cb1}; spacing_native: popfd;'
   asm+=f'mov esp,ebp; pop ebp; ret {0 if mode in (8,34,39) else argc*4};'
-  put(off,asm,[target]+([0x1e15e5] if mode==39 else []))
+  put(off,asm,[target]+([0x1e15e5] if mode==39 else [0x1e0cb1] if mode==52 else []))
   original=raw[site:site+5];assert original==b'\xe8'+struct.pack('<i',target-site-5)
   guard_start=site-(5 if mode==39 else 3);guard_end=site+(14 if mode==22 else 10)
+  # Include whole absolute operands even when the context window ends inside
+  # an instruction (the ScheduleThink head insertion is followed by MOVSS).
+  for r in game_relocs:
+   if r<guard_end and r+4>guard_start:
+    guard_start=min(guard_start,r);guard_end=max(guard_end,r+4)
   guard_relocs=[r-guard_start for r in game_relocs if guard_start<=r<guard_end]
   assert all(0<=r<=guard_end-guard_start-4 for r in guard_relocs),'Guard cannot split a relocation'
   wrappers.append(dict(site=site,target=target,offset=off,original=original.hex(),guard=raw[guard_start:guard_end].hex(),guardStart=guard_start,guardRelocations=guard_relocs,argc=argc,mode=mode,fp=fp,cdecl=mode in (8,34,39),pre=mode in (9,12,31,35,36,38)))

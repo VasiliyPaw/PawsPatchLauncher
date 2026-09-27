@@ -115,6 +115,17 @@ for image,cave in BASES:
   f.pulse(float('nan') if case=='nan-time' else 30)
   check(not f.r(f.stats+112),('pulse guard',case))
  f=PulseFixture(image,cave,0);f.pulse(30);check(f.r(f.target+8)==1 and f.r(f.stats+108)==1,'newly feasible dormant goal promoted using native state method')
+ # Captured loaded-save queues contain old state-bucket entries (Research,
+ # GiveResources, Explore). A valid expansion behind one must still run.
+ for case in ('tombstone','foreign-goal','stale-unrelated','stale-expansion'):
+  f=PulseFixture(image,cave);extra=f.link+0x40;goal=f.table+0x1000
+  f.w(f.list+8,extra);f.w(extra+4,f.link)
+  if case!='tombstone':
+   f.w(extra,goal);f.w(goal,image+(0x4da480 if case=='stale-expansion' else 0x4d1234))
+   f.w(goal+4,0 if case=='foreign-goal' else f.engine);f.w(goal+8,2)
+  f.pulse(30)
+  check(f.r(f.stats+112)==int(case!='foreign-goal'),('valid expansion survives a stale bucket entry',case))
+  check(f.r(goal+8)==(0 if case=='tombstone' else 2),'transitioning goal is not reevaluated through the wrong bucket')
  f=PulseFixture(image,cave,2);f.w(f.target+0xc,f.node+0x100);f.pulse(30)
  check(not f.r(f.stats+104),'occupied active goal keeps its target and priority')
  f=PulseFixture(image,cave);f.w(f.target,image+0x4d84d4);f.w(f.target+0x48,0xdeadbeef)

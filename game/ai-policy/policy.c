@@ -23,6 +23,7 @@ typedef struct { U world,kingdom,camp,goal; float time,x,y; } ClearingRally;
 typedef struct { U world,kingdom,target,site,recruit,layout; float time,observed; } Economy;
 typedef struct { U world,kingdom; float last; } ExpansionPulse;
 typedef struct { U world,kingdom,city,recipient; float last; } CityGift;
+typedef struct { U world,sai,valid; float last; } StrategicClock;
 
 /* Mirror only native owned-field registration, never denizen registration.
  * Keys encode an immutable definition pointer plus the property-table bit. */
@@ -37,6 +38,7 @@ typedef struct { Data base; ExpansionPulse pulses[96]; U fastPlayer; U pulseGoal
  U claimWorld,claimBusy,claimValid,claimCount,claimSiteCount; float claimTime;
  BuilderClaim claims[2048],oldClaims[2048]; U claimSites[512];
  CityGift cityGifts[96];
+ StrategicClock strategicClock;
 } FastData;
 static void expansion_changed(Data*d,U pl,U goal){
  FastData*f=(FastData*)d;U i;if(!f->fastPlayer||f->fastPlayer!=pl)return;
@@ -160,13 +162,15 @@ static int builder_missing(U image,Data*d,U pl,U target);
 #include "supply.c"
 #include "army_upgrade.c"
 #include "expansion_pulse.c"
+#include "strategic_queue.c"
 #include "notice.c"
 #include "recruit_counts.c"
 __attribute__((dllexport)) void evaluate(U image,Data*d,U mode,U obj,U*args,float*result) {
+ if(mode>=52&&mode<=54){strategic_queue(image,d,mode,obj,args,result);return;}
  if(mode==51){if(d->mask&8)builder_recruit_hero(image,d,obj,args[0],result);return;}
  if(mode==50){if((d->mask&8)&&(*(U*)result&255)){U a=P(obj,4),pl=live_actor(image,a)?ai_for_kingdom(image,P(a,0xe8)):0;if(builder_enabled(image,pl)&&route_builder(image,a))*(U*)result&=0xffffff00;}return;}
  if(mode==49){if(d->mask&8)builder_hero_score(image,d,obj,args,result);return;}
- if(mode>=40&&mode<=48){if(mode==48){U i;for(i=0;i<96;i++)((FastData*)d)->cityGifts[i].world=0;}if(mode==46||mode==47||mode==48)builder_invalidate(d,mode==48?0:obj,mode==48);recruit_counts_evaluate(image,d,mode,obj,args,result);return;}
+ if(mode>=40&&mode<=48){if(mode==48){U i;((FastData*)d)->strategicClock.valid=0;for(i=0;i<96;i++)((FastData*)d)->cityGifts[i].world=0;}if(mode==46||mode==47||mode==48)builder_invalidate(d,mode==48?0:obj,mode==48);recruit_counts_evaluate(image,d,mode,obj,args,result);return;}
  if(mode==39){goal_notice(image,d,result);return;}
  if(mode==34){if(d->mask&8)expansion_dispatch(image,d);return;}
  if(mode==35||mode==36||mode==37||mode==38){expansion_fast_dispatch(image,d,mode,obj,args,result);return;}

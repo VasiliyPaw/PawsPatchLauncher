@@ -73,7 +73,13 @@ static void expansion_pulse(U image,Data*d,U pl){
   for(state=0;state<3;state++){
    for(node=P(lists,8*state),steps=0;node&&steps++<4096;node=P(node,4)){
     U g=P(node,0),vt=g?P(g,0)-image:0;
-    if(!g||P(g,4)!=engine||P(g,8)!=state)return;
+    /* Native transitions leave tombstones and old bucket entries until the
+     * next full reevaluation. They do not invalidate other expansion goals.
+     * Keep ownership and bounded traversal checks; defer a transitioning goal
+     * instead of calling its methods through the wrong state bucket. */
+    if(!g)continue;
+    if(P(g,4)!=engine)return;
+    if(P(g,8)!=state)continue;
     if(vt==0x4d9274){
      if(army_reserved(image,d,pl,g)){if(count==4096)return;goals[count++]=g;}
      continue;

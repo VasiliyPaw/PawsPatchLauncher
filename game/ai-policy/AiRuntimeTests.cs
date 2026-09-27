@@ -16,6 +16,7 @@ internal static class AiRuntimeTests {
    if(AiPolicyPayload.Sites[i]==0x262c71)Buffer.BlockCopy(BitConverter.GetBytes(image+0x5f3fb8),0,guard,9,4);
    if(AiPolicyPayload.Sites[i]==0x1e4807)Buffer.BlockCopy(BitConverter.GetBytes(image+0x5f3fc8),0,guard,10,4);
    if(AiPolicyPayload.Sites[i]==0x1e15c1)Buffer.BlockCopy(BitConverter.GetBytes(image+0x5f8720),0,guard,1,4);
+   if(AiPolicyPayload.Sites[i]==0x1e0c03)Buffer.BlockCopy(BitConverter.GetBytes(image+0x458c38),0,guard,12,4);
    Seed(image+AiPolicyPayload.GuardStarts[i],guard);
   }}
   public byte[] Read(uint a,int n){Op();var result=new byte[n];for(int i=0;i<n;i++){uint p=a+(uint)i;if(p>=0x60000000&&p<0x60000000+allocated.Length)result[i]=allocated[p-0x60000000];else bytes.TryGetValue(p,out result[i]);}return result;}
