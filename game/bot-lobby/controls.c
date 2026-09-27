@@ -17,9 +17,9 @@ typedef U (*C4)(U,U,U,U);
 typedef struct Data Data;
 typedef struct {Data*d;U kind,widget,selected,generation,custom,customId,randomId,randomLabel;} Control;
 typedef struct {U row,participant,player,generation[3];} Row;
-typedef struct {U player,participant,entry,difficulty,mode;} Difficulty;
+typedef struct {U player,participant,entry,difficulty,mode,pending,lastAttempt;} Difficulty;
 struct Data {U image,language,menu,busy,enabled,signature,applications,skipped;Control c[3];U labels[3];Row rows[64];
- U nightmareDefault,layoutMode;Difficulty difficulties[128];};
+ U nightmareDefault,layoutMode;Difficulty difficulties[128];U tick;};
 static U m0(Data*d,U r,U self){return ((M0)(d->image+r))(self,0);}
 static U m1(Data*d,U r,U self,U a){return ((M1)(d->image+r))(self,0,a);}
 static U m2(Data*d,U r,U self,U a,U b){return ((M2)(d->image+r))(self,0,a,b);}
@@ -58,21 +58,40 @@ static void populate(Control*c){Data*d=c->d;U temp[12],db=P(d->image,0x5f3fb4),l
 static U nightmare(Data*d){U db=P(d->image,0x5f3fb4),n,list,i;if(!db)return 0;n=P(db,0x440);list=P(db,0x43c);if(n>128||!list)return 0;
  for(i=0;i<n;i++){U def=P(list,i*4);if(def&&eq(P(def,8),(U)L"handicap_paws_nightmare"))return def;}return 0;
 }
-/* Participant identity survives native map-entry reconstruction and row UI
- * recreation. Saved/campaign modes never enter this path. Manual edits in an
- * existing entry are recorded, not overwritten on subsequent UI ticks. */
-static void difficulty(Data*d,Row*r,U p){
- U i,entry=P(r->row,0xf0),mode=P(P(d->image,0x5f3fe4),0x6c),current=P(entry,0x24),desired;Difficulty*q=0;
+/* Remember user intent, not the current map entry: stock settings updates can
+ * reset difficulty in place (or reuse a freed entry's address). */
+static Difficulty* remembered(Data*d,U p){U i;Difficulty*q=0;
  for(i=0;i<128;i++)if(d->difficulties[i].player&&d->difficulties[i].participant==P(p,0x20)){q=&d->difficulties[i];break;}
- if(!q){for(i=0;i<128;i++)if(!d->difficulties[i].player){q=&d->difficulties[i];break;}if(!q)return;
-  q->player=p;q->participant=P(p,0x20);q->entry=entry;q->mode=mode;q->difficulty=current;
+ if(!q)for(i=0;i<128;i++)if(!d->difficulties[i].player){q=&d->difficulties[i];break;}
+ return q;
+}
+static void remember_choice(Data*d,U row,U p,U choice){Difficulty*q=remembered(d,p);if(!q)return;
+ q->player=p;q->participant=P(p,0x20);q->entry=P(row,0xf0);q->mode=P(P(d->image,0x5f3fe4),0x6c);
+ q->difficulty=choice;q->pending=choice;q->lastAttempt=d->tick;
+}
+/* Called inside the stock difficulty callback, immediately before its native
+ * replicated order is sent. Bulk/restoration calls record their own intent. */
+EXPORT void difficulty_changed(U image,Data*d,U row,U value){U p,db,list,n,i;
+ if(!d->image)d->image=image;if(d->busy||!d->menu||!host(d)||(p=bot(d,row))==0)return;
+ db=P(image,0x5f3fb4);if(!db)return;list=P(db,0x43c);n=P(db,0x440);if(!list||n>128)return;
+ for(i=0;i<n;i++){U def=P(list,i*4);if(def&&eq(value,P(def,8))){remember_choice(d,row,p,def);return;}}
+}
+static void difficulty(Data*d,Row*r,U p){
+ U entry=P(r->row,0xf0),mode=P(P(d->image,0x5f3fe4),0x6c),current=P(entry,0x24),desired;
+ Difficulty*q=remembered(d,p);if(!q)return;
+ if(!q->player){q->participant=P(p,0x20);q->difficulty=current;
   desired=d->enabled&&d->nightmareDefault&&!d->c[2].selected?nightmare(d):0;
- }else{desired=(q->entry!=entry||q->mode!=mode||q->player!=p)?q->difficulty:0;q->player=p;q->entry=entry;q->mode=mode;}
- if(desired&&desired!=current){m1(d,0x128871,r->row,str(d,(const wchar_t*)P(desired,8)));d->applications++;current=desired;}
- q->difficulty=current;
+  if(desired)q->difficulty=desired;
+ }
+ q->player=p;q->entry=entry;q->mode=mode;desired=q->difficulty;
+ if(!desired||desired==current){q->pending=0;return;}
+ /* Lobby orders can be asynchronous. Wait for the echo instead of sending
+  * the same correction every row tick; retry after 30 menu ticks if needed. */
+ if(q->pending==desired&&d->tick-q->lastAttempt<30)return;
+ q->pending=desired;q->lastAttempt=d->tick;
+ m1(d,0x128871,r->row,str(d,(const wchar_t*)P(desired,8)));d->applications++;
 }
 static void apply(Data*d,Row*r){U p=bot(d,r->row),i,id,owned,nation,choice;Control*c;if(!p){r->player=0;r->participant=0;return;}
- difficulty(d,r,p);
  if(r->player!=p||r->participant!=P(p,0x20)){r->player=p;r->participant=P(p,0x20);zero(r->generation,sizeof(r->generation));}
  for(i=0;i<3;i++){c=&d->c[i];if(r->generation[i]==c->generation)continue;
   r->generation[i]=c->generation;choice=c->selected;if(!choice)continue;
@@ -80,7 +99,9 @@ static void apply(Data*d,Row*r){U p=bot(d,r->row),i,id,owned,nation,choice;Contr
   if(i==1&&choice>1){nation=P(P(r->row,0xf0),0x18);if(!allowed_nation(nation,choice)){d->skipped++;continue;}}
   id=selected_id(c);owned=str(d,(const wchar_t*)id);
   m1(d,i==0?0x1286cd:i==1?0x1287c1:0x128871,r->row,owned);d->applications++;
+  if(i==2)remember_choice(d,r->row,p,choice);
  }
+ difficulty(d,r,p);
 }
 static void FAST changed(Control*c,U unused,U value){Data*d=c->d;U i,n,list,db,def,choice=0,valid=0;
  if(!d->busy&&host(d)){
@@ -126,6 +147,7 @@ static void layout(Data*d,U menu,U enabled){U budget=512,w;if(d->layoutMode==ena
  {float h=enabled?365.0f:405.0f;m1(d,0x2b7149,w,*(U*)&h);}d->layoutMode=enabled+1;
 }
 EXPORT void menu_tick(U image,Data*d,U menu){U i,enable,sig=0,p;if(d->menu!=menu||d->busy)return;
+ d->tick++;
  enable=host(d);d->enabled=enable;d->busy=1;
  layout(d,menu,enable);
  if(!enable)zero(d->difficulties,sizeof(d->difficulties));

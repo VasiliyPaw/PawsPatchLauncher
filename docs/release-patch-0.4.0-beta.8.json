@@ -1,0 +1,8 @@
+{
+  "ru": "- Исправлен сброс выбранной сложности ботов при смене типа карты, тумана войны и других параметров лобби.\n- Восстановлена подсказка «Paw’s Patch» над кнопкой со звуком золота. Окно подстраивается под заголовок.",
+  "en": "- Fixed bot difficulty resetting when changing the map type, fog of war or other lobby settings.\n- Restored the “Paw’s Patch” tooltip above the gold-sound button. Its window fits the heading.",
+  "de": "- Die gewählte Bot-Schwierigkeit wird beim Ändern des Kartentyps, des Kriegsnebels oder anderer Lobby-Einstellungen nicht mehr zurückgesetzt.\n- Der Tooltip „Paw’s Patch“ über der Goldton-Schaltfläche wird wieder angezeigt. Das Fenster passt sich der Überschrift an.",
+  "fr": "- La difficulté choisie pour les bots n’est plus réinitialisée lors d’un changement du type de carte, du brouillard de guerre ou des autres paramètres du salon.\n- L’infobulle « Paw’s Patch » au-dessus du bouton de son de l’or s’affiche à nouveau. Sa fenêtre s’adapte au titre.",
+  "es": "- La dificultad elegida de los bots ya no se restablece al cambiar el tipo de mapa, la niebla de guerra u otros ajustes de la sala.\n- Vuelve a mostrarse la ayuda «Paw’s Patch» sobre el botón de sonido de oro. La ventana se ajusta al título.",
+  "it": "- La difficoltà scelta per i bot non viene più reimpostata cambiando il tipo di mappa, la nebbia di guerra o altre impostazioni della sala.\n- Ripristinato il suggerimento «Paw’s Patch» sopra il pulsante del suono dell’oro. La finestra si adatta al titolo."
+}

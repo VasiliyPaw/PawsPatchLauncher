@@ -10,11 +10,12 @@ def build(analysis, out):
     raw = bytearray((beta/'PawCommonUiPayload.bin').read_bytes())
     fix = (beta/'PawCommonUiFixups.bin').read_bytes()
     fixes = [struct.unpack_from('<III',fix,i) for i in range(4,len(fix),12)]
-    # Our three reserved areas are outside both existing hooks and menu labels.
+    # Reserved areas are outside the existing formatter and menu labels.
     raw[0x1fc:0x2d4] = bytes(0xd8)
     raw[0x600:0x800] = bytes(0x200)
     raw[0xa00:0xb00] = bytes(0x100)
-    fixes = [f for f in fixes if not (0x1fc <= f[1] < 0x2d4 or 0x600 <= f[1] < 0x800 or 0xa00 <= f[1] < 0xb00)]
+    raw[0xb00:0xc00] = bytes(0x100)
+    fixes = [f for f in fixes if not (0x1fc <= f[1] < 0x2d4 or 0x600 <= f[1] < 0x800 or 0xa00 <= f[1] < 0xc00)]
     assert hashlib.sha256(raw).hexdigest() == 'fcb67709ac4cc85ea8f67252fff7c083b11de3e4ab0c28d5505d9896368df2a3'
     assert len(fixes) == 5
     native = (analysis/'k2_runtime_1372_20260904.bin').read_bytes()
@@ -181,6 +182,31 @@ def build(analysis, out):
             if value in (image+0x2b8185,image+0x1b0f17):fixes.append((3,at,value-image))
             elif value==cave+0x200:fixes.append((2,at,0x200))
     assert native[0xc88bd:0xc88c2]==b'\xe8'+struct.pack('<i',0x2b8185-0xc88bd-5)
+    # Native hover selection rejects an empty body before the formatter gets
+    # to read tooltip_name. Admit our private widget when it has a title;
+    # retain the original selector (including parent fallback) for all others.
+    # Visibility/enabled checks and the usual hover delay remain in the caller.
+    selector = f'''
+        cmp dword ptr [ecx], {cave+0x200}
+        jne ordinary
+        mov eax, [ecx+0x3c]
+        cmp dword ptr [eax-12], 0
+        je ordinary
+        mov eax, ecx
+        ret
+    ordinary:
+        jmp {image+0x2b6ec8}
+    '''
+    select_code=bytes(Ks(KS_ARCH_X86,KS_MODE_32).asm(selector,cave+0xb00)[0])
+    assert len(select_code)<=0x100
+    raw[0xb00:0xb00+len(select_code)]=select_code
+    for ins in md.disasm(select_code,cave+0xb00):
+        for operand in ins.operands:
+            if operand.type!=CS_OP_IMM:continue
+            value=operand.imm&0xffffffff;at=ins.address-cave+ins.imm_offset
+            if value==image+0x2b6ec8:fixes.append((3,at,value-image))
+            elif value==cave+0x200:fixes.append((2,at,0x200))
+    assert native[0x2bfa43:0x2bfa48]==b'\xe8'+struct.pack('<i',0x2b6ec8-0x2bfa43-5)
     assert len({f[1] for f in fixes})==len(fixes) <=128
     (beta/'PawCommonUiPayload.bin').write_bytes(raw)
     (beta/'PawCommonUiFixups.bin').write_bytes(struct.pack('<I',len(fixes))+b''.join(struct.pack('<III',*f) for f in fixes))
@@ -189,6 +215,7 @@ def build(analysis, out):
     (out/'sound-button-native.json').write_text(json.dumps({'hookRva':0xc772e,'originalVirtualMethodOffset':0xd0,'caveOffset':0x600,'codeBytes':len(code),'fixups':len(fixes),'payloadSha256':hashlib.sha256(raw).hexdigest(),'simulationCommands':False},indent=2))
     (out/'sound-button.asm').write_text(source)
     (out/'sound-button-tooltip.asm').write_text(tooltip)
+    (out/'sound-button-tooltip-selector.asm').write_text(selector)
     print('SOUND_BUTTON_NATIVE_BUILT',len(code),'bytes;',len(fixes),'relocations')
 
 if __name__=='__main__':

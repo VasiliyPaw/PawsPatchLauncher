@@ -1,7 +1,7 @@
 import argparse,subprocess,sys,struct,json,hashlib
 from pathlib import Path
 sys.dont_write_bytecode=True
-HOOKS=[(0x104a79,0x29d6df,'menu_tick',False),(0x127c70,0x128c9a,'row_tick',False),(0x12c0ef,0x1267b8,'row_destroy',True),(0x1057ac,0x1041ec,'menu_destroy',True),(0x1041d4,0x21375,'menu_create',False)]
+HOOKS=[(0x104a79,0x29d6df,'menu_tick',False),(0x127c70,0x128c9a,'row_tick',False),(0x12c0ef,0x1267b8,'row_destroy',True),(0x1057ac,0x1041ec,'menu_destroy',True),(0x1041d4,0x21375,'menu_create',False),(0x1288f6,0x12e30b,'difficulty_changed',True)]
 def main():
  p=argparse.ArgumentParser();p.add_argument('--legacy',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--compiler',required=True);a=p.parse_args()
  sys.path[:0]=[str(a.legacy/'pydeps_readable'),str(a.legacy/'lobby_colors_1372/deps_r15')]
@@ -21,10 +21,17 @@ def main():
  assert hashlib.sha256(raw).hexdigest()=='b865d8206990c4f055c51de857f0b09b88ab5ee3b6ae74ee5232134001aa591c'
  for index,(site,target,name,before) in enumerate(HOOKS):
   off=size+index*512;addr=base+off
-  invoke=f'pushfd;pushad;sub esp,528;lea eax,[esp+15];and eax,0xfffffff0;fxsave [eax];push eax;push dword ptr [ebp-8];push {data};push {image};call {base+exports[name]};add esp,12;pop eax;fxrstor [eax];add esp,528;popad;popfd;'
-  original=f'mov ecx,[ebp-4];call {image+target};'
-  selfreg='esi' if name=='menu_create' else 'ecx'
-  asm=f'push ebp;mov ebp,esp;sub esp,8;mov [ebp-4],ecx;mov [ebp-8],{selfreg};'+(invoke+original if before else original+invoke)+'mov esp,ebp;pop ebp;ret;'
+  extra='mov eax,[ebp];push dword ptr [eax+8];' if name=='difficulty_changed' else ''
+  argc=16 if extra else 12
+  invoke=f'pushfd;pushad;sub esp,528;lea eax,[esp+15];and eax,0xfffffff0;fxsave [eax];push eax;{extra}push dword ptr [ebp-8];push {data};push {image};call {base+exports[name]};add esp,{argc};pop eax;fxrstor [eax];add esp,528;popad;popfd;'
+  # This order dispatcher consumes an argument already on the caller stack.
+  # Forward a copy and retain its ret 4 convention at the replacement site.
+  forwarded='push dword ptr [ebp+8];' if name=='difficulty_changed' else ''
+  original=f'mov ecx,[ebp-4];{forwarded}call {image+target};'
+  selfreg='esi' if name=='menu_create' else 'edi' if name=='difficulty_changed' else 'ecx'
+  ret='ret 4;' if name=='difficulty_changed' else 'ret;'
+  if name=='difficulty_changed':assert raw[0x12e38f:0x12e392]==b'\xc2\x04\x00'
+  asm=f'push ebp;mov ebp,esp;sub esp,8;mov [ebp-4],ecx;mov [ebp-8],{selfreg};'+(invoke+original if before else original+invoke)+'mov esp,ebp;pop ebp;'+ret
   blob=bytes(ks.asm(asm,addr)[0]);assert len(blob)<512
   code.extend(bytes(max(0,off+len(blob)-len(code))));code[off:off+len(blob)]=blob
   for ins in md.disasm(blob,addr):

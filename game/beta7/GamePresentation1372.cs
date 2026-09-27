@@ -12,13 +12,14 @@ using System.Threading;
 internal static class PawGamePresentation
 {
     const int Size=4096;
-    static readonly int[] Sites={0xBF99F,0xFA979,0xC772E,0xC88BD};
-    static readonly int[] Targets={0,0x400,0x600,0xa00};
+    static readonly int[] Sites={0xBF99F,0xFA979,0xC772E,0xC88BD,0x2BFA43};
+    static readonly int[] Targets={0,0x400,0x600,0xa00,0xb00};
     static readonly byte[][] Expected={
         new byte[]{0xE8,0xFB,0xD3,0x1F,0},
         new byte[]{0xA1,0xC0,0x3F,0xA5,0},
         new byte[]{0xFF,0x92,0xD0,0,0,0},
-        new byte[]{0xE8,0xC3,0xF8,0x1E,0}
+        new byte[]{0xE8,0xC3,0xF8,0x1E,0},
+        new byte[]{0xE8,0x80,0x74,0xFF,0xFF}
     };
     [DllImport("kernel32.dll",SetLastError=true)] static extern bool ReadProcessMemory(IntPtr p,IntPtr a,byte[] b,int n,out IntPtr done);
     [DllImport("kernel32.dll",SetLastError=true)] static extern bool WriteProcessMemory(IntPtr p,IntPtr a,byte[] b,int n,out IntPtr done);
@@ -101,7 +102,7 @@ internal static class PawGamePresentation
             for(int i=0;i<count;i++)
             {
                 uint kind=r.ReadUInt32(),off=r.ReadUInt32(),value=r.ReadUInt32();
-                if((off>0x7fc && (off<0xa00 || off>0xafc)) || !seen.Add(off)) throw new InvalidDataException("Invalid UI relocation");
+                if((off>0x7fc && (off<0xa00 || off>0xbfc)) || !seen.Add(off)) throw new InvalidDataException("Invalid UI relocation");
                 uint result;
                 if(kind==1) result=unchecked(image+value);
                 else if(kind==2) result=unchecked(cave+value);
@@ -178,7 +179,7 @@ internal static class PawGamePresentation
         // Steam decrypts code during boot. Validate all selected sites before writes.
         var timer=System.Diagnostics.Stopwatch.StartNew();
         int firstSite=menuOnly?1:0;
-        int lastSite=soundButton?4:2;
+        int lastSite=soundButton?Sites.Length:2;
         for(int i=firstSite;i<lastSite;i++)
         {
             while(true)
@@ -210,7 +211,7 @@ internal static class PawGamePresentation
                 attempted=i+1; Patch(process,Add(image,Sites[i]),branch);
             }
             File.AppendAllText(logPath,DateTime.Now.ToString("O")+(menuOnly?" MENU_ONLY r1; versions=":" COMMON_UI r1; versions=")+suffix.Replace('\n',';')+
-                "; negativeZero="+(menuOnly?"untouched":"display-only")+"; goldSoundButton="+soundButton+"; simulationUntouched=true; cave=0x"+cave.ToInt64().ToString("X8")+Environment.NewLine);
+                "; negativeZero="+(menuOnly?"untouched":"display-only")+"; goldSoundButton="+soundButton+"; goldSoundTitleOnlyHover="+soundButton+"; simulationUntouched=true; cave=0x"+cave.ToInt64().ToString("X8")+Environment.NewLine);
         }
         catch
         {

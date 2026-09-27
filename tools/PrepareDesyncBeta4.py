@@ -26,6 +26,10 @@ def extra_payload_transform(package,payload):
     """A later release may opt into explicitly scoped presentation changes."""
     return set()
 
+def extra_changelog_transform(entries):
+    """Allow explicitly requested editorial corrections to recent notes."""
+    return entries
+
 def prepare(a):
     stage=a.stage.resolve();out=stage/'publication';helpers=stage/'beta-helpers'
     assert not (out/'preparation.json').exists(),'Use a fresh publication folder'
@@ -85,11 +89,11 @@ def prepare(a):
     assert [p for p in final['packages'] if p.get('mods')!=['arcane-wars']]==[p for p in beta['packages'] if p.get('mods')!=['arcane-wars']]
     bodies=read(REPO/('docs/release-patch-'+VERSION+'.json'))
     note=dict(category='patch',version=VERSION,publishedAt=RELEASE_DATE,mods=['arcane-wars'],channel='beta',title={c:'Paw’s Patch '+VERSION for c in bodies},body=bodies)
-    final['changelog']=[note]+final['changelog'];final['publishedAt']=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ');final['patchGuide']['version']=VERSION
+    final['changelog']=extra_changelog_transform([note]+final['changelog']);final['publishedAt']=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ');final['patchGuide']['version']=VERSION
     write(out/'final/beta.json',sign(final,private))
     # The standalone history has independently curated older entries. Do not
     # replace those with a catalog's historical copy during a runtime release.
-    history=read(REPO/'feed/changelog.history.json');history['beta']=[note]+history['beta']
+    history=read(REPO/'feed/changelog.history.json');history['beta']=extra_changelog_transform([note]+history['beta'])
     write(out/'final/changelog.history.json',history);write(out/'final/patch-guide-beta.json',final['patchGuide'])
     for c,f in [('stable',feeds['stable']),('beta',final)]:
         test=copy.deepcopy(f)

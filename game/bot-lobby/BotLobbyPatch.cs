@@ -21,7 +21,7 @@ internal static class BotLobbyPatch {
                 attempted=i;free=false;var call=TerrainPatch.Call(image+BotLobbyPayload.Sites[i],cave+BotLobbyPayload.Offsets[i]);
                 m.WriteCode(image+BotLobbyPayload.Sites[i],call);TerrainPatch.Expect(m,image+BotLobbyPayload.Sites[i],call);m.Flush(image+BotLobbyPayload.Sites[i],5);
             }
-            log("BOT_LOBBY r2; participant difficulty persistence; nightmareDefault="+nightmareDefault+"; saved games excluded; cave=0x"+cave.ToString("X8"));return cave;
+            log("BOT_LOBBY r3; explicit difficulty choices survive in-place settings resets; nightmareDefault="+nightmareDefault+"; saved games excluded; cave=0x"+cave.ToString("X8"));return cave;
         }catch{
             free=true;
             for(int i=attempted;i>=0;i--)try{var bytes=TerrainPatch.Hex(BotLobbyPayload.Originals[i]);m.WriteCode(image+BotLobbyPayload.Sites[i],bytes);TerrainPatch.Expect(m,image+BotLobbyPayload.Sites[i],bytes);m.Flush(image+BotLobbyPayload.Sites[i],5);}catch(Exception e){free=false;log("BOT_LOBBY_ROLLBACK_UNCERTAIN: "+e.Message);}

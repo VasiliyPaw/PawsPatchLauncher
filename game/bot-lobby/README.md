@@ -10,6 +10,14 @@ Until a concrete common race is selected, the faction dropdown contains only Ran
 
 Five guarded call sites (image-relative): 104a79 menu tick, 127c70 row tick, 12c0ef row destruction, 1057ac menu destruction, 1041d4 menu creation. Menu creation takes its menu object from ESI; the other callbacks use ECX. Each wrapper invokes the original engine call exactly once and preserves its return, flags and floating-point/SIMD state. Failed installation uses the shared transactional rollback mechanism.
 
+Revision 3 adds the guarded native difficulty-order call at 1288f6. It records
+the explicit per-row selection from EDI and the enclosing callback's string
+argument before the stock replicated order is sent. Bulk choices update the
+same intent cache. In-place settings resets and reused map-entry addresses no
+longer overwrite that intent. Repairs use the existing native row callback;
+pending echoes are throttled to one retry per 30 menu ticks. Saved, replay,
+campaign and client paths remain excluded. No saved-game fields are written.
+
 Revision 2 validation: 87 native policy/ABI cases across three relocation bases and 507 managed installation-fault checks. Earlier revision 1 live Russian Internet lobby checks verified existing/new bots, all three properties, a persistent manual override, independent Custom behavior, human exclusion, a short new match, returning to the lobby, saved-lobby exclusion and loading the unchanged save. Other language templates were generated, but not visually tested. Two-client network synchronization and long-match AI balance remain untested.
 
 Revision 2 records manual difficulty per participant across map-entry/row recreation. New bots default to Nightmare only with the installed AI option enabled and no explicit bulk difficulty override. Saved, replay, campaign and client paths are excluded. These changes are included in Arcane Wars 0.4.0-beta.3.

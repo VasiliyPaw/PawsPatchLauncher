@@ -38,9 +38,9 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
    at=data+32+i*36;w(at,data);w(at+4,i);w(at+12,choice);w(at+16,1)
  def tick():
   invoke('row_tick',row)
- def invoke(name,obj):
+ def invoke(name,obj,*extra):
   sp=0x6100f000;w(sp,0x62000000)
-  for i,arg in enumerate([image,data,obj]):w(sp+4+4*i,arg)
+  for i,arg in enumerate([image,data,obj,*extra]):w(sp+4+4*i,arg)
   u.reg_write(UC_X86_REG_ESP,sp);u.emu_start(cave+meta['exports'][name],0x62000000,count=100000)
  for scenario,expected in [('new bot',3),('custom all',0),('human',0),('remote bot',0),('client',0),('AL host false',0),('saved game',0),('campaign',0),('observer',0),('unbound',0),('only difficulty',1)]:
   setup()
@@ -60,6 +60,17 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
    w(data+48,2);tick();assert len(orders)==4 and orders[-1][0]==0,'Only edited property reapplied'
    w(pl+0x20,18);tick();assert len(orders)==7,'New participant inherits all defaults'
   cases+=1
+ # Native settings refresh can overwrite the handicap without changing any
+ # pointer or the map-type enum. This must fail against the released r2 code.
+ for mode in (1,2):
+  setup()
+  for i in range(3):w(data+32+i*36+12,0)
+  w(session+0x6c,mode);w(entry+0x24,difficulty)
+  tick();assert not orders
+  w(entry+0x24,difficulty+0x400);tick()
+  assert len(orders)==1 and r(entry+0x24)==difficulty,'In-place map/fog reset must preserve the selected difficulty'
+  tick();assert len(orders)==1,'Acknowledged repair must not repeat'
+  cases+=1
  for scenario in ('new','initial','off','manual','map-entry','map-type','row-recreated','participant-recreated','saved','campaign'):
   setup()
   for i in range(3):w(data+32+i*36+12,0)
@@ -77,6 +88,7 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   if expected:assert r(entry+0x24)==difficulty+0x400
   tick();assert len(orders)==int(expected),'Default must only apply once'
   if scenario in ('manual','map-entry','map-type','row-recreated','participant-recreated'):
+   invoke('difficulty_changed',row,r(difficulty+8))
    w(entry+0x24,difficulty);tick();assert len(orders)==1,'Manual choice retained'
    if scenario=='map-entry':
     w(row+0xf0,entry+0x100);w(entry+0x124,difficulty+0x400)
@@ -90,6 +102,37 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
    assert r(r(row+0xf0)+0x24)==difficulty
    tick();assert len(orders)==(1 if scenario=='manual' else 2)
   cases+=1
+ # Capture a manual choice even if a map refresh occurs before the next row
+ # tick. A delayed native echo must not create one order per frame.
+ setup()
+ for i in range(3):w(data+32+i*36+12,0)
+ db=session+0xa000;w(image+0x5f3fb4,db);w(db+0x43c,db+0x800);w(db+0x440,2)
+ w(db+0x800,difficulty);w(db+0x804,difficulty+0x400);w(difficulty+0x408,difficulty+0x500)
+ u.mem_write(difficulty+256,'handicap_hard\0'.encode('utf-16le'))
+ u.mem_write(difficulty+0x500,'handicap_paws_nightmare\0'.encode('utf-16le'))
+ w(entry+0x24,difficulty);tick()
+ invoke('difficulty_changed',row,r(difficulty+0x408))
+ for _ in range(10):tick()
+ assert not orders,'Wait for the manual command echo'
+ tick_at=data+32+3*36+3*4+64*24+8+128*28
+ w(tick_at,30);tick()
+ assert len(orders)==1 and r(entry+0x24)==difficulty+0x400,'Manual intent survives reset before the next tick'
+ tick();assert len(orders)==1
+ # A bulk choice replaces remembered intent immediately, even if the cache
+ # previously held a different individual choice.
+ w(data+32+2*36+12,difficulty);w(data+32+2*36+16,2);tick()
+ assert len(orders)==2 and r(entry+0x24)==difficulty
+ tick();assert len(orders)==2
+ w(entry+0x24,difficulty+0x400);tick()
+ assert len(orders)==3 and r(entry+0x24)==difficulty,'Bulk choice survives in-place reset'
+ # Saved/replay/campaign/client paths must neither capture new intent nor
+ # restore a cached handicap over the loaded entry.
+ for mode in (3,4,5):
+  w(session+0x6c,mode);w(entry+0x24,difficulty+0x400)
+  invoke('difficulty_changed',row,r(difficulty+0x408));tick();assert len(orders)==3
+ w(session+0x6c,2);w(session+0x64,2);tick();assert len(orders)==3
+ w(session+0x64,0);w(conn,0);invoke('difficulty_changed',row,r(difficulty+0x408));tick();assert len(orders)==3
+ cases+=8
  # Use the game's real SetHeight and visibility/enabled propagation. Only
  # visual invalidation is stubbed: no renderer/input driver in this fixture.
  game=(a.legacy/'k2_runtime_1372_20260904.bin').read_bytes()
@@ -115,27 +158,36 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
  for h in meta['hooks']:
   original_calls=[];probe_calls=[]
   original=image+h['target'];probe=cave+meta['exports'][h['name']]
-  u.mem_write(original,bytes(ks.asm('mov eax,0x12345678; mov ecx,0x34567890; mov edx,0x45678901; stc; ret',original)[0]))
+  native_return=game[0x12e38f:0x12e392] if h['name']=='difficulty_changed' else b'\xc3'
+  u.mem_write(original,bytes(ks.asm('mov eax,0x12345678; mov ecx,0x34567890; mov edx,0x45678901; stc',original)[0])+native_return)
   u.mem_write(probe,bytes(ks.asm('mov eax,0xdeadbeef; mov ebx,0xbad; mov ecx,0xbad; mov edx,0xbad; mov esi,0xbad; mov edi,0xbad; pxor xmm0,xmm0; clc; ret',probe)[0]))
   u.ctl_remove_cache(probe,probe+256);u.ctl_remove_cache(original,original+256)
-  def observe_original(uc,at,size,unused):original_calls.append(u.reg_read(UC_X86_REG_ECX))
+  def observe_original(uc,at,size,unused):
+   args=[u.reg_read(UC_X86_REG_ECX)]
+   if h['name']=='difficulty_changed':args.append(r(u.reg_read(UC_X86_REG_ESP)+4))
+   original_calls.append(args)
   def observe_probe(uc,at,size,unused):
-   sp=u.reg_read(UC_X86_REG_ESP);probe_calls.append([r(sp+4+i*4) for i in range(3)])
+   sp=u.reg_read(UC_X86_REG_ESP);probe_calls.append([r(sp+4+i*4) for i in range(4 if h['name']=='difficulty_changed' else 3)])
   ho=u.hook_add(UC_HOOK_CODE,observe_original,begin=original,end=original)
   hp=u.hook_add(UC_HOOK_CODE,observe_probe,begin=probe,end=probe)
   sp=0x6100f000;w(sp,0x62000000)
-  preserved={UC_X86_REG_EBX:0x11111111,UC_X86_REG_ESI:0x22222222,UC_X86_REG_EDI:0x33333333,UC_X86_REG_EBP:0x44444444}
+  w(sp+4,0x62626262)
+  preserved={UC_X86_REG_EBX:0x11111111,UC_X86_REG_ESI:0x22222222,UC_X86_REG_EDI:0x33333333,UC_X86_REG_EBP:0x6100e000}
+  w(0x6100e008,0x51515151)
   for reg,value in preserved.items():u.reg_write(reg,value)
   u.reg_write(UC_X86_REG_ESP,sp);u.reg_write(UC_X86_REG_ECX,0x55555555);u.reg_write(UC_X86_REG_EFLAGS,0x246)
   u.reg_write(UC_X86_REG_XMM0,0x112233445566778899aabbccddeeff00)
   try:u.emu_start(cave+h['offset'],0x62000000,count=100000)
   except Exception:
    print('WRAPPER_FAILED',h['name'],hex(u.reg_read(UC_X86_REG_EIP)),hex(u.reg_read(UC_X86_REG_ESP)),original_calls,probe_calls);raise
-  assert original_calls==[0x55555555],(h['name'],'original self/once',original_calls)
-  assert probe_calls==[[image,data,0x22222222 if h['name']=='menu_create' else 0x55555555]],(h['name'],'probe self',probe_calls)
-  assert u.reg_read(UC_X86_REG_ESP)==sp+4
+  assert original_calls==[[0x55555555]+([0x62626262] if h['name']=='difficulty_changed' else [])],(h['name'],'original self/arguments/once',original_calls)
+  expected=[image,data,0x22222222 if h['name']=='menu_create' else 0x33333333 if h['name']=='difficulty_changed' else 0x55555555]
+  if h['name']=='difficulty_changed':expected.append(0x51515151)
+  assert probe_calls==[expected],(h['name'],'probe self/outer callback argument',probe_calls)
+  assert u.reg_read(UC_X86_REG_ESP)==sp+(8 if h['name']=='difficulty_changed' else 4),'Original callee stack cleanup preserved'
   assert u.reg_read(UC_X86_REG_EAX)==0x12345678 and u.reg_read(UC_X86_REG_ECX)==0x34567890 and u.reg_read(UC_X86_REG_EDX)==0x45678901
   assert all(u.reg_read(reg)==value for reg,value in preserved.items())
   assert u.reg_read(UC_X86_REG_EFLAGS)&1 and u.reg_read(UC_X86_REG_XMM0)==0x112233445566778899aabbccddeeff00
   u.hook_del(ho);u.hook_del(hp);cases+=1
 print('BOT_LOBBY_NATIVE_PASS',cases,'policy and relocated wrapper ABI cases; native engine mocked')
+(a.native/'test-results.json').write_text(json.dumps(dict(passed=True,cases=cases,relocationBases=3,gameLaunched=False,engineOrdersMocked=True),indent=2)+'\n')

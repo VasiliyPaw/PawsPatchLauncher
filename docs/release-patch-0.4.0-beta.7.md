@@ -6,8 +6,6 @@
 ## Интерфейс
 - Подсказка кнопки со звуком золота теперь содержит только заголовок Paw’s Patch на всех языках. Размер окна подстраивается под заголовок.
 
-Перед сетевым матчем всем участникам нужно обновиться до одной версии.
-
 ---
 
 ## Bots
@@ -15,5 +13,3 @@
 
 ## Interface
 - The gold-sound button tooltip now shows only the Paw’s Patch heading in every language. Its window fits the heading.
-
-All players must update to the same version before a multiplayer match.

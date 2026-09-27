@@ -67,7 +67,7 @@ internal static class BuildFeatures
         const string ai = "";
 #endif
 #if BOT_LOBBY
-        const string botLobby = ",\"bulkBotLobbyRevision\":2";
+        const string botLobby = ",\"bulkBotLobbyRevision\":3";
 #else
         const string botLobby = "";
 #endif

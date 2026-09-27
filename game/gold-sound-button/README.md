@@ -13,6 +13,12 @@ The source is the 1254x1254 generated edit with two red arrows and a circle.
 The tooltip contains only the `Paw's Patch` heading in every language.
 An empty body makes the native formatter skip paragraph separators. The old
 localized body key is removed from all shipped language tables.
+The native hover selector normally rejects widgets with an empty body before
+formatting their title. The call at RVA `0x2BFA43` therefore admits this private
+button when its title is nonempty, delegating every other widget to the original
+selector at RVA `0x2B6EC8`. The caller retains its enabled/visibility checks and
+hover delay. `test_hover_selection.py` reproduces the original rejection and
+executes the native hover caller and parent fallback at three ASLR bases.
 The native tooltip rectangle hook at RVA `0xC88BD` identifies this button by
 its private vtable, measures the formatted heading width with the native text
 function at RVA `0x1B0F17`, adds the current tooltip horizontal padding, and
@@ -23,6 +29,8 @@ widget retains its native tooltip placement. `test_tooltip.py` checks this
 wrapper and restoration at three ASLR bases with native measurement stubbed.
 `test_tooltip_layout.py` also runs the original rectangle calculation with
 three font metrics at each base and checks a single-line fitted rectangle.
+These checks cover native selection and layout; visible rendering still needs
+manual acceptance in the game.
 It does not consume a native action slot. It is not nested under the ally or
 selected-object controls, so its definition is available in solo and observer
 interfaces as well. The complete image is used, without cropping.
