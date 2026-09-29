@@ -1092,6 +1092,20 @@
                                     </Grid>
                                 </Border>
 
+                                <Border x:Name="PureLairCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <Border Width="34" Height="34" CornerRadius="10" Background="#24394B" BorderBrush="#566477" BorderThickness="1"><local:LauncherIcon Kind="Settings" Width="21" Height="21" Foreground="{StaticResource GoldBrightBrush}"/></Border>
+                                        <StackPanel Grid.Column="1" Margin="10,0,12,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="PureLairTitleText" Style="{StaticResource FieldTitle}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <TextBlock x:Name="PureLairDescriptionText" Style="{StaticResource CardDescription}" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                        <CheckBox x:Name="PureLairToggle" Grid.Column="2" Style="{StaticResource ToggleSwitch}" VerticalAlignment="Center" Click="GameplayOptionChanged"/>
+                                    </Grid>
+                                </Border>
+
                                 <Border x:Name="PowersShardsCard" Style="{StaticResource Card}" Margin="0,0,0,9" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="42"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>

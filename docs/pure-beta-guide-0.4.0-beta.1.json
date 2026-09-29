@@ -1,0 +1,66 @@
+[
+  {
+    "id": "pure-interface",
+    "category": "beta",
+    "titleRu": "Интерфейс, камера и управление",
+    "titleEn": "Interface, camera and controls",
+    "bodyRu": "Экономика союзника при выделении его рот или зданий, увеличенное отдаление камеры, рамка наблюдателя, кнопка Paw’s Patch со звуком золотого рудника. Цифры выбирают привязанные роты даже при открытом найме.",
+    "bodyEn": "Allied economy on selection, increased camera zoom-out, the observer frame and Paw’s Patch gold-mine sound button. Number keys select control groups even while recruitment is open."
+  },
+  {
+    "id": "pure-bot-panel",
+    "category": "beta",
+    "titleRu": "Настройки ботов",
+    "titleEn": "Bot settings",
+    "bodyRu": "Общие раса, фракция и сложность для ботов у хоста. Сложность сохраняется при смене параметров карты; подсказки кратко показывают изменение стоимости найма и строительства.",
+    "bodyEn": "Shared race, faction and difficulty controls for the host. Difficulty is retained when map settings change; tooltips show recruitment and construction cost changes."
+  },
+  {
+    "id": "pure-ai",
+    "category": "optional",
+    "titleRu": "Улучшения ботов и «Кошмар»",
+    "titleEn": "Improved bots and Nightmare",
+    "bodyRu": "Улучшены найм, разведка, строительство, замена слабых рот и передача городов союзникам. Исправлено бездействие после загрузки. Новые боты по умолчанию получают «Кошмар»: найм и строительство дешевле на 90%.",
+    "bodyEn": "Improves recruitment, scouting, construction, replacement of weak companies and city gifts. Fixes inactivity after loading. New bots default to Nightmare: recruitment and construction cost 90% less."
+  },
+  {
+    "id": "pure-lair-recovery",
+    "category": "optional",
+    "titleRu": "Раненые защитники логов",
+    "titleEn": "Wounded lair defenders",
+    "bodyRu": "Выжившие защитники, вернувшиеся в логово, могут снова выйти, не ожидая полного здоровья. Погибшие восстанавливаются штатно.",
+    "bodyEn": "Surviving defenders that returned to their lair can deploy without waiting for full health. Dead defenders recover normally."
+  },
+  {
+    "id": "frequency",
+    "category": "optional",
+    "titleRu": "Частота странствующих рот",
+    "titleEn": "Roaming frequency",
+    "bodyRu": "Обычная частота, ×2 или ×4. Применяется к логовам выбранного режима. Дополнительные роты включаются отдельно.",
+    "bodyEn": "Standard frequency, ×2 or ×4 for the selected mode’s lairs. Additional companies are a separate option."
+  },
+  {
+    "id": "pure-roaming",
+    "category": "optional",
+    "titleRu": "Дополнительные роты и вражда",
+    "titleEn": "Additional companies and hostility",
+    "bodyRu": "Наши готовые роты добавлены существующим логовам и лагерям. Отдельная настройка включает вражду независимых семейств.",
+    "bodyEn": "Our authored companies are added to existing lairs and camps. A separate option enables hostility between independent families."
+  },
+  {
+    "id": "pure-maps",
+    "category": "beta",
+    "titleRu": "Карты и лимиты",
+    "titleEn": "Maps and limits",
+    "bodyRu": "Случайный тип карты и время суток, до 16 королевств и 8 команд; размеры карт до 1152.",
+    "bodyEn": "Random map type and time of day, up to 16 kingdoms and 8 teams, and map sizes up to 1152."
+  },
+  {
+    "id": "pure-fixes",
+    "category": "beta",
+    "titleRu": "Исправления игры",
+    "titleEn": "Game fixes",
+    "bodyRu": "Исправлены зависания позиции рот и выход из истощения, отдельные вылеты и анимации. При входе в лобби проверяется совместимость игровых компонентов.",
+    "bodyEn": "Fixes stalled company positions, recovery from exhaustion, specific crashes and animations. Game-component compatibility is checked when joining a lobby."
+  }
+]

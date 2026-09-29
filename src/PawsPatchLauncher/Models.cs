@@ -39,6 +39,7 @@ public sealed class UserSettings
     public string? GameVoiceLanguage { get; set; }
     public bool CustomPlayerColors { get; set; }
     public string DesyncMode { get; set; } = "official";
+    public bool PureBetaFeatures { get; set; }
     public bool IndependentHostility { get; set; } = true;
     public string RoamingSpawnMode { get; set; } = "x4";
     public bool AdditionalRoamingCompanies { get; set; } = true;

@@ -27,8 +27,26 @@ public static class ConfigurationCode
             if (index < parts.Length && parts[index] == "PP1") { GameMod.SetPawPatch(mod, true); index++; }
             if (index < parts.Length && parts[index] == "CL1") { GameMod.SetColors(mod, true); index++; }
             if (index < parts.Length && parts[index] == "OOS1") { GameMod.SetDesync(mod, true); index++; }
+            if (index < parts.Length && parts[index] == "PB1")
+            {
+                if (mod.Channel != "beta" || !GameMod.PawPatchSelected(mod) || parts.Length < index + 6)
+                    throw new FormatException("Pure beta options require the enabled beta patch.");
+                mod.PureBetaFeatures = true; index++;
+                bool Option(string prefix)
+                {
+                    var value = parts[index++];
+                    return value == prefix + "1" ? true : value == prefix + "0" ? false
+                        : throw new FormatException("Invalid Pure beta option: " + prefix);
+                }
+                var pure = GameMod.PureComponents(mod);
+                pure.ImprovedAi = Option("AI"); pure.WoundedLairDefenders = Option("LR");
+                pure.IndependentHostility = Option("IW");
+                pure.RoamingSpawnMode = parts[index++] switch { "SP1" => "standard", "SP2" => "x2", "SP4" => "x4", _ => throw new FormatException("Invalid Pure frequency.") };
+                pure.AdditionalRoamingCompanies = Option("RM");
+            }
             if (index < parts.Length && parts[index] == "DATA" && (GameMod.PawPatchSelected(mod) || mod.Mod == GameMod.Immortals)) { mod.DataOnly = true; index++; }
             if (index != parts.Length) throw new FormatException("Invalid mod configuration field.");
+            if (mod.PureBetaFeatures && mod.DataOnly) throw new FormatException("Pure beta options require a supported game executable.");
             if ((GameMod.ColorsSelected(mod) || GameMod.DesyncSelected(mod)) && (!GameMod.PawPatchSelected(mod) || mod.DataOnly))
                 throw new FormatException("Executable options require the enabled patch.");
             return EffectiveSettings.ForChannel(mod);
@@ -86,6 +104,14 @@ public static class ConfigurationCode
             GameMod.SetColors(target, GameMod.ColorsSelected(source));
             GameMod.SetDesync(target, GameMod.DesyncSelected(source));
             target.DataOnly = source.DataOnly;
+            target.PureBetaFeatures = source.PureBetaFeatures;
+            if (source.PureBetaFeatures)
+            {
+                var from = GameMod.PureComponents(source); var to = GameMod.PureComponents(target);
+                to.ImprovedAi = from.ImprovedAi; to.WoundedLairDefenders = from.WoundedLairDefenders;
+                to.IndependentHostility = from.IndependentHostility;
+                to.AdditionalRoamingCompanies = from.AdditionalRoamingCompanies; to.RoamingSpawnMode = from.RoamingSpawnMode;
+            }
             return;
         }
         GameMod.SetPawPatch(target, source.PawPatchEnabled);
@@ -114,7 +140,12 @@ public static class ConfigurationCode
     {
         settings = EffectiveSettings.ForChannel(settings);
         var channel = settings.Channel.Equals("beta", StringComparison.OrdinalIgnoreCase) ? "BETA" : "STABLE";
-        if (!GameMod.IsArcaneWars(settings)) return $"PAW-{channel}-{(GameMod.IsVanilla(settings) ? "VANILLA" : "IMMORTALS")}{(settings.RussianLocalization ? "-RU1" : "")}{(settings.PawPatchEnabled ? "-PP1" : "")}{(settings.CustomPlayerColors ? "-CL1" : "")}{(settings.DesyncMode == "continue" ? "-OOS1" : "")}{(settings.DataOnly ? "-DATA" : "")}";
+        if (!GameMod.IsArcaneWars(settings))
+        {
+            var pure = GameMod.PureComponents(settings);
+            var extras = settings.PureBetaFeatures ? $"-PB1-AI{Bit(pure.ImprovedAi)}-LR{Bit(pure.WoundedLairDefenders)}-IW{Bit(pure.IndependentHostility)}-SP{(pure.RoamingSpawnMode == "x4" ? 4 : pure.RoamingSpawnMode == "x2" ? 2 : 1)}-RM{Bit(pure.AdditionalRoamingCompanies)}" : "";
+            return $"PAW-{channel}-{(GameMod.IsVanilla(settings) ? "VANILLA" : "IMMORTALS")}{(settings.RussianLocalization ? "-RU1" : "")}{(settings.PawPatchEnabled ? "-PP1" : "")}{(settings.CustomPlayerColors ? "-CL1" : "")}{(settings.DesyncMode == "continue" ? "-OOS1" : "")}{extras}{(settings.DataOnly ? "-DATA" : "")}";
+        }
         var spawn = settings.RoamingSpawnMode.ToLowerInvariant() switch { "x4" => "4", "x2" => "2", _ => "1" };
         var oos = settings.DesyncMode.Equals("continue", StringComparison.OrdinalIgnoreCase) ? "1" : "0";
         // Legacy codes already mean powers/shards disabled; preserve their fingerprints.

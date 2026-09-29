@@ -9,7 +9,10 @@ using System.Threading;
 
 [assembly: AssemblyTitle("Paw Pure Fixes for Kohan II 1.3.72")]
 #if PAW_PURE_CHANNEL
-#if PAW_PURE_BETA
+#if PAW_PURE_EXTENDED
+[assembly: AssemblyVersion("1.3.72.12")]
+[assembly: AssemblyFileVersion("1.3.72.12")]
+#elif PAW_PURE_BETA
 [assembly: AssemblyVersion("1.3.72.10")]
 [assembly: AssemblyFileVersion("1.3.72.10")]
 #else
@@ -69,6 +72,9 @@ namespace PawPureFixes
             // data-file version string or an absent PE version resource instead.
             if (!IsSupportedHash(Hash(game)))
                 throw new InvalidDataException("Pure fixes require the supported Kohan II " + GameVersion + " executable. Select file-only fixes for this game version.");
+#if PAW_PURE_EXTENDED
+            PureBetaRuntime.ValidateInstallation(root);
+#endif
         }
         internal static bool TrySnapshot(Func<string> readPath, Func<IntPtr> readBase, out string path, out IntPtr image)
         {
@@ -181,6 +187,9 @@ namespace PawPureFixes
             try
             {
                 Preflight(root);
+#if PAW_PURE_EXTENDED
+                PureBetaRuntime.Prepare(root);
+#endif
                 Process[] running = Process.GetProcessesByName("k2");
                 try { if (running.Length != 0) throw new InvalidOperationException("Close the existing Kohan II before starting pure fixes."); }
                 finally { foreach (Process item in running) item.Dispose(); }
@@ -197,10 +206,16 @@ namespace PawPureFixes
                 {
                     uint address = unchecked((uint)image.ToInt32());
                     WaitForCode(memory, address, game);
+#if PAW_PURE_EXTENDED
+                    uint registration = EngineCrashFixesPatch.ResolveHandlerRegistration(game);
+#endif
                     memory.Suspend();
                     uint cave;
                     try
                     {
+#if PAW_PURE_EXTENDED
+                        PureBetaRuntime.Validate(memory, address);
+#endif
 #if PAW_PURE_SYNC
                         PureSync.Validate(memory, address);
 #endif
@@ -217,6 +232,9 @@ namespace PawPureFixes
 #if PAW_PURE_COLORS
                         PawLobbyColorsNative.Install(game.Handle, image, log);
 #endif
+#if PAW_PURE_EXTENDED
+                        PureBetaRuntime.Install(memory, address, registration, game, root, delegate(string message) { Log(log, message); });
+#endif
 #if PAW_PURE_SYNC
                         syncCounter = PureSync.Install(memory, address);
                         Log(log, "SYNC_PATCH_APPLIED signal=0x" + syncCounter.ToString("X8") + "; notifications=false; firstFailureNativeLog=true; diagnosticsRevision=1; gameContinues=true");
@@ -227,12 +245,20 @@ namespace PawPureFixes
                 }
 #endif
 #if PAW_MENU_PRESENTATION
+#if PAW_PURE_EXTENDED
+                PawGamePresentation.InstallPureBeta(game.Handle, image, log, root);
+                PureBetaRuntime.Finish(game, image, root, delegate(string message) { Log(log, message); });
+#else
                 PawGamePresentation.InstallMenuOnly(game.Handle, image, log, root);
+#endif
 #endif
                 complete = true;
                 // Keep the launcher-owned helper alive for game observation.
                 while (!game.WaitForExit(1000))
                 {
+#if PAW_PURE_EXTENDED
+                    PureBetaRuntime.Tick();
+#endif
 #if PAW_PURE_SYNC
                     try
                     {

@@ -159,6 +159,11 @@ internal static class PawGamePresentation
     public static void InstallMenuOnly(IntPtr process,IntPtr image,string logPath,string root)
     { InstallPresentation(process,image,logPath,root,true); }
 
+    // PurePatch already owns the negative-zero call. Keep that hook single-owned
+    // while enabling the shared sound widget and Pure launcher version labels.
+    public static void InstallPureBeta(IntPtr process,IntPtr image,string logPath,string root)
+    { InstallPresentation(process,image,logPath,root,true,true); }
+
     internal static void ValidateData(string root)
     {
         VersionSuffix(File.ReadAllText(Path.Combine(root,"paws_patch_versions.ini"),Encoding.UTF8));
@@ -166,14 +171,14 @@ internal static class PawGamePresentation
             throw new FileNotFoundException("Missing common UI main menu layout");
     }
 
-    static void InstallPresentation(IntPtr process,IntPtr image,string logPath,string root,bool menuOnly)
+    static void InstallPresentation(IntPtr process,IntPtr image,string logPath,string root,bool menuOnly,bool pureBeta=false)
     {
         VerifyOffline();
         string suffix=VersionSuffix(File.ReadAllText(Path.Combine(root,menuOnly?"paws_launch_versions.ini":"paws_patch_versions.ini"),Encoding.UTF8));
         if(!File.Exists(Path.Combine(root,"data","UI","Menus","main.tgi")))
             throw new FileNotFoundException("Missing common UI main menu layout");
         // Older data packages and menu-only launches have no sound-button asset.
-        bool soundButton=!menuOnly && File.Exists(Path.Combine(root,"data","UI","Game","PawGoldSound.png")) &&
+        bool soundButton=(!menuOnly || pureBeta) && File.Exists(Path.Combine(root,"data","UI","Game","PawGoldSound.png")) &&
             File.Exists(Path.Combine(root,"data","UI","Game","game_interface.tgi")) &&
             File.ReadAllText(Path.Combine(root,"data","UI","Game","game_interface.tgi")).Contains("[PawGoldSoundButton Template=PushButtonWidget]");
         // Steam decrypts code during boot. Validate all selected sites before writes.

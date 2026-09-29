@@ -7,8 +7,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 #if PAW_PURE_FAST_TRANSFER
-using IMemory = PawPureFixes.IPatchMemory;
-using TerrainPatch = PawPureFixes.PurePatch;
+using TransferMemory = PawPureFixes.IPatchMemory;
+using TransferPatch = PawPureFixes.PurePatch;
+#else
+using TransferMemory = global::IMemory;
+using TransferPatch = global::TerrainPatch;
 #endif
 
 internal static class PawFastTransfer
@@ -16,9 +19,9 @@ internal static class PawFastTransfer
     internal const uint BudgetRva = 0x151936, CadenceRva = 0x1500F6, AckRva = 0x1501D1;
     internal const int BudgetBits = 1200 * 8 + 3;
     internal const int Burst = 16;
-    internal static readonly byte[] BudgetOriginal = TerrainPatch.Hex("8B43088BCDC1E003");
-    internal static readonly byte[] CadenceOriginal = TerrainPatch.Hex("6A05E972FFFFFF");
-    internal static readonly byte[] AckOriginal = TerrainPatch.Hex("6A04E9A9FEFFFF");
+    internal static readonly byte[] BudgetOriginal = TransferPatch.Hex("8B43088BCDC1E003");
+    internal static readonly byte[] CadenceOriginal = TransferPatch.Hex("6A05E972FFFFFF");
+    internal static readonly byte[] AckOriginal = TransferPatch.Hex("6A04E9A9FEFFFF");
 #if !PAW_PURE_FAST_TRANSFER
     private static int pid;
     private static uint stats;
@@ -70,10 +73,10 @@ internal static class PawFastTransfer
         return result;
     }
 
-    internal static void Validate(IMemory memory, uint image)
+    internal static void Validate(TransferMemory memory, uint image)
     {
         foreach (Guard guard in Guards())
-            TerrainPatch.Expect(memory, image + guard.Rva, guard.At(image));
+            TransferPatch.Expect(memory, image + guard.Rva, guard.At(image));
         // These are the *live* registry values, not assumed registration defaults.
         uint registry = BitConverter.ToUInt32(memory.Read(image + 0x5F94D0, 4), 0);
         if (registry == 0) throw new InvalidDataException("Transfer registry unavailable");
@@ -91,7 +94,7 @@ internal static class PawFastTransfer
         internal readonly List<byte> B = new List<byte>();
         private readonly uint origin;
         internal Code(uint origin) { this.origin = origin; }
-        internal void Add(string hex) { B.AddRange(TerrainPatch.Hex(hex)); }
+        internal void Add(string hex) { B.AddRange(TransferPatch.Hex(hex)); }
         internal void U32(uint n) { B.AddRange(BitConverter.GetBytes(n)); }
         internal int Jump(byte condition) { Add("0F"); B.Add(condition); int p = B.Count; U32(0); return p; }
         internal void Bind(int operand, int target) { Put(B, operand, unchecked((uint)(target - operand - 4))); }
@@ -162,7 +165,7 @@ internal static class PawFastTransfer
         return result;
     }
 
-    internal static uint InstallCore(IMemory memory, uint image)
+    internal static uint InstallCore(TransferMemory memory, uint image)
     {
         Validate(memory, image); // No allocations or writes before all checks pass.
         uint cave = memory.Allocate(8192);
@@ -171,7 +174,7 @@ internal static class PawFastTransfer
         {
             byte[] payload = Payload(image, cave);
             memory.Write(cave, payload);
-            TerrainPatch.Expect(memory, cave, payload);
+            TransferPatch.Expect(memory, cave, payload);
             memory.MakeExecutable(cave, 4096);
             memory.Flush(cave, 4096);
             budgetTouched = true;
@@ -183,9 +186,9 @@ internal static class PawFastTransfer
             memory.Flush(image + BudgetRva, BudgetOriginal.Length);
             memory.Flush(image + CadenceRva, CadenceOriginal.Length);
             memory.Flush(image + AckRva, AckOriginal.Length);
-            TerrainPatch.Expect(memory, image + BudgetRva, Detour(image + BudgetRva, cave, BudgetOriginal.Length));
-            TerrainPatch.Expect(memory, image + CadenceRva, Detour(image + CadenceRva, cave + 256, CadenceOriginal.Length));
-            TerrainPatch.Expect(memory, image + AckRva, Detour(image + AckRva, cave + 512, AckOriginal.Length));
+            TransferPatch.Expect(memory, image + BudgetRva, Detour(image + BudgetRva, cave, BudgetOriginal.Length));
+            TransferPatch.Expect(memory, image + CadenceRva, Detour(image + CadenceRva, cave + 256, CadenceOriginal.Length));
+            TransferPatch.Expect(memory, image + AckRva, Detour(image + AckRva, cave + 512, AckOriginal.Length));
             return cave;
         }
         catch
@@ -193,11 +196,11 @@ internal static class PawFastTransfer
             // Caller holds the process suspended. A failed rollback aborts the
             // owned fresh launch; never free code still targeted by a detour.
             if (ackTouched)
-            { memory.WriteCode(image + AckRva, AckOriginal); memory.Flush(image + AckRva, AckOriginal.Length); TerrainPatch.Expect(memory, image + AckRva, AckOriginal); }
+            { memory.WriteCode(image + AckRva, AckOriginal); memory.Flush(image + AckRva, AckOriginal.Length); TransferPatch.Expect(memory, image + AckRva, AckOriginal); }
             if (cadenceTouched)
-            { memory.WriteCode(image + CadenceRva, CadenceOriginal); memory.Flush(image + CadenceRva, CadenceOriginal.Length); TerrainPatch.Expect(memory, image + CadenceRva, CadenceOriginal); }
+            { memory.WriteCode(image + CadenceRva, CadenceOriginal); memory.Flush(image + CadenceRva, CadenceOriginal.Length); TransferPatch.Expect(memory, image + CadenceRva, CadenceOriginal); }
             if (budgetTouched)
-            { memory.WriteCode(image + BudgetRva, BudgetOriginal); memory.Flush(image + BudgetRva, BudgetOriginal.Length); TerrainPatch.Expect(memory, image + BudgetRva, BudgetOriginal); }
+            { memory.WriteCode(image + BudgetRva, BudgetOriginal); memory.Flush(image + BudgetRva, BudgetOriginal.Length); TransferPatch.Expect(memory, image + BudgetRva, BudgetOriginal); }
             memory.Free(cave);
             throw;
         }

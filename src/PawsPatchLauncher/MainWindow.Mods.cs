@@ -23,12 +23,14 @@ public partial class MainWindow
     private string ModuleHelpText(string key) => key switch
     {
         "modules.core" => CoreHelpText(),
-        "modules.spawn" => GuideChannel()?.PatchGuide?.Entries.FirstOrDefault(e => e.Id == "frequency")?.Body(_text.Language)
+        "modules.spawn" => SelectedPatchGuide()?.Entries.FirstOrDefault(e => e.Id == "frequency")?.Body(_text.Language)
             ?? _text["modules.spawn.help"],
         "modules.colors" => ColorHelpText(),
         "modules.siege" => _text[GameMod.HasImprovedAi(GuideChannel()) ? "modules.siege.beta.help" : "modules.siege.help"],
         _ => _text[key + ".help"]
     };
+    private PatchGuideDocument? SelectedPatchGuide() => GameMod.IsArcaneWars(_settings)
+        ? GuideChannel()?.PatchGuide : GuideChannel()?.ModGuides.FirstOrDefault(g => g.Id == _settings.Mod)?.PatchGuide;
     private string ColorHelpText()
     {
         var feed = GuideChannel();
@@ -97,9 +99,9 @@ public partial class MainWindow
     {
         var arcane = GameMod.IsArcaneWars(_settings);
         var enabled = GameMod.PawPatchSelected(_settings) && (arcane || GameMod.HasPureOptions(_channel));
-        foreach (var card in ArcaneComponentCards().Skip(1))
+        foreach (var card in ArcaneComponentCards().Skip(1).Append(PureLairCard))
         {
-            var needsExe = card == ColorsModuleCard || card == OosModuleCard || card == IndependentHostilityCard || card == ImprovedAiCard;
+            var needsExe = !arcane || card == ColorsModuleCard || card == OosModuleCard || card == IndependentHostilityCard || card == ImprovedAiCard;
             card.Opacity = !enabled || needsExe && DataOnlyMode ? .42 : 1;
             card.ToolTip = !enabled ? T("Включите Paw's Patch, чтобы выбрать этот компонент.", "Enable Paw's Patch to select this component.")
                 : needsExe && DataOnlyMode ? T("Недоступно: требуется совместимая версия EXE игры.", "Unavailable: a supported game executable is required.") : null;
@@ -109,15 +111,25 @@ public partial class MainWindow
         IgnoreDesyncToggle.IsChecked = enabled && !DataOnlyMode && GameMod.DesyncSelected(_settings);
         AdditionalRoamingToggle.IsChecked = enabled && _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = enabled && _settings.SiegeBalance;
-        ImprovedAiToggle.IsChecked = enabled && !DataOnlyMode && GameMod.HasImprovedAi(_channel) && _settings.ImprovedAi;
-        ImprovedAiToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && GameMod.HasImprovedAi(_channel);
+        ImprovedAiToggle.IsChecked = enabled && !DataOnlyMode && GameMod.HasImprovedAi(_channel, _settings.Mod) && GameMod.ImprovedAiSelected(_settings);
+        ImprovedAiToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && GameMod.HasImprovedAi(_channel, _settings.Mod);
         PowersShardsToggle.IsChecked = enabled && _settings.DisablePowersAndShards;
-        SelectSpawnMode(enabled ? _settings.RoamingSpawnMode : "standard");
+        SelectSpawnMode(enabled ? (arcane ? _settings.RoamingSpawnMode : GameMod.PureComponents(_settings).RoamingSpawnMode) : "standard");
+        if (!arcane)
+        {
+            var pure = GameMod.PureComponents(_settings);
+            IndependentHostilityToggle.IsChecked = enabled && !DataOnlyMode && pure.IndependentHostility;
+            AdditionalRoamingToggle.IsChecked = enabled && !DataOnlyMode && pure.AdditionalRoamingCompanies;
+            PureLairToggle.IsChecked = enabled && !DataOnlyMode && pure.WoundedLairDefenders;
+            PureLairToggle.IsEnabled = enabled && !_busy && !DataOnlyMode;
+        }
         ColorsToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && _colorsAvailable;
         IndependentHostilityToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && CanChangeHostilityWithSelectedColors;
         IgnoreDesyncToggle.IsEnabled = enabled && !_busy && !DataOnlyMode && CanContinueWithSelectedColors;
         AdditionalRoamingToggle.IsEnabled = SiegeBalanceToggle.IsEnabled = StandardSpawnRadio.IsEnabled = X4SpawnRadio.IsEnabled = enabled && !_busy;
         X2SpawnRadio.IsEnabled = enabled && !_busy && SupportsX2(_channel);
+        if (!arcane && DataOnlyMode)
+            AdditionalRoamingToggle.IsEnabled = StandardSpawnRadio.IsEnabled = X2SpawnRadio.IsEnabled = X4SpawnRadio.IsEnabled = false;
         PowersShardsToggle.IsEnabled = enabled && !_busy && (PowersShardsAvailable || !_settings.DisablePowersAndShards);
     }
 
@@ -169,10 +181,15 @@ public partial class MainWindow
             VanillaEmptyCard.Visibility = modules && !arcane && !pureAvailable ? Visibility.Visible : Visibility.Collapsed;
             MultiplayerNoteCard.Visibility = modules ? Visibility.Visible : Visibility.Collapsed;
             foreach (var card in ArcaneComponentCards()) card.Visibility = modules && arcane ? Visibility.Visible : Visibility.Collapsed;
-            ImprovedAiCard.Visibility = modules && arcane && GameMod.HasImprovedAi(_channel) ? Visibility.Visible : Visibility.Collapsed;
+            ImprovedAiCard.Visibility = modules && GameMod.HasImprovedAi(_channel, _settings.Mod) ? Visibility.Visible : Visibility.Collapsed;
             CoreModuleCard.Visibility = modules && (arcane || pureAvailable) ? Visibility.Visible : Visibility.Collapsed;
             if (modules && !arcane && GameMod.HasPureOptions(_channel))
                 ColorsModuleCard.Visibility = OosModuleCard.Visibility = Visibility.Visible;
+            bool pureBeta = modules && !arcane && GameMod.HasPureBeta(_channel);
+            PureLairCard.Visibility = pureBeta ? Visibility.Visible : Visibility.Collapsed;
+            PureLairTitleText.Text = T("Защитники логов", "Lair defenders");
+            PureLairDescriptionText.Text = T("Выжившие защитники выходят в бой, не дожидаясь полного здоровья.", "Surviving defenders deploy without waiting for full health.");
+            if (pureBeta) IndependentHostilityCard.Visibility = RoamingSpawnCard.Visibility = AdditionalRoamingCard.Visibility = Visibility.Visible;
             SyncPatchChannelControls();
         }
         finally { _initializing = previous; }
@@ -180,6 +197,9 @@ public partial class MainWindow
 
     private string PureFixesDescription(bool partial)
     {
+        if (!partial && GameMod.HasPureBeta(GuideChannel()))
+            return T("Экономика союзника, более далёкая камера, исправления рот и вылетов, общие настройки ботов, интерфейс наблюдателя и звуковая кнопка. Добавлены большие карты, 16 королевств и 8 команд, случайные карта и время суток. Улучшения ботов, защитники логов, странствующие роты и вражда независимых семейств настраиваются отдельно.",
+                "Allied economy, extended camera, company and crash fixes, shared bot settings, observer interface and sound button. Adds larger maps, 16 kingdoms and 8 teams, random map and time of day. Bot improvements, lair defenders, roaming companies and independent family hostility have separate settings.");
         // A locally installed package can retain an older manifest. Describe the
         // selected channel, like the guide does; an explicit release pin still
         // resolves to its historical documentation.

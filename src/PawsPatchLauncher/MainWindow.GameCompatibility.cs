@@ -173,6 +173,7 @@ public partial class MainWindow
             AutomationProperties.SetName(PawCompatibilityButton, (string)PawCompatibilityButton.ToolTip);
             CoreDescriptionText.Text = DataOnlyMode ? T("Работают только файловые изменения. Подробнее — в красном значке.", "Only file changes are active. See the red icon for details.")
                 : GameMod.IsArcaneWars(_settings) ? _text["modules.core.desc"]
+                : GameMod.HasPureBeta(GuideChannel()) ? T("Экономика союзника, камера, интерфейс, карты и исправления игры", "Allied economy, camera, interface, maps and game fixes")
                 : T("Исправления цветов значков, отображения лимита рот и генерации рельефа", "Fixes for badge colors, company limit display and terrain generation");
             RefreshPawComponentDependency();
         }

@@ -72,10 +72,10 @@ public partial class MainWindow : Window
         SyncPatchChannelControls();
         RussianToggle.IsChecked = _settings.RussianLocalization;
         ColorsToggle.IsChecked = _settings.CustomPlayerColors;
-        IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
-        AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
+        IndependentHostilityToggle.IsChecked = GameMod.IsArcaneWars(_settings) ? _settings.IndependentHostility : GameMod.PureComponents(_settings).IndependentHostility;
+        AdditionalRoamingToggle.IsChecked = GameMod.IsArcaneWars(_settings) ? _settings.AdditionalRoamingCompanies : GameMod.PureComponents(_settings).AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
-        ImprovedAiToggle.IsChecked = _settings.ImprovedAi;
+        ImprovedAiToggle.IsChecked = GameMod.ImprovedAiSelected(_settings);
         PowersShardsToggle.IsChecked = _settings.DisablePowersAndShards;
         SelectOosMode(_settings.DesyncMode);
         SelectSpawnMode(_settings.RoamingSpawnMode);
@@ -418,7 +418,7 @@ public partial class MainWindow : Window
         X4SpawnRadio.IsEnabled = !_busy;
         AdditionalRoamingToggle.IsEnabled = !_busy;
         SiegeBalanceToggle.IsEnabled = !_busy;
-        ImprovedAiToggle.IsEnabled = !_busy && GameMod.PawPatchSelected(_settings) && !DataOnlyMode && GameMod.HasImprovedAi(_channel);
+        ImprovedAiToggle.IsEnabled = !_busy && GameMod.PawPatchSelected(_settings) && !DataOnlyMode && GameMod.HasImprovedAi(_channel, _settings.Mod);
         RefreshPowersShardsOption();
         CopyConfigurationButton.IsEnabled = !_busy;
         DiagnosticsButton.IsEnabled = !_busy;
@@ -810,6 +810,20 @@ public partial class MainWindow : Window
     {
         if (_initializing) return;
         var appearance = CaptureAppearance();
+        if (!GameMod.IsArcaneWars(_settings))
+        {
+            var pure = GameMod.PureComponents(_settings);
+            if (ReferenceEquals(sender, IndependentHostilityToggle)) pure.IndependentHostility = IndependentHostilityToggle.IsChecked == true;
+            if (ReferenceEquals(sender, AdditionalRoamingToggle)) pure.AdditionalRoamingCompanies = AdditionalRoamingToggle.IsChecked == true;
+            if (ReferenceEquals(sender, ImprovedAiToggle)) pure.ImprovedAi = ImprovedAiToggle.IsChecked == true;
+            if (ReferenceEquals(sender, PureLairToggle)) pure.WoundedLairDefenders = PureLairToggle.IsChecked == true;
+            _settingsStore.Save(_settings);
+            InvalidateReadiness();
+            RefreshConfigurationCode();
+            RefreshStatus();
+            HighlightAppearanceChanges(appearance);
+            return;
+        }
         if (!DataOnlyMode) _settings.IndependentHostility = IndependentHostilityToggle.IsChecked == true;
         _settings.AdditionalRoamingCompanies = AdditionalRoamingToggle.IsChecked == true;
         _settings.SiegeBalance = SiegeBalanceToggle.IsChecked == true;
@@ -851,7 +865,7 @@ public partial class MainWindow : Window
         IndependentHostilityToggle.IsChecked = _settings.IndependentHostility;
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
-        ImprovedAiToggle.IsChecked = _settings.ImprovedAi;
+        ImprovedAiToggle.IsChecked = GameMod.ImprovedAiSelected(_settings);
         IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
         ColorsDescriptionText.Text = _colorsAvailable ? _text.ColorText("modules.colors.desc", _channel) : UiLanguages.Text(_text.Language, "Недоступно в выбранном старом выпуске. Выберите последнюю версию патча.", "Unavailable in this older release. Select the latest patch version.");
         }
@@ -945,6 +959,7 @@ public partial class MainWindow : Window
         || (GameMod.IsArcaneWars(_settings) ? GameExecutableSelector.SupportsColorDesyncContinue(_channel) : GameMod.HasPureOptions(_channel));
 
     private bool CanChangeHostilityWithSelectedColors => ColorsToggle.IsChecked != true
+        || !GameMod.IsArcaneWars(_settings) && GameMod.HasPureBeta(_channel)
         || GameExecutableSelector.SupportsIndependentColors(_channel);
 
     private void SpawnMode_Checked(object sender, RoutedEventArgs e)
@@ -954,7 +969,9 @@ public partial class MainWindow : Window
         {
             var appearance = CaptureAppearance();
             if (mode == "x2" && !SupportsX2(_channel)) { SelectSpawnMode(_settings.RoamingSpawnMode); return; }
-            _settings.RoamingSpawnMode = mode.ToLowerInvariant() is "x2" or "x4" ? mode.ToLowerInvariant() : "standard";
+            string chosen = mode.ToLowerInvariant() is "x2" or "x4" ? mode.ToLowerInvariant() : "standard";
+            if (GameMod.IsArcaneWars(_settings)) _settings.RoamingSpawnMode = chosen;
+            else GameMod.PureComponents(_settings).RoamingSpawnMode = chosen;
             _settingsStore.Save(_settings);
             RefreshConfigurationCode();
             RefreshStatus();

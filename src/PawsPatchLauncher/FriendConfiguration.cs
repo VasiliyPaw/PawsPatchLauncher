@@ -9,7 +9,7 @@ public static class FriendConfiguration
     {
         settings = new UserSettings();
         if (code is null || code.Length > 128 || !Regex.IsMatch(code,
-            @"\APAW-(STABLE|BETA)-((VANILLA|IMMORTALS)(-RU[01])?(-PP1)?(-CL1)?(-OOS1)?(-DATA)?|IW[01]-SP[124]-RM[01]-SG[01]-LM[01]-RU[01]-CL[01]-OOS[01](-PS[01])?(-AI1)?(-PP0)?(-DATA)?)(-TX(DE|FR|CS|UK))?(-VO(EN|RU|DE|FR))?\z")) return false;
+            @"\APAW-(STABLE|BETA)-((VANILLA|IMMORTALS)(-RU[01])?(-PP1)?(-CL1)?(-OOS1)?(-PB1-AI[01]-LR[01]-IW[01]-SP[124]-RM[01])?(-DATA)?|IW[01]-SP[124]-RM[01]-SG[01]-LM[01]-RU[01]-CL[01]-OOS[01](-PS[01])?(-AI1)?(-PP0)?(-DATA)?)(-TX(DE|FR|CS|UK))?(-VO(EN|RU|DE|FR))?\z")) return false;
         try { settings = ConfigurationCode.Parse(code); return settings.Channel == channel; }
         catch (FormatException) { return false; }
     }
@@ -33,10 +33,22 @@ public static class FriendConfiguration
     {
         var settings = EffectiveSettings.ForChannel(preferences);
         var values = new Dictionary<string, bool> { ["core"] = GameMod.PawPatchSelected(settings) };
-        if (!GameMod.IsArcaneWars(settings) && !settings.CustomPlayerColors && settings.DesyncMode == "official") return values;
+        if (!GameMod.IsArcaneWars(settings) && !settings.PureBetaFeatures && !settings.CustomPlayerColors && settings.DesyncMode == "official") return values;
         values["colors"] = settings.CustomPlayerColors;
         values["desync"] = settings.DesyncMode != "official";
-        if (!GameMod.IsArcaneWars(settings)) return values;
+        if (!GameMod.IsArcaneWars(settings))
+        {
+            if (settings.PureBetaFeatures)
+            {
+                values["hostility"] = settings.IndependentHostility;
+                values["roaming"] = settings.RoamingSpawnMode != "standard";
+                values["additional_roaming"] = settings.AdditionalRoamingCompanies;
+                values["improved_ai"] = settings.ImprovedAi;
+                values["lair_recovery"] = GameMod.PureComponents(settings).WoundedLairDefenders;
+                values["large_maps"] = true;
+            }
+            return values;
+        }
         values["hostility"] = settings.IndependentHostility;
         values["roaming"] = settings.RoamingSpawnMode != "standard";
         values["additional_roaming"] = settings.AdditionalRoamingCompanies;

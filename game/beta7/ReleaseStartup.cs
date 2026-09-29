@@ -22,7 +22,7 @@ internal static class ReleaseStartup
     private static int verifiedPid;
     private static DateTime verifiedStart;
     internal static IntPtr VerifiedImage;
-#if LAIR_RECOVERY_TEST
+#if LAIR_RECOVERY_TEST || PAW_PURE_EXTENDED
     // A local test EXE lives outside the installation. All readers must use
     // the exact verified game root, not the location of the helper binary.
     internal static string GameDataDirectory = AppDomain.CurrentDomain.BaseDirectory;

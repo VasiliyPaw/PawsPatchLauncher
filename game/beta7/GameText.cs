@@ -10,14 +10,14 @@ internal static class PawGameText
 {
     private static readonly Dictionary<string,string> entries=new Dictionary<string,string>(StringComparer.Ordinal);
     internal static readonly string Language=Load();
-#if LAIR_RECOVERY_TEST
+#if LAIR_RECOVERY_TEST || PAW_PURE_EXTENDED
     // Do not let beforefieldinit load the catalog before the test helper has
     // selected and validated its external installation directory.
     static PawGameText() { }
 #endif
     private static string Load()
     {
-#if LAIR_RECOVERY_TEST
+#if LAIR_RECOVERY_TEST || PAW_PURE_EXTENDED
         string root=ReleaseStartup.GameDataDirectory;
 #else
         string root=Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

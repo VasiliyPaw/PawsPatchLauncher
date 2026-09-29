@@ -1,0 +1,68 @@
+using PawsPatchLauncher;
+
+internal static class PureBetaTests
+{
+    internal static ChannelManifest Feed(string channel = "beta")
+    {
+        var f = new ChannelManifest { Channel = channel, PureRuntimeOptions = true };
+        void Add(string id, params string[] mods) => f.Packages.Add(new() { Id = id, Mods = mods.Length == 0 ? ["vanilla", "immortals"] : [..mods], ExecutableIndependent = id is "pure-fixes-data" or "immortals" or "startup-base" });
+        foreach (var id in new[] { "pure-fixes-data", "pure-fixes-runtime", "pure-player-colors", "pure-beta-common", "pure-ai-improvements", "pure-lair-recovery", "pure-independent-hostility", "immortals", "startup-base" }) Add(id);
+        Add("pure-localization-bot-ui-en");
+        foreach (var mod in new[] { "vanilla", "immortals" })
+        {
+            Add("pure-"+mod+"-rules",mod); Add("pure-"+mod+"-hostility",mod);
+            foreach (var frequency in new[] { "standard", "x2", "x4" })
+            foreach (var extra in new[] { "with-new", "no-new" }) Add("pure-"+mod+"-roaming-"+frequency+"-"+extra,mod);
+        }
+        return f;
+    }
+    internal static int Run()
+    {
+        int count=0;
+        void Check(bool ok,string why) { count++; if(!ok)throw new Exception("Pure beta: "+why); }
+        var feed=Feed();
+        foreach(var mod in new[]{"vanilla","immortals"})
+        foreach(var frequency in new[]{"standard","x2","x4"})
+        for(int flags=0;flags<64;flags++)
+        {
+            bool Flag(int i)=>(flags&(1<<i))!=0;
+            var s=new UserSettings {Mod=mod,Channel="beta",RussianLocalization=false,GameVoiceLanguage="en"};
+            GameMod.SetPawPatch(s,true); var p=GameMod.PureComponents(s);
+            p.Colors=Flag(0);p.IgnoreDesync=Flag(1);p.ImprovedAi=Flag(2);p.WoundedLairDefenders=Flag(3);
+            p.IndependentHostility=Flag(4);p.AdditionalRoamingCompanies=Flag(5);p.RoamingSpawnMode=frequency;
+            var active=EffectiveSettings.ForFeed(s,feed); var code=ConfigurationCode.Create(active);
+            Check(active.PureBetaFeatures,"new feed must activate beta composition");
+            Check(FriendConfiguration.TryParse(code,"beta",out var peer)&&ConfigurationCode.Create(peer)==code,"peer roundtrip: "+code);
+            FriendConfiguration.ValidateFeed(peer,feed);
+            var target=new UserSettings {Mod="arcane-wars",ImprovedAi=false,IndependentHostility=false,RoamingSpawnMode="x4"};
+            ConfigurationCode.Apply(peer,target);
+            Check(ConfigurationCode.Create(EffectiveSettings.ForFeed(target,feed))==code,"copy options");
+            Check(!target.ImprovedAi&&!target.IndependentHostility&&target.RoamingSpawnMode=="x4","copy cannot alter stored Arcane settings");
+            var packages=GamePackageSelector.Select(feed,active,false,active.CustomPlayerColors);
+            bool Has(string id)=>packages.Any(p=>p.Id==id);
+            Check(Has("pure-ai-improvements")==Flag(2)&&Has("pure-lair-recovery")==Flag(3),"native optional selection");
+            Check(Has("pure-independent-hostility")==Flag(4)&&Has("pure-"+mod+"-hostility")==Flag(4),"relations and data paired");
+            Check(Has("pure-"+mod+"-roaming-"+frequency+(Flag(5)?"-with-new":"-no-new")),"mode-native roaming");
+            Check(packages.All(p=>p.Mods.Contains(mod)),"no other mod payload");
+            Check(!Has("city-assistant")&&!Has("aw-hostility")&&!Has("pawpatch-core"),"excluded AW data");
+            var components=FriendConfiguration.Components(active);
+            Check(components["improved_ai"]==Flag(2)&&components["lair_recovery"]==Flag(3),"peer details");
+            s.Channel="stable";
+            Check(!EffectiveSettings.ForFeed(s,feed).PureBetaFeatures,"mismatched feed cannot enable beta features");
+            s.Channel="beta";s.DataOnly=true;
+            var data=EffectiveSettings.ForFeed(s,feed);
+            Check(!data.PureBetaFeatures&&!data.ImprovedAi&&!data.IndependentHostility,"file-only gating");
+            Check(GamePackageSelector.Select(feed,data,false,false).All(p=>p.ExecutableIndependent),"file-only payload");
+            s.DataOnly=false;GameMod.SetPawPatch(s,false);
+            Check(!EffectiveSettings.ForFeed(s,feed).PureBetaFeatures,"master disabled");
+            GameMod.SetPawPatch(s,true);
+            Check(ConfigurationCode.Create(EffectiveSettings.ForFeed(s,feed))==code,"master restores beta preferences");
+            s.Mod=mod=="vanilla"?"immortals":"vanilla";
+            Check(GameMod.PureComponents(s).RoamingSpawnMode=="standard","mode preference isolation");
+        }
+        foreach(var bad in new[]{"PAW-STABLE-VANILLA-PP1-PB1-AI1-LR1-IW0-SP1-RM0","PAW-BETA-VANILLA-PB1-AI1-LR1-IW0-SP1-RM0","PAW-BETA-VANILLA-PP1-PB1-AI1-LR1-IW0-SP1-RM0-DATA","PAW-BETA-VANILLA-PP1-PB1-AI1-LR1-IW0-SP3-RM0","PAW-BETA-VANILLA-PP1-PB1-AI1"})
+            Check(!FriendConfiguration.TryParse(bad,bad.Contains("STABLE")?"stable":"beta",out _),"invalid contract");
+        Console.WriteLine("PURE BETA PASS "+count+": mode isolation, option matrix, native/data pairing, config exchange and legacy gating");
+        return count;
+    }
+}

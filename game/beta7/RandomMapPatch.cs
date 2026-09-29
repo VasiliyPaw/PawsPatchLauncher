@@ -65,10 +65,24 @@ internal static class RandomMapPatch
         foreach (RandomSite site in RandomMapBundle.Sites.Concat(RandomMapBundle.Guards))
             TerrainPatch.Expect(mem, image + site.Rva, Original(site, image));
     }
+    private static byte[] Payload()
+    {
+        byte[] payload = Resource("RandomMapPayload", RandomMapBundle.PayloadHash);
+#if PAW_PURE_EXTENDED
+        // The accepted payload mixes a synchronized map seed without touching
+        // the simulation RNG. Pure modes have three native biomes, not four.
+        // Replace only the final reduction; no relocation crosses this code.
+        byte[] selectorBefore = TerrainPatch.Hex("83e003c30000000000000000");
+        for (int i=0;i<selectorBefore.Length;i++)
+            if(payload[0x1421+i]!=selectorBefore[i])throw new InvalidDataException("Unexpected random map selector");
+        Array.Copy(TerrainPatch.Hex("31d2b903000000f7f189d0c3"),0,payload,0x1421,selectorBefore.Length);
+#endif
+        return payload;
+    }
     internal static uint Install(IMemory mem, uint image, Action<string> log)
     {
         Validate(mem, image);
-        byte[] payload = Resource("RandomMapPayload", RandomMapBundle.PayloadHash);
+        byte[] payload = Payload();
         byte[] fixups = Resource("RandomMapFixups", RandomMapBundle.FixupsHash);
         List<RandomSite> attempted = new List<RandomSite>(); uint cave = 0; bool safeToFree = true;
         try
@@ -84,7 +98,13 @@ internal static class RandomMapPatch
                 mem.WriteCode(image + site.Rva, bytes);
                 TerrainPatch.Expect(mem, image + site.Rva, bytes); mem.Flush(image + site.Rva, bytes.Length);
             }
-            log("RANDOM_MAP_READY cave=0x" + cave.ToString("X8") + " profiles=5 originalProfilesUnchanged=true rngCallsAdded=0 commonSettings=true terrainDefaults=true");
+            log("RANDOM_MAP_READY cave=0x" + cave.ToString("X8") +
+#if PAW_PURE_EXTENDED
+                " biomes=3" +
+#else
+                " biomes=4" +
+#endif
+                " originalProfilesUnchanged=true rngCallsAdded=0 commonSettings=true terrainDefaults=true");
             return cave;
         }
         catch
@@ -109,7 +129,7 @@ internal static class RandomMapPatch
     {
         foreach (RandomSite site in RandomMapBundle.Sites)
             TerrainPatch.Expect(mem, image + site.Rva, Replacement(site, image, cave));
-        byte[] bytes = Relocate(Resource("RandomMapPayload", RandomMapBundle.PayloadHash),
+        byte[] bytes = Relocate(Payload(),
             Resource("RandomMapFixups", RandomMapBundle.FixupsHash), image, cave);
         TerrainPatch.Expect(mem, cave, bytes);
     }

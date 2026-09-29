@@ -46,7 +46,7 @@ internal static class Program
             || stock.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
             || root.Equals(stock, StringComparison.OrdinalIgnoreCase)) throw new InvalidOperationException("Fixture and installed game must be separate.");
         var mode = options.GetValueOrDefault("mode", "plan");
-        if (mode is not ("plan" or "prepare" or "run" or "apply" or "observe")) throw new ArgumentException("mode must be plan, prepare, run, apply or observe.");
+        if (mode is not ("plan" or "prepare" or "run" or "apply" or "observe" or "verify")) throw new ArgumentException("mode must be plan, prepare, run, apply, verify or observe.");
         Directory.CreateDirectory(root);
         if(mode=="observe")
         {
@@ -66,7 +66,7 @@ internal static class Program
         foreach (var channel in new[] { "stable", "beta" })
             feeds[channel] = await client.GetChannelAsync(channel) ?? throw new InvalidDataException("Missing " + channel);
         NightmareSmoke = options.GetValueOrDefault("nightmare-smoke") == "true";
-        var cases = (NightmareSmoke ? NightmareCases() : Cases()).Where(c => !options.TryGetValue("channel", out var channel) || c.Settings.Channel == channel)
+        var cases = (options.GetValueOrDefault("pure-beta-smoke") == "true" ? PureBetaCases() : NightmareSmoke ? NightmareCases() : Cases()).Where(c => !options.TryGetValue("channel", out var channel) || c.Settings.Channel == channel)
             .Where(c => !options.TryGetValue("mod", out var mod) || c.Settings.Mod == mod)
             .Where(c => !options.TryGetValue("case", out var id) || c.Id == id).ToArray();
         if(mode=="apply"&&(!options.ContainsKey("case")||cases.Length!=1))throw new ArgumentException("Apply requires one exact --case.");
@@ -76,8 +76,9 @@ internal static class Program
         EnsureNoGame();
         await PrepareFixture(game, stock);
         var installer = new ModuleInstaller(game);
-        foreach (var channel in feeds.Values)
-        foreach (var package in channel.Packages)
+        foreach (var item in cases)
+        foreach (var package in GamePackageSelector.Select(feeds[item.Settings.Channel], EffectiveSettings.ForFeed(item.Settings, feeds[item.Settings.Channel]),
+            item.Settings.RussianLocalization, EffectiveSettings.ForFeed(item.Settings, feeds[item.Settings.Channel]).CustomPlayerColors))
         {
             var key = package.Id + ":" + package.Sha256;
             if (Prepared.ContainsKey(key)) continue;
@@ -94,6 +95,7 @@ internal static class Program
             foreach (var line in await File.ReadAllLinesAsync(resultsFile))
                 if (!string.IsNullOrWhiteSpace(line)) completed.Add(JsonSerializer.Deserialize<Result>(line, Json)!.Identity);
         var limit = int.Parse(options.GetValueOrDefault("limit", "2147483647"));
+        if (cases.Length == 0) throw new ArgumentException("No cases match the requested filters.");
         var done = 0; var skipped = 0;
         foreach (var item in cases)
         {
@@ -123,6 +125,24 @@ internal static class Program
             if (!string.Equals(await CryptoAndIO.Sha256Async(executablePath), expectedHash, StringComparison.OrdinalIgnoreCase))
                 throw new InvalidDataException("Wrong selected helper: " + executable);
             installTimer.Stop();
+            if (mode == "verify")
+            {
+                // Read-only preflight checks the complete installed beta before
+                // any native process exists. Reconcile also verifies rollback.
+                if (settings.PureBetaFeatures)
+                {
+                    using var preflight = Process.Start(new ProcessStartInfo(executablePath)
+                    { ArgumentList = { "--preflight", game }, UseShellExecute = false, CreateNoWindow = true,
+                        RedirectStandardOutput = true, RedirectStandardError = true })!;
+                    string output = await preflight.StandardOutput.ReadToEndAsync();
+                    string error = await preflight.StandardError.ReadToEndAsync();
+                    await preflight.WaitForExitAsync();
+                    if (preflight.ExitCode != 0 || !output.Contains("PURE_PREFLIGHT_PASS")) throw new InvalidDataException(error + output);
+                }
+                done++;
+                Console.WriteLine("INSTALL_PASS " + item.Id + " " + packages.Count);
+                continue;
+            }
             if(mode=="apply")
             {
                 await File.WriteAllTextAsync(Path.Combine(root,"interactive.json"),JsonSerializer.Serialize(new {item.Id,identity,executable,executablePath,expectedHash,settings},Json));
@@ -141,7 +161,8 @@ internal static class Program
         {
             planned = cases.Length, newlyCompleted = done, reused = skipped, complete = done + skipped == cases.Length,
             stockSha256 = KohanActivityReader.SupportedSha256,
-            note = "Actual native main-menu launches. Test processes stop after observation; interactive match/normal-exit acceptance is separate."
+            note = mode == "verify" ? "Installation, rollback, helper selection and read-only preflight. No game process launched."
+                : "Actual native main-menu launches. Test processes stop after observation; interactive match/normal-exit acceptance is separate."
         }, Json));
         Console.WriteLine($"COMPLETE {done + skipped}/{cases.Length}; new={done}, reused={skipped}");
     }
@@ -164,6 +185,25 @@ internal static class Program
                     AdditionalRoamingCompanies = Bit(3), SiegeBalance = Bit(4), DisablePowersAndShards = Bit(5), RoamingSpawnMode = spawn };
                 yield return new Case($"{mod}-{channel}-patch{(patch ? 1 : 0)}-{(russian ? "ru" : "en")}-{voice}-{spawn}-{bits:D2}", settings);
             }
+        }
+    }
+    private static IEnumerable<Case> PureBetaCases()
+    {
+        foreach (string mod in new[] { GameMod.Vanilla, GameMod.Immortals })
+        {
+            foreach (var (variant, language) in new[] { (0,"en"),(1,"ru"),(2,"de"),(3,"fr"),(4,"cs"),(5,"uk") })
+            {
+                var settings = new UserSettings { Mod=mod, Channel="beta", VanillaPawPatchEnabled=true, ImmortalsPawPatchEnabled=true, GameVoiceLanguage="en" };
+                GameLanguages.SetText(settings,language);
+                var pure=GameMod.PureComponents(settings);
+                pure.Colors=(variant&1)!=0; pure.IgnoreDesync=(variant&2)!=0;
+                pure.ImprovedAi=variant!=4;pure.WoundedLairDefenders=variant!=4;
+                pure.IndependentHostility=variant%2!=0;pure.AdditionalRoamingCompanies=variant%2!=0;
+                pure.RoamingSpawnMode=new[]{"standard","x2","x4"}[variant%3];
+                yield return new Case(mod+"-pure-beta-"+language,settings);
+            }
+            yield return new Case(mod+"-pure-stable-rollback",new UserSettings { Mod=mod,Channel="stable",VanillaPawPatchEnabled=true,ImmortalsPawPatchEnabled=true,GameVoiceLanguage="en" });
+            yield return new Case(mod+"-pure-disabled",new UserSettings { Mod=mod,Channel="beta",VanillaPawPatchEnabled=false,ImmortalsPawPatchEnabled=false,GameVoiceLanguage="en" });
         }
     }
     private static IEnumerable<Case> NightmareCases()
@@ -296,7 +336,7 @@ internal static class Program
                 if (logs.Contains("PURE_START_FAILED", StringComparison.Ordinal) || logs.Contains("ERROR ", StringComparison.Ordinal))
                     throw new InvalidOperationException("Helper startup failed; see captured log.");
                 var ready = executable == "k2.exe" ? true : executable == "k2_paws_menu_1372.exe" ? logs.Contains("MENU_ONLY r1", StringComparison.Ordinal)
-                    : executable == "k2_paws_pure_fixes_1372.exe" ? logs.Contains("PURE_PATCH_APPLIED", StringComparison.Ordinal)
+                    : executable.StartsWith("k2_paws_pure_",StringComparison.Ordinal) ? logs.Contains("PURE_PATCH_APPLIED", StringComparison.Ordinal)
                     : logs.Contains("QUIET_READY", StringComparison.Ordinal);
                 var needsTransfer = item.Settings.Channel == "beta" && GameMod.PawPatchSelected(item.Settings);
                 if (needsTransfer) ready &= logs.Contains("FAST_TRANSFER_R2_READY", StringComparison.Ordinal);

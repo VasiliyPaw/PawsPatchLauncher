@@ -61,6 +61,17 @@ public static class GamePackageSelector
             {
                 baseIds.Add("pure-fixes-data");
                 if (!settings.DataOnly) baseIds.Add("pure-fixes-runtime");
+                if (!settings.DataOnly && GameMod.HasPureBeta(channel))
+                {
+                    baseIds.Add("pure-beta-common");
+                    baseIds.Add("pure-" + settings.Mod + "-rules");
+                    baseIds.Add("pure-localization-bot-ui-" + GameLanguages.Text(settings));
+                    if (settings.ImprovedAi) baseIds.Add("pure-ai-improvements");
+                    if (GameMod.PureComponents(settings).WoundedLairDefenders) baseIds.Add("pure-lair-recovery");
+                    if (settings.IndependentHostility) { baseIds.Add("pure-independent-hostility"); baseIds.Add("pure-" + settings.Mod + "-hostility"); }
+                    baseIds.Add("pure-" + settings.Mod + "-roaming-" + settings.RoamingSpawnMode
+                        + (settings.AdditionalRoamingCompanies ? "-with-new" : "-no-new"));
+                }
                 if (!settings.DataOnly && customPlayerColors)
                 {
                     if (!GameMod.HasPureOptions(channel)) throw new InvalidDataException("This release does not support extended player colors.");

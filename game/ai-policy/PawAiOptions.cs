@@ -23,10 +23,16 @@ internal static class PawAiOptions
         var modules = (Dictionary<string, object>)state["modules"];
         object value;
         bool enabled = settings.TryGetValue("improvedAi", out value) && Object.Equals(value, true);
-        bool installed = modules.TryGetValue("ai-improvements", out value)
+        string module = "ai-improvements";
+        bool supported = Object.Equals(settings["mod"], "arcane-wars");
+#if PAW_PURE_EXTENDED
+        module = "pure-ai-improvements";
+        supported = Object.Equals(settings["mod"], "vanilla") || Object.Equals(settings["mod"], "immortals");
+#endif
+        bool installed = modules.TryGetValue(module, out value)
             && ((Dictionary<string, object>)value).TryGetValue("enabled", out value) && Object.Equals(value, true);
         if (enabled != installed || enabled && (
-            !Object.Equals(settings["mod"], "arcane-wars") || !Object.Equals(settings["channel"], "beta")
+            !supported || !Object.Equals(settings["channel"], "beta")
             || !Object.Equals(settings["pawPatchEnabled"], true)
             || settings.TryGetValue("dataOnly", out value) && Object.Equals(value, true)))
             throw new InvalidDataException("AI settings and installed files differ. Apply settings in the launcher.");

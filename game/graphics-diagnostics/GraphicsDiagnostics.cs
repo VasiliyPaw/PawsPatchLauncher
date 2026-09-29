@@ -24,7 +24,7 @@ internal static class GraphicsDiagnostics
             Directory.CreateDirectory(directory);string exe=Path.Combine(directory,"PawsGraphicsRecorder.exe");
             if(!File.Exists(exe))
             {
-                string temp=exe+"."+Guid.NewGuid().ToString("N")+".tmp";
+                string temp=Path.Combine(directory,Guid.NewGuid().ToString("N")+".tmp");
                 File.WriteAllBytes(temp,bytes);
                 try{File.Move(temp,exe);}finally{if(File.Exists(temp))File.Delete(temp);}
             }

@@ -7,6 +7,12 @@ public sealed class PureComponentSelection
     public bool IgnoreDesync { get; set; }
     public bool? SuspendedColors { get; set; }
     public bool? SuspendedDesync { get; set; }
+    // Remembered independently for each mode; stable feeds never activate these.
+    public bool ImprovedAi { get; set; } = true;
+    public bool WoundedLairDefenders { get; set; } = true;
+    public bool IndependentHostility { get; set; }
+    public bool AdditionalRoamingCompanies { get; set; }
+    public string RoamingSpawnMode { get; set; } = "standard";
 
     public void Enable(bool enabled)
     {

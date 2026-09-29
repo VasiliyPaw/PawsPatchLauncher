@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-internal static class K2PawFamilyPostgen1372
+internal static partial class K2PawFamilyPostgen1372
 {
     private const string ExpectedExeSha256 =
         "1EB79BBB678668BE5A05F8C98103CD9988048490CE7C53C74C9A1D0813E9CD45";

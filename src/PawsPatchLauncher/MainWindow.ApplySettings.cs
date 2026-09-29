@@ -52,8 +52,10 @@ public partial class MainWindow
         if (IsGameRunning()) throw new GameAlreadyRunningException();
     }
 
-    private static bool SupportsX2(ChannelManifest? channel)
-        => channel is not null && new[] { "roaming-profile-x2-with-new", "roaming-profile-x2-no-new" }
+    private bool SupportsX2(ChannelManifest? channel)
+        => channel is not null && (GameMod.IsArcaneWars(_settings)
+            ? new[] { "roaming-profile-x2-with-new", "roaming-profile-x2-no-new" }
+            : new[] { "pure-" + _settings.Mod + "-roaming-x2-with-new", "pure-" + _settings.Mod + "-roaming-x2-no-new" })
             .All(id => channel.Packages.Any(package => package.Id.Equals(id, StringComparison.OrdinalIgnoreCase)));
 
     private async void ApplySettingsButton_Click(object sender, RoutedEventArgs e) => await ApplySettingsAsync();

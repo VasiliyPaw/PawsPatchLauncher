@@ -37,19 +37,39 @@ internal static class PureOptionsUiChecks
                     Set("_channel",feed);Set("_latestChannel",feed);Set("_offeredModChannel",feed);Set("_colorsAvailable",true);
                     Set("_compatibilityState",GameCompatibilityState.Supported);
                     Call("ApplyLanguage");Call("SetActivePage","modules");Call("RefreshModControls");
-                    bool beta=feed.Channel=="beta";
+                    bool beta=GameMod.HasPureOptions(feed), extended=GameMod.HasPureBeta(feed);
                     foreach(var card in new[]{"ColorsModuleCard","OosModuleCard"})Check(C<Border>(card).Visibility==(beta?Visibility.Visible:Visibility.Collapsed),mod+feed.Channel+card);
-                    foreach(var card in new[]{"IndependentHostilityCard","RoamingSpawnCard","AdditionalRoamingCard","SiegeBalanceCard"})Check(C<Border>(card).Visibility==Visibility.Collapsed,"AW card leaked");
+                    foreach(var card in new[]{"IndependentHostilityCard","RoamingSpawnCard","AdditionalRoamingCard","PureLairCard"})Check(C<Border>(card).Visibility==(extended?Visibility.Visible:Visibility.Collapsed),"Pure beta card visibility "+card);
+                    Check(C<Border>("SiegeBalanceCard").Visibility==Visibility.Collapsed,"Siege balance leaked");
+                    Check(C<Border>("ImprovedAiCard").Visibility==(extended?Visibility.Visible:Visibility.Collapsed),"Improved AI visibility");
                     var help=(string)Call("CoreHelpText")!;
-                    Check(help.Length>200&&help.Contains("Dvorak"),"Missing core help "+language);
+                    Check(help.Length>200&&(extended||help.Contains("Dvorak")),"Missing core help "+language);
                     if(language is not ("ru" or "en"))Check(!help.Contains("Faster native saved-game transfers")&&!help.Contains("Optional Beta switches"),"Untranslated core help "+language);
                     if(!beta)continue;
+                    if (extended && language == "ru")
+                    {
+                        var content=(FrameworkElement)w.Content;
+                        content.Width=1600;content.Height=1000;
+                        content.Measure(new Size(1600,1000));content.Arrange(new Rect(0,0,1600,1000));content.UpdateLayout();
+                        var bitmap=new System.Windows.Media.Imaging.RenderTargetBitmap(1600,1000,96,96,System.Windows.Media.PixelFormats.Pbgra32);
+                        bitmap.Render(content);
+                        var encoder=new System.Windows.Media.Imaging.PngBitmapEncoder();encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmap));
+                        using var image=File.Create(Path.Combine(Path.GetDirectoryName(configPath)!,"pure-options-"+mod+"-ru.png"));encoder.Save(image);
+                    }
                     var colors=C<CheckBox>("ColorsToggle");var sync=C<CheckBox>("IgnoreDesyncToggle");var core=C<CheckBox>("PawPatchToggle");
                     Check(colors.IsChecked==true&&sync.IsChecked==true&&colors.IsEnabled&&sync.IsEnabled,"Beta on controls "+mod);
                     core.IsChecked=false;Call("PawPatchChanged",core,new RoutedEventArgs());
                     Check(colors.IsChecked==false&&sync.IsChecked==false&&!colors.IsEnabled&&!sync.IsEnabled,"Master off left controls active");
                     core.IsChecked=true;Call("PawPatchChanged",core,new RoutedEventArgs());
                     Check(colors.IsChecked==true&&sync.IsChecked==true,"Master on lost mod choices");
+                    if (extended)
+                    {
+                        var lair=C<CheckBox>("PureLairToggle");var ai=C<CheckBox>("ImprovedAiToggle");
+                        Check(lair.IsEnabled&&ai.IsEnabled,"Pure beta options disabled");
+                        lair.IsChecked=false;Call("GameplayOptionChanged",lair,new RoutedEventArgs());
+                        Check(!GameMod.PureComponents(prefs).WoundedLairDefenders,"Lair choice not saved");
+                        lair.IsChecked=true;Call("GameplayOptionChanged",lair,new RoutedEventArgs());
+                    }
                     Set("_compatibilityState",GameCompatibilityState.Unsupported);Call("RefreshPawComponentDependency");
                     Check(colors.IsChecked==false&&sync.IsChecked==false&&!colors.IsEnabled&&!sync.IsEnabled,"Unsupported EXE controls active");
                 }

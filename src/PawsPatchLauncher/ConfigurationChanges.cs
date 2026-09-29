@@ -36,6 +36,8 @@ public static class ConfigurationChanges
   Change(ru?"Дополнительные отряды":"Additional roaming",Flag(before.AdditionalRoamingCompanies),Flag(after.AdditionalRoamingCompanies));
   Change(ru?"Баланс осады":"Siege balance",Flag(before.SiegeBalance),Flag(after.SiegeBalance));
   Change(ru?"Улучшения ботов":"AI improvements",Flag(before.ImprovedAi),Flag(after.ImprovedAi));
+  if(before.PureBetaFeatures || after.PureBetaFeatures)
+   Change(ru?"Защитники логов":"Lair defenders",Flag(before.PureBetaFeatures && GameMod.PureComponents(before).WoundedLairDefenders),Flag(after.PureBetaFeatures && GameMod.PureComponents(after).WoundedLairDefenders));
   Change(ru?"Большие карты":"Large maps",Flag(before.LargeMapSizes),Flag(after.LargeMapSizes));
   string LanguageName(string code)=>UiLanguages.GameLanguageName(code,ru?"ru":"en");
   Change(ru?"Язык текста":"Text language",LanguageName(GameLanguages.Text(before)),LanguageName(GameLanguages.Text(after)));

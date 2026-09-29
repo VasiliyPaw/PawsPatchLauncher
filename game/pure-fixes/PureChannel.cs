@@ -7,7 +7,11 @@ namespace PawPureFixes
     // The shared R2 source supplies the exact same native code as Arcane Wars.
     internal static class PureChannel
     {
+#if PAW_PURE_EXTENDED
+        internal const string Channel = "beta", Version = "1.3.72-pure.12-beta.1", PatchVersion = "0.4.0-beta.1";
+#else
         internal const string Channel = "stable", Version = "1.3.72-pure.11", PatchVersion = "0.3.0";
+#endif
 #if PAW_PURE_FAST_TRANSFER
         internal const bool FastTransfer = true;
 #else
@@ -27,7 +31,7 @@ namespace PawPureFixes
         {
             get
             {
-                return Program.Features.Replace("1.3.72-pure.2", Version)
+                string result = Program.Features.Replace("1.3.72-pure.2", Version)
                     .Replace("\"menuVersions\":false", "\"menuVersions\":true")
                     .Replace("\"fastSaveTransfer\":false", "\"fastSaveTransfer\":" + (FastTransfer ? "true" : "false"))
                     .Replace("\"colors\":false", "\"colors\":" + (Colors ? "true" : "false"))
@@ -35,6 +39,10 @@ namespace PawPureFixes
                     .Replace("\"quiet\":true", "\"quiet\":true" + (Bypass ? ",\"syncDiagnosticsRevision\":1" : ""))
                     .Replace("\"stockSyncChecks\":true", "\"stockSyncChecks\":" + (Bypass ? "false" : "true"))
                     .Replace("{", "{\"channel\":\"" + Channel + "\",\"patchVersion\":\"" + PatchVersion + "\",\"nativeTransferRevision\":\"" + (FastTransfer ? "R2" : "stock") + "\",");
+#if PAW_PURE_EXTENDED
+                result = PureBetaRuntime.Describe(result);
+#endif
+                return result;
             }
         }
         internal sealed class Installed

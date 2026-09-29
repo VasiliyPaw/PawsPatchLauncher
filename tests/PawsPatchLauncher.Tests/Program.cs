@@ -455,6 +455,7 @@ try
     passed += await ModLibraryTests.RunAsync(root);
     passed += PureFixesModeTests.Run();
     passed += PureOptionsTests.Run();
+    passed += PureBetaTests.Run();
     Console.WriteLine($"PASS {passed}");
 }
 finally

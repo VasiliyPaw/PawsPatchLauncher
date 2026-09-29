@@ -7,6 +7,9 @@ using System.Text;
 namespace PawPureFixes
 {
     internal sealed class NativeMemory : IPatchMemory, IDisposable
+#if PAW_PURE_EXTENDED
+        , global::IMemory
+#endif
     {
         private IntPtr handle;
         private bool suspended;

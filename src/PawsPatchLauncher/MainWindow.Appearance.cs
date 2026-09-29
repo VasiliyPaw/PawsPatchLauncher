@@ -37,13 +37,14 @@ public partial class MainWindow
         [CoreModuleCard] = GameMod.PawPatchSelected(_settings).ToString(),
         [RussianModuleCard] = GameLanguages.Text(_settings) + ":" + GameLanguages.Voice(_settings),
         [ColorsModuleCard] = GameMod.ColorsSelected(_settings).ToString(),
-        [IndependentHostilityCard] = _settings.IndependentHostility.ToString(),
-        [AdditionalRoamingCard] = _settings.AdditionalRoamingCompanies.ToString(),
+        [IndependentHostilityCard] = (GameMod.IsArcaneWars(_settings) ? _settings.IndependentHostility : GameMod.PureComponents(_settings).IndependentHostility).ToString(),
+        [AdditionalRoamingCard] = (GameMod.IsArcaneWars(_settings) ? _settings.AdditionalRoamingCompanies : GameMod.PureComponents(_settings).AdditionalRoamingCompanies).ToString(),
         [SiegeBalanceCard] = _settings.SiegeBalance.ToString(),
-        [ImprovedAiCard] = _settings.ImprovedAi.ToString(),
+        [ImprovedAiCard] = GameMod.ImprovedAiSelected(_settings).ToString(),
+        [PureLairCard] = GameMod.PureComponents(_settings).WoundedLairDefenders.ToString(),
         [PowersShardsCard] = _settings.DisablePowersAndShards.ToString(),
         [OosModuleCard] = GameMod.DesyncSelected(_settings).ToString(),
-        [RoamingSpawnCard] = _settings.RoamingSpawnMode,
+        [RoamingSpawnCard] = GameMod.IsArcaneWars(_settings) ? _settings.RoamingSpawnMode : GameMod.PureComponents(_settings).RoamingSpawnMode,
         [SettingsPanel] = _settings.Language,
         [PatchUpdatesCard] = _settings.Channel
     };

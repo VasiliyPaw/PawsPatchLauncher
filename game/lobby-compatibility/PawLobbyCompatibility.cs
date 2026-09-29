@@ -43,10 +43,26 @@ internal static class PawLobbyCompatibility
         if(json.Length>16*1024*1024)throw new InvalidDataException("Installation state is too large.");
         var serializer=new JavaScriptSerializer {MaxJsonLength=16*1024*1024,RecursionLimit=64};
         var state=Obj(serializer.DeserializeObject(json));var settings=Obj(Value(state,"appliedSettings"));var modules=Obj(Value(state,"modules"));
+#if PAW_PURE_EXTENDED
+        string mode = Text(settings,"mod");
+        if((mode!="vanilla" && mode!="immortals") || Text(settings,"channel")!="beta" || !Flag(settings,"pawPatchEnabled") || Flag(settings,"dataOnly"))
+            throw new InvalidDataException("Select the Vanilla or Immortals beta with Paw's Patch enabled.");
+        var core=Obj(Value(modules,"pure-fixes-data"));
+        if(!Flag(core,"enabled") || Text(core,"version")!=Version)
+            throw new InvalidDataException("Update and apply Paw's Patch "+Version+" in the launcher.");
+        string modVersion="1.3.72";
+        if(mode=="immortals") {
+            var mod=Obj(Value(modules,"immortals"));
+            if(!Flag(mod,"enabled"))throw new InvalidDataException("Missing installed Immortals module.");
+            modVersion=Field(Text(mod,"version"));
+        }
+#else
+        string mode="arcane-wars";
         if(Text(settings,"mod")!="arcane-wars"||!Flag(settings,"pawPatchEnabled")||Flag(settings,"dataOnly"))throw new InvalidDataException("Выберите Arcane Wars и включите Paw's Patch в лаунчере. / Select Arcane Wars with Paw's Patch enabled.");
         var core=Obj(Value(modules,"pawpatch-core"));var mod=Obj(Value(modules,"arcane-wars"));
         if(!Flag(core,"enabled")||Text(core,"version")!=Version||!Flag(mod,"enabled"))throw new InvalidDataException("Нужны файлы Paw's Patch "+Version+". Обновите и примените настройки в лаунчере. / Update and apply Paw's Patch "+Version+" in the launcher.");
         var modVersion=Field(Regex.Replace(Text(mod,"version"),@"-clean\.\d+$",""));
+#endif
         if(!Regex.IsMatch(exeHash,"\\A[0-9A-F]{64}\\z")||!Regex.IsMatch(helperHash,"\\A[0-9A-F]{64}\\z"))throw new InvalidDataException("Invalid executable digest.");
         var lines=new List<string>{"protocol=1","exe="+exeHash,"helper="+Normalize(helperName)+":"+helperHash};
         foreach(var entry in modules.OrderBy(p=>p.Key,StringComparer.Ordinal)) {
@@ -64,7 +80,7 @@ internal static class PawLobbyCompatibility
             lines.Add("setting="+key+":"+Text(settings,key).ToLowerInvariant());
         // Game message language follows game text, never affects the identity.
         russian=Flag(settings,"russianLocalization");
-        return "PWLC1|1.3.72|arcane-wars|"+modVersion+"|"+Version+"|"+Hash(Encoding.UTF8.GetBytes(String.Join("\n",lines)));
+        return "PWLC1|1.3.72|"+mode+"|"+modVersion+"|"+Version+"|"+Hash(Encoding.UTF8.GetBytes(String.Join("\n",lines)));
     }
     private static string InstalledIdentity(string root,out bool russian) {
         string helper=Assembly.GetExecutingAssembly().Location;
@@ -91,7 +107,7 @@ internal static class PawLobbyCompatibility
         string folder=Path.Combine(root,".pawpatch","native",digest);
         Directory.CreateDirectory(folder);nativePath=Path.Combine(folder,"paws_lobby_compatibility.dll");
         if(!File.Exists(nativePath)) {
-            string temporary=nativePath+"."+Guid.NewGuid().ToString("N")+".tmp";
+            string temporary=Path.Combine(folder,Guid.NewGuid().ToString("N")+".tmp");
             try {File.WriteAllBytes(temporary,payload);try{File.Move(temporary,nativePath);}catch(IOException){if(!File.Exists(nativePath))throw;}}
             finally {if(File.Exists(temporary))File.Delete(temporary);}
         }
