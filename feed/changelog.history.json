@@ -912,6 +912,31 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.4.0-beta.10",
+      "publishedAt": "2026-09-29",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.10",
+        "en": "Paw’s Patch 0.4.0-beta.10",
+        "de": "Paw’s Patch 0.4.0-beta.10",
+        "fr": "Paw’s Patch 0.4.0-beta.10",
+        "es": "Paw’s Patch 0.4.0-beta.10",
+        "it": "Paw’s Patch 0.4.0-beta.10"
+      },
+      "body": {
+        "ru": "- Исправлен вылет при нажатии F в режиме наблюдателя.\n- При открытом списке найма цифры выбирают сохранённые группы рот, а Ctrl+цифра назначает группу, вместо найма роты по шаблону.",
+        "en": "- Fixed a crash when pressing F as an observer.\n- With the recruitment list open, number keys select control groups and Ctrl+number assigns a group instead of recruiting a company from a template.",
+        "de": "- Ein Absturz beim Drücken von F im Beobachtermodus wurde behoben.\n- Bei geöffneter Rekrutierungsliste wählen Zifferntasten Kontrollgruppen aus; Strg+Ziffer weist eine Gruppe zu, statt eine Kompanie aus einer Vorlage zu rekrutieren.",
+        "fr": "- Correction d’un plantage en appuyant sur F en mode observateur.\n- Lorsque la liste de recrutement est ouverte, les touches numériques sélectionnent les groupes de contrôle et Ctrl+chiffre affecte un groupe, au lieu de recruter une compagnie depuis un modèle.",
+        "es": "- Corregido un cierre inesperado al pulsar F como observador.\n- Con la lista de reclutamiento abierta, las teclas numéricas seleccionan grupos de control y Ctrl+número asigna un grupo, en lugar de reclutar una compañía desde una plantilla.",
+        "it": "- Risolto un arresto anomalo premendo F in modalità osservatore.\n- Con l’elenco di reclutamento aperto, i tasti numerici selezionano i gruppi di controllo e Ctrl+numero assegna un gruppo, invece di reclutare una compagnia da un modello."
+      }
+    },
+    {
       "category": "launcher",
       "version": "0.8.11",
       "publishedAt": "2026-09-27",
