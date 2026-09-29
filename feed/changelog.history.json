@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.8.12",
+      "publishedAt": "2026-09-29",
+      "title": {
+        "ru": "Paw’s Launcher 0.8.12",
+        "en": "Paw’s Launcher 0.8.12",
+        "de": "Paw’s Launcher 0.8.12",
+        "fr": "Paw’s Launcher 0.8.12",
+        "cs": "Paw’s Launcher 0.8.12",
+        "uk": "Paw’s Launcher 0.8.12"
+      },
+      "body": {
+        "ru": "- Добавлены настройки беты Paw’s Patch для Vanilla и Immortals: улучшения ботов, выход раненых защитников логов, вражда независимых и странствующие роты. Выбор запоминается отдельно для каждого режима.\n- Новые настройки отображаются в подробностях друзей и передаются вместе с конфигурацией.",
+        "en": "- Added Paw’s Patch beta options for Vanilla and Immortals: improved bots, wounded lair defenders, independent hostility and roaming companies. Selections are remembered separately for each mode.\n- The new options appear in friend details and are included when sharing a configuration.",
+        "de": "- Neue Beta-Optionen für Vanilla und Immortals: verbesserte Bots, verwundete Lagerverteidiger, Feindschaft unabhängiger Gruppen und umherziehende Kompanien. Die Auswahl wird für jeden Modus separat gespeichert.\n- Die Optionen erscheinen in den Freundesdetails und werden mit der Konfiguration geteilt.",
+        "fr": "- Nouvelles options bêta pour Vanilla et Immortals : IA améliorée, défenseurs blessés des repaires, hostilité des indépendants et compagnies errantes. Les choix sont mémorisés séparément pour chaque mode.\n- Ces options figurent dans les détails des amis et sont incluses dans le partage de configuration.",
+        "cs": "- Nové beta možnosti pro Vanilla a Immortals: vylepšení botů, zranění obránci doupat, nepřátelství nezávislých skupin a putující roty. Volby se ukládají pro každý režim zvlášť.\n- Možnosti se zobrazují v podrobnostech přátel a přenášejí se se sdílenou konfigurací.",
+        "uk": "- Додано налаштування бети для Vanilla та Immortals: поліпшення ботів, вихід поранених захисників лігв, ворожнеча незалежних і мандрівні роти. Вибір зберігається окремо для кожного режиму.\n- Нові налаштування показуються в подробицях друзів і передаються разом із конфігурацією."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.8.11",
       "publishedAt": "2026-09-27",
       "title": {
@@ -911,6 +932,53 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.8.12",
+      "publishedAt": "2026-09-29",
+      "title": {
+        "ru": "Paw’s Launcher 0.8.12",
+        "en": "Paw’s Launcher 0.8.12",
+        "de": "Paw’s Launcher 0.8.12",
+        "fr": "Paw’s Launcher 0.8.12",
+        "cs": "Paw’s Launcher 0.8.12",
+        "uk": "Paw’s Launcher 0.8.12"
+      },
+      "body": {
+        "ru": "- Добавлены настройки беты Paw’s Patch для Vanilla и Immortals: улучшения ботов, выход раненых защитников логов, вражда независимых и странствующие роты. Выбор запоминается отдельно для каждого режима.\n- Новые настройки отображаются в подробностях друзей и передаются вместе с конфигурацией.",
+        "en": "- Added Paw’s Patch beta options for Vanilla and Immortals: improved bots, wounded lair defenders, independent hostility and roaming companies. Selections are remembered separately for each mode.\n- The new options appear in friend details and are included when sharing a configuration.",
+        "de": "- Neue Beta-Optionen für Vanilla und Immortals: verbesserte Bots, verwundete Lagerverteidiger, Feindschaft unabhängiger Gruppen und umherziehende Kompanien. Die Auswahl wird für jeden Modus separat gespeichert.\n- Die Optionen erscheinen in den Freundesdetails und werden mit der Konfiguration geteilt.",
+        "fr": "- Nouvelles options bêta pour Vanilla et Immortals : IA améliorée, défenseurs blessés des repaires, hostilité des indépendants et compagnies errantes. Les choix sont mémorisés séparément pour chaque mode.\n- Ces options figurent dans les détails des amis et sont incluses dans le partage de configuration.",
+        "cs": "- Nové beta možnosti pro Vanilla a Immortals: vylepšení botů, zranění obránci doupat, nepřátelství nezávislých skupin a putující roty. Volby se ukládají pro každý režim zvlášť.\n- Možnosti se zobrazují v podrobnostech přátel a přenášejí se se sdílenou konfigurací.",
+        "uk": "- Додано налаштування бети для Vanilla та Immortals: поліпшення ботів, вихід поранених захисників лігв, ворожнеча незалежних і мандрівні роти. Вибір зберігається окремо для кожного режиму.\n- Нові налаштування показуються в подробицях друзів і передаються разом із конфігурацією."
+      }
+    },
+    {
+      "category": "patch",
+      "version": "0.4.0-beta.1",
+      "publishedAt": "2026-09-29",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.1 — Vanilla / Immortals",
+        "en": "Paw’s Patch 0.4.0-beta.1 — Vanilla / Immortals",
+        "de": "Paw’s Patch 0.4.0-beta.1 — Vanilla / Immortals",
+        "fr": "Paw’s Patch 0.4.0-beta.1 — Vanilla / Immortals",
+        "cs": "Paw’s Patch 0.4.0-beta.1 — Vanilla / Immortals",
+        "uk": "Paw’s Patch 0.4.0-beta.1 — Vanilla / Immortals"
+      },
+      "body": {
+        "ru": "## Интерфейс и управление\n- Экономика союзника при выборе его зданий или рот, большее отдаление камеры и исправленная рамка миникарты наблюдателя.\n- Кнопка Paw’s Patch со звуком золотого рудника. Птицы и рыбы скрыты на миникарте.\n- Общая панель ботов, сохранение сложности при смене параметров карты и краткие подсказки стоимости.\n- Исправлены F у наблюдателя, выбор привязанных рот цифрами при открытом найме, отдельные вылеты и анимации.\n- Проверка совместимости лобби и надпись Paws Launcher в списке игр.\n\n## Боты и карты\n- Улучшения найма, разведки, строительства, замены слабых рот и передачи городов союзникам; исправлено бездействие после загрузки сохранения. Доступна сложность «Кошмар».\n- Исправлены зависания позиции рот и выход из истощения.\n- Случайный тип карты и время суток, до 16 королевств и 8 команд, размеры карт до 1152.\n- Отдельно выбираются выход раненых защитников логов, вражда независимых, частота странствующих рот и наши дополнительные роты для существующих логов.",
+        "en": "## Interface and controls\n- Allied economy when selecting allied buildings or companies, greater camera zoom-out and a fixed observer minimap frame.\n- Paw’s Patch button with the gold-mine sound. Birds and fish are hidden on the minimap.\n- Shared bot settings, difficulty retained when map options change, and concise cost tooltips.\n- Fixed observer F, numbered control-group selection while recruitment is open, specific crashes and animations.\n- Lobby compatibility checks and the Paws Launcher label in the game browser.\n\n## Bots and maps\n- Improved recruitment, scouting, construction, replacement of weak companies and city gifts to allies; fixed idle bots after loading saves. Nightmare difficulty is available.\n- Fixed stalled company positions and recovery from exhaustion.\n- Random map type and time of day, up to 16 kingdoms and 8 teams, and map sizes up to 1152.\n- Optional wounded lair defenders, independent hostility, roaming frequency and our additional companies for existing lairs.",
+        "de": "- Verbündeteneinkommen bei der Auswahl ihrer Gebäude oder Kompanien, größere Kameraentfernung und korrigierter Minikartenrahmen für Beobachter.\n- Paw’s-Patch-Klangtaste, gemeinsame Bot-Einstellungen und beständige Schwierigkeit. Korrekturen für Steuergruppen, Beobachter und einzelne Abstürze.\n- Verbesserte Rekrutierung, Erkundung, Bauplanung, Ersatz schwacher Kompanien und Stadtübergaben; aktive Bots nach dem Laden. Schwierigkeit „Albtraum“.\n- Zufällige Karte und Tageszeit, bis zu 16 Königreiche, 8 Teams und Kartengröße 1152.\n- Optionale verwundete Lagerverteidiger, Feindschaft unabhängiger Gruppen sowie Häufigkeit und zusätzliche umherziehende Kompanien.",
+        "fr": "- Économie des alliés lors de la sélection de leurs bâtiments ou compagnies, recul accru de la caméra et cadre de minicarte corrigé pour les observateurs.\n- Bouton sonore Paw’s Patch, réglages communs des bots et difficulté conservée. Corrections des groupes de contrôle, du mode observateur et de certains plantages.\n- Recrutement, exploration, construction, remplacement des compagnies faibles et dons de villes améliorés ; bots actifs après chargement. Difficulté « Cauchemar ».\n- Carte et heure aléatoires, jusqu’à 16 royaumes, 8 équipes et une taille de carte de 1152.\n- Options pour les défenseurs blessés, l’hostilité des indépendants, la fréquence des compagnies errantes et nos compagnies supplémentaires.",
+        "cs": "- Ekonomika spojence při výběru jeho budov nebo rot, větší oddálení kamery a opravený rámeček minimapy pozorovatele.\n- Zvukové tlačítko Paw’s Patch, společné nastavení botů a zachování obtížnosti. Opravy skupin jednotek, pozorovatele a některých pádů.\n- Vylepšený nábor, průzkum, stavba, nahrazování slabých rot a předávání měst; boti po načtení nezůstávají nečinní. Obtížnost „Noční můra“.\n- Náhodná mapa a denní doba, až 16 království, 8 týmů a velikost mapy 1152.\n- Volitelní zranění obránci doupat, nepřátelství nezávislých skupin, četnost putujících rot a naše další roty.",
+        "uk": "- Економіка союзника при виборі його будівель або рот, більше віддалення камери та виправлена рамка мінікарти спостерігача.\n- Звукова кнопка Paw’s Patch, спільна панель ботів і збереження складності. Виправлення груп рот, режиму спостерігача та окремих вильотів.\n- Поліпшено найм, розвідку, будівництво, заміну слабких рот і передачу міст; виправлено бездіяльність після завантаження. Доступний «Кошмар».\n- Випадкові карта й час доби, до 16 королівств і 8 команд, карти до 1152.\n- Окремі налаштування поранених захисників лігв, ворожнечі незалежних, частоти мандрівних рот і наших додаткових рот."
+      },
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "beta"
+    },
     {
       "category": "patch",
       "version": "0.4.0-beta.10",
