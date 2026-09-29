@@ -21,9 +21,14 @@ URL='https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/'+TAG+'/'
 VARIANTS=read(REPO/'game/beta7/variants.json')
 TRACKED=[*FEEDS.values(),'feed/changelog.history.json','feed/patch-guide-beta.json']
 RELEASE_DATE='2026-09-25'
+EXTRA_CACHE_ROOTS=()
 
 def extra_payload_transform(package,payload):
     """A later release may opt into explicitly scoped presentation changes."""
+    return set()
+
+def extra_payload_paths(package):
+    """Later releases must explicitly allow any new file paths per package."""
     return set()
 
 def extra_changelog_transform(entries):
@@ -53,7 +58,7 @@ def prepare(a):
     for c,p in FEEDS.items():
         dest=out/'previous'/(c+'.json');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(REPO/p,dest)
     cached={}
-    for root in (WORK/'outputs/release-20260925-beta6',WORK/'outputs/release-20260925-beta5',WORK/'outputs/release-20260925-beta4',WORK/'outputs/release-20260924',WORK/'outputs/release-20260920',REPO/'packages'):
+    for root in (*EXTRA_CACHE_ROOTS,WORK/'outputs/release-20260925-beta6',WORK/'outputs/release-20260925-beta5',WORK/'outputs/release-20260925-beta4',WORK/'outputs/release-20260924',WORK/'outputs/release-20260920',REPO/'packages'):
         for p in root.rglob('*.zip'):cached.setdefault(p.stat().st_size,[]).append(p)
     resolved={};assets=[];replacements={};scope={};seen=set()
     for p in {p['sha256']:p for f in (feeds['stable'],beta) for p in f['packages']}.values():
@@ -70,9 +75,9 @@ def prepare(a):
                 payload[n]=(helpers/n).read_bytes()
                 if n in VARIANTS:seen.add(n)
         extra=extra_payload_transform(p,payload)
-        assert set(payload)==set(original),'Unexpected added or removed payload files'
+        assert set(payload)==set(original)|extra_payload_paths(p),'Unexpected added or removed payload files'
         if payload==original:continue
-        changed=[n for n in payload if payload[n]!=original[n]]
+        changed=[n for n in payload if payload[n]!=original.get(n)]
         assert all(n in VARIANTS or n=='paws_patch_versions.ini' or n in extra for n in changed)
         package=copy.deepcopy(p);package['version']=VERSION
         manifest=dict(id=p['id'],version=VERSION,files=[dict(path=n,size=len(b),sha256=hashlib.sha256(b).hexdigest().upper()) for n,b in sorted(payload.items())],remove=[])

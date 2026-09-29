@@ -1,4 +1,4 @@
-# Shared crash guards, local revision 1
+# Shared crash guards, revision 2
 
 Opt-in `-EngineCrashFixes` for the full Arcane Wars helper build. This does not
 publish a release or alter game assets. For a helper launched outside the game
@@ -47,7 +47,7 @@ kingdom ownership, saves, simulation or the optional desync bypass.
 
 ## Installation and diagnostics
 
-Both hooks have exact instruction/context checks before mutation. The code page
+All hooks have exact instruction/context checks before mutation. The code page
 is RX and the counter page RW. Partial writes roll back; uncertain rollback retains
 the allocation. Installation applies only to the newly launched verified process.
 
@@ -57,12 +57,22 @@ distinguish dead targets, invalid vtables, invalid type-function addresses,
 unreadable targets and missing network clients. These are skipped operations,
 not a proven count of crashes prevented. No automatic upload is added.
 
+## Observer team commands
+
+The observer F macro reaches the native ally list with no local kingdom. The
+September 27 dump reproduces its null read at RVA `B71A9`. Guard all four command
+entry points before changing UI state, using the native local-kingdom getter.
+Observers return without issuing a command; players execute the original
+instructions with registers and flags preserved. The `TeamCommand` SEH descriptor
+is relocated in both validation and rollback. No simulation state is changed.
+The diagnostic counter is `observerTeamCommandsIgnored`.
+
 ## Validation
 
-- `test_native.py`: 126 instruction-level cases across three ASLR bases. Uses
+- `test_native.py`: 537 instruction-level cases across three ASLR bases. Uses
   stock loop instructions with controlled objects and mocked type/update callees;
   compares valid behavior, one bad controller among 27, and client counts 0–7.
-- `TransactionTests.cs`: 217 checks including the real Windows API resolver,
+- `TransactionTests.cs`: 817 checks including the real Windows API resolver,
   relocation, identity rejection, partial writes, rollback and uncertain rollback.
 - `ProbeWindowsTests.cs`: 52 checks in a disposable x86 Windows process. Executes
   the generated probe and real exception dispatcher with inaccessible target and

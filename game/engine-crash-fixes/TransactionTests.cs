@@ -14,7 +14,7 @@ internal static class EngineCrashTests {
   internal void Seed(uint a,byte[] b){for(int i=0;i<b.Length;i++){uint p=a+(uint)i;if(p>=0x60000000&&p<0x60000000+allocated.Length)allocated[p-0x60000000]=b[i];else bytes[p]=b[i];}}
   void Op(){if(++Operations==FailAt)throw new IOException("injected failure");}
   internal Memory(uint image){
-   for(int i=0;i<EngineCrashPayload.Sites.Length;i++)Seed(image+EngineCrashPayload.Sites[i],TerrainPatch.Hex(EngineCrashPayload.Originals[i]));
+   for(int i=0;i<EngineCrashPayload.Sites.Length;i++)Seed(image+EngineCrashPayload.Sites[i],EngineCrashPayload.Original(i,image));
    Seed(image+0x31EAAC,TerrainPatch.Hex("85C974368B018B4004FFD0"));Seed(image+0x31EB1A,TerrainPatch.Hex("8B7508468975083B7738"));
    Seed(image+0x14C03F,TerrainPatch.Hex("8B068D4A018B7604"));Seed(image+0x14C04E,TerrainPatch.Hex("0F44CA8BD185F675E8"));
   }
@@ -38,9 +38,9 @@ internal static class EngineCrashTests {
   }
   for(int fault=1;fault<=operations;fault++){
    var m=new Memory(image){FailAt=fault};bool threw=false;try{EngineCrashFixesPatch.Install(m,image,0x76543210,delegate{});}catch(IOException){threw=true;}
-   Check(threw&&!m.Allocated);for(int i=0;i<EngineCrashPayload.Sites.Length;i++)Check(m.Read(image+EngineCrashPayload.Sites[i],EngineCrashPayload.Originals[i].Length/2).SequenceEqual(TerrainPatch.Hex(EngineCrashPayload.Originals[i])));
+   Check(threw&&!m.Allocated);for(int i=0;i<EngineCrashPayload.Sites.Length;i++)Check(m.Read(image+EngineCrashPayload.Sites[i],EngineCrashPayload.Originals[i].Length/2).SequenceEqual(EngineCrashPayload.Original(i,image)));
   }
-  foreach(uint site in new uint[]{0x31eaa6,0x14c047,0x31eaac,0x31eb1a,0x14c03f,0x14c04e}){
+  foreach(uint site in EngineCrashPayload.Sites.Concat(new uint[]{0x31eaac,0x31eb1a,0x14c03f,0x14c04e})){
    var m=new Memory(image);m.Seed(image+site,new byte[]{0xcc});bool rejected=false;try{EngineCrashFixesPatch.Install(m,image,0x76543210,delegate{});}catch(InvalidOperationException){rejected=true;}Check(rejected&&!m.Allocated);
   }
   var noapi=new Memory(image);try{EngineCrashFixesPatch.Install(noapi,image,0,delegate{});}catch(ArgumentException){}Check(!noapi.Allocated&&noapi.Operations==0);

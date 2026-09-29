@@ -28,7 +28,10 @@ public static class September20Tests
         var feed=Feed(Path.Combine(stage,"publication/test-feeds/stable.json"),config.PublicKeyPem);
         var old=Feed(Path.Combine(stage,"publication/previous/stable.json"),config.PublicKeyPem);
         var beta=Feed(Path.Combine(stage,"publication/test-feeds/beta.json"),config.PublicKeyPem);
-        bool september24=beta.PatchGuide?.Version is "0.4.0-beta.3" or "0.4.0-beta.4" or "0.4.0-beta.5" or "0.4.0-beta.6" or "0.4.0-beta.7" or "0.4.0-beta.8" or "0.4.0-beta.9";
+        bool observerInput=beta.PatchGuide?.Version=="0.4.0-beta.10";
+        bool september24=observerInput||beta.PatchGuide?.Version is "0.4.0-beta.3" or "0.4.0-beta.4" or "0.4.0-beta.5" or "0.4.0-beta.6" or "0.4.0-beta.7" or "0.4.0-beta.8" or "0.4.0-beta.9";
+        string[] hotkeyPaths={"data/Localization/Hotkeys/hotkeys_favorites.txt","Local_base_ru/Localization/Hotkeys/hotkeys_favorites.txt","Local_ru/Localization/Hotkeys/hotkeys_favorites.txt"};
+        string? hotkeyHash=observerInput?await CryptoAndIO.Sha256Async(Path.Combine(stage,"hotkeys",hotkeyPaths[0])):null;
         bool nightmare=september24||beta.PatchGuide?.Version=="0.4.0-beta.2";
         Require(feed.Channel=="stable"&&feed.PatchGuide!.Version=="0.3.3","Wrong release identity");
         Require(feed.PatchGuide!.Entries.All(e=>e.Category!="beta"),"Promoted features still beta-only");
@@ -105,6 +108,9 @@ public static class September20Tests
             }
             if(scenario.Settings.Channel=="beta") {
                 var settings=scenario.Settings;
+                if(observerInput&&settings.PawPatchEnabled&&!settings.DataOnly)
+                    foreach(string path in hotkeyPaths)
+                        Require(winners.TryGetValue(CryptoAndIO.NormalizeRelativePath(path),out var f)&&f.Sha256==hotkeyHash,"Recruitment keys shadowed: "+path+" "+ConfigurationCode.Create(settings));
                 if(nightmare) {
                     bool enabled=settings.PawPatchEnabled&&!settings.DataOnly&&settings.ImprovedAi;
                     foreach(string n in new[]{"data\\game\\handicaps_paws_nightmare.tgi","data\\properties\\paws_handicap_nightmare.tgi"})
@@ -155,8 +161,11 @@ public static class September20Tests
             var s=EffectiveSettings.ForFeed(raw,channel);var desired=new Dictionary<string,InstalledModule>();
             foreach(var p in GamePackageSelector.Select(channel,s,s.RussianLocalization,s.CustomPlayerColors))desired[p.Id]=await Prepare(p);
             await installer.ReconcileAsync(desired,settings:s);Require((await installer.VerifyAsync()).Count==0,"Installed file verification failed");transitions++;
+            if(observerInput&&channel==beta&&s.PawPatchEnabled&&!s.DataOnly)
+                foreach(string path in hotkeyPaths)
+                    Require(await CryptoAndIO.Sha256Async(Path.Combine(root,path))==hotkeyHash,"Installed recruitment keys shadowed: "+path);
             if(nightmare){
-                bool enabled=channel==beta&&s.PawPatchEnabled&&!s.DataOnly&&s.ImprovedAi;
+                bool enabled=channel.Channel=="beta"&&s.PawPatchEnabled&&!s.DataOnly&&s.ImprovedAi;
                 foreach(string n in new[]{"data/game/handicaps_paws_nightmare.tgi","data/properties/paws_handicap_nightmare.tgi"})
                     Require(File.Exists(Path.Combine(root,n))==enabled,"Nightmare survived an option/channel transition");
                 if(enabled){
@@ -196,6 +205,12 @@ public static class September20Tests
             Require(!File.Exists(Path.Combine(root,"d3d9.dll")),"Graphics runtime survived master-off");
         }
         // Every runtime variant with AI on and off, then all localized lobby overlays.
+        if(observerInput){
+            var previousBeta=Feed(Path.Combine(stage,"publication/previous/beta.json"),config.PublicKeyPem);
+            var upgrade=Selection(7,"beta");GameLanguages.SetText(upgrade,"ru");
+            await Apply(previousBeta,upgrade,false);await Apply(beta,upgrade,true);
+            await Apply(previousBeta,upgrade,false);await Apply(beta,upgrade,true);
+        }
         for(int mask=0;mask<8;mask++)foreach(bool ai in new[]{true,false}){
             var s=Selection(mask,"beta");s.ImprovedAi=ai;await Apply(beta,s,true);
         }

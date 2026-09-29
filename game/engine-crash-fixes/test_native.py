@@ -13,6 +13,9 @@ def setup(image,cave,patched):
  u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(image,(len(raw)+4095)&~4095);u.mem_write(image,raw)
  u.mem_map(0,4096);u.mem_write(0,pack(0xffffffff));u.mem_map(cave,8192)
  u.mem_map(OBJ,0x20000);u.mem_map(STACK,0x10000);u.mem_map(STOP,4096)
+ for index,off in meta['originalFixups']:
+  site=meta['sites'][index]+off
+  u.mem_write(image+site,pack(struct.unpack_from('<I',raw,site)[0]+image-0x460000))
  code=bytearray((a.native/'payload.bin').read_bytes())
  for off,kind,sign in meta['fixups']:
   d=((image-0x460000) if kind=='image' else (cave-0x10000000))*sign
@@ -85,4 +88,68 @@ for image,cave in [(0x460000,0x10000000),(0xe40000,0x21000000),(0x12000000,0x610
   assert counts[0]==sum(k in ('dead','bad-vtable','data-as-code') for k in kinds)
   assert counts[1]==kinds.count('dead') and counts[2]==kinds.count('bad-vtable') and counts[3]==kinds.count('data-as-code')
   checks+=1
-print('ENGINE_CRASH_NATIVE_PASS',checks,'cases; stock-loop differential; live siblings; null semantics; network 0-7 clients; ABI; three ASLR bases')
+
+ # Exercise the real native local-kingdom getter and its observer mode check.
+ # Relocate the absolute operands used by these stock functions in the fixture.
+ def team_setup(patched,mode=3,kingdom=OBJ+0x9000,session=True):
+  u,w,r=setup(image,cave,patched)
+  u.mem_unmap(0,4096) # A null access must fault, as in log-421.dmp.
+  for off in (0x2be704,0x1694cd,0x15d1d9,0xb7179,0xb718e):
+   w(image+off,struct.unpack_from('<I',raw,off)[0]+image-0x460000)
+  w(image+0x5f3fe4,OBJ+0x1000 if session else 0)
+  w(OBJ+0x10f0,mode)
+  w(image+0x5f3fec,OBJ+0x2000);w(OBJ+0x200c,OBJ+0x3000)
+  w(OBJ+0x3028,kingdom);w(image+0x5f3fb8,OBJ+0x4000)
+  sp=STACK+0xf000;w(sp,STOP);w(sp+4,OBJ+0x6000)
+  regs={UC_X86_REG_EAX:0x12345,UC_X86_REG_EBX:0x23456,
+        UC_X86_REG_ECX:OBJ,UC_X86_REG_EDX:0x34567,
+        UC_X86_REG_ESI:0x45678,UC_X86_REG_EDI:0x56789,
+        UC_X86_REG_EBP:0x6789a,UC_X86_REG_ESP:sp,UC_X86_REG_EFLAGS:0x246}
+  for reg,value in regs.items():u.reg_write(reg,value)
+  return u,w,r,regs
+
+ for mode,kingdom,session in [(3,OBJ+0x9000,True),(0,0,True),(0,0,False)]:
+  # All macro stages must be no-ops, even when an observer is displaying a
+  # non-null viewed kingdom. Repeat inputs and switch from player to observer.
+  u,w,r,regs=team_setup(True,mode,kingdom,session)
+  before=bytes(u.mem_read(OBJ,0x20000))
+  for repeat in range(10):
+   for index in (2,3,4,5):
+    for reg,value in regs.items():u.reg_write(reg,value)
+    u.emu_start(image+meta['sites'][index],STOP,count=1000)
+    for reg,value in regs.items():
+     assert u.reg_read(reg)==(value+8 if reg==UC_X86_REG_ESP else value)
+    assert bytes(u.mem_read(OBJ,0x20000))==before
+    checks+=1
+  assert r(cave+0x1000+52)==40
+
+ # Valid players execute the same displaced instructions with identical
+ # registers, stack and UI state, including the relocated SEH descriptor.
+ for mode in (0,1,2,4):
+  for index in (2,3,4,5):
+   results=[]
+   for patched in (False,True):
+    u,w,r,regs=team_setup(patched,mode)
+    site=meta['sites'][index];end=image+site+len(bytes.fromhex(meta['originals'][index]))
+    u.emu_start(image+site,end,count=1000)
+    sp=u.reg_read(UC_X86_REG_ESP)
+    results.append(([u.reg_read(reg) for reg in regs],bytes(u.mem_read(OBJ,0x20000)),bytes(u.mem_read(sp,STACK+0xf008-sp))))
+    assert r(cave+0x1000+52)==0
+   assert results[0]==results[1],(hex(image),mode,index)
+   checks+=1
+
+ # Reproduce the actual fault through GoToTeamCommands -> native ally list.
+ u,w,r,regs=team_setup(False)
+ for off,code in [(0xb5bc6,'c3'),(0xb5c77,'c3'),(0xb7134,'c3'),(0xb71ee,'c20800')]:
+  u.mem_write(image+off,bytes.fromhex(code))
+ u.mem_write(image+0xb8afb,b'\xb8'+pack(OBJ+0x9000)+bytes.fromhex('c20400'))
+ w(OBJ+0x4154,2)
+ try:
+  u.emu_start(image+0xb764b,STOP,count=1000)
+  raise AssertionError('Stock observer F failed to reproduce crash')
+ except UcError:
+  assert u.reg_read(UC_X86_REG_EIP)==image+0xb71a9
+  assert u.reg_read(UC_X86_REG_ESI)==0
+ checks+=1
+
+print('ENGINE_CRASH_NATIVE_PASS',checks,'cases; observer F crash reproduced; all macro stages; unchanged player behavior; stock-loop differential; ABI; three ASLR bases')

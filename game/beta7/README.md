@@ -25,6 +25,14 @@ The random-map payload remains
 
 Native self-test flags and mock-memory checks are distinct from multiplayer acceptance. See the release validation record.
 
+For a local test helper kept outside the game directory, add `-LairWoundedTest`
+to the complete build options. Despite its historical name, this also enables
+external game-directory handling for UI layouts, translations and player colors.
+Without it, packaged helpers expect these assets beside the EXE. Before sharing
+an external helper, run both `--local-data-check <game-directory>` and
+`--preflight <game-directory>` on the actual generated executable. A release
+helper's ordinary preflight does not verify external UI asset resolution.
+
 ## City-assistant Beta build
 
 For patch 0.3.0-beta.3, use `./build.ps1 -CityAssistant -OutputDirectory C:/PatchBuild/city-beta3 -LegacyWorkDirectory C:/VerifiedKohanWork` with a new output directory. The verified work directory supplies the accepted native bridge and transfer sources; the script also recognizes the existing local migration path. This compile-time option embeds city policy r14 in all eight variants and emits both native F1 layouts. Building without it retains Release behavior. `--features` reports `cityPolicyRevision:14`, `nativeCityQueue`, `automaticMines` and `newCityMilitia` only with the assistant; package metadata supplies the public Beta version.

@@ -1,0 +1,8 @@
+{
+  "ru": "- Исправлен вылет при нажатии F в режиме наблюдателя.\n- При открытом списке найма цифры выбирают сохранённые группы рот, а Ctrl+цифра назначает группу, вместо найма роты по шаблону.",
+  "en": "- Fixed a crash when pressing F as an observer.\n- With the recruitment list open, number keys select control groups and Ctrl+number assigns a group instead of recruiting a company from a template.",
+  "de": "- Ein Absturz beim Drücken von F im Beobachtermodus wurde behoben.\n- Bei geöffneter Rekrutierungsliste wählen Zifferntasten Kontrollgruppen aus; Strg+Ziffer weist eine Gruppe zu, statt eine Kompanie aus einer Vorlage zu rekrutieren.",
+  "fr": "- Correction d’un plantage en appuyant sur F en mode observateur.\n- Lorsque la liste de recrutement est ouverte, les touches numériques sélectionnent les groupes de contrôle et Ctrl+chiffre affecte un groupe, au lieu de recruter une compagnie depuis un modèle.",
+  "es": "- Corregido un cierre inesperado al pulsar F como observador.\n- Con la lista de reclutamiento abierta, las teclas numéricas seleccionan grupos de control y Ctrl+número asigna un grupo, en lugar de reclutar una compañía desde una plantilla.",
+  "it": "- Risolto un arresto anomalo premendo F in modalità osservatore.\n- Con l’elenco di reclutamento aperto, i tasti numerici selezionano i gruppi di controllo e Ctrl+numero assegna un gruppo, invece di reclutare una compagnia da un modello."
+}
