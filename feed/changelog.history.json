@@ -933,6 +933,32 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "version": "0.4.0-beta.2",
+      "publishedAt": "2026-10-02",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0-beta.2 — Vanilla / Immortals",
+        "en": "Paw’s Patch 0.4.0-beta.2 — Vanilla / Immortals",
+        "de": "Paw’s Patch 0.4.0-beta.2 — Vanilla / Immortals",
+        "fr": "Paw’s Patch 0.4.0-beta.2 — Vanilla / Immortals",
+        "cs": "Paw’s Patch 0.4.0-beta.2 — Vanilla / Immortals",
+        "uk": "Paw’s Patch 0.4.0-beta.2 — Vanilla / Immortals"
+      },
+      "body": {
+        "ru": "- Улучшения ботов адаптированы к правилам Vanilla и Immortals: убраны ограничения и приоритеты, предназначенные только для Arcane Wars.\n- Сохранены общие улучшения найма, строительства, разведки и передачи городов союзникам.",
+        "en": "- Bot improvements now follow Vanilla and Immortals rules, without restrictions and priorities specific to Arcane Wars.\n- Shared recruitment, construction, scouting and allied city-transfer improvements are retained.",
+        "de": "- Die Bot-Verbesserungen folgen nun den Regeln von Vanilla und Immortals, ohne Beschränkungen und Prioritäten, die nur für Arcane Wars gelten.\n- Allgemeine Verbesserungen bei Rekrutierung, Bau, Erkundung und Stadtübergaben an Verbündete bleiben erhalten.",
+        "fr": "- Les améliorations des bots respectent désormais les règles de Vanilla et Immortals, sans les restrictions et priorités propres à Arcane Wars.\n- Les améliorations communes du recrutement, de la construction, de l’exploration et du transfert de villes aux alliés sont conservées.",
+        "cs": "- Vylepšení botů nyní odpovídají pravidlům Vanilla a Immortals, bez omezení a priorit určených pouze pro Arcane Wars.\n- Společná vylepšení náboru, výstavby, průzkumu a předávání měst spojencům zůstávají zachována.",
+        "uk": "- Поліпшення ботів адаптовано до правил Vanilla та Immortals: прибрано обмеження й пріоритети, призначені лише для Arcane Wars.\n- Збережено спільні поліпшення найму, будівництва, розвідки та передавання міст союзникам."
+      },
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "beta"
+    },
+    {
       "category": "launcher",
       "version": "0.8.12",
       "publishedAt": "2026-09-29",
