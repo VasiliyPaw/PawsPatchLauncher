@@ -26,10 +26,12 @@ def run(args):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    for name in ('out','native','compiler'): parser.add_argument('--'+name,type=Path,required=True)
+    for name in ('out','native','ai-native','compiler'): parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--dotnet',type=Path)
     parser.add_argument('--mapped-image',type=Path)
     args=parser.parse_args(); out=args.out.resolve(); out.mkdir(parents=True,exist_ok=False)
+    assert json.loads((args.ai_native/'ai-policy.json').read_text())['profile']=='pure', 'Pure requires its own native AI profile'
+    assert 'Profile="pure"' in (args.ai_native/'AiPolicyPayload.cs').read_text(), 'Wrong AI payload'
     source=ROOT/'game/pure-fixes'; shared=ROOT/'game/beta7'
     sources=[source/(name+'.cs') for name in ('Program','NativeMemory','PurePatch','PureChannel','PureBetaRuntime','PureFamilyRelations')]
     sources += [shared/(name+'.cs') for name in ('TerrainRuntime','ReleaseStartup','RandomMapPatch','RandomMapBundle','GamePresentation1372','GameText','BuildFeatures','LobbyColorsNative','SyncDiagnostics1372','k2_paws_family_herd_relations_1372')]
@@ -37,7 +39,7 @@ def main():
                 ROOT/'game/graphics-diagnostics/GraphicsDiagnostics.cs', ROOT/'game/ai-policy/PawAiOptions.cs',
                 ROOT/'game/ai-policy/AiDiagnosticsSnapshot.cs', args.native/'nightmare-data/NightmareDifficultyData.cs']
     for folder,(generated,patch,payload) in NATIVE.items():
-        sources += [ROOT/'game'/folder/(patch+'.cs'), args.native/generated/(payload+'.cs')]
+        sources += [ROOT/'game'/folder/(patch+'.cs'), (args.ai_native if folder=='ai-policy' else args.native/generated)/(payload+'.cs')]
     resources={name:shared/(name+'.bin') for name in ('PawCommonUiPayload','PawCommonUiFixups','RandomMapPayload','RandomMapFixups','PawLobbyColorsPayload','PawLobbyColorsFixups')}
     resources.update(FastTransferGuards=args.native/'FastTransferGuards.bin',
                      PawLobbyCompatibilityNative=args.native/'paws_lobby_compatibility.dll',

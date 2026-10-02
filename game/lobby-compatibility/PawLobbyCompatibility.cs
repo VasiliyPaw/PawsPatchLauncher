@@ -15,7 +15,11 @@ using System.Web.Script.Serialization;
 // Included in the eight Arcane Wars helpers. No network or UI polling.
 internal static class PawLobbyCompatibility
 {
+#if PAW_PURE_EXTENDED
+    internal const string Version = PawPureFixes.PureChannel.PatchVersion;
+#else
     internal const string Version = "0.4.0-beta.1";
+#endif
     private static byte[] configuration;
     private static string nativePath;
     private static readonly uint[] Sites = {0x151092,0x150e40,0x151c8a,0x1519ef,0x151bf3,0x7d3eb,0x77417};

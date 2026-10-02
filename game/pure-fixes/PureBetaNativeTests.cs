@@ -44,6 +44,8 @@ namespace PawPureFixes
         }
         static int Main(string[] args)
         {
+            if (PawLobbyCompatibility.Version != PureChannel.PatchVersion) throw new Exception("Pure lobby version mismatch");
+            if (AiPolicyPayload.Profile != "pure") throw new Exception("Pure runtime contains another AI profile");
             if(Program.Hash(args[0])!="B865D8206990C4F055C51DE857F0B09B88AB5EE3B6AE74EE5232134001AA591C")throw new Exception("Unverified game snapshot");
             byte[] raw=File.ReadAllBytes(args[0]);int checks=0;
             foreach(uint image in new uint[]{0x460000,0xF20000,0x18000000})

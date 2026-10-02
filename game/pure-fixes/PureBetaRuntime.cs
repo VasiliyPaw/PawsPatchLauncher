@@ -26,7 +26,7 @@ namespace PawPureFixes
             return json.Replace("\"randomMap\":false","\"randomMap\":true").Replace("\"randomTime\":false","\"randomTime\":true").TrimEnd('}')
                 + ",\"allyEconomyRevision\":2,\"gameplayCameraZoomMaximum\":2"
                 + ",\"companyPositionRecoveryRevision\":1,\"exhaustionRecoveryRevision\":1"
-                + ",\"bulkBotLobbyRevision\":3,\"aiPolicyRevision\":39,\"aiImprovementsSelectable\":true"
+                + ",\"bulkBotLobbyRevision\":3,\"aiPolicyRevision\":39,\"aiPolicyProfile\":\"pure\",\"aiPolicyCompatibilityRevision\":1,\"aiImprovementsSelectable\":true"
                 + ",\"lobbyCompatibilityProtocol\":1,\"observerTeamCommandGuardRevision\":1"
                 + ",\"independentHostilitySelectable\":true,\"woundedLairDefendersSelectable\":true"
                 + ",\"builtInGraphicsDiagnosticsRevision\":1,\"goldSoundButton\":true"

@@ -124,7 +124,7 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   if case=='hidden':f.w(f.stats+16,0);f.w(f.actor+8,1)
   if case=='disabled':f.w(f.data+4,0)
   if case=='sovereign':f.sovereign();f.site(1)
-  check(f.eligible()==int(case in ('militia','disabled')),('field census/cap',case))
+  check(f.eligible()==int(case in ('militia','disabled') or (case=='sovereign' and meta.get('profile')=='pure')),('field census/cap',case))
  # A living capable Haroun/Undead worker suffices, even below 1% HP.
  for race in ('human','Undead','haroun'):
   for hp in (0,0.01,1,19.99,20,69.99,70):
@@ -191,7 +191,7 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   if case=='disabled':f.w(f.data+4,0)
   if case=='kingdom-already-exists':f.sovereign();f.w(f.city+4,f.centerdef)
   if case=='failed-add':f.asm(image+0x2500,f'cmp ecx,{f.rally};je refused;mov eax,[esp+4];mov [eax+0x10],ecx;inc dword ptr [ecx+0x14];refused:ret 16')
-  check(f.stage()==(case in ('safe','undead20')),('safe builder staging',case))
+  check(f.stage()==(case in ('safe','undead20') or (case=='kingdom-already-exists' and meta.get('profile')=='pure')),('safe builder staging',case))
   check(f.r(f.sa+4)==1,'staging balances native references')
   if case=='safe':
    f.w(f.rally+8,2)

@@ -1,0 +1,32 @@
+{
+  "patch": "0.4.0-beta.2",
+  "runtime": "1.3.72-pure.13-beta.2",
+  "nativeSuites": 25,
+  "launcherChecks": 34048,
+  "profileChecks": 509,
+  "guardedCompositionChecks": 804,
+  "randomMapRollbackChecks": 477,
+  "newMenuLaunches": 12,
+  "reusedUnchangedLaunches": 4,
+  "arcaneDllSectionsUnchanged": true,
+  "sharedPreferencesRestored": true,
+  "newLairsAdded": false,
+  "serverChanges": false,
+  "evidence": "outputs/pure-beta-ai-scope-20261002",
+  "artifacts": [
+    {
+      "id": "pure-fixes-data",
+      "path": "pure-fixes-data-0.4.0-beta.2.zip",
+      "url": "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-pure-0.4.0-beta.2/pure-fixes-data-0.4.0-beta.2.zip",
+      "size": 3944236,
+      "sha256": "63D01D7010B2C1089F15695CCA9349EAB9C0548B84C13AC7A5EC6D1BF05BF2EC"
+    },
+    {
+      "id": "pure-fixes-runtime",
+      "path": "pure-fixes-runtime-1.3.72-pure.13-beta.2.zip",
+      "url": "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-pure-0.4.0-beta.2/pure-fixes-runtime-1.3.72-pure.13-beta.2.zip",
+      "size": 778220,
+      "sha256": "1DC6B8BD8CE004CF655AE9D39FC90BDDEEBD7D3E199568CCDF7C1CF6E87FC84F"
+    }
+  ]
+}

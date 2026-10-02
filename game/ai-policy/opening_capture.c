@@ -22,11 +22,16 @@ static U opening_city_count(U image,U pl){
 /* Verified RandomActor random_lairlargemonster* definitions in the installed
  * Arcane Wars data. Exact IDs avoid classifying small settlement camps, their
  * roaming defenders, or ordinary enemy towns by size/combat strength alone. */
+#ifdef PAW_PURE_AI
+/* Large-lair delay belongs to AW random-map additions, not unused retail definitions. */
+static int opening_large_definition(U def){return 0;}
+#else
 static int opening_large_definition(U def){
  return ids_equal(def,"active_ice_dragon_lair")||ids_equal(def,"active_lair_dragon_lair")
   ||ids_equal(def,"lair_dark_rift")||ids_equal(def,"branch_thing_dwelling")
   ||ids_equal(def,"wyvern_nest")||ids_equal(def,"active_storm_drake_crag");
 }
+#endif
 static U opening_large_actor(U image,U pl,U actor){
  U target=structure_center(image,actor),k=pl?P(pl,8):0;
  if(!target||!k||!opening_large_definition(P(target,4))||!guarded_structure(image,target))return 0;

@@ -55,11 +55,12 @@ for image,cave in [(0x460000,0x10000000),(0xf20000,0x22000000),(0x18000000,0x380
   if case=='human-donor':f.w(f.player+4,0)
   if case=='bad-list':f.w(f.other+0x2e0,257)
   before=bytes(f.u.mem_read(f.extra,0x40000));f.pulse(30)
-  expected=case in ('give','kingdom','siege')
+  pure=meta.get('profile')=='pure'
+  expected=case in ('give','kingdom','siege') or (pure and case=='all-kingdoms')
   check(f.r(f.stats+104)==int(expected),('city transfer eligibility',case))
   check(bytes(f.u.mem_read(f.extra,0x40000))==before,'no direct city/ownership mutations')
   if expected:
-   selected=f.cities[-2 if case in ('kingdom','siege') else -1]
+   selected=f.cities[-2 if case=='siege' or (case=='kingdom' and not pure) else -1]
    check(f.r(f.stats+108)==f.r(f.r(selected+0x414)+0x14),'least developed city targets its current central building')
    check(f.r(f.stats+108)!=f.r(selected+0x14),'settlement container ID is never sent to GIVE_ACTOR')
    check(f.r(f.stats+112)==f.other,'human ally is eligible without an SAI player')

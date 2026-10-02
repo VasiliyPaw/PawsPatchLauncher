@@ -75,3 +75,32 @@ server readback, immutable release asset hashes and exact release-tag commits.
 It then verifies all four signed feeds and checks that stable Pure and Arcane
 Wars game packages remain unchanged. Public readback is recorded separately in
 `publication-3/readback.json` after the catalog commit is pushed.
+
+## Beta.2 compatibility correction (2026-10-02)
+
+Beta.1 reused the complete compiled AW AI policy, including dormant AW-specific
+branches. Beta.2 uses `build_native.py --profile pure` and passes that output
+separately to `build_beta.py --ai-native`. A Pure build rejects an Arcane payload.
+The shared engine hooks and ordinary recruitment/building behavior are retained.
+Royal settlement detection and gold reservation, kingdom-point scouting reserves,
+the AW supply-company cap, special `_militia` city-upgrade priority and the AW
+large-lair opening delay are excluded from the compiled Pure profile.
+
+Retail definitions alone do not establish that a lair spawns on a mode's maps.
+The inspected Vanilla/Immortals data contain `lair_dragon_lair` and
+`storm_drake_crag` definitions but no spawning references to either. The correction
+does not introduce these lairs, add them to an AI delay list or change map/data
+content. The 13 authored roaming-company definitions in each mode are unchanged.
+
+The lobby preflight version now follows `PureChannel.PatchVersion`. This fixes
+the stale beta.1 preflight rejection found during the first beta.2 launch attempt.
+Evidence is in `outputs/pure-beta-ai-scope-20261002`: `pure-ai`, `helpers-2`,
+`publication-2`, native regression reports and `launch-matrix-2.txt`.
+All twelve new beta language/mode launches reached the native main menu; the
+four unchanged stable/disabled results were reused. Shared user preferences were
+restored byte-for-byte. This update's live acceptance covers startup, not a full
+match. The separately rebuilt Arcane DLL sections are identical to beta.10.
+
+`PreparePureAiRelease.py` publishes only the two Pure beta artifact identities
+and the beta patch notes. The launcher, server schema, all other packages,
+stable feed and legacy feeds remain unchanged.

@@ -8,7 +8,7 @@ namespace PawPureFixes
     internal static class PureChannel
     {
 #if PAW_PURE_EXTENDED
-        internal const string Channel = "beta", Version = "1.3.72-pure.12-beta.1", PatchVersion = "0.4.0-beta.1";
+        internal const string Channel = "beta", Version = "1.3.72-pure.13-beta.2", PatchVersion = "0.4.0-beta.2";
 #else
         internal const string Channel = "stable", Version = "1.3.72-pure.11", PatchVersion = "0.3.0";
 #endif

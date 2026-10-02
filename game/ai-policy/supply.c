@@ -1,3 +1,7 @@
+#ifdef PAW_PURE_AI
+static int supply_definition(U def){return 0;}
+static int supply_capped(U image,Data*d,U pl,U def){return 0;}
+#else
 /* Arcane Wars' four supply-company recipes share one per-kingdom cap.
  * Count live companies, including incomplete/new recruits, before AI command creation.
  * Never disband existing supply, block replacement soldiers, or affect humans. */
@@ -17,3 +21,5 @@ static int supply_capped(U image,Data*d,U pl,U def){
  }
  return 0;
 }
+
+#endif

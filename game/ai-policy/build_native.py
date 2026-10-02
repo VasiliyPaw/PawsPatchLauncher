@@ -37,14 +37,14 @@ SITES += [(0x1dcaf9,0x02995d,1,51,False)] # unit candidate property during Recru
 SITES += [(0x1e0bee,0x1e1d25,2,52,False),(0x1e0c03,0x1e1d08,1,52,False), # keep inserted strategic deadlines
  (0x1e20dc,0x1e1eaf,1,53,False),(0x1e210a,0x0494a9,0,54,False)] # pace actual dispatch, not future entries
 def main():
- p=argparse.ArgumentParser();p.add_argument('--legacy',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--compiler',required=True);a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--legacy',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--compiler',required=True);p.add_argument('--profile',choices=['arcane','pure'],default='arcane');a=p.parse_args()
  sys.path[:0]=[str(a.legacy/'pydeps_readable'),str(a.legacy/'lobby_colors_1372/deps_r15')]
  import pefile
  from keystone import Ks,KS_ARCH_X86,KS_MODE_32
  from capstone import Cs,CS_ARCH_X86,CS_MODE_32,CS_OP_MEM,CS_OP_IMM
  a.out.mkdir(parents=True,exist_ok=True)
  dll=a.out/'policy.dll'
- subprocess.run([a.compiler,'-shared','-nostdlib','-Wl,--image-base=0x10000000',str(Path(__file__).with_name('policy.c')),'-o',str(dll)],check=True)
+ subprocess.run([a.compiler]+(['-DPAW_PURE_AI'] if a.profile=='pure' else [])+['-shared','-nostdlib','-Wl,--image-base=0x10000000',str(Path(__file__).with_name('policy.c')),'-o',str(dll)],check=True)
  pe=pefile.PE(str(dll));assert not hasattr(pe,'DIRECTORY_ENTRY_IMPORT'),'payload must not import OS/runtime functions'
  base=pe.OPTIONAL_HEADER.ImageBase;assert base==0x10000000
  cb=bytearray(pe.get_memory_mapped_image());size=(len(cb)+4095)&~4095;cb.extend(bytes(size-len(cb)))
@@ -147,9 +147,10 @@ def main():
  routing_size=struct.unpack_from('<I',cb,exports['routing_size'])[0]
  routing_report=query_pointer+4+struct.unpack_from('<I',cb,exports['routing_report_offset'])[0]
  data_size=struct.unpack_from('<I',cb,exports['policy_data_size'])[0]
- meta=dict(image=image,cave=base,codeSize=size+wrapper_size,dataOffset=size+wrapper_size,allocation=size+wrapper_size+data_size,queryOffset=query,queryPointerOffset=query_pointer,routingOffset=query_pointer+4,routingSize=routing_size,fixups=fixups,wrappers=wrappers,evaluate=fn)
+ meta=dict(profile=a.profile,image=image,cave=base,codeSize=size+wrapper_size,dataOffset=size+wrapper_size,allocation=size+wrapper_size+data_size,queryOffset=query,queryPointerOffset=query_pointer,routingOffset=query_pointer+4,routingSize=routing_size,fixups=fixups,wrappers=wrappers,evaluate=fn)
  (a.out/'ai-policy.json').write_text(json.dumps(meta,indent=2))
  src='using System;\ninternal static class AiPolicyPayload {\n'
+ src+=f'internal const string Profile="{a.profile}";\n'
  src+=f'internal const int CodeSize={meta["codeSize"]}, DataOffset={meta["dataOffset"]}, Allocation={meta["allocation"]};\n'
  src+=f'internal const int QueryOffset={query}, QueryPointerOffset={query_pointer};\n'
  src+=f'internal const int RouteReportOffset={routing_report};\n'

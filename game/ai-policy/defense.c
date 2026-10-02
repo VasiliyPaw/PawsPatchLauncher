@@ -206,6 +206,9 @@ static int defense_admitted(U image,U goal,U sa){
  gain=((DefenseF2)P(P(goal,0),0x28))(goal,0,sa,1);
  return finite(gain)&&gain>0;
 }
+#ifdef PAW_PURE_AI
+static int defense_reserved(U image,Data*d,U a){return 0;}
+#else
 static int defense_reserved(U image,Data*d,U a){
  U def=P(a,4),table=P(image,0x5efa8c),n,list,i,count;float cost[16];
  /* Native company recipe. Reserve kingdom-point companies (sovereign builders
@@ -217,6 +220,7 @@ static int defense_reserved(U image,Data*d,U a){
  for(i=0;i<n;i++)if(ids_equal(P(list,4*i),"kingdom_points_consumed")&&(!finite(cost[i])||cost[i]>0))return 1;
  return 0;
 }
+#endif
 static U defense_scout_count(U image,U pl){
  U node=P(pl,0x2c),i=0,count=0;
  for(;node&&i++<4096;node=P(node,4)){

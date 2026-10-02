@@ -4,6 +4,9 @@
 typedef void (FAST *EconomyM2)(U,U,U,U);
 typedef U (FAST *EconomyM0)(U,U);
 static int economy_affordable(U image,U pl,U goal);
+#ifdef PAW_PURE_AI
+static int economy_sovereign(U def){return 0;}
+#else
 static int economy_sovereign(U def){
  U s=def?P(def,8):0,i,j;const char*word="_center_sovereign";
  if(!s)return 0;
@@ -13,6 +16,7 @@ static int economy_sovereign(U def){
  }
  return 0;
 }
+#endif
 static U economy_center(U def,U layout,U depth){
  U node,i=0,t,types,n;
  if(!def||depth>3)return 0;
@@ -40,6 +44,10 @@ static U economy_owned_builder(U image,U pl,U target){
  }
  return 0;
 }
+#ifdef PAW_PURE_AI
+/* Pure has no separate royal settlement or first-kingdom budget. */
+static int economy_has_kingdom(U image,U pl){return 1;}
+#else
 static int economy_has_kingdom(U image,U pl){
  U k=P(pl,8),list=P(k,0x2dc),n=P(k,0x2e0),i;if(!list||n>256)return 1;
  for(i=0;i<n;i++){
@@ -50,6 +58,7 @@ static int economy_has_kingdom(U image,U pl){
  }
  return 0;
 }
+#endif
 static Economy* economy_record(U image,Data*d,U pl,U target){
  U manager=P(image,0x5f3fc8),list,n,i,world=P(image,0x5f3fb8);Economy*r;float time;
  if(!pl||!manager||!world||P(image,0x5f9218)!=2||!P(pl,8))return 0;

@@ -1,3 +1,7 @@
+#ifdef PAW_PURE_AI
+static int militia_upgrade(U image,U goal){return 0;}
+static float militia_priority(U image,Data*d,U goal,U pl,float before){return before;}
+#else
 /* Final Arcane Wars center upgrades retain native prerequisites, payment and
  * execution. Equal income must not hide their substantially larger garrison. */
 static int militia_upgrade(U image,U goal){
@@ -18,3 +22,5 @@ static float militia_priority(U image,Data*d,U goal,U pl,float before){
  }
  return before;
 }
+
+#endif
