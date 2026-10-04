@@ -98,6 +98,8 @@ def prepare(a):
         q=copy.deepcopy(p)
         if changed or p!=stable_by_id.get(p['id']):
             q['version']=VERSION;q['experimental']=False
+            for language,text in q.get('description',{}).items():
+                q['description'][language]=text.replace('в бете','в патче').replace('in Beta','in the patch')
             manifest=dict(id=q['id'],version=VERSION,files=[dict(path=n,size=len(b),sha256=hashlib.sha256(b).hexdigest().upper()) for n,b in sorted(payload.items())],remove=[])
             path=out/'assets'/(q['id']+'-'+VERSION+'.zip');path.parent.mkdir(parents=True,exist_ok=True)
             with zipfile.ZipFile(path,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
@@ -142,7 +144,10 @@ def finalize(a):
     out=a.stage/'publication'; proof=read(out/'preparation.json')
     assert read(a.stage/'installation-verification.json')['passed']
     launcher_proof=read(a.launcher_stage/'preparation.json')
-    assert launcher_proof['version']==LAUNCHER and launcher_proof['commit']==a.commit
+    launcher_tag=json.loads(fetch(API+'/git/ref/tags/v'+LAUNCHER))['object']
+    while launcher_tag['type']=='tag':launcher_tag=json.loads(fetch(API+'/git/tags/'+launcher_tag['sha']))['object']
+    assert launcher_proof['version']==LAUNCHER and launcher_proof['commit']==launcher_tag['sha']
+    assert launcher_tag['type']=='commit'
     for p,h in proof['before'].items():assert sha(ROOT/p)==h,'Baseline changed: '+p
     history=read(a.launcher_stage/'changelog.history.json')
     for n,p in FEEDS.items():
@@ -156,7 +161,7 @@ def finalize(a):
         write(out/'final'/(n+'.json'),sign(f,private(a)))
     write(out/'final/changelog.history.json',history)
     write(out/'final/patch-guide-beta.json',verify(read(out/'final/beta.json'),key())['patchGuide'])
-    write(out/'finalization.json',dict(commit=a.commit,launcher=launcher_proof['launcher']))
+    write(out/'finalization.json',dict(commit=a.commit,launcherCommit=launcher_proof['commit'],launcher=launcher_proof['launcher']))
     print('ARCANE_040_FINALIZED four signed catalogs')
 
 

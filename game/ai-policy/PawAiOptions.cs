@@ -24,15 +24,19 @@ internal static class PawAiOptions
         object value;
         bool enabled = settings.TryGetValue("improvedAi", out value) && Object.Equals(value, true);
         string module = "ai-improvements";
-        bool supported = Object.Equals(settings["mod"], "arcane-wars");
+        bool supported = settings.TryGetValue("mod", out value) && Object.Equals(value, "arcane-wars");
+        bool channelSupported = settings.TryGetValue("channel", out value)
+            && (Object.Equals(value, "stable") || Object.Equals(value, "beta"));
 #if PAW_PURE_EXTENDED
         module = "pure-ai-improvements";
-        supported = Object.Equals(settings["mod"], "vanilla") || Object.Equals(settings["mod"], "immortals");
+        supported = settings.TryGetValue("mod", out value)
+            && (Object.Equals(value, "vanilla") || Object.Equals(value, "immortals"));
+        channelSupported = settings.TryGetValue("channel", out value) && Object.Equals(value, "beta");
 #endif
         bool installed = modules.TryGetValue(module, out value)
             && ((Dictionary<string, object>)value).TryGetValue("enabled", out value) && Object.Equals(value, true);
         if (enabled != installed || enabled && (
-            !supported || !Object.Equals(settings["channel"], "beta")
+            !supported || !channelSupported
             || !Object.Equals(settings["pawPatchEnabled"], true)
             || settings.TryGetValue("dataOnly", out value) && Object.Equals(value, true)))
             throw new InvalidDataException("AI settings and installed files differ. Apply settings in the launcher.");
