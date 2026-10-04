@@ -53,7 +53,7 @@ public static class FriendConfiguration
         values["roaming"] = settings.RoamingSpawnMode != "standard";
         values["additional_roaming"] = settings.AdditionalRoamingCompanies;
         values["siege"] = settings.SiegeBalance;
-        if (settings.Channel == "beta") values["improved_ai"] = settings.ImprovedAi;
+        values["improved_ai"] = settings.ImprovedAi;
         values["powers_shards"] = settings.DisablePowersAndShards;
         values["large_maps"] = settings.LargeMapSizes;
         return values;

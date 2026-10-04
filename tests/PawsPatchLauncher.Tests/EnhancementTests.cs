@@ -19,7 +19,7 @@ public static class EnhancementTests
         var state = new InstallState { Modules = new() { ["core"] = new InstalledModule { Enabled = true, Version = "1", ArchiveSha256 = H('A'),
             Files = [new ModuleFile { Path = "helper.exe", Sha256 = await CryptoAndIO.Sha256Async(Path.Combine(game, "helper.exe")) },
                 new ModuleFile { Path = "gameplay.tgi", Sha256 = await CryptoAndIO.Sha256Async(Path.Combine(game, "gameplay.tgi")) }] } } };
-        var report = await MultiplayerCheck.CreateAsync(game, state, new UserSettings(), Path.Combine(game, "helper.exe"), "25068126");
+        var report = await MultiplayerCheck.CreateAsync(game, state, new UserSettings { ImprovedAi = false }, Path.Combine(game, "helper.exe"), "25068126");
         Check(report.Details is not null && report.Errors.Count == 0, "Detailed report missing");
         var local = report.Details!; MultiplayerDetails.Validate(local);
         Check(local.Fingerprint == report.Fingerprint && MultiplayerDetails.Fingerprint(local) == report.Fingerprint, "Legacy fingerprint changed");

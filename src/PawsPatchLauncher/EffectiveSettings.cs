@@ -14,7 +14,7 @@ public static class EffectiveSettings
         active.SuspendedArcaneComponents = null;
         active.CustomPlayerColors = preferences.CustomPlayerColors && colorsAvailable;
         active.LargeMapSizes = active.PawPatchEnabled;
-        active.ImprovedAi &= GameMod.IsArcaneWars(active) && active.Channel == "beta" && active.PawPatchEnabled && !active.DataOnly;
+        active.ImprovedAi &= GameMod.IsArcaneWars(active) && active.PawPatchEnabled && !active.DataOnly;
         if (GameMod.IsArcaneWars(active) && !active.PawPatchEnabled) GameMod.DisableArcaneComponents(active);
         if (active.DataOnly)
         {

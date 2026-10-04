@@ -103,7 +103,7 @@ public static class GamePackageSelector
         }
         var botUi = "localization-bot-ui-" + GameLanguages.Text(settings);
         if (channel.Packages.Any(p => p.Id == botUi)) ids.Add(botUi);
-        if (settings.ImprovedAi && settings.Channel == "beta" && GameMod.HasImprovedAi(channel))
+        if (settings.ImprovedAi && GameMod.HasImprovedAi(channel))
             ids.Add("ai-improvements");
         if (!settings.SiegeBalance) ids.Add("siege-balance-standard");
         if (!settings.DisablePowersAndShards) ids.Add("powers-shards-original");

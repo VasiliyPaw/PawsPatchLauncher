@@ -78,8 +78,8 @@ public static class ConfigurationCode
             DisablePowersAndShards = parts.Length == 10 || Flag(10, "PS"),
             RoamingSpawnMode = parts[3] switch { "SP4" => "x4", "SP2" => "x2", "SP1" => "standard", _ => throw new FormatException("Invalid SP field") }
         };
-        if (improvedAi && (result.Channel != "beta" || !core || dataOnly))
-            throw new FormatException("Improved AI requires the enabled Arcane Wars Beta patch.");
+        if (improvedAi && (!core || dataOnly))
+            throw new FormatException("Improved AI requires the enabled Arcane Wars patch.");
         if (result.LargeMapSizes != core)
             throw new FormatException("This combination is not supported by this launcher.");
         if (dataOnly && (result.CustomPlayerColors || result.IndependentHostility || result.DesyncMode != "official"))

@@ -47,7 +47,8 @@ public static class GameMod
         settings.RoamingSpawnMode = "standard";
     }
     public static bool HasImprovedAi(ChannelManifest? channel, string mod = ArcaneWars)
-        => channel is { Channel: "beta" } && channel.Packages.Any(p => p.Id == (mod == ArcaneWars ? "ai-improvements" : "pure-ai-improvements") && (mod == ArcaneWars || p.Mods.Contains(mod)));
+        => channel is not null && (mod == ArcaneWars || channel.Channel == "beta")
+            && channel.Packages.Any(p => p.Id == (mod == ArcaneWars ? "ai-improvements" : "pure-ai-improvements") && p.Mods.Contains(mod));
     public static bool HasPureBeta(ChannelManifest? channel)
         => channel is { Channel: "beta" } && HasPureOptions(channel)
             && channel.Packages.Any(p => p.Id == "pure-beta-common" && p.Mods.Contains(Vanilla) && p.Mods.Contains(Immortals));

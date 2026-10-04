@@ -11,7 +11,7 @@ public static class PowersShardsTests
         var legacy = "PAW-STABLE-IW1-SP4-RM1-SG1-LM1-RU1-CL0-OOS0";
         Check(new UserSettings().DisablePowersAndShards, "Powers removal must default on.");
         Check(JsonSerializer.Deserialize("{}", LauncherJsonContext.Default.UserSettings)!.DisablePowersAndShards, "Legacy stored settings lost the default.");
-        Check(ConfigurationCode.Create(new UserSettings()) == legacy, "Default legacy code/fingerprint changed.");
+        Check(ConfigurationCode.Create(new UserSettings { ImprovedAi = false }) == legacy, "Legacy code/fingerprint changed when AI is disabled.");
         Check(ConfigurationCode.Parse(legacy).DisablePowersAndShards, "Old friend codes must keep powers disabled.");
         foreach (var channel in new[] { "stable", "beta" })
         foreach (var disabled in new[] { false, true })

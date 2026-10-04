@@ -33,17 +33,23 @@ export async function configurationTests(db, login, rpc, user, peer) {
   const code=`PAW-${channel}-IW${mask&1?1:0}-SP${spawn}-RM${mask&2?1:0}-SG${mask&4?1:0}-LM1-RU${mask&8?1:0}-CL${mask&16?1:0}-OOS${mask&32?1:0}${mask&64?'-PS1':''}`;
   check((await db.query('select paw_private.valid_social_configuration($1) ok',[code])).rows[0].ok,'Arcane preserved '+code);
  }
- // AI flag is bounded to the full Arcane Beta patch. Projection ignores spoofed booleans.
+ // AI flag is bounded to the full Arcane patch in both channels. Projection ignores spoofed booleans.
  const aiCode='PAW-BETA-IW1-SP4-RM1-SG1-LM1-RU0-CL1-OOS1-AI1';
- for(const suffix of ['', '-TXUK-VORU']) {
-  await ready();check((await rpc('paw_presence',[false,'beta',{improved_ai:false},aiCode+suffix])).status==='ok','AI presence accepted');
+ for(const channel of ['beta','stable']) for(const suffix of ['', '-TXUK-VORU']) {
+  const code=aiCode.replace('BETA',channel.toUpperCase())+suffix;
+  await ready();check((await rpc('paw_presence',[false,channel,{improved_ai:false},code])).status==='ok','AI presence accepted '+channel);
   await login(peer);const p=(await rpc('paw_social_list',[])).players.find(p=>p.id===user);
-  check(p.components.improved_ai===true&&p.configuration===aiCode+suffix,'AI flag projected from code');
+  check(p.components.improved_ai===true&&p.configuration===code,'AI flag projected from code');
  }
  await ready();
- for(const code of [aiCode.replace('BETA','STABLE'),aiCode+'-PP0',aiCode+'-DATA','PAW-BETA-VANILLA-PP1-AI1',aiCode+'-AI1'])
+ for(const code of [aiCode+'-PP0',aiCode+'-DATA',aiCode.replace('BETA','STABLE')+'-PP0',aiCode.replace('BETA','STABLE')+'-DATA','PAW-BETA-VANILLA-PP1-AI1',aiCode+'-AI1'])
   check((await rpc('paw_presence',[false,code.includes('-STABLE-')?'stable':'beta',{},code])).status==='invalid_presence','AI invalid combination rejected');
  check((await rpc('paw_offer_create',[peer,'a0850000-0000-0000-0000-000000000005','config',aiCode,null,null,null])).status!=='invalid_offer','AI offer passes validation');
+ check((await rpc('paw_offer_create',[peer,'a0850000-0000-0000-0000-000000000006','config',aiCode.replace('BETA','STABLE'),null,null,null])).status!=='invalid_offer','Stable AI offer passes validation');
+ // Keep this extra fixture offer outside the five-per-minute budget used below.
+ await db.exec('reset role');
+ await db.exec("update paw_private.social_offers set created_at=now()-interval '2 minutes' where id='a0850000-0000-0000-0000-000000000006'");
+ await login(user);
  // Exercise the actual offer RPC, idempotence and duplicate-config guard in the fixture only.
  for(const mod of ['VANILLA','IMMORTALS']) for(const channel of ['STABLE','BETA']) {
   await db.exec('reset role');

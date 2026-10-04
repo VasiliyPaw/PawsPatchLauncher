@@ -28,12 +28,19 @@ public static class September20Tests
         var feed=Feed(Path.Combine(stage,"publication/test-feeds/stable.json"),config.PublicKeyPem);
         var old=Feed(Path.Combine(stage,"publication/previous/stable.json"),config.PublicKeyPem);
         var beta=Feed(Path.Combine(stage,"publication/test-feeds/beta.json"),config.PublicKeyPem);
-        bool observerInput=beta.PatchGuide?.Version=="0.4.0-beta.10";
+        bool promoted=feed.PatchGuide?.Version=="0.4.0";
+        bool observerInput=promoted||beta.PatchGuide?.Version=="0.4.0-beta.10";
         bool september24=observerInput||beta.PatchGuide?.Version is "0.4.0-beta.3" or "0.4.0-beta.4" or "0.4.0-beta.5" or "0.4.0-beta.6" or "0.4.0-beta.7" or "0.4.0-beta.8" or "0.4.0-beta.9";
         string[] hotkeyPaths={"data/Localization/Hotkeys/hotkeys_favorites.txt","Local_base_ru/Localization/Hotkeys/hotkeys_favorites.txt","Local_ru/Localization/Hotkeys/hotkeys_favorites.txt"};
         string? hotkeyHash=observerInput?await CryptoAndIO.Sha256Async(Path.Combine(stage,"hotkeys",hotkeyPaths[0])):null;
         bool nightmare=september24||beta.PatchGuide?.Version=="0.4.0-beta.2";
-        Require(feed.Channel=="stable"&&feed.PatchGuide!.Version=="0.3.3","Wrong release identity");
+        Require(feed.Channel=="stable"&&feed.PatchGuide!.Version==(promoted?"0.4.0":"0.3.3"),"Wrong release identity");
+        if(promoted) {
+            Require(beta.PatchGuide?.Version=="0.4.0","Beta still advertises the old Arcane build");
+            Require(!ModChannelSelection.HasDistinctBeta(GameMod.ArcaneWars,feed,beta),"Promoted Arcane still appears as a separate beta");
+            foreach(string mod in new[]{GameMod.Vanilla,GameMod.Immortals})
+                Require(ModChannelSelection.HasDistinctBeta(mod,feed,beta),"Pure beta disappeared");
+        }
         Require(feed.PatchGuide!.Entries.All(e=>e.Category!="beta"),"Promoted features still beta-only");
         var installer=new ModuleInstaller(root);var cache=Path.Combine(stage,"test-cache");Directory.CreateDirectory(cache);
         var localArchives=Directory.EnumerateFiles(Path.GetDirectoryName(stage)!,"*.zip",SearchOption.AllDirectories)
@@ -106,7 +113,7 @@ public static class September20Tests
                 Require(winners[scenario.Exe].Sha256==helperHashes[source],"Stale helper wins an overlay");
                 Require(winners.Keys.Count(n=>n.StartsWith("skins\\",StringComparison.OrdinalIgnoreCase)&&n.EndsWith("\\Background.tga",StringComparison.OrdinalIgnoreCase))==18,"Missing minimap frames");
             }
-            if(scenario.Settings.Channel=="beta") {
+            if(promoted||scenario.Settings.Channel=="beta") {
                 var settings=scenario.Settings;
                 if(observerInput&&settings.PawPatchEnabled&&!settings.DataOnly)
                     foreach(string path in hotkeyPaths)
@@ -161,11 +168,12 @@ public static class September20Tests
             var s=EffectiveSettings.ForFeed(raw,channel);var desired=new Dictionary<string,InstalledModule>();
             foreach(var p in GamePackageSelector.Select(channel,s,s.RussianLocalization,s.CustomPlayerColors))desired[p.Id]=await Prepare(p);
             await installer.ReconcileAsync(desired,settings:s);Require((await installer.VerifyAsync()).Count==0,"Installed file verification failed");transitions++;
-            if(observerInput&&channel==beta&&s.PawPatchEnabled&&!s.DataOnly)
+            bool current=channel==feed||channel==beta;
+            if(observerInput&&(channel==beta||promoted&&current)&&s.PawPatchEnabled&&!s.DataOnly)
                 foreach(string path in hotkeyPaths)
                     Require(await CryptoAndIO.Sha256Async(Path.Combine(root,path))==hotkeyHash,"Installed recruitment keys shadowed: "+path);
             if(nightmare){
-                bool enabled=channel.Channel=="beta"&&s.PawPatchEnabled&&!s.DataOnly&&s.ImprovedAi;
+                bool enabled=GameMod.HasImprovedAi(channel)&&s.PawPatchEnabled&&!s.DataOnly&&s.ImprovedAi;
                 foreach(string n in new[]{"data/game/handicaps_paws_nightmare.tgi","data/properties/paws_handicap_nightmare.tgi"})
                     Require(File.Exists(Path.Combine(root,n))==enabled,"Nightmare survived an option/channel transition");
                 if(enabled){
@@ -175,7 +183,7 @@ public static class September20Tests
                 }
             }
             if(s.PawPatchEnabled&&!s.DataOnly&&channel==feed){
-                Require((await File.ReadAllLinesAsync(Path.Combine(root,"paws_patch_versions.ini"))).Contains("PawPatch=0.3.3"),"Wrong menu identity");
+                Require((await File.ReadAllLinesAsync(Path.Combine(root,"paws_patch_versions.ini"))).Contains("PawPatch="+feed.PatchGuide!.Version),"Wrong menu identity");
                 var frames=desired["common-ui"].Files.Where(f=>f.Path.Replace('\\','/').StartsWith("skins/")&&f.Path.EndsWith("/background.tga",StringComparison.OrdinalIgnoreCase)).ToList();
                 Require(frames.Count==18,"Missing installed frames");foreach(var f in frames){Require(await CryptoAndIO.Sha256Async(Path.Combine(root,f.Path))==f.Sha256,"Frame mismatch");frameChecks++;}
             }
@@ -183,8 +191,8 @@ public static class September20Tests
                 string exe=GameExecutableSelector.Select(config,s,channel);
                 using var process=Process.Start(new ProcessStartInfo(Path.Combine(root,exe)){UseShellExecute=false,CreateNoWindow=true,RedirectStandardOutput=true,RedirectStandardError=true,ArgumentList={"--preflight",root}})!;
                 string output=await process.StandardOutput.ReadToEndAsync(),error=await process.StandardError.ReadToEndAsync();await process.WaitForExitAsync();
-                if(channel==beta)Require(output.Contains("AI_IMPROVEMENTS "+(s.ImprovedAi?"on":"off")),"Wrong native AI activation: "+exe+" "+GameLanguages.Text(s)+" "+output+" "+error);
-                if(channel==beta&&nightmare)Require(output.Contains("NIGHTMARE_DIFFICULTY "+(s.ImprovedAi?"on":"off")),"Wrong Nightmare activation");
+                if(channel==beta||promoted&&current)Require(output.Contains("AI_IMPROVEMENTS "+(s.ImprovedAi?"on":"off")),"Wrong native AI activation: "+exe+" "+GameLanguages.Text(s)+" "+output+" "+error);
+                if((channel==beta||promoted&&current)&&nightmare)Require(output.Contains("NIGHTMARE_DIFFICULTY "+(s.ImprovedAi?"on":"off")),"Wrong Nightmare activation");
                 Require(process.ExitCode==0&&output.Contains("PREFLIGHT_PASS"),"Preflight failed: "+exe+" "+error);preflights++;
             }
             Console.WriteLine("TRANSITION "+transitions+" "+channel.Channel+" "+GameLanguages.Text(s)+" ai="+s.ImprovedAi+" data="+s.DataOnly+" patch="+s.PawPatchEnabled+" preflights="+preflights);
@@ -193,9 +201,12 @@ public static class September20Tests
         // Beta.3 changes no stable package. Its complete selection matrix still
         // covers stable; real install transitions focus on the changed beta,
         // with stable installation before and rollback/uninstall afterwards.
+        if(promoted) for(int mask=0;mask<8;mask++)foreach(bool ai in new[]{true,false}){
+            var s=Selection(mask);s.ImprovedAi=ai;await Apply(feed,s,true);
+        }
         if(!september24) for(int mask=0;mask<8;mask++)await Apply(feed,Selection(mask),true);
         File.Copy(Path.Combine(root,".pawpatch/state.json"),Path.Combine(stage,"installed-033-state.json"),true);
-        if(!september24) for(int i=0;i<GameLanguages.Choices.Count;i++){
+        if(promoted||!september24) for(int i=0;i<GameLanguages.Choices.Count;i++){
             var s=Selection(i%8);GameLanguages.SetText(s,GameLanguages.Choices[i]);s.GameVoiceLanguage=GameLanguages.VoiceChoices[i%4];
             s.RoamingSpawnMode=new[]{"standard","x2","x4"}[i%3];s.AdditionalRoamingCompanies=i%2==0;s.SiegeBalance=i%2!=0;s.DisablePowersAndShards=i%3==0;
             await Apply(feed,s,true);

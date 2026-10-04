@@ -1,0 +1,18 @@
+{
+  "category": "launcher",
+  "version": "0.8.13",
+  "publishedAt": "2026-10-04",
+  "title": {
+    "ru": "Paw’s Launcher 0.8.13", "en": "Paw’s Launcher 0.8.13",
+    "de": "Paw’s Launcher 0.8.13", "fr": "Paw’s Launcher 0.8.13",
+    "cs": "Paw’s Launcher 0.8.13", "uk": "Paw’s Launcher 0.8.13"
+  },
+  "body": {
+    "ru": "- Добавлена поддержка Paw’s Patch 0.4.0 для Arcane Wars в релизном канале.\n- Улучшения ботов доступны в релизе и передаются вместе с конфигурацией друзьям.",
+    "en": "- Added support for Paw’s Patch 0.4.0 for Arcane Wars in the stable channel.\n- AI improvements are available in stable releases and included when sharing configurations with friends.",
+    "de": "- Unterstützung für Paw’s Patch 0.4.0 für Arcane Wars im stabilen Kanal hinzugefügt.\n- KI-Verbesserungen sind im stabilen Kanal verfügbar und werden mit der Konfiguration an Freunde übertragen.",
+    "fr": "- Prise en charge de Paw’s Patch 0.4.0 pour Arcane Wars dans le canal stable.\n- Les améliorations de l’IA sont disponibles en version stable et incluses dans les configurations partagées avec les amis.",
+    "cs": "- Přidána podpora Paw’s Patch 0.4.0 pro Arcane Wars ve stabilním kanálu.\n- Vylepšení botů jsou dostupná ve stabilní verzi a přenášejí se při sdílení konfigurace s přáteli.",
+    "uk": "- Додано підтримку Paw’s Patch 0.4.0 для Arcane Wars у релізному каналі.\n- Поліпшення ботів доступні в релізі та передаються разом із конфігурацією друзям."
+  }
+}
