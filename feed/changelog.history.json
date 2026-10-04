@@ -1,6 +1,52 @@
 {
   "stable": [
     {
+      "category": "patch",
+      "version": "0.4.0",
+      "publishedAt": "2026-10-04",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "stable",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0",
+        "en": "Paw’s Patch 0.4.0",
+        "de": "Paw’s Patch 0.4.0",
+        "fr": "Paw’s Patch 0.4.0",
+        "cs": "Paw’s Patch 0.4.0",
+        "uk": "Paw’s Patch 0.4.0"
+      },
+      "body": {
+        "ru": "- Изменения беты Arcane Wars вошли в релиз.\n- Улучшения ботов: найм и замена слабых рот, строительство поселений, передача городов союзникам и работа после загрузки сохранений. Доступна сложность «Кошмар».\n- Общие настройки ботов в лобби, сохранение сложности при изменении карты и краткие подсказки стоимости.\n- Экономика союзника при выделении его рот и зданий, исправленный интерфейс наблюдателя и звуковая кнопка Paw’s Patch.\n- Исправлены вылет по F у наблюдателя и выбор групп цифрами при открытом найме. Улучшены сетевая синхронизация и сохранение диагностики рассинхрона.",
+        "en": "- Arcane Wars beta changes are now in the stable release.\n- AI improvements: recruitment and replacement of weaker companies, settlement construction, city gifts to allies and activity after loading saves. Nightmare difficulty is available.\n- Shared bot settings in the lobby, difficulty preserved when changing map options, and concise cost tooltips.\n- Allied economy when selecting allied companies or buildings, improved observer UI and the Paw’s Patch sound button.\n- Fixed the observer F-key crash and number-key control group selection while recruitment is open. Improved multiplayer synchronization and desync diagnostics.",
+        "de": "- Die Änderungen der Arcane-Wars-Beta sind jetzt in der stabilen Version enthalten.\n- Verbesserte KI: Rekrutierung und Ersatz schwächerer Kompanien, Siedlungsbau, Stadtübergabe an Verbündete und Aktivität nach dem Laden. Der Schwierigkeitsgrad Albtraum ist verfügbar.\n- Gemeinsame Bot-Einstellungen, Beibehaltung der Schwierigkeit bei Kartenänderungen und kurze Kostenhinweise.\n- Wirtschaftsdaten von Verbündeten bei der Auswahl ihrer Einheiten und Gebäude, überarbeitete Beobachteroberfläche und Paw’s-Patch-Soundtaste.\n- Absturz durch F als Beobachter und Gruppenauswahl mit Zifferntasten bei geöffneter Rekrutierung behoben. Verbesserte Netzwerksynchronisation und Desynchronisationsdiagnose.",
+        "fr": "- Les changements de la bêta Arcane Wars sont intégrés à la version stable.\n- IA améliorée : recrutement et remplacement des compagnies faibles, construction de colonies, transfert de villes aux alliés et activité après chargement. Difficulté Cauchemar disponible.\n- Réglages communs des bots, difficulté conservée lors des changements de carte et infobulles de coût concises.\n- Économie alliée lors de la sélection de ses unités ou bâtiments, interface observateur corrigée et bouton sonore Paw’s Patch.\n- Correction du plantage avec F en observateur et de la sélection des groupes par chiffres pendant le recrutement. Synchronisation multijoueur et diagnostic des désynchronisations améliorés.",
+        "cs": "- Změny bety Arcane Wars jsou nyní součástí stabilní verze.\n- Vylepšení botů: nábor a výměna slabších rot, stavba sídel, předávání měst spojencům a činnost po načtení hry. Dostupná obtížnost Noční můra.\n- Společné nastavení botů, zachování obtížnosti při změně mapy a stručné nápovědy cen.\n- Ekonomika spojence při výběru jeho rot a budov, opravené rozhraní pozorovatele a zvukové tlačítko Paw’s Patch.\n- Opraven pád při stisku F u pozorovatele a výběr skupin číslicemi při otevřeném náboru. Vylepšena síťová synchronizace a diagnostika desynchronizace.",
+        "uk": "- Зміни бети Arcane Wars увійшли до релізу.\n- Поліпшення ботів: найм і заміна слабких рот, будівництво поселень, передача міст союзникам і робота після завантаження збережень. Доступна складність «Кошмар».\n- Загальні налаштування ботів, збереження складності при зміні карти й короткі підказки вартості.\n- Економіка союзника при виборі його рот і будівель, виправлений інтерфейс спостерігача та звукова кнопка Paw’s Patch.\n- Виправлено виліт за F у спостерігача й вибір груп цифрами під час найму. Поліпшено мережеву синхронізацію та збереження діагностики розсинхронізації."
+      }
+    },
+    {
+      "category": "launcher",
+      "version": "0.8.13",
+      "publishedAt": "2026-10-04",
+      "title": {
+        "ru": "Paw’s Launcher 0.8.13",
+        "en": "Paw’s Launcher 0.8.13",
+        "de": "Paw’s Launcher 0.8.13",
+        "fr": "Paw’s Launcher 0.8.13",
+        "cs": "Paw’s Launcher 0.8.13",
+        "uk": "Paw’s Launcher 0.8.13"
+      },
+      "body": {
+        "ru": "- Добавлена поддержка Paw’s Patch 0.4.0 для Arcane Wars в релизном канале.\n- Улучшения ботов доступны в релизе и передаются вместе с конфигурацией друзьям.",
+        "en": "- Added support for Paw’s Patch 0.4.0 for Arcane Wars in the stable channel.\n- AI improvements are available in stable releases and included when sharing configurations with friends.",
+        "de": "- Unterstützung für Paw’s Patch 0.4.0 für Arcane Wars im stabilen Kanal hinzugefügt.\n- KI-Verbesserungen sind im stabilen Kanal verfügbar und werden mit der Konfiguration an Freunde übertragen.",
+        "fr": "- Prise en charge de Paw’s Patch 0.4.0 pour Arcane Wars dans le canal stable.\n- Les améliorations de l’IA sont disponibles en version stable et incluses dans les configurations partagées avec les amis.",
+        "cs": "- Přidána podpora Paw’s Patch 0.4.0 pro Arcane Wars ve stabilním kanálu.\n- Vylepšení botů jsou dostupná ve stabilní verzi a přenášejí se při sdílení konfigurace s přáteli.",
+        "uk": "- Додано підтримку Paw’s Patch 0.4.0 для Arcane Wars у релізному каналі.\n- Поліпшення ботів доступні в релізі та передаються разом із конфігурацією друзям."
+      }
+    },
+    {
       "category": "launcher",
       "version": "0.8.12",
       "publishedAt": "2026-09-29",
@@ -932,6 +978,52 @@
     }
   ],
   "beta": [
+    {
+      "category": "patch",
+      "version": "0.4.0",
+      "publishedAt": "2026-10-04",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "stable",
+      "title": {
+        "ru": "Paw’s Patch 0.4.0",
+        "en": "Paw’s Patch 0.4.0",
+        "de": "Paw’s Patch 0.4.0",
+        "fr": "Paw’s Patch 0.4.0",
+        "cs": "Paw’s Patch 0.4.0",
+        "uk": "Paw’s Patch 0.4.0"
+      },
+      "body": {
+        "ru": "- Изменения беты Arcane Wars вошли в релиз.\n- Улучшения ботов: найм и замена слабых рот, строительство поселений, передача городов союзникам и работа после загрузки сохранений. Доступна сложность «Кошмар».\n- Общие настройки ботов в лобби, сохранение сложности при изменении карты и краткие подсказки стоимости.\n- Экономика союзника при выделении его рот и зданий, исправленный интерфейс наблюдателя и звуковая кнопка Paw’s Patch.\n- Исправлены вылет по F у наблюдателя и выбор групп цифрами при открытом найме. Улучшены сетевая синхронизация и сохранение диагностики рассинхрона.",
+        "en": "- Arcane Wars beta changes are now in the stable release.\n- AI improvements: recruitment and replacement of weaker companies, settlement construction, city gifts to allies and activity after loading saves. Nightmare difficulty is available.\n- Shared bot settings in the lobby, difficulty preserved when changing map options, and concise cost tooltips.\n- Allied economy when selecting allied companies or buildings, improved observer UI and the Paw’s Patch sound button.\n- Fixed the observer F-key crash and number-key control group selection while recruitment is open. Improved multiplayer synchronization and desync diagnostics.",
+        "de": "- Die Änderungen der Arcane-Wars-Beta sind jetzt in der stabilen Version enthalten.\n- Verbesserte KI: Rekrutierung und Ersatz schwächerer Kompanien, Siedlungsbau, Stadtübergabe an Verbündete und Aktivität nach dem Laden. Der Schwierigkeitsgrad Albtraum ist verfügbar.\n- Gemeinsame Bot-Einstellungen, Beibehaltung der Schwierigkeit bei Kartenänderungen und kurze Kostenhinweise.\n- Wirtschaftsdaten von Verbündeten bei der Auswahl ihrer Einheiten und Gebäude, überarbeitete Beobachteroberfläche und Paw’s-Patch-Soundtaste.\n- Absturz durch F als Beobachter und Gruppenauswahl mit Zifferntasten bei geöffneter Rekrutierung behoben. Verbesserte Netzwerksynchronisation und Desynchronisationsdiagnose.",
+        "fr": "- Les changements de la bêta Arcane Wars sont intégrés à la version stable.\n- IA améliorée : recrutement et remplacement des compagnies faibles, construction de colonies, transfert de villes aux alliés et activité après chargement. Difficulté Cauchemar disponible.\n- Réglages communs des bots, difficulté conservée lors des changements de carte et infobulles de coût concises.\n- Économie alliée lors de la sélection de ses unités ou bâtiments, interface observateur corrigée et bouton sonore Paw’s Patch.\n- Correction du plantage avec F en observateur et de la sélection des groupes par chiffres pendant le recrutement. Synchronisation multijoueur et diagnostic des désynchronisations améliorés.",
+        "cs": "- Změny bety Arcane Wars jsou nyní součástí stabilní verze.\n- Vylepšení botů: nábor a výměna slabších rot, stavba sídel, předávání měst spojencům a činnost po načtení hry. Dostupná obtížnost Noční můra.\n- Společné nastavení botů, zachování obtížnosti při změně mapy a stručné nápovědy cen.\n- Ekonomika spojence při výběru jeho rot a budov, opravené rozhraní pozorovatele a zvukové tlačítko Paw’s Patch.\n- Opraven pád při stisku F u pozorovatele a výběr skupin číslicemi při otevřeném náboru. Vylepšena síťová synchronizace a diagnostika desynchronizace.",
+        "uk": "- Зміни бети Arcane Wars увійшли до релізу.\n- Поліпшення ботів: найм і заміна слабких рот, будівництво поселень, передача міст союзникам і робота після завантаження збережень. Доступна складність «Кошмар».\n- Загальні налаштування ботів, збереження складності при зміні карти й короткі підказки вартості.\n- Економіка союзника при виборі його рот і будівель, виправлений інтерфейс спостерігача та звукова кнопка Paw’s Patch.\n- Виправлено виліт за F у спостерігача й вибір груп цифрами під час найму. Поліпшено мережеву синхронізацію та збереження діагностики розсинхронізації."
+      }
+    },
+    {
+      "category": "launcher",
+      "version": "0.8.13",
+      "publishedAt": "2026-10-04",
+      "title": {
+        "ru": "Paw’s Launcher 0.8.13",
+        "en": "Paw’s Launcher 0.8.13",
+        "de": "Paw’s Launcher 0.8.13",
+        "fr": "Paw’s Launcher 0.8.13",
+        "cs": "Paw’s Launcher 0.8.13",
+        "uk": "Paw’s Launcher 0.8.13"
+      },
+      "body": {
+        "ru": "- Добавлена поддержка Paw’s Patch 0.4.0 для Arcane Wars в релизном канале.\n- Улучшения ботов доступны в релизе и передаются вместе с конфигурацией друзьям.",
+        "en": "- Added support for Paw’s Patch 0.4.0 for Arcane Wars in the stable channel.\n- AI improvements are available in stable releases and included when sharing configurations with friends.",
+        "de": "- Unterstützung für Paw’s Patch 0.4.0 für Arcane Wars im stabilen Kanal hinzugefügt.\n- KI-Verbesserungen sind im stabilen Kanal verfügbar und werden mit der Konfiguration an Freunde übertragen.",
+        "fr": "- Prise en charge de Paw’s Patch 0.4.0 pour Arcane Wars dans le canal stable.\n- Les améliorations de l’IA sont disponibles en version stable et incluses dans les configurations partagées avec les amis.",
+        "cs": "- Přidána podpora Paw’s Patch 0.4.0 pro Arcane Wars ve stabilním kanálu.\n- Vylepšení botů jsou dostupná ve stabilní verzi a přenášejí se při sdílení konfigurace s přáteli.",
+        "uk": "- Додано підтримку Paw’s Patch 0.4.0 для Arcane Wars у релізному каналі.\n- Поліпшення ботів доступні в релізі та передаються разом із конфігурацією друзям."
+      }
+    },
     {
       "category": "patch",
       "version": "0.4.0-beta.2",
