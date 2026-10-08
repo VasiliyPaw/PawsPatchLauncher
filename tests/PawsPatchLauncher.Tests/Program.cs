@@ -199,6 +199,7 @@ try
         passed += await AccountProfileTests.RunAsync(root);
         passed += await AccountActionsTests.RunAsync(root);
         passed += await SocialTests.RunAsync(root);
+        passed += await CommunityTests.RunAsync(root);
         passed += await OfferTests.RunAsync(root);
         passed += await SocialIdentityMediaTests.RunAsync(root);
     passed += await EnhancementTests.RunAsync(root);

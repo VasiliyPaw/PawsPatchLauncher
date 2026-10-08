@@ -107,23 +107,17 @@ public partial class MainWindow
         RefreshOperationPlacement();
     }
 
-    // History is Home-only, but active operations must retain progress/cancel/error actions.
+    // Progress stays with page actions, outside the separate history dialog.
     private void RefreshOperationPlacement()
     {
         if (OperationFooterHost is null) return;
-        var home = _activePage == "home";
-        if (home && OperationFooterHost.Content is not null)
-        {
-            OperationFooterHost.Content = null;
-            ChangelogContentGrid.Children.Add(OperationStatusPanel);
-        }
-        else if (!home && OperationStatusPanel.Parent is Grid parent)
+        if (OperationStatusPanel.Parent is Grid parent)
         {
             parent.Children.Remove(OperationStatusPanel);
             OperationFooterHost.Content = OperationStatusPanel;
         }
-        OperationStatusPanel.Margin = home ? new Thickness(0,14,0,0) : new Thickness(0,0,0,10);
-        OperationStatusPanel.Visibility = !_launcherRestarting && (home || _busy || _selectionRequiresUpdate || _presentedError is not null && (!_errorFromFeed || !_silentFeedFailure))
+        OperationStatusPanel.Margin = new Thickness(0,0,0,10);
+        OperationStatusPanel.Visibility = !_launcherRestarting && (_busy || _selectionRequiresUpdate || _presentedError is not null && (!_errorFromFeed || !_silentFeedFailure))
             ? Visibility.Visible : Visibility.Collapsed;
     }
 }

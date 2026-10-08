@@ -1,6 +1,6 @@
 # Privacy policy / Конфиденциальность
 
-Updated: 2026-09-14. Applies to Paw's Launcher, maintained by
+Updated: 2026-10-08. Applies to Paw's Launcher, maintained by
 [VasiliyPaw](https://github.com/VasiliyPaw), not to Kohan II or third-party mods.
 
 ## What the launcher sends
@@ -9,11 +9,12 @@ Updated: 2026-09-14. Applies to Paw's Launcher, maintained by
 | --- | --- | --- |
 | Update checks and downloads | Requests to the configured GitHub/feed/package hosts. As with any HTTPS service, the host receives connection information such as your IP address and the requested resource. | Checks happen automatically while the launcher is open; close the launcher to stop its requests. |
 | Optional account | Email, authentication requests, username, display name and session identifiers go to the project's Supabase authentication/backend service. The password is sent to authentication endpoints during the relevant account actions. Confirmation/recovery email uses the configured email provider. | Registration and sign-in are optional. The patch and game work in guest mode. |
-| Signed-in presence | Online/playing status, applied patch channel, component settings and configuration code go to the backend for friend/profile views. Background requests continue while signed in, including after restoring a remembered login. | Sign out to stop social requests. Disable “Remember me” to avoid restoring a session on the next launch. |
+| Signed-in presence | Online/playing status, applied patch channel, component settings and configuration code go to the backend for friend/profile views. Background requests continue while signed in, including after restoring a remembered login. | Sign out to stop presence and private social requests. Disable “Remember me” to avoid restoring a session on the next launch. |
 | Detailed game activity | When supported by the game version and backend, the launcher reads a bounded set of game state fields: menu/lobby/match/editor, match time, map dimensions, participant game names, teams, colors and bot flags. A hash of the Steam lobby identity and the local participant slot allow account matching. The hash is not included in profile responses; raw Steam IDs and join commands are not uploaded. | Turn off “Share detailed game activity” in Settings. The general Playing status remains. |
 | Friends and chat | Friend relationships, messages, delivery/read acknowledgements and configuration offers go to the backend and intended users. Authorized administrators can manage accounts and moderation. | Use these optional features after signing in; do not send information you do not want stored or shared. |
+| Community chat | RU and EN messages, usernames, display names, moderation status and message times are publicly readable, including by guests. Reading the chat makes automatic requests to the project's Supabase backend. Messages and pagination are cached in memory. | An account is required to write. You can delete your messages. Signing out stops writing and private social functions, but public reading continues; close the launcher to stop requests. |
 | Avatar and save sharing | Selected avatars and saves are uploaded to the project's Supabase backend/storage for the requested profile/transfer functions. | Uploads require the corresponding user action; game saves are not uploaded as general telemetry. |
-| Chat images | Supported image/GIF hosts may be contacted directly when a conversation displays media. Other supported images require the load action. The remote host receives the media request and connection information. | Avoid loading external media; sign out to disable chat. |
+| Chat images | Supported image/GIF hosts may be contacted directly when a private conversation displays media. Other supported images require the load action. The remote host receives the media request and connection information. Community chat does not load external media. | Avoid loading external media; sign out to disable private chat. |
 | Diagnostics | Requested diagnostic archives contain local logs, recent launcher action history, Windows/CPU/RAM/GPU/graphics-driver details, free disk space, Steam process presence, installation/module information and hashes. Creating an archive saves it locally and does not automatically send it to the maintainer. | Review before sharing: crash dumps can contain process memory fragments. |
 
 Settings, installation records, backups, caches and logs are stored locally.
@@ -47,6 +48,12 @@ used to link a participant to an account.
 
 ## Storage and deletion
 
+Each community channel keeps a bounded history: when it reaches 10,000 messages,
+the 5,000 oldest messages are removed. Authors and authorized moderators can remove
+messages earlier. Deleted messages are replaced with an empty placeholder until
+retention removes the record. Public profile cards do not grant access to private
+messages or friend-only information.
+
 Account and social data remain on the service for the relevant features and their
 maintenance/moderation rules. Signing out or uninstalling does not by itself delete
 server data. Account deletion is a separate action in the profile. Do not assume
@@ -70,8 +77,15 @@ in a public GitHub issue.
 Лаунчер автоматически проверяет обновления и обращается к серверам загрузки.
 Патч и игру можно использовать без аккаунта. При входе сервер получает данные
 аккаунта, а во время работы — статус «в сети/в игре», канал патча и применённые
-настройки для функций друзей. Выход отключает социальные функции; снятая галочка
+настройки для функций друзей. Выход отключает личную переписку и передачу статуса; снятая галочка
 «Запомнить меня» предотвращает автоматический вход в следующий раз.
+
+Общий чат RU/EN доступен для чтения без аккаунта и автоматически обновляется,
+пока лаунчер открыт. Писать можно после входа; сообщения, имя и ник автора, время
+и статус модератора видны всем читателям. Выход из аккаунта не отключает чтение
+общего чата. В каждом канале при достижении 10 000 сообщений удаляются 5 000
+самых старых. Свои сообщения можно удалить; это также могут делать модераторы.
+История кэшируется в памяти, внешние картинки в общем чате не загружаются.
 
 В настройках можно отключить подробный статус игры. Если он включён и поддерживается
 версией игры и сервером, профиль показывает меню, лобби или матч, время, размер карты

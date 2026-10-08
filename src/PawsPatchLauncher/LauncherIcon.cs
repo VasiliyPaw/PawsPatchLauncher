@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace PawsPatchLauncher;
 
-public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera, AddFriend, Requests, BlockedUsers, Discord, Smile, ChevronUp, Bot, Gear }
+public enum IconKind { None, Home, Components, Multiplayer, Settings, Shield, Language, Palette, Sync, Swords, Clock, Route, Siege, Copy, Paste, Check, Warning, Help, Play, Download, Folder, Diagnostics, Undo, Trash, Compare, Save, Search, Close, Minimize, Person, Logout, More, Send, Profile, Camera, AddFriend, Requests, BlockedUsers, Discord, Smile, ChevronUp, Bot, Gear, History, ReleaseNotes, Chat, Bell, BellMuted }
 
 /// <summary>Font-independent vector icons on a shared 24-unit grid.</summary>
 public sealed class LauncherIcon : FrameworkElement
@@ -42,6 +42,11 @@ public sealed class LauncherIcon : FrameworkElement
             [IconKind.Palette] = "M12,3 C6,3 2,7 2,12 C2,18 7,22 12,21 C16,20 11,17 15,15 C17,14 22,17 22,11 C22,6 17,3 12,3 Z M7,8 L7,8.2 M12,6 L12,6.2 M17,8 L17,8.2 M6,13 L6,13.2",
             [IconKind.Sync] = "M3,10 A9,9 0 0 1 19,6 L21,9 M21,3 L21,9 15,9 M21,14 A9,9 0 0 1 5,18 L3,15 M3,21 L3,15 9,15",
             [IconKind.Swords] = "M4,3 L8,4 19,15 16,18 5,7 Z M14,16 L20,22 M14,20 L21,13 M20,3 L16,4 13,7 M11,15 L8,18 5,15 8,12 M10,16 L4,22 M10,20 L3,13",
+            [IconKind.Chat] = "M3,3 L17,3 17,14 8,14 3,18 Z M20,8 L22,8 22,22 17,18 11,18",
+            [IconKind.Bell] = "M5,17 L7,14 7,9 C7,2 17,2 17,9 L17,14 19,17 Z M9,20 Q12,24 15,20 M12,2 L12,3",
+            [IconKind.BellMuted] = "M3,3 L21,21 M7,7 L7,14 5,17 15,17 M11,4 C16,3 17,6 17,9 L17,13 M9,20 Q12,24 15,20",
+            [IconKind.ReleaseNotes] = "M5,2 L15,2 20,7 20,22 5,22 Z M15,2 L15,7 20,7 M8,11 L16,11 M8,15 L16,15 M8,19 L13,19",
+            [IconKind.History] = "M3,10 A9,9 0 1 1 5,18 M3,4 L3,10 9,10 M12,7 L12,12 16,14",
             [IconKind.Clock] = "M12,3 A9,9 0 1 1 11.99,3 M12,7 L12,12 16,14",
             [IconKind.Route] = "M5,20 A2,2 0 1 1 5.01,20 M5,16 L5,13 Q5,10 9,10 L15,10 Q19,10 19,6 L19,3 M15,6 L19,2 23,6",
             [IconKind.Siege] = "M5,21 A2,2 0 1 1 5.01,21 M18,21 A2,2 0 1 1 18.01,21 M3,17 L20,17 M7,16 L10,8 16,16 M11,10 L5,3 M3,4 L7,2 M10,9 L19,4 21,5",

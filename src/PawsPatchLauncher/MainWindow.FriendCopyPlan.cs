@@ -14,7 +14,7 @@ public partial class MainWindow
         var launcher=await ReadLatestFriendLauncherAsync(token);
         channel=_feedClient.KnownChannel(selection.Channel)??channel;
         RequireCurrentPeerVersions(player,ObserveFriendVersionCatalog(channel,launcher));
-        if (GameMod.IsArcaneWars(selection) && selection.RoamingSpawnMode == "x2" && !SupportsX2(channel))
+        if (GameMod.IsArcaneWars(selection) && selection.RoamingSpawnMode == "x2" && !SupportsX2(channel, selection))
             throw new FriendCopyException(() => T("В доступном выпуске патча пока нет частоты ×2. Ваши настройки не изменены.", "The available patch release does not include ×2 yet. Your settings were not changed."));
         try { FriendConfiguration.ValidateFeed(selection, channel); }
         catch (InvalidDataException)

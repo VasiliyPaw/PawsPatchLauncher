@@ -69,8 +69,19 @@ internal static class ChangelogChecks
         }
         try
         {
-            window.Show();var task=window.Dispatcher.InvokeAsync(Scenario).Task.Unwrap();var frame=new DispatcherFrame();var timer=new DispatcherTimer{Interval=TimeSpan.FromSeconds(30)};
-            timer.Tick+=(_,_)=>frame.Continue=false;task.ContinueWith(_=>window.Dispatcher.BeginInvoke(()=>frame.Continue=false),TaskScheduler.Default);timer.Start();try{Dispatcher.PushFrame(frame);}finally{timer.Stop();}
+            window.Show();
+            // Release history now lives in its own modal. Exercise the real
+            // opening path so visibility, layout and animations are meaningful.
+            var task=window.Dispatcher.InvokeAsync(async () =>
+            {
+                try { await Scenario(); }
+                finally { Field<Window>("_historyWindow")?.Close(); }
+            }).Task.Unwrap();
+            var timer=new DispatcherTimer{Interval=TimeSpan.FromSeconds(30)};
+            timer.Tick+=(_,_)=>Field<Window>("_historyWindow")?.Close();
+            timer.Start();
+            try { Call("HistoryButton_Click",window,new RoutedEventArgs()); }
+            finally { timer.Stop(); }
             if(!task.IsCompleted)throw new TimeoutException("timeline UI");task.GetAwaiter().GetResult();
         }
         finally {window.Close();}

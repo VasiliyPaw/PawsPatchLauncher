@@ -12,11 +12,18 @@ public partial class MainWindow
     private Border? _chatPopupCard;
     private bool _chatPopupClosing, _chatPopupHidden;
     private MouseButton? _chatPopupDismissButton;
+    private ChatComposer? _glyphComposer;
 
     private void FriendsGlyph_Click(object sender, RoutedEventArgs e)
+        => OpenGlyphPicker(FriendsMessageInput, FriendsGlyphButton);
+
+    private void CommunityGlyph_Click(object sender, RoutedEventArgs e)
+        => OpenGlyphPicker(CommunityInput, CommunityGlyphButton);
+
+    private void OpenGlyphPicker(ChatComposer composer, FrameworkElement anchorControl)
     {
         if (_chatPopup is not null) { _ = CloseChatPopupAsync(); return; }
-        if (AccountConnectionBlocked || !FriendsMessageInput.IsEnabled) return;
+        if (AccountConnectionBlocked || !composer.IsEnabled) return;
         var rows = new WrapPanel { Width = 294 };
         var body = new StackPanel();
         body.Children.Add(new TextBlock { Text = T("Значки Kohan II", "Kohan II glyphs"), Foreground = SocialBrush("#F4F1E7"), FontSize = 15, Margin = new(4,0,4,10) });
@@ -32,7 +39,8 @@ public partial class MainWindow
             button.Click += (_, _) => InsertPickerGlyph(glyph, Keyboard.Modifiers);
             rows.Children.Add(button);
         }
-        ShowChatPopup(card, FriendsGlyphButton);
+        ShowChatPopup(card, anchorControl);
+        _glyphComposer = composer;
     }
 
     private void ShowChatPopup(Border card, FrameworkElement anchorControl)
@@ -62,8 +70,8 @@ public partial class MainWindow
 
     private void InsertPickerGlyph(ChatGlyph glyph, ModifierKeys modifiers)
     {
-        if (_chatPopup is null || _chatPopupClosing) return;
-        FriendsMessageInput.InsertGlyph(glyph);
+        if (_chatPopup is null || _chatPopupClosing || _glyphComposer is not { IsEnabled: true } composer) return;
+        composer.InsertGlyph(glyph);
         ActionJournal.Record("chat.glyph.insert", glyph.Id);
         if (!modifiers.HasFlag(ModifierKeys.Shift)) _ = CloseChatPopupAsync();
     }
@@ -104,6 +112,7 @@ public partial class MainWindow
         var overlay = _chatPopup;
         if (overlay is null) return;
         _chatPopup = null; _chatPopupCard = null;
+        _glyphComposer = null;
         _chatPopupClosing = _chatPopupHidden = false; _chatPopupDismissButton = null;
         if (ReferenceEquals(Mouse.Captured, overlay)) Mouse.Capture(null);
         WindowLayers.Children.Remove(overlay);

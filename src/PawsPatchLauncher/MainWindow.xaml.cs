@@ -67,6 +67,7 @@ public partial class MainWindow : Window
         InitializeDiagnosticsUi();
         InitializeConfirmation();
         InitializeAppearance();
+        InitializeCommunity();
         InitializeLanguageChoices();
         InitializeActionJournal();
         SyncPatchChannelControls();
@@ -147,6 +148,7 @@ public partial class MainWindow : Window
         {
             SubtitleText.Text = T("Тестовая сборка · локальные обновления", "Test build · local updates");
             Title = "Paw's Launcher — Local test";
+            if (ActivityStore.IsCommunityTest) SubtitleText.Text = T("Тестовая сборка · общий чат RU / EN", "Test build · RU / EN community chat");
         }
         HomeNav.Content = _text["nav.home"];
         ModulesNav.Content = _text["nav.modules"];
@@ -221,6 +223,7 @@ public partial class MainWindow : Window
         LanguageButton.Content = UiLanguages.Text(_text.Language, "EN", "RU");
         // Friend profiles reuse the component labels; refresh only after those labels are localized.
         ApplyAccountLanguage();
+        ApplyCommunityLanguage();
         ApplyHelpTooltips(this);
         RefreshConfigurationCode();
         RefreshModuleAvailability();
@@ -435,7 +438,7 @@ public partial class MainWindow : Window
     private void RefreshAvailableUpdates(InstallState? state)
     {
         var launcher = _launcherUpdates.Latest;
-        _pendingLauncherUpdate = launcher is not null && SelfUpdater.IsNewer(launcher.Version) && launcher.Urls.Count > 0 && !SelfUpdater.IsBlocked(launcher.Sha256)
+        _pendingLauncherUpdate = !ActivityStore.IsCommunityTest && launcher is not null && SelfUpdater.IsNewer(launcher.Version) && launcher.Urls.Count > 0 && !SelfUpdater.IsBlocked(launcher.Sha256)
             ? launcher
             : null;
         LauncherUpdateButton.Visibility = _pendingLauncherUpdate is null ? Visibility.Collapsed : Visibility.Visible;
@@ -507,7 +510,7 @@ public partial class MainWindow : Window
         EnsureModAccess(selection.Mod);
         if (_game is null) throw new InvalidOperationException(_text["status.notfound"]);
         EnsureGameClosed();
-        if (GameMod.IsArcaneWars(selection) && selection.RoamingSpawnMode == "x2" && !SupportsX2(channel))
+        if (GameMod.IsArcaneWars(selection) && selection.RoamingSpawnMode == "x2" && !SupportsX2(channel, selection))
             throw new FrequencyUnavailableException(FrequencyUnavailableText);
         var baseHash = await EnsureSupportedGameAsync(channel);
         var activeSettings = EffectiveSettings.ForFeed(selection, channel);
@@ -734,6 +737,7 @@ public partial class MainWindow : Window
 
     private async Task<bool> InstallPendingLauncherUpdateAsync(bool showErrors)
     {
+        if (ActivityStore.IsCommunityTest) return false;
         var release = _pendingLauncherUpdate;
         if (release is null || _busy || ConfirmationActive) return false;
         try
@@ -1162,14 +1166,15 @@ public partial class MainWindow : Window
         AboutModsPanel.Visibility = page == "mods" ? Visibility.Visible : Visibility.Collapsed;
         FriendsPanel.Visibility = page == "friends" ? Visibility.Visible : Visibility.Collapsed;
         FriendsConversationScroll.Visibility = page == "friends" ? Visibility.Visible : Visibility.Collapsed;
-        ChangelogCard.Visibility = home ? Visibility.Visible : Visibility.Collapsed;
+        ChangelogCard.Visibility = Visibility.Visible;
         if (!home) CancelChangelogTransition();
-        var split = home || page == "friends";
+        var split = page == "friends";
         Grid.SetColumnSpan(MainOptionsHost, split ? 1 : 3);
         OptionsGapColumn.Width = new GridLength(split ? 20 : 0);
         OptionsColumn.Width = new GridLength(page == "friends" ? .8 : 1.6, GridUnitType.Star);
         NewsColumn.Width = split ? new GridLength(page == "friends" ? 1.5 : 1, GridUnitType.Star) : new GridLength(0);
         RefreshOperationPlacement();
+        RefreshCommunityPageLayout();
         AccountPanel.Visibility = page == "account" ? Visibility.Visible : Visibility.Collapsed;
         if (page != "account") ClearAccountPasswords();
         if (page != "about") CancelAboutTransition();
@@ -1220,7 +1225,7 @@ public partial class MainWindow : Window
             {
                 if (_activePage != page) return;
                 if (page == "friends") Motion.Reveal(FriendsConversationScroll);
-                else if (home) Motion.Reveal(ChangelogCard);
+
             }));
         }
     }

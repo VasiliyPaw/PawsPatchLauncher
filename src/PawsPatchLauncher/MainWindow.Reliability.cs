@@ -405,7 +405,7 @@ public partial class MainWindow
 
     private void MarkVisibleChangelogRead()
     {
-        var visible = !_changelogTransitionPending && IsLoaded && IsVisible && IsActive && WindowState != WindowState.Minimized && ChangelogCard.IsVisible;
+        var visible = !_changelogTransitionPending && IsLoaded && IsVisible && _historyWindow?.IsActive == true && WindowState != WindowState.Minimized && ChangelogCard.IsVisible;
         if (ChangelogTimeline.MarkViewed(_settings, _renderedHistory, visible)) _settingsStore.Save(_settings);
         RefreshUnreadBadges();
     }
@@ -415,7 +415,7 @@ public partial class MainWindow
         bool Unread(string subject, string source, string branch) => HistoryRows(subject, source, branch).Any(r => ChangelogTimeline.IsUnread(_settings, r));
         var unread = Unread("launcher", "all", "all") || Unread(_settings.Mod, "all", _settings.Channel);
         HistoryUnreadBadge.Visibility = unread ? Visibility.Visible : Visibility.Collapsed;
-        SetUnreadTabContent(HomeNav, _text["nav.home"], unread);
+        if (HistoryButtonBadge is not null) HistoryButtonBadge.Visibility = unread ? Visibility.Visible : Visibility.Collapsed;
         SyncHistoryFilters();
     }
 

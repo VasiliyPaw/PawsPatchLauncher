@@ -103,7 +103,8 @@ public partial class MainWindow
         if (_socialBusy || _accountBusy || ConfirmationActive || _account.Restricted || _account.State == AccountState.Guest
             || _accountLifetime.IsCancellationRequested || !Guid.TryParse(_account.UserId, out var owner)) return;
         SaveCurrentChat();
-        var close = _socialPeer == player.Id;
+        var close = _socialPeer == player.Id && !_communityFriendsList;
+        _communityFriendsList = false;
         ResetSocialHistory();
         _socialMessages = []; _socialOffers = []; _socialLoadedChat = null;
         FriendsMessageInput.Clear(); CloseSocialMenu();
@@ -249,7 +250,7 @@ public partial class MainWindow
         // Wait for the actual conversation layout; never acknowledge a hidden/inactive/scrolled-up view.
         await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.Background);
         if (!SocialViewCanRead(IsActive, WindowState == WindowState.Minimized, _activePage, _socialSection,
-                FriendsChatCard.Visibility == Visibility.Visible, FriendsChatScroll.ScrollableHeight - FriendsChatScroll.VerticalOffset,
+                FriendsChatCard.IsVisible, FriendsChatScroll.ScrollableHeight - FriendsChatScroll.VerticalOffset,
                 ConfirmationActive || ModNoticeOverlay.Visibility == Visibility.Visible || SocialDetailsOverlay.Visibility == Visibility.Visible || HelpOverlay.Visibility == Visibility.Visible || BroadcastOverlay.Visibility == Visibility.Visible || FriendsDialogOverlay.Visibility == Visibility.Visible)
             || !HistoryAtNewest || _historyNavigating
             || SmoothScroll.IsAnimating(FriendsChatScroll) || _account.UserId != owner.ToString() || _socialPeer is not Guid peer

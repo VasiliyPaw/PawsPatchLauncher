@@ -27,6 +27,10 @@ public sealed class UserSettings
     public string CompatibilityNoticeRead { get; set; } = "";
     public bool NotificationSoundEnabled { get; set; } = true;
     public bool ShareGameActivity { get; set; } = true;
+    public double CommunityWidth { get; set; }
+    public string CommunityChannel { get; set; } = "";
+    public string CommunityNotifications { get; set; } = "mentions";
+    public Dictionary<string, long> CommunityRead { get; set; } = new();
     public int NotificationVolume { get; set; } = 100;
     public string NotificationSoundName { get; set; } = "";
     public string Language { get; set; } = "ru";

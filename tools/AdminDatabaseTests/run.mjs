@@ -6,6 +6,7 @@ import { monitorTests } from './monitor-tests.mjs';
 import { versionTests } from './version-tests.mjs';
 import { gameActivityTests } from './game-activity-tests.mjs';
 import { configurationTests } from './configuration-tests.mjs';
+import { communityTests } from './community-tests.mjs';
 const db=new PGlite();
 await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;create role supabase_auth_admin;
 create schema auth;create schema storage;
@@ -76,6 +77,7 @@ const rpc=async(name,args)=> (await query(`select public.${name}(${args.map((_,i
 checks+=await versionTests(db,login,rpc,user,peer);
 checks+=await configurationTests(db,login,rpc,user,peer);
 checks+=await gameActivityTests(db,login,rpc,user,peer,admin);
+checks+=await communityTests(db,login,rpc,user,peer,admin);
 await login(user);
 check((await rpc('paw_admin_list',['users','',0])).status==='admin_required','ordinary user cannot enumerate users');
 check((await rpc('paw_admin_action',['role',user,'',null,2])).status==='admin_required','ordinary cannot grant role');

@@ -28,10 +28,27 @@ public partial class MainWindow
         var shortWindow = (ActualHeight > 0 ? ActualHeight : Height) < 780;
         BrandMark.Width = BrandMark.Height = shortWindow ? 76 : 108;
         BrandGapRow.Height = new GridLength(shortWindow ? 14 : 36);
-        var compact = (WindowState == WindowState.Maximized && ActualWidth > 0 ? ActualWidth : Width) < 1250;
+        var contentWidth = PagesWorkspace.ActualWidth > 0 ? PagesWorkspace.ActualWidth : Width - 730;
+        var compact = contentWidth < 850;
+        var narrow = contentWidth < 620;
+        Grid.SetRow(LaunchButton, narrow ? 2 : 1);
+        Grid.SetColumn(LaunchButton, narrow ? 0 : 4);
+        Grid.SetColumnSpan(LaunchButton, narrow ? 5 : 1);
+        LaunchButton.Margin = narrow ? new Thickness(0, 8, 0, 0) : new Thickness(0);
         Grid.SetRow(ApplySettingsButton, compact ? 0 : 1);
         Grid.SetColumn(ApplySettingsButton, compact ? 4 : 3);
         ApplySettingsButton.Margin = compact ? new Thickness(0, 0, 0, 8) : new Thickness(10, 0, 10, 0);
+        var stackedPreferences = contentWidth < 810;
+        Grid.SetColumnSpan(RussianModuleCard, stackedPreferences ? 3 : 1);
+        Grid.SetRow(PatchChannelCard, stackedPreferences ? 1 : 0);
+        Grid.SetColumn(PatchChannelCard, stackedPreferences ? 0 : 2);
+        Grid.SetColumnSpan(PatchChannelCard, stackedPreferences ? 3 : 1);
+        PatchChannelCard.Margin = stackedPreferences ? new Thickness(0, 10, 0, 0) : new Thickness(0);
+        foreach (var choice in new[] { VanillaModRadio, ImmortalsModRadio, ArcaneWarsModRadio })
+        {
+            choice.FontSize = narrow ? 14 : 16;
+            choice.Padding = choice == ArcaneWarsModRadio ? new Thickness(narrow ? 5 : 10, 13, narrow ? 30 : 38, 13) : new Thickness(narrow ? 5 : 10, 13, narrow ? 5 : 10, 13);
+        }
     }
 
     private sealed class GameAlreadyRunningException : InvalidOperationException { }
@@ -52,11 +69,14 @@ public partial class MainWindow
         if (IsGameRunning()) throw new GameAlreadyRunningException();
     }
 
-    private bool SupportsX2(ChannelManifest? channel)
-        => channel is not null && (GameMod.IsArcaneWars(_settings)
+    private bool SupportsX2(ChannelManifest? channel, UserSettings? selection = null)
+    {
+        selection ??= _settings;
+        return channel is not null && (GameMod.IsArcaneWars(selection)
             ? new[] { "roaming-profile-x2-with-new", "roaming-profile-x2-no-new" }
-            : new[] { "pure-" + _settings.Mod + "-roaming-x2-with-new", "pure-" + _settings.Mod + "-roaming-x2-no-new" })
+            : new[] { "pure-" + selection.Mod + "-roaming-x2-with-new", "pure-" + selection.Mod + "-roaming-x2-no-new" })
             .All(id => channel.Packages.Any(package => package.Id.Equals(id, StringComparison.OrdinalIgnoreCase)));
+    }
 
     private async void ApplySettingsButton_Click(object sender, RoutedEventArgs e) => await ApplySettingsAsync();
 

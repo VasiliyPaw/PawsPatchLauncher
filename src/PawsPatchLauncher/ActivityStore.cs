@@ -25,7 +25,20 @@ public sealed class LastWorkingConfiguration
 
 public static class ActivityStore
 {
+    public static bool IsCommunityTest { get; } =
+#if COMMUNITY_CHAT_TEST
+        true;
+#else
+        CommunityTestMarker();
+#endif
+    private static bool CommunityTestMarker()
+    {
+        try { return File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "launcher.test-mode")).Trim() == "community-chat"; }
+        catch (IOException) { return false; }
+        catch (UnauthorizedAccessException) { return false; }
+    }
     public static string? LocalTestProfile => Environment.GetCommandLineArgs().FirstOrDefault(a => a.StartsWith("--test-profile=", StringComparison.Ordinal))?["--test-profile=".Length..]
+        ?? (IsCommunityTest && !IsSmokeTest ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher-CommunityTest") : null)
         ?? (File.Exists(Path.Combine(AppContext.BaseDirectory, "launcher.test-mode")) ? Path.Combine(AppContext.BaseDirectory, "test-profile") : null);
     public static string Root => LocalTestProfile is { Length: > 0 } profile ? Path.GetFullPath(profile) : IsSmokeTest
         ? Path.Combine(Path.GetTempPath(), "PawsPatchLauncherSmoke", Environment.ProcessId.ToString())

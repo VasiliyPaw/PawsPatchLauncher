@@ -333,7 +333,7 @@ public sealed partial class AccountService : IDisposable
             int count;
             while ((count = await source.ReadAsync(buffer, timeout.Token).ConfigureAwait(false)) != 0)
             {
-                if (output.Length + count > (portal ? 350000 : database && route is "rpc/paw_read_messages" or "rpc/paw_read_message_page" or "rpc/paw_read_offer_states" ? 768000 : database&&route=="rpc/paw_social_list"?2097152:database&&route=="rpc/paw_admin_list"?262144:65536)) throw new AccountException("invalid_response");
+                if (output.Length + count > (portal ? 350000 : database && route is "rpc/paw_community_read" or "rpc/paw_read_messages" or "rpc/paw_read_message_page" or "rpc/paw_read_offer_states" ? 768000 : database&&route=="rpc/paw_social_list"?2097152:database&&route=="rpc/paw_admin_list"?262144:65536)) throw new AccountException("invalid_response");
                 output.Write(buffer, 0, count);
             }
             if ((int)response.StatusCode < 500) Connection.Complete(connectionObservation, true);
@@ -363,6 +363,8 @@ public sealed partial class AccountService : IDisposable
             if (response.IsSuccessStatusCode) return json;
             using (json)
             {
+                if (database && route.StartsWith("rpc/paw_community_", StringComparison.Ordinal)
+                    && Text(json.RootElement, "code") == "PGRST202") throw new AccountException("community_unavailable");
                 if (database && route.StartsWith("paw_profiles?select=", StringComparison.Ordinal)
                     && Text(json.RootElement, "code") is "42703" or "PGRST204"
                     && Text(json.RootElement, "message").Contains("paws_team", StringComparison.Ordinal))

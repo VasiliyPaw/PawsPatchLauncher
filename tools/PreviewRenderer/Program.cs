@@ -21,6 +21,7 @@ public static class Program
     private static void Run(string[] args)
     {
         var language = args.FirstOrDefault(arg => arg.StartsWith("--language="))?.Split('=')[1] ?? "ru";
+        var communityChecks = args.Contains("--community-checks");
         var pureOptionsConfig = args.FirstOrDefault(a=>a.StartsWith("--pure-options-config="))?["--pure-options-config=".Length..];
         var compactConfig = args.FirstOrDefault(arg => arg.StartsWith("--compact-config="))?["--compact-config=".Length..];
         var compactGame = args.FirstOrDefault(arg => arg.StartsWith("--compact-game="))?["--compact-game=".Length..];
@@ -105,6 +106,7 @@ public static class Program
         var focus = args.FirstOrDefault(arg => arg.StartsWith("--focus="))?.Split('=')[1];
         var evolutionChecks = args.Contains("--evolution-checks");
         var chatInteractionChecks = args.Contains("--chat-interaction-checks");
+        var chatGlyphChecks = args.Contains("--chat-glyph-checks");
         var friendCopyChecks = args.Contains("--friend-copy-checks");
         var friendConfigurationCardChecks = args.Contains("--friend-configuration-card-checks");
         var peerOfferChecks = args.Contains("--peer-offer-checks");
@@ -130,6 +132,7 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (communityChecks) { CommunityChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (pureOptionsConfig is not null) { PureOptionsUiChecks.Run(pureOptionsConfig); app.Shutdown(); return; }
         if (friendConfigurationCardChecks) { FriendConfigurationCardChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (popupScrollChecks) { PopupScrollChecks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
@@ -151,6 +154,7 @@ public static class Program
         if (connectionChecks) { ConnectionUiChecks.Run(language); ChatInteractionChecks.Run(language); ChatPresentationChecks.Run(language); app.Shutdown(); return; }
         if (chatCacheChecks) { ChatCacheChecks.Run(language); SocialRefreshChecks.Run(language); app.Shutdown(); return; }
         if (chatRowsChecks) { ChatRowsChecks.Run(language); app.Shutdown(); return; }
+        if (chatGlyphChecks) { ChatInteractionChecks.Run(language); app.Shutdown(); return; }
         if (chatInteractionChecks) { ChatInteractionChecks.Run(language); FriendSettingsChecks.Run(language); app.Shutdown(); return; }
         if (friendCopyChecks) { FriendSettingsChecks.Run(language); app.Shutdown(); return; }
         if (peerOfferChecks) { OfferUiChecks.Run(language); app.Shutdown(); return; }

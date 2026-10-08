@@ -21,7 +21,7 @@ internal static class FriendSettingsChecks
         async Task Scenario(string scenario)
         {
             Console.WriteLine("Friend copy scenario: " + scenario);
-            var w = new MainWindow();
+            var w = new MainWindow(new LauncherConfiguration { FeedUrls = [], BetaFeedUrls = [], CacheRoot = Path.Combine(ActivityStore.Root, "friend-copy-cache-" + Guid.NewGuid()) }, null);
             object? Invoke(string name, params object?[] args) => typeof(MainWindow).GetMethod(name, flags)!.Invoke(w, args);
             void Set(string name, object? value) => typeof(MainWindow).GetField(name, flags)!.SetValue(w, value);
             T Field<T>(string name) => (T)typeof(MainWindow).GetField(name, flags)!.GetValue(w)!;
@@ -70,7 +70,7 @@ internal static class FriendSettingsChecks
                         Check(box.Width > 20 && box.Left >= 0 && box.Right <= size.Width && box.Top >= 0 && box.Bottom <= size.Height, "clipped " + name);
                     }
                 }
-                Check(Control<StackPanel>("SocialDetailsComponents").Children.Count == (scenario is "immortals" or "vanilla" ? 1 : 8), "wrong mod's components in player card");
+                Check(Control<StackPanel>("SocialDetailsComponents").Children.Count == (scenario is "immortals" or "vanilla" ? 1 : 9), "wrong mod's components in player card");
                 if (scenario is "immortals" or "vanilla") Check(Control<TextBlock>("SocialDetailsChannel").Text.StartsWith(GameMod.Name(scenario, language == "ru")), "player card lost the mod name");
                 var feed = new ChannelManifest { Channel = "beta", ColorDesyncContinue = true, IndependentColorHostility = true,
                     Packages = new[] { "arcane-wars", "pawpatch-core", "player-colors", "localization-ru", "desync-continue", "roaming-profile-x2-with-new",
@@ -168,7 +168,7 @@ internal static class FriendSettingsChecks
                             var expectedLabel = scenario is "inactive_update" or "equal_update" ? (language=="ru" ? "Обновить и применить" : "Update and apply")
                                 : scenario is "cached_current" or "unrelated_update" ? (language=="ru" ? "Применить" : "Apply")
                                 : (language=="ru" ? "Установить и применить" : "Install and apply");
-                            Check(Control<Button>("ConfirmationDeleteButton").Content.ToString() == expectedLabel, "wrong planned action " + scenario);
+                            Check(Control<Button>("ConfirmationDeleteButton").Content.ToString() == expectedLabel, "wrong planned action " + scenario + ": " + Control<Button>("ConfirmationDeleteButton").Content);
                             Check(Control<TextBlock>("ConfirmationBodyText").Text.Contains(GameMod.Name(ConfigurationCode.Parse(friend.Configuration!).Mod, language=="ru")), "missing destination mod");
                             if (scenario is "success" or "inactive_update" or "cached_current")
                             {
@@ -206,7 +206,7 @@ internal static class FriendSettingsChecks
                 }
                 var successful=scenario is "success" or "split_localization" or "same_localization" or "immortals" or "vanilla" or "inactive_update" or "equal_update" or "cached_current" or "unrelated_update";
                 var expected=FriendConfiguration.WithLocalLanguages(ConfigurationCode.Parse(friend.Configuration!),ConfigurationCode.Parse(baseline));
-                Check(applied == (successful ? 1 : 0), "unexpected apply " + scenario);
+                Check(applied == (successful ? 1 : 0), "unexpected apply " + scenario + $" reads={reads} feed={feedReads} applied={applied} game={Field<GameInstallation>("_game")?.Directory} busy={Field<bool>("_busy")} account={Field<AccountService>("_account").State} result={Field<OperationFeedback>("_feedback").Message}");
                 Check(ConfigurationCode.Create(settings) == (successful ? ConfigurationCode.Create(expected) : baseline), "incorrect preference commit " + scenario);
                 if (scenario == "cancel") Check(Control<Border>("SocialDetailsOverlay").Visibility==Visibility.Visible, "cancel did not return to details");
             }

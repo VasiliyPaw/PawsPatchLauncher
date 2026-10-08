@@ -85,6 +85,7 @@ public partial class MainWindow
     private void RenderSocialIdentity()
     {
         RenderConnectionUi();
+        RefreshCommunityIdentity();
         if(_socialIdentity!=_account.UserId) {
             ResetBroadcast();
             ClearToastStack();
