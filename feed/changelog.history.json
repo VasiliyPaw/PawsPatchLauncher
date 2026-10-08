@@ -1,6 +1,27 @@
 {
   "stable": [
     {
+      "category": "launcher",
+      "version": "0.9.0",
+      "publishedAt": "2026-10-08",
+      "title": {
+        "ru": "Paw’s Launcher 0.9.0",
+        "en": "Paw’s Launcher 0.9.0",
+        "de": "Paw’s Launcher 0.9.0",
+        "fr": "Paw’s Launcher 0.9.0",
+        "cs": "Paw’s Launcher 0.9.0",
+        "uk": "Paw’s Launcher 0.9.0"
+      },
+      "body": {
+        "ru": "- Общий чат с каналами EN и RU доступен на всех вкладках. Читать можно без аккаунта, писать — после входа.\n- Ширина чата регулируется мышью; выбранный размер и канал сохраняются.\n- Добавлены смайлики, упоминания и переход к профилю по аватарке. Нажатие на имя вставляет @упоминание, а сообщения с вашим упоминанием подсвечиваются.\n- Уведомления чата: без звука, только упоминания или все сообщения. По умолчанию — только упоминания.\n- История изменений открывается отдельным окном с обновлённым оформлением.\n- Исправлено копирование конфигурации Arcane Wars с частотой ×2 при выбранном другом моде.",
+        "en": "- Community chat with EN and RU channels is available on every page. Guests can read; sign in to write.\n- Drag the divider to resize the chat. Your preferred width and channel are remembered.\n- Added emoji, mentions and profile cards opened from avatars. Click a name to insert an @mention; messages mentioning you are highlighted.\n- Choose silent, mentions-only or all-message chat notifications. Mentions-only is the default.\n- Release history opens in a separate, redesigned window.\n- Fixed copying an Arcane Wars configuration with ×2 frequency while another mod is selected.",
+        "de": "- Öffentlicher Chat mit EN- und RU-Kanälen auf allen Seiten. Gäste können lesen; zum Schreiben ist eine Anmeldung erforderlich.\n- Die Chatbreite lässt sich mit der Maus ändern. Breite und Kanal werden gespeichert.\n- Emojis, @Erwähnungen und Profilkarten per Avatar. Eigene Erwähnungen werden hervorgehoben.\n- Benachrichtigungen: lautlos, nur Erwähnungen (Standard) oder alle Nachrichten.\n- Neu gestalteter Versionsverlauf in einem eigenen Fenster.\n- Kopieren von Arcane-Wars-Konfigurationen mit ×2 bei ausgewähltem anderem Mod korrigiert.",
+        "fr": "- Chat public avec canaux EN et RU sur toutes les pages. Lecture sans compte ; connexion requise pour écrire.\n- Largeur ajustable à la souris. La largeur et le canal choisis sont mémorisés.\n- Émojis, @mentions et fiches de profil via les avatars. Les messages qui vous mentionnent sont mis en évidence.\n- Notifications : silencieuses, mentions uniquement (par défaut) ou tous les messages.\n- Historique des versions dans une fenêtre séparée et remaniée.\n- Correction de la copie des configurations Arcane Wars avec fréquence ×2 lorsqu’un autre mod est sélectionné.",
+        "cs": "- Veřejný chat s kanály EN a RU na všech stránkách. Čtení bez účtu, psaní po přihlášení.\n- Šířku chatu lze měnit myší; šířka i vybraný kanál se ukládají.\n- Emotikony, @zmínky a profily po kliknutí na avatar. Zprávy s vaší zmínkou jsou zvýrazněné.\n- Oznámení: bez zvuku, pouze zmínky (výchozí) nebo všechny zprávy.\n- Historie změn v samostatném upraveném okně.\n- Opraveno kopírování konfigurace Arcane Wars s frekvencí ×2 při vybraném jiném modu.",
+        "uk": "- Загальний чат із каналами EN і RU на всіх вкладках. Читати можна без акаунта, писати — після входу.\n- Ширина чату змінюється мишею; розмір і вибраний канал зберігаються.\n- Смайлики, @згадки та профілі за натисканням на аватарку. Повідомлення з вашою згадкою підсвічуються.\n- Сповіщення: без звуку, лише згадки (типово) або всі повідомлення.\n- Історія змін відкривається окремим оновленим вікном.\n- Виправлено копіювання конфігурації Arcane Wars із частотою ×2, коли вибрано інший мод."
+      }
+    },
+    {
       "category": "patch",
       "version": "0.4.0",
       "publishedAt": "2026-10-04",
@@ -978,6 +999,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.9.0",
+      "publishedAt": "2026-10-08",
+      "title": {
+        "ru": "Paw’s Launcher 0.9.0",
+        "en": "Paw’s Launcher 0.9.0",
+        "de": "Paw’s Launcher 0.9.0",
+        "fr": "Paw’s Launcher 0.9.0",
+        "cs": "Paw’s Launcher 0.9.0",
+        "uk": "Paw’s Launcher 0.9.0"
+      },
+      "body": {
+        "ru": "- Общий чат с каналами EN и RU доступен на всех вкладках. Читать можно без аккаунта, писать — после входа.\n- Ширина чата регулируется мышью; выбранный размер и канал сохраняются.\n- Добавлены смайлики, упоминания и переход к профилю по аватарке. Нажатие на имя вставляет @упоминание, а сообщения с вашим упоминанием подсвечиваются.\n- Уведомления чата: без звука, только упоминания или все сообщения. По умолчанию — только упоминания.\n- История изменений открывается отдельным окном с обновлённым оформлением.\n- Исправлено копирование конфигурации Arcane Wars с частотой ×2 при выбранном другом моде.",
+        "en": "- Community chat with EN and RU channels is available on every page. Guests can read; sign in to write.\n- Drag the divider to resize the chat. Your preferred width and channel are remembered.\n- Added emoji, mentions and profile cards opened from avatars. Click a name to insert an @mention; messages mentioning you are highlighted.\n- Choose silent, mentions-only or all-message chat notifications. Mentions-only is the default.\n- Release history opens in a separate, redesigned window.\n- Fixed copying an Arcane Wars configuration with ×2 frequency while another mod is selected.",
+        "de": "- Öffentlicher Chat mit EN- und RU-Kanälen auf allen Seiten. Gäste können lesen; zum Schreiben ist eine Anmeldung erforderlich.\n- Die Chatbreite lässt sich mit der Maus ändern. Breite und Kanal werden gespeichert.\n- Emojis, @Erwähnungen und Profilkarten per Avatar. Eigene Erwähnungen werden hervorgehoben.\n- Benachrichtigungen: lautlos, nur Erwähnungen (Standard) oder alle Nachrichten.\n- Neu gestalteter Versionsverlauf in einem eigenen Fenster.\n- Kopieren von Arcane-Wars-Konfigurationen mit ×2 bei ausgewähltem anderem Mod korrigiert.",
+        "fr": "- Chat public avec canaux EN et RU sur toutes les pages. Lecture sans compte ; connexion requise pour écrire.\n- Largeur ajustable à la souris. La largeur et le canal choisis sont mémorisés.\n- Émojis, @mentions et fiches de profil via les avatars. Les messages qui vous mentionnent sont mis en évidence.\n- Notifications : silencieuses, mentions uniquement (par défaut) ou tous les messages.\n- Historique des versions dans une fenêtre séparée et remaniée.\n- Correction de la copie des configurations Arcane Wars avec fréquence ×2 lorsqu’un autre mod est sélectionné.",
+        "cs": "- Veřejný chat s kanály EN a RU na všech stránkách. Čtení bez účtu, psaní po přihlášení.\n- Šířku chatu lze měnit myší; šířka i vybraný kanál se ukládají.\n- Emotikony, @zmínky a profily po kliknutí na avatar. Zprávy s vaší zmínkou jsou zvýrazněné.\n- Oznámení: bez zvuku, pouze zmínky (výchozí) nebo všechny zprávy.\n- Historie změn v samostatném upraveném okně.\n- Opraveno kopírování konfigurace Arcane Wars s frekvencí ×2 při vybraném jiném modu.",
+        "uk": "- Загальний чат із каналами EN і RU на всіх вкладках. Читати можна без акаунта, писати — після входу.\n- Ширина чату змінюється мишею; розмір і вибраний канал зберігаються.\n- Смайлики, @згадки та профілі за натисканням на аватарку. Повідомлення з вашою згадкою підсвічуються.\n- Сповіщення: без звуку, лише згадки (типово) або всі повідомлення.\n- Історія змін відкривається окремим оновленим вікном.\n- Виправлено копіювання конфігурації Arcane Wars із частотою ×2, коли вибрано інший мод."
+      }
+    },
     {
       "category": "patch",
       "version": "0.4.0",
