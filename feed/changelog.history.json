@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "0.9.1",
+      "publishedAt": "2026-10-08",
+      "title": {
+        "ru": "Paw’s Launcher 0.9.1",
+        "en": "Paw’s Launcher 0.9.1",
+        "de": "Paw’s Launcher 0.9.1",
+        "fr": "Paw’s Launcher 0.9.1",
+        "cs": "Paw’s Launcher 0.9.1",
+        "uk": "Paw’s Launcher 0.9.1"
+      },
+      "body": {
+        "ru": "- Аватарки авторов общего чата видны без входа. В карточке игрока гостю предлагается войти в аккаунт.\n- В общем чате появился счётчик пользователей онлайн. Он учитывает вошедших пользователей лаунчера.\n- Добавлена кнопка копирования сообщений. Убраны лишние пункты и пустые отступы контекстного меню.\n- Убрана подсветка имён и аватарок при наведении. Область нажатия на имя ограничена самим текстом.\n- Время сообщений общего чата отображается с секундами и выровнено по правому краю.\n- Подсветка кнопки профиля стала компактнее. Повторное нажатие возвращает на предыдущую вкладку.",
+        "en": "- Community chat avatars are visible without signing in. Guest profile cards offer a Sign in button.\n- Community chat now shows how many signed-in launcher users are online.\n- Added a message copy button. Removed redundant context-menu actions and empty spacing.\n- Removed hover highlights from names and avatars. Name links now cover only the text.\n- Community message timestamps include seconds and align to the right.\n- The profile button has a more compact highlight. Click it again to return to the previous page.",
+        "de": "- Avatare im öffentlichen Chat sind ohne Anmeldung sichtbar. Profilkarten bieten Gästen eine Schaltfläche zum Anmelden.\n- Der Chat zeigt die Anzahl der angemeldeten Launcher-Nutzer, die online sind.\n- Schaltfläche zum Kopieren von Nachrichten hinzugefügt. Überflüssige Kontextmenü-Einträge und leere Abstände entfernt.\n- Keine Hervorhebung mehr beim Zeigen auf Namen und Avatare. Nur der Namenstext ist anklickbar.\n- Zeitangaben im öffentlichen Chat enthalten Sekunden und sind rechtsbündig.\n- Die Profil-Schaltfläche wird dezenter hervorgehoben. Erneutes Klicken führt zur vorherigen Seite zurück.",
+        "fr": "- Les avatars du chat public sont visibles sans connexion. Les fiches de profil proposent aux invités de se connecter.\n- Le chat indique le nombre d’utilisateurs connectés au lanceur actuellement en ligne.\n- Ajout d’un bouton pour copier les messages. Suppression des actions superflues et des espaces vides du menu contextuel.\n- Suppression de la surbrillance au survol des noms et avatars. Seul le texte du nom est cliquable.\n- L’heure des messages du chat public inclut les secondes et s’aligne à droite.\n- La mise en évidence du bouton de profil est plus discrète. Un second clic revient à la page précédente.",
+        "cs": "- Avatary autorů ve veřejném chatu jsou viditelné i bez přihlášení. Karta profilu nabízí hostům tlačítko Přihlásit se.\n- Chat zobrazuje počet přihlášených uživatelů launcheru, kteří jsou online.\n- Přidáno tlačítko pro kopírování zpráv. Odstraněny nadbytečné položky a prázdné odsazení kontextové nabídky.\n- Odstraněno zvýraznění jmen a avatarů při najetí myší. Klikací oblast jména odpovídá textu.\n- Čas zpráv veřejného chatu obsahuje sekundy a je zarovnaný doprava.\n- Tlačítko profilu má menší zvýraznění. Opětovné kliknutí vrátí předchozí stránku.",
+        "uk": "- Аватарки авторів загального чату видно без входу. Картка гравця пропонує гостю увійти в акаунт.\n- У загальному чаті з’явився лічильник користувачів онлайн. Враховуються користувачі, які увійшли в лаунчер.\n- Додано кнопку копіювання повідомлень. Прибрано зайві пункти й порожні відступи контекстного меню.\n- Прибрано підсвічування імен та аватарок при наведенні. Область натискання на ім’я обмежена текстом.\n- Час повідомлень загального чату показує секунди та вирівняний праворуч.\n- Підсвічування кнопки профілю стало компактнішим. Повторне натискання повертає попередню вкладку."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "0.9.0",
       "publishedAt": "2026-10-08",
       "title": {
@@ -999,6 +1020,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "0.9.1",
+      "publishedAt": "2026-10-08",
+      "title": {
+        "ru": "Paw’s Launcher 0.9.1",
+        "en": "Paw’s Launcher 0.9.1",
+        "de": "Paw’s Launcher 0.9.1",
+        "fr": "Paw’s Launcher 0.9.1",
+        "cs": "Paw’s Launcher 0.9.1",
+        "uk": "Paw’s Launcher 0.9.1"
+      },
+      "body": {
+        "ru": "- Аватарки авторов общего чата видны без входа. В карточке игрока гостю предлагается войти в аккаунт.\n- В общем чате появился счётчик пользователей онлайн. Он учитывает вошедших пользователей лаунчера.\n- Добавлена кнопка копирования сообщений. Убраны лишние пункты и пустые отступы контекстного меню.\n- Убрана подсветка имён и аватарок при наведении. Область нажатия на имя ограничена самим текстом.\n- Время сообщений общего чата отображается с секундами и выровнено по правому краю.\n- Подсветка кнопки профиля стала компактнее. Повторное нажатие возвращает на предыдущую вкладку.",
+        "en": "- Community chat avatars are visible without signing in. Guest profile cards offer a Sign in button.\n- Community chat now shows how many signed-in launcher users are online.\n- Added a message copy button. Removed redundant context-menu actions and empty spacing.\n- Removed hover highlights from names and avatars. Name links now cover only the text.\n- Community message timestamps include seconds and align to the right.\n- The profile button has a more compact highlight. Click it again to return to the previous page.",
+        "de": "- Avatare im öffentlichen Chat sind ohne Anmeldung sichtbar. Profilkarten bieten Gästen eine Schaltfläche zum Anmelden.\n- Der Chat zeigt die Anzahl der angemeldeten Launcher-Nutzer, die online sind.\n- Schaltfläche zum Kopieren von Nachrichten hinzugefügt. Überflüssige Kontextmenü-Einträge und leere Abstände entfernt.\n- Keine Hervorhebung mehr beim Zeigen auf Namen und Avatare. Nur der Namenstext ist anklickbar.\n- Zeitangaben im öffentlichen Chat enthalten Sekunden und sind rechtsbündig.\n- Die Profil-Schaltfläche wird dezenter hervorgehoben. Erneutes Klicken führt zur vorherigen Seite zurück.",
+        "fr": "- Les avatars du chat public sont visibles sans connexion. Les fiches de profil proposent aux invités de se connecter.\n- Le chat indique le nombre d’utilisateurs connectés au lanceur actuellement en ligne.\n- Ajout d’un bouton pour copier les messages. Suppression des actions superflues et des espaces vides du menu contextuel.\n- Suppression de la surbrillance au survol des noms et avatars. Seul le texte du nom est cliquable.\n- L’heure des messages du chat public inclut les secondes et s’aligne à droite.\n- La mise en évidence du bouton de profil est plus discrète. Un second clic revient à la page précédente.",
+        "cs": "- Avatary autorů ve veřejném chatu jsou viditelné i bez přihlášení. Karta profilu nabízí hostům tlačítko Přihlásit se.\n- Chat zobrazuje počet přihlášených uživatelů launcheru, kteří jsou online.\n- Přidáno tlačítko pro kopírování zpráv. Odstraněny nadbytečné položky a prázdné odsazení kontextové nabídky.\n- Odstraněno zvýraznění jmen a avatarů při najetí myší. Klikací oblast jména odpovídá textu.\n- Čas zpráv veřejného chatu obsahuje sekundy a je zarovnaný doprava.\n- Tlačítko profilu má menší zvýraznění. Opětovné kliknutí vrátí předchozí stránku.",
+        "uk": "- Аватарки авторів загального чату видно без входу. Картка гравця пропонує гостю увійти в акаунт.\n- У загальному чаті з’явився лічильник користувачів онлайн. Враховуються користувачі, які увійшли в лаунчер.\n- Додано кнопку копіювання повідомлень. Прибрано зайві пункти й порожні відступи контекстного меню.\n- Прибрано підсвічування імен та аватарок при наведенні. Область натискання на ім’я обмежена текстом.\n- Час повідомлень загального чату показує секунди та вирівняний праворуч.\n- Підсвічування кнопки профілю стало компактнішим. Повторне натискання повертає попередню вкладку."
+      }
+    },
     {
       "category": "launcher",
       "version": "0.9.0",
