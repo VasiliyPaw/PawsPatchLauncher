@@ -1157,6 +1157,7 @@ public partial class MainWindow : Window
         CloseSocialMenu();
         var changed = _activePage != page;
         if (changed && _activePage == "friends") _chatUnreadDivider.End();
+        if (changed && page == "account") _accountReturnPage = _activePage;
         _activePage = page;
         var home = page == "home";
         var modules = page == "modules";
@@ -1209,8 +1210,8 @@ public partial class MainWindow : Window
         SetNavState(AboutNav, page == "about");
         SetNavState(AboutModsNav, page == "mods");
         SetNavState(FriendsNav, page == "friends");
-        AccountHeaderButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#314969" : "#00000000"));
-        AccountHeaderButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#B68D37" : "#00000000"));
+        AccountHeaderButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#14253B" : "#00000000"));
+        AccountHeaderButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(page == "account" ? "#354964" : "#00000000"));
         MainOptionsScroll.ScrollToTop();
         if (page == "admin" && changed) AdminContentScroll.ScrollToTop();
         RenderSocialNotifications();

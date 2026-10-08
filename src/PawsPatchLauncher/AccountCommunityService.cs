@@ -4,6 +4,38 @@ namespace PawsPatchLauncher;
 
 public sealed partial class AccountService
 {
+    public async Task<int> ReadCommunityOnlineAsync(CancellationToken ct = default)
+    {
+        using var response = await RequestAsync(HttpMethod.Post, "rpc/paw_community_online", new { }, null, ct, database: true).ConfigureAwait(false);
+        var root = response.RootElement;
+        if (Text(root, "status") != "ok" || !root.TryGetProperty("online", out var value) || !value.TryGetInt32(out var count) || count < 0)
+            throw new AccountException("invalid_response");
+        return count;
+    }
+
+    public async Task<byte[]?> ReadCommunityAvatarAsync(Guid author, DateTimeOffset revision, CancellationToken ct = default)
+    {
+        if (author == Guid.Empty) throw new AccountException("invalid_avatar");
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        timeout.CancelAfter(TimeSpan.FromSeconds(10));
+        using var request = new HttpRequestMessage(HttpMethod.Get, ProjectUrl + "/storage/v1/object/authenticated/paw-avatars/" + author.ToString("D") + "/avatar.jpg?v=" + revision.ToUnixTimeMilliseconds());
+        request.Headers.Add("apikey", PublishableKey);
+        using var response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, timeout.Token).ConfigureAwait(false);
+        if (response.StatusCode is System.Net.HttpStatusCode.NotFound or System.Net.HttpStatusCode.BadRequest or System.Net.HttpStatusCode.Forbidden) return null;
+        if (!response.IsSuccessStatusCode) throw new AccountException("network");
+        if (response.Content.Headers.ContentLength > 204800) throw new AccountException("invalid_avatar");
+        await using var source = await response.Content.ReadAsStreamAsync(timeout.Token).ConfigureAwait(false);
+        using var output = new MemoryStream();
+        var buffer = new byte[8192];
+        int count;
+        while ((count = await source.ReadAsync(buffer, timeout.Token).ConfigureAwait(false)) != 0)
+        {
+            if (output.Length + count > 204800) throw new AccountException("invalid_avatar");
+            output.Write(buffer, 0, count);
+        }
+        return output.ToArray();
+    }
+
     private readonly System.Collections.Concurrent.ConcurrentDictionary<string, (string Revision, CommunityPage Page)> _communityCache = new();
     public async Task<IReadOnlyList<CommunityMessage>> ReadCommunityAsync(string channel, CancellationToken ct = default)
         => (await ReadCommunityPageAsync(channel, ct: ct).ConfigureAwait(false)).Messages;

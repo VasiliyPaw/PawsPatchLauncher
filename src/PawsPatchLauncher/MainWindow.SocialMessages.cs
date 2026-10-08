@@ -104,17 +104,8 @@ public partial class MainWindow
             headerRow.ColumnDefinitions.Add(new ColumnDefinition());
             headerRow.ColumnDefinitions.Add(new ColumnDefinition {Width=new GridLength(26)});
             headerRow.Children.Add(header); content.Children.Add(headerRow);
-            var copy=new ClipboardButton {Name="CopyChatMessage",Style=(Style)FindResource("GhostButton"),Width=24,Height=22,Padding=new(0),Margin=new(4,-3,-3,-3),Opacity=0,
-                ToolTip=T("Копировать сообщение","Copy message"),Content=new LauncherIcon {Kind=IconKind.Copy,Width=13,Height=13}};
-            System.Windows.Automation.AutomationProperties.SetName(copy,T("Копировать сообщение","Copy message"));
+            var copy = CreateMessageCopyButton(body, bubble);
             Grid.SetColumn(copy,1);headerRow.Children.Add(copy);
-            void RevealCopy(bool show) => copy.BeginAnimation(OpacityProperty,new System.Windows.Media.Animation.DoubleAnimation(show?1:0,TimeSpan.FromMilliseconds(120)));
-            bubble.MouseEnter+=(_,_)=>RevealCopy(true);
-            bubble.MouseLeave+=(_,_)=>RevealCopy(copy.IsKeyboardFocusWithin);
-            copy.GotKeyboardFocus+=(_,_)=>RevealCopy(true);
-            copy.LostKeyboardFocus+=(_,_)=>RevealCopy(bubble.IsMouseOver);
-            copy.Click+=async(_,e)=>{e.Handled=true;await copy.CopyAsync(()=>CopyTextAsync(body,()=>T("Сообщение скопировано.","Message copied.")));};
-            copy.Unloaded+=(_,_)=>copy.ResetFeedback();
             content.Children.Add(new ChatMessageText { Tag="message-body", UiLanguage=_text.Language, Text=body, FontSize=14,
                 CopyTextRequested=value=>CopyTextAsync(value,()=>T("Скопировано.","Copied."),(message,failed)=>{if(failed)ShowToast(message,true);}),
                 Foreground=SocialBrush(pending is not null && !failed ? "#8195AD" : "#F4F1E7"),Margin=new(0,4,0,0)});
@@ -141,6 +132,20 @@ public partial class MainWindow
         if(_activePage=="friends" && _socialSection=="chats")
             foreach(var row in entrances.TakeLast(4)) ScheduleSocialArrival(row,FriendsChatScroll,
                 ()=>arrivalVersion==_messageArrivalVersion && scope==ChatArrivalScope && _activePage=="friends" && _socialSection=="chats");
+    }
+    private ClipboardButton CreateMessageCopyButton(string body, FrameworkElement surface, string name = "CopyChatMessage")
+    {
+        var copy=new ClipboardButton {Name=name,Style=(Style)FindResource("GhostButton"),Width=24,Height=22,Padding=new(0),Margin=new(4,-3,-3,-3),Opacity=0,
+            ToolTip=T("Копировать сообщение","Copy message"),Content=new LauncherIcon {Kind=IconKind.Copy,Width=13,Height=13}};
+        System.Windows.Automation.AutomationProperties.SetName(copy,T("Копировать сообщение","Copy message"));
+        void RevealCopy(bool show) => copy.BeginAnimation(OpacityProperty,new System.Windows.Media.Animation.DoubleAnimation(show?1:0,TimeSpan.FromMilliseconds(120)));
+        surface.MouseEnter+=(_,_)=>RevealCopy(true);
+        surface.MouseLeave+=(_,_)=>RevealCopy(copy.IsKeyboardFocusWithin);
+        copy.GotKeyboardFocus+=(_,_)=>RevealCopy(true);
+        copy.LostKeyboardFocus+=(_,_)=>RevealCopy(surface.IsMouseOver);
+        copy.Click+=async(_,e)=>{e.Handled=true;await copy.CopyAsync(()=>CopyTextAsync(body,()=>T("Сообщение скопировано.","Message copied.")));};
+        copy.Unloaded+=(_,_)=>copy.ResetFeedback();
+        return copy;
     }
     private static SolidColorBrush SocialBrush(string color) => new((Color)ColorConverter.ConvertFromString(color));
     private static string ChatTime(DateTimeOffset time)=>time.ToLocalTime().ToString("HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture);

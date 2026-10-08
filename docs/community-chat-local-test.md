@@ -81,3 +81,26 @@ The EXE remains local-only; production release feeds and launcher version were n
 - Production community migration matches the checked-in SQL. Public EN/RU reads succeeded; no test messages were posted.
 - Visual fixtures reviewed for the dark history dialog. Privacy policy now describes public guest reads and per-channel retention.
 - Publication uses the tag workflow and verifies the resulting immutable EXE/ZIP and all four signed update catalogs. Game packages and existing patch histories remain unchanged.
+
+## UI revision 5 — 2026-10-08
+
+- Community avatars and author names have no hover fill or border. Author links are limited to the text width; avatar profile navigation remains available.
+- Community messages reuse the private-message copy button, including hover/focus visibility and copied feedback. Removed messages have no copy button.
+- Rendered-message context menus omit Copy and Select all; keyboard selection and Ctrl+C remain available. Empty menus do not open. Available deletion actions remain, and actions without icons no longer reserve an empty icon column. Composer editing menus are unchanged.
+- The own-profile header has a smaller, subtler highlight. Clicking it again returns to the preceding page.
+- WPF checks: community 73 RU + 73 EN; account 114 RU + 114 EN; shared message copy/audio 38; text selection 39. Build and whitespace checks passed. Final evidence: `v5-ui-verified.log`; visual fixtures are isolated local messages.
+- Self-contained test EXE reached the startup-ready marker as version 0.9.0. Only its own smoke process was closed.
+- Executable: `v5/PawsLauncher-Chat-Test.exe`; SHA-256 `7F6B53788F1B731D32F396C4F4AAC0BD20233DA1B75E89680BA6445C76AFC554`.
+- Local test only; no publication, server changes or public chat messages in this revision.
+
+## UI revision 6 — 2026-10-08
+
+- Public author cards show Sign in for guests and Add friend for members. The guest action opens the account form.
+- Author avatars load without authentication through a narrow Storage read policy: only the fixed avatar.jpg for an author with a retained, non-removed community message. Other avatars, buckets and private presence remain inaccessible. The avatar bucket remains private.
+- Avatar revision changes invalidate chat snapshots. The client uses bounded downloads, background decoding, a memory cache and at most four author downloads per refresh, updating images without rebuilding message rows.
+- The chat header shows the aggregate signed-in launcher online count. It uses existing server-timed presence and live-session checks with a 40-second expiry; guests are not counted. Failed requests show an unknown count.
+- Community message times include seconds and align with the right edge; the copy action is to the left of the time. Private message timestamps already included seconds.
+- Validation: 34,160 launcher tests; 12,199 isolated database checks; 80 community WPF checks in each of RU and EN. Guest sign-in action, avatar decode/cache, unknown online state and right-aligned seconds are covered. Build and whitespace checks passed.
+- Applied `20261008010000_community_avatars_online.sql` to production; SQL Editor returned Success. Anonymous live reads succeeded for EN/RU, the online endpoint returned 2 at verification, and an author avatar returned HTTP 200 with a 14,122-byte JPEG. No public test messages were sent.
+- Local test executable: `v6/PawsLauncher-Chat-Test.exe`. No launcher publication or update-feed changes.
+- Final EXE startup reached the ready marker; only its isolated smoke process was closed. SHA-256: 03007CDF9A856A496E58E8ADE854ED163F1C7C14D075924C97A6F078DE9E2AF6.

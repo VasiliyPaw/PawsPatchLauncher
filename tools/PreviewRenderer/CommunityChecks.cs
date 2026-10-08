@@ -12,6 +12,10 @@ using PawsPatchLauncher;
 namespace PreviewRenderer;
 internal static class CommunityChecks
 {
+    private static IEnumerable<Button> FindButtons(DependencyObject parent)
+    {
+        for(var i=0;i<VisualTreeHelper.GetChildrenCount(parent);i++) { var child=VisualTreeHelper.GetChild(parent,i); if(child is Button b) yield return b; foreach(var nested in FindButtons(child)) yield return nested; }
+    }
     internal static void Run(string language,string directory)
     {
         if(!ActivityStore.IsSmokeTest)throw new InvalidOperationException("Isolated fixture required");
@@ -47,6 +51,31 @@ internal static class CommunityChecks
         {
             window.Width=1600;window.Height=1000;window.UpdateLayout();await Poll();
             Check(C<Border>("CommunityCard").IsVisible,"chat visible at startup");
+            Set("_communityOnlineOverride",new Func<CancellationToken,Task<int>>(_=>Task.FromResult(12)));
+            await (Task)Call("RefreshCommunityExtrasAsync")!;
+            Check(C<TextBlock>("CommunityDescription").Text.Contains("12"),"guest sees launcher online count");
+            Set("_communityOnlineOverride",new Func<CancellationToken,Task<int>>(_=>Task.FromException<int>(new AccountException("network"))));
+            await (Task)Call("RefreshCommunityExtrasAsync")!;
+            Check(C<TextBlock>("CommunityDescription").Text.Contains("—"),"offline count is unknown instead of stale zero");
+            Set("_communityOnlineOverride",new Func<CancellationToken,Task<int>>(_=>Task.FromResult(12)));
+            var publicMessage=en[0] with {AvatarRevision=DateTimeOffset.UtcNow};
+            var bitmap=new RenderTargetBitmap(256,256,96,96,PixelFormats.Pbgra32);
+            var encoder=new JpegBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bitmap));
+            using var jpeg=new MemoryStream();encoder.Save(jpeg);int avatarReads=0;
+            Set("_communityAvatarOverride",new Func<Guid,DateTimeOffset,CancellationToken,Task<byte[]?>>((id,rev,ct)=>{avatarReads++;return Task.FromResult<byte[]?>(jpeg.ToArray());}));
+            var publicAvatar=(ContentControl)Call("CommunityAvatar",publicMessage,64d)!;
+            await (Task)Call("RefreshCommunityAvatarAsync",publicMessage)!;
+            Check(((Grid)publicAvatar.Content).Children.OfType<System.Windows.Shapes.Ellipse>().Single().Fill is ImageBrush,"guest receives public avatar image");
+            await (Task)Call("RefreshCommunityAvatarAsync",publicMessage)!;
+            Check(avatarReads==1,"unchanged avatar uses memory cache");
+            var guestProfileTimer=new DispatcherTimer{Interval=TimeSpan.FromMilliseconds(300)};
+            guestProfileTimer.Tick+=(_,_)=>{guestProfileTimer.Stop();var profile=window.OwnedWindows.Cast<Window>().Single(w=>w.IsVisible);
+                var action=FindButtons(profile).Single(b=>b.Name=="CommunityProfileAction");
+                Check(action.Content?.ToString()==(language=="ru"?"Войти в аккаунт":"Sign in"),"guest profile action is sign in");
+                DialogSnap(profile,"community-guest-profile");action.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));};
+            guestProfileTimer.Start();await (Task)Call("OpenCommunityProfileAsync",publicMessage)!;
+            Check(Field<string>("_activePage")=="account","guest profile sign in opens account form");Call("SetActivePage","home");
+
             Check(Field<string>("_communityChannel")=="en","fresh profile defaults to EN regardless of UI language");
             Check(settings.CommunityNotifications=="mentions","fresh profile only mentions notify");
             ContextMenu? notificationMenu=null;
@@ -91,6 +120,12 @@ internal static class CommunityChecks
             var position=C<ScrollViewer>("CommunityScroll").VerticalOffset;
             var firstRow=(Border)C<StackPanel>("CommunityRows").Children[0];
             var firstText=((StackPanel)firstRow.Child).Children.OfType<ChatMessageText>().Single();
+            ContextMenuEventArgs OpenMessageMenu(ChatMessageText text)
+            {
+                var args=(ContextMenuEventArgs)Activator.CreateInstance(typeof(ContextMenuEventArgs),BindingFlags.Instance|BindingFlags.NonPublic,null,new object[]{text,true},null)!;
+                text.RaiseEvent(args);return args;
+            }
+            Check(OpenMessageMenu(firstText).Handled&&firstText.ContextMenu.Items.Count==0,"guest message suppresses empty context menu without copy/select entries");
             firstText.Selection.Select(firstText.Document.ContentStart,firstText.Document.ContentEnd);
             var selected=firstText.SelectedText;
             var unchangedClock=System.Diagnostics.Stopwatch.StartNew();
@@ -164,13 +199,36 @@ internal static class CommunityChecks
             var mentionRow=(Border)C<StackPanel>("CommunityRows").Children[^1];
             Check(((SolidColorBrush)mentionRow.BorderBrush).Color==Color.FromRgb(211,175,89),"own mention has gold highlight");
             var messageHeader=(Grid)((StackPanel)mentionRow.Child).Children[0];
+            var nicknameButton=messageHeader.Children.OfType<Button>().Single(b=>Grid.GetColumn(b)==1);
+            Check(nicknameButton.ActualWidth+20<messageHeader.ColumnDefinitions[1].ActualWidth,"nickname hit area is limited to text instead of filling the row");
+            var copyButton=messageHeader.Children.OfType<ClipboardButton>().Single();
+            string? copied=null;Set("_clipboardWrite",new Action<string>(value=>copied=value));
+            var rowHeight=mentionRow.ActualHeight;
+            mentionRow.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice,0){RoutedEvent=Mouse.MouseEnterEvent});await Task.Delay(160);
+            Check(copyButton.Opacity>.95&&Math.Abs(rowHeight-mentionRow.ActualHeight)<1,"community copy appears without moving the message");
+            copyButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));await Task.Delay(40);
+            Check(copied==data.Last().Body&&ClipboardButton.GetIsCopySuccessful(copyButton),"community copy preserves the complete message and shows success");copyButton.ResetFeedback();
+            mentionRow.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice,0){RoutedEvent=Mouse.MouseLeaveEvent});await Task.Delay(160);
+            Check(copyButton.Opacity<.05,"community copy hides after leaving the message");
             composer.Text="Draft";composer.CaretPosition=composer.Document.ContentEnd;
             messageHeader.Children.OfType<Button>().Single(b=>Grid.GetColumn(b)==1).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             Check(composer.Text=="Draft @FixtureFriend ","nickname inserts mention without discarding draft");
             var profileTimer=new DispatcherTimer{Interval=TimeSpan.FromMilliseconds(350)};
             profileTimer.Tick+=(_,_)=>{profileTimer.Stop();var profile=window.OwnedWindows.Cast<Window>().Single(w=>w.IsVisible);Check(profile.Title==(language=="ru"?"Профиль игрока":"Player profile"),"avatar opens public player profile");DialogSnap(profile,"community-profile");profile.Close();};
             profileTimer.Start();messageHeader.Children.OfType<Button>().Single(b=>Grid.GetColumn(b)==0).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            var stamp=messageHeader.Children.OfType<TextBlock>().Single();
+            Check(Grid.GetColumn(stamp)==3&&stamp.Text.Count(c=>c==':')==2,"community time includes seconds at right edge");
             Snap("community-mentions");
+            Call("SetActivePage","modules");
+            C<Button>("AccountHeaderButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(Field<string>("_activePage")=="account","profile header opens account");
+            await Task.Delay(220);Snap("profile-header-selected");
+            C<Button>("AccountHeaderButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(Field<string>("_activePage")=="modules","second profile click returns to previous page");
+            Call("SetActivePage","friends");Call("SetActivePage","account");
+            C<Button>("AccountHeaderButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(Field<string>("_activePage")=="friends","profile return also remembers non-header entry");
+            Call("SetActivePage","modules");
             privateComposer.Text="Private draft";composer.Text="Public draft ";composer.CaretPosition=composer.Document.ContentEnd;
             C<Button>("CommunityGlyphButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));window.UpdateLayout();
             Check(Field<Grid?>("_chatPopup") is not null,"community opens shared glyph picker");

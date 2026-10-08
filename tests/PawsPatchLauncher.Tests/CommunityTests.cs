@@ -66,6 +66,16 @@ internal static class CommunityTests
             }
             throw new Exception("Unexpected community route "+path);
         }));
+        using var publicService=new AccountService(new AccountSessionStore(Path.Combine(root,"community-public-account")),new Handler(request=>
+        {
+            Check(request.Headers.Authorization is null,"public avatar/count never send account token");
+            if(request.RequestUri!.AbsolutePath.EndsWith("/paw_community_online"))return Task.FromResult(Reply(new{status="ok",online=12}));
+            Check(request.RequestUri.AbsolutePath.EndsWith(owner.ToString()+"/avatar.jpg"),"avatar uses fixed author object path");
+            return Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK){Content=new ByteArrayContent(new byte[]{255,216,255,217})});
+        }));
+        Check(await publicService.ReadCommunityOnlineAsync()==12,"guest reads aggregate online count");
+        Check((await publicService.ReadCommunityAvatarAsync(owner,DateTimeOffset.UtcNow))!.Length==4,"guest avatar transport returns bounded image bytes");
+        await Reject(()=>publicService.ReadCommunityAvatarAsync(Guid.Empty,DateTimeOffset.UtcNow));
         var messages=await service.ReadCommunityAsync("ru");Check(messages.Count==1&&messages[0].Body=="Привет","guest sees messages");
         language="en";await service.ReadCommunityAsync("en");
         unchanged=true;Check((await service.ReadCommunityAsync("en")).Count==1,"unchanged response retains history");unchanged=false;

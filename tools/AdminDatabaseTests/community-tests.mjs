@@ -21,8 +21,37 @@ export async function communityTests(db,login,rpc,user,peer,admin){
  await anonymous();
  const read=await rpc('paw_community_read',['ru']);check(read.messages.length===1&&read.messages[0].body==='Ищу напарника 🙂','guest receives public text');
  const unchanged=await rpc('paw_community_read',['ru',read.revision]);check(unchanged.unchanged&&!unchanged.messages,'unchanged history is not retransmitted');
- check(Object.keys(read.messages[0]).sort().join(',')==='admin_level,body,created_at,display_name,message_id,nickname,ordinal,removed,sender_id','read contains public identity only');
+ check(Object.keys(read.messages[0]).sort().join(',')==='admin_level,avatar_revision,body,created_at,display_name,message_id,nickname,ordinal,removed,sender_id','read contains public identity only');
  check((await rpc('paw_community_read',['en'])).messages.length===0,'language histories isolated');
+ check(await rpc('paw_community_avatar_allowed',[user+'/avatar.jpg'])===true,'guest may read active chat author avatar');
+ check(await rpc('paw_community_avatar_allowed',[peer+'/avatar.jpg'])===false,'non-author avatar stays private');
+ check(await rpc('paw_community_avatar_allowed',[user+'/other.jpg'])===false,'only fixed avatar object');
+ check(await rpc('paw_community_avatar_allowed',['../'+user+'/avatar.jpg'])===false,'path traversal rejected');
+ await db.exec('reset role;begin');
+ await query(`update public.paw_profiles set avatar_changed_at=now() where id=$1`,[user]);
+ await anonymous();
+ const changedAvatar=await rpc('paw_community_read',['ru',read.revision]);
+ check(!changedAvatar.unchanged&&changedAvatar.messages[0].avatar_revision,'avatar changes invalidate chat revision');
+ await db.exec(`reset role;alter table storage.objects enable row level security;grant usage on schema storage to anon;grant select on storage.objects to anon`);
+ await query(`insert into storage.objects(bucket_id,name) values('paw-avatars',$1),('paw-avatars',$2),('other',$1)`,[user+'/avatar.jpg',peer+'/avatar.jpg']);
+ await anonymous();
+ check((await query('select name from storage.objects')).rows.length===1,'RLS exposes only author fixed avatar in correct bucket');
+ await db.exec('reset role');
+ await query(`update public.paw_profiles set deletion_pending=true where id=$1`,[user]);
+ await anonymous();check((await query('select name from storage.objects')).rows.length===0,'deleted account avatar denied');
+ await db.exec('rollback;reset role;begin');
+ await query(`delete from paw_private.social_presence`);
+ await query(`insert into paw_private.social_presence(player_id,session_id,launcher_id,seen_at,channel,components)
+ values($1,$1,'20000000-0000-0000-0000-000000000001',now(),'stable','{}'),($2,$2,'20000000-0000-0000-0000-000000000001',now()-interval '41 seconds','stable','{}')`,[user,peer]);
+ await anonymous();
+ const online=await rpc('paw_community_online',[]);
+ check(online.online===1&&Object.keys(online).sort().join(',')==='online,status','aggregate counts fresh sessions only, no identities');
+ await db.exec('reset role');
+ await query(`update paw_private.social_presence set launcher_id=gen_random_uuid() where player_id=$1`,[user]);
+ await anonymous();check((await rpc('paw_community_online',[])).online===0,'replaced launcher session not counted');
+ await denied(()=>query('select * from paw_private.social_presence'),'guest cannot enumerate online users');
+ await db.exec('rollback;reset role');await anonymous();
+
  await login(peer);check((await rpc('paw_community_remove',[id])).status==='admin_required','other player cannot delete');
  await login(user);check((await rpc('paw_community_remove',[id])).status==='ok','author can delete');
  await anonymous();const removed=(await rpc('paw_community_read',['ru'])).messages[0];check(removed.removed&&removed.body==='','deleted text never leaves server');

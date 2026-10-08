@@ -71,7 +71,7 @@ public partial class MainWindow
         if (!_communityReady) return;
         CommunityTitle.Text = T("Общий чат", "Community chat");
         CompactFriendsBack.Content = T("← Друзья и переписки", "← Friends and conversations");
-        CommunityDescription.Text = T("Найдите компанию для игры", "Find players to play with");
+        RefreshCommunityOnline();
         CommunityGuestText.Text = T("Войдите, чтобы написать.", "Sign in to write.");
         CommunityLogin.Content = T("Войти в аккаунт", "Sign in");
         CommunityInput.UiLanguage = _text.Language;
@@ -176,6 +176,7 @@ public partial class MainWindow
         if (_communityPolling || _communitySending || _communityNavigating || _accountLifetime.IsCancellationRequested || DateTimeOffset.UtcNow < _communityNextPoll
             || ActivityStore.IsSmokeTest && _communityReadOverride is null && _communityPageReadOverride is null) return;
         _communityPolling = true;
+        _ = RefreshCommunityExtrasAsync();
         var notify = false;
         var notificationOwner = _account.UserId;
         var mutationVersion = _communityMutationVersion;
@@ -282,36 +283,43 @@ public partial class MainWindow
                 var content = new StackPanel(); var header = new Grid { Margin = new Thickness(0, 0, 0, 5) };
                 header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 header.ColumnDefinitions.Add(new ColumnDefinition()); header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                var avatar = new Button { Content = SocialAvatar(m.SenderId, 28, false, openProfile:false), Style = (Style)FindResource("GhostButton"),
+                header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                var avatar = new Button { Content = CommunityAvatar(m, 28), Style = (Style)FindResource("ChatIdentityButton"),
                     Padding = new Thickness(0), BorderThickness = new Thickness(0), Background = Brushes.Transparent, Margin = new Thickness(0,0,8,0),
                     ToolTip = T("Профиль: ", "Profile: ") + m.DisplayName };
                 System.Windows.Automation.AutomationProperties.SetName(avatar, avatar.ToolTip.ToString());
                 avatar.Click += async (_, _) => await OpenCommunityProfileAsync(m);
                 header.Children.Add(avatar);
-                var name = new Button { Content = m.DisplayName, ToolTip = "@" + m.Nickname, Style = (Style)FindResource("GhostButton"),
+                var name = new Button { Content = new TextBlock { Text = m.DisplayName, TextTrimming = TextTrimming.CharacterEllipsis,
+                        Foreground = SocialBrush(m.SenderId.ToString() == _account.UserId ? "#E8C36E" : "#91BDE5") }, ToolTip = "@" + m.Nickname, Style = (Style)FindResource("ChatIdentityButton"),
                     Padding = new Thickness(0), BorderThickness = new Thickness(0), Background = Brushes.Transparent,
                     Foreground = SocialBrush(m.SenderId.ToString() == _account.UserId ? "#E8C36E" : "#91BDE5"),
                     HorizontalContentAlignment = HorizontalAlignment.Left, FontWeight = FontWeights.SemiBold };
                 name.Click += (_, _) => CommunityNameClicked(m); Grid.SetColumn(name, 1);
                 header.Children.Add(name);
-                var time = new TextBlock { Text = m.CreatedAt.ToLocalTime().ToString("HH:mm"), ToolTip = m.CreatedAt.ToLocalTime().ToString("g"),
+                var time = new TextBlock { Text = ChatTime(m.CreatedAt), ToolTip = ChatDate(m.CreatedAt),
                     FontSize = 11, Foreground = SocialBrush("#889EB8"), Margin = new Thickness(7, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center };
-                Grid.SetColumn(time, 2); header.Children.Add(time); content.Children.Add(header);
+                Grid.SetColumn(time, 3); header.Children.Add(time); content.Children.Add(header);
                 var body = new ChatMessageText { UiLanguage = _text.Language, Text = m.Removed ? T("Сообщение удалено", "Message removed") : m.Body,
                     FontSize = 13, Foreground = SocialBrush(m.Removed ? "#889EB8" : "#DBE4F1"),
                     CopyTextRequested = value => CopyTextAsync(value, () => T("Скопировано.", "Copied."), (message, failed) => { if (failed) ShowToast(message, true); }) };
                 content.Children.Add(body);
                 if (!m.Removed && _account.State != AccountState.Guest && (m.SenderId.ToString() == _account.UserId || _account.AdminLevel > 0))
                 {
-                    body.ContextMenuOpening += (_, _) =>
+                    body.PopulateContextMenu = menu =>
                     {
                         var delete = new MenuItem { Header = T("Удалить сообщение", "Remove message"), Style = (Style)FindResource("SocialMenuItem") };
-                        delete.Click += async (_, _) => await RemoveCommunityAsync(m); body.ContextMenu.Items.Add(delete);
+                        delete.Click += async (_, _) => await RemoveCommunityAsync(m); menu.Items.Add(delete);
                     };
                 }
                 var mentioned = !m.Removed && _account.State != AccountState.Guest && CommunityChat.Mentions(m.Body, _account.Nickname);
                 var row = new Border { Tag = m.Id, Child = content, Padding = new Thickness(10), Margin = new Thickness(0, 0, 0, 8),
                     CornerRadius = new CornerRadius(6), Background = SocialBrush(mentioned ? "#393322" : "#152C45"), BorderBrush = SocialBrush(mentioned ? "#D3AF59" : "#2E4863"), BorderThickness = new Thickness(mentioned ? 2 : 1) };
+                if (!m.Removed)
+                {
+                    var copy = CreateMessageCopyButton(m.Body, row, "CopyCommunityMessage");
+                    Grid.SetColumn(copy, 2); header.Children.Add(copy);
+                }
                 rows.Add(row); _communityRowCache[m.Id] = (m, row);
                 if (_communityArrivals.Contains(m.Id)) entrances.Add(row);
             }

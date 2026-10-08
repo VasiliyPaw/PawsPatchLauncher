@@ -76,12 +76,14 @@ public partial class MainWindow
         // stranger's private presence, configuration, match or account details.
         var (window, body) = CreateCommunityDialog(T("Профиль игрока", "Player profile"), IconKind.Profile, 440, 350);
         var content = new StackPanel { Margin = new Thickness(20), VerticalAlignment = VerticalAlignment.Center };
-        var avatar = SocialAvatar(message.SenderId,64,false,openProfile:false); avatar.HorizontalAlignment = HorizontalAlignment.Center; avatar.Margin = new Thickness(0,0,0,16); content.Children.Add(avatar);
+        var avatar = CommunityAvatar(message,64); avatar.HorizontalAlignment = HorizontalAlignment.Center; avatar.Margin = new Thickness(0,0,0,16); content.Children.Add(avatar);
         content.Children.Add(new TextBlock { Text = message.DisplayName, FontSize = 22, FontWeight = FontWeights.SemiBold, TextAlignment = TextAlignment.Center, TextWrapping = TextWrapping.Wrap });
         content.Children.Add(new TextBlock { Text = "@" + message.Nickname, Foreground = SocialBrush("#A8BBD2"), TextAlignment = TextAlignment.Center, Margin = new Thickness(0,6,0,20) });
-        var add = new Button { Content = T("Добавить в друзья", "Add friend"), Style = (Style)FindResource("GoldButton"), HorizontalAlignment = HorizontalAlignment.Center };
+        var add = new Button { Content = _account.State == AccountState.Guest ? T("Войти в аккаунт", "Sign in") : T("Добавить в друзья", "Add friend"), Name = "CommunityProfileAction", Style = (Style)FindResource("GoldButton"), HorizontalAlignment = HorizontalAlignment.Center };
         add.Click += (_,_) => { window.Close(); if (_account.State == AccountState.Guest) ShowAccountForm(false);
             else { SetActivePage("friends"); FriendsShowAdd_Click(FriendsShowAddButton,new RoutedEventArgs()); FriendsNicknameInput.Text = message.Nickname; } };
-        content.Children.Add(add);body.Content = content;window.ShowDialog();
+        content.Children.Add(add);body.Content = content;
+        window.Loaded += async (_,_) => await RefreshCommunityAvatarAsync(message);
+        window.ShowDialog();
     }
 }

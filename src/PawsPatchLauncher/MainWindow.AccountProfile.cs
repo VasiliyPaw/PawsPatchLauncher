@@ -10,6 +10,7 @@ public partial class MainWindow
 {
     private readonly DispatcherTimer _accountCooldownTimer = new();
     private string _accountEditor = "";
+    private string _accountReturnPage = "home";
     private bool _accountRecoveryOpen;
     private bool _accountRecoverySent;
     private DateTimeOffset _recoveryRequestAfter;
@@ -17,6 +18,7 @@ public partial class MainWindow
     private void AccountHeader_Click(object sender, RoutedEventArgs e)
     {
         if (ConfirmationActive) return;
+        if (_activePage == "account") { SetActivePage(_accountReturnPage); return; }
         SetActivePage("account");
         if (!_accountBusy)
         {

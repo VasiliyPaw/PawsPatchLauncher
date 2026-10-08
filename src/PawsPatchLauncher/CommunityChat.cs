@@ -3,7 +3,7 @@ using System.Text.Json;
 namespace PawsPatchLauncher;
 
 public sealed record CommunityMessage(long Ordinal, Guid Id, Guid SenderId, string Nickname,
-    string DisplayName, string Body, DateTimeOffset CreatedAt, bool Removed, int AdminLevel);
+    string DisplayName, string Body, DateTimeOffset CreatedAt, bool Removed, int AdminLevel, DateTimeOffset? AvatarRevision = null);
 
 public sealed record CommunityPage(IReadOnlyList<CommunityMessage> Messages, bool More, long Revision, bool Trimmed);
 
@@ -80,7 +80,8 @@ public static class CommunityChat
             var value = new CommunityMessage(p.GetProperty("ordinal").GetInt64(), p.GetProperty("message_id").GetGuid(),
                 p.GetProperty("sender_id").GetGuid(), p.GetProperty("nickname").GetString()!, p.GetProperty("display_name").GetString()!,
                 p.GetProperty("body").GetString()!, p.GetProperty("created_at").GetDateTimeOffset(),
-                p.GetProperty("removed").GetBoolean(), p.GetProperty("admin_level").GetInt32());
+                p.GetProperty("removed").GetBoolean(), p.GetProperty("admin_level").GetInt32(),
+                p.TryGetProperty("avatar_revision", out var avatarRevision) && avatarRevision.ValueKind != JsonValueKind.Null ? avatarRevision.GetDateTimeOffset() : null);
             if (value.Ordinal <= 0 || value.Id == Guid.Empty || value.SenderId == Guid.Empty || value.AdminLevel is < 0 or > 10)
                 throw new AccountException("invalid_response");
             if (value.Nickname is null || value.DisplayName is null || value.Body is null) throw new AccountException("invalid_response");

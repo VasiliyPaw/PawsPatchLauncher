@@ -108,3 +108,7 @@ Steam ID и команды подключения не отправляются.
 Удаление лаунчера не удаляет аккаунт на сервере. Для этого есть отдельное действие
 в профиле; уже полученные другими людьми копии данных от этого не исчезают.
 Полное описание данных и сервисов приведено выше.
+
+Community chat authors’ current avatars are visible to all readers, including guests, while they have a retained, non-removed message. The online counter exposes only the total number of signed-in users with an active launcher session, without identifying them.
+
+Аватарки авторов общего чата видны всем читателям, включая гостей, пока в истории есть их неудалённое сообщение. Счётчик онлайна показывает только суммарное число вошедших пользователей с активным лаунчером, без раскрытия их списка.

@@ -447,15 +447,15 @@
                                 <Ellipse x:Name="HistoryButtonBadge" Width="7" Height="7" Fill="{StaticResource GoldBrightBrush}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-3,-3,0" Visibility="Collapsed"/>
                             </Grid>
                         </Button>
-                        <Button x:Name="AccountHeaderButton" Grid.Column="3" Width="88" Height="70" Margin="12,0,0,0" Style="{StaticResource GhostButton}" Background="Transparent" BorderBrush="Transparent" Padding="5,0" Click="AccountHeader_Click">
+                        <Button x:Name="AccountHeaderButton" Grid.Column="3" Width="76" Height="70" Margin="12,0,0,0" Style="{StaticResource ProfileHeaderButton}" Background="Transparent" BorderBrush="Transparent" Padding="5,0" Click="AccountHeader_Click">
                             <StackPanel HorizontalAlignment="Center">
-                                <Border x:Name="AccountAvatarBorder" Width="48" Height="48" CornerRadius="24" BorderThickness="1" local:Motion.BorderBrush="#60738D" local:Motion.Background="#162A45" HorizontalAlignment="Center">
+                                <Border x:Name="AccountAvatarBorder" Width="44" Height="44" CornerRadius="22" BorderThickness="1" local:Motion.BorderBrush="#60738D" local:Motion.Background="#162A45" HorizontalAlignment="Center">
                                     <Grid>
-                                        <local:LauncherIcon x:Name="AccountAvatarPlaceholder" Kind="Person" Width="30" Height="30"/>
-                                        <Ellipse x:Name="AccountAvatarPicture" Width="46" Height="46" Visibility="Collapsed"/>
+                                        <local:LauncherIcon x:Name="AccountAvatarPlaceholder" Kind="Person" Width="28" Height="28"/>
+                                        <Ellipse x:Name="AccountAvatarPicture" Width="42" Height="42" Visibility="Collapsed"/>
                                     </Grid>
                                 </Border>
-                                <TextBlock x:Name="AccountHeaderNameText" FontSize="12" MaxWidth="76" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
+                                <TextBlock x:Name="AccountHeaderNameText" FontSize="12" MaxWidth="64" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
                         </Button>
                     </Grid>

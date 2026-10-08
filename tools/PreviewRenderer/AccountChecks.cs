@@ -35,11 +35,13 @@ internal static class AccountChecks
             Invoke("AccountShowLogin_Click", Control<Button>("FriendsLoginButton"), new RoutedEventArgs());
             Check(Control<StackPanel>("AccountPanel").Visibility == Visibility.Visible && Control<StackPanel>("FriendsPanel").Visibility == Visibility.Collapsed, "friends login does not open separate page");
             Invoke("AccountHeader_Click", Control<Button>("AccountHeaderButton"), new RoutedEventArgs());
+            Check(Control<StackPanel>("AccountPanel").Visibility == Visibility.Collapsed && Control<StackPanel>("FriendsPanel").Visibility == Visibility.Visible, "profile close does not return to friends");
+            Invoke("AccountHeader_Click", Control<Button>("AccountHeaderButton"), new RoutedEventArgs());
             Check(Control<Border>("AccountFormCard").Visibility == Visibility.Visible, "header does not open guest sign-in");
             Check(Control<Border>("AccountSignedInCard").Visibility == Visibility.Collapsed, "guest sees signed-in actions");
             Check(Control<Button>("AccountShowLoginButton").Content.ToString() == (language == "ru" ? "Вход" : "Sign in"), "login label");
             Check(Control<Button>("AccountShowRegisterButton").Content.ToString() == (language == "ru" ? "Регистрация" : "Register"), "registration label");
-            Check(Control<Button>("AccountHeaderButton").BorderBrush.ToString() == "#FFB68D37", "account header selected border missing");
+            Check(Control<Button>("AccountHeaderButton").BorderBrush.ToString() == "#FF354964", "account header subtle selected border missing");
             Invoke("AccountShowRegister_Click", Control<Button>("AccountShowRegisterButton"), new RoutedEventArgs());
             Check(Control<StackPanel>("AccountNicknamePanel").Visibility == Visibility.Visible, "register tab cannot switch directly");
             Invoke("AccountShowLogin_Click", Control<Button>("AccountShowLoginButton"), new RoutedEventArgs());
@@ -278,7 +280,7 @@ internal static class AccountChecks
                 var ready = Control<Border>("ReadyStatusBadge");
                 var readyBounds = ready.TransformToAncestor(content).TransformBounds(new Rect(ready.RenderSize));
                 Check(bounds.Left >= readyBounds.Right && bounds.Right <= size.Width && bounds.Bottom <= size.Height, "account header clipped/overlapping status");
-                Check(header.Width <= 100 && Control<Border>("AccountAvatarBorder").Width >= 48, "compact header or larger avatar lost");
+                Check(header.Width <= 76 && Control<Border>("AccountAvatarBorder").Width >= 44, "compact header or readable avatar lost");
             }
             Console.WriteLine($"ACCOUNT UI PASS {checks} {language}: guest, registration/login, secure input, async guards, navigation, persisted profile and diagnostic exclusion; no real Auth requests");
         }

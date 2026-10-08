@@ -14,6 +14,7 @@ public sealed class ChatMessageText : RichTextBox
         "SelectionOwner", typeof(SelectionOwner), typeof(ChatMessageText));
     public string UiLanguage { get; set; } = "en";
     public Func<string,Task<bool>>? CopyTextRequested { get; set; }
+    public Action<ContextMenu>? PopulateContextMenu { get; set; }
     public string Text
     {
         get => ChatComposer.Serialize(Document.ContentStart,Document.ContentEnd);
@@ -42,16 +43,14 @@ public sealed class ChatMessageText : RichTextBox
             if(!Selection.IsEmpty && CopyTextRequested is { } copy)await copy(SelectedText);
         },(_,e)=>{e.CanExecute=!Selection.IsEmpty;e.Handled=true;}));
         ContextMenu=new ContextMenu();
-        ContextMenuOpening+=(_,_)=>
+        ContextMenuOpening+=(_,e)=>
         {
             ContextMenu.Items.Clear();
             if(TryFindResource("SocialContextMenu") is Style menuStyle)ContextMenu.Style=menuStyle;
-            foreach(var (ru,en,command) in new[]{("Копировать","Copy",ApplicationCommands.Copy),("Выделить всё","Select all",ApplicationCommands.SelectAll)})
-            {
-                var item=new MenuItem {Header=UiLanguages.Text(UiLanguage,ru,en),Command=command,CommandTarget=this,InputGestureText=""};
-                if(TryFindResource("SocialMenuItem") is Style itemStyle)item.Style=itemStyle;
-                ContextMenu.Items.Add(item);
-            }
+            PopulateContextMenu?.Invoke(ContextMenu);
+            // Copy remains available through the message button and Ctrl+C;
+            // never show an empty popup on messages without other actions.
+            e.Handled = ContextMenu.Items.Count == 0;
         };
     }
 
