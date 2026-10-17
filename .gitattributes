@@ -5,3 +5,5 @@ src/PawsPatchLauncher/Assets/Vanilla1372/options_dialog.tgi -text
 game/ai-policy/data/data/**/*.tgi -text -whitespace
 # Accepted foundation payloads also retain their manifest-verified bytes.
 game/foundation-placement/data/data/**/*.tgi -text -whitespace
+# Ensrick's terrain pool overlay is verified against exact retail bytes.
+game/terrain-texture-pool/data/data/*.tgi -text -whitespace

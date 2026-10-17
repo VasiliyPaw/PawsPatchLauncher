@@ -24,6 +24,11 @@ Retain it as a regression case rather than introducing a duplicate fix.
 
 ## 2. Investigate terrain texture pressure with the extended camera
 
+Local integration and an initial moving-camera A/B comparison are complete in
+`game/terrain-texture-pool`. On the same Vanilla 384 x 384 save at verified zoom
+2.0, offloads fell from 1,790 to zero. This is still experimental and unpublished;
+see [evidence and remaining gates](verification-terrain-pool-2026-10-17.md).
+
 [PR #16](https://github.com/VasiliyPaw/PawsPatchLauncher/pull/16) increases the
 terrain texture pool from 120 to 1024 entries, approximately 8 to 64 MB. The
 reported reduction in terrain offloads makes this worth testing first among
