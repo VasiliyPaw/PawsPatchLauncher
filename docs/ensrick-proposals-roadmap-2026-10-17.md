@@ -6,6 +6,11 @@ the independently investigated animation Stop crash guard.
 
 ## 1. Establish repeatable multiplayer regression tests
 
+Local integration is now available under `tools/MultiplayerRig` with an isolated
+Vanilla fixture and retained per-run evidence. SaveCopy passed a real two-peer
+run; process cleanup and private-folder tests also passed. The other dedicated
+scenarios, whole-patch recovery and two-machine validation remain separate gates.
+
 [PR #12](https://github.com/VasiliyPaw/PawsPatchLauncher/pull/12) supplies a
 developer-only two-copy LAN rig: save copies, autosaves, hosting a received save
 and original-host departure. Review process ownership, cleanup, isolated user
