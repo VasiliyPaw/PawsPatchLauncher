@@ -30,6 +30,7 @@ def main():
     parser.add_argument('--dotnet',type=Path)
     parser.add_argument('--mapped-image',type=Path)
     parser.add_argument('--recovery-native',type=Path,help='Verified integrated recovery/lobby DLL for Pure beta only')
+    parser.add_argument('--terrain-texture-pool',action='store_true',help='Require the matching 1024-entry terrain overlay')
     parser.add_argument('--uniform-ui',action='store_true',help='Built-in native aspect correction; requires matching stock-frame data')
     parser.add_argument('--saves-native',type=Path,help='Verified multiplayer saves DLL, paired with the recovery beta')
     args=parser.parse_args(); out=args.out.resolve(); out.mkdir(parents=True,exist_ok=False)
@@ -72,6 +73,7 @@ def main():
             name='k2_paws_pure'+('_colors' if colors else '')+('_sync' if sync else '')+('_fixes' if not(colors or sync) else '')+'_1372.exe'
             flags=['PAW_PURE_EXTENDED','PAW_PURE_CHANNEL','PAW_PURE_FAST_TRANSFER','PAW_MENU_PRESENTATION','HERD_RELATIONS_ONLY','PROVOKED_NEUTRAL_ATTACK','RACE_RELATIONS','PRESERVE_NONINDEPENDENT_OWNER']
             if args.uniform_ui: flags.append('PAW_UNIFORM_UI')
+            if args.terrain_texture_pool: flags.append('TERRAIN_TEXTURE_POOL')
             if args.recovery_native: flags.append('PAW_PURE_RECOVERY')
             if args.saves_native: flags.append('PAW_PURE_MULTIPLAYER_SAVES')
             src=list(sources); res=dict(resources)

@@ -2,8 +2,9 @@
 
 Original proposal and overlay by Ensrick, [PR #16](https://github.com/VasiliyPaw/PawsPatchLauncher/pull/16),
 head `8ee2097752c88034d6307071d37c9bfe43d2f0da`. MIT attribution is retained in
-`LICENSE.Ensrick`. This directory is a local experimental integration, not a
-published component or an established crash fix.
+`LICENSE.Ensrick`. The initial local experiment is integrated into the
+0.4.2-beta.3 Arcane Wars and 0.4.1-beta.5 Vanilla/Immortals release packages.
+It is not an established crash fix.
 
 Data-only overlay: `data/UVars_k2.tgi` is the retail 1.3.72 file plus one line,
 `int TerrainTexturePoolDesiredNumEntries = 1024`. Retail `UVars.tgi` sets 120 with the comment
@@ -69,9 +70,12 @@ same package.
 
 ## Integration
 
-Future packaging should install `data/UVars_k2.tgi` with whatever enables CAMERA_ZOOM, with a startup hash
-guard like foundation-placement's. The reviewed native consumer is the renderer; network file-check
-behavior still needs validation. No installer, release, feed or version is changed here.
+The beta packages install `data/UVars_k2.tgi` in Arcane's `pawpatch-core` and
+Pure's `pure-beta-common`, which follow the full patch/camera selection rather
+than file-only mode. Helpers built with `TERRAIN_TEXTURE_POOL` validate its
+exact hash before launching. The reviewed native consumer is the renderer;
+network file-check behavior still needs validation. See
+[release verification](../../docs/verification-terrain-betas-2026-10-18.md).
 
 ## Local integration audit (2026-10-17)
 
@@ -98,6 +102,7 @@ separate load-order review before use.
 
 Run `python validate.py` and `python test_prepare.py` for byte-preservation and
 preparation/parser safety checks. These do not establish runtime performance.
-Future packaging must install/remove the overlay with the camera feature,
-include its exact hash in startup checks, and verify multiplayer with differing
-localizations and keybinds without adding cosmetic compatibility restrictions.
+`StartupGuardTests.cs` exercises the actual guard inside built helpers against
+valid, missing and altered files. Multiplayer with differing localizations and
+keybinds remains a separate validation gate; this change adds no new cosmetic
+compatibility restrictions.

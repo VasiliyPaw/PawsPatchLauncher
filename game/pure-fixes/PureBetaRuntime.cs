@@ -24,6 +24,9 @@ namespace PawPureFixes
         internal static string Describe(string json)
         {
             return json.Replace("\"randomMap\":false","\"randomMap\":true").Replace("\"randomTime\":false","\"randomTime\":true").TrimEnd('}')
+#if TERRAIN_TEXTURE_POOL
+                + ",\"terrainTexturePoolEntries\":1024"
+#endif
                 + ",\"allyEconomyRevision\":2,\"gameplayCameraZoomMaximum\":2"
                 + ",\"companyPositionRecoveryRevision\":1,\"exhaustionRecoveryRevision\":1"
                 + ",\"bulkBotLobbyRevision\":3,\"aiPolicyRevision\":39,\"aiPolicyProfile\":\"pure\",\"aiPolicyCompatibilityRevision\":1,\"aiImprovementsSelectable\":true"
@@ -42,6 +45,7 @@ namespace PawPureFixes
         internal static void ValidateInstallation(string root)
         {
             PawLobbyCompatibility.ValidateInstallation(root);
+            ReleaseStartup.ValidateTerrainTexturePool(root);
             string[] required={@"data\UI\Menus\main.tgi",@"data\UI\Menus\staging.tgi",@"data\UI\Game\game_interface.tgi",
                 @"data\UI\Game\PawGoldSound.png",@"data\Audio\paws_gold_button.tgi",@"data\templates\template_rmc_k2.tgi",
                 @"data\game\world_rules_k2.tgi",@"data\randommap\rmc_temperate03.tgi"};

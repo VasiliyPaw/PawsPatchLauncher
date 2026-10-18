@@ -116,7 +116,12 @@ internal static class BuildFeatures
 #else
         const string uniformUi="";
 #endif
-        Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() + largeMaps + uniformUi +
+#if TERRAIN_TEXTURE_POOL
+        const string terrainPool = ",\"terrainTexturePoolEntries\":1024";
+#else
+        const string terrainPool = "";
+#endif
+        Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() + largeMaps + uniformUi + terrainPool +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() + syncDiagnostics +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
             ",\"commonFixes\":" + commonFixes.ToString().ToLowerInvariant() + ",\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() +

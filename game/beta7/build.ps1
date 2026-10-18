@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery, [switch]$ExhaustionRecovery, [switch]$AiPolicy, [switch]$BotLobby, [switch]$FractionalKingdomPoints, [switch]$GraphicsDiagnostics, [switch]$SettlementSlots, [switch]$AllyEconomy, [switch]$EngineCrashFixes, [switch]$FoundationCounts, [switch]$NightmareDifficulty, [string]$PatchVersion, [string]$LocalLargeMapsSource, [switch]$LargeMaps, [string]$GameExecutable, [switch]$UniformUi)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery, [switch]$ExhaustionRecovery, [switch]$AiPolicy, [switch]$BotLobby, [switch]$FractionalKingdomPoints, [switch]$GraphicsDiagnostics, [switch]$SettlementSlots, [switch]$AllyEconomy, [switch]$EngineCrashFixes, [switch]$FoundationCounts, [switch]$NightmareDifficulty, [string]$PatchVersion, [string]$LocalLargeMapsSource, [switch]$LargeMaps, [string]$GameExecutable, [switch]$UniformUi, [switch]$TerrainTexturePool)
 $ErrorActionPreference = 'Stop'
 if($LairWoundedTest){$LairRecovery=$true}
 $out = [IO.Path]::GetFullPath($OutputDirectory)
@@ -335,6 +335,7 @@ foreach ($variant in $variants.PSObject.Properties) {
     if($AllyEconomy){$arguments += '/define:ALLY_ECONOMY';$arguments += (Join-Path $ally 'AllyEconomyPatch.cs'),(Join-Path $allyNative 'AllyEconomyPayload.cs')}
     if($FoundationCounts){$arguments += '/define:FOUNDATION_COUNTS';$arguments += (Join-Path $foundation 'FoundationCountsPatch.cs'),(Join-Path $foundationNative 'FoundationCountsPayload.cs')}
     if($EngineCrashFixes){$arguments += '/define:ENGINE_CRASH_FIXES';$arguments += (Join-Path $crashFixes 'EngineCrashFixesPatch.cs'),(Join-Path $crashNative 'EngineCrashPayload.cs')}
+    if($TerrainTexturePool){if(!$CameraZoom){throw 'Terrain texture pool requires the camera feature'};$arguments += '/define:TERRAIN_TEXTURE_POOL'}
     if($CameraZoom){$arguments += '/define:CAMERA_ZOOM_2';$arguments += (Join-Path $camera 'CameraZoomPatch.cs'),(Join-Path $cameraNative 'CameraZoomPayload.cs')}
     if($LairRecovery){$arguments += (Join-Path $lair 'LairRecoveryPatch.cs'),(Join-Path $lairNative 'LairRecoveryPayload.cs')}
     foreach ($resource in $resources) { $arguments += '/resource:' + (Join-Path $PSScriptRoot "$resource.bin") + ',' + $resource }

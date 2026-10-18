@@ -67,8 +67,18 @@ internal static class ReleaseStartup
         return found[0];
     }
 
+    internal static void ValidateTerrainTexturePool(string root)
+    {
+#if TERRAIN_TEXTURE_POOL
+        string path = Path.Combine(root, @"data\UVars_k2.tgi");
+        if (!File.Exists(path) || Hash(path) != "BB73F2CDF722024F89B7C57865A9D33FFE855D80637D7F3FCADEAD8089D25FCA")
+            throw new InvalidDataException("Terrain texture pool data differs. Apply the current patch in the launcher.");
+#endif
+    }
+
     internal static void GuardData(string root)
     {
+        ValidateTerrainTexturePool(root);
         string[][] files = {
             new[] { @"data\Game\world_rules_k2.tgi", "22282E6C584F37B697FC919EA16126FFE15327248B9A8E1B9965FE3568DD146C" },
             new[] { @"data\Templates\template_rmc_k2.tgi", TemplateDataHash },
