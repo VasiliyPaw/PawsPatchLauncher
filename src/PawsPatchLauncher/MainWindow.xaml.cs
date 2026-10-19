@@ -619,9 +619,9 @@ public partial class MainWindow : Window
                     .Concat(await vanillaInstaller.VerifyAsync(allowCustomHotkeys: true)).ToList();
                 if (check.Count != 0) throw new IOException(string.Join("; ", check));
                 EnsureGameClosed();
-                await GameLobbyPreferences.PrepareForLaunchAsync(_game.Directory, vanillaInstaller.LoadState().AppliedSettings ?? GetEffectiveSettings());
+                await _prepareGameLobby(_game.Directory, vanillaInstaller.LoadState().AppliedSettings ?? GetEffectiveSettings());
                 EnsureGameClosed();
-                var original = Process.Start(new ProcessStartInfo(vanilla) { WorkingDirectory = _game.Directory, UseShellExecute = true })
+                var original = _startGameProcess(new ProcessStartInfo(vanilla) { WorkingDirectory = _game.Directory, UseShellExecute = true })
                     ?? throw new IOException("Cannot start Kohan II.");
                 BeginGameObservation(original, new ModuleInstaller(_game.Directory).LoadState());
                 ShowResult(() => T("Игра запущена.", "Game launched."));
@@ -658,9 +658,9 @@ public partial class MainWindow : Window
                 await GameMenuMetadata.WriteAsync(_game.Directory, channel, GetEffectiveSettings());
             EnsureGameClosed();
             EnsureModAccess(_settings.Mod);
-            await GameLobbyPreferences.PrepareForLaunchAsync(_game.Directory, state.AppliedSettings ?? GetEffectiveSettings());
+            await _prepareGameLobby(_game.Directory, state.AppliedSettings ?? GetEffectiveSettings());
             EnsureGameClosed();
-            var process = Process.Start(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true })
+            var process = _startGameProcess(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true })
                 ?? throw new IOException("Cannot start Kohan II.");
             BeginGameObservation(process, installer.LoadState());
             ShowResult(() => T("Игра запущена.", "Game launched."));
@@ -669,6 +669,8 @@ public partial class MainWindow : Window
         finally { _launchStarting=false; SetBusy(false); RefreshStatus(); }
     }
 
+    private Func<string, UserSettings, Task> _prepareGameLobby = GameLobbyPreferences.PrepareForLaunchAsync;
+    private Func<ProcessStartInfo, Process?> _startGameProcess = Process.Start;
     private Func<bool> _gameRunningProbe = DetectGameRunning;
     private bool IsGameRunning() => _gameRunningProbe();
 

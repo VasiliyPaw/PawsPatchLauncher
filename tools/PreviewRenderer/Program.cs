@@ -22,6 +22,7 @@ public static class Program
     {
         if (args.Contains("--icon-checks")) { IconChecks.Run(args[0]); return; }
         var language = args.FirstOrDefault(arg => arg.StartsWith("--language="))?.Split('=')[1] ?? "ru";
+        var lobbyLaunchFixture = args.FirstOrDefault(a => a.StartsWith("--lobby-launch-fixture="))?["--lobby-launch-fixture=".Length..];
         var communityChecks = args.Contains("--community-checks");
         var pureOptionsConfig = args.FirstOrDefault(a=>a.StartsWith("--pure-options-config="))?["--pure-options-config=".Length..];
         var compactConfig = args.FirstOrDefault(arg => arg.StartsWith("--compact-config="))?["--compact-config=".Length..];
@@ -135,6 +136,7 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (lobbyLaunchFixture is not null) { LobbyLaunchChecks.Run(lobbyLaunchFixture); app.Shutdown(); return; }
         if (modDbDialogPreview) { ModDbDialogPreview.Run(language, args[0]); app.Shutdown(); return; }
         if (communityChecks) { CommunityChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (pureOptionsConfig is not null) { PureOptionsUiChecks.Run(pureOptionsConfig); app.Shutdown(); return; }
