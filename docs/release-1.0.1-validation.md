@@ -68,3 +68,15 @@ The test never uses or resets the player's real settings.
 
 Final tagged artifacts and six signed-catalog readback are checked separately
 after CI publication. Game-package versions and payloads are unchanged.
+
+## Public artifacts
+
+- Source/tag: `a31bdc015bcc0325e39904dc7d56252bc11d238d`, `v1.0.1`.
+- GitHub build/test `39273074842` and publish `39273079440`: success.
+- Public EXE and ZIP downloaded and verified against the tagged artifact manifest.
+  EXE: 74,311,541 bytes; SHA256
+  `2D80061431E37824F77A763B97D044C7E77634BB50CD7886C7BC558CB058197E`.
+- Both window-start checks of the downloaded EXE passed, including standalone use.
+- All six signed catalogs are updated only in launcher metadata/news; game
+  package data is verified unchanged. Final remote readback is retained in
+  `outputs/lobby-repair-101/release-feeds/readback.json` in the task workspace.
