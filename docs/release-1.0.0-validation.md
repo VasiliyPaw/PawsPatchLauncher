@@ -41,3 +41,23 @@ implemented. The author's download-counter attribution has not been measured.
 
 Tag publication/CI and final feed readback are recorded after completion in the
 release output folder; build/test success alone is not publication proof.
+
+## Published artifact checks
+
+- Public release: https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/v1.0.0
+- Source commit: `4b36d89c25b7f2691821da6ac1503542a96875e9`.
+- Build/test run `39217659606` and release run `39217670308`: success.
+- Public EXE and ZIP verified against the tagged CI artifact manifest.
+  EXE: 74,309,070 bytes, SHA256
+  `C4CC65969E70A3776A8F0C648F0CC37AA629D90609EF78C194E07B6B05694FC3`.
+- Both isolated window-start smoke checks of the downloaded EXE passed.
+- Public author bundle: 818,766 bytes, SHA256
+  `5798C3D03030284D01EBD045D8FF2D2F84561054DE50741DB0F63C85F87BBEFD`.
+  The original author RAR inside it is unchanged.
+- Repeated real-file installation using that downloaded public bundle and the
+  original base RAR: all 6,599 file hashes passed; verified cache reused;
+  install/verify/uninstall restored the fixture's original file. This used a
+  simulated ModDB HTTP 403 followed by RAR import, not a live ModDB download.
+- Six signed catalogs staged with launcher 1.0.0 metadata only; game package
+  fields unchanged. Final remote confirmation is saved as
+  `outputs/moddb-source-20261019/release100-feeds/readback.json` after pushing.
