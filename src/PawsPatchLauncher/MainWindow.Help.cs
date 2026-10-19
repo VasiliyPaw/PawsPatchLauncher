@@ -21,8 +21,18 @@ public partial class MainWindow
         HelpLinkErrorText.Visibility = Visibility.Collapsed;
         ArcaneWarsCreditPanel.Visibility = helpKey == "modules.core" && GameMod.IsArcaneWars(_settings) ? Visibility.Visible : Visibility.Collapsed;
         ArcaneWarsAuthorLabel.Text = T("Автор Arcane Wars: ", "Arcane Wars author: ");
-        ArcaneWarsDistributionText.Text = T("Автор распространяет мод на этом Discord-сервере.",
-            "The author distributes the mod on this Discord server.");
+        ArcaneWarsDistributionText.Text = T("Базовый мод опубликован на ModDB. Патч 0.82.1.8 fix v2 автор распространяет в Discord.",
+            "The base mod is published on ModDB. The author distributes patch 0.82.1.8 fix v2 on Discord.");
+    }
+
+    private async void ArcaneWarsModDb_RequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        e.Handled = true;
+        if (_openingHelpLink || e.Uri.AbsoluteUri != ModDbDownload.ArcanePage) return;
+        _openingHelpLink = true;
+        try { await OpenConfirmedLinkAsync(ModDbDownload.ArcanePage); }
+        catch (Exception error) { ActivityStore.Log(error); ShowToast(BrowserOpenError, true); }
+        finally { _openingHelpLink = false; }
     }
 
     private async void ArcaneWarsDiscord_RequestNavigate(object sender, RequestNavigateEventArgs e)

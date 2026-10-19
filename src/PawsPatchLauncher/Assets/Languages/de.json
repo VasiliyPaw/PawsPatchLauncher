@@ -1230,5 +1230,20 @@
   "For multiplayer, use compatible mods in the same load order. This selection is saved only on this computer.": "Verwende für Mehrspieler kompatible Mods in derselben Ladereihenfolge. Diese Auswahl wird nur auf diesem Computer gespeichert.",
   "First apply the selected game and components on the Components page.": "Wende zuerst das ausgewählte Spiel und die Komponenten auf der Seite Komponenten an.",
   "Could not add the archive. Choose a valid Kohan II RWD up to 2 GB.": "Das Archiv konnte nicht hinzugefügt werden. Wähle ein gültiges Kohan-II-RWD mit höchstens 2 GB.",
-  "Could not apply mods. Check the files and reopen this window.": "Die Mods konnten nicht angewendet werden. Prüfe die Dateien und öffne dieses Fenster erneut."
+  "Could not apply mods. Check the files and reopen this window.": "Die Mods konnten nicht angewendet werden. Prüfe die Dateien und öffne dieses Fenster erneut.",
+  "The base mod is published on ModDB. The author distributes patch 0.82.1.8 fix v2 on Discord.": "Die Basisversion des Mods ist auf ModDB veröffentlicht. Der Autor verteilt Patch 0.82.1.8 fix v2 auf Discord.",
+  "The Arcane Wars page on ModDB will open in your browser.": "Die Arcane-Wars-Seite auf ModDB wird in deinem Browser geöffnet.",
+  "Download from ModDB": "Download von ModDB",
+  "ModDB did not allow the automatic download. Download Arcane Wars 0.82 beta in your browser, then select the RAR archive here. The launcher will verify the file and apply Darquan’s patch automatically.": "ModDB hat den automatischen Download nicht zugelassen. Lade Arcane Wars 0.82 beta im Browser herunter und wähle hier das RAR-Archiv aus. Der Launcher prüft die Datei und installiert Darquans Patch automatisch.",
+  "Open ModDB": "ModDB öffnen",
+  "Select downloaded archive": "Heruntergeladenes Archiv auswählen",
+  "Automatic download is unavailable. Download the mod in your browser, then add the archive to the launcher.": "Der automatische Download ist nicht verfügbar. Lade die Mod im Browser herunter und füge das Archiv dann im Launcher hinzu.",
+  "Download the mod": "Mod herunterladen",
+  "Add the archive": "Archiv hinzufügen",
+  "The launcher will verify the archive and apply Darquan’s patch automatically.": "Der Launcher prüft das Archiv und installiert Darquans Patch automatisch.",
+  "Retry download from ModDB": "Download von ModDB wiederholen",
+  "Checking the Arcane Wars download…": "Arcane-Wars-Download wird geprüft…",
+  "The test catalog has no Arcane Wars ModDB download.": "Der Testkatalog enthält keinen Arcane-Wars-Download von ModDB.",
+  "Arcane Wars downloaded and verified. The installed game was not changed.": "Arcane Wars wurde heruntergeladen und geprüft. Das installierte Spiel wurde nicht verändert.",
+  "Downloading through ModDB helps the author gauge interest in the mod through its download count.": "Downloads über ModDB zeigen dem Autor anhand des Downloadzählers das Interesse an der Mod."
 }

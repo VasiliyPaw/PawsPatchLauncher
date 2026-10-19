@@ -563,7 +563,7 @@ public partial class MainWindow : Window
         _downloadCancellation = cancellation;
         CancelDownloadButton.Visibility = Visibility.Visible;
         var progress = TransferProgress(ChannelPresentation.PlainPunctuation(package.Name.Get(_text.Language)));
-        try { return await _feedClient.DownloadVerifiedAsync(package, progress, cancellation.Token); }
+        try { return await _feedClient.DownloadVerifiedAsync(package, progress, cancellation.Token, ChooseModDbArchiveAsync); }
         finally
         {
             FinishTransfer();

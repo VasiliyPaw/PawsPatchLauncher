@@ -89,13 +89,16 @@ public sealed class FeedClient
     }
 
     public async Task<string> DownloadVerifiedAsync(PackageRelease package, IProgress<(long Received, long? Total)>? progress,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default, Func<CancellationToken, Task<string?>>? chooseModDbArchive = null)
     {
         var cacheRoot = Path.Combine(_cacheRoot, "downloads", package.Id, package.Version);
         Directory.CreateDirectory(cacheRoot);
         var destination = CachedPackagePath(package);
         if (File.Exists(destination) && string.Equals(await CryptoAndIO.Sha256Async(destination, cancellationToken), package.Sha256, StringComparison.OrdinalIgnoreCase))
             return destination;
+
+        if (package.SourceRecipe is not null)
+            return await DownloadAssembledAsync(package, destination, progress, cancellationToken, chooseModDbArchive);
 
         var errors = new List<Exception>();
         foreach (var url in package.Urls.Concat(package.Urls))
@@ -213,7 +216,84 @@ public sealed class FeedClient
             return;
         }
 
+        if (ModDbDownload.IsStartUrl(source))
+            source = await ModDbDownload.ResolveAsync(_http, source, cancellationToken);
         await ResumableDownload.DownloadAsync(_http, source, destination, expectedSize, progress, cancellationToken);
+    }
+
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, SemaphoreSlim> AssemblyLocks = new(StringComparer.OrdinalIgnoreCase);
+
+    private async Task<string> DownloadAssembledAsync(PackageRelease package, string destination,
+        IProgress<(long Received, long? Total)>? progress, CancellationToken ct, Func<CancellationToken, Task<string?>>? chooseModDbArchive)
+    {
+        var recipe = package.SourceRecipe!;
+        if (package.Id != "arcane-wars" || recipe.Kind != "arcane-moddb-v1")
+            throw new InvalidDataException("Unsupported source recipe.");
+        foreach (var input in new[] { recipe.Base, recipe.Patch })
+            if (input.Size <= 0 || input.Size > 512L * 1024 * 1024 || !System.Text.RegularExpressions.Regex.IsMatch(input.Sha256, "\\A[0-9a-fA-F]{64}\\z"))
+                throw new InvalidDataException("Invalid source archive metadata.");
+        var gate = AssemblyLocks.GetOrAdd(destination, _ => new SemaphoreSlim(1, 1));
+        await gate.WaitAsync(ct);
+        var temporary = destination + ".download";
+        try
+        {
+            RemovalSafety.CheckNoLinks(destination);
+            RemovalSafety.CheckNoLinks(temporary);
+            if (File.Exists(destination) && (await CryptoAndIO.Sha256Async(destination, ct)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase))
+                return destination;
+            var directory = Path.Combine(_cacheRoot, "source-archives");
+            RemovalSafety.CheckNoLinks(directory);
+            Directory.CreateDirectory(directory);
+            var total = checked(recipe.Base.Size + recipe.Patch.Size);
+            long completed = 0;
+            var paths = new List<string>();
+            foreach (var input in new[] { recipe.Base, recipe.Patch })
+            {
+                var path = Path.Combine(directory, input.Sha256.ToUpperInvariant() + ".bin");
+                RemovalSafety.CheckNoLinks(path);
+                RemovalSafety.CheckNoLinks(path + ".download");
+                if (!File.Exists(path) || new FileInfo(path).Length != input.Size || !(await CryptoAndIO.Sha256Async(path, ct)).Equals(input.Sha256, StringComparison.OrdinalIgnoreCase))
+                {
+                    var sourceProgress = new SourceProgress(p => progress?.Report((completed + p.Received, total)));
+                    try { await DownloadAsync(input.Url, path + ".download", sourceProgress, ct, input.Size); }
+                    catch (Exception error) when (ReferenceEquals(input, recipe.Base) && ModDbDownload.IsStartUrl(input.Url)
+                        && chooseModDbArchive is not null && !ct.IsCancellationRequested && error is HttpRequestException or IOException)
+                    {
+                        var selected = await chooseModDbArchive(ct);
+                        ct.ThrowIfCancellationRequested();
+                        if (selected is null) throw new OperationCanceledException("ModDB archive selection cancelled.");
+                        if (IsRemote(selected)) throw new InvalidDataException("Select a downloaded local archive.");
+                        // Copy first and verify the exact bytes used by the assembler. Never trust a filename.
+                        await DownloadAsync(selected, path + ".download", sourceProgress, ct, input.Size);
+                    }
+                    if (new FileInfo(path + ".download").Length != input.Size || !(await CryptoAndIO.Sha256Async(path + ".download", ct)).Equals(input.Sha256, StringComparison.OrdinalIgnoreCase))
+                    {
+                        File.Delete(path + ".download");
+                        throw new InvalidDataException("Source archive SHA-256 mismatch.");
+                    }
+                    File.Move(path + ".download", path, true);
+                }
+                paths.Add(path);
+                completed += input.Size;
+                progress?.Report((completed, total));
+            }
+            await Task.Run(() => ArcaneSourceAssembly.Build(paths[0], paths[1], temporary, package.Version, ct), ct);
+            if (new FileInfo(temporary).Length != package.Size || !(await CryptoAndIO.Sha256Async(temporary, ct)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase))
+                throw new InvalidDataException("Assembled Arcane Wars package does not match the signed catalog.");
+            File.Move(temporary, destination, true);
+            await PackageDownloadDate.RecordAsync(destination, ct);
+            return destination;
+        }
+        finally
+        {
+            try { if (File.Exists(temporary)) File.Delete(temporary); }
+            finally { gate.Release(); }
+        }
+    }
+
+    private sealed class SourceProgress(Action<(long Received, long? Total)> report) : IProgress<(long Received, long? Total)>
+    {
+        public void Report((long Received, long? Total) value) => report(value);
     }
 
     private static async Task CopyWithProgressAsync(Stream input, Stream output, long? total,

@@ -6,11 +6,13 @@ public partial class MainWindow
 {
     private async Task OpenConfirmedLinkAsync(string url)
     {
-        if (url != ArcaneWarsDiscordInvite && url != PrivacyPolicyUrl && url != EnsrickGitHubUrl) return;
+        if (url != ArcaneWarsDiscordInvite && url != PrivacyPolicyUrl && url != EnsrickGitHubUrl && url != ModDbDownload.ArcanePage) return;
         if (ModNoticeOverlay.IsVisible) await CloseModNoticeAsync();
         var confirmation = ConfirmActionAsync(T("Открыть в браузере?", "Open in your browser?"),
             url == ArcaneWarsDiscordInvite
                 ? T("Откроется приглашение на Discord-сервер сообщества модов Kohan II в вашем браузере.", "The Kohan II mod community's Discord invitation will open in your browser.")
+                : url == ModDbDownload.ArcanePage
+                    ? T("Страница Arcane Wars на ModDB откроется в вашем браузере.", "The Arcane Wars page on ModDB will open in your browser.")
                 : url == EnsrickGitHubUrl
                     ? T("Профиль Ensrick на GitHub откроется в вашем браузере.", "Ensrick’s GitHub profile will open in your browser.")
                     : T("Политика конфиденциальности откроется в вашем браузере.", "The privacy policy will open in your browser."),

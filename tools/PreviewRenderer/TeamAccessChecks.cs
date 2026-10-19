@@ -30,31 +30,19 @@ internal static class TeamAccessChecks
         {
             Field<PawsPatchLauncher.Localization>("_text").SetLanguage(language);Call("ApplyLanguage");
             settings.Mod=GameMod.Vanilla;settings.ModNoticeSeen=true;Call("SetActivePage","modules");
-            foreach(var state in new[]{AccountState.Guest,AccountState.SignedIn,AccountState.Offline})
-            {
-                Role(0,false,state);
-                Check(!C<RadioButton>("ArcaneWarsModRadio").IsEnabled,"ordinary account can select Arcane Wars");
-                Check(C<RadioButton>("VanillaModRadio").IsEnabled&&C<RadioButton>("ImmortalsModRadio").IsEnabled,"public modes blocked");
-                Check(C<Button>("ArcaneAccessButton").IsVisible&&C<Button>("ArcaneAccessButton").IsEnabled,"missing accessible author notice button");
-                C<RadioButton>("ArcaneWarsModRadio").IsChecked=true;await Task.Delay(10);
-                Check(settings.Mod==GameMod.Vanilla,"checked event bypassed role guard");
-            }
-            Check(C<RadioButton>("ArcaneWarsModRadio").ToolTip is null && C<Button>("ArcaneAccessButton").ToolTip is not null,
-                "Access explanation must use its separate button");
-            foreach(var (level,team) in new[]{(0,true),(1,false),(2,false)})
-            {
-                Role(level,team);
-                Check(C<RadioButton>("ArcaneWarsModRadio").IsEnabled&&C<Button>("ArcaneAccessButton").IsVisible,"trusted member denied");
-                Check((Call("PlayerRoleBadge",level,team,true) as Border)?.Child is TextBlock,"trusted badge missing");
-            }
-            Role(0,true);Check(service.AdminLevel==0&&C<Button>("AdminNav").Visibility==Visibility.Collapsed,"team gained admin panel");
-            C<RadioButton>("ArcaneWarsModRadio").IsChecked=true;await Task.Delay(30);Check(settings.Mod==GameMod.ArcaneWars,"team cannot choose Arcane Wars");
-            Role(0,false);Check(settings.Mod==GameMod.ArcaneWars,"role loss overwrote remembered game mode");
-            Check(!C<Button>("LaunchButton").IsEnabled&&!C<Button>("ApplySettingsButton").IsEnabled&&!C<Button>("UpdateButton").IsEnabled,"old Arcane profile bypassed restriction");
-            try{Call("EnsureModAccess",GameMod.ArcaneWars);throw new Exception("Access guard did not reject");}
-            catch(TargetInvocationException error){Check(error.InnerException is InvalidOperationException&&error.InnerException.Message.Contains("Darquan"),"wrong access rejection");}
-            Call("EnsureModAccess",GameMod.Vanilla);Call("EnsureModAccess",GameMod.Immortals);checks+=2;
-            await (Task)Call("LaunchGameAsync")!;await (Task)Call("ApplySettingsAsync")!;Check(!Field<bool>("_busy"),"denied operation started work");
+                foreach (var state in new[] { AccountState.Guest, AccountState.SignedIn, AccountState.Offline })
+                {
+                    Role(0, false, state);
+                    Check(C<RadioButton>("ArcaneWarsModRadio").IsEnabled, "Public release denies public selection");
+                    Check(C<Button>("ArcaneAccessButton").Visibility == Visibility.Collapsed, "Public release shows red access badge");
+                    Check(C<RadioButton>("ArcaneWarsModRadio").Padding == new Thickness(10,13,10,13), "hidden badge leaves asymmetric padding");
+                    C<RadioButton>("ArcaneWarsModRadio").IsChecked = true; await Task.Delay(30);
+                    Check(settings.Mod == GameMod.ArcaneWars, "Public release cannot select Arcane Wars");
+                    Call("EnsureModAccess", GameMod.ArcaneWars);
+                    Call("EnsureModDownloadAccess", GameMod.ArcaneWars); checks += 2;
+                    Check(service.AdminLevel == 0 && C<Button>("AdminNav").Visibility == Visibility.Collapsed, "public mod access grants admin rights");
+                    C<RadioButton>("VanillaModRadio").IsChecked = true; await Task.Delay(30);
+                }
             var player=new SocialPlayer(Guid.NewGuid(),"pawtest","friend",PawsTeam:true);
             var name=(StackPanel)Call("SocialNameLabel",player)!;
             var line=(SocialIdentityLine)name.Children[1];line.Measure(new Size(280,100));line.Arrange(new Rect(0,0,280,line.DesiredSize.Height));
@@ -76,7 +64,7 @@ internal static class TeamAccessChecks
             Check(C<Button>("ConfirmationDeleteButton").IsEnabled,"team grant cannot be saved");
             C<Button>("ConfirmationDeleteButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));await pending;
             Check(assigned==-1,"role dialog sent admin level for team");
-            Console.WriteLine($"TEAM UI PASS {checks} {language}: role gates, remembered AW, public modes, guarded operations, badge placement, Discord and role assignment");
+            Console.WriteLine($"PUBLIC ARCANE UI PASS {checks} {language}: public AW selection/download, hidden access badge, no role escalation, badge placement, Discord and role assignment");
         }
         try
         {

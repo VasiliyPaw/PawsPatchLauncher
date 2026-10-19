@@ -1230,5 +1230,20 @@
   "For multiplayer, use compatible mods in the same load order. This selection is saved only on this computer.": "Для мережевої гри використовуйте сумісні моди в однаковому порядку завантаження. Вибір зберігається лише на цьому комп’ютері.",
   "First apply the selected game and components on the Components page.": "Спочатку застосуйте вибрану гру та компоненти на сторінці «Компоненти».",
   "Could not add the archive. Choose a valid Kohan II RWD up to 2 GB.": "Не вдалося додати архів. Виберіть справний RWD для Kohan II розміром до 2 ГБ.",
-  "Could not apply mods. Check the files and reopen this window.": "Не вдалося застосувати моди. Перевірте файли й знову відкрийте це вікно."
+  "Could not apply mods. Check the files and reopen this window.": "Не вдалося застосувати моди. Перевірте файли й знову відкрийте це вікно.",
+  "The base mod is published on ModDB. The author distributes patch 0.82.1.8 fix v2 on Discord.": "Базовий мод опубліковано на ModDB. Автор поширює патч 0.82.1.8 fix v2 у Discord.",
+  "The Arcane Wars page on ModDB will open in your browser.": "Сторінка Arcane Wars на ModDB відкриється у вашому браузері.",
+  "Download from ModDB": "Завантаження з ModDB",
+  "ModDB did not allow the automatic download. Download Arcane Wars 0.82 beta in your browser, then select the RAR archive here. The launcher will verify the file and apply Darquan’s patch automatically.": "ModDB не дозволив автоматичне завантаження. Завантажте Arcane Wars 0.82 beta через браузер, а потім виберіть тут RAR-архів. Лаунчер перевірить файл і автоматично встановить патч Даркана.",
+  "Open ModDB": "Відкрити ModDB",
+  "Select downloaded archive": "Вибрати завантажений архів",
+  "Automatic download is unavailable. Download the mod in your browser, then add the archive to the launcher.": "Автоматичне завантаження недоступне. Завантажте мод у браузері, а потім додайте архів до лаунчера.",
+  "Download the mod": "Завантажте мод",
+  "Add the archive": "Додайте архів",
+  "The launcher will verify the archive and apply Darquan’s patch automatically.": "Лаунчер перевірить архів і автоматично встановить патч Даркана.",
+  "Retry download from ModDB": "Повторити завантаження з ModDB",
+  "Checking the Arcane Wars download…": "Перевіряю завантаження Arcane Wars…",
+  "The test catalog has no Arcane Wars ModDB download.": "У тестовому каталозі немає завантаження Arcane Wars з ModDB.",
+  "Arcane Wars downloaded and verified. The installed game was not changed.": "Arcane Wars завантажено та перевірено. Встановлена гра не змінювалася.",
+  "Downloading through ModDB helps the author gauge interest in the mod through its download count.": "Завантаження через ModDB допомагає автору бачити інтерес до моду за лічильником завантажень."
 }

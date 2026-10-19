@@ -1415,6 +1415,10 @@
                                         <Run x:Name="ArcaneWarsAuthorLabel"/><Run Text="Darquan Mortis" FontWeight="Bold"/>
                                     </TextBlock>
                                     <TextBlock x:Name="ArcaneWarsDistributionText" Style="{StaticResource CardDescription}" Margin="0,6,0,8"/>
+                                    <TextBlock FontSize="13" Margin="0,0,0,8">
+                                        <Hyperlink NavigateUri="https://www.moddb.com/mods/kohan-2-arcane-wars-v078beta/downloads/arcane-wars-082beta"
+                                                   Foreground="{StaticResource GoldBrightBrush}" RequestNavigate="ArcaneWarsModDb_RequestNavigate">Arcane Wars · ModDB</Hyperlink>
+                                    </TextBlock>
                                     <TextBlock FontSize="13" TextWrapping="Wrap">
                                         <Hyperlink x:Name="ArcaneWarsDiscordLink" NavigateUri="https://discord.gg/krCK7DDwyz"
                                                    ToolTip="https://discord.gg/krCK7DDwyz" RequestNavigate="ArcaneWarsDiscord_RequestNavigate">

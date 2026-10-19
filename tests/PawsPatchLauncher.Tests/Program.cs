@@ -5,6 +5,10 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==1&&args[0]=="--arcane-sources") { await ArcaneSourceTests.RunAsync(); return; }
+if(args.Length==4&&args[0]=="--build-arcane-sources") { await ArcaneSourceTests.BuildAsync(args[1],args[2],args[3]); return; }
+if(args.Length==3&&args[0]=="--verify-arcane-sources") { await ArcaneSourceTests.IntegrationAsync(args[1],args[2]); return; }
+if(args.Length==3&&args[0]=="--download-arcane-sources") { await ArcaneSourceTests.IntegrationAsync(args[1],args[2], true); return; }
 if(args.Length==1&&args[0]=="--rwd")
 {
     var rwdRoot = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "PawsRwdTests", Guid.NewGuid().ToString("N")));
@@ -193,6 +197,7 @@ if (args.Length == 3 && args[0] == "--verify-gameplay-profiles")
 var root = Path.Combine(Path.GetTempPath(), "PawsPatchLauncherTests", Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(root);
 var passed = 0;
+passed += await ArcaneSourceTests.RunAsync();
 passed += ChatMemoryCacheTests.Run();
 passed += await ConnectionTests.RunAsync(root);
 

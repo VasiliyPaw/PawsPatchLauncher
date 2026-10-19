@@ -127,6 +127,7 @@ public static class Program
         var avatarPreviewDemo = args.Contains("--avatar-preview-demo");
         var modePerf = args.FirstOrDefault(a=>a.StartsWith("--mode-perf="))?["--mode-perf=".Length..];
         var modeGame = args.FirstOrDefault(a=>a.StartsWith("--mode-game="))?["--mode-game=".Length..];
+        var modDbDialogPreview = args.Contains("--moddb-dialog-preview");
         args = args.Where(arg => !arg.StartsWith("--")).ToArray();
         if (args.Length is < 1 or > 3) throw new ArgumentException("Pass the output PNG path, an optional page name, and an optional vertical offset.");
         var app = new App();
@@ -134,6 +135,7 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (modDbDialogPreview) { ModDbDialogPreview.Run(language, args[0]); app.Shutdown(); return; }
         if (communityChecks) { CommunityChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (pureOptionsConfig is not null) { PureOptionsUiChecks.Run(pureOptionsConfig); app.Shutdown(); return; }
         if (friendConfigurationCardChecks) { FriendConfigurationCardChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }

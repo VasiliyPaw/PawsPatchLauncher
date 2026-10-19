@@ -6,7 +6,7 @@ public partial class MainWindow
 {
     private bool? _renderedTeamAccess;
     private bool? _renderedLiveTeamAccess;
-    private bool LiveArcaneAccess => _account.CanUseArcaneWars && !AccountConnectionBlocked;
+    private bool LiveArcaneAccess => true; // Arcane Wars is publicly available starting with launcher 1.0.0
     private string? _storedArcaneKey;
     private readonly Dictionary<string, string> _storedArcaneReleases = new();
     private bool CanSelectArcaneWars => LiveArcaneAccess || _account.CanUseStoredArcaneWars && StoredArcaneReleases().Count > 0;
@@ -62,6 +62,8 @@ public partial class MainWindow
     {
         if (ArcaneWarsModRadio is null) return;
         ArcaneWarsModRadio.IsEnabled = !_busy && CanSelectArcaneWars;
+        ArcaneAccessButton.Visibility = Visibility.Collapsed;
+        ArcaneWarsModRadio.Padding = new Thickness(10, 13, 10, 13);
         ArcaneWarsModRadio.ToolTip = null;
         ArcaneAccessButton.ToolTip = T("Доступ к Arcane Wars", "Arcane Wars access");
         System.Windows.Automation.AutomationProperties.SetName(ArcaneAccessButton, (string)ArcaneAccessButton.ToolTip);
