@@ -14,8 +14,9 @@ internal static class PawGamePresentation
     const int Size=4096;
     // Ensrick identified the stock WidescreenUniformUI path. Use that layout
     // calculation only for opted-in patch builds, without changing/saving UVars.
-    // RVA 141649 loads flag #58; bypass just its JE, keeping positive-dimension
-    // checks and the engine's normal resolution/layout invalidation intact.
+    // Use uniform coordinates only for KKC_GameAppState. The engine run phase
+    // at 0x5f9218 is also 2 in menus and must NOT select the UI canvas.
+    // Fixed-width menus, lobby and movies retain the stock 1024-wide canvas.
     const int UniformGuardSite=0x141649;
     static readonly byte[] UniformGuard={0x8b,0x80,0xe8,0,0,0,0x80,0x38,0,0x74,0x39};
     // The helper can attach after the first resolution calculation. The stock
@@ -25,6 +26,37 @@ internal static class PawGamePresentation
     static readonly byte[] UniformPollGuard={0x8b,0x80,0xe8,0,0,0,0x8a,0};
     const int UniformClampSite=0x141688;
     static readonly byte[] UniformClampGuard={0xf3,0x0f,0x11,0x4d,0xfc};
+    internal static byte[] UniformPhaseCode(uint image)
+    {
+        // Bounded current app-state lookup, then match its verified native type.
+        // Null/uninitialized states, loading, lobby and scoring keep stock UI.
+        byte[] code={0xa1,0,0,0,0,0x83,0xf8,0x0f,0x77,0x15,
+            0x8b,0x04,0x85,0,0,0,0,0x85,0xc0,0x74,0x0a,
+            0x81,0x38,0,0,0,0,0x0f,0x94,0xc0,0xc3,0x30,0xc0,0xc3};
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x5f92f4)),0,code,1,4);
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x5f92b4)),0,code,13,4);
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x48d0dc)),0,code,23,4);
+        return code;
+    }
+    static byte[] UniformPhaseCall(uint image,uint cave,int site,int length,bool test)
+    {
+        byte[] code=new byte[length];for(int i=0;i<length;i++)code[i]=0x90;
+        code[0]=0xe8;
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked((int)(cave+0xd00-image-(uint)site-5))),0,code,1,4);
+        if(test){code[5]=0x84;code[6]=0xc0;}
+        return code;
+    }
+    internal static byte[] UniformButtonCode(uint image,uint cave)
+    {
+        // Tooltip right edge follows the logical viewport. Preserve EAX, flags
+        // and the complete XMM0 value around this replacement for a plain MOV.
+        byte[] code={0x9c,0x50,0x83,0xec,0x10,0xf3,0x0f,0x7f,0x04,0x24,0xa1,0,0,0,0,
+            0x8b,0x80,0x88,0,0,0,0xf3,0x0f,0x10,0,0xf3,0x0f,0x5c,0x05,0,0,0,0,
+            0xf3,0x0f,0x11,0x86,0x94,0,0,0,0xf3,0x0f,0x6f,0x04,0x24,0x83,0xc4,0x10,0x58,0x9d,0xc3};
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x5f94d0)),0,code,11,4);
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(cave+0xdf0)),0,code,29,4);
+        return code;
+    }
     static readonly int[] Sites={0xBF99F,0xFA979,0xC772E,0xC88BD,0x2BFA43};
     static readonly int[] Targets={0,0x400,0x600,0xa00,0xb00};
     static readonly byte[][] Expected={
@@ -194,6 +226,7 @@ internal static class PawGamePresentation
         bool soundButton=(!menuOnly || pureBeta) && File.Exists(Path.Combine(root,"data","UI","Game","PawGoldSound.png")) &&
             File.Exists(Path.Combine(root,"data","UI","Game","game_interface.tgi")) &&
             File.ReadAllText(Path.Combine(root,"data","UI","Game","game_interface.tgi")).Contains("[PawGoldSoundButton Template=PushButtonWidget]");
+        bool uniformButton=soundButton && File.ReadAllText(Path.Combine(root,"data","UI","Game","game_interface.tgi")).Contains("PawUniformButtonRevision2");
         // Steam decrypts code during boot. Validate all selected sites before writes.
         var timer=System.Diagnostics.Stopwatch.StartNew();
         int firstSite=menuOnly?1:0;
@@ -248,19 +281,36 @@ internal static class PawGamePresentation
                 Buffer.BlockCopy(BitConverter.GetBytes(unchecked((uint)image.ToInt64()+0x4b2e38)),0,clamp,4,4);
                 Buffer.BlockCopy(BitConverter.GetBytes(unchecked((int)(image.ToInt64()+UniformClampSite+5-cave.ToInt64()-0xc12))),0,clamp,14,4);
                 Buffer.BlockCopy(clamp,0,payload,0xc00,clamp.Length);
+                byte[] phase=UniformPhaseCode((uint)image.ToInt64());
+                for(int i=0xd00;i<0xd00+phase.Length;i++)if(payload[i]!=0)throw new InvalidDataException("Uniform phase cave overlaps UI payload");
+                Buffer.BlockCopy(phase,0,payload,0xd00,phase.Length);
+                if(uniformButton)
+                {
+                    byte[] guard={0xc7,0x86,0x94,0,0,0,0,0,0x7f,0x44};
+                    for(int i=0;i<guard.Length;i++)if(payload[0xa57+i]!=guard[i])throw new InvalidDataException("Uniform tooltip signature changed");
+                    for(int i=0xd80;i<0xdf4;i++)if(payload[i]!=0)throw new InvalidDataException("Uniform button cave overlaps UI payload");
+                    byte[] button=UniformButtonCode((uint)image.ToInt64(),(uint)cave.ToInt64());
+                    Buffer.BlockCopy(button,0,payload,0xd80,button.Length);
+                    Buffer.BlockCopy(BitConverter.GetBytes(4f),0,payload,0xdf0,4);
+                    payload[0xa57]=0xe8;
+                    Buffer.BlockCopy(BitConverter.GetBytes(0xd80-0xa5c),0,payload,0xa58,4);
+                    for(int i=0xa5c;i<0xa61;i++)payload[i]=0x90;
+                    if(BitConverter.ToSingle(payload,0xa67)!=512f)throw new InvalidDataException("Uniform tooltip height changed");
+                    Buffer.BlockCopy(BitConverter.GetBytes(510f),0,payload,0xa67,4);
+                }
             }
             Write(process,cave,payload);
             if(!FlushInstructionCache(process,cave,Size)) throw new Win32Exception();
             if(uniform)
             {
                 uniformAttempted=true;
-                Patch(process,Add(image,UniformGuardSite+9),new byte[]{0x90,0x90});
+                Patch(process,Add(image,UniformGuardSite),UniformPhaseCall((uint)image.ToInt64(),(uint)cave.ToInt64(),UniformGuardSite,9,true));
                 byte[] clampJump={0xe9,0,0,0,0};
                 Buffer.BlockCopy(BitConverter.GetBytes(unchecked((int)(cave.ToInt64()+0xc00-image.ToInt64()-UniformClampSite-5))),0,clampJump,1,4);
                 uniformClampAttempted=true;
                 Patch(process,Add(image,UniformClampSite),clampJump);
                 uniformPollAttempted=true;
-                Patch(process,Add(image,UniformPollSite+6),new byte[]{0xb0,1});
+                Patch(process,Add(image,UniformPollSite),UniformPhaseCall((uint)image.ToInt64(),(uint)cave.ToInt64(),UniformPollSite,8,false));
             }
             for(int i=firstSite;i<lastSite;i++)
             {
@@ -276,9 +326,9 @@ internal static class PawGamePresentation
         catch
         {
             bool restored=true;
-            if(uniformPollAttempted) try { Patch(process,Add(image,UniformPollSite+6),new byte[]{0x8a,0}); } catch { restored=false; }
+            if(uniformPollAttempted) try { Patch(process,Add(image,UniformPollSite),UniformPollGuard); } catch { restored=false; }
             if(uniformClampAttempted) try { Patch(process,Add(image,UniformClampSite),UniformClampGuard); } catch { restored=false; }
-            if(uniformAttempted) try { Patch(process,Add(image,UniformGuardSite+9),new byte[]{0x74,0x39}); } catch { restored=false; }
+            if(uniformAttempted) try { Patch(process,Add(image,UniformGuardSite),UniformGuard); } catch { restored=false; }
             for(int i=attempted-1;i>=firstSite;i--) try { Patch(process,Add(image,Sites[i]),ExpectedAt(i,(uint)image.ToInt64())); } catch { restored=false; }
             if(restored) VirtualFreeEx(process,cave,0,0x8000);
             throw;

@@ -29,14 +29,23 @@ foreach (var race in new[] { "", "human", "gauri", "drauga", "haroun", "undead",
         var entry = "UI/" + variant + "Game/ControlPanel/Background.tga";
         var original = ReadStock(archive, archiveName, entry);
         var center = CenterStrip(original);
-        payload.Add((race == "" ? "data" : "skins/" + race) + "/" + entry.ToLowerInvariant().Replace("background.tga", "PawUniformCenter.tga"), center);
+        var prefix = (race == "" ? "data" : "skins/" + race) + "/" + entry.ToLowerInvariant();
+        payload.Add(prefix.Replace("background.tga", "PawUniformCenter.tga"), center);
         // A strip is a lossless atlas crop: orientation, alpha and every row survive.
         var width = BitConverter.ToUInt16(original, 12);
         var height = BitConverter.ToUInt16(original, 14);
+        var left = CropColumns(original, 0, width / 2);
+        var right = CropColumns(original, width / 2, width / 2);
+        payload.Add(prefix.Replace("background.tga", "PawUniformLeft.tga"), left);
+        payload.Add(prefix.Replace("background.tga", "PawUniformRight.tga"), right);
         for (int row = 0; row < height; row++)
         {
             if (!original.AsSpan(18 + original[0] + (row * width + width / 2 - 1) * 4, 8).SequenceEqual(center.AsSpan(18 + row * 8, 8)))
                 throw new InvalidDataException("Atlas crop changed pixels.");
+            var rowBytes = original.AsSpan(18 + original[0] + row * width * 4, width * 4);
+            if (!rowBytes[..(width * 2)].SequenceEqual(left.AsSpan(18 + row * width * 2, width * 2))
+                || !rowBytes[(width * 2)..].SequenceEqual(right.AsSpan(18 + row * width * 2, width * 2)))
+                throw new InvalidDataException("Panel halves changed color or alpha.");
             checks++;
         }
         if (center[17] != original[17]) throw new InvalidDataException("TGA orientation changed.");
@@ -55,9 +64,34 @@ foreach (var race in new[] { "", "human", "gauri", "drauga", "haroun", "undead",
             var end = text.IndexOf("\n\t}\n", begin, StringComparison.Ordinal);
             if (begin < 0 || end < begin || !text[begin..end].Contains("texture = /UI/%s/Game/ControlPanel/Background.tga"))
                 throw new InvalidDataException("Unexpected stock panel layout.");
-            // Native tiled decal keeps the original atlas halves at the edges;
-            // only its two-column centre repeats across the extra width.
-            text = text[..begin] + "\t\t[Child Template=DecalVETiledHorizontal]\n\t\t{\n\t\t\tends_texture = /UI/%s/Game/ControlPanel/Background.tga\n\t\t\tcenter_texture = /UI/%s/Game/ControlPanel/PawUniformCenter.tga\n\t\t}" + text[end..];
+            // Native VE picking uses client rectangles, not texture alpha.
+            // Keep the full artwork, but restrict all decorative decals to the
+            // stock panel client band. Minimap/buttons have independent views.
+            text = text[..begin] + """
+                    validate_decal_children = false
+                    [Child Template=DecalVE]
+                    {
+                        L = 0
+                        R = 512
+                        client_T = 183b
+                        texture = /UI/%s/Game/ControlPanel/PawUniformLeft.tga
+                    }
+                    [Child Template=DecalVE]
+                    {
+                        L = 512
+                        R = 512r
+                        client_T = 183b
+                        tiled_x = true
+                        texture = /UI/%s/Game/ControlPanel/PawUniformCenter.tga
+                    }
+                    [Child Template=DecalVE]
+                    {
+                        L = 512r
+                        R = 100%
+                        client_T = 183b
+                        texture = /UI/%s/Game/ControlPanel/PawUniformRight.tga
+                    }
+            """ + text[end..];
             text = ReplaceOnce(text, "L = 799", "L = 225r");
         }
         if (name == "action_buttons") text = ReplaceOnce(text, "L = 800", "L = 224r");
@@ -65,8 +99,8 @@ foreach (var race in new[] { "", "human", "gauri", "drauga", "haroun", "undead",
         payload.Add("data/ui/game/" + name + ".tgi", Encoding.Unicode.GetPreamble().Concat(Encoding.Unicode.GetBytes(text)).ToArray());
     }
 }
-if (used.Count != 24 || sourceHashes.Count != 25 || payload.Count != 24)
-    throw new InvalidDataException("Expected 21 stock atlases and 3 layouts.");
+if (used.Count != 24 || sourceHashes.Count != 25 || payload.Count != 66)
+    throw new InvalidDataException("Expected 63 cropped textures and 3 layouts from 21 stock atlases.");
 const string arcaneKey = "ArcaneWars-0.82.1.8-clean.1:data/UI/Game/object_display.tgi";
 var arcaneOriginal = File.ReadAllBytes(args[3]);
 if (Convert.ToHexString(SHA256.HashData(arcaneOriginal)) != sourceHashes[arcaneKey])
@@ -100,7 +134,7 @@ foreach (var scope in new[] { "pure", "arcane" })
     }
     File.WriteAllText(Path.Combine(output, scope, "assets.json"), JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }) + "\n");
 }
-Console.WriteLine($"UI_ASSETS_PASS: {checks} checks; 24 assets per family; 7 skins; original pixels, 4:3 anchors and mod-specific spacing preserved.");
+Console.WriteLine($"UI_ASSETS_PASS: {checks} checks; 66 assets per family; 7 skins; original pixels/alpha, 4:3 anchors and mod-specific spacing preserved.");
 
 static string ReplaceOnce(string text, string from, string to)
 {
@@ -122,5 +156,20 @@ static byte[] CenterStrip(byte[] source)
     result[0] = 0; result[12] = 2; result[13] = 0;
     for (int row = 0; row < height; row++)
         Array.Copy(source, offset + (row * width + width / 2 - 1) * 4, result, 18 + row * 8, 8);
+    return result;
+}
+
+static byte[] CropColumns(byte[] source, int x, int columns)
+{
+    int width = BitConverter.ToUInt16(source, 12), height = BitConverter.ToUInt16(source, 14);
+    if (x < 0 || columns <= 0 || x + columns > width)
+        throw new InvalidDataException("Invalid crop bounds.");
+    byte[] result = new byte[18 + height * columns * 4];
+    Array.Copy(source, result, 18);
+    result[0] = 0;
+    result[12] = (byte)columns; result[13] = (byte)(columns >> 8);
+    for (int row = 0; row < height; row++)
+        Array.Copy(source, 18 + source[0] + (row * width + x) * 4,
+            result, 18 + row * columns * 4, columns * 4);
     return result;
 }
