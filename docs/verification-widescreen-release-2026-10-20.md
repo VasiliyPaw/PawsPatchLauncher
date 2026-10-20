@@ -41,8 +41,12 @@ modules; excluded Arcane gameplay payloads remain excluded by the builder.
 - Pure installer/preflight matrix: 16/16, six languages per mod, stable rollback
   and patch-disable. Native game executable unchanged; no game launched.
 
-Arcane installation/rollback and publication readback are recorded separately
-below once complete. Full visual acceptance across every aspect ratio and mod,
+Arcane installation with AI on/off/on passed 3/3. Stable rollback and patch
+disable each passed; new left/right texture overrides were absent from active
+data/skins afterward. Retained .pawpatch package caches are not active files.
+Total installation cases: 21. Source commit: 401eeeb732bbe69ffaeec3d32e660022556415ec.
+
+Publication readback is recorded below once complete. Full visual acceptance across every aspect ratio and mod,
 intro-video playback and restart of the persisted manual candidate were not
 performed by this release automation; offline checks are not claimed as those
 manual tests.
@@ -50,3 +54,16 @@ manual tests.
 Evidence: task workspace outputs/publish-widescreen-fix-20261020.
 Isolated installation fixture: D:/PawWidescreenReleaseQA-20261020.
 New fixture files are independent copies; no hard links into the installed game.
+
+## Publication
+
+Source CI passed: https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/39491076058.
+Both immutable prereleases point to source commit 401eeeb732bbe69ffaeec3d32e660022556415ec:
+- https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/patch-0.4.2-beta.4
+- https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/patch-pure-0.4.1-beta.6
+
+All seven uploaded asset digests and public download bytes were verified before
+local signed-catalog promotion. The signed beta catalog, beta guide version and
+changelog history are the only published catalog changes. Final remote catalog
+and asset readback is retained as staged/readback.json in the output directory.
+Launcher and stable/legacy package identities are unchanged.
