@@ -1245,5 +1245,12 @@
   "Checking the Arcane Wars download…": "Vérification du téléchargement d’Arcane Wars…",
   "The test catalog has no Arcane Wars ModDB download.": "Le catalogue de test ne contient aucun téléchargement d’Arcane Wars depuis ModDB.",
   "Arcane Wars downloaded and verified. The installed game was not changed.": "Arcane Wars a été téléchargé et vérifié. Le jeu installé n’a pas été modifié.",
-  "Downloading through ModDB helps the author gauge interest in the mod through its download count.": "Télécharger via ModDB permet à l’auteur de mesurer l’intérêt pour le mod grâce au compteur de téléchargements."
+  "Downloading through ModDB helps the author gauge interest in the mod through its download count.": "Télécharger via ModDB permet à l’auteur de mesurer l’intérêt pour le mod grâce au compteur de téléchargements.",
+  "Undo changes": "Annuler les modifications",
+  "Could not check file overlaps.": "Impossible de vérifier les fichiers communs.",
+  "Matching files in earlier mods: ": "Fichiers communs avec les mods précédents : ",
+  "Replace archive…": "Remplacer l’archive…",
+  "Changes are not applied yet.": "Les modifications ne sont pas encore appliquées.",
+  "Archive replaced in the list. Apply or undo the changes.": "Archive remplacée dans la liste. Appliquez ou annulez les modifications.",
+  "You can add up to 32 mods. Remove one or replace its archive.": "Vous pouvez ajouter jusqu’à 32 mods. Supprimez-en un ou remplacez son archive."
 }

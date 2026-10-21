@@ -1245,5 +1245,12 @@
   "Checking the Arcane Wars download…": "Перевіряю завантаження Arcane Wars…",
   "The test catalog has no Arcane Wars ModDB download.": "У тестовому каталозі немає завантаження Arcane Wars з ModDB.",
   "Arcane Wars downloaded and verified. The installed game was not changed.": "Arcane Wars завантажено та перевірено. Встановлена гра не змінювалася.",
-  "Downloading through ModDB helps the author gauge interest in the mod through its download count.": "Завантаження через ModDB допомагає автору бачити інтерес до моду за лічильником завантажень."
+  "Downloading through ModDB helps the author gauge interest in the mod through its download count.": "Завантаження через ModDB допомагає автору бачити інтерес до моду за лічильником завантажень.",
+  "Undo changes": "Скасувати зміни",
+  "Could not check file overlaps.": "Не вдалося перевірити збіги файлів.",
+  "Matching files in earlier mods: ": "Збіги файлів із модами вище: ",
+  "Replace archive…": "Замінити архів…",
+  "Changes are not applied yet.": "Зміни ще не застосовано.",
+  "Archive replaced in the list. Apply or undo the changes.": "Архів замінено у списку. Застосуйте або скасуйте зміни.",
+  "You can add up to 32 mods. Remove one or replace its archive.": "Можна додати до 32 модів. Видаліть один або замініть його архів."
 }

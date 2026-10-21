@@ -111,6 +111,81 @@ internal static class CustomModsChecks
             Check(!C<Border>("GameSettingsOverlay").IsVisible, "save closes modal");
             Open();
             Check(!C<Button>("GameSettingsSave").IsEnabled && Field<Dictionary<string, List<CustomRwdMod>>>("_customModsDraft")[GameMod.Vanilla][0].Enabled, "reopen retains saved state");
+            var originalMod = new ModuleInstaller(root).LoadState().CustomMods[GameMod.Vanilla][0];
+            List<CustomRwdMod> Draft() => Field<Dictionary<string, List<CustomRwdMod>>>("_customModsDraft")[GameMod.Vanilla];
+            var second = Path.Combine(root, "Balance update.rwd");
+            using (var archive = RwdArchive.Open(source))
+                RwdArchive.Write(second, archive.Entries.ToDictionary(e => e.Name, e => new byte[] { 9, 8, 7 }));
+            Set("_chooseRwdMod", (Func<string?>)(() => second));
+            Click("CustomModsAdd"); await Idle();
+            Call("ChangeCustomMod", 1, (Func<CustomRwdMod, CustomRwdMod>)(m => m with { Enabled = true }));
+            IEnumerable<DependencyObject> Tree(DependencyObject node)
+            {
+                yield return node;
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(node); i++)
+                    foreach (var child in Tree(VisualTreeHelper.GetChild(node, i))) yield return child;
+            }
+            bool HasOverlap() => Tree(C<StackPanel>("CustomModsBody")).OfType<TextBlock>().Any(t => t.ToolTip is string);
+            Check(Draft().Count == 2 && HasOverlap(), "enabled archives show matching paths");
+            Check(Tree(C<StackPanel>("CustomModsBody")).OfType<TextBlock>().Any(t => t.Text.StartsWith("2 · ")), "enabled order badges");
+            Call("ChangeCustomMod", 1, (Func<CustomRwdMod, CustomRwdMod>)(m => m with { Enabled = false }));
+            Check(!HasOverlap(), "disabled mod does not contribute overlaps");
+            Call("ChangeCustomMod", 1, (Func<CustomRwdMod, CustomRwdMod>)(m => m with { Enabled = true }));
+            Call("MoveCustomMod", 1, -1);
+            Check(Draft()[0].Name == "Balance update" && HasOverlap(), "reordering updates overlap direction");
+            w.UpdateLayout();
+            var preview = C<Border>("GameSettingsCard");
+            var drawing = new DrawingVisual();
+            using (var dc = drawing.RenderOpen()) dc.DrawRectangle(new VisualBrush(preview), null, new Rect(0, 0, preview.ActualWidth, preview.ActualHeight));
+            var rendered = new RenderTargetBitmap((int)Math.Ceiling(preview.ActualWidth), (int)Math.Ceiling(preview.ActualHeight), 96, 96, PixelFormats.Pbgra32);
+            rendered.Render(drawing);
+            var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(rendered));
+            using (var file = File.Create(Path.Combine(output, "custom-mods-enhanced-" + language + ".png"))) encoder.Save(file);
+            Click("CustomModsUndo");
+            Check(Draft().SequenceEqual([originalMod]) && !Field<bool>("_customModsDirty") && !C<Button>("CustomModsUndo").IsEnabled,
+                "undo restores saved list and switches without closing");
+            Check(C<Border>("GameSettingsOverlay").IsVisible, "undo leaves settings open");
+            Set("_chooseRwdMod", (Func<string?>)(() => null));
+            await (Task)Call("ImportCustomModAsync", (int?)0)!; await Idle();
+            Check(Draft()[0] == originalMod && !Field<bool>("_customModsDirty"), "cancel replacement leaves original intact");
+            var invalid = Path.Combine(root, "invalid.rwd"); File.WriteAllText(invalid, "not an archive");
+            Set("_chooseRwdMod", (Func<string?>)(() => invalid));
+            await (Task)Call("ImportCustomModAsync", (int?)0)!; await Idle();
+            Check(Draft()[0] == originalMod && !Field<bool>("_customModsDirty"), "invalid replacement leaves original intact");
+            // Same-name re-import updates in place and retains the enabled switch.
+            File.Copy(second, source, true);
+            Set("_chooseRwdMod", (Func<string?>)(() => source));
+            Click("CustomModsAdd"); await Idle();
+            Check(Draft().Count == 1 && Draft()[0].Enabled && Draft()[0].Sha256 != originalMod.Sha256, "same-name update preserves position and enabled state");
+            Check(new ModuleInstaller(root).LoadState().CustomMods[GameMod.Vanilla][0] == originalMod, "replacement is staged until apply");
+            Click("CustomModsUndo");
+            Check(Draft()[0] == originalMod, "undo replacement recovers old archive identity");
+            var atCapacity = new List<CustomRwdMod> { originalMod };
+            var library = new CustomRwdMods(root);
+            for (int i = 1; i < CustomRwdMods.MaximumMods; i++)
+            {
+                var filler = Path.Combine(root, "limit-" + i + ".rwd");
+                RwdArchive.Write(filler, new Dictionary<string, byte[]> { ["limit/" + i + ".txt"] = [(byte)i] });
+                atCapacity.Add(library.Import(filler));
+            }
+            Set("_customModsDraft", new Dictionary<string, List<CustomRwdMod>> { [GameMod.Vanilla] = atCapacity });
+            Call("CustomModsChanged", false);
+            Check(C<Button>("CustomModsAdd").IsEnabled, "replacement remains available at capacity");
+            Set("_chooseRwdMod", (Func<string?>)(() => second));
+            Click("CustomModsAdd"); await Idle();
+            Check(Draft().Count == 32 && Field<string?>("_customModsError") is not null, "33rd archive is rejected inline");
+            await (Task)Call("ImportCustomModAsync", (int?)0)!; await Idle();
+            Check(Draft().Count == 32 && Draft()[0].Enabled && Draft()[0].Name == "Balance update", "replacement at capacity retains count and switch");
+            Click("CustomModsUndo");
+            Check(Draft().SequenceEqual([originalMod]), "undo capacity draft restores saved profile");
+            // Explicit replacement also accepts a differently named archive.
+            Set("_chooseRwdMod", (Func<string?>)(() => second));
+            await (Task)Call("ImportCustomModAsync", (int?)0)!; await Idle();
+            Check(Draft().Count == 1 && Draft()[0].Name == "Balance update" && Draft()[0].Enabled, "explicit replacement preserves enabled state");
+            var replacement = Draft()[0];
+            Click("GameSettingsSave"); await Idle(); Open();
+            Check(Draft()[0] == replacement && new ModuleInstaller(root).LoadState().CustomMods[GameMod.Vanilla][0] == replacement,
+                "applied replacement survives reopening");
             Call("ChangeCustomMod", 0, (Func<CustomRwdMod, CustomRwdMod>)(m => m with { Enabled = false }));
             Click("GameSettingsSave"); await Idle();
             Check(!new ModuleInstaller(root).LoadState().Modules.ContainsKey(CustomRwdMods.ModuleId), "disable removes mounts");

@@ -1245,5 +1245,12 @@
   "Checking the Arcane Wars download…": "Kontroluji stažení Arcane Wars…",
   "The test catalog has no Arcane Wars ModDB download.": "Testovací katalog neobsahuje stažení Arcane Wars z ModDB.",
   "Arcane Wars downloaded and verified. The installed game was not changed.": "Arcane Wars byl stažen a ověřen. Nainstalovaná hra nebyla změněna.",
-  "Downloading through ModDB helps the author gauge interest in the mod through its download count.": "Stažení přes ModDB pomáhá autorovi sledovat zájem o mod podle počtu stažení."
+  "Downloading through ModDB helps the author gauge interest in the mod through its download count.": "Stažení přes ModDB pomáhá autorovi sledovat zájem o mod podle počtu stažení.",
+  "Undo changes": "Vrátit změny",
+  "Could not check file overlaps.": "Nepodařilo se ověřit překryvy souborů.",
+  "Matching files in earlier mods: ": "Shodné soubory v předchozích modech: ",
+  "Replace archive…": "Nahradit archiv…",
+  "Changes are not applied yet.": "Změny ještě nejsou použity.",
+  "Archive replaced in the list. Apply or undo the changes.": "Archiv v seznamu byl nahrazen. Použijte nebo vraťte změny.",
+  "You can add up to 32 mods. Remove one or replace its archive.": "Lze přidat nejvýše 32 modů. Jeden odeberte nebo nahraďte jeho archiv."
 }

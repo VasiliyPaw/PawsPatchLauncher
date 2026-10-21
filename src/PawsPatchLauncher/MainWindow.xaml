@@ -1471,7 +1471,10 @@
                             <Grid Margin="0,0,0,14">
                                 <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                 <TextBlock x:Name="CustomModsGameLabel" VerticalAlignment="Center" FontSize="16" Foreground="{StaticResource GoldBrightBrush}" FontWeight="SemiBold"/>
-                                <Button x:Name="CustomModsAdd" Grid.Column="1" Style="{StaticResource GhostButton}" Padding="12,7" Click="CustomModsAdd_Click"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button x:Name="CustomModsUndo" Style="{StaticResource GhostButton}" Padding="12,7" Margin="0,0,8,0" Click="CustomModsUndo_Click"/>
+                                    <Button x:Name="CustomModsAdd" Style="{StaticResource GhostButton}" Padding="12,7" Click="CustomModsAdd_Click"/>
+                                </StackPanel>
                             </Grid>
                             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,8,0">
                                 <StackPanel x:Name="CustomModsBody"/>
