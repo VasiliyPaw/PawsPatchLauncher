@@ -53,5 +53,6 @@ Evidence under task workspace `outputs/mod-manager-20261021/`: tests.log,
 ui-LANGUAGE.log, custom-mods-enhanced-LANGUAGE.png, build.log, publish.log,
 smoke.log. Candidate: `launcher/PawsLauncher-Mods-Test.exe`.
 
-Manual user acceptance of this candidate remains pending; no new in-game or
+On 2026-10-22 the user delegated the remaining check and authorized publication.
+Release validation is recorded in release-1.0.3-validation.md. No new in-game or
 multiplayer acceptance is claimed. Existing archive mounting is unchanged.

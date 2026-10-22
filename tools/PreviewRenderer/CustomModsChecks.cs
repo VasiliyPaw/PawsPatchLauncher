@@ -127,6 +127,7 @@ internal static class CustomModsChecks
             }
             bool HasOverlap() => Tree(C<StackPanel>("CustomModsBody")).OfType<TextBlock>().Any(t => t.ToolTip is string);
             Check(Draft().Count == 2 && HasOverlap(), "enabled archives show matching paths");
+            Check(Tree(C<StackPanel>("CustomModsBody")).OfType<TextBlock>().Any(t => Equals(t.ToolTip, "test.tgi")), "overlap tooltip names the actual shared resource");
             Check(Tree(C<StackPanel>("CustomModsBody")).OfType<TextBlock>().Any(t => t.Text.StartsWith("2 · ")), "enabled order badges");
             Call("ChangeCustomMod", 1, (Func<CustomRwdMod, CustomRwdMod>)(m => m with { Enabled = false }));
             Check(!HasOverlap(), "disabled mod does not contribute overlaps");
@@ -146,11 +147,11 @@ internal static class CustomModsChecks
                 "undo restores saved list and switches without closing");
             Check(C<Border>("GameSettingsOverlay").IsVisible, "undo leaves settings open");
             Set("_chooseRwdMod", (Func<string?>)(() => null));
-            await (Task)Call("ImportCustomModAsync", (int?)0)!; await Idle();
+            Tree(C<StackPanel>("CustomModsBody")).OfType<Button>().First(b => Equals(b.Content, "↻")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Idle();
             Check(Draft()[0] == originalMod && !Field<bool>("_customModsDirty"), "cancel replacement leaves original intact");
             var invalid = Path.Combine(root, "invalid.rwd"); File.WriteAllText(invalid, "not an archive");
             Set("_chooseRwdMod", (Func<string?>)(() => invalid));
-            await (Task)Call("ImportCustomModAsync", (int?)0)!; await Idle();
+            Tree(C<StackPanel>("CustomModsBody")).OfType<Button>().First(b => Equals(b.Content, "↻")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Idle();
             Check(Draft()[0] == originalMod && !Field<bool>("_customModsDirty"), "invalid replacement leaves original intact");
             // Same-name re-import updates in place and retains the enabled switch.
             File.Copy(second, source, true);
@@ -174,13 +175,13 @@ internal static class CustomModsChecks
             Set("_chooseRwdMod", (Func<string?>)(() => second));
             Click("CustomModsAdd"); await Idle();
             Check(Draft().Count == 32 && Field<string?>("_customModsError") is not null, "33rd archive is rejected inline");
-            await (Task)Call("ImportCustomModAsync", (int?)0)!; await Idle();
+            Tree(C<StackPanel>("CustomModsBody")).OfType<Button>().First(b => Equals(b.Content, "↻")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Idle();
             Check(Draft().Count == 32 && Draft()[0].Enabled && Draft()[0].Name == "Balance update", "replacement at capacity retains count and switch");
             Click("CustomModsUndo");
             Check(Draft().SequenceEqual([originalMod]), "undo capacity draft restores saved profile");
             // Explicit replacement also accepts a differently named archive.
             Set("_chooseRwdMod", (Func<string?>)(() => second));
-            await (Task)Call("ImportCustomModAsync", (int?)0)!; await Idle();
+            Tree(C<StackPanel>("CustomModsBody")).OfType<Button>().First(b => Equals(b.Content, "↻")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Idle();
             Check(Draft().Count == 1 && Draft()[0].Name == "Balance update" && Draft()[0].Enabled, "explicit replacement preserves enabled state");
             var replacement = Draft()[0];
             Click("GameSettingsSave"); await Idle(); Open();
