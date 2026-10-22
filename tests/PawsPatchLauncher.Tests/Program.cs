@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 2 && args[0] == "--verify-active-beta") { PublishedBetaCatalogTests.Run(args[1]); return; }
 if(args.Length==1&&args[0]=="--arcane-sources") { await ArcaneSourceTests.RunAsync(); return; }
 if(args.Length==4&&args[0]=="--build-arcane-sources") { await ArcaneSourceTests.BuildAsync(args[1],args[2],args[3]); return; }
 if(args.Length==3&&args[0]=="--verify-arcane-sources") { await ArcaneSourceTests.IntegrationAsync(args[1],args[2]); return; }
@@ -479,6 +480,7 @@ try
     passed += PureFixesModeTests.Run();
     passed += PureOptionsTests.Run();
     passed += PureBetaTests.Run();
+    passed += PublishedBetaCatalogTests.Run();
     Console.WriteLine($"PASS {passed}");
 }
 finally

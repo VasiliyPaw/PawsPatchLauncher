@@ -176,8 +176,18 @@ def readback(a):
  assert json.loads(fetch(remote+'feed/changelog.history.json'))==read(out/'history.json')
  for item in prep['assets']:
   raw=fetch(item['url']);assert len(raw)==item['size'] and hashlib.sha256(raw).hexdigest().upper()==item['sha256']
+ # A successful legacy/v2 readback is not enough: current launchers may read a
+ # newer schema (v3 keeps the Arcane Wars ModDB source recipe). Never report a
+ # completed publication while the configured beta catalog advertises old ZIPs.
+ expected={p['id']:p for p in read(out/'payload.json')['packages'] if p['id'] in {x['id'] for x in prep['assets']}}
+ for url in read(ROOT/'src/PawsPatchLauncher/launcher.config.json')['betaFeedUrls']:
+  assert url.startswith(RAW), 'Unknown active feed origin requires explicit verification'
+  active=verify(json.loads(fetch(remote+url[len(RAW):])),key())
+  current={p['id']:p for p in active['packages']}
+  for package_id,package in expected.items():
+   assert current.get(package_id)==package, 'Configured beta feed is stale: '+url+' / '+package_id
  write(out/'readback.json',dict(passed=True,assets=len(prep['assets']),scopes=prep['scopes'],publicRoot=remote))
- print('WIDESCREEN_REPAIR_PUBLICATION_PASS: four signed catalogs, beta assets and history',flush=True)
+ print('WIDESCREEN_REPAIR_PUBLICATION_PASS: legacy and configured active catalogs, beta assets and history',flush=True)
 
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['prepare','promote','readback']);p.add_argument('--out',type=Path,required=True)
