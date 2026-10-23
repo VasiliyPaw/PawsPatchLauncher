@@ -14,12 +14,13 @@
 #                         cannot save it on 1.3.72), and that it takes over without crashing when the host quits.
 #   -Scenario HostLeaves  host: LAN lobby, quits once the client is in it. Checks whether the client survives (on 1.3.68
 #                         the client crashed in 4 of 18 such runs, after a failed assertion).
+#   -Scenario HostLeavesLaunch  the replacement host launches the lobby and saves its new match.
 #
 # Only an isolated, marked fixture is accepted. Every run retains fresh private
 # profiles and evidence. Personal Documents and the installed game are untouched.
 param(
     [Parameter(Mandatory = $true)][string] $RigBuild,  # tools/MultiplayerRig/build.ps1 -OutputDirectory
-    [ValidateSet('SaveCopy', 'Autosave', 'LoadCopy', 'HostLeaves')] [string] $Scenario = 'SaveCopy',
+    [ValidateSet('SaveCopy', 'Autosave', 'LoadCopy', 'HostLeaves', 'HostLeavesLaunch')] [string] $Scenario = 'SaveCopy',
     [Parameter(Mandatory = $true)][string] $Game,
     [Parameter(Mandatory = $true)][string] $RunDirectory,
     [ValidateRange(1024,65535)][int] $Port = 5860,                  # the first port the game tries for a LAN host (5860-5869)
@@ -160,6 +161,10 @@ switch ($Scenario) {
         $hostScript = "Wait 45`n$hostOpen`nSelectLaunchType RANDOM_MAP`nEcho rig: host waiting in its lobby`nWait 95`nEcho rig: host leaving`nReallyQuit"
         $clientScript = "Wait 45`n$join`nEcho rig: client in the lobby`nWait 150`nEcho rig: client end`nReallyQuit"
     }
+    'HostLeavesLaunch' {
+        $hostScript = "Wait 45`n$hostOpen`nSelectLaunchType RANDOM_MAP`nEcho rig: host waiting in its lobby`nWait 95`nEcho rig: host leaving`nReallyQuit"
+        $clientScript = "Wait 45`n$join`nEcho rig: client in the lobby`nWait 100`nEcho rig: replacement host launching`nStagingLaunch`nWaitState game`nEcho rig: replacement host in the match`nWait 30`nGameSave `"Save/After takeover.RSG`"`nWait 30`nReallyQuit"
+    }
 }
 . (Join-Path $PSScriptRoot 'RigLauncher.ps1')
 $createdFiles = @()
@@ -177,7 +182,7 @@ Write-Script 'client' $clientScript.Replace('__NICK__', 'RigClient')
 $createdFiles += Join-Path $scripts 'client.txt'
 Copy-Item $rigShfolder $shfolderInGame
 $createdFiles += $shfolderInGame
-$runLimit = switch ($Scenario) { 'Autosave' { $LaunchAfter + $AutosaveMinutes * 120 + 300 } 'HostLeaves' { 420 } 'LoadCopy' { $LaunchAfter + 600 } default { $LaunchAfter + $SaveAfter + 300 } }
+$runLimit = switch ($Scenario) { 'Autosave' { $LaunchAfter + $AutosaveMinutes * 120 + 300 } 'HostLeaves' { 420 } 'HostLeavesLaunch' { 480 } 'LoadCopy' { $LaunchAfter + 600 } default { $LaunchAfter + $SaveAfter + 300 } }
 
 # ---------------------------------------------------------------- starting a copy
 function Log-Names { @(Get-ChildItem $logs -Filter 'log-*.log' | ForEach-Object Name) }
@@ -256,6 +261,13 @@ $checks = [ordered]@{ 'client joined the host' = $hostText.Contains('RigClient h
 $checks['host exited normally'] = Survived $hostLog $hostText
 $checks['host module installed'] = (Module-Text 'host').Contains('installed for k2.exe 1.3.72')
 $checks['client module installed'] = (Module-Text 'client').Contains('installed for k2.exe 1.3.72')
+$candidate = Test-Path -LiteralPath (Join-Path $RigBuild 'candidate.json')
+if ($candidate) {
+    foreach ($copy in $copies.Keys) {
+        $proof = Join-Path $copies[$copy] 'Logs/task-status.log'
+        $checks["$copy task status initialization installed"] = (Test-Path -LiteralPath $proof) -and ((Get-Content -LiteralPath $proof -Raw) -match 'TASK_STATUS_INIT r1;')
+    }
+}
 switch ($Scenario) {
     'SaveCopy' {
         '--- saves'
@@ -284,10 +296,12 @@ switch ($Scenario) {
         }
         $checks['the client received the copy'] = Valid-Save (Join-Path (Saves 'client') $leaf)
         $clientModule = Module-Text 'client'
-        if ((Module-Text 'host') -match 'autosave: saving') {
-            $checks['the client skipped its copy (the game cannot save here)'] = $clientModule -match 'save copy of .* skipped: .* is not loaded'
-        }
+        # This is a required regression, not an optional observation: without a
+        # host autosave the unsafe received-save path has never been exercised.
+        $checks['the host autosaved the loaded match'] = (Module-Text 'host') -match 'autosave "Save/MP Autosave [AB]\.RSG": \d+ bytes'
+        $checks['the client skipped its copy (the game cannot save here)'] = $clientModule -match 'save copy of .* skipped: .* is not loaded'
         $checks['the client took over when the host left'] = $clientText.Contains('has taken over as host')
+        $checks['replacement host rejected its unsafe autosave'] = $clientModule -match 'autosave: not saving this match: .*map source \d+ is not loaded'
         $checks['the client module never autosaved the match it cannot save'] = -not $clientModule.Contains('autosave: saving')
         $checks['both peers survived'] = (Survived $hostLog $hostText) -and (Survived $clientLog $clientText)
     }
@@ -296,12 +310,19 @@ switch ($Scenario) {
         $checks['client took over when the host left'] = $clientText.Contains('has taken over as host')
         $checks['client survived'] = Survived $clientLog $clientText
     }
+    'HostLeavesLaunch' {
+        $takeover = $clientText.IndexOf('has taken over as host')
+        $checks['client took over when the host left'] = $takeover -ge 0
+        $checks['replacement host entered the match after takeover'] = $takeover -ge 0 -and $clientText.IndexOf('ChangeToState(2,', $takeover) -gt $takeover
+        $checks['replacement host saved its new match'] = Valid-Save (Join-Path (Saves 'client') 'After takeover.RSG')
+        $checks['client survived'] = Survived $clientLog $clientText
+    }
 }
 '--- checks'
 $fail = 0
 foreach ($c in $checks.GetEnumerator()) { '{0} {1}' -f $(if ($c.Value) { 'ok  ' } else { 'FAIL' }), $c.Key; if (-not $c.Value) { $fail++ } }
 "game logs: host $(Split-Path $hostCopy.Log -Leaf), client $(Split-Path $clientCopy.Log -Leaf)"
-@{scenario=$Scenario;passed=($fail -eq 0);failed=$fail;checks=$checks;game=$Game;run=$RunDirectory;module='multiplayer-saves-only';fullPatchTested=$false} | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $RunDirectory 'result.json') -Encoding UTF8
+@{scenario=$Scenario;passed=($fail -eq 0);failed=$fail;checks=$checks;game=$Game;run=$RunDirectory;module=$(if($candidate){'multiplayer-saves-r2-plus-task-status-init-r1'}else{'multiplayer-saves-only'});fullPatchTested=$false} | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $RunDirectory 'result.json') -Encoding UTF8
 exit $fail
 
 } catch {

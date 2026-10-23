@@ -50,6 +50,17 @@ internal static class RigInject
                     Console.WriteLine(line);
                     if (line.StartsWith("MULTIPLAYER_SAVES_READY", StringComparison.Ordinal)) ready = true;
                 }, minutes);
+#if PAW_TASK_STATUS
+                using (var memory = new PawPureFixes.NativeMemory(id, exe, game.StartTime.ToUniversalTime()))
+                {
+                    memory.Suspend();
+                    TaskStatusPatch.Install(memory, unchecked((uint)game.MainModule.BaseAddress.ToInt32()), delegate(string line)
+                    {
+                        Console.WriteLine(line);
+                        File.AppendAllText(Path.Combine(folder, "Logs", "task-status.log"), line + Environment.NewLine);
+                    });
+                }
+#endif
                 return ready ? 0 : 1;
             }
         }

@@ -123,6 +123,7 @@ internal static class ReleaseStartup
 #endif
 #if ENGINE_CRASH_FIXES
                 EngineCrashFixesPatch.Validate(memory, address);
+                TaskStatusPatch.Validate(memory, address);
 #endif
 #if CAMERA_ZOOM_2
                 CameraZoomPatch.Validate(memory, address);
@@ -169,6 +170,7 @@ internal static class ReleaseStartup
 #if ENGINE_CRASH_FIXES
                 uint crashGuard = EngineCrashFixesPatch.Install(memory, address, addProbeHandler, log);
                 EngineCrashFixesPatch.Monitor(game.Id, crashGuard, log);
+                TaskStatusPatch.Install(memory, address, log);
 #endif
 #if LAIR_RECOVERY
                 LairRecoveryPatch.Install(memory, address, log);

@@ -30,7 +30,7 @@ namespace PawPureFixes
                 + ",\"allyEconomyRevision\":2,\"gameplayCameraZoomMaximum\":2"
                 + ",\"companyPositionRecoveryRevision\":1,\"exhaustionRecoveryRevision\":1"
                 + ",\"bulkBotLobbyRevision\":3,\"aiPolicyRevision\":39,\"aiPolicyProfile\":\"pure\",\"aiPolicyCompatibilityRevision\":1,\"aiImprovementsSelectable\":true"
-                + ",\"lobbyCompatibilityProtocol\":1,\"observerTeamCommandGuardRevision\":1"
+                + ",\"lobbyCompatibilityProtocol\":1,\"observerTeamCommandGuardRevision\":1,\"taskStatusInitializationRevision\":1"
 #if PAW_UNIFORM_UI
                 + ",\"widescreenUniformUiRevision\":2"
 #endif
@@ -77,6 +77,7 @@ namespace PawPureFixes
             AllyEconomyPatch.Validate(memory, image);
             BotLobbyPatch.Validate(memory, image);
             EngineCrashFixesPatch.Validate(memory, image);
+            TaskStatusPatch.Validate(memory, image);
             RandomMapPatch.Validate(memory, image);
             if (WoundedDefenders) LairRecoveryPatch.Validate(memory, image);
             if (ImprovedAi) AiPolicyRuntime.Validate(memory, image);
@@ -93,6 +94,7 @@ namespace PawPureFixes
             if (WoundedDefenders) LairRecoveryPatch.Install(memory, image, log);
             uint crash = EngineCrashFixesPatch.Install(memory, image, registration, log);
             EngineCrashFixesPatch.Monitor(game.Id, crash, log);
+            TaskStatusPatch.Install(memory, image, log);
             if (ImprovedAi) AiPolicyRuntime.Install(memory, image, game.Id, root, log);
         }
         internal static void Finish(Process game, IntPtr image, string root, Action<string> log)

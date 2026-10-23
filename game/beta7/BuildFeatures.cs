@@ -97,7 +97,7 @@ internal static class BuildFeatures
         const string foundationCounts="";
 #endif
 #if ENGINE_CRASH_FIXES
-        const string crashFixes=",\"sharedAnimationTargetGuardRevision\":1,\"animationStopControllerGuardRevision\":1,\"missingNetworkClientGuardRevision\":1,\"observerTeamCommandGuardRevision\":1";
+        const string crashFixes=",\"sharedAnimationTargetGuardRevision\":1,\"animationStopControllerGuardRevision\":1,\"missingNetworkClientGuardRevision\":1,\"observerTeamCommandGuardRevision\":1,\"taskStatusInitializationRevision\":1";
 #else
         const string crashFixes="";
 #endif

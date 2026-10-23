@@ -78,6 +78,28 @@ a nonzero result plus no remaining game/script/DLL proves cleanup worked.
 
 ## What this does and does not verify
 
+### Task-status initialization candidate
+
+`Build-TaskStatusCandidate.ps1 -BaselineBuild <verified rig build> -OutputDirectory <new folder>`
+reuses the exact baseline save DLL and private-folder DLL. It compiles the real
+`TaskStatusPatch.cs` with the identity-checked process-memory implementation used
+by the Pure helper. Pass this new build to `Run-Rig.ps1 -RigBuild ...`.
+Its `candidate.json`, per-peer `Logs/task-status.log` and two mandatory report
+checks distinguish this experiment from the saves-only baseline. The patch is
+installed while the fresh game is paused, before the lobby script starts.
+No native enum-reader assertion is bypassed. This still is not a whole-patch run.
+
+`HostLeavesLaunch` extends the lobby-takeover check: the surviving client starts
+a new match and writes `After takeover.RSG`. This checks the transition from the
+initialized idle status into normal world-loading callbacks, rather than only
+survival in the lobby. It does not test direct joining of an already running match.
+
+The [2026-10-22 regression](../../docs/verification-multiplayer-rig-2026-10-22.md)
+passed dedicated Autosave and LoadCopy runs, including the received-save guard
+after host takeover. LoadCopy now requires these guard paths to be exercised.
+The HostLeaves series reproduced the network enum assertion on its second run;
+the report records the actual task-status request, decoded value and stack.
+
 This initial integration uses stock Vanilla data and injects the current production
 `multiplayer-saves` module through its normal installer. It does not inject the
 entire Paw's Patch, the recovery-to-lobby module or the experimental enum assertion

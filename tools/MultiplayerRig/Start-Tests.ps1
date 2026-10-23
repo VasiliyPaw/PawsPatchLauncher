@@ -1,6 +1,6 @@
 ﻿param(
     [Parameter(Mandatory=$true)][string]$Configuration,
-    [ValidateSet('SaveCopy','Autosave','LoadCopy','HostLeaves')][string]$Scenario,
+    [ValidateSet('SaveCopy','Autosave','LoadCopy','HostLeaves','HostLeavesLaunch')][string]$Scenario,
     [string]$LoadSave,
     [switch]$TestSetupFailure
 )
@@ -12,9 +12,10 @@ if (-not $Scenario) {
     Write-Host '2 — Два автосохранения и копии у клиента (около 7 минут)'
     Write-Host '3 — Загрузка копии сейва (около 10 минут)'
     Write-Host '4 — Выход хоста из лобби (около 5 минут; возможна известная ошибка игры)'
-    $choice=Read-Host 'Выберите 1–4. Enter — отмена'
+    Write-Host '5 — Уход хоста, запуск и сохранение матча новым хостом (около 6 минут)'
+    $choice=Read-Host 'Выберите 1–5. Enter — отмена'
     if (-not $choice) { return }
-    $Scenario=@{'1'='SaveCopy';'2'='Autosave';'3'='LoadCopy';'4'='HostLeaves'}[$choice]
+    $Scenario=@{'1'='SaveCopy';'2'='Autosave';'3'='LoadCopy';'4'='HostLeaves';'5'='HostLeavesLaunch'}[$choice]
     if (-not $Scenario) { throw 'Неизвестный сценарий.' }
 }
 if ($Scenario -eq 'LoadCopy' -and -not $LoadSave) {

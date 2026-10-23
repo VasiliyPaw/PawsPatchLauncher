@@ -93,6 +93,10 @@ namespace PawPureFixes
                 RandomMapPatch.Verify(m,image,randomMap);
                 if(lair)LairRecoveryPatch.Install(m,image,delegate{});
                 EngineCrashFixesPatch.Install(m,image,0x77000000,delegate{});
+                // A pristine offline snapshot has no AdminNode yet; the
+                // constructor hook must coexist with every other native hook.
+                m.Write(image+0x5f3fec,new byte[4]);
+                TaskStatusPatch.Install(m,image,delegate{});
                 if(ai)AiPolicyRuntime.InstallNative(m,image,delegate{});
                 // Constructor owners and UI sites remain untouched until their
                 // later installers. In particular, no second terrain/zero hook.

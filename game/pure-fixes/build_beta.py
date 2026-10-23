@@ -41,6 +41,7 @@ def main():
     sources=[source/(name+'.cs') for name in ('Program','NativeMemory','PurePatch','PureChannel','PureBetaRuntime','PureFamilyRelations')]
     sources += [shared/(name+'.cs') for name in ('TerrainRuntime','ReleaseStartup','RandomMapPatch','RandomMapBundle','GamePresentation1372','GameText','BuildFeatures','LobbyColorsNative','SyncDiagnostics1372','k2_paws_family_herd_relations_1372')]
     sources += [ROOT/'game/fast-transfer/FastTransfer.cs', ROOT/'game/lobby-compatibility/PawLobbyCompatibility.cs',
+                ROOT/'game/engine-crash-fixes/TaskStatusPatch.cs',
                 ROOT/'game/graphics-diagnostics/GraphicsDiagnostics.cs', ROOT/'game/ai-policy/PawAiOptions.cs',
                 ROOT/'game/ai-policy/AiDiagnosticsSnapshot.cs', args.native/'nightmare-data/NightmareDifficultyData.cs']
     for folder,(generated,patch,payload) in NATIVE.items():
