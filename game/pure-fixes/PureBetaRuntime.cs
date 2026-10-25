@@ -38,7 +38,7 @@ namespace PawPureFixes
                 + ",\"multiplayerSavesRevision\":2,\"multiplayerAutosaveMinutes\":5,\"clientSaveCopies\":true"
 #endif
                 + ",\"independentHostilitySelectable\":true,\"woundedLairDefendersSelectable\":false,\"woundedLairDefendersBuiltIn\":true"
-                + ",\"builtInGraphicsDiagnosticsRevision\":2,\"animationStopControllerGuardRevision\":1,\"goldSoundButton\":true"
+                + ",\"builtInGraphicsDiagnosticsRevision\":3,\"animationStopControllerGuardRevision\":1,\"goldSoundButton\":true"
                 + ",\"automaticMilitia\":false,\"additionalBuildingSlots\":false"
                 + ",\"foundationDistribution\":false,\"fractionalKingdomPoints\":false}";
         }

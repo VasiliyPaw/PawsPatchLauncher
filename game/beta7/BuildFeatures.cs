@@ -77,7 +77,7 @@ internal static class BuildFeatures
         const string fractions="";
 #endif
 #if GRAPHICS_DIAGNOSTICS
-        const string graphics=",\"builtInGraphicsDiagnosticsRevision\":2";
+        const string graphics=",\"builtInGraphicsDiagnosticsRevision\":3";
 #else
         const string graphics="";
 #endif

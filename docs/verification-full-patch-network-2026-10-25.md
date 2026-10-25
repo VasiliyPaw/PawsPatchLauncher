@@ -75,8 +75,10 @@ personal city-preference files retained their pre-Arcane hashes.
 
 The game checks passed, but three `PawsGraphicsRecorder.exe` workers remained
 after normal Arcane exits. Their target games and helpers had already exited.
-Each worker retained one waiting thread and about 8–9 MiB working set; their
-diagnostic log files were empty. This does not establish the cause of the hang.
+Each worker retained one waiting thread and about 8–9 MiB working set; directory
+metadata reported zero-length diagnostic logs. Follow-up reads found valid
+START/ATTACHED/ARMED records: the open-file length was stale, not missing logs.
+This initial snapshot did not establish the cause of the hang.
 The same recorder binary successfully attached and exited in the Pure tests.
 
 Retained evidence: `orphan-diagnostics.json`, a 20,322-byte
@@ -84,7 +86,9 @@ Retained evidence: `orphan-diagnostics.json`, a 20,322-byte
 and start time were checked before stopping those three private-fixture workers.
 No unrelated diagnostic process was stopped. Final inspection found no remaining
 test games, harnesses or recorders. Root cause and a bounded recorder startup/exit
-fix remain a separate next step; do not claim that diagnostics lifecycle passed.
+fix were a separate next step; this original network run did not pass diagnostics
+lifecycle. The subsequent local repair and its separate verification are recorded
+in [the recorder lifecycle report](verification-recorder-lifecycle-2026-10-25.md).
 
 ## Limits
 
