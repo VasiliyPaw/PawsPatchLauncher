@@ -473,7 +473,7 @@ public partial class MainWindow
         var watch = Stopwatch.StartNew();
         long? first = null;
         long lastUpdate = -1000;
-        return new Progress<(long Received, long? Total)>(value =>
+        return new CoalescingProgress<(long Received, long? Total)>(value =>
         {
             if (!ReferenceEquals(_activeTransfer, transfer)) return;
             first ??= value.Received;

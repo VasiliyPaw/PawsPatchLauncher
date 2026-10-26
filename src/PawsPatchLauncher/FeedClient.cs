@@ -26,7 +26,10 @@ public sealed class FeedClient
         _http.DefaultRequestHeaders.UserAgent.ParseAdd("PawsPatchLauncher/0.2");
     }
 
-    public async Task<ChannelManifest?> GetChannelAsync(string channel = "stable", CancellationToken cancellationToken = default)
+    public Task<ChannelManifest?> GetChannelAsync(string channel = "stable", CancellationToken cancellationToken = default)
+        => Task.Run(() => GetChannelCoreAsync(channel, cancellationToken), cancellationToken);
+
+    private async Task<ChannelManifest?> GetChannelCoreAsync(string channel = "stable", CancellationToken cancellationToken = default)
     {
         var sources = channel.Equals("beta", StringComparison.OrdinalIgnoreCase)
             ? _configuration.BetaFeedUrls
@@ -57,7 +60,10 @@ public sealed class FeedClient
     public async Task<LauncherRelease?> GetLauncherUpdateAsync(CancellationToken cancellationToken = default)
         => await GetLauncherUpdateAsync(cancellationToken, null);
 
-    public async Task<LauncherRelease?> GetLauncherUpdateAsync(CancellationToken cancellationToken, TimeSpan? sourceTimeout)
+    public Task<LauncherRelease?> GetLauncherUpdateAsync(CancellationToken cancellationToken, TimeSpan? sourceTimeout)
+        => Task.Run(() => GetLauncherUpdateCoreAsync(cancellationToken, sourceTimeout), cancellationToken);
+
+    private async Task<LauncherRelease?> GetLauncherUpdateCoreAsync(CancellationToken cancellationToken, TimeSpan? sourceTimeout)
     {
         var sources = _configuration.FeedUrls.Select(url => (Url: url, Channel: "stable"))
             .Concat(_configuration.BetaFeedUrls.Select(url => (Url: url, Channel: "beta"))).Distinct().ToArray();
@@ -88,7 +94,11 @@ public sealed class FeedClient
         throw new AggregateException("Every launcher update source failed.", results.Select(result => result.Error!));
     }
 
-    public async Task<string> DownloadVerifiedAsync(PackageRelease package, IProgress<(long Received, long? Total)>? progress,
+    public Task<string> DownloadVerifiedAsync(PackageRelease package, IProgress<(long Received, long? Total)>? progress,
+        CancellationToken cancellationToken = default, Func<CancellationToken, Task<string?>>? chooseModDbArchive = null)
+        => Task.Run(() => DownloadVerifiedCoreAsync(package, progress, cancellationToken, chooseModDbArchive), cancellationToken);
+
+    private async Task<string> DownloadVerifiedCoreAsync(PackageRelease package, IProgress<(long Received, long? Total)>? progress,
         CancellationToken cancellationToken = default, Func<CancellationToken, Task<string?>>? chooseModDbArchive = null)
     {
         var cacheRoot = Path.Combine(_cacheRoot, "downloads", package.Id, package.Version);
@@ -136,7 +146,10 @@ public sealed class FeedClient
     private string CachedPackagePath(PackageRelease package)
         => Path.Combine(_cacheRoot, "downloads", package.Id, package.Version, package.Sha256.ToUpperInvariant() + ".zip");
 
-    public async Task<string> GetCachedPackageAsync(PackageRelease package, CancellationToken cancellationToken = default)
+    public Task<string> GetCachedPackageAsync(PackageRelease package, CancellationToken cancellationToken = default)
+        => Task.Run(() => GetCachedPackageCoreAsync(package, cancellationToken), cancellationToken);
+
+    private async Task<string> GetCachedPackageCoreAsync(PackageRelease package, CancellationToken cancellationToken = default)
     {
         var path = CachedPackagePath(package);
         if (!File.Exists(path) || !(await CryptoAndIO.Sha256Async(path, cancellationToken)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase))
@@ -144,7 +157,11 @@ public sealed class FeedClient
         return path;
     }
 
-    public async Task<string> DownloadLauncherAsync(LauncherRelease release, IProgress<(long Received, long? Total)>? progress,
+    public Task<string> DownloadLauncherAsync(LauncherRelease release, IProgress<(long Received, long? Total)>? progress,
+        CancellationToken cancellationToken = default)
+        => Task.Run(() => DownloadLauncherCoreAsync(release, progress, cancellationToken), cancellationToken);
+
+    private async Task<string> DownloadLauncherCoreAsync(LauncherRelease release, IProgress<(long Received, long? Total)>? progress,
         CancellationToken cancellationToken = default)
     {
         var directory = Path.Combine(_cacheRoot, "launcher");
@@ -357,7 +374,10 @@ public sealed class FeedClient
         return manifest;
     }
 
-    public async Task<ChannelManifest> GetPreviousAsync(ReleaseReference reference, string channel)
+    public Task<ChannelManifest> GetPreviousAsync(ReleaseReference reference, string channel)
+        => Task.Run(() => GetPreviousCoreAsync(reference, channel));
+
+    private async Task<ChannelManifest> GetPreviousCoreAsync(ReleaseReference reference, string channel)
     {
         var bytes = await ReadBytesAsync(reference.Url, CancellationToken.None);
         var manifest = ParseFeed(bytes, true);

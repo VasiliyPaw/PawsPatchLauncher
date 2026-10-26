@@ -8,6 +8,10 @@ public partial class MainWindow
 {
     private Task<string?> ChooseModDbArchiveAsync(CancellationToken ct)
     {
+        // Downloads run independently of WPF; only this user interaction returns
+        // to the owning dispatcher. Keep cancellation active while the dialog is open.
+        if (!Dispatcher.CheckAccess())
+            return Dispatcher.InvokeAsync(() => ChooseModDbArchiveAsync(ct)).Task.Unwrap();
         ct.ThrowIfCancellationRequested();
         string? selected = null;
         var dialog = CreateModDbArchiveDialog(path => selected = path);
