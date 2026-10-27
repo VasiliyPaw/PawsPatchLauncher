@@ -18,6 +18,7 @@ class PresentationTests
         Directory.CreateDirectory(Path.Combine(root,"data/UI/Game"));
         File.WriteAllBytes(Path.Combine(root,"uniform-phase.bin"),PawGamePresentation.UniformPhaseCode(0x460000));
         File.WriteAllBytes(Path.Combine(root,"uniform-button.bin"),PawGamePresentation.UniformButtonCode(0x460000,0x10000000));
+        File.WriteAllBytes(Path.Combine(root,"hud-layout.bin"),PawGamePresentation.HudLayoutCode(0x460000,0x10000000));
         File.WriteAllText(Path.Combine(root,"data/UI/Menus/main.tgi"),"fixture");
         foreach(string name in new[]{"paws_patch_versions.ini","paws_launch_versions.ini"})
             File.WriteAllText(Path.Combine(root,name),"[Versions]\nMod=arcane-wars\nModVersion=0.82.1.8\nPawPatch=0.2.0\nPatchChannel=beta");
@@ -41,6 +42,8 @@ class PresentationTests
                 byte[] uniformGuard={0x8b,0x80,0xe8,0,0,0,0x80,0x38,0,0x74,0x39};
                 Marshal.Copy(new byte[]{0x8b,0x80,0xe8,0,0,0,0x8a,0},0,Add(image,0x13c856),8);
                 Marshal.Copy(new byte[]{0xf3,0x0f,0x11,0x4d,0xfc},0,Add(image,0x141688),5);
+                Marshal.Copy(new byte[]{0x8b,0x86,0x88,0,0,0},0,Add(image,0x2ac2cb),6);
+                Marshal.Copy(new byte[]{0xf3,0x0f,0x5c,0x44,0x24,0x0c},0,Add(image,0xdad14),6);
                 Marshal.Copy(uniformGuard,0,Add(image,0x141649),uniformGuard.Length);
                 using(var proc=Process.GetCurrentProcess())
                     install.Invoke(null,new object[]{proc.Handle,image,Path.Combine(root,"test.log"),root,menuOnly,pureBeta});
@@ -53,8 +56,11 @@ class PresentationTests
 #endif
                 Check(Marshal.ReadByte(Add(image,0x13c856))==(uniform?0xe8:0x8b),"stock layout detector observes active phase");
                 Check(Marshal.ReadByte(Add(image,0x141688))==(uniform?0xe9:0xf3),"narrow displays retain the complete stock panel");
+                Check(Marshal.ReadByte(Add(image,0x2ac2cb))==(uniform?0xe8:0x8b),"HUD anchor hook scoped to uniform builds");
+                Check(Marshal.ReadByte(Add(image,0xdad14))==(uniform?0xe8:0xf3),"compact group spacing scoped to uniform builds");
                 if(uniform)
                 {
+                    Check(Marshal.ReadInt32(Add(image,0xdad15))==unchecked(cave.ToInt32()+0x1600-image.ToInt32()-0xdad19),"group spacing branch target");
                     Check(Marshal.ReadInt32(Add(image,0x141689))==unchecked(cave.ToInt32()+0xc00-image.ToInt32()-0x14168d),"clamp branch target");
                     Check(Marshal.ReadInt32(Add(cave,0xc04))==unchecked(image.ToInt32()+0x4b2e38),"relocated stock minimum width");
                     Check(Marshal.ReadInt32(Add(cave,0xc0e))==unchecked(image.ToInt32()+0x14168d-cave.ToInt32()-0xc12),"clamp resumes native setter");

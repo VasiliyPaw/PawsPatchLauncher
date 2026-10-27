@@ -112,7 +112,7 @@ internal static class BuildFeatures
         const string largeMaps="";
 #endif
 #if PAW_UNIFORM_UI
-        string uniformUi=commonFixes ? ",\"widescreenUniformUiRevision\":2" : "";
+        string uniformUi=commonFixes ? ",\"widescreenUniformUiRevision\":3" : "";
 #else
         const string uniformUi="";
 #endif

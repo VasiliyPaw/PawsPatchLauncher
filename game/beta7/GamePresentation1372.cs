@@ -12,6 +12,11 @@ using System.Threading;
 internal static class PawGamePresentation
 {
     const int Size=4096;
+    const int AllocationSize=8192;
+    const int HudLayoutSite=0x2ac2cb;
+    static readonly byte[] HudLayoutGuard={0x8b,0x86,0x88,0,0,0};
+    const int GroupSpacingSite=0xdad14;
+    static readonly byte[] GroupSpacingGuard={0xf3,0x0f,0x5c,0x44,0x24,0x0c};
     // Ensrick identified the stock WidescreenUniformUI path. Use that layout
     // calculation only for opted-in patch builds, without changing/saving UVars.
     // Use uniform coordinates only for KKC_GameAppState. The engine run phase
@@ -57,6 +62,19 @@ internal static class PawGamePresentation
         Buffer.BlockCopy(BitConverter.GetBytes(unchecked(cave+0xdf0)),0,code,29,4);
         return code;
     }
+    // BEGIN GENERATED HUD LAYOUT (build_hud_native.py)
+    internal static byte[] HudLayoutCode(uint image,uint cave)
+    {
+        byte[] b=Convert.FromBase64String("nGCD7DDzD38EJPMPf0wkEItGDIXAD4SMAgAAOXAQD4WDAgAAi1AEhdIPhHgCAACBOkYAYQB1S4F6BHYAbwB1QoF6CHIAaQB1OYF6DHQAZQB1MIF6EHMARAB1J4F6FGkAcwB1HoF6GHAAbAB1FYF6HGEAeQB1DGaDeiAAdQXphQEAAIE6QwBvAHVmgXoEbgBuAHVdgXoIZQBjAHVUgXoMdABpAHVLgXoQbwBuAHVCgXoUUwB0AHU5gXoYYQB0AHUwgXocdQBzAHUngXogRABpAHUegXokYQBsAHUVgXoobwBnAHUMZoN6LAB1BekeAQAAgTpFAGMAdUKBegRvAG4AdTmBeghvAG0AdTCBegxpAGMAdSeBehBJAG0AdR6BehRwAGEAdRWBehhjAHQAdQxmg3ocAHUF6TsBAACBOk8AcgB1UYF6BGcAYQB1SIF6CG4AaQB1P4F6DHoAYQB1NoF6EHQAaQB1LYF6FG8AbgB1JIF6GEUAZAB1G4F6HGkAdAB1EoF6IG8AcgB1CWaDeiQAdQLrcIE6RwBhAHVjgXoEbQBlAHVagXoITwByAHVRgXoMZwBhAHVIgXoQbgBpAHU/gXoUegBhAHU2gXoYdABpAHUtgXocbwBuAHUkgXogRQBkAHUbgXokaQB0AHUSgXoobwByAHUJZoN6LAB1AusF6aQAAAAx2+sMuwAACEHrBbsAAMA/6Oj6//+EwA+EhwAAAPMPKgUokqUA8w9cRijzD1hGIGgAAAA/8w9ZBCSDxATzD1xGIGYPbsuh0JSlAIuAiAAAAPMPXgjzD398JCDzDyo9KJKlAPMPWc/zD298JCDzD1jB6xbohvr//4TAdCnzDyoFKJKlAPMPXEYo8w8QTiDzD1jI8w8RTiDzDxBOKPMPWMjzDxFOKPMPbwQk8w9vTCQQg8QwYZ2LhogAAADDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABVieVWic7/tpQAAACBvpQAAAAAAIBEdR5Q6OL3//+EwHQTodCUpQCLgIgAAACLAImGlAAAAFj/dRD/dQz/dQjoQWxx8I+GlAAAAF7JwgwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8w9cRCQQaAAAzkPzD10EJI1kJATDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x5f9228)),0,b,0x224,4);
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x5f94d0)),0,b,0x249,4);
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x5f9228)),0,b,0x261,4);
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x5f9228)),0,b,0x282,4);
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x5f94d0)),0,b,0x523,4);
+        Buffer.BlockCopy(BitConverter.GetBytes(unchecked(image+0x2b8185-(cave+0x1544))),0,b,0x540,4);
+        return b;
+    }
+    // END GENERATED HUD LAYOUT
     static readonly int[] Sites={0xBF99F,0xFA979,0xC772E,0xC88BD,0x2BFA43};
     static readonly int[] Targets={0,0x400,0x600,0xa00,0xb00};
     static readonly byte[][] Expected={
@@ -238,7 +256,7 @@ internal static class PawGamePresentation
 #endif
         if(uniform)
         {
-            foreach(var guard in new[]{Tuple.Create(UniformGuardSite,UniformGuard),Tuple.Create(UniformPollSite,UniformPollGuard),Tuple.Create(UniformClampSite,UniformClampGuard)})
+            foreach(var guard in new[]{Tuple.Create(UniformGuardSite,UniformGuard),Tuple.Create(UniformPollSite,UniformPollGuard),Tuple.Create(UniformClampSite,UniformClampGuard),Tuple.Create(HudLayoutSite,HudLayoutGuard),Tuple.Create(GroupSpacingSite,GroupSpacingGuard)})
             while(true)
             {
                 byte[] found=new byte[guard.Item2.Length]; IntPtr done; uint exitCode;
@@ -259,20 +277,30 @@ internal static class PawGamePresentation
                 Thread.Sleep(20);
             }
         }
-        IntPtr cave=VirtualAllocEx(process,IntPtr.Zero,Size,0x3000,0x40);
+        IntPtr cave=VirtualAllocEx(process,IntPtr.Zero,AllocationSize,0x3000,0x40);
         if(cave==IntPtr.Zero) throw new Win32Exception();
         int attempted=firstSite;
         bool uniformAttempted=false;
         bool uniformPollAttempted=false;
         bool uniformClampAttempted=false;
+        bool hudLayoutAttempted=false;
+        bool groupSpacingAttempted=false;
         try
         {
             byte[] payload=Relocate((uint)image.ToInt64(),(uint)cave.ToInt64());
+            Array.Resize(ref payload,AllocationSize);
             byte[] label=Encoding.Unicode.GetBytes(suffix+"\0");
             if(label.Length>0x200) throw new InvalidDataException("Version labels too long");
             Buffer.BlockCopy(label,0,payload,0x800,label.Length);
             if(uniform)
             {
+                byte[] hud=HudLayoutCode((uint)image.ToInt64(),(uint)cave.ToInt64());
+                Buffer.BlockCopy(hud,0,payload,0x1000,hud.Length);
+                // Ordinary tooltips share the viewport anchor; the Paw button
+                // retains its separate title-only placement above its icon.
+                if(payload[0xaeb]!=0xe9 || unchecked((uint)(cave.ToInt64()+0xaf0+BitConverter.ToInt32(payload,0xaec)))!=unchecked((uint)image.ToInt64()+0x2b8185))
+                    throw new InvalidDataException("Ordinary tooltip branch changed");
+                Buffer.BlockCopy(BitConverter.GetBytes(0x1500-0xaf0),0,payload,0xaec,4);
                 // Preserve the stock 1024-wide layout on 5:4 and narrower
                 // screens. Wider layouts use the stock aspect calculation.
                 // XMM1 is already the new width; preserve all other registers.
@@ -300,7 +328,7 @@ internal static class PawGamePresentation
                 }
             }
             Write(process,cave,payload);
-            if(!FlushInstructionCache(process,cave,Size)) throw new Win32Exception();
+            if(!FlushInstructionCache(process,cave,AllocationSize)) throw new Win32Exception();
             if(uniform)
             {
                 uniformAttempted=true;
@@ -311,6 +339,14 @@ internal static class PawGamePresentation
                 Patch(process,Add(image,UniformClampSite),clampJump);
                 uniformPollAttempted=true;
                 Patch(process,Add(image,UniformPollSite),UniformPhaseCall((uint)image.ToInt64(),(uint)cave.ToInt64(),UniformPollSite,8,false));
+                byte[] hudCall={0xe8,0,0,0,0,0x90};
+                Buffer.BlockCopy(BitConverter.GetBytes(unchecked((int)(cave.ToInt64()+0x1000-image.ToInt64()-HudLayoutSite-5))),0,hudCall,1,4);
+                hudLayoutAttempted=true;
+                Patch(process,Add(image,HudLayoutSite),hudCall);
+                byte[] groupCall={0xe8,0,0,0,0,0x90};
+                Buffer.BlockCopy(BitConverter.GetBytes(unchecked((int)(cave.ToInt64()+0x1600-image.ToInt64()-GroupSpacingSite-5))),0,groupCall,1,4);
+                groupSpacingAttempted=true;
+                Patch(process,Add(image,GroupSpacingSite),groupCall);
             }
             for(int i=firstSite;i<lastSite;i++)
             {
@@ -326,6 +362,8 @@ internal static class PawGamePresentation
         catch
         {
             bool restored=true;
+            if(groupSpacingAttempted) try { Patch(process,Add(image,GroupSpacingSite),GroupSpacingGuard); } catch { restored=false; }
+            if(hudLayoutAttempted) try { Patch(process,Add(image,HudLayoutSite),HudLayoutGuard); } catch { restored=false; }
             if(uniformPollAttempted) try { Patch(process,Add(image,UniformPollSite),UniformPollGuard); } catch { restored=false; }
             if(uniformClampAttempted) try { Patch(process,Add(image,UniformClampSite),UniformClampGuard); } catch { restored=false; }
             if(uniformAttempted) try { Patch(process,Add(image,UniformGuardSite),UniformGuard); } catch { restored=false; }

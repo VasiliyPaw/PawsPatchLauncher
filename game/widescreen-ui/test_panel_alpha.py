@@ -37,7 +37,7 @@ def texture(path):
 for scope in ("pure", "arcane"):
     root = a.assets / scope
     manifest = json.loads((root / "assets.json").read_text())
-    check(len(manifest) == 66, "complete skins and resolutions")
+    check(len(manifest) == 67, "complete skins, resolutions and timer layout")
     for rel, expected in manifest.items():
         check(hashlib.sha256((root/"payload"/rel).read_bytes()).hexdigest().upper() == expected, rel)
     layout = (root/"payload/data/ui/game/control_panel.tgi").read_text("utf-16")
@@ -64,9 +64,12 @@ for scope in ("pure", "arcane"):
                     y_local = sy*768/height-512
                     check(right(x_local, y_local, 512) == 0,
                           "button/world not covered by right-panel alpha")
-            for y in (4,20,40,58):
-                check(center(0, y, 2) == 0, "expanded middle leaves the field transparent")
-            check(center(0, 120, 2) != 0, "visible lower panel keeps its opaque mask")
+            for x in range(128):
+                # Haroun leaves intentionally protrude just above the top border.
+                for y in (4,20,40):
+                    check(center(x, y, 128) == 0, "expanded middle leaves the field transparent")
+                for y in (120,180,230):
+                    check(center(x, y, 128) == 255, "middle excludes the right-panel ornament")
             check(right(480, 120, 512) != 0, "right command area keeps its opaque mask")
 
 print("PANEL_ALPHA_PASS", checks, "checks; 7 skins; 3 variants; 10 resolutions; live picking unverified")
