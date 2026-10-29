@@ -77,6 +77,7 @@ public partial class MainWindow : Window
         AdditionalRoamingToggle.IsChecked = GameMod.IsArcaneWars(_settings) ? _settings.AdditionalRoamingCompanies : GameMod.PureComponents(_settings).AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
         ImprovedAiToggle.IsChecked = GameMod.ImprovedAiSelected(_settings);
+        IgnoreZeroMoraleToggle.IsChecked = GameMod.IsArcaneWars(_settings) && _settings.IgnoreZeroMorale;
         PowersShardsToggle.IsChecked = _settings.DisablePowersAndShards;
         SelectOosMode(_settings.DesyncMode);
         SelectSpawnMode(_settings.RoamingSpawnMode);
@@ -204,7 +205,9 @@ public partial class MainWindow : Window
         SiegeBalanceTitleText.Text = _text["modules.siege"];
         SiegeBalanceDescriptionText.Text = _text["modules.siege.desc"];
         ImprovedAiTitleText.Text = _text["modules.ai"];
+        IgnoreZeroMoraleTitleText.Text = _text["modules.exhaustion"];
         ImprovedAiDescriptionText.Text = _text["modules.ai.desc"];
+        IgnoreZeroMoraleDescriptionText.Text = _text["modules.exhaustion.desc"];
         PowersShardsTitleText.Text = _text["modules.powers"];
         System.Windows.Automation.AutomationProperties.SetName(PowersShardsToggle, _text["modules.powers"]);
         RefreshPowersShardsOption();
@@ -423,6 +426,7 @@ public partial class MainWindow : Window
         AdditionalRoamingToggle.IsEnabled = !_busy;
         SiegeBalanceToggle.IsEnabled = !_busy;
         ImprovedAiToggle.IsEnabled = !_busy && GameMod.PawPatchSelected(_settings) && !DataOnlyMode && GameMod.HasImprovedAi(_channel, _settings.Mod);
+        IgnoreZeroMoraleToggle.IsEnabled = !_busy && GameMod.PawPatchSelected(_settings) && !DataOnlyMode && GameMod.HasIgnoreZeroMorale(_channel, _settings.Mod);
         RefreshPowersShardsOption();
         CopyConfigurationButton.IsEnabled = !_busy;
         DiagnosticsButton.IsEnabled = !_busy;
@@ -835,6 +839,7 @@ public partial class MainWindow : Window
         _settings.AdditionalRoamingCompanies = AdditionalRoamingToggle.IsChecked == true;
         _settings.SiegeBalance = SiegeBalanceToggle.IsChecked == true;
         if (ReferenceEquals(sender, ImprovedAiToggle)) _settings.ImprovedAi = ImprovedAiToggle.IsChecked == true;
+        if (ReferenceEquals(sender, IgnoreZeroMoraleToggle)) _settings.IgnoreZeroMorale = IgnoreZeroMoraleToggle.IsChecked == true;
         _settings.DisablePowersAndShards = PowersShardsToggle.IsChecked == true;
         _settingsStore.Save(_settings);
         InvalidateReadiness();
@@ -873,6 +878,7 @@ public partial class MainWindow : Window
         AdditionalRoamingToggle.IsChecked = _settings.AdditionalRoamingCompanies;
         SiegeBalanceToggle.IsChecked = _settings.SiegeBalance;
         ImprovedAiToggle.IsChecked = GameMod.ImprovedAiSelected(_settings);
+        IgnoreZeroMoraleToggle.IsChecked = GameMod.IsArcaneWars(_settings) && _settings.IgnoreZeroMorale;
         IndependentHostilityToggle.IsEnabled = !_busy && CanChangeHostilityWithSelectedColors;
         ColorsDescriptionText.Text = _colorsAvailable ? _text.ColorText("modules.colors.desc", _channel) : UiLanguages.Text(_text.Language, "Недоступно в выбранном старом выпуске. Выберите последнюю версию патча.", "Unavailable in this older release. Select the latest patch version.");
         }

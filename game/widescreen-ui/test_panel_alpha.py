@@ -37,7 +37,10 @@ def texture(path):
 for scope in ("pure", "arcane"):
     root = a.assets / scope
     manifest = json.loads((root / "assets.json").read_text())
-    check(len(manifest) == 67, "complete skins, resolutions and timer layout")
+    icon_layouts = {'data/ui/game/'+n+'.tgi' for n in
+                    ('floaters','template_game','favorites_display','organization_editor')}
+    check(len(manifest) == 67 or (len(manifest) == 71 and icon_layouts <= manifest.keys()),
+          "complete skins, resolutions and timer layout, with optional reviewed icon layouts")
     for rel, expected in manifest.items():
         check(hashlib.sha256((root/"payload"/rel).read_bytes()).hexdigest().upper() == expected, rel)
     layout = (root/"payload/data/ui/game/control_panel.tgi").read_text("utf-16")

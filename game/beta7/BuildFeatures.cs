@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 internal static class BuildFeatures
 {
@@ -121,7 +121,26 @@ internal static class BuildFeatures
 #else
         const string terrainPool = "";
 #endif
-        Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() + largeMaps + uniformUi + terrainPool +
+#if SELECTION_SCROLL
+        const string selectionScroll = ",\"selectionScrollRevision\":3,\"selectionCardsAdaptive\":true,\"selectionDestinationFlagsAll\":true,\"groupFormationRevision\":1,\"groupFormationRadiusRevision\":1";
+#else
+        const string selectionScroll = "";
+#endif
+#if GROUP_ATTACK_RECOVERY
+        const string groupAttackRecovery = ",\"groupAttackRecoveryRevision\":1,\"groupMovementSpeedRevision\":2";
+#else
+        const string groupAttackRecovery = "";
+#endif
+#if COMPANY_BEHAVIOR
+#if PAW_PURE_EXTENDED
+        const string companyBehavior = ",\"companyBehaviorRevision\":1,\"groupRetreatPriorityRevision\":1";
+#else
+        const string companyBehavior = ",\"companyBehaviorRevision\":1,\"ignoreZeroMoraleOptionalRevision\":1,\"groupRetreatPriorityRevision\":1";
+#endif
+#else
+        const string companyBehavior = "";
+#endif
+        Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() + largeMaps + uniformUi + terrainPool + selectionScroll + groupAttackRecovery + companyBehavior +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() + syncDiagnostics +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
             ",\"commonFixes\":" + commonFixes.ToString().ToLowerInvariant() + ",\"quiet\":true,\"cityAssistant\":" + cityAssistant.ToString().ToLowerInvariant() +

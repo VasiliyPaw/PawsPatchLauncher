@@ -68,7 +68,8 @@ public static class Program
         var powersChecks = args.Contains("--powers-checks");
         var combinationAudit = args.Contains("--combination-audit");
         var launcherUpdateChecks = args.Contains("--launcher-update-checks");
-        var componentSettingsChecks = args.Contains("--component-settings-checks");
+        var companyBehaviorChecks = args.Contains("--company-behavior-ui-checks");
+        var componentSettingsChecks = args.Contains("--component-settings-checks") || companyBehaviorChecks;
         var gameSettingsChecks = args.Contains("--game-settings-checks");
         var customModsChecks = args.Contains("--custom-mods-checks");
         var backgroundInstallChecks = args.Contains("--background-install-checks");
@@ -216,7 +217,11 @@ public static class Program
         if (powersChecks) PowersUiChecks.Run(language);
         if (combinationAudit) CombinationUiAudit.Run();
         if (launcherUpdateChecks) LauncherUpdateChecks.Run();
-        if (componentSettingsChecks) ComponentSettingsChecks.Run(language);
+        if (componentSettingsChecks)
+        {
+            ComponentSettingsChecks.Run(language, companyBehaviorChecks);
+            if (companyBehaviorChecks) { app.Shutdown(); return; }
+        }
         if (gameSettingsChecks) { GameSettingsChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (customModsChecks) { CustomModsChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (backgroundInstallChecks) { BackgroundInstallChecks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }

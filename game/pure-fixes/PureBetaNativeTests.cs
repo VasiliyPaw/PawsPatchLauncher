@@ -88,6 +88,18 @@ namespace PawPureFixes
                 PureChannel.Install(m,image);
                 CameraZoomPatch.Install(m,image,delegate{});CompanyPositionPatch.Install(m,image,delegate{});
                 ExhaustionRecoveryPatch.Install(m,image,delegate{});AllyEconomyPatch.Install(m,image,delegate{});
+#if COMPANY_BEHAVIOR
+                GroupRetreatPriorityPatch.Install(m,image,delegate{});
+#endif
+#if SELECTION_SCROLL
+                SelectionScrollPatch.Install(m,image,delegate{});
+                GroupFormationPatch.Install(m,image,delegate{});
+                GroupFormationRadiusPatch.Install(m,image,delegate{});
+#endif
+#if GROUP_ATTACK_RECOVERY
+                GroupAttackRecoveryPatch.Install(m,image,delegate{});
+                GroupMovementSpeedPatch.Install(m,image,delegate{});
+#endif
                 BotLobbyPatch.Install(m,image,0,ai,delegate{});
                 uint randomMap = RandomMapPatch.Install(m,image,delegate{});
                 RandomMapPatch.Verify(m,image,randomMap);

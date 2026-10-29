@@ -9,8 +9,8 @@
 		unset_sound = NULL
 		[View Template=GroupVE]
 		{
-			L = 60r
-			T = 254b
+			L = 52r
+			T = 246b
 			R = 4r
 			B = 198b
 			[Child Template=DecalVE]
@@ -26,8 +26,8 @@
 			{
 				L = 1.333333
 				T = 1.333333
-				R = 54.666667
-				B = 54.666667
+				R = 46.666667
+				B = 46.666667
 				texture = /UI/Game/PawGoldSound.png
 			}
 		}

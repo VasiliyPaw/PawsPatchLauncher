@@ -75,13 +75,14 @@ public partial class MainWindow
         CommunityGuestText.Text = T("Войдите, чтобы написать.", "Sign in to write.");
         CommunityLogin.Content = T("Войти в аккаунт", "Sign in");
         CommunityInput.UiLanguage = _text.Language;
-        CommunityInput.ToolTip = T("Сообщение увидят все · Enter — отправить, Shift+Enter — новая строка", "Visible to everyone · Enter to send, Shift+Enter for a new line");
+        CommunityInput.ToolTip = null;
         CommunitySend.ToolTip = T("Отправить в общий чат", "Send to community chat");
         CommunityGlyphButton.ToolTip = T("Значки Kohan II", "Kohan II glyphs");
         CommunitySplitter.ToolTip = T("Потяните для изменения ширины · двойной щелчок — сброс", "Drag to resize · double-click to reset");
         HistoryButton.ToolTip = T("История изменений", "Release history");
-        foreach (var c in new FrameworkElement[] { CommunitySend, CommunityGlyphButton, CommunitySplitter, HistoryButton, CommunityInput })
+        foreach (var c in new FrameworkElement[] { CommunitySend, CommunityGlyphButton, CommunitySplitter, HistoryButton })
             System.Windows.Automation.AutomationProperties.SetName(c, c.ToolTip?.ToString() ?? "");
+        System.Windows.Automation.AutomationProperties.SetName(CommunityInput, T("Сообщение в общий чат", "Community message"));
         CommunityRu.ToolTip = "Русский чат"; CommunityEn.ToolTip = "English chat";
         RefreshCommunityNotificationMode();
         RefreshCommunityIdentity(); RenderCommunityMessages(); RefreshCommunityStatus();
@@ -297,8 +298,8 @@ public partial class MainWindow
                     HorizontalContentAlignment = HorizontalAlignment.Left, FontWeight = FontWeights.SemiBold };
                 name.Click += (_, _) => CommunityNameClicked(m); Grid.SetColumn(name, 1);
                 header.Children.Add(name);
-                var time = new TextBlock { Text = ChatTime(m.CreatedAt), ToolTip = ChatDate(m.CreatedAt),
-                    FontSize = 11, Foreground = SocialBrush("#889EB8"), Margin = new Thickness(7, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center };
+                var time = new TextBlock { Text = m.CreatedAt.ToLocalTime().ToString(UiLanguages.DatePattern(_text.Language) + "\nHH:mm:ss", System.Globalization.CultureInfo.InvariantCulture), ToolTip = ChatDate(m.CreatedAt),
+                    TextAlignment = TextAlignment.Right, FontSize = 11, Foreground = SocialBrush("#889EB8"), Margin = new Thickness(7, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center };
                 Grid.SetColumn(time, 3); header.Children.Add(time); content.Children.Add(header);
                 var body = new ChatMessageText { UiLanguage = _text.Language, Text = m.Removed ? T("Сообщение удалено", "Message removed") : m.Body,
                     FontSize = 13, Foreground = SocialBrush(m.Removed ? "#889EB8" : "#DBE4F1"),

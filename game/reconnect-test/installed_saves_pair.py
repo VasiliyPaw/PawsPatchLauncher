@@ -21,7 +21,7 @@ def resource_guard():
  status=MemoryStatus();status.length=C.sizeof(status)
  if not K.GlobalMemoryStatusEx(C.byref(status)):raise C.WinError(C.get_last_error())
  if status.availPhys<3*1024**3 or status.availPage<5*1024**3:
-  raise RuntimeError('Low available memory: stopping only owned QA games')
+  raise RuntimeError('Low available memory: stopping only owned QA games; physicalMiB='+str(status.availPhys//1024**2)+'; commitMiB='+str(status.availPage//1024**2))
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def text(p):
  try:return p.read_text(errors='replace')
@@ -36,6 +36,7 @@ def main():
  p.add_argument('--recovery-cycles',type=int,choices=(1,2),default=1)
  p.add_argument('--arcane-qa',type=Path,help='Startup/private-profile QA helper; runs host takeover, not Pure recovery')
  p.add_argument('--slots',type=int,choices=(0,1,2),default=2)
+ p.add_argument('--replay-only',action='store_true',help='Record and replay a fresh short match with the same installed runtime')
  a=p.parse_args()
  for key in ('game','artifacts','helpers','out','loader'):setattr(a,key,getattr(a,key).resolve())
  if a.client_game:a.client_game=a.client_game.resolve()
@@ -126,7 +127,7 @@ def main():
    return result
   except OSError:return {}
   finally:K.CloseHandle(h)
- def launch(d,client=False,load=False):
+ def launch(d,client=False,load=False,film=None):
   mods=d/'game/Mods';(mods/'rig-command.txt').write_text('0')
   # Startup navigation uses the previously validated +Exec entry point, after
   # resource/bootstrap scripts finish. Dynamic commands are for the ready lobby
@@ -136,6 +137,7 @@ def main():
    opening='map '+('F11' if client else 'F12')+' game|GamePause\n'+opening
   if client:opening+='LobbySetLANNickname PawSavesClient\nWait 2\nLobbyJoinDirect\nWait 2\nJoinDirectJoin\n'
   else:opening+='LobbySetLANNickname PawSavesHost\nWait 2\nInternetGameCreate PawSaves 2 2\nWait 3\nSelectLaunchType '+('LOAD_SAVED_GAME\nWait 3\nCommit\n' if load else 'RANDOM_MAP\n')
+  if film:opening='Wait 45\nRequestFilm\nWait 3\nSelect Films/'+film+'\nWait 3\nFilmOK Films/'+film+'\n'
   (mods/'rig.txt').write_text(opening)
   old=d/'game/Logs/paws_recovery.log'
   serial=sum(1 for i in owned if i['dir']==d)
@@ -201,6 +203,22 @@ def main():
   return result
  try:
   resource_guard()
+  if a.replay_only:
+   d=prepare('replay');i=launch(d);host_lobby(i)
+   command(i,'StagingLaunch');wait(lambda:snapshot(i).get('state')==2 and snapshot(i).get('world'),90,'Recording match started')
+   before=snapshot(i);stay(25);after=snapshot(i)
+   checked('recorded-simulation',after.get('seconds',0)>before.get('seconds',0)+10)
+   command(i,'ReallyQuit');i['required']=False;i['process'].wait(timeout=30)
+   films=d/'docs/Kohan2/data/Films';sources=list(films.glob('*.RFM'));assert sources,'No film recorded'
+   source=max(sources,key=lambda p:p.stat().st_mtime);saved=films/'QA-current.RFM';shutil.copy2(source,saved)
+   checked('film-recorded',saved.stat().st_size>1000)
+   prior=sum(text(f).count('NetEvent Push: END_OF_FILM') for f in (d/'game/Logs').glob('log-*.log'))
+   i=launch(d,film=saved.name)
+   wait(lambda:sum(text(f).count('NetEvent Push: END_OF_FILM') for f in (d/'game/Logs').glob('log-*.log'))>prior,180,'Fresh film completed')
+   checked('film-no-desync',not errors() and not any('FILM OUT OF SYNC' in text(f) for f in (d/'game/Logs').glob('log-*.log')))
+   command(i,'ReallyQuit');i['required']=False;i['process'].wait(timeout=30)
+   (root/'result.json').write_text(json.dumps(dict(passed=True,checks=checks,filmSha256=sha(saved),publicRuntimeHashes=expected,scope='Fresh short match recording and complete replay with identical installed settings; no assertion of compatibility with older films'),indent=2))
+   report('PASS fresh replay');return
   if a.arcane_qa:
    hd=prepare('host');cd=prepare('client');h=launch(hd);host_lobby(h);c=launch(cd,True);join(c)
    begin(h,c);progress(h,c,'arcane-two-peer-simulation')

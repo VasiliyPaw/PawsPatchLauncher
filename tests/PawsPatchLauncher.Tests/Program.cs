@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length==1&&args[0]=="--company-behavior") {CompanyBehaviorTests.Run();AiOptionsTests.Run();return;}
 if (args.Length == 2 && args[0] == "--verify-active-beta") { PublishedBetaCatalogTests.Run(args[1]); return; }
 if(args.Length==1&&args[0]=="--arcane-sources") { await ArcaneSourceTests.RunAsync(); return; }
 if(args.Length==4&&args[0]=="--build-arcane-sources") { await ArcaneSourceTests.BuildAsync(args[1],args[2],args[3]); return; }
@@ -50,6 +51,7 @@ if(args.Length==2 && args[0]=="--import-sound-files") {NotificationImportTests.F
 if(args.Length==4&&args[0]=="--verify-lobby-beta7") {await LobbyBeta7Tests.RunAsync(args[1],args[2],args[3]);return;}
 if(args.Length==3&&args[0]=="--stage-lobby-beta7-review") {await LobbyBeta7Tests.StageReviewAsync(args[1],args[2]);return;}
 AiOptionsTests.Run();
+CompanyBehaviorTests.Run();
 if (args.Length == 5 && args[0] == "--verify-prophet-beta6")
 {
     await ProphetBeta6Tests.RunAsync(args[1], args[2], args[3], args[4]);

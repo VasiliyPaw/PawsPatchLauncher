@@ -51,6 +51,15 @@ internal static class CommunityChecks
         {
             window.Width=1600;window.Height=1000;window.UpdateLayout();await Poll();
             Check(C<Border>("CommunityCard").IsVisible,"chat visible at startup");
+            var rendered = C<StackPanel>("CommunityRows");
+            foreach (var card in rendered.Children.OfType<Border>())
+            {
+                var header = (Grid)((StackPanel)card.Child).Children[0];
+                var timestamp = header.Children.OfType<TextBlock>().Single();
+                Check(timestamp.Text.Contains('\n') && timestamp.Text.Split('\n').Length == 2,
+                    "Community timestamp must include a visible date and time");
+            }
+            Check(C<ChatComposer>("CommunityInput").ToolTip is null && C<ChatComposer>("FriendsMessageInput").ToolTip is null, "Composer hover hints must be disabled");
             Set("_communityOnlineOverride",new Func<CancellationToken,Task<int>>(_=>Task.FromResult(12)));
             await (Task)Call("RefreshCommunityExtrasAsync")!;
             Check(C<TextBlock>("CommunityDescription").Text.Contains("12"),"guest sees launcher online count");

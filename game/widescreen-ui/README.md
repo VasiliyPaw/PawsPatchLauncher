@@ -107,3 +107,41 @@ Actual single/multi-selection visuals and clicking are separate manual checks.
 The user authorized beta publication of revision 3; the exact final right-anchor
 build has not been claimed as manually accepted. See the release verification
 report for the checks performed on the published packages.
+
+## Square icon layouts (October 29, local candidate)
+
+Uniform HUD scaling exposes several originally non-square icon canvases. The
+icon pass corrects individual rectangles instead of adding another global scale:
+hero portraits and their health-bar cells, faction abilities, recruitment
+candidates and selected slots, favorite-template portraits and role symbols,
+formation buttons, unit-stat icons, building upgrades and unit portraits.
+The full company banners remain vertical because they include morale and troop
+status. Existing square action buttons and the revision 3 panel anchors remain
+unchanged. This pass changes no executable code or gameplay values.
+
+Build revision 3 first, then add the icon layouts:
+
+```powershell
+python game/widescreen-ui/build_icon_assets.py --stock STOCK_UI_GAME --arcane ORIGINAL_ARCANE_UI_GAME --base-assets REVISION_3_ASSETS --out NEW_ICON_OUTPUT
+python game/widescreen-ui/test_icon_aspect.py --assets NEW_ICON_OUTPUT --report ICON_REPORT.json
+```
+
+Both input directories contain the original `*.tgi` layouts, not previously
+transformed files. `icon-sources.json` pins their SHA-256 values. The builder
+validates both families before writing output, retains every one of the 67
+revision 3 assets byte-for-byte, and adds four layouts per family (71 total).
+Arcane-specific powers visibility and compact spacing are retained; text and
+all non-geometric properties are checked for equality. This is an additional
+build step; old beta preparation scripts that require exactly 67 assets must
+not be used unchanged to package this candidate.
+
+`test_icon_aspect.py` resolves parent-relative insets, pressed-client rectangles,
+health/recharge strips and formation-panel capacity. It covers both families
+and seven resolutions, including 4:3, 16:10, 16:9, ultrawide and 4K. Keep these
+geometry checks separate from actual rendering and click acceptance.
+
+The isolated Arcane Wars fixture was checked at 1280x720 and 1920x1080: hero
+selection, formation changes and recruitment captain selection responded to
+clicks; live widget bounds confirmed square hero and favorite icons. Vanilla
+and Immortals share the pure layout family, which received automated checks,
+not a separate live match in this pass. No publication is included in this work.

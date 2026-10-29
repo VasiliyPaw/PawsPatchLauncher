@@ -74,7 +74,7 @@ public partial class MainWindow
         System.Windows.Automation.AutomationProperties.SetName(FriendsBroadcastButton,(string)FriendsBroadcastButton.ToolTip);
         FriendsSendButton.ToolTip=T("Отправить · Enter", "Send · Enter");
         System.Windows.Automation.AutomationProperties.SetName(FriendsSendButton,T("Отправить", "Send"));
-        FriendsMessageInput.ToolTip=T("Enter — отправить · Shift+Enter — новая строка", "Enter — send · Shift+Enter — new line");
+        FriendsMessageInput.ToolTip=null;
         FriendsMessageInput.UiLanguage = _text.Language;
         FriendsGlyphButton.ToolTip = T("Значки Kohan II", "Kohan II glyphs");
         System.Windows.Automation.AutomationProperties.SetName(FriendsGlyphButton, (string)FriendsGlyphButton.ToolTip);

@@ -13,14 +13,14 @@ namespace PreviewRenderer;
 
 internal static class ComponentSettingsChecks
 {
-    internal static void Run(string language)
+    internal static void Run(string language, bool companyBehaviorOnly = false)
     {
         if (!ActivityStore.IsSmokeTest) throw new Exception("Isolated smoke mode required.");
         var root = Path.Combine(ActivityStore.Root, "component-settings", Guid.NewGuid().ToString("N"));
         var game = Path.Combine(root, "игра & тест"); Directory.CreateDirectory(game);
         var exe = Path.Combine(game, "k2.exe"); File.WriteAllText(exe, "inert fixture, never launched");
         var config = new LauncherConfiguration { FeedUrls = [], BetaFeedUrls = [], CacheRoot = Path.Combine(root, "cache"), RequireSignedRemoteFeed = false };
-        var feed = new ChannelManifest { ColorDesyncContinue = true, IndependentColorHostility = true };
+        var feed = new ChannelManifest { ColorDesyncContinue = true, IndependentColorHostility = true, CompanyBehaviorRevision = companyBehaviorOnly ? 1 : 0 };
         var ids = new[] { "arcane-wars", "pawpatch-core", "desync-continue", "roaming-profile-x2-with-new", "roaming-profile-x2-no-new",
             "roaming-profile-standard-with-new", "roaming-profile-standard-no-new", "roaming-profile-x4-no-new" };
         foreach (var id in ids)
@@ -75,6 +75,22 @@ internal static class ComponentSettingsChecks
             Check(File.Exists(Path.Combine(game, "data", "pawpatch-core.txt")), "Apply failed to install fixture files");
             Check(!apply.IsEnabled && !Field<bool>("_settingsPending"), "Applied state remains pending");
             await Hidden("Apply did not hide after installation on Components");
+            if (companyBehaviorOnly)
+            {
+            var exhaustion = Control<CheckBox>("IgnoreZeroMoraleToggle");
+            Check(Control<Border>("IgnoreZeroMoraleCard").Visibility == Visibility.Visible && exhaustion.IsEnabled && exhaustion.IsChecked == false,
+                "Arcane exhaustion must be visible, usable and off by default");
+            exhaustion.IsChecked = true; Invoke("GameplayOptionChanged", exhaustion, new RoutedEventArgs());
+            Check(settings.IgnoreZeroMorale && apply.IsEnabled, "Exhaustion toggle did not create pending settings");
+            await Apply();
+            Check(new ModuleInstaller(game).LoadState().AppliedSettings?.IgnoreZeroMorale == true, "Exhaustion was not persisted in applied settings");
+            await Hidden("Exhaustion apply did not clear pending settings");
+            exhaustion.IsChecked = false; Invoke("GameplayOptionChanged", exhaustion, new RoutedEventArgs());
+            await Apply();
+            Check(new ModuleInstaller(game).LoadState().AppliedSettings?.IgnoreZeroMorale == false, "Disabling exhaustion was not persisted");
+            Console.WriteLine($"COMPANY_BEHAVIOR_UI_PASS {checks} {language}: default off, pending change, apply enabled and disabled, isolated installed state");
+            return;
+            }
             var stack = (Panel)Control<Border>("CoreModuleCard").Parent;
             Check(stack.Children.IndexOf(Control<Border>("OosModuleCard")) == stack.Children.IndexOf(Control<Border>("CoreModuleCard")) + 1, "Ignore desync not second");
             var cards = stack.Children.OfType<Border>().Where(c => c.Visibility == Visibility.Visible).ToArray();

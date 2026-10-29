@@ -29,6 +29,15 @@ namespace PawPureFixes
 #endif
                 + ",\"allyEconomyRevision\":2,\"gameplayCameraZoomMaximum\":2"
                 + ",\"companyPositionRecoveryRevision\":1,\"exhaustionRecoveryRevision\":1"
+#if COMPANY_BEHAVIOR
+                + ",\"companyBehaviorRevision\":1,\"groupRetreatPriorityRevision\":1"
+#endif
+#if SELECTION_SCROLL
+                + ",\"selectionScrollRevision\":3,\"selectionCardsAdaptive\":true,\"selectionDestinationFlagsAll\":true,\"groupFormationRevision\":1,\"groupFormationRadiusRevision\":1"
+#endif
+#if GROUP_ATTACK_RECOVERY
+                + ",\"groupAttackRecoveryRevision\":1,\"groupMovementSpeedRevision\":2"
+#endif
                 + ",\"bulkBotLobbyRevision\":3,\"aiPolicyRevision\":39,\"aiPolicyProfile\":\"pure\",\"aiPolicyCompatibilityRevision\":1,\"aiImprovementsSelectable\":true"
                 + ",\"lobbyCompatibilityProtocol\":1,\"observerTeamCommandGuardRevision\":1,\"taskStatusInitializationRevision\":1"
 #if PAW_UNIFORM_UI
@@ -58,6 +67,9 @@ namespace PawPureFixes
         internal static void Prepare(string root)
         {
             ReleaseStartup.GameDataDirectory = Path.GetFullPath(root);
+#if COMPANY_BEHAVIOR
+            PawCompanyOptions.Read(root); // Reject an Arcane-only option in a Pure installation.
+#endif
             ImprovedAi = PawAiOptions.Read(root);
             PawAiOptions.Enabled = ImprovedAi;
             WoundedDefenders = true;
@@ -73,7 +85,19 @@ namespace PawPureFixes
             // Check every selected native module before the first write.
             CameraZoomPatch.Validate(memory, image);
             CompanyPositionPatch.Validate(memory, image);
+#if COMPANY_BEHAVIOR
+            GroupRetreatPriorityPatch.Validate(memory, image);
+#endif
             ExhaustionRecoveryPatch.Validate(memory, image);
+#if SELECTION_SCROLL
+            SelectionScrollPatch.Validate(memory, image);
+            GroupFormationPatch.Validate(memory, image);
+            GroupFormationRadiusPatch.Validate(memory, image);
+#endif
+#if GROUP_ATTACK_RECOVERY
+            GroupAttackRecoveryPatch.Validate(memory, image);
+            GroupMovementSpeedPatch.Validate(memory, image);
+#endif
             AllyEconomyPatch.Validate(memory, image);
             BotLobbyPatch.Validate(memory, image);
             EngineCrashFixesPatch.Validate(memory, image);
@@ -87,7 +111,19 @@ namespace PawPureFixes
         {
             CameraZoomPatch.Install(memory, image, log);
             CompanyPositionPatch.Install(memory, image, log);
+#if COMPANY_BEHAVIOR
+            GroupRetreatPriorityPatch.Install(memory, image, log);
+#endif
             ExhaustionRecoveryPatch.Install(memory, image, log);
+#if SELECTION_SCROLL
+            SelectionScrollPatch.Install(memory, image, log);
+            GroupFormationPatch.Install(memory, image, log);
+            GroupFormationRadiusPatch.Install(memory, image, log);
+#endif
+#if GROUP_ATTACK_RECOVERY
+            GroupAttackRecoveryPatch.Install(memory, image, log);
+            GroupMovementSpeedPatch.Install(memory, image, log);
+#endif
             AllyEconomyPatch.Install(memory, image, log);
             BotLobbyPatch.Install(memory, image, PawGameText.LanguageId, ImprovedAi, log);
             RandomMapPatch.Install(memory, image, log);
