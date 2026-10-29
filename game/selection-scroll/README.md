@@ -1,6 +1,6 @@
 # Extended selection and group formation
 
-Local QA, 2026-10-29; not published.
+Released in Arcane Wars 0.4.2-beta.10 and Vanilla/Immortals 0.4.1-beta.12; validation scope: ../../docs/release-validation-20261029.md.
 
 Selection revision 3 includes adaptive card paging, wheel scrolling, destination
 flags for all selected companies, and group formation revision 1. The selection

@@ -223,7 +223,7 @@ def main():
    i=launch(d,film=saved.name)
    wait(lambda:snapshot(i).get('state')==4 and snapshot(i).get('world'),90,'Film entered playback')
    stay(10)
-   command(i,'GamePause 0')
+   command(i,'UserReady');stay(2)
    (root/'playback-start.json').write_text(json.dumps(snapshot(i),indent=2))
    wait(lambda:sum(text(f).count('NetEvent Push: END_OF_FILM') for f in (d/'game/Logs').glob('log-*.log'))>prior,180,'Fresh film completed')
    checked('film-no-desync',not errors() and not any('FILM OUT OF SYNC' in text(f) for f in (d/'game/Logs').glob('log-*.log')))

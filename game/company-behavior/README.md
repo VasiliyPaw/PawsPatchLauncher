@@ -1,6 +1,6 @@
 # Ignore zero morale and explicit retreat
 
-Local, unpublished revision 1 for Kohan II 1.3.72.
+Revision 1 for Kohan II 1.3.72; released with the 2026-10-29 betas.
 
 ## Exhaustion policy
 
@@ -35,4 +35,4 @@ The option is included in native lobby identity, launcher configuration export/i
 
 Evidence and scripts: workspace `outputs/selection-scroll-20261029/`, especially `morale-disabled-moving.json`, `morale-disabled-attack.json`, `retreat-after-group.jsonl`, and `startup-exhaustion-{on,off}.json`.
 
-No public feed or release has been modified. Enabling the capability in a public feed requires shipping compatible native helpers with this build flag. Multiplayer peers must use the same option and runtime package. New-option multiplayer/replay validation remains pending.
+The Arcane beta advertises this capability with compatible native helpers. Multiplayer peers must use the same option and runtime package. Two-peer Arcane simulation and a fresh recorded replay passed with the option enabled; see ../../docs/release-validation-20261029.md for scope and evidence.
