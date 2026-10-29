@@ -37,7 +37,9 @@ def main():
  p.add_argument('--arcane-qa',type=Path,help='Startup/private-profile QA helper; runs host takeover, not Pure recovery')
  p.add_argument('--slots',type=int,choices=(0,1,2),default=2)
  p.add_argument('--replay-only',action='store_true',help='Record and replay a fresh short match with the same installed runtime')
+ p.add_argument('--film',type=Path,help='Existing film recorded with the same runtime; requires --replay-only')
  a=p.parse_args()
+ if a.film and not a.replay_only:p.error('--film requires --replay-only')
  for key in ('game','artifacts','helpers','out','loader'):setattr(a,key,getattr(a,key).resolve())
  if a.client_game:a.client_game=a.client_game.resolve()
  if a.arcane_qa:a.arcane_qa=a.arcane_qa.resolve()
@@ -86,7 +88,7 @@ def main():
   assert sha(loader)=='449da31a592cc53d48845ef980258f226ff389091e40d9a27373ee79fd8ba7e0'
   shutil.copy2(loader,game/'avifil32.dll');shutil.copy2(a.artifacts/'native/shfolder.dll',game/'shfolder.dll')
   data=d/'docs/Kohan2/data';(data/'User').mkdir(parents=True);(data/'Save').mkdir()
-  (data/'User/UVars.tgi').write_text('[Vars]\n{\n int ResolutionX = 800\n int ResolutionY = 600\n flag ResolutionWindowed = true\n flag ResolutionCoopFullscreenMode = false\n flag MouseClipCursor = false\n flag RunWhenInactive = true\n flag FirstRun = false\n float AudioMainVolume = 0\n float FrameRateLimit = 30\n}\n',encoding='utf-16')
+  (data/'User/UVars.tgi').write_text('[Vars]\n{\n int ResolutionX = 800\n int ResolutionY = 600\n flag ResolutionWindowed = true\n flag ResolutionCoopFullscreenMode = false\n flag MouseClipCursor = false\n flag RunWhenInactive = true\n flag SinglePlayerAutoPause = false\n flag FirstRun = false\n float AudioMainVolume = 0\n float FrameRateLimit = 30\n}\n',encoding='utf-16')
   if save:shutil.copy2(save,data/'Save'/save.name)
   assert all(sha(game/name)==digest for name,digest in expected.items())
   if a.arcane_qa:
@@ -204,16 +206,25 @@ def main():
  try:
   resource_guard()
   if a.replay_only:
-   d=prepare('replay');i=launch(d);host_lobby(i)
-   command(i,'StagingLaunch');wait(lambda:snapshot(i).get('state')==2 and snapshot(i).get('world'),90,'Recording match started')
-   before=snapshot(i);stay(25);after=snapshot(i)
-   checked('recorded-simulation',after.get('seconds',0)>before.get('seconds',0)+10)
-   command(i,'ReallyQuit');i['required']=False;i['process'].wait(timeout=30)
-   films=d/'docs/Kohan2/data/Films';sources=list(films.glob('*.RFM'));assert sources,'No film recorded'
-   source=max(sources,key=lambda p:p.stat().st_mtime);saved=films/'QA-current.RFM';shutil.copy2(source,saved)
+   d=prepare('replay');films=d/'docs/Kohan2/data/Films'
+   if a.film:
+    films.mkdir(exist_ok=True);source=a.film.resolve();assert source.is_file()
+   else:
+    i=launch(d);host_lobby(i)
+    command(i,'StagingLaunch');wait(lambda:snapshot(i).get('state')==2 and snapshot(i).get('world'),90,'Recording match started')
+    before=snapshot(i);stay(25);after=snapshot(i)
+    checked('recorded-simulation',after.get('seconds',0)>before.get('seconds',0)+10)
+    command(i,'ReallyQuit');i['required']=False;i['process'].wait(timeout=30)
+    sources=list(films.glob('*.RFM'));assert sources,'No film recorded'
+    source=max(sources,key=lambda p:p.stat().st_mtime)
+   saved=films/'QA-current.RFM';shutil.copy2(source,saved)
    checked('film-recorded',saved.stat().st_size>1000)
    prior=sum(text(f).count('NetEvent Push: END_OF_FILM') for f in (d/'game/Logs').glob('log-*.log'))
    i=launch(d,film=saved.name)
+   wait(lambda:snapshot(i).get('state')==4 and snapshot(i).get('world'),90,'Film entered playback')
+   stay(10)
+   command(i,'GamePause 0')
+   (root/'playback-start.json').write_text(json.dumps(snapshot(i),indent=2))
    wait(lambda:sum(text(f).count('NetEvent Push: END_OF_FILM') for f in (d/'game/Logs').glob('log-*.log'))>prior,180,'Fresh film completed')
    checked('film-no-desync',not errors() and not any('FILM OUT OF SYNC' in text(f) for f in (d/'game/Logs').glob('log-*.log')))
    command(i,'ReallyQuit');i['required']=False;i['process'].wait(timeout=30)

@@ -59,7 +59,7 @@ class Fixture:
   if r==0xdacca:
    head=self.p(arg(0));self.cards=[]
    while head and len(self.cards)<6:self.cards.append(self.p(head));head=self.p(head+4)
-   
+
    for c in self.cardActors:self.p(c+8,0)
    for j,actor in enumerate(self.cards):
     c=self.card();self.cardActors[c]=actor;self.p(s+0x90+4*j,c);self.p(c+8,s)
