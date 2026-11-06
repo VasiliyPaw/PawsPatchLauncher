@@ -1,0 +1,44 @@
+{
+  "en": {
+    "paws_mixed_biomes_name": "Mixed biomes",
+    "paws_mixed_biomes_description": "Large regions of temperate lands, snow, desert and cursed lands. Buildings match their biome; building settings apply to the whole map.",
+    "paws_mixed_lairs_name": "Lairs",
+    "paws_mixed_large_lairs_name": "Large lairs",
+    "paws_mixed_tech_name": "Technology sites"
+  },
+  "ru": {
+    "paws_mixed_biomes_name": "Смешанные биомы",
+    "paws_mixed_biomes_description": "Крупные области лета, снега, пустыни и проклятых земель. Постройки соответствуют биому; настройки строений общие для всей карты.",
+    "paws_mixed_lairs_name": "Логова",
+    "paws_mixed_large_lairs_name": "Большие логова",
+    "paws_mixed_tech_name": "Технологии"
+  },
+  "de": {
+    "paws_mixed_biomes_name": "Gemischte Biome",
+    "paws_mixed_biomes_description": "Große Gebiete mit gemäßigtem Land, Schnee, Wüste und verfluchtem Land. Gebäude passen zum Biom; die Gebäudeeinstellungen gelten für die gesamte Karte.",
+    "paws_mixed_lairs_name": "Monsterlager",
+    "paws_mixed_large_lairs_name": "Große Monsterlager",
+    "paws_mixed_tech_name": "Technologiestätten"
+  },
+  "fr": {
+    "paws_mixed_biomes_name": "Biomes mixtes",
+    "paws_mixed_biomes_description": "De grandes régions tempérées, enneigées, désertiques et maudites. Les bâtiments correspondent au biome ; leurs réglages s'appliquent à toute la carte.",
+    "paws_mixed_lairs_name": "Repaires",
+    "paws_mixed_large_lairs_name": "Grands repaires",
+    "paws_mixed_tech_name": "Sites technologiques"
+  },
+  "cs": {
+    "paws_mixed_biomes_name": "Smíšené biomy",
+    "paws_mixed_biomes_description": "Rozsáhlé oblasti mírného podnebí, sněhu, pouště a prokleté země. Budovy odpovídají biomu; nastavení budov platí pro celou mapu.",
+    "paws_mixed_lairs_name": "Doupata",
+    "paws_mixed_large_lairs_name": "Velká doupata",
+    "paws_mixed_tech_name": "Technologické stavby"
+  },
+  "uk": {
+    "paws_mixed_biomes_name": "Змішані біоми",
+    "paws_mixed_biomes_description": "Великі області літа, снігу, пустелі та проклятих земель. Споруди відповідають біому; налаштування споруд спільні для всієї карти.",
+    "paws_mixed_lairs_name": "Лігва",
+    "paws_mixed_large_lairs_name": "Великі лігва",
+    "paws_mixed_tech_name": "Технології"
+  }
+}
