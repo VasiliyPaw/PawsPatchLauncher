@@ -135,7 +135,7 @@ internal static class BuildFeatures
 #if PAW_PURE_EXTENDED
         const string companyBehavior = ",\"companyBehaviorRevision\":1,\"groupRetreatPriorityRevision\":1";
 #else
-        const string companyBehavior = ",\"companyBehaviorRevision\":1,\"ignoreZeroMoraleOptionalRevision\":1,\"groupRetreatPriorityRevision\":1";
+        const string companyBehavior = ",\"companyBehaviorRevision\":2,\"ignoreZeroMoraleOptionalRevision\":2,\"groupRetreatPriorityRevision\":1";
 #endif
 #else
         const string companyBehavior = "";

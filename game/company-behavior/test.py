@@ -66,3 +66,4 @@ for image,cave in [(0x460000,0x60000000),(0xf20000,0x51000000),(0x18000000,0x280
  u.mem_write(image+0x274a1a,(a.out/'exhaustion.update').read_bytes());u.reg_write(UC_X86_REG_ESI,0x30000100);put(u,0x30000104,0x12345678);u.reg_write(UC_X86_REG_ESP,0x70008000);put(u,0x70008000,0xabcdef)
  u.emu_start(image+0x274a1a,image+0x27792a,count=30);check(u.reg_read(UC_X86_REG_EIP)==image+0x27792a);check(u.reg_read(UC_X86_REG_ECX)==0x12345678)
 print('COMPANY_BEHAVIOR_NATIVE_PASS',checks,'checks; native combat body, command kinds, 1/6/14/64 members, relocation, exhausted entry/exit')
+subprocess.run([sys.executable,'-B',str(here/'test_morale_native.py'),'--legacy',str(a.legacy),'--out',str(a.out)],check=True)
