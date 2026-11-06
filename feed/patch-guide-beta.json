@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.4.2-beta.11",
+  "version": "0.5.0-beta.1",
   "entries": [
     {
       "id": "company-position-recovery",
@@ -241,6 +241,14 @@
       "titleEn": "Lobby, tooltips and sound button",
       "bodyRu": "- Сложность ботов сохраняется при смене типа карты. В общей панели фракция остаётся случайной, пока не выбрана раса; у клиентов панель больше не перекрывает список игроков.\n- Убраны лишние подсказки общей панели. Подсказки сложности кратко показывают разницу стоимости найма и строительства.\n- Кнопка звука уменьшена до 100×100 при 2560×1440. Подсказка появляется над ней; повторные нажатия воспроизводят звук без задержки и без прерывания предыдущего.\n- В списке сетевых игр поле карты/сохранения помечается «Paws Launcher»; название комнаты и число игроков сохраняются.\n- Водоворот гаури со стоимостью 0,75 очка королевства требует построенного королевства гаури.",
       "bodyEn": "- Bot difficulty survives map-type changes. Bulk faction selection stays Random until a race is chosen; the client panel no longer obstructs the player list.\n- Removed redundant bulk-panel tooltips. Difficulty tooltips briefly show recruitment and construction cost differences.\n- The sound button is 100×100 at 2560×1440, with its tooltip above it. Repeated clicks play immediately and overlap previous playback.\n- The multiplayer map/save display field reads “Paws Launcher”, preserving room names and player counts.\n- The Gauri Maelstrom costing 0.75 kingdom points requires a Gauri kingdom."
+    },
+    {
+      "id": "mixed-biomes",
+      "category": "always",
+      "titleRu": "Смешанные биомы и миникарта",
+      "titleEn": "Mixed biomes and minimap",
+      "bodyRu": "Смешанные биомы встроены в основной патч без отдельной галочки. Выбор типа карты сохранён: новый пункт создаёт крупные извилистые области лета, снега, пустыни и проклятых земель. Настройки строений общие; варианты построек соответствуют биому. Проклятая местность на миникарте имеет фиолетовый оттенок. На картах от 1200×1200 потолок рот — 25 при достаточном содержании. Исправлены числовой порядок команд и центровка меню паузы и окон сохранения/загрузки. Новые пункты переведены на все шесть языков игры.",
+      "bodyEn": "Mixed biomes are built into the core patch without an extra launcher toggle. Map-type selection is retained: the new option creates large irregular regions of temperate land, snow, desert and cursed land. Building settings are shared; buildings match their biome. Cursed terrain is purple-tinted on the minimap. Maps at least 1200×1200 allow up to 25 companies with sufficient support. Team lists now sort numerically; pause and save/load dialogs are centered. New options are translated into all six game languages."
     }
   ]
 }

@@ -1,6 +1,23 @@
 {
   "stable": [
     {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "stable",
+      "version": "0.4.2",
+      "publishedAt": "2026-11-06",
+      "title": {
+        "ru": "Paw’s Patch 0.4.2 — стабильный выпуск Arcane Wars",
+        "en": "Paw’s Patch 0.4.2 — stable Arcane Wars release"
+      },
+      "body": {
+        "ru": "Текущая бета Arcane Wars стала стабильной версией 0.4.2. Включены все исправления beta.11, в том числе полное игнорирование нулевой морали при соответствующей настройке без отмены расовых порогов отступления. Смешанные биомы и новые исправления интерфейса выпускаются отдельно в бете 0.5.0.",
+        "en": "The current Arcane Wars beta is now stable 0.4.2. Includes all beta.11 fixes, including fully ignoring zero morale when enabled while preserving racial retreat thresholds. Mixed biomes and the new interface fixes are released separately in the 0.5.0 beta."
+      }
+    },
+    {
       "category": "launcher",
       "version": "1.0.7",
       "publishedAt": "2026-11-01",
@@ -1318,6 +1335,23 @@
     }
   ],
   "beta": [
+    {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "version": "0.5.0-beta.1",
+      "publishedAt": "2026-11-06",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0 beta 1 — смешанные биомы",
+        "en": "Paw’s Patch 0.5.0 beta 1 — mixed biomes"
+      },
+      "body": {
+        "ru": "Смешанные биомы встроены в основной патч без отдельной галочки. Выбор типа карты сохранён: новый пункт создаёт крупные извилистые области лета, снега, пустыни и проклятых земель. Настройки строений общие; варианты построек соответствуют биому. Проклятая местность на миникарте имеет фиолетовый оттенок. На картах от 1200×1200 потолок рот — 25 при достаточном содержании. Исправлены числовой порядок команд и центровка меню паузы и окон сохранения/загрузки. Новые пункты переведены на все шесть языков игры.",
+        "en": "Mixed biomes are built into the core patch without an extra launcher toggle. Map-type selection is retained: the new option creates large irregular regions of temperate land, snow, desert and cursed land. Building settings are shared; buildings match their biome. Cursed terrain is purple-tinted on the minimap. Maps at least 1200×1200 allow up to 25 companies with sufficient support. Team lists now sort numerically; pause and save/load dialogs are centered. New options are translated into all six game languages."
+      }
+    },
     {
       "category": "patch",
       "version": "0.4.2-beta.11",
