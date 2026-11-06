@@ -11,3 +11,7 @@
 Completed the “Ignore zero morale” policy: when enabled, the depleted-morale classification is now removed from the remaining morale checks as well. Morale still decreases and recovers normally. Normal routing at racial thresholds, manual retreat and stun are preserved. The option still requires Arcane Wars with Paw’s Patch enabled and must match for every multiplayer participant.
 
 Validation covers native morale classification, recovery, racial thresholds, installation and rollback. The originally reported persistent stall cleared after loading on the previous version; this release does not claim to fix every company stall.
+
+Проверка выпуска: GitHub CI и 38 206 тестов лаунчера прошли. В изолированной установке подтверждено включение r2. Сетевой прогон и повтор не завершены: тесты остановлены защитой доступной памяти до входа в матч.
+
+Release checks: GitHub CI and 38,206 launcher assertions passed; r2 startup was confirmed in an isolated installation. Network/replay acceptance is incomplete: available-commit-memory guards stopped the tests before match entry.

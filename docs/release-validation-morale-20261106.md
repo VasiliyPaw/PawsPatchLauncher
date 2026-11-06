@@ -32,3 +32,12 @@ recordings are compatible, or that local peers prove multi-machine/NAT behavior.
 The user's installed game, original saves and unrelated uncommitted work are
 not test destinations. The decompilation project and original game binaries
 remain local and are excluded from publication.
+
+## Release live-test outcome
+
+The installer applied the signed staged package set to a fresh marked fixture.
+The adapted helper logged COMPANY_EXHAUSTION r2 and QUIET_READY with the new
+identity. Two network attempts stopped at the existing available-commit-memory
+guard before the menu/match. Only QA-owned games were terminated. This is
+startup confirmation, not completed live gameplay, network or replay acceptance.
+Source CI completed successfully. No network/replay pass is claimed for this beta.
