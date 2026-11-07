@@ -1,0 +1,22 @@
+{
+  "category": "launcher",
+  "channel": "beta",
+  "version": "1.0.8",
+  "publishedAt": "2026-11-07",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.8",
+    "en": "Paw’s Launcher 1.0.8",
+    "de": "Paw’s Launcher 1.0.8",
+    "fr": "Paw’s Launcher 1.0.8",
+    "cs": "Paw’s Launcher 1.0.8",
+    "uk": "Paw’s Launcher 1.0.8"
+  },
+  "body": {
+    "ru": "- Управление модами перенесено в шестерёнку раздела «Компоненты».",
+    "en": "- Mod management moved to the Components gear.",
+    "de": "- Modverwaltung zum Zahnrad unter Komponenten verschoben.",
+    "fr": "- Gestion des mods déplacée dans la roue dentée des composants.",
+    "cs": "- Správa modů přesunuta pod ozubené kolo v komponentách.",
+    "uk": "- Керування модами перенесено до шестерні розділу «Компоненти»."
+  }
+}

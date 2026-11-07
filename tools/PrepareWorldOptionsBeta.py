@@ -29,6 +29,12 @@ def main():
   p=out/'before'/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(raw)
   if path in targets:base[path]=verify(json.loads(raw),key())
  notes=json.loads((ROOT/'docs/release-0.5.0-beta.3.json').read_text(encoding='utf-8'));assert set(notes['body'])=={'en','ru','de','fr','cs','uk'}
+ launch_notes=json.loads((ROOT/'docs/release-1.0.8.json').read_text(encoding='utf-8'))
+ short=json.loads((ROOT/'docs/changelog-short-20261107.json').read_text(encoding='utf-8'))
+ def concise(entry):
+  entry=copy.deepcopy(entry)
+  if entry.get('version') in short:entry['body']=short[entry['version']]
+  return entry
  for package in base[targets[0]]['packages']:
   pid=package['id']
   if package.get('mods')!=['arcane-wars'] or package['version']!='0.5.0-beta.2':continue
@@ -72,15 +78,24 @@ def main():
    item=assets[p['id']];p.update(version=VERSION,sha256=item['sha256'],size=item['size'],urls=['https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-'+VERSION+'/'+Path(item['path']).name]);p.pop('url',None)
   assert [p for p in after['packages'] if p['id'] not in assets]==[p for p in base[path]['packages'] if p['id'] not in assets]
   after.update(launcher=launch,publishedAt=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),newsTitle=notes['title'],newsBody=notes['body'])
-  after['changelog']=[notes]+after.get('changelog',[])
+  after['changelog']=[launch_notes,notes]+[concise(e) for e in after.get('changelog',[])]
   if isinstance(after.get('patchGuide'),dict):
    after['patchGuide']['version']=VERSION
    after['patchGuide']['entries']=[dict(id='world-options',category='always',titleRu='Динамические сутки и выбор биомов',titleEn='Dynamic daylight and biome selection',bodyRu=notes['body']['ru'],bodyEn=notes['body']['en'])]+[e for e in after['patchGuide']['entries'] if e.get('id')!='world-options']
   p=out/'signed'/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(encode(sign(after,private)));afters[path]=after
- history=json.loads((ROOT/'feed/changelog.history.json').read_text());history['beta']=[notes]+history['beta']
+ # The requested older-note formatting changes text only in stable catalogs.
+ for path in ('feed/v3/stable.json','feed/v2/stable.json'):
+  before=verify(json.loads((ROOT/path).read_bytes()),key());after=copy.deepcopy(before)
+  after['changelog']=[concise(e) for e in after.get('changelog',[])]
+  assert after['packages']==before['packages'] and after['launcher']==before['launcher']
+  if after!=before:
+   p=out/'signed'/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(encode(sign(after,private)))
+ history=json.loads((ROOT/'feed/changelog.history.json').read_text())
+ for channel in ('stable','beta'):history[channel]=[concise(e) for e in history[channel]]
+ history['beta']=[launch_notes,notes]+history['beta']
  for path,obj in [('feed/changelog.history.json',history),('feed/patch-guide-beta.json',afters[targets[0]]['patchGuide'])]:
   p=out/'signed'/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(encode(obj))
  (out/'preparation.json').write_bytes(encode(dict(version=VERSION,sourceCommit=revision,assets=assets,dataOverrides=prep['changed'],changedFiles=audits,launcher=launch,cycleSeconds=600)))
- (out/'notes.md').write_text(notes['title']['ru']+'\n\n'+notes['body']['ru']+'\n\n'+notes['title']['en']+'\n\n'+notes['body']['en']+'\n\nЛаунчер 1.0.8 включён в каталог беты. Stable/Pure/Immortals не изменены.\n',encoding='utf-8')
+ (out/'notes.md').write_text(notes['title']['ru']+'\n\n'+notes['body']['ru']+'\n\n'+launch_notes['title']['ru']+'\n\n'+launch_notes['body']['ru']+'\n\n'+notes['title']['en']+'\n\n'+notes['body']['en']+'\n\n'+launch_notes['title']['en']+'\n\n'+launch_notes['body']['en']+'\n',encoding='utf-8')
  print('WORLD_OPTIONS_BETA_STAGED',len(assets),'patch packages; cycle=600; launcher=1.0.8; no upload or install')
 if __name__=='__main__':main()

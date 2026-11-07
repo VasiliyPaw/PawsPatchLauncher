@@ -1,0 +1,50 @@
+{
+  "0.5.0-beta.3": {
+    "ru": "- Динамическая смена суток: случайное начало и цикл 10 игровых минут.\n- Смешанные карты: все биомы или случайный набор от 1 до 4.\n- Все параметры карты помещаются без прокрутки.\n- Исправлено скачивание обновлений.\n- Новые пункты переведены на шесть языков.",
+    "en": "- Dynamic daylight with a random start and a 10-game-minute cycle.\n- Mixed maps: all biomes or a random set of 1 to 4.\n- All map options fit without scrolling.\n- Fixed update downloads.\n- New options translated into six languages.",
+    "de": "- Dynamische Tageszeit mit zufälligem Beginn und einem Zyklus von 10 Spielminuten.\n- Gemischte Karten: alle Biome oder eine zufällige Auswahl von 1 bis 4.\n- Alle Kartenoptionen sind ohne Scrollen sichtbar.\n- Downloads von Updates korrigiert.\n- Neue Optionen in sechs Sprachen übersetzt.",
+    "fr": "- Cycle jour-nuit de 10 minutes de jeu, avec un début aléatoire.\n- Cartes mixtes : tous les biomes ou une sélection aléatoire de 1 à 4.\n- Toutes les options de carte tiennent sans défilement.\n- Téléchargement des mises à jour corrigé.\n- Nouvelles options traduites en six langues.",
+    "cs": "- Dynamická denní doba s náhodným začátkem a cyklem 10 herních minut.\n- Smíšené mapy: všechny biomy nebo náhodný výběr 1 až 4.\n- Všechny volby mapy jsou viditelné bez posouvání.\n- Opraveno stahování aktualizací.\n- Nové volby přeloženy do šesti jazyků.",
+    "uk": "- Динамічна зміна доби: випадковий початок і цикл 10 ігрових хвилин.\n- Змішані карти: усі біоми або випадковий набір від 1 до 4.\n- Усі параметри карти вміщуються без прокручування.\n- Виправлено завантаження оновлень.\n- Нові пункти перекладено шістьма мовами."
+  },
+  "0.5.0-beta.2": {
+    "ru": "- Можно вернуться в идущий матч за своё королевство.\n- Новые участники могут войти наблюдателями.\n- При выходе игрока игра встаёт на паузу.\n- Чат сообщает о входе и возвращении игроков.",
+    "en": "- Return to your own kingdom in a running match.\n- New participants can join as observers.\n- The match pauses when a player leaves.\n- Chat announces players joining and returning.",
+    "de": "- Rückkehr zum eigenen Königreich in einer laufenden Partie.\n- Neue Teilnehmer können als Zuschauer beitreten.\n- Die Partie pausiert, wenn ein Spieler sie verlässt.\n- Der Chat meldet Beitritte und Rückkehr von Spielern.",
+    "fr": "- Retour à votre royaume dans une partie en cours.\n- Les nouveaux participants peuvent rejoindre les observateurs.\n- La partie se met en pause au départ d’un joueur.\n- Le chat annonce les arrivées et les retours des joueurs.",
+    "cs": "- Návrat ke svému království do probíhající hry.\n- Noví účastníci se mohou připojit jako pozorovatelé.\n- Po odchodu hráče se hra pozastaví.\n- Chat oznamuje příchody a návraty hráčů.",
+    "uk": "- Можна повернутися до поточного матчу за своє королівство.\n- Нові учасники можуть увійти спостерігачами.\n- Після виходу гравця гра стає на паузу.\n- Чат повідомляє про вхід і повернення гравців."
+  },
+  "0.5.0-beta.1": {
+    "ru": "- Смешанные карты: лето, снег, пустыня и проклятые земли.\n- Постройки соответствуют биому; настройки строений общие.\n- Проклятые земли отмечены фиолетовым на миникарте.\n- На картах от 1200×1200 — до 25 рот.\n- Исправлены порядок команд и положение игровых меню.",
+    "en": "- Mixed maps with temperate, snow, desert and cursed lands.\n- Buildings match their biome and share common settings.\n- Cursed lands appear purple on the minimap.\n- Maps from 1200×1200 allow up to 25 companies.\n- Fixed team ordering and game menu positions.",
+    "de": "- Gemischte Karten mit gemäßigten, verschneiten, Wüsten- und verfluchten Gebieten.\n- Passende Gebäude je Biom mit gemeinsamen Einstellungen.\n- Verfluchte Gebiete erscheinen auf der Minikarte violett.\n- Bis zu 25 Kompanien auf Karten ab 1200×1200.\n- Teamreihenfolge und Positionen der Spielmenüs korrigiert.",
+    "fr": "- Cartes mixtes : terres tempérées, neige, désert et terres maudites.\n- Bâtiments adaptés au biome et réglages communs.\n- Les terres maudites apparaissent en violet sur la minicarte.\n- Jusqu’à 25 compagnies sur les cartes à partir de 1200×1200.\n- Ordre des équipes et position des menus corrigés.",
+    "cs": "- Smíšené mapy s mírným podnebím, sněhem, pouští a prokletou zemí.\n- Budovy odpovídají biomu a mají společná nastavení.\n- Prokletá země je na minimapě fialová.\n- Až 25 rot na mapách od 1200×1200.\n- Opraveno řazení týmů a umístění herních nabídek.",
+    "uk": "- Змішані карти: літо, сніг, пустеля та прокляті землі.\n- Споруди відповідають біому; налаштування споруд спільні.\n- Прокляті землі позначено фіолетовим на мінікарті.\n- На картах від 1200×1200 — до 25 рот.\n- Виправлено порядок команд і положення ігрових меню."
+  },
+  "0.4.2-beta.11": {
+    "ru": "- Исправлено зависание рот при игнорировании нулевой морали.\n- Обычные пороги отступления сохранены.",
+    "en": "- Fixed companies getting stuck when zero morale is ignored.\n- Normal retreat thresholds are preserved.",
+    "de": "- Feststeckende Kompanien beim Ignorieren von Moral null korrigiert.\n- Normale Rückzugsschwellen bleiben erhalten.",
+    "fr": "- Compagnies bloquées lorsque le moral nul est ignoré : corrigé.\n- Les seuils habituels de retraite sont conservés.",
+    "cs": "- Opraveno zaseknutí rot při ignorování nulové morálky.\n- Běžné prahy ústupu zůstávají zachovány.",
+    "uk": "- Виправлено зависання рот під час ігнорування нульової моралі.\n- Звичайні пороги відступу збережено."
+  },
+  "1.0.8": {
+    "ru": "- Управление модами перенесено в шестерёнку раздела «Компоненты».",
+    "en": "- Mod management moved to the Components gear.",
+    "de": "- Modverwaltung zum Zahnrad unter Komponenten verschoben.",
+    "fr": "- Gestion des mods déplacée dans la roue dentée des composants.",
+    "cs": "- Správa modů přesunuta pod ozubené kolo v komponentách.",
+    "uk": "- Керування модами перенесено до шестерні розділу «Компоненти»."
+  },
+  "0.4.2": {
+    "ru": "- Исправлено зависание рот при игнорировании нулевой морали.\n- Обычные пороги отступления сохранены.",
+    "en": "- Fixed companies getting stuck when zero morale is ignored.\n- Normal retreat thresholds are preserved.",
+    "de": "- Feststeckende Kompanien beim Ignorieren von Moral null korrigiert.\n- Normale Rückzugsschwellen bleiben erhalten.",
+    "fr": "- Compagnies bloquées lorsque le moral nul est ignoré : corrigé.\n- Les seuils habituels de retraite sont conservés.",
+    "cs": "- Opraveno zaseknutí rot při ignorování nulové morálky.\n- Běžné prahy ústupu zůstávají zachovány.",
+    "uk": "- Виправлено зависання рот під час ігнорування нульової моралі.\n- Звичайні пороги відступу збережено."
+  }
+}
