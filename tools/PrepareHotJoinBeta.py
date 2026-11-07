@@ -52,7 +52,8 @@ def main():
                 archives[pid]=dict(path=str(target),sha256=digest(target.read_bytes()),size=target.stat().st_size)
                 validate_package(target,dict(package,version=VERSION,sha256=archives[pid]['sha256'],size=archives[pid]['size']))
                 assets.append(dict(id=pid,**archives[pid]))
-            item=archives[pid];package.update(version=VERSION,sha256=item['sha256'],size=item['size'],url='https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-'+VERSION+'/'+Path(item['path']).name)
+            item=archives[pid];package.update(version=VERSION,sha256=item['sha256'],size=item['size'],urls=['https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-'+VERSION+'/'+Path(item['path']).name])
+            package.pop('url',None) # PackageRelease consumes urls, not the legacy singular key.
         # Only Arcane patch packages change. Other games and the launcher keep
         # their exact entries and their existing channel behavior.
         assert [p for p in before['packages'] if p['id'] not in changed]==[p for p in feed['packages'] if p['id'] not in changed]

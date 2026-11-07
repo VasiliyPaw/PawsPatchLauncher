@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if(args.Length is 4 or 5 && args[0]=="--verify-published-downloads") {await PublishedPackageDownloadTests.RunAsync(args[1],args[2],args[3],args.Length==5?args[4]:null);return;}
 if(args.Length==1&&args[0]=="--company-behavior") {CompanyBehaviorTests.Run();AiOptionsTests.Run();return;}
 if (args.Length == 2 && args[0] == "--verify-active-beta") { PublishedBetaCatalogTests.Run(args[1]); return; }
 if(args.Length==1&&args[0]=="--arcane-sources") { await ArcaneSourceTests.RunAsync(); return; }

@@ -29,10 +29,20 @@ internal static class PublishedBetaCatalogTests
         var reference = Read(Path.Combine(root, "feed/v2/beta.json"), config.PublicKeyPem);
         var count = 0;
         void Check(bool value, string reason) { if (!value) throw new Exception("Published beta catalog: " + reason); count++; }
+        void CheckReleaseUrls(ChannelManifest manifest)
+        {
+            foreach (var package in manifest.Packages.Where(p => p.Mods.SequenceEqual(new[] { GameMod.ArcaneWars })
+                && (PatchIds.Contains(p.Id) || p.Id.StartsWith("pawpatch-data", StringComparison.Ordinal))))
+            foreach (var url in package.Urls.Where(u => u.StartsWith("https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/", StringComparison.Ordinal)))
+                Check(url.EndsWith("/patch-" + package.Version + "/" + package.Id + "-" + package.Version + ".zip", StringComparison.Ordinal),
+                    package.Id + " download URL targets a different version: " + url);
+        }
+        CheckReleaseUrls(reference);
         foreach (var url in config.BetaFeedUrls)
         {
             var path = new Uri(url).AbsolutePath.Split("/main/", 2)[1];
             var active = Read(Path.Combine(root, path), config.PublicKeyPem);
+            CheckReleaseUrls(active);
             foreach (var id in PatchIds)
             {
                 var a = reference.Packages.Single(p => p.Id == id); var b = active.Packages.Single(p => p.Id == id);
