@@ -1341,6 +1341,31 @@
         "arcane-wars"
       ],
       "channel": "beta",
+      "version": "0.5.0-beta.2",
+      "publishedAt": "2026-11-07",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0-beta.2 — Возврат в идущую партию",
+        "en": "Paw’s Patch 0.5.0-beta.2 — Return to a running match",
+        "de": "Paw’s Patch 0.5.0-beta.2 — Rückkehr in eine laufende Partie",
+        "fr": "Paw’s Patch 0.5.0-beta.2 — Retour dans une partie en cours",
+        "cs": "Paw’s Patch 0.5.0-beta.2 — Návrat do probíhající hry",
+        "uk": "Paw’s Patch 0.5.0-beta.2 — Повернення до поточної партії"
+      },
+      "body": {
+        "ru": "Возврат за своё прежнее королевство вместо ИИ; новые участники входят наблюдателями. При отключении игрока матч остаётся на паузе. При потере хоста во время входа повторите подключение у нового хоста. Встроено в основной Paw’s Patch при любом сочетании остальных компонентов; старое восстановление через сохранение и лобби отключено.",
+        "en": "Return to your original kingdom instead of its AI; new participants join as observers. A disconnect leaves the match paused. If the host is lost during admission, retry with the new host. Built into Paw’s Patch with every combination of other components; legacy save-and-lobby recovery is disabled.",
+        "de": "Übernimm wieder dein ursprüngliches Königreich von der KI; neue Teilnehmer treten als Zuschauer bei. Nach einem Verbindungsabbruch bleibt die Partie pausiert. Fällt der Host beim Beitritt aus, verbinde dich erneut mit dem neuen Host. In Paw’s Patch integriert, unabhängig von anderen Komponenten; die alte Wiederherstellung über Spielstand und Lobby ist deaktiviert.",
+        "fr": "Reprenez votre royaume initial à la place de son IA ; les nouveaux participants rejoignent les observateurs. Une déconnexion laisse la partie en pause. Si l’hôte disparaît pendant l’entrée, reconnectez-vous au nouvel hôte. Intégré à Paw’s Patch avec toutes les autres options ; l’ancienne récupération par sauvegarde et salon est désactivée.",
+        "cs": "Vraťte se ke svému původnímu království místo jeho AI; noví účastníci se připojují jako pozorovatelé. Po odpojení zůstane hra pozastavená. Pokud během připojování vypadne hostitel, připojte se znovu k novému hostiteli. Součást Paw’s Patch při libovolné kombinaci ostatních voleb; staré obnovení přes uloženou hru a lobby je vypnuté.",
+        "uk": "Повернення за своє попереднє королівство замість ШІ; нові учасники входять спостерігачами. Після відключення гравця матч залишається на паузі. Якщо під час входу втрачено хоста, повторіть підключення до нового хоста. Вбудовано в основний Paw’s Patch за будь-якого поєднання інших компонентів; старе відновлення через збереження та лобі вимкнено."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
       "version": "0.5.0-beta.1",
       "publishedAt": "2026-11-06",
       "title": {
