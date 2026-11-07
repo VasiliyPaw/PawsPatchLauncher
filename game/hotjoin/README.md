@@ -1,5 +1,17 @@
 # Active-match return — Arcane Wars beta
 
+**Dormant from 0.5.0-beta.4.** The active-match runtime is retained for future
+development but is not compiled, embedded or installed by that release. Legacy
+automatic save-and-lobby recovery also stays disabled. The prior implementation,
+including the private transient-pause correction, is preserved in
+`outputs/hotjoin-preserved-20261107/hotjoin-source-and-builds.zip` at the workspace
+root, with pinned inputs and restoration instructions. SHA-256:
+`4AB8BD182F41A2D79739CC360EE3838C14BE17956E0CC11905351B2943E9D873`.
+Local branch `archive/hotjoin-before-removal-20261107` retains the published
+beta.3 baseline; the ZIP additionally retains the unfinished local changes.
+
+The following documents the preserved implementation and its historical QA.
+
 Arcane Wars Paw’s Patch 0.5.0-beta.2 embeds this runtime in all eight managed
 game helpers. It is part of the main patch, with no additional launcher option.
 The existing component selections still select their corresponding helpers.
@@ -13,11 +25,17 @@ SHA-256 verifier is replicated to support native host migration. Do not share
 the local `User/HotJoinTicket.bin` file. Reinstalling/deleting that profile may
 remove the right to reclaim the kingdom.
 
-A departure requests a shared native pause before AI simulation can proceed.
+A confirmed native ClientLeave retains pause before AI simulation can proceed.
 Players may resume without the absent participant. Admission temporarily pauses
 an active match and restores the pause state from before admission. Returning
 does not clear a pause retained after a departure. Native chat announces the
 successful return/observer admission in en/ru/de/fr/cs/uk.
+
+Temporary native backup/recovery mode is not a departure. It must not enqueue
+a persistent GamePause order; the engine resumes its ordinary packet recovery
+without clearing any pre-existing player pause. Private hotfix verification:
+`../hotjoin-test/departure_runtime_tests.c` executes the actual x86 wrappers,
+and `experiment.py --transient-loss` stalls an owned peer with its socket open.
 
 Admission uses a native checkpoint, accelerated native transfer and a shared
 load barrier inside the existing network session. Native authentication,

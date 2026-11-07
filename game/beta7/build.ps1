@@ -448,6 +448,8 @@ PawAssistantRuntime.Tick();
             $arguments += '/define:PAW_HOTJOIN'
             $arguments += Join-Path $PSScriptRoot '../hotjoin/PawHotJoin.cs'
             $arguments += '/resource:'+(Join-Path $out 'paws_hotjoin.dll')+',PawHotJoinNative'
+        } else {
+            $arguments += '/define:PAW_NO_HOTJOIN'
         }
         if($NightmareDifficulty){
             $text=Replace-StartupAnchor $text 'ReleaseStartup.GuardData(gameDirectory);' 'ReleaseStartup.GuardData(gameDirectory); NightmareDifficultyData.Prepare(gameDirectory,PawGameText.Language,PawAiOptions.Enabled);'

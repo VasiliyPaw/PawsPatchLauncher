@@ -142,6 +142,8 @@ internal static class BuildFeatures
 #endif
 #if PAW_HOTJOIN
         const string hotjoin = ",\"hotJoinRevision\":1,\"hotJoinProtocol\":\"R\",\"legacySaveLobbyRecovery\":false";
+#elif PAW_NO_HOTJOIN
+        const string hotjoin = ",\"hotJoinRevision\":0,\"legacySaveLobbyRecovery\":false";
 #else
         const string hotjoin = "";
 #endif
