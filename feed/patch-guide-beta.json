@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.0-beta.3",
+  "version": "0.5.0-beta.4",
   "entries": [
+    {
+      "id": "network-session",
+      "category": "always",
+      "titleRu": "Сетевые партии",
+      "titleEn": "Multiplayer matches",
+      "bodyRu": "- Отключён вход в уже идущую сетевую партию.\n- Убраны лишние автоматические паузы при задержках связи.",
+      "bodyEn": "- Disabled joining multiplayer matches already in progress.\n- Removed unnecessary automatic pauses during connection delays."
+    },
     {
       "id": "world-options",
       "category": "always",
@@ -9,14 +17,6 @@
       "titleEn": "Dynamic daylight and biome selection",
       "bodyRu": "- Динамическая смена суток: случайное начало и цикл 10 игровых минут.\n- Смешанные карты: все биомы или случайный набор от 1 до 4.\n- Все параметры карты помещаются без прокрутки.\n- Исправлено скачивание обновлений.\n- Новые пункты переведены на шесть языков.",
       "bodyEn": "- Dynamic daylight with a random start and a 10-game-minute cycle.\n- Mixed maps: all biomes or a random set of 1 to 4.\n- All map options fit without scrolling.\n- Fixed update downloads.\n- New options translated into six languages."
-    },
-    {
-      "id": "hotjoin",
-      "category": "always",
-      "titleRu": "Возврат в идущую партию",
-      "titleEn": "Return to a running match",
-      "bodyRu": "Возврат за своё прежнее королевство вместо ИИ; новые участники входят наблюдателями. При отключении игрока матч остаётся на паузе. При потере хоста во время входа повторите подключение у нового хоста. Встроено в основной Paw’s Patch при любом сочетании остальных компонентов; старое восстановление через сохранение и лобби отключено.",
-      "bodyEn": "Return to your original kingdom instead of its AI; new participants join as observers. A disconnect leaves the match paused. If the host is lost during admission, retry with the new host. Built into Paw’s Patch with every combination of other components; legacy save-and-lobby recovery is disabled."
     },
     {
       "id": "company-position-recovery",
