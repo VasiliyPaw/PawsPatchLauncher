@@ -37,7 +37,7 @@ def main():
   return entry
  for package in base[targets[0]]['packages']:
   pid=package['id']
-  if package.get('mods')!=['arcane-wars'] or (package['version']!='0.5.0-beta.2' and pid!='ai-improvements'):continue
+  if package.get('mods')!=['arcane-wars'] or (package['version']!='0.5.0-beta.2' and pid!='ai-improvements' and not pid.startswith('localization-bot-ui-')):continue
   src=a.baseline_assets/(pid+'-'+package['version']+'.zip')
   if not src.exists():src=a.component_cache/'downloads'/pid/package['version']/(package['sha256']+'.zip')
   assert sha(src.read_bytes())==package['sha256']
@@ -72,7 +72,7 @@ def main():
   assets[pid]=dict(path=str(target),sha256=sha(target.read_bytes()),size=target.stat().st_size)
   validate_package(target,dict(package,version=VERSION,**{k:assets[pid][k] for k in ('sha256','size')}))
   audits[pid]=[p for p,b in files.items() if old.get(p)!=b]
- assert len(assets)==11
+ assert len(assets)==16
  for f in launcher['files']:
   p=a.launcher_artifacts/f['name'];assert sha(p.read_bytes())==f['sha256'] and p.stat().st_size==f['size'];shutil.copy2(p,out/'assets'/p.name)
  shutil.copy2(a.launcher_artifacts/'launcher-artifact.json',out/'assets/launcher-artifact.json')
