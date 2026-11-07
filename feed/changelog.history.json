@@ -1344,6 +1344,31 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "version": "0.5.0-beta.4",
+      "publishedAt": "2026-11-07",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0 beta 4 — сетевые партии",
+        "en": "Paw’s Patch 0.5.0 beta 4 — multiplayer matches",
+        "de": "Paw’s Patch 0.5.0 beta 4 — Mehrspielerpartien",
+        "fr": "Paw’s Patch 0.5.0 beta 4 — parties multijoueurs",
+        "cs": "Paw’s Patch 0.5.0 beta 4 — hry pro více hráčů",
+        "uk": "Paw’s Patch 0.5.0 beta 4 — мережеві партії"
+      },
+      "body": {
+        "ru": "- Отключён вход в уже идущую сетевую партию.\n- Убраны лишние автоматические паузы при задержках связи.",
+        "en": "- Disabled joining multiplayer matches already in progress.\n- Removed unnecessary automatic pauses during connection delays.",
+        "de": "- Der Beitritt zu bereits laufenden Mehrspielerpartien ist deaktiviert.\n- Unnötige automatische Pausen bei Verbindungsverzögerungen entfernt.",
+        "fr": "- L’entrée dans les parties multijoueurs déjà en cours est désactivée.\n- Suppression des pauses automatiques inutiles lors des ralentissements de connexion.",
+        "cs": "- Vypnuto připojování do již probíhajících her.\n- Odstraněny zbytečné automatické pauzy při zpoždění spojení.",
+        "uk": "- Вимкнено вхід до мережевої партії, що вже триває.\n- Прибрано зайві автоматичні паузи під час затримок зв’язку."
+      }
+    },
+    {
       "category": "launcher",
       "channel": "beta",
       "version": "1.0.8",
