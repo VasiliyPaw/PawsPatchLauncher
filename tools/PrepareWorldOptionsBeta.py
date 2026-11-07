@@ -10,7 +10,7 @@ VERSION='0.5.0-beta.3'
 def sha(data):return hashlib.sha256(data).hexdigest().upper()
 def main():
  ap=argparse.ArgumentParser()
- for name in ('out','helpers','fixture','baseline-assets','private-key','launcher-artifacts'):ap.add_argument('--'+name,type=Path,required=True)
+ for name in ('out','helpers','fixture','baseline-assets','component-cache','private-key','launcher-artifacts'):ap.add_argument('--'+name,type=Path,required=True)
  a=ap.parse_args();out=a.out.resolve();out.mkdir(parents=True,exist_ok=False)
  private=serialization.load_pem_private_key(a.private_key.read_bytes(),None);assert private.public_key().public_numbers()==key().public_numbers()
  prep=json.loads((a.fixture/'preparation.json').read_text(encoding='utf-8'));assert prep['dynamicDayCycleSeconds']==600
@@ -37,8 +37,10 @@ def main():
   return entry
  for package in base[targets[0]]['packages']:
   pid=package['id']
-  if package.get('mods')!=['arcane-wars'] or package['version']!='0.5.0-beta.2':continue
-  src=a.baseline_assets/(pid+'-'+package['version']+'.zip');assert sha(src.read_bytes())==package['sha256']
+  if package.get('mods')!=['arcane-wars'] or (package['version']!='0.5.0-beta.2' and pid!='ai-improvements'):continue
+  src=a.baseline_assets/(pid+'-'+package['version']+'.zip')
+  if not src.exists():src=a.component_cache/'downloads'/pid/package['version']/(package['sha256']+'.zip')
+  assert sha(src.read_bytes())==package['sha256']
   with zipfile.ZipFile(src) as z:
    module=json.loads(z.read('module.json'));files={f['path']:z.read('payload/'+f['path']) for f in module['files']}
   old=copy.deepcopy(files)
@@ -47,7 +49,13 @@ def main():
    if leaf in report:
     value=(a.helpers/leaf).read_bytes();assert sha(value)==report[leaf]['sha256'];files[rel]=value
    elif leaf=='paws_patch_versions.ini':files[rel]=(a.helpers/leaf).read_bytes()
-   if rel.lower().replace('\\','/') in overrides:files[rel]=overrides[rel.lower().replace('\\','/')]
+   normalized=rel.lower().replace('\\','/')
+   if pid=='ai-improvements' and normalized=='data/game/svars.tgi':
+    raw=files[rel];encoding='utf-16le' if raw.startswith(b'\xff\xfe') else 'utf-8'
+    assert 'PawsBiomes' not in raw.decode(encoding)
+    at=raw.index('{'.encode(encoding))+len('{'.encode(encoding))
+    files[rel]=raw[:at]+'\r\n\tint PawsBiomes = 0\r\n\tint PawsDayPhase = 0\r\n'.encode(encoding)+raw[at:]
+   elif normalized in overrides:files[rel]=overrides[normalized]
   # Core covers shared definitions. Every locale overlay must keep identical
   # shared bytes and own its final text layer, including Russian's hotfix.
   index={p.lower().replace('\\','/'):p for p in files}
@@ -64,7 +72,7 @@ def main():
   assets[pid]=dict(path=str(target),sha256=sha(target.read_bytes()),size=target.stat().st_size)
   validate_package(target,dict(package,version=VERSION,**{k:assets[pid][k] for k in ('sha256','size')}))
   audits[pid]=[p for p,b in files.items() if old.get(p)!=b]
- assert len(assets)==10
+ assert len(assets)==11
  for f in launcher['files']:
   p=a.launcher_artifacts/f['name'];assert sha(p.read_bytes())==f['sha256'] and p.stat().st_size==f['size'];shutil.copy2(p,out/'assets'/p.name)
  shutil.copy2(a.launcher_artifacts/'launcher-artifact.json',out/'assets/launcher-artifact.json')

@@ -15,7 +15,8 @@ internal static class PublishedPackageDownloadTests
         var client = new FeedClient(config);
         var manifest = await client.GetChannelAsync("beta") ?? throw new Exception("Missing beta catalog.");
         var packages = manifest.Packages.Where(p => p.Mods.SequenceEqual(new[] { GameMod.ArcaneWars }) && p.Version == version).ToArray();
-        if (packages.Length != 10) throw new Exception("Expected ten Arcane patch packages.");
+        if (packages.Length < 10 || !new[] { "pawpatch-core", "common-ui", "player-colors", "desync-continue" }
+            .All(id => packages.Any(p => p.Id == id))) throw new Exception("Expected the complete Arcane patch package set.");
         if (oldArchive is not null)
         {
             var core = packages.Single(p => p.Id == "pawpatch-core");
