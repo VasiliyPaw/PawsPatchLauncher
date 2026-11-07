@@ -1156,17 +1156,12 @@ public partial class MainWindow : Window
 
     private void SetActivePage(string page)
     {
-        if (_activePage == "custom-mods" && page != _activePage && (_customModsBusy || _customModsDirty))
-        {
-            if (!_customModsBusy) _customModsError = T("Сначала примените или отмените изменения модов.", "Apply or undo your mod changes first.");
-            RefreshCustomModsState(IsGameRunning());
-            return;
-        }
-        if (page == "custom-mods" && (_busy || _launchStarting || ConfirmationActive || GameSettingsOverlay.IsVisible)) return;
+        if (GameSettingsOverlay.Visibility == Visibility.Visible) return;
+        if (page == "custom-mods") { OpenGameSettings(); CustomModsTab.IsChecked = true; return; }
         if (_activePage != page) ActionJournal.Record("navigation", page);
         if(page=="admin"&&_account.AdminLevel<1)page="home";
         AdminPanel.Visibility=page=="admin"?Visibility.Visible:Visibility.Collapsed;
-        MainOptionsHost.Visibility=page is "admin" or "custom-mods"?Visibility.Collapsed:Visibility.Visible;
+        MainOptionsHost.Visibility=page=="admin"?Visibility.Collapsed:Visibility.Visible;
         MainOptionsScroll.Visibility=page=="admin"?Visibility.Collapsed:Visibility.Visible;
         SetNavState(AdminNav,page=="admin");
         if (page == "multiplayer") page = "friends";
@@ -1175,9 +1170,6 @@ public partial class MainWindow : Window
         if (changed && _activePage == "friends") _chatUnreadDivider.End();
         if (changed && page == "account") _accountReturnPage = _activePage;
         _activePage = page;
-        CustomModsPanel.Visibility = page == "custom-mods" ? Visibility.Visible : Visibility.Collapsed;
-        ActionBar.Visibility = page == "custom-mods" ? Visibility.Collapsed : Visibility.Visible;
-        if (changed && page == "custom-mods") OpenCustomMods();
         var home = page == "home";
         var modules = page == "modules";
         RefreshActionLayout();
@@ -1225,7 +1217,6 @@ public partial class MainWindow : Window
 
         SetNavState(HomeNav, home);
         SetNavState(ModulesNav, modules);
-        SetNavState(CustomModsNav, page == "custom-mods");
         SetNavState(SettingsNav, settings);
         SetNavState(AboutNav, page == "about");
         SetNavState(AboutModsNav, page == "mods");
@@ -1240,7 +1231,7 @@ public partial class MainWindow : Window
         if (home) RefreshNews();
         if (changed && !_initializing)
         {
-            Motion.Reveal(page == "admin" ? (FrameworkElement)AdminPanel : page == "custom-mods" ? CustomModsPanel : MainOptionsScroll);
+            Motion.Reveal(page == "admin" ? (FrameworkElement)AdminPanel : MainOptionsScroll);
             // Both Friends columns enter together after their first layout.
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() =>
             {

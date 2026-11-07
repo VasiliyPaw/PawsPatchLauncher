@@ -8,6 +8,8 @@ typedef U (*Call)(U,U,U,U*);
 typedef struct {U image,call,trampoline,world,seed,width,height,active,result,runs,painted,rejected,accepted,missing;U regions[4];Layout geom;
  unsigned char cells[1048576],seen[1048576];U queue[1048576];} State;
 #include "spawn-index.h"
+#include "../world-options/world_rules.h"
+#include "../world-options/day_cycle.h"
 int __attribute__((stdcall)) _dllstart(void*m,U r,void*u){return 1;}
 static int eq(W*w,char*a){int i;if(!w)return 0;for(i=0;a[i]&&i<160;i++)if(w[i]!=(unsigned char)a[i])return 0;return !a[i]&&!w[i];}
 static int starts(W*w,char*a){int i;if(!w)return 0;for(i=0;a[i];i++)if(w[i]!=(unsigned char)a[i])return 0;return 1;}
@@ -83,9 +85,31 @@ __attribute__((dllexport)) void shared_groups(State*s,U creator){
    *(float*)(items+i*8+4)=value[k]*(float)s->regions[b]/(float)(s->width*s->height);
  }
 }
+/* Runs at the fixed native GameTick boundary before actor/AI managers, and
+ * after StartMission's Sun assignment. No wall clock, runtime RNG, network
+ * messages or asynchronous main-thread writes to simulation state. */
+__attribute__((dllexport)) void world_tick(State*s,U world){
+ U phaseRule,phase,segment,mgr,a,b;float colors[9],seconds;
+ char *ids[4]={"sun_morning","sun_default","sun_dusk","sun_night"};
+ W names[2][32];U i,j;
+ if(!world||!rule_enum(world,"Sun","paws_dynamic_sun"))return;
+ phaseRule=world_rule(world,"PawsDayPhase");if(!phaseRule||R(R(phaseRule,0),0x20)!=1)return;
+ seconds=*(float*)(world+0xe8);if(!(seconds>=0.0f&&seconds<200000000.0f))return;
+ phase=(((U)(seconds*16.0f))%DAY_CYCLE_TICKS+R(phaseRule,8)%DAY_CYCLE_TICKS)%DAY_CYCLE_TICKS;segment=phase/DAY_SEGMENT_TICKS;
+ for(j=0;j<2;j++){char *id=ids[(segment+j)%4];for(i=0;id[i]&&i<31;i++)names[j][i]=(W)id[i];names[j][i]=0;}
+ mgr=R(s->image,0x5f3fb4);if(!mgr)return;
+ a=invoke(s,0x2edb9,mgr+0x73c,1,(U)names[0],0,0,0);
+ b=invoke(s,0x2edb9,mgr+0x73c,1,(U)names[1],0,0,0);if(!a||!b)return;
+ cycle_colors(phase,(float*)(a+0x18),(float*)(b+0x18),colors);
+ invoke(s,0x23daac,world+0x4c,4,(U)colors,(U)(colors+3),(U)(colors+6),0);
+}
 __attribute__((dllexport)) U generate(State*s,U gen){
  U creator=R(gen,0),rmc=creator?R(creator,0x50):0,world,map,w,h,grid,x,y,k,b,v,ctx[8],point[2],table[4][9];U ret;
  s->active=0;
+ world=R(s->image,0x5f3fb8);
+ if(world&&creator&&rule_enum(world,"Sun","paws_dynamic_sun")){
+  U p=world_rule(world,"PawsDayPhase");if(p&&R(R(p,0),0x20)==1)R(p,8)=cycle_offset(R(creator,0x4c));
+ }
  if(!rmc||!eq((W*)R(rmc,8),"paws_mixed_biomes"))return invoke(s,0x256f19,gen,0,0,0,0,0);
  s->result=1;s->missing=0;s->painted=0;s->rejected=0;s->accepted=0;s->runs++;
  world=R(s->image,0x5f3fb8);if(!world)return 0;map=R(world,0x30);if(!map)return 0;
@@ -95,6 +119,11 @@ __attribute__((dllexport)) U generate(State*s,U gen){
  ret=invoke(s,0x256f19,gen,0,0,0,0,0);if(!(ret&255)){s->result=4;return ret;}
  s->world=world;s->seed=R(creator,0x4c);s->width=w;s->height=h;
  prepare_regions(s,w,h,s->seed);
+ if(rule_enum(world,"PawsBiomes","paws_random")){
+  U mapping[4];biome_selection(s->seed,mapping);
+  for(k=0;k<4;k++)s->regions[k]=0;
+  for(k=0;k<w*h;k++){s->cells[k]=(unsigned char)mapping[s->cells[k]];s->regions[s->cells[k]]++;}
+ }
  grid=R(map,0x28);
  for(k=0;k<8;k++)ctx[k]=0;
  invoke(s,0x2517a3,(U)ctx,0,0,0,0,0);

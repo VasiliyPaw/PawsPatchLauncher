@@ -496,6 +496,7 @@ static int run(const wchar_t *command) {
  ((RunFn)(base+0x1f9963))((void*)console,0,&text,0);
  ((ReleaseFn)(base+0x21375))((char*)text-16,0);return 1;
 }
+#include "world_options_qa.h"
 #include "auto_runtime.h"
 #include "multi_runtime.h"
 #include "recovery_runtime.h"
@@ -631,7 +632,11 @@ EXPORT void __cdecl K2Plugin_Tick(void) {
 #ifdef PAWS_HOTJOIN_RELEASE
  busy=0;return;
 #else
- if(now-lastSample>=1000){lastSample=now;sample();}
+ if(now-lastSample>=1000){lastSample=now;sample();
+#ifdef PAWS_HOTJOIN_MONITOR
+ test_world_sample();
+#endif
+ }
  if(now-lastPoll<100){busy=0;return;}lastPoll=now;
  f=CreateFileW(commandPath,GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,0,OPEN_EXISTING,0,0);
  if(f!=INVALID_HANDLE_VALUE){
@@ -640,6 +645,10 @@ EXPORT void __cdecl K2Plugin_Tick(void) {
    if(id>commandId&&id<100000&&*end==' '){
     commandId=id;mbstowcs(command,end+1,999);command[999]=0;
     host->log("hotjoin-lab","COMMAND %u: %s",id,end+1);
+#ifdef PAWS_HOTJOIN_MONITOR
+    if(!strncmp(end+1,"!world-option ",14))test_world_option(command+14);
+    else
+#endif
     if(!strncmp(end+1,"!snapshot ",10))prepare_snapshot((unsigned)strtoul(end+11,0,10));
     else if(!strcmp(end+1,"!backup-vote"))InterlockedExchange(&testBackupVoteRequested,1);
     else if(!strcmp(end+1,"!transfer-fixture"))transfer_select_fixture();

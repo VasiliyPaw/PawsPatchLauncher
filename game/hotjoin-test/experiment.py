@@ -61,6 +61,8 @@ def main():
     ap.add_argument('--out',type=Path,required=True)
     ap.add_argument('--mode',choices=['baseline','admission-only','snapshot','coordinated'],default='baseline')
     ap.add_argument('--observe',type=int,default=40)
+    ap.add_argument('--world-options',action='store_true',help='Observe dynamic Sun and random mixed biomes in an owned composed beta fixture')
+    ap.add_argument('--manual-world-setup',action='store_true',help='Hold the owned lobby for agent UI setup, then continue after continue-setup.flag')
     ap.add_argument('--port',type=int,default=5860,help='Private local host port; permits independent owned test sessions')
     ap.add_argument('--cached-snapshot',action='store_true',help='Development only: stage identical checkpoint in isolated client cache; cold transfer must also pass separately')
     ap.add_argument('--scenario',choices=['visitor','return','impostor'],default='visitor')
@@ -113,7 +115,7 @@ def main():
     assert 5000<=a.port<=65000
     peers={}; events=[]; processes=[];helper_processes=[];expected_exits=set();log_read_retries=[];join_address='127.0.0.1:'+str(a.port)
     if a.second_witness:assert a.witness and a.edge_case in ('host-transfer','host-partial-transfer','host-load') and a.depart=='client' and not a.double_drop and not a.repeat_plan
-    if a.release_observer:assert a.composed_helper and (a.startup_only or a.edge_case=='host-partial-transfer')
+    if a.release_observer:assert a.composed_helper and (a.startup_only or a.edge_case=='host-partial-transfer' or a.world_options)
     if a.depart=='host':assert a.witness and a.scenario=='return', 'Host migration needs a three-human return scenario'
     if a.uncleared:assert a.leave_mode=='crash' and a.automatic and a.witness, 'Uncleared experiment requires three peers, automatic return and crash'
     if a.continue_without:assert not a.uncleared and a.scenario!='visitor', 'Continue-without requires a resolved departure'
@@ -131,6 +133,8 @@ def main():
         assert sha(source/'k2.exe')==STOCK_HASH
         def omit(folder,names):
             if Path(folder).name=='.pawpatch':return [n for n in names if n not in ('state.json','native')]
+            if Path(folder).name.lower()=='mods':
+                return [n for n in names if n.startswith(('lab-','rig-request-','rig-command.','hotjoin-helper-ready.'))]
             return shutil.ignore_patterns('Logs','PawsRig','.rig-running.lock','.pawpatch-tests','Paw Backups','Paw Hotkey Backups','Бекап','Файлы','*.log','*status*.txt','hotjoin-helper-ready.marker')(folder,names)
         def copy_input(src,dst):
             f=Path(src)
@@ -139,7 +143,9 @@ def main():
                 archive=cache/(digest+'-'+f.name)
                 if not archive.exists():shutil.copy2(f,archive)
                 assert sha(archive)==digest,'Owned shared archive cache changed'
-                os.link(archive,dst);return str(dst)
+                if Path(dst).anchor.lower()==archive.anchor.lower():os.link(archive,dst)
+                else:shutil.copy2(archive,dst)
+                return str(dst)
             return shutil.copy2(src,dst)
         d=root/(dirname or role); g=d/'game'; shutil.copytree(source,g,ignore=omit,copy_function=copy_input)
         # Fixture itself has no user mods; explicit custom startup uses stock data.
@@ -159,6 +165,8 @@ def main():
             if a.replay_saves:shutil.copytree(a.replay_saves,docs/'Kohan2/data/Save',dirs_exist_ok=True)
         if role=='host' and a.initial_save:shutil.copy2(a.initial_save,docs/'Kohan2/data/Save/HotJoinBoundary.RSG')
         (user/'UVars.tgi').write_text('[Vars]\n{\n int ResolutionX = 800\n int ResolutionY = 600\n flag ResolutionWindowed = true\n flag ResolutionCoopFullscreenMode = false\n flag MouseClipCursor = false\n flag RunWhenInactive = true\n flag SinglePlayerAutoPause = false\n flag FirstRun = false\n float AudioMainVolume = 0\n float FrameRateLimit = 30\n}\n')
+        if a.world_options:
+            p=user/'UVars.tgi';p.write_text(p.read_text().replace('}\n',' string StagingMultiPlayerDefaultRMCIds = paws_mixed_biomes\n int StagingMultiPlayerDefaultRMCWidth = 1280\n int StagingMultiPlayerDefaultRMCHeight = 1280\n}\n'))
         peers[role]=dict(root=d,game=g,docs=docs,serial=0)
         return peers[role]
     limits=Limits(); limits.basic.flags=0x2000
@@ -194,6 +202,8 @@ def main():
                 text=output.read_text(errors='replace');m=re.search(r'OWNED_GAME (\d+)',text)
                 if m:pid=int(m.group(1))
                 if pid and 'PACKAGED_HELPER_READY' in text:break
+                failures=[f.read_text(errors='replace')[-4000:] for f in p['game'].glob('*status*.txt')]
+                if any(' ERROR ' in f for f in failures):raise RuntimeError('Owned helper rejected this fixture: '+'\n'.join(f for f in failures if ' ERROR ' in f))
                 if helper.poll() is not None:raise RuntimeError('Composed helper stopped: '+text[-3000:])
                 time.sleep(.2)
             if not pid or 'PACKAGED_HELPER_READY' not in text:raise TimeoutError('Composed helper startup')
@@ -310,8 +320,22 @@ def main():
             wait(lambda:state('host').get('mapType')==2,45,'Preserved save selected natively in private lobby')
             result['initialSave']=dict(source=str(a.initial_save),sha256=sha(a.initial_save),bytes=a.initial_save.stat().st_size)
         else:
-            command('host','SelectLaunchType RANDOM_MAP',4)
-            command('host','Commit',2)
+            if a.manual_world_setup:
+                assert a.world_options and a.release_observer
+                report('Owned lobby ready for manual world-options UI setup')
+                wait(lambda:(root/'continue-setup.flag').exists(),600,'Owned UI setup confirmed; network scenario resumes')
+                result['worldOptions']=True
+            else:
+                command('host','SelectLaunchType RANDOM_MAP',4)
+            if a.world_options and not a.manual_world_setup:
+                assert a.release_observer and a.composed_helper and a.game_source
+                command('host','Commit',2)
+                command('host','OpenRandomMapDialog',3)
+                command('host','Select paws_mixed_biomes',2)
+                command('host','!world-option Sun paws_dynamic_sun',2)
+                command('host','!world-option PawsBiomes paws_random',2)
+                result['worldOptions']=True
+            if not a.manual_world_setup:command('host','Commit',2)
         if a.witness:
             assert a.automatic and a.scenario!='visitor', 'Witness scenario requires automatic original-participant setup'
             command('host','TeamFormatDropdown '+('4' if a.second_witness else '3'),3)
@@ -371,6 +395,10 @@ def main():
             wait(lambda:state('witness2').get('mode')==2 and state('witness2').get('world'),75,'Fourth original human entered match')
             command('witness2','UserReady',2)
         time.sleep(5); before=state('host');result['hostBeforeJoin']=before
+        if a.world_options:
+            sample=json.loads((peers['host']['game']/'Mods/lab-world-options.jsonl').read_text().splitlines()[-1])
+            result['worldOptionsInitial']=sample
+            assert sample['rules'].get('sun')==5 and sample['rules'].get('biomes')==1 and sample['rules'].get('phase') is not None,'Native world must actually use Dynamic Sun and Random biomes'
         if a.witness:
             result['witnessBeforeDrop']=state('witness')
             humans=[p for p in before['players'] if not p['ai']]

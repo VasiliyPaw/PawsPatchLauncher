@@ -1,0 +1,50 @@
+{
+  "en": {
+    "paws_day_dynamic": "Dynamic",
+    "paws_day_description": "Starting time of day. Dynamic starts at a random time and smoothly repeats morning, day, dusk and night in 10 game minutes. Pausing stops the cycle.",
+    "paws_biomes": "Biomes",
+    "paws_biomes_all": "All",
+    "paws_biomes_random": "Random",
+    "paws_biomes_description": "All: all four biomes. Random: chooses one, two, three or four different biomes with equal probability. Buildings match their biome."
+  },
+  "ru": {
+    "paws_day_dynamic": "Динамическое",
+    "paws_day_description": "Начальное время суток. Динамическое начинается со случайного времени и плавно сменяет утро, день, закат и ночь за 10 игровых минут. Пауза останавливает цикл.",
+    "paws_biomes": "Биомы",
+    "paws_biomes_all": "Все",
+    "paws_biomes_random": "Случайно",
+    "paws_biomes_description": "Все: все четыре биома. Случайно: с равной вероятностью выбирает один, два, три или четыре разных биома. Постройки соответствуют своему биому."
+  },
+  "de": {
+    "paws_day_dynamic": "Dynamisch",
+    "paws_day_description": "Anfängliche Tageszeit. Dynamisch beginnt zu einer zufälligen Zeit und wechselt fließend zwischen Morgen, Tag, Abend und Nacht. Ein Zyklus dauert 10 Spielminuten und hält bei Pause an.",
+    "paws_biomes": "Biome",
+    "paws_biomes_all": "Alle",
+    "paws_biomes_random": "Zufällig",
+    "paws_biomes_description": "Alle: alle vier Biome. Zufällig: wählt mit gleicher Wahrscheinlichkeit ein, zwei, drei oder vier verschiedene Biome. Gebäude passen zu ihrem Biom."
+  },
+  "fr": {
+    "paws_day_dynamic": "Dynamique",
+    "paws_day_description": "Heure de départ. Dynamique commence à une heure aléatoire et passe progressivement par le matin, le jour, le crépuscule et la nuit en 10 minutes de jeu. La pause arrête le cycle.",
+    "paws_biomes": "Biomes",
+    "paws_biomes_all": "Tous",
+    "paws_biomes_random": "Aléatoires",
+    "paws_biomes_description": "Tous : les quatre biomes. Aléatoires : choisit avec la même probabilité un, deux, trois ou quatre biomes différents. Les bâtiments correspondent à leur biome."
+  },
+  "cs": {
+    "paws_day_dynamic": "Dynamická",
+    "paws_day_description": "Počáteční denní doba. Dynamická začíná v náhodnou dobu a plynule střídá ráno, den, soumrak a noc během 10 herních minut. Pozastavení hry zastaví cyklus.",
+    "paws_biomes": "Biomy",
+    "paws_biomes_all": "Všechny",
+    "paws_biomes_random": "Náhodné",
+    "paws_biomes_description": "Všechny: všechny čtyři biomy. Náhodné: se stejnou pravděpodobností vybere jeden, dva, tři nebo čtyři různé biomy. Budovy odpovídají svému biomu."
+  },
+  "uk": {
+    "paws_day_dynamic": "Динамічний",
+    "paws_day_description": "Початковий час доби. Динамічний починається з випадкового часу та плавно змінює ранок, день, захід сонця й ніч за 10 ігрових хвилин. Пауза зупиняє цикл.",
+    "paws_biomes": "Біоми",
+    "paws_biomes_all": "Усі",
+    "paws_biomes_random": "Випадкові",
+    "paws_biomes_description": "Усі: усі чотири біоми. Випадкові: з однаковою ймовірністю вибирає один, два, три або чотири різні біоми. Споруди відповідають своєму біому."
+  }
+}

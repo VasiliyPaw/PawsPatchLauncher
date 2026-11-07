@@ -66,3 +66,11 @@ static void layout(Layout*l,U seed){
 __attribute__((dllexport)) U region(int x,int y,U w,U h,U seed){Layout l;layout(&l,seed);return classify(&l,x,y,w,h);}
 __attribute__((dllexport)) void init_layout(Layout*l,U seed){layout(l,seed);}
 __attribute__((dllexport)) U at_layout(Layout*l,int x,int y,U w,U h){return classify(l,x,y,w,h);}
+/* Keep the accepted four-biome geometry unchanged. A separate seeded shuffle
+ * maps it onto a uniformly chosen count of distinct climates (1..4). This
+ * merges neighbouring broad areas; it never scatters independent tile noise. */
+static U biome_selection(U seed,U *mapping){
+ U ids[4]={0,1,2,3},i,j,t,count=1+hash(seed^0xB10C0A17u)%4;
+ for(i=3;i;i--){j=hash(seed^0x19A07B31u^i*0x9e3779b9u)%(i+1);t=ids[i];ids[i]=ids[j];ids[j]=t;}
+ for(i=0;i<4;i++)mapping[i]=ids[i%count];return count;
+}

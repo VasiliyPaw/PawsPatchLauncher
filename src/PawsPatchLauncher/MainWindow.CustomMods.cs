@@ -22,18 +22,32 @@ public partial class MainWindow
         return dialog.ShowDialog(this) == true ? dialog.FileName : null;
     }
 
-    private void CustomModsNav_Click(object sender, RoutedEventArgs e) => SetActivePage("custom-mods");
+    private void GameSettingsTab_Checked(object sender, RoutedEventArgs e)
+    {
+        if (CustomModsPanel is null || GameSettingsFooter is null) return;
+        RefreshGameSettingsTab();
+        RefreshGameSettingsState(IsGameRunning());
+    }
+    private void RefreshGameSettingsTab()
+    {
+        var mods = CustomModsTab.IsChecked == true;
+        GameSettingsScroll.Visibility = mods ? Visibility.Collapsed : Visibility.Visible;
+        CustomModsPanel.Visibility = mods ? Visibility.Visible : Visibility.Collapsed;
+        GameSettingsFooter.Visibility = mods ? Visibility.Collapsed : Visibility.Visible;
+        GameSettingsHint.Text = mods
+            ? T("Добавляйте RWD-архивы для выбранной игры. Нижний включённый мод имеет приоритет при совпадении файлов.", "Add RWD archives for the selected game. Enabled mods lower in the list take priority when files overlap.")
+            : T("Общие для всех модов на этом компьютере. Применяются при следующем запуске игры.", "Shared by all mods on this computer. Applied when the game next starts.");
+    }
     private async void CustomModsSave_Click(object sender, RoutedEventArgs e) => await SaveCustomModsAsync();
 
     private void ApplyCustomModsLanguage()
     {
-        CustomModsNav.Content = T("Моды", "Mods");
         CustomModsTitle.Text = T("Пользовательские моды", "Custom mods");
         CustomModsHint.Text = T("Добавляйте RWD-архивы для выбранной игры. Нижний включённый мод имеет приоритет при совпадении файлов.",
             "Add RWD archives for the selected game. Enabled mods lower in the list take priority when files overlap.");
         CustomModsComponents.Content = T("Игра и компоненты", "Game and components");
         CustomModsSave.Content = T("Применить моды", "Apply mods");
-        if (_activePage == "custom-mods") BuildCustomMods();
+        if (CustomModsTab.IsChecked == true) BuildCustomMods();
     }
 
     private void OpenCustomMods()
@@ -168,7 +182,7 @@ public partial class MainWindow
 
     private void RefreshCustomModsState(bool running)
     {
-        if (CustomModsPanel is null || _activePage != "custom-mods") return;
+        if (CustomModsPanel is null || GameSettingsOverlay.Visibility != Visibility.Visible || CustomModsTab.IsChecked != true) return;
         CustomModsBody.IsEnabled = CanEditCustomMods && !running && !_customModsBusy && !_busy && !_launchStarting;
         // At capacity the picker still permits replacing an existing archive.
         CustomModsAdd.IsEnabled = CustomModsBody.IsEnabled;

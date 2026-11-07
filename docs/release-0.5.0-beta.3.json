@@ -1,0 +1,23 @@
+{
+  "category": "patch",
+  "mods": ["arcane-wars"],
+  "channel": "beta",
+  "version": "0.5.0-beta.3",
+  "publishedAt": "2026-11-07",
+  "title": {
+    "ru": "Paw’s Patch 0.5.0 beta 3 — динамические сутки и выбор биомов",
+    "en": "Paw’s Patch 0.5.0 beta 3 — dynamic daylight and biome selection",
+    "de": "Paw’s Patch 0.5.0 beta 3 — dynamische Tageszeit und Biomauswahl",
+    "fr": "Paw’s Patch 0.5.0 beta 3 — cycle jour-nuit et choix des biomes",
+    "cs": "Paw’s Patch 0.5.0 beta 3 — dynamická denní doba a výběr biomů",
+    "uk": "Paw’s Patch 0.5.0 beta 3 — динамічна доба та вибір біомів"
+  },
+  "body": {
+    "ru": "Новое дневное время «Динамическое»: случайное начало и плавная смена утра, дня, заката и ночи. Полный цикл занимает 10 игровых минут; пауза останавливает его, сохранение и возврат в сетевую игру сохраняют фазу. Для смешанной карты добавлен выбор «Биомы: Все / Случайно»: все четыре или случайный набор из одного, двух, трёх либо четырёх разных биомов. Крупные извилистые области, общие настройки строений и соответствие построек биому сохранены. Все параметры карты помещаются без прокрутки, список времени суток расширен. В лаунчере 1.0.8 управление модами возвращено в шестерёнку компонентов. Переводы на шесть языков. Исправлены ссылки скачивания беты. Для сетевой игры всем участникам нужны одинаковая версия и игровые компоненты.",
+    "en": "New Dynamic time of day starts at a random phase and smoothly cycles through morning, day, dusk and night in 10 game minutes. Pausing stops it; saves and multiplayer return preserve its phase. Mixed maps gain Biomes: All / Random: all four or a random set of one, two, three or four distinct biomes. Large irregular regions, shared building settings and biome-appropriate spawns are retained. All map rules fit without scrolling and the daylight dropdown is wider. Launcher 1.0.8 moves custom mods back into the Components gear. Six languages supported. Beta download links are corrected. Multiplayer participants need matching versions and gameplay components.",
+    "de": "Die neue dynamische Tageszeit beginnt mit einer zufälligen Phase und wechselt fließend zwischen Morgen, Tag, Abend und Nacht. Ein Zyklus dauert 10 Spielminuten; Pause, Spielstände und die Rückkehr ins Mehrspielerspiel bewahren die Phase. Gemischte Karten erhalten Biome: Alle / Zufällig mit einem bis vier verschiedenen Biomen. Große unregelmäßige Gebiete, gemeinsame Gebäudeeinstellungen und passende Gebäude bleiben erhalten. Alle Kartenregeln sind ohne Scrollen sichtbar. Launcher 1.0.8 verschiebt die Modverwaltung zum Zahnrad unter Komponenten. Sechs Sprachen und korrigierte Downloadlinks. Alle Mitspieler benötigen passende Versionen und Spielkomponenten.",
+    "fr": "Le nouveau mode Dynamique commence à une phase aléatoire et alterne progressivement matin, jour, crépuscule et nuit en 10 minutes de jeu. La pause arrête le cycle ; sauvegardes et retour en multijoueur conservent sa phase. Les cartes mixtes proposent Biomes : Tous / Aléatoires, avec un à quatre biomes distincts. Les grandes régions irrégulières, les réglages communs des bâtiments et leur adaptation au biome sont conservés. Toutes les règles tiennent sans défilement. Le lanceur 1.0.8 replace les mods dans la roue dentée des composants. Six langues et liens de téléchargement corrigés. Les joueurs doivent utiliser les mêmes versions et composants de jeu.",
+    "cs": "Nová dynamická denní doba začíná v náhodné fázi a plynule střídá ráno, den, soumrak a noc během 10 herních minut. Pozastavení zastaví cyklus; uložené hry i návrat do hry pro více hráčů zachovají fázi. Smíšené mapy mají volbu Biomy: Všechny / Náhodné s jedním až čtyřmi různými biomy. Velké nepravidelné oblasti, společná nastavení budov a vhodné budovy zůstávají zachovány. Všechna pravidla mapy jsou viditelná bez posouvání. Launcher 1.0.8 vrací správu modů pod ozubené kolo komponent. Šest jazyků a opravené odkazy ke stažení. Hráči potřebují shodné verze a herní komponenty.",
+    "uk": "Новий час доби «Динамічний»: випадковий початок і плавна зміна ранку, дня, заходу сонця та ночі за 10 ігрових хвилин. Пауза зупиняє цикл; збереження й повернення до мережевої гри зберігають фазу. Для змішаної карти додано вибір «Біоми: Усі / Випадкові» з одним, двома, трьома або чотирма різними біомами. Великі нерівні області, спільні налаштування споруд і відповідність біому збережено. Усі параметри карти вміщуються без прокручування. Лаунчер 1.0.8 повертає керування модами до шестерні компонентів. Шість мов і виправлені посилання завантаження. Учасникам потрібні однакові версії та ігрові компоненти."
+  }
+}

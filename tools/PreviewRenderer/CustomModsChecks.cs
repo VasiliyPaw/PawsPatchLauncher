@@ -33,7 +33,7 @@ internal static class CustomModsChecks
         T C<T>(string name) => (T)w.FindName(name);
         int checks = 0;
         void Check(bool ok, string why) { if (!ok) throw new Exception("Custom mods UI: " + why); checks++; }
-        void Open() { Set("_settingsPending", false); Call("SetActivePage", "modules"); Call("SetActivePage", "custom-mods"); w.UpdateLayout(); }
+        void Open() { if (C<Border>("GameSettingsOverlay").IsVisible) Call("CloseGameSettings"); Set("_settingsPending", false); Call("SetActivePage", "modules"); C<Button>("GameSettingsButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); C<RadioButton>("CustomModsTab").IsChecked = true; w.UpdateLayout(); }
         void Click(string name) => C<Button>(name).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         async Task Idle()
         {
@@ -51,7 +51,7 @@ internal static class CustomModsChecks
         {
             await Task.Delay(100);
             Open();
-            Check(C<Grid>("CustomModsPanel").IsVisible && !C<Border>("GameSettingsOverlay").IsVisible, "dedicated page opens without settings modal");
+            Check(C<Grid>("CustomModsPanel").IsVisible && C<Border>("GameSettingsOverlay").IsVisible && w.FindName("CustomModsNav") is null, "mod manager opens inside gear, without sidebar tab");
             Check(!C<Button>("CustomModsSave").IsEnabled && C<Button>("CustomModsAdd").IsEnabled, "empty state");
             // Exercise real resource decoding, including when LauncherTestName changes the assembly.
             var glyphText = string.Join(" ", ChatGlyphs.All.Select(g => g.Token));
@@ -66,7 +66,7 @@ internal static class CustomModsChecks
             {
                 pickerCalls++;
                 Call("SetActivePage", "settings");
-                Check(Field<string>("_activePage") == "custom-mods", "picker prevents navigation reentry");
+                Check(Field<string>("_activePage") == "modules", "picker prevents navigation reentry");
                 pickerGuarded = Field<bool>("_customModsBusy") && !C<Button>("CustomModsAdd").IsEnabled;
                 Click("CustomModsAdd"); // Nested dispatch must not open a second picker.
                 message.Text = glyphText; // Chat redraw when focus returns from a native dialog.
@@ -96,15 +96,15 @@ internal static class CustomModsChecks
             Call("ChangeCustomMod", 0, (Func<CustomRwdMod, CustomRwdMod>)(m => m with { Enabled = true }));
             Check(C<Button>("CustomModsSave").IsEnabled, "changes enable save");
             Call("SetActivePage", "home");
-            Check(Field<string>("_activePage") == "custom-mods" && Field<bool>("_customModsDirty"), "navigation cannot discard pending edits");
-            Click("CustomModsNav");
+            Check(Field<string>("_activePage") == "modules" && Field<bool>("_customModsDirty"), "navigation cannot discard pending edits");
+            C<RadioButton>("CustomModsTab").IsChecked = true;
             Check(Field<bool>("_customModsDirty") && DraftForNavigation().Count == 1, "reselecting manager retains draft");
             List<CustomRwdMod> DraftForNavigation() => Field<Dictionary<string, List<CustomRwdMod>>>("_customModsDraft")[GameMod.Vanilla];
             Check(!C<Button>("LaunchButton").IsEnabled, "unapplied draft cannot launch silently");
-            Call("OpenGameSettings");
-            Check(C<Border>("GameSettingsOverlay").IsVisible, "game settings remain separately available");
-            Click("GameSettingsCancel");
-            Check(Field<bool>("_customModsDirty") && DraftForNavigation().Count == 1, "closing settings preserves mod draft");
+            C<RadioButton>("GameOptionsTab").IsChecked = true;
+            Check(C<ScrollViewer>("GameSettingsScroll").IsVisible, "game settings remain available in other gear tab");
+            C<RadioButton>("CustomModsTab").IsChecked = true;
+            Check(Field<bool>("_customModsDirty") && DraftForNavigation().Count == 1, "switching settings tabs preserves mod draft");
             running = true; Call("RefreshGameSettingsState", true);
             Check(!C<Button>("CustomModsSave").IsEnabled && !C<Button>("CustomModsAdd").IsEnabled && !C<StackPanel>("CustomModsBody").IsEnabled, "running disables mutations");
             running = false; Call("RefreshGameSettingsState", false);
@@ -114,13 +114,13 @@ internal static class CustomModsChecks
             var draw = new DrawingVisual(); using (var dc = draw.RenderOpen()) dc.DrawRectangle(new VisualBrush(view), null, new Rect(0, 0, view.ActualWidth, view.ActualHeight));
             var bitmap = new RenderTargetBitmap((int)Math.Ceiling(view.ActualWidth), (int)Math.Ceiling(view.ActualHeight), 96, 96, PixelFormats.Pbgra32); bitmap.Render(draw);
             var png = new PngBitmapEncoder(); png.Frames.Add(BitmapFrame.Create(bitmap)); using (var file = File.Create(Path.Combine(output, "custom-mods-" + language + ".png"))) png.Save(file);
-            Click("CustomModsUndo"); Call("SetActivePage", "modules");
+            Click("GameSettingsClose"); Call("SetActivePage", "modules");
             Check(!new ModuleInstaller(root).LoadState().CustomMods.ContainsKey(GameMod.Vanilla), "cancel discards draft");
             Open(); Click("CustomModsAdd"); await Idle();
             Call("ChangeCustomMod", 0, (Func<CustomRwdMod, CustomRwdMod>)(m => m with { Enabled = true }));
             Click("CustomModsSave"); await Idle();
             Check(new ModuleInstaller(root).LoadState().CustomMods[GameMod.Vanilla][0].Enabled, "save persists enabled mod");
-            Check(!C<Border>("GameSettingsOverlay").IsVisible, "apply does not open a settings modal");
+            Check(C<Border>("GameSettingsOverlay").IsVisible && !Field<bool>("_customModsDirty"), "apply leaves gear open with a clean saved draft");
             Open();
             Check(!C<Button>("CustomModsSave").IsEnabled && Field<Dictionary<string, List<CustomRwdMod>>>("_customModsDraft")[GameMod.Vanilla][0].Enabled, "reopen retains saved state");
             var originalMod = new ModuleInstaller(root).LoadState().CustomMods[GameMod.Vanilla][0];
@@ -223,10 +223,11 @@ internal static class CustomModsChecks
             Check(!new ModuleInstaller(root).LoadState().Modules.ContainsKey(CustomRwdMods.ModuleId), "disable removes mounts");
             Call("SetActivePage", "modules"); settings.Mod = GameMod.Immortals; Open();
             Check(!C<Button>("CustomModsAdd").IsEnabled, "unapplied different game gated");
-            Click("CustomModsUndo"); Call("SetActivePage", "modules");
+            Click("GameSettingsClose"); Call("SetActivePage", "modules");
             Set("_game", null!); Open();
             Check(!C<Button>("CustomModsAdd").IsEnabled && !C<Button>("CustomModsSave").IsEnabled,
                 "missing installation cannot import or apply mods");
+            Click("GameSettingsClose");
             Call("SetActivePage", "modules");
             Check(!C<Grid>("CustomModsPanel").IsVisible && C<Grid>("ActionBar").IsVisible,
                 "leaving clean manager restores components actions");

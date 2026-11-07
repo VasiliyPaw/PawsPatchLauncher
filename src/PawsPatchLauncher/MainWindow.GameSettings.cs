@@ -30,7 +30,10 @@ public partial class MainWindow
         GameSettingsSave.Content = T("Сохранить", "Save");
         GameSettingsHint.Text = T("Общие для всех модов на этом компьютере. Применяются при следующем запуске игры.",
             "Shared by all mods on this computer. Applied when the game next starts.");
+        GameOptionsTab.Content = T("Настройки игры", "Game settings");
+        CustomModsTab.Content = T("Пользовательские моды", "Custom mods");
         ApplyCustomModsLanguage();
+        RefreshGameSettingsTab();
     }
 
     private void GameSettings_Click(object sender, RoutedEventArgs e) => OpenGameSettings();
@@ -53,6 +56,9 @@ public partial class MainWindow
                 "Could not read game settings. Check access to UVars.tgi.");
         }
         finally { _buildingGameSettings = false; }
+        OpenCustomMods();
+        GameOptionsTab.IsChecked = true;
+        RefreshGameSettingsTab();
         _gameSettingsPreviousEnabled = MainBody.IsEnabled;
         MainBody.IsEnabled = false;
         GameSettingsOverlay.Visibility = Visibility.Visible;
@@ -215,6 +221,7 @@ public partial class MainWindow
         GameSettingsButton.IsEnabled = !_busy && !_customModsBusy && !_launchStarting;
         RefreshCustomModsState(running);
         if (GameSettingsOverlay.Visibility != Visibility.Visible) return;
+        if (CustomModsTab.IsChecked == true) return;
         string? invalid = null;
         try { foreach (var (key, value) in _gameSettingsEdits) GameUserSettings.Validate(key, value); }
         catch (ArgumentException)
@@ -228,14 +235,21 @@ public partial class MainWindow
             && !running && !_busy && !_launchStarting && invalid is null && _gameSettingsError is null;
     }
 
-    private void GameSettingsSave_Click(object sender, RoutedEventArgs e)
+    private async void GameSettingsSave_Click(object sender, RoutedEventArgs e)
     {
+        if (CustomModsTab.IsChecked == true) { await SaveCustomModsAsync(); return; }
         RefreshGameSettingsState(IsGameRunning());
         if (!GameSettingsSave.IsEnabled || _gameUserSettings is null) return;
         try
         {
             _gameUserSettings.Save(_gameSettingsEdits, IsGameRunning);
-            CloseGameSettings();
+            if (_customModsDirty)
+            {
+                _gameSettingsEdits.Clear();
+                _gameUserSettings = GameUserSettings.Load(_gameUserSettingsPath());
+                CustomModsTab.IsChecked = true;
+            }
+            else CloseGameSettings();
             ShowResult(() => T("Настройки игры сохранены.", "Game settings saved."));
         }
         catch (GameUserSettingsChangedException)
@@ -262,6 +276,9 @@ public partial class MainWindow
         MainBody.IsEnabled = _gameSettingsPreviousEnabled;
         _gameUserSettings = null; _gameSettingsEdits.Clear(); _gameSettingsInputs.Clear();
         GameSettingsBody.Children.Clear(); GameSettingsButton.Focus();
+        _customModsDirty = false; _customModsState = null; _customModsDraft.Clear();
+        _customModsError = _customModsNotice = null; CustomModsBody.Children.Clear();
+        RefreshGameLaunchState();
     }
 
     private void GameSettingsCancel_Click(object sender, RoutedEventArgs e) => CloseGameSettings();
