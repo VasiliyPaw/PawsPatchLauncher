@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery, [switch]$ExhaustionRecovery, [switch]$AiPolicy, [switch]$BotLobby, [switch]$FractionalKingdomPoints, [switch]$GraphicsDiagnostics, [switch]$SettlementSlots, [switch]$AllyEconomy, [switch]$EngineCrashFixes, [switch]$FoundationCounts, [switch]$NightmareDifficulty, [string]$PatchVersion, [string]$LocalLargeMapsSource, [switch]$LargeMaps, [string]$GameExecutable, [switch]$UniformUi, [switch]$TerrainTexturePool, [switch]$SelectionScroll, [switch]$GroupAttackRecovery, [switch]$CompanyBehavior)
+param([Parameter(Mandatory=$true)][string]$OutputDirectory, [switch]$CityAssistant, [string]$LegacyWorkDirectory, [switch]$LobbyCompatibility, [string]$NativeCompiler, [switch]$LairWoundedTest, [switch]$LairRecovery, [switch]$CameraZoom, [switch]$CompanyPositionRecovery, [switch]$ExhaustionRecovery, [switch]$AiPolicy, [switch]$BotLobby, [switch]$FractionalKingdomPoints, [switch]$GraphicsDiagnostics, [switch]$SettlementSlots, [switch]$AllyEconomy, [switch]$EngineCrashFixes, [switch]$FoundationCounts, [switch]$NightmareDifficulty, [string]$PatchVersion, [string]$LocalLargeMapsSource, [switch]$LargeMaps, [string]$GameExecutable, [switch]$UniformUi, [switch]$TerrainTexturePool, [switch]$SelectionScroll, [switch]$GroupAttackRecovery, [switch]$CompanyBehavior, [switch]$HotJoin)
 $ErrorActionPreference = 'Stop'
 if($LairWoundedTest){$LairRecovery=$true}
 $out = [IO.Path]::GetFullPath($OutputDirectory)
@@ -367,6 +367,11 @@ if($LargeMaps){
     $largeMapsIdentity=Join-Path $out 'LargeMapsIdentity.cs'
     [IO.File]::WriteAllText($largeMapsIdentity,'internal static class LargeMapsLocal { internal const string TemplateHash="339307F847E16C4197986D834526ED946D33062FF13F889EC19B88AF10480D9E"; internal const string PatchVersion="'+$PatchVersion+'"; }')
 }
+if($HotJoin){
+    if(!$CityAssistant -or !$LobbyCompatibility -or !$NativeCompiler){throw 'Hot join requires the full Arcane beta helper.'}
+    & $NativeCompiler -shared -Wall -Werror (Join-Path $PSScriptRoot '../hotjoin/release_runtime.c') -o (Join-Path $out 'paws_hotjoin.dll') -lkernel32 -luser32
+    if($LASTEXITCODE -ne 0){throw 'Hot join runtime build failed'}
+}
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_player_colors.ini') -Destination $out
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'paws_patch_versions.ini') -Destination $out
 if($PatchVersion){
@@ -436,6 +441,13 @@ PawAssistantRuntime.Tick();
             $arguments += '/r:System.Web.Extensions.dll'
             $arguments += $lobbySource
             $arguments += '/resource:'+(Join-Path $out 'paws_lobby_compatibility.dll')+',PawLobbyCompatibilityNative'
+        }
+        if($HotJoin){
+            $text=Replace-StartupAnchor $text 'PawLobbyCompatibility.Prepare(gameDirectory);' 'PawLobbyCompatibility.Prepare(gameDirectory); PawHotJoin.Prepare(gameDirectory);'
+            $text=Replace-StartupAnchor $text 'PawFastTransfer.Install(game, imageBase, delegate(string m) { AppendLog(logPath, m); });' 'PawFastTransfer.Install(game, imageBase, delegate(string m) { AppendLog(logPath, m); }); PawHotJoin.Install(game, imageBase, delegate(string m) { AppendLog(logPath, m); });'
+            $arguments += '/define:PAW_HOTJOIN'
+            $arguments += Join-Path $PSScriptRoot '../hotjoin/PawHotJoin.cs'
+            $arguments += '/resource:'+(Join-Path $out 'paws_hotjoin.dll')+',PawHotJoinNative'
         }
         if($NightmareDifficulty){
             $text=Replace-StartupAnchor $text 'ReleaseStartup.GuardData(gameDirectory);' 'ReleaseStartup.GuardData(gameDirectory); NightmareDifficultyData.Prepare(gameDirectory,PawGameText.Language,PawAiOptions.Enabled);'

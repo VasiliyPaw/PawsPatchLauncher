@@ -140,6 +140,11 @@ internal static class BuildFeatures
 #else
         const string companyBehavior = "";
 #endif
+#if PAW_HOTJOIN
+        const string hotjoin = ",\"hotJoinRevision\":1,\"hotJoinProtocol\":\"R\",\"legacySaveLobbyRecovery\":false";
+#else
+        const string hotjoin = "";
+#endif
         Console.WriteLine("{\"colors\":" + colors.ToString().ToLowerInvariant() + largeMaps + uniformUi + terrainPool + selectionScroll + groupAttackRecovery + companyBehavior +
             ",\"bypass\":" + bypass.ToString().ToLowerInvariant() + syncDiagnostics +
             ",\"hostility\":" + hostility.ToString().ToLowerInvariant() +
@@ -150,7 +155,7 @@ internal static class BuildFeatures
             ",\"automaticMines\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"newCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
             ",\"startingCityMilitia\":" + cityAssistant.ToString().ToLowerInvariant() +
-            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + lairRecovery + camera + companyPosition + exhaustion + ai + botLobby + fractions + graphics + settlementSlots + allyEconomy + crashFixes + foundationCounts + nightmare + "}");
+            ",\"fastSaveTransfer\":" + fastSaveTransfer.ToString().ToLowerInvariant() + lobby + hotjoin + lairRecovery + camera + companyPosition + exhaustion + ai + botLobby + fractions + graphics + settlementSlots + allyEconomy + crashFixes + foundationCounts + nightmare + "}");
         return 0;
     }
 }

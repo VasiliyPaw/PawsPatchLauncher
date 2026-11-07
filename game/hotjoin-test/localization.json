@@ -1,0 +1,38 @@
+{
+  "en": {
+    "paws_hotjoin_observer|s": "%s joined as an observer.",
+    "paws_hotjoin_return|ss": "%s returned to the game as %s.",
+    "paws_hotjoin_kingdom|d": "Kingdom %d",
+    "paws_hotjoin_kingdom_named|ds": "Kingdom %d (%s)"
+  },
+  "ru": {
+    "paws_hotjoin_observer|s": "Игрок %s присоединился как наблюдатель.",
+    "paws_hotjoin_return|ss": "%s вернулся в игру за %s.",
+    "paws_hotjoin_kingdom|d": "Королевство %d",
+    "paws_hotjoin_kingdom_named|ds": "Королевство %d (%s)"
+  },
+  "de": {
+    "paws_hotjoin_observer|s": "%s ist als Zuschauer beigetreten.",
+    "paws_hotjoin_return|ss": "%s ist als %s ins Spiel zurückgekehrt.",
+    "paws_hotjoin_kingdom|d": "Königreich %d",
+    "paws_hotjoin_kingdom_named|ds": "Königreich %d (%s)"
+  },
+  "fr": {
+    "paws_hotjoin_observer|s": "%s a rejoint la partie en tant qu'observateur.",
+    "paws_hotjoin_return|ss": "%s a repris %s dans la partie.",
+    "paws_hotjoin_kingdom|d": "Royaume %d",
+    "paws_hotjoin_kingdom_named|ds": "Royaume %d (%s)"
+  },
+  "cs": {
+    "paws_hotjoin_observer|s": "%s se připojil jako pozorovatel.",
+    "paws_hotjoin_return|ss": "%s se vrátil do hry za %s.",
+    "paws_hotjoin_kingdom|d": "Království %d",
+    "paws_hotjoin_kingdom_named|ds": "Království %d (%s)"
+  },
+  "uk": {
+    "paws_hotjoin_observer|s": "%s приєднався як спостерігач.",
+    "paws_hotjoin_return|ss": "%s повернувся у гру за %s.",
+    "paws_hotjoin_kingdom|d": "Королівство %d",
+    "paws_hotjoin_kingdom_named|ds": "Королівство %d (%s)"
+  }
+}
