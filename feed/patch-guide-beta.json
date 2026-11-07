@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.0-beta.2",
+  "version": "0.5.0-beta.3",
   "entries": [
+    {
+      "id": "world-options",
+      "category": "always",
+      "titleRu": "Динамические сутки и выбор биомов",
+      "titleEn": "Dynamic daylight and biome selection",
+      "bodyRu": "- Динамическая смена суток: случайное начало и цикл 10 игровых минут.\n- Смешанные карты: все биомы или случайный набор от 1 до 4.\n- Все параметры карты помещаются без прокрутки.\n- Исправлено скачивание обновлений.\n- Новые пункты переведены на шесть языков.",
+      "bodyEn": "- Dynamic daylight with a random start and a 10-game-minute cycle.\n- Mixed maps: all biomes or a random set of 1 to 4.\n- All map options fit without scrolling.\n- Fixed update downloads.\n- New options translated into six languages."
+    },
     {
       "id": "hotjoin",
       "category": "always",

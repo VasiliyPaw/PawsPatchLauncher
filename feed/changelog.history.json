@@ -13,8 +13,12 @@
         "en": "Paw’s Patch 0.4.2 — stable Arcane Wars release"
       },
       "body": {
-        "ru": "Текущая бета Arcane Wars стала стабильной версией 0.4.2. Включены все исправления beta.11, в том числе полное игнорирование нулевой морали при соответствующей настройке без отмены расовых порогов отступления. Смешанные биомы и новые исправления интерфейса выпускаются отдельно в бете 0.5.0.",
-        "en": "The current Arcane Wars beta is now stable 0.4.2. Includes all beta.11 fixes, including fully ignoring zero morale when enabled while preserving racial retreat thresholds. Mixed biomes and the new interface fixes are released separately in the 0.5.0 beta."
+        "ru": "- Исправлено зависание рот при игнорировании нулевой морали.\n- Обычные пороги отступления сохранены.",
+        "en": "- Fixed companies getting stuck when zero morale is ignored.\n- Normal retreat thresholds are preserved.",
+        "de": "- Feststeckende Kompanien beim Ignorieren von Moral null korrigiert.\n- Normale Rückzugsschwellen bleiben erhalten.",
+        "fr": "- Compagnies bloquées lorsque le moral nul est ignoré : corrigé.\n- Les seuils habituels de retraite sont conservés.",
+        "cs": "- Opraveno zaseknutí rot při ignorování nulové morálky.\n- Běžné prahy ústupu zůstávají zachovány.",
+        "uk": "- Виправлено зависання рот під час ігнорування нульової моралі.\n- Звичайні пороги відступу збережено."
       }
     },
     {
@@ -1251,8 +1255,12 @@
         "en": "Convenient checks"
       },
       "body": {
-        "ru": "Проверка обновлений перенесена в нижнюю панель, а проверка установленных файлов — в настройки.",
-        "en": "Update checking moved to the bottom bar and installed-file verification moved to Settings."
+        "ru": "- Исправлено зависание рот при игнорировании нулевой морали.\n- Обычные пороги отступления сохранены.",
+        "en": "- Fixed companies getting stuck when zero morale is ignored.\n- Normal retreat thresholds are preserved.",
+        "de": "- Feststeckende Kompanien beim Ignorieren von Moral null korrigiert.\n- Normale Rückzugsschwellen bleiben erhalten.",
+        "fr": "- Compagnies bloquées lorsque le moral nul est ignoré : corrigé.\n- Les seuils habituels de retraite sont conservés.",
+        "cs": "- Opraveno zaseknutí rot při ignorování nulové morálky.\n- Běžné prahy ústupu zůstávají zachovány.",
+        "uk": "- Виправлено зависання рот під час ігнорування нульової моралі.\n- Звичайні пороги відступу збережено."
       }
     },
     {
@@ -1336,6 +1344,53 @@
   ],
   "beta": [
     {
+      "category": "launcher",
+      "channel": "beta",
+      "version": "1.0.8",
+      "publishedAt": "2026-11-07",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.8",
+        "en": "Paw’s Launcher 1.0.8",
+        "de": "Paw’s Launcher 1.0.8",
+        "fr": "Paw’s Launcher 1.0.8",
+        "cs": "Paw’s Launcher 1.0.8",
+        "uk": "Paw’s Launcher 1.0.8"
+      },
+      "body": {
+        "ru": "- Управление модами перенесено в шестерёнку раздела «Компоненты».",
+        "en": "- Mod management moved to the Components gear.",
+        "de": "- Modverwaltung zum Zahnrad unter Komponenten verschoben.",
+        "fr": "- Gestion des mods déplacée dans la roue dentée des composants.",
+        "cs": "- Správa modů přesunuta pod ozubené kolo v komponentách.",
+        "uk": "- Керування модами перенесено до шестерні розділу «Компоненти»."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "version": "0.5.0-beta.3",
+      "publishedAt": "2026-11-07",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0 beta 3 — динамические сутки и выбор биомов",
+        "en": "Paw’s Patch 0.5.0 beta 3 — dynamic daylight and biome selection",
+        "de": "Paw’s Patch 0.5.0 beta 3 — dynamische Tageszeit und Biomauswahl",
+        "fr": "Paw’s Patch 0.5.0 beta 3 — cycle jour-nuit et choix des biomes",
+        "cs": "Paw’s Patch 0.5.0 beta 3 — dynamická denní doba a výběr biomů",
+        "uk": "Paw’s Patch 0.5.0 beta 3 — динамічна доба та вибір біомів"
+      },
+      "body": {
+        "ru": "- Динамическая смена суток: случайное начало и цикл 10 игровых минут.\n- Смешанные карты: все биомы или случайный набор от 1 до 4.\n- Все параметры карты помещаются без прокрутки.\n- Исправлено скачивание обновлений.\n- Новые пункты переведены на шесть языков.",
+        "en": "- Dynamic daylight with a random start and a 10-game-minute cycle.\n- Mixed maps: all biomes or a random set of 1 to 4.\n- All map options fit without scrolling.\n- Fixed update downloads.\n- New options translated into six languages.",
+        "de": "- Dynamische Tageszeit mit zufälligem Beginn und einem Zyklus von 10 Spielminuten.\n- Gemischte Karten: alle Biome oder eine zufällige Auswahl von 1 bis 4.\n- Alle Kartenoptionen sind ohne Scrollen sichtbar.\n- Downloads von Updates korrigiert.\n- Neue Optionen in sechs Sprachen übersetzt.",
+        "fr": "- Cycle jour-nuit de 10 minutes de jeu, avec un début aléatoire.\n- Cartes mixtes : tous les biomes ou une sélection aléatoire de 1 à 4.\n- Toutes les options de carte tiennent sans défilement.\n- Téléchargement des mises à jour corrigé.\n- Nouvelles options traduites en six langues.",
+        "cs": "- Dynamická denní doba s náhodným začátkem a cyklem 10 herních minut.\n- Smíšené mapy: všechny biomy nebo náhodný výběr 1 až 4.\n- Všechny volby mapy jsou viditelné bez posouvání.\n- Opraveno stahování aktualizací.\n- Nové volby přeloženy do šesti jazyků.",
+        "uk": "- Динамічна зміна доби: випадковий початок і цикл 10 ігрових хвилин.\n- Змішані карти: усі біоми або випадковий набір від 1 до 4.\n- Усі параметри карти вміщуються без прокручування.\n- Виправлено завантаження оновлень.\n- Нові пункти перекладено шістьма мовами."
+      }
+    },
+    {
       "category": "patch",
       "mods": [
         "arcane-wars"
@@ -1352,12 +1407,12 @@
         "uk": "Paw’s Patch 0.5.0-beta.2 — Повернення до поточної партії"
       },
       "body": {
-        "ru": "Возврат за своё прежнее королевство вместо ИИ; новые участники входят наблюдателями. При отключении игрока матч остаётся на паузе. При потере хоста во время входа повторите подключение у нового хоста. Встроено в основной Paw’s Patch при любом сочетании остальных компонентов; старое восстановление через сохранение и лобби отключено.",
-        "en": "Return to your original kingdom instead of its AI; new participants join as observers. A disconnect leaves the match paused. If the host is lost during admission, retry with the new host. Built into Paw’s Patch with every combination of other components; legacy save-and-lobby recovery is disabled.",
-        "de": "Übernimm wieder dein ursprüngliches Königreich von der KI; neue Teilnehmer treten als Zuschauer bei. Nach einem Verbindungsabbruch bleibt die Partie pausiert. Fällt der Host beim Beitritt aus, verbinde dich erneut mit dem neuen Host. In Paw’s Patch integriert, unabhängig von anderen Komponenten; die alte Wiederherstellung über Spielstand und Lobby ist deaktiviert.",
-        "fr": "Reprenez votre royaume initial à la place de son IA ; les nouveaux participants rejoignent les observateurs. Une déconnexion laisse la partie en pause. Si l’hôte disparaît pendant l’entrée, reconnectez-vous au nouvel hôte. Intégré à Paw’s Patch avec toutes les autres options ; l’ancienne récupération par sauvegarde et salon est désactivée.",
-        "cs": "Vraťte se ke svému původnímu království místo jeho AI; noví účastníci se připojují jako pozorovatelé. Po odpojení zůstane hra pozastavená. Pokud během připojování vypadne hostitel, připojte se znovu k novému hostiteli. Součást Paw’s Patch při libovolné kombinaci ostatních voleb; staré obnovení přes uloženou hru a lobby je vypnuté.",
-        "uk": "Повернення за своє попереднє королівство замість ШІ; нові учасники входять спостерігачами. Після відключення гравця матч залишається на паузі. Якщо під час входу втрачено хоста, повторіть підключення до нового хоста. Вбудовано в основний Paw’s Patch за будь-якого поєднання інших компонентів; старе відновлення через збереження та лобі вимкнено."
+        "ru": "- Можно вернуться в идущий матч за своё королевство.\n- Новые участники могут войти наблюдателями.\n- При выходе игрока игра встаёт на паузу.\n- Чат сообщает о входе и возвращении игроков.",
+        "en": "- Return to your own kingdom in a running match.\n- New participants can join as observers.\n- The match pauses when a player leaves.\n- Chat announces players joining and returning.",
+        "de": "- Rückkehr zum eigenen Königreich in einer laufenden Partie.\n- Neue Teilnehmer können als Zuschauer beitreten.\n- Die Partie pausiert, wenn ein Spieler sie verlässt.\n- Der Chat meldet Beitritte und Rückkehr von Spielern.",
+        "fr": "- Retour à votre royaume dans une partie en cours.\n- Les nouveaux participants peuvent rejoindre les observateurs.\n- La partie se met en pause au départ d’un joueur.\n- Le chat annonce les arrivées et les retours des joueurs.",
+        "cs": "- Návrat ke svému království do probíhající hry.\n- Noví účastníci se mohou připojit jako pozorovatelé.\n- Po odchodu hráče se hra pozastaví.\n- Chat oznamuje příchody a návraty hráčů.",
+        "uk": "- Можна повернутися до поточного матчу за своє королівство.\n- Нові учасники можуть увійти спостерігачами.\n- Після виходу гравця гра стає на паузу.\n- Чат повідомляє про вхід і повернення гравців."
       }
     },
     {
@@ -1373,8 +1428,12 @@
         "en": "Paw’s Patch 0.5.0 beta 1 — mixed biomes"
       },
       "body": {
-        "ru": "Смешанные биомы встроены в основной патч без отдельной галочки. Выбор типа карты сохранён: новый пункт создаёт крупные извилистые области лета, снега, пустыни и проклятых земель. Настройки строений общие; варианты построек соответствуют биому. Проклятая местность на миникарте имеет фиолетовый оттенок. На картах от 1200×1200 потолок рот — 25 при достаточном содержании. Исправлены числовой порядок команд и центровка меню паузы и окон сохранения/загрузки. Новые пункты переведены на все шесть языков игры.",
-        "en": "Mixed biomes are built into the core patch without an extra launcher toggle. Map-type selection is retained: the new option creates large irregular regions of temperate land, snow, desert and cursed land. Building settings are shared; buildings match their biome. Cursed terrain is purple-tinted on the minimap. Maps at least 1200×1200 allow up to 25 companies with sufficient support. Team lists now sort numerically; pause and save/load dialogs are centered. New options are translated into all six game languages."
+        "ru": "- Смешанные карты: лето, снег, пустыня и проклятые земли.\n- Постройки соответствуют биому; настройки строений общие.\n- Проклятые земли отмечены фиолетовым на миникарте.\n- На картах от 1200×1200 — до 25 рот.\n- Исправлены порядок команд и положение игровых меню.",
+        "en": "- Mixed maps with temperate, snow, desert and cursed lands.\n- Buildings match their biome and share common settings.\n- Cursed lands appear purple on the minimap.\n- Maps from 1200×1200 allow up to 25 companies.\n- Fixed team ordering and game menu positions.",
+        "de": "- Gemischte Karten mit gemäßigten, verschneiten, Wüsten- und verfluchten Gebieten.\n- Passende Gebäude je Biom mit gemeinsamen Einstellungen.\n- Verfluchte Gebiete erscheinen auf der Minikarte violett.\n- Bis zu 25 Kompanien auf Karten ab 1200×1200.\n- Teamreihenfolge und Positionen der Spielmenüs korrigiert.",
+        "fr": "- Cartes mixtes : terres tempérées, neige, désert et terres maudites.\n- Bâtiments adaptés au biome et réglages communs.\n- Les terres maudites apparaissent en violet sur la minicarte.\n- Jusqu’à 25 compagnies sur les cartes à partir de 1200×1200.\n- Ordre des équipes et position des menus corrigés.",
+        "cs": "- Smíšené mapy s mírným podnebím, sněhem, pouští a prokletou zemí.\n- Budovy odpovídají biomu a mají společná nastavení.\n- Prokletá země je na minimapě fialová.\n- Až 25 rot na mapách od 1200×1200.\n- Opraveno řazení týmů a umístění herních nabídek.",
+        "uk": "- Змішані карти: літо, сніг, пустеля та прокляті землі.\n- Споруди відповідають біому; налаштування споруд спільні.\n- Прокляті землі позначено фіолетовим на мінікарті.\n- На картах від 1200×1200 — до 25 рот.\n- Виправлено порядок команд і положення ігрових меню."
       }
     },
     {
@@ -1386,8 +1445,12 @@
         "en": "Paw’s Patch 0.4.2-beta.11 — Arcane Wars"
       },
       "body": {
-        "ru": "Уточнена работа опции «Игнорировать нулевой боевой дух»: при её включении отключается особая обработка истощения, которая оставалась активной в части проверок морали. Боевой дух продолжает уменьшаться и восстанавливаться штатно. Обычное отступление по расовым порогам, ручное отступление и оглушение сохранены. Опция по-прежнему действует только в Arcane Wars при включённом Paw’s Patch и должна совпадать у всех игроков.",
-        "en": "Completed the “Ignore zero morale” policy: when enabled, the depleted-morale classification is now removed from the remaining morale checks as well. Morale still decreases and recovers normally. Normal routing at racial thresholds, manual retreat and stun are preserved. The option still requires Arcane Wars with Paw’s Patch enabled and must match for every multiplayer participant."
+        "ru": "- Исправлено зависание рот при игнорировании нулевой морали.\n- Обычные пороги отступления сохранены.",
+        "en": "- Fixed companies getting stuck when zero morale is ignored.\n- Normal retreat thresholds are preserved.",
+        "de": "- Feststeckende Kompanien beim Ignorieren von Moral null korrigiert.\n- Normale Rückzugsschwellen bleiben erhalten.",
+        "fr": "- Compagnies bloquées lorsque le moral nul est ignoré : corrigé.\n- Les seuils habituels de retraite sont conservés.",
+        "cs": "- Opraveno zaseknutí rot při ignorování nulové morálky.\n- Běžné prahy ústupu zůstávají zachovány.",
+        "uk": "- Виправлено зависання рот під час ігнорування нульової моралі.\n- Звичайні пороги відступу збережено."
       },
       "mods": [
         "arcane-wars"
@@ -3641,8 +3704,12 @@
         "en": "Convenient checks"
       },
       "body": {
-        "ru": "Проверка обновлений перенесена в нижнюю панель, а проверка установленных файлов — в настройки.",
-        "en": "Update checking moved to the bottom bar and installed-file verification moved to Settings."
+        "ru": "- Исправлено зависание рот при игнорировании нулевой морали.\n- Обычные пороги отступления сохранены.",
+        "en": "- Fixed companies getting stuck when zero morale is ignored.\n- Normal retreat thresholds are preserved.",
+        "de": "- Feststeckende Kompanien beim Ignorieren von Moral null korrigiert.\n- Normale Rückzugsschwellen bleiben erhalten.",
+        "fr": "- Compagnies bloquées lorsque le moral nul est ignoré : corrigé.\n- Les seuils habituels de retraite sont conservés.",
+        "cs": "- Opraveno zaseknutí rot při ignorování nulové morálky.\n- Běžné prahy ústupu zůstávají zachovány.",
+        "uk": "- Виправлено зависання рот під час ігнорування нульової моралі.\n- Звичайні пороги відступу збережено."
       }
     },
     {
