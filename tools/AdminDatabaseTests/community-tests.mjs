@@ -50,7 +50,12 @@ export async function communityTests(db,login,rpc,user,peer,admin){
  check(online.online===1&&Object.keys(online).sort().join(',')==='online,status','aggregate counts fresh sessions only, no identities');
  const directory=await rpc('paw_community_players',[0]);
  check(directory.total===1&&directory.page===0&&directory.players[0].id===user,'directory uses same live sessions as count');
- check(Object.keys(directory.players[0]).sort().join(',')==='avatar_revision,display_name,id,nickname','directory exposes public identity only');
+ check(Object.keys(directory.players[0]).sort().join(',')==='avatar_revision,display_name,id,nickname,presence','directory exposes public identity and general presence only');
+ check(directory.players[0].presence==='online','fresh non-playing user is online');
+ await db.exec('reset role');
+ await query('update paw_private.social_presence set playing_since=now() where player_id=$1',[user]);
+ await anonymous();
+ check((await rpc('paw_community_players',[0])).players[0].presence==='playing','fresh playing user has playing state without private activity details');
  check((await rpc('paw_community_players',[-1])).status==='invalid_page','negative page rejected');
  check((await rpc('paw_community_players',[null])).status==='invalid_page','null page rejected');
  check((await rpc('paw_community_players',[2147483647])).page===0,'oversized page safely clamps');
@@ -73,6 +78,7 @@ export async function communityTests(db,login,rpc,user,peer,admin){
  }
  await anonymous();
  const rosterPages=await Promise.all([0,1,2].map(p=>rpc('paw_community_players',[p])));
+ check(rosterPages.every(p=>p.players.every(u=>u.presence==='online')),'all pages include the general online state');
  check(rosterPages.every(p=>p.total===23)&&rosterPages.map(p=>p.players.length).join(',')==='10,10,3','bounded ten-player pages');
  check(rosterPages.flatMap(p=>p.players.map(u=>u.id)).join(',')===fixture.join(','),'all online users reachable once in nickname order, including non-authors');
  check(await rpc('paw_community_avatar_allowed',[fixture[0]+'/avatar.jpg'])===true,'online non-author avatar available');

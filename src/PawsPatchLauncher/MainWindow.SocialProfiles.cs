@@ -44,12 +44,18 @@ public partial class MainWindow
             var contact=(own?_ownPlayerCard:null)??_socialPlayers.FirstOrDefault(p=>p.Id==player)??(_adminViewedPlayer?.Id==player?_adminViewedPlayer:null)
                 ??(_activityViewedPlayer?.Id==player?_activityViewedPlayer:null);
             var presence=contact is {Available:true}?contact.Presence:"offline";
-            view.Children.Add(new Ellipse { Width=size>=60?20:16,Height=size>=60?20:16,HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,
-                Fill=SocialBrush(presence=="playing"?"#5CE5A1":presence=="online"?"#72ACFF":"#718095"),Stroke=SocialBrush("#11243B"),StrokeThickness=2.5,ToolTip=SocialStatusName(presence) });
+            view.Children.Add(SocialPresenceIndicator(presence, size));
         }
         return view;
     }
     private string SocialStatusName(string status)=> status=="playing"?T("Играет", "Playing"):status=="online"?T("В сети", "Online"):T("Не в сети", "Offline");
+    private Ellipse SocialPresenceIndicator(string presence, double avatarSize) => new()
+    {
+        Width = avatarSize >= 60 ? 20 : 16, Height = avatarSize >= 60 ? 20 : 16,
+        HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom,
+        Fill = SocialBrush(presence == "playing" ? "#5CE5A1" : presence == "online" ? "#72ACFF" : "#718095"),
+        Stroke = SocialBrush("#11243B"), StrokeThickness = 2.5, ToolTip = SocialStatusName(presence)
+    };
 
     private async Task PublishSocialPresenceAsync(Guid owner)
     {

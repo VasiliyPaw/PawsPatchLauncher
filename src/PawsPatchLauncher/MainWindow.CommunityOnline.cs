@@ -15,6 +15,7 @@ public partial class MainWindow
     private TextBlock? _onlineSummary, _onlineStatus, _onlinePageLabel;
     private Button? _onlinePrevious, _onlineNext, _onlineRefresh;
     private CancellationTokenSource? _onlineRequest;
+    private bool _onlineMainProfile;
     private Func<int, CancellationToken, Task<CommunityOnlinePage>>? _communityPlayersOverride = null;
 
     private async void CommunityOnline_Click(object sender, RoutedEventArgs e)
@@ -81,9 +82,15 @@ public partial class MainWindow
         };
         var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(15) };
         timer.Tick += async (_, _) => { if (_onlineRequest is null && window.IsVisible && window.WindowState != WindowState.Minimized) await LoadCommunityPlayersAsync(_onlinePage?.Page ?? 0); };
+        void DetailsVisibilityChanged(object _, DependencyPropertyChangedEventArgs __)
+        {
+            if (_onlineMainProfile && SocialDetailsOverlay.Visibility != Visibility.Visible) RestoreOnlineProfileOwner(window);
+        }
+        SocialDetailsOverlay.IsVisibleChanged += DetailsVisibilityChanged;
         window.Closed += (_, _) =>
         {
             timer.Stop(); _onlineRequest?.Cancel(); _onlineRequest = null;
+            SocialDetailsOverlay.IsVisibleChanged -= DetailsVisibilityChanged; _onlineMainProfile = false;
             _onlineWindow = null; _onlinePage = null; _onlineRows = null;
         };
         Closed += CloseOnlineWithOwner;
@@ -118,15 +125,18 @@ public partial class MainWindow
                 {
                     var content = new Grid();
                     content.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto }); content.ColumnDefinitions.Add(new ColumnDefinition()); content.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                    var avatar = PublicPlayerAvatar(player.Id, player.AvatarRevision, 34); avatar.Margin = new Thickness(0, 0, 10, 0); content.Children.Add(avatar);
+                    var avatar = new Grid { Width = 34, Height = 34, Margin = new Thickness(0, 0, 10, 0) };
+                    avatar.Children.Add(PublicPlayerAvatar(player.Id, player.AvatarRevision, 34));
+                    var indicator = SocialPresenceIndicator(player.Presence, 34); indicator.Name = "OnlinePresenceIndicator";
+                    avatar.Children.Add(indicator); content.Children.Add(avatar);
                     var names = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
                     names.Children.Add(new TextBlock { Text = player.DisplayName, FontWeight = FontWeights.SemiBold, TextTrimming = TextTrimming.CharacterEllipsis });
                     names.Children.Add(new TextBlock { Text = "@" + player.Nickname, FontSize = 11, Foreground = SocialBrush("#A8BBD2"), TextTrimming = TextTrimming.CharacterEllipsis });
                     Grid.SetColumn(names, 1); content.Children.Add(names);
                     var arrow = new TextBlock { Text = "›", Foreground = SocialBrush("#79C9A0"), FontSize = 22, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(8, 0, 0, 0) }; Grid.SetColumn(arrow, 2); content.Children.Add(arrow);
                     var card = new Button { Name = "OnlinePlayerCard", Tag = player.Id, Content = content, Style = (Style)FindResource("GhostButton"), HorizontalContentAlignment = HorizontalAlignment.Stretch, Padding = new Thickness(10, 7, 10, 7), Margin = new Thickness(0, 0, 0, 6), ToolTip = T("Открыть профиль", "Open profile") };
-                    AutomationProperties.SetName(card, player.DisplayName + " @" + player.Nickname);
-                    card.Click += async (_, _) => { window.Close(); await OpenPublicPlayerProfileAsync(player.Id, player.Nickname, player.DisplayName, player.AvatarRevision); };
+                    AutomationProperties.SetName(card, player.DisplayName + " @" + player.Nickname + ", " + SocialStatusName(player.Presence));
+                    card.Click += async (_, _) => await OpenOnlinePlayerProfileAsync(window, player);
                     _onlineRows.Children.Add(card);
                 }
             }
@@ -151,6 +161,31 @@ public partial class MainWindow
                 _onlinePrevious!.IsEnabled = _onlinePage?.Page > 0;
                 _onlineNext!.IsEnabled = _onlinePage is { } current && current.Page + 1 < current.PageCount;
             }
+        }
+    }
+
+    private void RestoreOnlineProfileOwner(Window directory)
+    {
+        if (_onlineWindow != directory) return;
+        _onlineMainProfile = false;
+        directory.Owner = this; directory.Activate();
+    }
+
+    private async Task OpenOnlinePlayerProfileAsync(Window directory, CommunityOnlinePlayer player)
+    {
+        if (_onlineWindow != directory || ConfirmationActive) return;
+        var inMain = player.Id.ToString() == _account.UserId || _socialPlayers.Any(p => p.Id == player.Id && p.Relation == "friend");
+        if (inMain)
+        {
+            // Owned windows stay above their owner. Let the main profile come to
+            // the front while keeping the directory and its page/scroll intact.
+            _onlineMainProfile = true; directory.Owner = null; Activate();
+        }
+        else if (_onlineMainProfile) CloseSocialDetails();
+        try { await OpenPublicPlayerProfileAsync(player.Id, player.Nickname, player.DisplayName, player.AvatarRevision, directory); }
+        finally
+        {
+            if (inMain && SocialDetailsOverlay.Visibility != Visibility.Visible) RestoreOnlineProfileOwner(directory);
         }
     }
 }

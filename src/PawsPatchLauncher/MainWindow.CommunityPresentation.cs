@@ -69,15 +69,16 @@ public partial class MainWindow
     private Task OpenCommunityProfileAsync(CommunityMessage message)
         => OpenPublicPlayerProfileAsync(message.SenderId, message.Nickname, message.DisplayName, message.AvatarRevision);
 
-    private async Task OpenPublicPlayerProfileAsync(Guid player, string nickname, string displayName, DateTimeOffset? avatarRevision)
+    private async Task OpenPublicPlayerProfileAsync(Guid player, string nickname, string displayName, DateTimeOffset? avatarRevision, Window? profileOwner = null)
     {
         if (ConfirmationActive) return;
         if (player.ToString() == _account.UserId) { await ShowOwnPlayerCardAsync(); return; }
         var friend = _socialPlayers.FirstOrDefault(p => p.Id == player && p.Relation == "friend");
         if (friend is not null) { ShowSocialDetails(friend); return; }
-        // Chat identities are public; a public card must not request or reveal a
-        // stranger's private presence, configuration, match or account details.
+        // Public identity/general status does not authorize a stranger's private
+        // configuration, detailed match activity or account details.
         var (window, body) = CreateCommunityDialog(T("Профиль игрока", "Player profile"), IconKind.Profile, 440, 350);
+        if (profileOwner is not null) window.Owner = profileOwner;
         var content = new StackPanel { Margin = new Thickness(20), VerticalAlignment = VerticalAlignment.Center };
         var avatar = PublicPlayerAvatar(player,avatarRevision,64); avatar.HorizontalAlignment = HorizontalAlignment.Center; avatar.Margin = new Thickness(0,0,0,16); content.Children.Add(avatar);
         content.Children.Add(new TextBlock { Text = displayName, FontSize = 22, FontWeight = FontWeights.SemiBold, TextAlignment = TextAlignment.Center, TextWrapping = TextWrapping.Wrap });

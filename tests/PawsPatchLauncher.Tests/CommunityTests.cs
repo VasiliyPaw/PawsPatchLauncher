@@ -74,7 +74,7 @@ internal static class CommunityTests
             return Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK){Content=new ByteArrayContent(new byte[]{255,216,255,217})});
         }));
         Check(await publicService.ReadCommunityOnlineAsync()==12,"guest reads aggregate online count");
-        var roster = Enumerable.Range(1, 23).Select(i => new { id = Guid.NewGuid(), nickname = "Player" + i.ToString("D2"), display_name = "Player " + i, avatar_revision = (DateTimeOffset?)null }).ToArray();
+        var roster = Enumerable.Range(1, 23).Select(i => new { id = Guid.NewGuid(), nickname = "Player" + i.ToString("D2"), display_name = "Player " + i, avatar_revision = (DateTimeOffset?)null, presence = i % 2 == 0 ? "playing" : "online" }).ToArray();
         object? rosterReply = null; var rosterCalls = 0;
         using var rosterService = new AccountService(new AccountSessionStore(Path.Combine(root, "community-roster")), new Handler(async request =>
         {
@@ -90,6 +90,9 @@ internal static class CommunityTests
         var lastRoster = await rosterService.ReadCommunityPlayersAsync(int.MaxValue);
         Check(firstRoster.Players.Count == 10 && firstRoster.PageCount == 3 && secondRoster.Players.Count == 10 && lastRoster.Page == 2 && lastRoster.Players.Count == 3, "ten players per page including clamped last page");
         Check(firstRoster.Players.Concat(secondRoster.Players).Concat(lastRoster.Players).Select(p => p.Id).Distinct().Count() == 23, "directory pages cover every player");
+        Check(firstRoster.Players[0].Presence == "online" && firstRoster.Players[1].Presence == "playing", "directory reads general online and playing states");
+        rosterReply = new { status = "ok", page = 0, total = 1, players = new[] { new { roster[0].id, roster[0].nickname, roster[0].display_name } } };
+        Check((await rosterService.ReadCommunityPlayersAsync(0)).Players[0].Presence == "online", "older server remains compatible during deployment");
         var beforeRoster = rosterCalls; await Reject(() => rosterService.ReadCommunityPlayersAsync(-1));
         Check(rosterCalls == beforeRoster, "negative directory page rejected locally");
         rosterReply = new { status = "ok", page = 0, total = 0, players = Array.Empty<object>() };
@@ -102,7 +105,9 @@ internal static class CommunityTests
             new { status = "ok", page = 0, total = 11, players = roster.Take(11).ToArray() },
             new { status = "ok", page = 0, total = 1, players = new[] { new { id = Guid.Empty, nickname = "Player", display_name = "Player" } } },
             new { status = "ok", page = 0, total = 1, players = new[] { new { id = Guid.NewGuid(), nickname = "bad name", display_name = "Player" } } },
-            new { status = "ok", page = 0, total = 1, players = new[] { new { id = "bad", nickname = "Player", display_name = "Player" } } }
+            new { status = "ok", page = 0, total = 1, players = new[] { new { id = "bad", nickname = "Player", display_name = "Player" } } },
+            new { status = "ok", page = 0, total = 1, players = new[] { new { roster[0].id, roster[0].nickname, roster[0].display_name, presence = "offline" } } },
+            new { status = "ok", page = 0, total = 1, players = new[] { new { roster[0].id, roster[0].nickname, roster[0].display_name, presence = (string?)null } } }
         }) { rosterReply = bad; await Reject(() => rosterService.ReadCommunityPlayersAsync(0)); }
         Check((await publicService.ReadCommunityAvatarAsync(owner,DateTimeOffset.UtcNow))!.Length==4,"guest avatar transport returns bounded image bytes");
         await Reject(()=>publicService.ReadCommunityAvatarAsync(Guid.Empty,DateTimeOffset.UtcNow));

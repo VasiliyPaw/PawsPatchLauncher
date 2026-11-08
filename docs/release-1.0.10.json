@@ -1,0 +1,21 @@
+{
+  "category": "launcher",
+  "version": "1.0.10",
+  "publishedAt": "2026-11-08",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.10 — профили и статусы игроков",
+    "en": "Paw’s Launcher 1.0.10 — player profiles and status",
+    "de": "Paw’s Launcher 1.0.10 — Spielerprofile und Status",
+    "fr": "Paw’s Launcher 1.0.10 — profils et statut des joueurs",
+    "cs": "Paw’s Launcher 1.0.10 — profily a stav hráčů",
+    "uk": "Paw’s Launcher 1.0.10 — профілі та статуси гравців"
+  },
+  "body": {
+    "ru": "- Открытие профиля больше не закрывает список игроков в сети. После закрытия профиля сохраняются страница и положение списка.\n- На аватарках в списке появились круглые индикаторы: синий — «В сети», зелёный — «Играет», как в остальных разделах лаунчера.",
+    "en": "- Opening a profile no longer closes the online player directory. Its page and scroll position remain when you close the profile.\n- Directory avatars now have round status indicators: blue for Online and green for Playing, matching the rest of the launcher.",
+    "de": "- Beim Öffnen eines Profils bleibt die Online-Spielerliste geöffnet. Seite und Scrollposition bleiben nach dem Schließen des Profils erhalten.\n- Avatare in der Liste haben nun runde Statusanzeigen: blau für Online und grün für Spielt, wie im restlichen Launcher.",
+    "fr": "- Ouvrir un profil ne ferme plus la liste des joueurs en ligne. La page et la position de défilement sont conservées après la fermeture du profil.\n- Les avatars de la liste affichent un indicateur rond : bleu pour En ligne, vert pour En jeu, comme ailleurs dans le lanceur.",
+    "cs": "- Otevření profilu již nezavírá seznam hráčů online. Po zavření profilu zůstává zachována stránka i pozice posouvání.\n- Avatary v seznamu mají kulaté ukazatele stavu: modrý pro Online a zelený pro Hraje, stejně jako ve zbytku launcheru.",
+    "uk": "- Відкриття профілю більше не закриває список гравців у мережі. Після закриття профілю зберігаються сторінка та положення списку.\n- На аватарках у списку з’явилися круглі індикатори: синій — «У мережі», зелений — «Грає», як в інших розділах лаунчера."
+  }
+}

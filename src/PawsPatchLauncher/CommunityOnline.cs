@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace PawsPatchLauncher;
 
-public sealed record CommunityOnlinePlayer(Guid Id, string Nickname, string DisplayName, DateTimeOffset? AvatarRevision);
+public sealed record CommunityOnlinePlayer(Guid Id, string Nickname, string DisplayName, DateTimeOffset? AvatarRevision, string Presence = "online");
 public sealed record CommunityOnlinePage(int Page, int Total, IReadOnlyList<CommunityOnlinePlayer> Players)
 {
     public const int PageSize = 10;
@@ -29,8 +29,9 @@ public sealed partial class AccountService
             var players = list.EnumerateArray().Select(p =>
             {
                 var player = new CommunityOnlinePlayer(p.GetProperty("id").GetGuid(), p.GetProperty("nickname").GetString()!,
-                    p.GetProperty("display_name").GetString()!, p.TryGetProperty("avatar_revision", out var revision) && revision.ValueKind != JsonValueKind.Null ? revision.GetDateTimeOffset() : null);
-                if (player.Id == Guid.Empty || player.Nickname is null || player.DisplayName is null) throw new AccountException("invalid_response");
+                    p.GetProperty("display_name").GetString()!, p.TryGetProperty("avatar_revision", out var revision) && revision.ValueKind != JsonValueKind.Null ? revision.GetDateTimeOffset() : null,
+                    p.TryGetProperty("presence", out var presence) ? presence.GetString()! : "online");
+                if (player.Id == Guid.Empty || player.Nickname is null || player.DisplayName is null || player.Presence is not ("online" or "playing")) throw new AccountException("invalid_response");
                 ValidateNickname(player.Nickname); ValidateDisplayName(player.DisplayName);
                 return player;
             }).ToArray();

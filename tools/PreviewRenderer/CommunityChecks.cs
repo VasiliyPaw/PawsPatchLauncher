@@ -86,7 +86,7 @@ internal static class CommunityChecks
             Check(Field<string>("_activePage")=="account","guest profile sign in opens account form");Call("SetActivePage","home");
 
             var roster = Enumerable.Range(1, 23).Select(i => new CommunityOnlinePlayer(Guid.NewGuid(), "Player" + i.ToString("D2"),
-                i == 1 ? "Очень длинное имя игрока для проверки компактной карточки" : "Игрок " + i, null)).ToArray();
+                i == 1 ? "Очень длинное имя игрока для проверки компактной карточки" : "Игрок " + i, null, i % 2 == 0 ? "playing" : "online")).ToArray();
             bool rosterOffline = false; var rosterCount = roster.Length;
             Set("_communityPlayersOverride", new Func<int, CancellationToken, Task<CommunityOnlinePage>>((page, ct) =>
             {
@@ -97,6 +97,16 @@ internal static class CommunityChecks
             C<Button>("CommunityOnlineButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));window.UpdateLayout();
             var directoryWindow = Field<Window>("_onlineWindow");
             Check(window.IsEnabled && directoryWindow.Owner == window && Field<StackPanel>("_onlineRows").Children.Count == 10, "online counter opens ten compact cards without blocking launcher");
+            var statusCards = Field<StackPanel>("_onlineRows").Children.OfType<Button>().Take(2).ToArray();
+            var indicators = statusCards.Select(card => ((Grid)((Grid)card.Content).Children[0]).Children.OfType<System.Windows.Shapes.Ellipse>().Single()).ToArray();
+            Check(((SolidColorBrush)indicators[0].Fill).Color == Color.FromRgb(0x72,0xAC,0xFF)
+                && ((SolidColorBrush)indicators[1].Fill).Color == Color.FromRgb(0x5C,0xE5,0xA1), "directory status circles match online/playing colors elsewhere");
+            Check(indicators[0].ToolTip?.ToString() == (language == "ru" ? "В сети" : "Online")
+                && indicators[1].ToolTip?.ToString() == (language == "ru" ? "Играет" : "Playing"), "presence circles have localized status hints");
+            roster[0] = roster[0] with { Presence = "playing" }; await (Task)Call("LoadCommunityPlayersAsync",0)!;
+            var updatedIndicator = ((Grid)((Grid)((Button)Field<StackPanel>("_onlineRows").Children[0]).Content).Children[0]).Children.OfType<System.Windows.Shapes.Ellipse>().Single();
+            Check(((SolidColorBrush)updatedIndicator.Fill).Color == Color.FromRgb(0x5C,0xE5,0xA1), "presence changes refresh a card even when identity and total stay the same");
+            roster[0] = roster[0] with { Presence = "online" }; await (Task)Call("LoadCommunityPlayersAsync",0)!;
             C<Button>("CommunityOnlineButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             Check(ReferenceEquals(directoryWindow, Field<Window>("_onlineWindow")), "counter reuses existing directory");
             Check(C<TextBlock>("CommunityDescription").ToolTip is null && C<Button>("CommunityOnlineButton").ToolTip is not null
@@ -154,15 +164,29 @@ internal static class CommunityChecks
             await (Task)Call("LoadCommunityPlayersAsync", 0)!;
             Check(!slowAvatar.Task.IsCompleted && Field<Button>("_onlineNext").IsEnabled, "slow avatar does not block paging controls");
             slowAvatar.SetResult(null);
+            await (Task)Call("LoadCommunityPlayersAsync",1)!;
+            directoryWindow.Height = 400; directoryWindow.UpdateLayout();
+            DependencyObject onlineScrollAncestor = Field<StackPanel>("_onlineRows");
+            while (onlineScrollAncestor is not ScrollViewer) onlineScrollAncestor = VisualTreeHelper.GetParent(onlineScrollAncestor);
+            var directoryScroll = (ScrollViewer)onlineScrollAncestor;
+            directoryScroll.ScrollToVerticalOffset(100); directoryWindow.UpdateLayout();
+            var retainedOnlineOffset = directoryScroll.VerticalOffset;
+            Check(retainedOnlineOffset > 0, "short directory fixture has a nonzero scroll position");
+            var retainedOnlineRows = Field<StackPanel>("_onlineRows").Children[0];
             var rosterProfileTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(200) };
             rosterProfileTimer.Tick += (_, _) =>
             {
                 rosterProfileTimer.Stop();
-                var profile = window.OwnedWindows.Cast<Window>().Single(w => w.IsVisible);
-                Check(Field<Window?>("_onlineWindow") is null && profile.Title == (language == "ru" ? "Профиль игрока" : "Player profile"), "whole online card opens public profile and closes directory");
+                var profile = directoryWindow.OwnedWindows.Cast<Window>().Single(w => w.IsVisible);
+                Check(ReferenceEquals(Field<Window?>("_onlineWindow"),directoryWindow) && directoryWindow.IsVisible
+                    && profile.Owner == directoryWindow && profile.Title == (language == "ru" ? "Профиль игрока" : "Player profile"), "public profile opens above directory without closing it");
                 profile.Close();
             };
             rosterProfileTimer.Start(); ((Button)Field<StackPanel>("_onlineRows").Children[0]).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(directoryWindow.IsVisible && Field<CommunityOnlinePage>("_onlinePage").Page == 1
+                && ReferenceEquals(retainedOnlineRows,Field<StackPanel>("_onlineRows").Children[0]), "closing a profile preserves directory page and rows");
+            Check(Math.Abs(directoryScroll.VerticalOffset-retainedOnlineOffset)<1, "closing a profile preserves directory scroll position");
+            directoryWindow.Close();
             var lateDirectory = new TaskCompletionSource<CommunityOnlinePage>();
             var pendingDirectoryReads = 0;
             Set("_communityPlayersOverride", new Func<int, CancellationToken, Task<CommunityOnlinePage>>((_, _) => { pendingDirectoryReads++; return lateDirectory.Task; }));
@@ -296,6 +320,23 @@ internal static class CommunityChecks
             Check(rich.Text.Contains(":ch_sword:")&&rich.Document.Blocks.OfType<System.Windows.Documents.Paragraph>().SelectMany(p=>p.Inlines.OfType<System.Windows.Documents.InlineUIContainer>()).Any(),"received glyph uses shared inline renderer");
 
             SocialChecks.Populate(window,"chat");Call("RefreshCommunityIdentity");Call("SetActivePage","modules");window.UpdateLayout();
+            Set("_communityPlayersOverride", new Func<int,CancellationToken,Task<CommunityOnlinePage>>((page,_) => Task.FromResult(new CommunityOnlinePage(page,23,roster.Skip(page*10).Take(10).ToArray()))));
+            C<Button>("CommunityOnlineButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            var retainedDirectory = Field<Window>("_onlineWindow");
+            await (Task)Call("LoadCommunityPlayersAsync",1)!;
+            var friendForDirectory = Field<IReadOnlyList<SocialPlayer>>("_socialPlayers").First(p=>p.Relation=="friend");
+            await (Task)Call("OpenOnlinePlayerProfileAsync",retainedDirectory,new CommunityOnlinePlayer(friendForDirectory.Id,friendForDirectory.Nickname,friendForDirectory.Name,null,"playing"))!;
+            Check(retainedDirectory.IsVisible && retainedDirectory.Owner is null && C<Border>("SocialDetailsOverlay").IsVisible
+                && Field<Guid?>("_socialDetailsPeer")==friendForDirectory.Id, "friend profile comes forward while directory stays open");
+            Call("CloseSocialDetails");
+            Check(retainedDirectory.Owner==window && Field<CommunityOnlinePage>("_onlinePage").Page==1, "closing friend profile restores directory ownership and page");
+            var directoryAccount = Field<AccountService>("_account");
+            await (Task)Call("OpenOnlinePlayerProfileAsync",retainedDirectory,new CommunityOnlinePlayer(Guid.Parse(directoryAccount.UserId),directoryAccount.Nickname,directoryAccount.DisplayName,null))!;
+            Check(retainedDirectory.IsVisible && retainedDirectory.Owner is null && C<Border>("SocialDetailsOverlay").IsVisible
+                && Field<Guid?>("_socialDetailsPeer")==Guid.Parse(directoryAccount.UserId), "own profile comes forward while directory stays open");
+            Call("CloseSocialDetails");
+            Check(retainedDirectory.Owner==window && Field<CommunityOnlinePage>("_onlinePage").Page==1, "closing own profile restores directory ownership and page");
+            retainedDirectory.Close();
             var composer=C<ChatComposer>("CommunityInput");var privateComposer=C<ChatComposer>("FriendsMessageInput");
             var account=Field<AccountService>("_account");
             data=data.Append(new CommunityMessage(1101,Guid.NewGuid(),person,"FixtureFriend","Player","Hello @"+account.Nickname+"!",DateTimeOffset.Now,false,0)).ToArray();await Poll();
