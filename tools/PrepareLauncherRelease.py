@@ -76,7 +76,7 @@ def stage(a):
         raw = (ROOT / path).read_bytes()
         assert normalize(fetch(remote + path)) == normalize(raw), 'Public catalog changed: ' + name
         before = verify(json.loads(raw), key())
-        assert before['launcher']['version'] == a.previous
+        assert before['launcher']['version'] in a.previous, 'Unexpected previous launcher version: ' + name
         assert not any(n['category'] == 'launcher' and n['version'] == a.version for n in before['changelog'])
         updated = copy.deepcopy(before)
         updated.update(launcher=launcher, publishedAt=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     p.add_argument('action', choices=['stage', 'promote', 'readback'])
     p.add_argument('--out', type=Path, required=True)
     p.add_argument('--version', required=True)
-    p.add_argument('--previous')
+    p.add_argument('--previous', action='append', help='Expected previous launcher version; repeat when channels differ')
     p.add_argument('--commit')
     p.add_argument('--private-key', type=Path)
     p.add_argument('--allow-unsigned-launcher', action='store_true')

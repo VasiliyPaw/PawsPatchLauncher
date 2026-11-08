@@ -1255,5 +1255,14 @@
   "You can add up to 32 mods. Remove one or replace its archive.": "Lze přidat nejvýše 32 modů. Jeden odeberte nebo nahraďte jeho archiv.",
   "Mods": "Mody",
   "Game and components": "Hra a součásti",
-  "Apply or undo your mod changes first.": "Nejprve použijte nebo zrušte změny modů."
+  "Apply or undo your mod changes first.": "Nejprve použijte nebo zrušte změny modů.",
+  "Show online players. Guests are not counted.": "Zobrazit hráče online. Hosté se nezapočítávají.",
+  "Online players": "Hráči online",
+  "Previous page": "Předchozí stránka",
+  "Next page": "Další stránka",
+  "Online: {0} · Guests are not counted": "Online: {0} · Hosté se nezapočítávají",
+  "{0} of {1}": "{0} z {1}",
+  "No players are online right now.": "Právě není nikdo online.",
+  "Players with an active launcher session": "Hráči s aktivní relací launcheru",
+  "Could not load players. Click Refresh to try again.": "Seznam hráčů se nepodařilo načíst. Klikněte na Obnovit."
 }

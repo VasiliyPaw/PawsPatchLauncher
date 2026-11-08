@@ -1255,5 +1255,14 @@
   "You can add up to 32 mods. Remove one or replace its archive.": "Можна додати до 32 модів. Видаліть один або замініть його архів.",
   "Mods": "Моди",
   "Game and components": "Гра та компоненти",
-  "Apply or undo your mod changes first.": "Спочатку застосуйте або скасуйте зміни модів."
+  "Apply or undo your mod changes first.": "Спочатку застосуйте або скасуйте зміни модів.",
+  "Show online players. Guests are not counted.": "Показати гравців у мережі. Гості не враховуються.",
+  "Online players": "Гравці в мережі",
+  "Previous page": "Попередня сторінка",
+  "Next page": "Наступна сторінка",
+  "Online: {0} · Guests are not counted": "У мережі: {0} · Гості не враховуються",
+  "{0} of {1}": "{0} з {1}",
+  "No players are online right now.": "Зараз у мережі нікого немає.",
+  "Players with an active launcher session": "Гравці з активним сеансом лаунчера",
+  "Could not load players. Click Refresh to try again.": "Не вдалося завантажити список. Натисніть «Оновити»."
 }

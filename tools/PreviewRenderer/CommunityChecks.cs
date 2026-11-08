@@ -85,6 +85,93 @@ internal static class CommunityChecks
             guestProfileTimer.Start();await (Task)Call("OpenCommunityProfileAsync",publicMessage)!;
             Check(Field<string>("_activePage")=="account","guest profile sign in opens account form");Call("SetActivePage","home");
 
+            var roster = Enumerable.Range(1, 23).Select(i => new CommunityOnlinePlayer(Guid.NewGuid(), "Player" + i.ToString("D2"),
+                i == 1 ? "Очень длинное имя игрока для проверки компактной карточки" : "Игрок " + i, null)).ToArray();
+            bool rosterOffline = false; var rosterCount = roster.Length;
+            Set("_communityPlayersOverride", new Func<int, CancellationToken, Task<CommunityOnlinePage>>((page, ct) =>
+            {
+                if (rosterOffline) return Task.FromException<CommunityOnlinePage>(new AccountException("network"));
+                var index = Math.Min(page, Math.Max(0, (rosterCount - 1) / 10));
+                return Task.FromResult(new CommunityOnlinePage(index, rosterCount, roster.Take(rosterCount).Skip(index * 10).Take(10).ToArray()));
+            }));
+            C<Button>("CommunityOnlineButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));window.UpdateLayout();
+            var directoryWindow = Field<Window>("_onlineWindow");
+            Check(window.IsEnabled && directoryWindow.Owner == window && Field<StackPanel>("_onlineRows").Children.Count == 10, "online counter opens ten compact cards without blocking launcher");
+            C<Button>("CommunityOnlineButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(ReferenceEquals(directoryWindow, Field<Window>("_onlineWindow")), "counter reuses existing directory");
+            Check(C<TextBlock>("CommunityDescription").ToolTip is null && C<Button>("CommunityOnlineButton").ToolTip is not null
+                && C<Button>("CommunityOnlineButton").ActualWidth + 20 < ((Grid)C<Button>("CommunityOnlineButton").Parent).ColumnDefinitions[0].ActualWidth, "online hint and hit area stay within the counter text");
+            DialogSnap(directoryWindow, "online-players-first");
+            void CheckOnlineFooter()
+            {
+                directoryWindow.UpdateLayout();
+                Rect Bounds(FrameworkElement element) => element.TransformToAncestor(directoryWindow).TransformBounds(new Rect(element.RenderSize));
+                var previousBounds = Bounds(Field<Button>("_onlinePrevious"));
+                var labelBounds = Bounds(Field<TextBlock>("_onlinePageLabel"));
+                var nextBounds = Bounds(Field<Button>("_onlineNext"));
+                var refreshBounds = Bounds(Field<Button>("_onlineRefresh"));
+                Check(previousBounds.Right <= labelBounds.Left && labelBounds.Right <= nextBounds.Left
+                    && nextBounds.Right + 16 <= refreshBounds.Left, "page arrows, number and refresh have separate hit areas");
+                Check(previousBounds.Left >= 20 && refreshBounds.Right <= directoryWindow.ActualWidth - 20
+                    && Math.Abs(previousBounds.Top - nextBounds.Top) < 1, "footer fits window with aligned page arrows");
+            }
+            CheckOnlineFooter();
+            directoryWindow.Width = 360; CheckOnlineFooter(); DialogSnap(directoryWindow, "online-players-narrow");
+            var refreshLabel = Field<Button>("_onlineRefresh").Content;
+            Field<Button>("_onlineRefresh").Content = "Aktualisieren"; CheckOnlineFooter();
+            Field<Button>("_onlineRefresh").Content = refreshLabel;
+            directoryWindow.Width = 460; directoryWindow.UpdateLayout();
+            bool DirectoryKey(Key key, UIElement? target = null)
+            {
+                var current = Field<Window>("_onlineWindow");
+                var args = new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(current), 0, key)
+                    { RoutedEvent = Keyboard.PreviewKeyDownEvent };
+                (target ?? current).RaiseEvent(args);
+                return args.Handled;
+            }
+            Check(DirectoryKey(Key.Left) && Field<CommunityOnlinePage>("_onlinePage").Page == 0, "left arrow stays on first page");
+            var focusedCard = (Button)Field<StackPanel>("_onlineRows").Children[0]; focusedCard.Focus();
+            Check(DirectoryKey(Key.Right, focusedCard) && Field<CommunityOnlinePage>("_onlinePage").Page == 1, "right arrow changes page from a focused player card");
+            Check(DirectoryKey(Key.Left, Field<Button>("_onlineRefresh")) && Field<CommunityOnlinePage>("_onlinePage").Page == 0, "left arrow changes page from refresh button");
+            Field<Button>("_onlineNext").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(Field<CommunityOnlinePage>("_onlinePage").Page == 1 && Field<StackPanel>("_onlineRows").Children.Count == 10, "second page reachable");
+            Field<Button>("_onlineNext").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(Field<CommunityOnlinePage>("_onlinePage").Page == 2 && Field<StackPanel>("_onlineRows").Children.Count == 3 && !Field<Button>("_onlineNext").IsEnabled, "last page contains remaining three players");
+            Check(DirectoryKey(Key.Right) && Field<CommunityOnlinePage>("_onlinePage").Page == 2, "right arrow stays on last page");
+            DialogSnap(directoryWindow, "online-players-last");
+            rosterCount = 11; await (Task)Call("LoadCommunityPlayersAsync", 2)!;
+            Check(Field<CommunityOnlinePage>("_onlinePage").Page == 1 && Field<StackPanel>("_onlineRows").Children.Count == 1, "departures clamp page");
+            rosterOffline = true; await (Task)Call("LoadCommunityPlayersAsync", 1)!;
+            Check(Field<StackPanel>("_onlineRows").Children.Count == 0 && Field<TextBlock>("_onlineStatus").IsVisible && Field<Button>("_onlineRefresh").IsEnabled, "failed directory exposes retry without stale online cards");
+            DialogSnap(directoryWindow, "online-players-error");
+            rosterOffline = false; rosterCount = 0; Field<Button>("_onlineRefresh").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(Field<CommunityOnlinePage>("_onlinePage").Total == 0 && Field<TextBlock>("_onlineStatus").IsVisible, "empty online state");
+            DialogSnap(directoryWindow, "online-players-empty");
+            rosterCount = 23; await (Task)Call("LoadCommunityPlayersAsync", 0)!;
+            var slowAvatar = new TaskCompletionSource<byte[]?>();
+            roster[0] = roster[0] with { AvatarRevision = DateTimeOffset.UtcNow.AddSeconds(1) };
+            Set("_communityAvatarOverride", new Func<Guid, DateTimeOffset, CancellationToken, Task<byte[]?>>((_, _, _) => slowAvatar.Task));
+            await (Task)Call("LoadCommunityPlayersAsync", 0)!;
+            Check(!slowAvatar.Task.IsCompleted && Field<Button>("_onlineNext").IsEnabled, "slow avatar does not block paging controls");
+            slowAvatar.SetResult(null);
+            var rosterProfileTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(200) };
+            rosterProfileTimer.Tick += (_, _) =>
+            {
+                rosterProfileTimer.Stop();
+                var profile = window.OwnedWindows.Cast<Window>().Single(w => w.IsVisible);
+                Check(Field<Window?>("_onlineWindow") is null && profile.Title == (language == "ru" ? "Профиль игрока" : "Player profile"), "whole online card opens public profile and closes directory");
+                profile.Close();
+            };
+            rosterProfileTimer.Start(); ((Button)Field<StackPanel>("_onlineRows").Children[0]).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            var lateDirectory = new TaskCompletionSource<CommunityOnlinePage>();
+            var pendingDirectoryReads = 0;
+            Set("_communityPlayersOverride", new Func<int, CancellationToken, Task<CommunityOnlinePage>>((_, _) => { pendingDirectoryReads++; return lateDirectory.Task; }));
+            C<Button>("CommunityOnlineButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(DirectoryKey(Key.Right) && pendingDirectoryReads == 1, "arrow cannot start another page request while loading");
+            Field<Window>("_onlineWindow").Close();
+            lateDirectory.SetResult(new CommunityOnlinePage(0, 1, roster.Take(1).ToArray())); await Task.Delay(30);
+            Check(Field<Window?>("_onlineWindow") is null, "late response after closing directory is ignored");
+
             Check(Field<string>("_communityChannel")=="en","fresh profile defaults to EN regardless of UI language");
             Check(settings.CommunityNotifications=="mentions","fresh profile only mentions notify");
             ContextMenu? notificationMenu=null;
@@ -170,6 +257,13 @@ internal static class CommunityChecks
             var timer=new DispatcherTimer{Interval=TimeSpan.FromMilliseconds(350)};
             timer.Tick+=(_,_)=>{timer.Stop();var history=Field<Window>("_historyWindow");Check(history.IsVisible&&C<Border>("ChangelogCard").IsVisible,"history dialog opens from friends");Check(history.WindowStyle==WindowStyle.None&&System.Windows.Shell.WindowChrome.GetWindowChrome(history) is not null,"history uses custom caption with native resizing");DialogSnap(history,"history-dialog");history.Close();};
             timer.Start();C<Button>("HistoryButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            var historyWindow = Field<Window>("_historyWindow");
+            Check(historyWindow.Owner == window && window.IsEnabled, "history is owned and modeless");
+            C<Button>("HistoryButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(ReferenceEquals(historyWindow, Field<Window>("_historyWindow")), "second click reuses history window");
+            Call("SetActivePage", "modules");
+            Check(Field<string>("_activePage") == "modules" && historyWindow.IsVisible, "launcher navigation remains available with history open");
+            await Task.Delay(500);
             Check(!C<Border>("ChangelogCard").IsVisible&&C<Border>("CommunityCard").IsVisible,"history closes without losing chat");
 
             // Paginated history, no 10,000-element visual tree and no reset while reading.

@@ -5,6 +5,8 @@ export async function communityTests(db,login,rpc,user,peer,admin){
  const anonymous=async()=>{await db.exec(`reset role;select set_config('request.jwt.claims','{}',false);set role anon`);};
  const denied=async(fn,s)=>{let bad=false;try{await fn();}catch{bad=true;}check(bad,s);};
  const id='7d18c3f2-9062-40ef-bb03-66af00000001';
+ await db.exec('reset role');
+ await query(`update paw_private.social_presence set seen_at=now()-interval '41 seconds' where player_id=$1`,[peer]);
  await anonymous();
  check((await rpc('paw_community_read',['ru'])).messages.length===0,'guest may read empty RU');
  await denied(()=>rpc('paw_community_send',['ru',id,'anonymous']), 'guest cannot send');
@@ -46,10 +48,43 @@ export async function communityTests(db,login,rpc,user,peer,admin){
  await anonymous();
  const online=await rpc('paw_community_online',[]);
  check(online.online===1&&Object.keys(online).sort().join(',')==='online,status','aggregate counts fresh sessions only, no identities');
+ const directory=await rpc('paw_community_players',[0]);
+ check(directory.total===1&&directory.page===0&&directory.players[0].id===user,'directory uses same live sessions as count');
+ check(Object.keys(directory.players[0]).sort().join(',')==='avatar_revision,display_name,id,nickname','directory exposes public identity only');
+ check((await rpc('paw_community_players',[-1])).status==='invalid_page','negative page rejected');
+ check((await rpc('paw_community_players',[null])).status==='invalid_page','null page rejected');
+ check((await rpc('paw_community_players',[2147483647])).page===0,'oversized page safely clamps');
  await db.exec('reset role');
  await query(`update paw_private.social_presence set launcher_id=gen_random_uuid() where player_id=$1`,[user]);
  await anonymous();check((await rpc('paw_community_online',[])).online===0,'replaced launcher session not counted');
+ check((await rpc('paw_community_players',[0])).players.length===0,'replaced launcher excluded from directory');
  await denied(()=>query('select * from paw_private.social_presence'),'guest cannot enumerate online users');
+ await db.exec('rollback;reset role');await anonymous();
+
+ await db.exec('reset role;begin');
+ await query('delete from paw_private.social_presence');
+ const fixture=[];
+ for(let i=0;i<23;i++){
+  const player='89110000-0000-0000-0000-'+String(i+1).padStart(12,'0');fixture.push(player);
+  await query(`insert into auth.users(id,email,email_confirmed_at,raw_user_meta_data) values($1,$2,now(),$3::jsonb)`,[player,`roster${i}@example.test`,JSON.stringify({nickname:'Roster'+String(i).padStart(2,'0'),display_name:'Roster '+i})]);
+  await query('insert into auth.sessions(id,user_id) values($1,$1)',[player]);
+  await query(`insert into paw_private.launcher_sessions values($1,$1,now(),'20000000-0000-0000-0000-000000000001',false)`,[player]);
+  await query(`insert into paw_private.social_presence(player_id,session_id,launcher_id,seen_at,channel,components) values($1,$1,'20000000-0000-0000-0000-000000000001',now(),'stable','{}')`,[player]);
+ }
+ await anonymous();
+ const rosterPages=await Promise.all([0,1,2].map(p=>rpc('paw_community_players',[p])));
+ check(rosterPages.every(p=>p.total===23)&&rosterPages.map(p=>p.players.length).join(',')==='10,10,3','bounded ten-player pages');
+ check(rosterPages.flatMap(p=>p.players.map(u=>u.id)).join(',')===fixture.join(','),'all online users reachable once in nickname order, including non-authors');
+ check(await rpc('paw_community_avatar_allowed',[fixture[0]+'/avatar.jpg'])===true,'online non-author avatar available');
+ check(await rpc('paw_community_avatar_allowed',[fixture[0]+'/other.jpg'])===false,'directory cannot broaden avatar object path');
+ await db.exec('reset role');
+ await query(`update public.paw_profiles set deletion_pending=true where id=$1`,[fixture[0]]);
+ await query(`update paw_private.social_presence set seen_at=now()-interval '41 seconds' where player_id=$1`,[fixture[1]]);
+ await query(`update paw_private.social_presence set launcher_id=gen_random_uuid() where player_id=$1`,[fixture[2]]);
+ await anonymous();
+ const reduced=await rpc('paw_community_players',[2]);
+ check(reduced.total===20&&reduced.page===1&&reduced.players.length===10,'departures clamp former last page');
+ check(await rpc('paw_community_avatar_allowed',[fixture[0]+'/avatar.jpg'])===false&&await rpc('paw_community_avatar_allowed',[fixture[1]+'/avatar.jpg'])===false,'deleted and stale non-author avatars hidden');
  await db.exec('rollback;reset role');await anonymous();
 
  await login(peer);check((await rpc('paw_community_remove',[id])).status==='admin_required','other player cannot delete');

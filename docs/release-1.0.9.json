@@ -1,0 +1,21 @@
+{
+  "category": "launcher",
+  "version": "1.0.9",
+  "publishedAt": "2026-11-08",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.9 — игроки в сети",
+    "en": "Paw’s Launcher 1.0.9 — online players",
+    "de": "Paw’s Launcher 1.0.9 — Spieler online",
+    "fr": "Paw’s Launcher 1.0.9 — joueurs en ligne",
+    "cs": "Paw’s Launcher 1.0.9 — hráči online",
+    "uk": "Paw’s Launcher 1.0.9 — гравці в мережі"
+  },
+  "body": {
+    "ru": "- Нажмите на счётчик «в сети», чтобы увидеть игроков: компактные карточки с аватаркой, именем и ником, по 10 на странице. Нажатие на карточку открывает профиль.\n- Страницы можно переключать кнопками или стрелками ← и → на клавиатуре. Список обновляется автоматически.\n- Подсказка счётчика появляется только над самим счётчиком.\n- История изменений остаётся поверх лаунчера и больше не блокирует нажатия в нём.\n- Управление модами доступно через шестерёнку раздела «Компоненты».",
+    "en": "- Click the online counter to see players: compact cards with an avatar, display name and username, ten per page. Click a card to open the player's profile.\n- Change pages with the buttons or the Left/Right arrow keys. The directory refreshes automatically.\n- The online hint appears only over the counter itself.\n- Release history stays above the launcher without blocking launcher controls.\n- Mod management is available from the Components gear.",
+    "de": "- Klicke auf den Online-Zähler, um Spieler anzuzeigen: kompakte Karten mit Avatar, Anzeigename und Benutzername, zehn pro Seite. Ein Klick öffnet das Profil.\n- Wechsle die Seite mit den Schaltflächen oder den Pfeiltasten links/rechts. Die Liste wird automatisch aktualisiert.\n- Der Online-Hinweis erscheint nur über dem Zähler.\n- Der Änderungsverlauf bleibt über dem Launcher, ohne dessen Bedienung zu blockieren.\n- Die Modverwaltung ist über das Zahnrad unter Komponenten erreichbar.",
+    "fr": "- Cliquez sur le compteur en ligne pour voir les joueurs : cartes compactes avec avatar, nom et identifiant, dix par page. Cliquez sur une carte pour ouvrir le profil.\n- Changez de page avec les boutons ou les flèches gauche/droite du clavier. La liste s’actualise automatiquement.\n- L’infobulle apparaît uniquement au-dessus du compteur.\n- L’historique reste au-dessus du lanceur sans bloquer ses commandes.\n- La gestion des mods est accessible via la roue dentée des composants.",
+    "cs": "- Kliknutím na počet hráčů online otevřete seznam: kompaktní karty s avatarem, zobrazovaným a uživatelským jménem, deset na stránku. Kliknutím na kartu otevřete profil.\n- Stránky přepínejte tlačítky nebo šipkami vlevo/vpravo na klávesnici. Seznam se automaticky aktualizuje.\n- Nápověda se zobrazuje pouze nad počítadlem.\n- Historie změn zůstává nad launcherem a neblokuje jeho ovládání.\n- Správa modů je dostupná pod ozubeným kolem v komponentách.",
+    "uk": "- Натисніть на лічильник «у мережі», щоб побачити гравців: компактні картки з аватаркою, ім’ям і ніком, по 10 на сторінці. Натискання відкриває профіль.\n- Сторінки можна перемикати кнопками або стрілками ← і → на клавіатурі. Список оновлюється автоматично.\n- Підказка з’являється лише над самим лічильником.\n- Історія змін залишається поверх лаунчера й більше не блокує натискання в ньому.\n- Керування модами доступне через шестерню розділу «Компоненти»."
+  }
+}

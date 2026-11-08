@@ -141,15 +141,16 @@ public partial class MainWindow
     private void HistoryButton_Click(object sender, RoutedEventArgs e)
     {
         if (ConfirmationActive) return;
+        if (_historyWindow is { } existing) { existing.Activate(); return; }
         var (window, body) = CreateCommunityDialog(T("История изменений", "Release history"), IconKind.ReleaseNotes, 840, 840);
         _historyWindow = window;
         ChangelogCard.Margin = new Thickness(0); ChangelogCard.Padding = new Thickness(16);
         NewsTitleText.Visibility = Visibility.Collapsed; body.Content = ChangelogCard;
         window.ContentRendered += (_, _) => { RefreshNews(); MarkVisibleChangelogRead(); };
         window.Activated += (_, _) => MarkVisibleChangelogRead();
-        try { window.ShowDialog(); }
-        finally { body.Content = null; ChangelogCard.ClearValue(Border.PaddingProperty); NewsTitleText.Visibility = Visibility.Visible;
-            _historyWindow = null; CancelChangelogTransition(); HistoryButton.Focus(); }
+        window.Closed += (_, _) => { body.Content = null; ChangelogCard.ClearValue(Border.PaddingProperty); NewsTitleText.Visibility = Visibility.Visible;
+            _historyWindow = null; CancelChangelogTransition(); };
+        window.Show();
     }
 
     private void RefreshCommunityIdentity()

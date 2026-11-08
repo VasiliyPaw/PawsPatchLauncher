@@ -66,24 +66,27 @@ public partial class MainWindow
         return (window,body);
     }
 
-    private async Task OpenCommunityProfileAsync(CommunityMessage message)
+    private Task OpenCommunityProfileAsync(CommunityMessage message)
+        => OpenPublicPlayerProfileAsync(message.SenderId, message.Nickname, message.DisplayName, message.AvatarRevision);
+
+    private async Task OpenPublicPlayerProfileAsync(Guid player, string nickname, string displayName, DateTimeOffset? avatarRevision)
     {
         if (ConfirmationActive) return;
-        if (message.SenderId.ToString() == _account.UserId) { await ShowOwnPlayerCardAsync(); return; }
-        var friend = _socialPlayers.FirstOrDefault(p => p.Id == message.SenderId && p.Relation == "friend");
+        if (player.ToString() == _account.UserId) { await ShowOwnPlayerCardAsync(); return; }
+        var friend = _socialPlayers.FirstOrDefault(p => p.Id == player && p.Relation == "friend");
         if (friend is not null) { ShowSocialDetails(friend); return; }
         // Chat identities are public; a public card must not request or reveal a
         // stranger's private presence, configuration, match or account details.
         var (window, body) = CreateCommunityDialog(T("Профиль игрока", "Player profile"), IconKind.Profile, 440, 350);
         var content = new StackPanel { Margin = new Thickness(20), VerticalAlignment = VerticalAlignment.Center };
-        var avatar = CommunityAvatar(message,64); avatar.HorizontalAlignment = HorizontalAlignment.Center; avatar.Margin = new Thickness(0,0,0,16); content.Children.Add(avatar);
-        content.Children.Add(new TextBlock { Text = message.DisplayName, FontSize = 22, FontWeight = FontWeights.SemiBold, TextAlignment = TextAlignment.Center, TextWrapping = TextWrapping.Wrap });
-        content.Children.Add(new TextBlock { Text = "@" + message.Nickname, Foreground = SocialBrush("#A8BBD2"), TextAlignment = TextAlignment.Center, Margin = new Thickness(0,6,0,20) });
+        var avatar = PublicPlayerAvatar(player,avatarRevision,64); avatar.HorizontalAlignment = HorizontalAlignment.Center; avatar.Margin = new Thickness(0,0,0,16); content.Children.Add(avatar);
+        content.Children.Add(new TextBlock { Text = displayName, FontSize = 22, FontWeight = FontWeights.SemiBold, TextAlignment = TextAlignment.Center, TextWrapping = TextWrapping.Wrap });
+        content.Children.Add(new TextBlock { Text = "@" + nickname, Foreground = SocialBrush("#A8BBD2"), TextAlignment = TextAlignment.Center, Margin = new Thickness(0,6,0,20) });
         var add = new Button { Content = _account.State == AccountState.Guest ? T("Войти в аккаунт", "Sign in") : T("Добавить в друзья", "Add friend"), Name = "CommunityProfileAction", Style = (Style)FindResource("GoldButton"), HorizontalAlignment = HorizontalAlignment.Center };
         add.Click += (_,_) => { window.Close(); if (_account.State == AccountState.Guest) ShowAccountForm(false);
-            else { SetActivePage("friends"); FriendsShowAdd_Click(FriendsShowAddButton,new RoutedEventArgs()); FriendsNicknameInput.Text = message.Nickname; } };
+            else { SetActivePage("friends"); FriendsShowAdd_Click(FriendsShowAddButton,new RoutedEventArgs()); FriendsNicknameInput.Text = nickname; } };
         content.Children.Add(add);body.Content = content;
-        window.Loaded += async (_,_) => await RefreshCommunityAvatarAsync(message);
+        window.Loaded += async (_,_) => await RefreshPublicAvatarAsync(player,avatarRevision);
         window.ShowDialog();
     }
 }

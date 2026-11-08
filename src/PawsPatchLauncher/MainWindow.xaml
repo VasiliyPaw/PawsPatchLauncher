@@ -1315,7 +1315,9 @@
                                 </Grid>
                                 <Grid Grid.Row="1" Margin="0,7,0,12">
                                     <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                    <TextBlock x:Name="CommunityDescription" Style="{StaticResource SmallMetadataText}" TextWrapping="Wrap" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <Button x:Name="CommunityOnlineButton" Style="{StaticResource ChatIdentityButton}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,8,0" Padding="0" Click="CommunityOnline_Click">
+                                        <TextBlock x:Name="CommunityDescription" Style="{StaticResource SmallMetadataText}"/>
+                                    </Button>
                                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                         <Button x:Name="CommunityEn" Tag="en" Style="{StaticResource GhostButton}" Padding="6,5" FontSize="12" Margin="0,0,4,0" Click="CommunityChannel_Click" AutomationProperties.Name="English chat">
                                             <StackPanel Orientation="Horizontal">

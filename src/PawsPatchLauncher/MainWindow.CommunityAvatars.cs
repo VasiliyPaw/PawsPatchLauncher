@@ -17,13 +17,16 @@ public partial class MainWindow
     private Func<Guid, DateTimeOffset, CancellationToken, Task<byte[]?>>? _communityAvatarOverride = null;
 
     private ContentControl CommunityAvatar(CommunityMessage message, double size)
+        => PublicPlayerAvatar(message.SenderId, message.AvatarRevision, size);
+
+    private ContentControl PublicPlayerAvatar(Guid player, DateTimeOffset? revision, double size)
     {
-        var view = new ContentControl { Width = size, Height = size, Tag = message.AvatarRevision, IsHitTestVisible = false };
-        if (!_communityAvatarViews.TryGetValue(message.SenderId, out var views)) _communityAvatarViews[message.SenderId] = views = [];
+        var view = new ContentControl { Width = size, Height = size, Tag = revision, IsHitTestVisible = false };
+        if (!_communityAvatarViews.TryGetValue(player, out var views)) _communityAvatarViews[player] = views = [];
         views.RemoveAll(v => !v.TryGetTarget(out _));
         views.Add(new(view));
-        var cached = _communityAvatars.GetValueOrDefault(message.SenderId);
-        view.Content = CommunityAvatarVisual(size, cached.Revision == message.AvatarRevision ? cached.Image : null);
+        var cached = _communityAvatars.GetValueOrDefault(player);
+        view.Content = CommunityAvatarVisual(size, cached.Revision == revision ? cached.Image : null);
         return view;
     }
 
@@ -36,28 +39,31 @@ public partial class MainWindow
         return view;
     }
 
-    private async Task RefreshCommunityAvatarAsync(CommunityMessage message)
+    private Task RefreshCommunityAvatarAsync(CommunityMessage message)
+        => RefreshPublicAvatarAsync(message.SenderId, message.AvatarRevision);
+
+    private async Task RefreshPublicAvatarAsync(Guid player, DateTimeOffset? avatarRevision)
     {
-        if (ActivityStore.IsSmokeTest && _communityAvatarOverride is null || message.AvatarRevision is not { } revision || _accountLifetime.IsCancellationRequested) return;
-        var cached = _communityAvatars.GetValueOrDefault(message.SenderId);
-        if (cached.Revision == revision && DateTimeOffset.UtcNow < cached.Retry || !_communityAvatarLoading.Add(message.SenderId)) return;
+        if (ActivityStore.IsSmokeTest && _communityAvatarOverride is null || avatarRevision is not { } revision || _accountLifetime.IsCancellationRequested) return;
+        var cached = _communityAvatars.GetValueOrDefault(player);
+        if (cached.Revision == revision && DateTimeOffset.UtcNow < cached.Retry || !_communityAvatarLoading.Add(player)) return;
         try
         {
-            var bytes = await (_communityAvatarOverride?.Invoke(message.SenderId, revision, _accountLifetime.Token)
-                ?? _account.ReadCommunityAvatarAsync(message.SenderId, revision, _accountLifetime.Token));
+            var bytes = await (_communityAvatarOverride?.Invoke(player, revision, _accountLifetime.Token)
+                ?? _account.ReadCommunityAvatarAsync(player, revision, _accountLifetime.Token));
             var image = bytes is null ? null : await Task.Run(() =>
             {
                 var brush = new ImageBrush(AccountAvatarImage.Decode(bytes, normalized:true)) { Stretch = Stretch.UniformToFill };
                 brush.Freeze(); return brush;
             });
             if (_accountLifetime.IsCancellationRequested) return;
-            _communityAvatars[message.SenderId] = (revision, image, DateTimeOffset.UtcNow.AddMinutes(image is null ? 1 : 10));
-            if (_communityAvatarViews.TryGetValue(message.SenderId, out var views))
+            _communityAvatars[player] = (revision, image, DateTimeOffset.UtcNow.AddMinutes(image is null ? 1 : 10));
+            if (_communityAvatarViews.TryGetValue(player, out var views))
                 foreach (var weak in views)
                     if (weak.TryGetTarget(out var view) && Equals(view.Tag, revision)) view.Content = CommunityAvatarVisual(view.Width, image);
         }
-        catch (Exception) { _communityAvatars[message.SenderId] = (revision, cached.Image, DateTimeOffset.UtcNow.AddMinutes(1)); }
-        finally { _communityAvatarLoading.Remove(message.SenderId); }
+        catch (Exception) { _communityAvatars[player] = (revision, cached.Image, DateTimeOffset.UtcNow.AddMinutes(1)); }
+        finally { _communityAvatarLoading.Remove(player); }
     }
 
     private void RefreshCommunityOnline()
@@ -65,7 +71,8 @@ public partial class MainWindow
         var current = _communityOnline is not null && DateTimeOffset.UtcNow - _communityOnlineReceived < TimeSpan.FromSeconds(90);
         CommunityDescription.Text = current ? T($"● {_communityOnline} в сети", $"● {_communityOnline} online") : T("● В сети: —", "● Online: —");
         CommunityDescription.Foreground = SocialBrush(current ? "#79C9A0" : "#A8BBD2");
-        CommunityDescription.ToolTip = T("Пользователи, вошедшие в лаунчер. Гости не учитываются.", "Signed-in launcher users. Guests are not counted.");
+        CommunityOnlineButton.ToolTip = T("Показать игроков в сети. Гости не учитываются.", "Show online players. Guests are not counted.");
+        System.Windows.Automation.AutomationProperties.SetName(CommunityOnlineButton, CommunityDescription.Text);
     }
 
     private async Task RefreshCommunityExtrasAsync()
@@ -83,6 +90,7 @@ public partial class MainWindow
             RefreshCommunityOnline();
             var visible = _communityViews[_communityChannel].Visible.Where(m => !m.Removed).DistinctBy(m => m.SenderId).ToArray();
             var keep = visible.Select(m => m.SenderId).ToHashSet();
+            if (_onlineWindow is not null && _onlinePage is { } online) keep.UnionWith(online.Players.Select(p => p.Id));
             foreach (var id in _communityAvatars.Keys.Where(id => !keep.Contains(id)).ToArray()) _communityAvatars.Remove(id);
             foreach (var id in _communityAvatarViews.Keys.ToArray())
             {

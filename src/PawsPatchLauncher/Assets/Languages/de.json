@@ -1255,5 +1255,14 @@
   "You can add up to 32 mods. Remove one or replace its archive.": "Sie können bis zu 32 Mods hinzufügen. Entfernen Sie einen Mod oder ersetzen Sie dessen Archiv.",
   "Mods": "Mods",
   "Game and components": "Spiel und Komponenten",
-  "Apply or undo your mod changes first.": "Mod-Änderungen zuerst anwenden oder verwerfen."
+  "Apply or undo your mod changes first.": "Mod-Änderungen zuerst anwenden oder verwerfen.",
+  "Show online players. Guests are not counted.": "Spieler online anzeigen. Gäste werden nicht mitgezählt.",
+  "Online players": "Spieler online",
+  "Previous page": "Vorherige Seite",
+  "Next page": "Nächste Seite",
+  "Online: {0} · Guests are not counted": "Online: {0} · Gäste werden nicht mitgezählt",
+  "{0} of {1}": "{0} von {1}",
+  "No players are online right now.": "Derzeit sind keine Spieler online.",
+  "Players with an active launcher session": "Spieler mit aktiver Launcher-Sitzung",
+  "Could not load players. Click Refresh to try again.": "Spielerliste konnte nicht geladen werden. Klicke auf Aktualisieren."
 }
