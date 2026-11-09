@@ -1328,5 +1328,6 @@
   "Server temporarily unavailable": "Server vorübergehend nicht verfügbar",
   "Check that the drive is connected and the selected game folder exists. If the game was moved, select its new folder in Settings, then retry.": "Prüfe, ob das Laufwerk verbunden ist und der Spielordner existiert. Wurde das Spiel verschoben, wähle den neuen Ordner in den Einstellungen und versuche es erneut.",
   "The update server returned an error. Wait a little and retry installation. Received data is kept; do not delete or redownload valid game files.": "Der Updateserver meldete einen Fehler. Warte kurz und versuche die Installation erneut. Empfangene Daten bleiben erhalten; gültige Spieldateien müssen nicht gelöscht oder neu geladen werden.",
-  "Could not load settings. Retrying automatically. Visibility has not changed.": "Einstellungen konnten nicht geladen werden. Ein neuer Versuch erfolgt automatisch. Die Sichtbarkeit wurde nicht geändert."
+  "Could not load settings. Retrying automatically. Visibility has not changed.": "Einstellungen konnten nicht geladen werden. Ein neuer Versuch erfolgt automatisch. Die Sichtbarkeit wurde nicht geändert.",
+  "Ignore zero morale": "Moral von null ignorieren"
 }

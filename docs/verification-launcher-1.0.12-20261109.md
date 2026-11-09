@@ -8,7 +8,7 @@ short bullets in RU/EN/UK/CS/DE/FR.
 
 ## Local validation
 
-- C# suite: 38,882 passed.
+- C# suite: 38,894 passed after the final translation correction.
 - Isolated database suite: 12,703 passed; 156 target visibility checks.
 - Focused WPF UI: 30 passed in each of RU/EN/UK/CS/DE/FR. This includes no reload
   button, the Save label, failed-initial-load backoff/retry, account isolation,
@@ -16,6 +16,8 @@ short bullets in RU/EN/UK/CS/DE/FR.
 - The previous full preview also checked background installer responsiveness,
   friend actions during download, community and game participant navigation.
 - All authored UI strings introduced in this release have entries in every supported language catalog. Existing catalog tests verify nonempty translations and preserved format arguments.
+- The inherited zero-morale comparison label is also translated in every language;
+  targeted comparison assertions cover all four external catalogs.
 - Visibility cards in RU/UK/CS/DE/FR and the French comparison layout were visually inspected; all six language variants rendered successfully.
 - Server preflight: all twelve installed function source MD5s and grants match the
   tested migration; guest denial, RLS and migration registration all passed the

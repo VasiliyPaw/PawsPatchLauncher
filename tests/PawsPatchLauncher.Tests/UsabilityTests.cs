@@ -61,6 +61,8 @@ internal static class UsabilityTests
         Check(GameplayComparison.Differences(selection, peer, "ru").Count == 0, "personal text and speech languages do not create gameplay mismatches");
         peer.RoamingSpawnMode = "x2"; peer.IgnoreZeroMorale = !selection.IgnoreZeroMorale;
         Check(GameplayComparison.Differences(selection, peer, "ru").Count == 2, "only differing gameplay settings are shown");
+        foreach (var language in new[] { "uk", "cs", "de", "fr" })
+            Check(GameplayComparison.Differences(selection, peer, language).All(c => c.Name != "Ignore zero morale"), "inherited comparison labels are localized in " + language);
         Check(FriendlyErrors.Describe(new DirectoryNotFoundException()).Code == "missing-path", "missing folder has a concrete recovery action");
         Check(FriendlyErrors.Describe(new HttpRequestException("503", null, HttpStatusCode.ServiceUnavailable)).Code == "server-unavailable", "server outage is distinguished from local internet failure");
         var context = new ManualContext(); var previous = SynchronizationContext.Current; SynchronizationContext.SetSynchronizationContext(context);

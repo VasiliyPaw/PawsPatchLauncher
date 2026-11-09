@@ -1328,5 +1328,6 @@
   "Server temporarily unavailable": "Сервер тимчасово недоступний",
   "Check that the drive is connected and the selected game folder exists. If the game was moved, select its new folder in Settings, then retry.": "Перевірте, чи підключено диск і чи існує вибрана папка гри. Якщо гру переміщено, виберіть нову папку в налаштуваннях і спробуйте ще раз.",
   "The update server returned an error. Wait a little and retry installation. Received data is kept; do not delete or redownload valid game files.": "Сервер оновлень повернув помилку. Зачекайте та повторіть встановлення. Отримані дані збережено; справні файли гри не потрібно видаляти чи завантажувати заново.",
-  "Could not load settings. Retrying automatically. Visibility has not changed.": "Не вдалося завантажити налаштування. Повторимо автоматично. Видимість не змінено."
+  "Could not load settings. Retrying automatically. Visibility has not changed.": "Не вдалося завантажити налаштування. Повторимо автоматично. Видимість не змінено.",
+  "Ignore zero morale": "Ігнорувати нульовий бойовий дух"
 }

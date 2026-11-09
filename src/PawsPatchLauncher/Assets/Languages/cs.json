@@ -1328,5 +1328,6 @@
   "Server temporarily unavailable": "Server je dočasně nedostupný",
   "Check that the drive is connected and the selected game folder exists. If the game was moved, select its new folder in Settings, then retry.": "Zkontrolujte připojení disku a existenci vybrané složky hry. Pokud byla hra přesunuta, vyberte novou složku v nastavení a zkuste to znovu.",
   "The update server returned an error. Wait a little and retry installation. Received data is kept; do not delete or redownload valid game files.": "Aktualizační server vrátil chybu. Chvíli počkejte a opakujte instalaci. Přijatá data zůstávají; platné soubory hry nemažte ani nestahujte znovu.",
-  "Could not load settings. Retrying automatically. Visibility has not changed.": "Nastavení se nepodařilo načíst. Pokusíme se znovu automaticky. Viditelnost se nezměnila."
+  "Could not load settings. Retrying automatically. Visibility has not changed.": "Nastavení se nepodařilo načíst. Pokusíme se znovu automaticky. Viditelnost se nezměnila.",
+  "Ignore zero morale": "Ignorovat nulovou morálku"
 }
