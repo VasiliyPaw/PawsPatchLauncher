@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.1-beta.2",
+  "version": "0.5.1-beta.3",
   "entries": [
+    {
+      "id": "minimap-return-crash",
+      "category": "always",
+      "titleRu": "Стабильность миникарты",
+      "titleEn": "Minimap stability",
+      "bodyRu": "- Исправлен вылет при использовании миникарты.",
+      "bodyEn": "- Fixed a crash when using the minimap."
+    },
     {
       "id": "lobby-colors-lifetime",
       "category": "always",

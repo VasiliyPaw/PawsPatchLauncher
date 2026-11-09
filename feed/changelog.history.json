@@ -1497,6 +1497,57 @@
         "arcane-wars"
       ],
       "channel": "beta",
+      "version": "0.5.1-beta.3",
+      "publishedAt": "2026-11-09",
+      "title": {
+        "ru": "Paw’s Patch 0.5.1-beta.3 — Arcane Wars",
+        "en": "Paw’s Patch 0.5.1-beta.3 — Arcane Wars",
+        "de": "Paw’s Patch 0.5.1-beta.3 — Arcane Wars",
+        "fr": "Paw’s Patch 0.5.1-beta.3 — Arcane Wars",
+        "cs": "Paw’s Patch 0.5.1-beta.3 — Arcane Wars",
+        "uk": "Paw’s Patch 0.5.1-beta.3 — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Исправлен вылет при использовании миникарты.",
+        "en": "- Fixed a crash when using the minimap.",
+        "de": "- Einen Absturz bei der Nutzung der Minikarte behoben.",
+        "fr": "- Correction d’un plantage lors de l’utilisation de la minicarte.",
+        "cs": "- Opraven pád při používání minimapy.",
+        "uk": "- Виправлено виліт під час використання мінікарти."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "beta",
+      "version": "0.5.0-beta.4",
+      "publishedAt": "2026-11-09",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0-beta.4 — Vanilla / Immortals",
+        "en": "Paw’s Patch 0.5.0-beta.4 — Vanilla / Immortals",
+        "de": "Paw’s Patch 0.5.0-beta.4 — Vanilla / Immortals",
+        "fr": "Paw’s Patch 0.5.0-beta.4 — Vanilla / Immortals",
+        "cs": "Paw’s Patch 0.5.0-beta.4 — Vanilla / Immortals",
+        "uk": "Paw’s Patch 0.5.0-beta.4 — Vanilla / Immortals"
+      },
+      "body": {
+        "ru": "- Исправлен вылет при использовании миникарты.",
+        "en": "- Fixed a crash when using the minimap.",
+        "de": "- Einen Absturz bei der Nutzung der Minikarte behoben.",
+        "fr": "- Correction d’un plantage lors de l’utilisation de la minicarte.",
+        "cs": "- Opraven pád při používání minimapy.",
+        "uk": "- Виправлено виліт під час використання мінікарти."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
       "version": "0.5.1-beta.2",
       "publishedAt": "2026-11-09",
       "title": {
