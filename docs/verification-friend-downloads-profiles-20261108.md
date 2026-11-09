@@ -1,5 +1,9 @@
 # Friends during downloads, full profiles and directory discovery
 
+Subsequently released on 2026-11-09 as launcher 1.0.11. See
+`verification-launcher-1.0.11-20261109.md` for production deployment and publication.
+The local-only status below describes the earlier preview snapshot.
+
 Local changes on top of launcher 1.0.10. Not published: no feeds, tags, server
 functions or production migrations were changed. The new profile migration is
 prepared locally in `20261108020000_unblocked_player_profiles.sql`.
