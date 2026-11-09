@@ -19,7 +19,7 @@ public partial class MainWindow
             && FriendVersionStatus(sender with { Configuration=offer.Configuration,Channel=offer.Channel })==PeerVersionStatus.Current);
     private async Task CancelSocialOfferAsync(SocialOffer offer)
     {
-        if(_busy||ConfirmationActive||offer.Sender.ToString()!=_account.UserId)return;
+        if(ConfirmationActive||_account.Restricted||AccountConnectionBlocked||offer.Sender.ToString()!=_account.UserId)return;
         try{UpdateLocalOffer(await _account.OfferActionAsync(offer.Id,"cancel",ct:_accountLifetime.Token));}
         catch(AccountException e){HandleEndedAccount(e.Code);ShowToast(()=>SocialError(e.Code),true);}
         catch(OperationCanceledException){}

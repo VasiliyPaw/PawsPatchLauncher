@@ -94,7 +94,12 @@ internal static class CommunityChecks
                 var index = Math.Min(page, Math.Max(0, (rosterCount - 1) / 10));
                 return Task.FromResult(new CommunityOnlinePage(index, rosterCount, roster.Take(rosterCount).Skip(index * 10).Take(10).ToArray()));
             }));
+            Check(C<Border>("CommunityOnlineNewBadge").Visibility==Visibility.Visible,"new directory badge starts visible");
             C<Button>("CommunityOnlineButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));window.UpdateLayout();
+            Check(C<Border>("CommunityOnlineNewBadge").Visibility==Visibility.Collapsed&&new SettingsStore().Load().OnlineDirectorySeen,"first open permanently saves directory discovery");
+            var reloadedWindow = new MainWindow(new LauncherConfiguration{FeedUrls=[],BetaFeedUrls=[]},null);
+            Check(((Border)reloadedWindow.FindName("CommunityOnlineNewBadge")).Visibility==Visibility.Collapsed,"discovery badge stays hidden in a new launcher instance");
+            reloadedWindow.Close();
             var directoryWindow = Field<Window>("_onlineWindow");
             Check(window.IsEnabled && directoryWindow.Owner == window && Field<StackPanel>("_onlineRows").Children.Count == 10, "online counter opens ten compact cards without blocking launcher");
             var statusCards = Field<StackPanel>("_onlineRows").Children.OfType<Button>().Take(2).ToArray();
@@ -320,6 +325,9 @@ internal static class CommunityChecks
             Check(rich.Text.Contains(":ch_sword:")&&rich.Document.Blocks.OfType<System.Windows.Documents.Paragraph>().SelectMany(p=>p.Inlines.OfType<System.Windows.Documents.InlineUIContainer>()).Any(),"received glyph uses shared inline renderer");
 
             SocialChecks.Populate(window,"chat");Call("RefreshCommunityIdentity");Call("SetActivePage","modules");window.UpdateLayout();
+            Set("_publicProfileReadOverride",new Func<Guid,CancellationToken,Task<SocialPlayer>>((id,_)=>Task.FromResult(
+                Field<IReadOnlyList<SocialPlayer>>("_socialPlayers").FirstOrDefault(p=>p.Id==id)
+                ??new SocialPlayer(id,"FixtureFriend","friend",IsFriend:false,DisplayName:"Player"))));
             Set("_communityPlayersOverride", new Func<int,CancellationToken,Task<CommunityOnlinePage>>((page,_) => Task.FromResult(new CommunityOnlinePage(page,23,roster.Skip(page*10).Take(10).ToArray()))));
             C<Button>("CommunityOnlineButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             var retainedDirectory = Field<Window>("_onlineWindow");
@@ -357,9 +365,10 @@ internal static class CommunityChecks
             composer.Text="Draft";composer.CaretPosition=composer.Document.ContentEnd;
             messageHeader.Children.OfType<Button>().Single(b=>Grid.GetColumn(b)==1).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             Check(composer.Text=="Draft @FixtureFriend ","nickname inserts mention without discarding draft");
-            var profileTimer=new DispatcherTimer{Interval=TimeSpan.FromMilliseconds(350)};
-            profileTimer.Tick+=(_,_)=>{profileTimer.Stop();var profile=window.OwnedWindows.Cast<Window>().Single(w=>w.IsVisible);Check(profile.Title==(language=="ru"?"Профиль игрока":"Player profile"),"avatar opens public player profile");DialogSnap(profile,"community-profile");profile.Close();};
-            profileTimer.Start();messageHeader.Children.OfType<Button>().Single(b=>Grid.GetColumn(b)==0).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            messageHeader.Children.OfType<Button>().Single(b=>Grid.GetColumn(b)==0).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            await Task.Delay(40);
+            Check(C<Border>("SocialDetailsOverlay").IsVisible&&Field<Guid?>("_socialDetailsPeer")==person,"chat avatar opens full nonfriend profile");
+            Snap("community-profile");Call("CloseSocialDetails");
             var stamp=messageHeader.Children.OfType<TextBlock>().Single();
             Check(Grid.GetColumn(stamp)==3&&stamp.Text.Count(c=>c==':')==2,"community time includes seconds at right edge");
             Snap("community-mentions");

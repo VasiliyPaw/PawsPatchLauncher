@@ -71,8 +71,10 @@ public partial class MainWindow
         var current = _communityOnline is not null && DateTimeOffset.UtcNow - _communityOnlineReceived < TimeSpan.FromSeconds(90);
         CommunityDescription.Text = current ? T($"● {_communityOnline} в сети", $"● {_communityOnline} online") : T("● В сети: —", "● Online: —");
         CommunityDescription.Foreground = SocialBrush(current ? "#79C9A0" : "#A8BBD2");
+        CommunityOnlineNewBadge.Visibility = _settings.OnlineDirectorySeen ? Visibility.Collapsed : Visibility.Visible;
         CommunityOnlineButton.ToolTip = T("Показать игроков в сети. Гости не учитываются.", "Show online players. Guests are not counted.");
-        System.Windows.Automation.AutomationProperties.SetName(CommunityOnlineButton, CommunityDescription.Text);
+        System.Windows.Automation.AutomationProperties.SetName(CommunityOnlineButton, CommunityDescription.Text
+            + (_settings.OnlineDirectorySeen ? "" : T(". Новое: список игроков в сети.",". New: online player directory.")));
     }
 
     private async Task RefreshCommunityExtrasAsync()

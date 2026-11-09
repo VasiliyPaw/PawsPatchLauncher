@@ -40,7 +40,14 @@ public partial class MainWindow
     {
         _socialPlayers=result.Players;
         if(_socialDetailsPeer is { } peer && result.Players.FirstOrDefault(p=>p.Id==peer) is { } current)
-        { _activityViewedPlayer=current; RenderSocialDetails(current); }
+        {
+            // The request list contains only relationship data for nonfriends.
+            // Keep the full profile that was authorized by the profile endpoint.
+            _activityViewedPlayer = _publicProfilePeer == peer && _activityViewedPlayer?.Id == peer
+                ? _activityViewedPlayer with { Relation = current.Relation, IsFriend = current.IsFriend }
+                : current;
+            RenderSocialDetails(SocialDetailsPlayer() ?? _activityViewedPlayer);
+        }
         RenderSocialRows(); RenderSocialNotifications();
         ShowToast(()=>result.Outcome switch {
             FriendRequestOutcome.AlreadyFriends => T("Этот игрок уже у вас в друзьях.", "This player is already your friend."),

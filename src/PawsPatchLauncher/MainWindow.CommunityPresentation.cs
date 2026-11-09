@@ -73,8 +73,7 @@ public partial class MainWindow
     {
         if (ConfirmationActive) return;
         if (player.ToString() == _account.UserId) { await ShowOwnPlayerCardAsync(); return; }
-        var friend = _socialPlayers.FirstOrDefault(p => p.Id == player && p.Relation == "friend");
-        if (friend is not null) { ShowSocialDetails(friend); return; }
+        if (_account.State != AccountState.Guest) { await OpenPublicProfileCardAsync(player); return; }
         // Public identity/general status does not authorize a stranger's private
         // configuration, detailed match activity or account details.
         var (window, body) = CreateCommunityDialog(T("Профиль игрока", "Player profile"), IconKind.Profile, 440, 350);
@@ -84,8 +83,7 @@ public partial class MainWindow
         content.Children.Add(new TextBlock { Text = displayName, FontSize = 22, FontWeight = FontWeights.SemiBold, TextAlignment = TextAlignment.Center, TextWrapping = TextWrapping.Wrap });
         content.Children.Add(new TextBlock { Text = "@" + nickname, Foreground = SocialBrush("#A8BBD2"), TextAlignment = TextAlignment.Center, Margin = new Thickness(0,6,0,20) });
         var add = new Button { Content = _account.State == AccountState.Guest ? T("Войти в аккаунт", "Sign in") : T("Добавить в друзья", "Add friend"), Name = "CommunityProfileAction", Style = (Style)FindResource("GoldButton"), HorizontalAlignment = HorizontalAlignment.Center };
-        add.Click += (_,_) => { window.Close(); if (_account.State == AccountState.Guest) ShowAccountForm(false);
-            else { SetActivePage("friends"); FriendsShowAdd_Click(FriendsShowAddButton,new RoutedEventArgs()); FriendsNicknameInput.Text = nickname; } };
+        add.Click += (_,_) => { window.Close(); ShowAccountForm(false); };
         content.Children.Add(add);body.Content = content;
         window.Loaded += async (_,_) => await RefreshPublicAvatarAsync(player,avatarRevision);
         window.ShowDialog();

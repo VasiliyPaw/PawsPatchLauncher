@@ -62,7 +62,7 @@ public partial class MainWindow
         _communitySaveTimer.Tick += (_, _) => { _communitySaveTimer.Stop(); _settingsStore.Save(_settings); };
         Loaded += async (_, _) => { UpdateCommunityWidth(); if (!ActivityStore.IsSmokeTest) { _communityTimer.Start(); await PollCommunityAsync(); } };
         Activated += (_, _) => { if (_communityReady) { RenderCommunityMessages(); MarkCommunityRead(); _communityNextPoll = default; } };
-        Closed += (_, _) => { _communityTimer.Stop(); _communitySaveTimer.Stop(); if (_communityReady) _settingsStore.Save(_settings); _historyWindow?.Close(); };
+        Closed += (_, _) => { _communityTimer.Stop(); _communitySaveTimer.Stop(); ClearPublicProfile(); if (_communityReady) _settingsStore.Save(_settings); _historyWindow?.Close(); };
         _communityReady = true;
     }
 

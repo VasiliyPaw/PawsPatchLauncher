@@ -11,6 +11,7 @@ internal static class CommunityTests
         var checks=0;
         void Check(bool condition,string why){checks++;if(!condition)throw new Exception("Community: "+why);}
         Check(new UserSettings().CommunityNotifications=="mentions","notifications default to mentions");
+        Check(!new UserSettings().OnlineDirectorySeen,"fresh settings advertise online directory once");
         foreach(var body in new[]{"@paw","Hello @PAW!","(@paw)","@paw. Next sentence","@paw\nhello"})
             Check(CommunityChat.Mentions(body,"paw"),"exact mention: "+body);
         foreach(var body in new[]{"@paws","@paw_2","@paw-other","@paw.other","user@paw","@@paw","paw"})
@@ -40,9 +41,9 @@ internal static class CommunityTests
             Check(CommunityChat.Width(available, double.PositiveInfinity)==wide,"infinite width safe");
             if(available>=760)Check(available-CommunityChat.Width(available,double.MaxValue)>=470,"main page keeps usable width");
         }
-        var settings=new UserSettings{CommunityWidth=435,CommunityChannel="en",CommunityRead=new(){{"ru",123},{"en",52}}};
+        var settings=new UserSettings{CommunityWidth=435,CommunityChannel="en",CommunityRead=new(){{"ru",123},{"en",52}},OnlineDirectorySeen=true};
         var copy=JsonSerializer.Deserialize(JsonSerializer.Serialize(settings,LauncherJsonContext.Default.UserSettings),LauncherJsonContext.Default.UserSettings)!;
-        Check(copy.CommunityWidth==435&&copy.CommunityChannel=="en"&&copy.CommunityRead["ru"]==123,"preferences roundtrip");
+        Check(copy.CommunityWidth==435&&copy.CommunityChannel=="en"&&copy.CommunityRead["ru"]==123&&copy.OnlineDirectorySeen,"preferences including permanent directory discovery roundtrip");
         foreach(var bad in new[]{""," \t\r\n","bad\u0001",new string('a',1001)})await Reject(()=>{CommunityChat.Validate(bad);return Task.CompletedTask;});
         CommunityChat.Validate(string.Concat(Enumerable.Repeat("🙂",1000)));checks++;
         await Reject(()=>{CommunityChat.ValidateChannel("fr");return Task.CompletedTask;});

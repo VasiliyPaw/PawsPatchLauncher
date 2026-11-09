@@ -40,7 +40,8 @@ public sealed partial class AccountService
             if (status != "ok") throw new AccountException(status switch {
                 "session_expired" or "session_replaced" or "player_unavailable" or "friend_limit" or "request_missing" or "friend_required"
                 or "invalid_message" or "invalid_presence" or "message_conflict" or "rate_limit" or "message_limit"
-                or "offer_expired" or "offer_unavailable" or "invalid_offer" or "invalid_save" or "storage_limit" or "configuration_matches" => status,
+                or "offer_expired" or "offer_unavailable" or "invalid_offer" or "invalid_save" or "storage_limit" or "configuration_matches"
+                or "profile_blocked" or "profile_hidden" => status,
                 "admin_required" or "higher_role_required" or "protected_account" or "self_moderation" or "invalid_ban" or "restore_expired"
                 or "account_banned" or "account_deletion_pending" or "admin_cannot_block" or "account_busy" => status,
                 _ => "service_error" });
@@ -128,9 +129,15 @@ public sealed partial class AccountService
     }
 
     public Task<GameActivityDetails?> GetGameActivityAsync(Guid target,CancellationToken ct=default)
+        => ReadGameActivityAsync(target, "paw_game_activity", ct);
+
+    public Task<GameActivityDetails?> GetPublicGameActivityAsync(Guid target,CancellationToken ct=default)
+        => ReadGameActivityAsync(target, "paw_profile_activity", ct);
+
+    private Task<GameActivityDetails?> ReadGameActivityAsync(Guid target,string route,CancellationToken ct)
     {
         if(target==Guid.Empty)throw new AccountException("player_unavailable");
-        return SocialRpcAsync<GameActivityDetails?>("paw_game_activity",new{target},json=>
+        return SocialRpcAsync<GameActivityDetails?>(route,new{target},json=>
         {
             if(!json.TryGetProperty("activity",out var value)||value.ValueKind==JsonValueKind.Null)return null;
             var activity=GameActivity.Read(value,details:true);

@@ -221,11 +221,11 @@ public partial class MainWindow
     }
     private async Task SocialFriendActionAsync(SocialPlayer player,string action)
     {
-        if(_busy||FeedBlocksActions||_socialBusy||_accountBusy||ConfirmationActive||_account.State!=AccountState.SignedIn)return;
+        if(_socialBusy||_accountBusy||ConfirmationActive||_account.Restricted||AccountConnectionBlocked||_account.State!=AccountState.SignedIn)return;
         var accountOwner=_account.UserId;
         if(!_socialPlayers.Any(p=>p.Id==player.Id&&p.Relation==player.Relation)&&SocialDetailsPlayer()?.Id!=player.Id)return;
         if(action is "block" or "remove") {
-            var approved=await ConfirmActionAsync(T(action=="block"?"Заблокировать игрока?":"Удалить из друзей?",action=="block"?"Block player?":"Remove friend?"),
+            var approved=await ConfirmSocialActionAsync(T(action=="block"?"Заблокировать игрока?":"Удалить из друзей?",action=="block"?"Block player?":"Remove friend?"),
                 T("Переписка и передача файлов между вами станут недоступны.", "Chat and file transfers between you will become unavailable."),T("Игрок", "Player"),player.Nickname,
                 T(action=="block"?"Заблокировать":"Удалить",action=="block"?"Block":"Remove"));
             if(!approved)return;

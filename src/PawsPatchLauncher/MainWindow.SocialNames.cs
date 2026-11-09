@@ -24,7 +24,7 @@ public partial class MainWindow
     }
     private void OpenSocialContextAt(FrameworkElement anchor,Guid id)
     {
-        if(_busy||_accountBusy||ConfirmationActive)return;
+        if(_socialBusy||_accountBusy||ConfirmationActive)return;
         var friend=_socialPlayers.FirstOrDefault(p=>p.Id==id&&p.Relation=="friend");if(friend is null)return;
         CloseSocialMenu();
         var menu=CreateSocialMenu(new Button(),friend);

@@ -1,0 +1,21 @@
+{
+  "category": "launcher",
+  "version": "1.0.11",
+  "publishedAt": "2026-11-09",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.11 — друзья и полные профили",
+    "en": "Paw’s Launcher 1.0.11 — friends and full profiles",
+    "de": "Paw’s Launcher 1.0.11 — Freunde und vollständige Profile",
+    "fr": "Paw’s Launcher 1.0.11 — amis et profils complets",
+    "cs": "Paw’s Launcher 1.0.11 — přátelé a úplné profily",
+    "uk": "Paw’s Launcher 1.0.11 — друзі та повні профілі"
+  },
+  "body": {
+    "ru": "- Заявки и действия с друзьями доступны во время скачивания и установки обновлений.\n- Обновлён вид входящих и исходящих заявок в друзья.\n- Кнопка в профиле сразу отправляет заявку в друзья, не переводя на другую страницу.\n- Полные профили, настройки и игровая активность доступны и вне друзей. При блокировке показывается понятное сообщение.\n- Значок «!» у счётчика онлайна подсказывает о списке игроков. Он навсегда исчезает после первого открытия списка, в том числе после обновлений лаунчера.",
+    "en": "- Friend requests and friendship actions remain available while downloading and installing updates.\n- Refreshed incoming and outgoing friend request cards.\n- The profile button sends a friend request immediately without changing pages.\n- Full profiles, settings and shared game activity are available outside your friends list. A clear message explains when a block prevents access.\n- An exclamation mark beside the online count highlights the player directory. Opening it once permanently hides the mark, including after launcher updates.",
+    "de": "- Freundschaftsanfragen und Freundschaftsaktionen bleiben beim Herunterladen und Installieren von Updates verfügbar.\n- Eingehende und ausgehende Freundschaftsanfragen haben ein neues Design.\n- Die Profilschaltfläche sendet sofort eine Freundschaftsanfrage, ohne die Seite zu wechseln.\n- Vollständige Profile, Einstellungen und geteilte Spielaktivität sind auch außerhalb der Freundesliste sichtbar. Bei einer Blockierung erscheint eine klare Meldung.\n- Ein Ausrufezeichen neben der Online-Anzahl weist auf die Spielerliste hin. Nach dem ersten Öffnen verschwindet es dauerhaft, auch nach Launcher-Updates.",
+    "fr": "- Les demandes et les actions d’amitié restent disponibles pendant le téléchargement et l’installation des mises à jour.\n- Nouvelle présentation des demandes d’amis reçues et envoyées.\n- Le bouton du profil envoie immédiatement une demande d’ami sans changer de page.\n- Les profils complets, les paramètres et l’activité de jeu partagée sont accessibles même hors de la liste d’amis. Un message explique clairement tout blocage d’accès.\n- Un point d’exclamation près du compteur en ligne signale la liste des joueurs. Il disparaît définitivement dès la première ouverture, même après les mises à jour du lanceur.",
+    "cs": "- Žádosti a akce přátelství zůstávají dostupné během stahování a instalace aktualizací.\n- Nový vzhled přijatých a odeslaných žádostí o přátelství.\n- Tlačítko v profilu odešle žádost o přátelství okamžitě, bez přechodu na jinou stránku.\n- Úplné profily, nastavení a sdílená herní aktivita jsou dostupné i mimo seznam přátel. Při blokování se zobrazí srozumitelné vysvětlení.\n- Vykřičník u počtu hráčů online upozorňuje na seznam hráčů. Po prvním otevření trvale zmizí, i po aktualizaci launcheru.",
+    "uk": "- Заявки та дії з друзями доступні під час завантаження й установлення оновлень.\n- Оновлено вигляд вхідних і вихідних заявок у друзі.\n- Кнопка у профілі одразу надсилає заявку в друзі без переходу на іншу сторінку.\n- Повні профілі, налаштування та опублікована ігрова активність доступні й поза друзями. У разі блокування з’являється зрозуміле повідомлення.\n- Знак «!» біля лічильника онлайну підказує про список гравців. Він назавжди зникає після першого відкриття списку, зокрема після оновлень лаунчера."
+  }
+}

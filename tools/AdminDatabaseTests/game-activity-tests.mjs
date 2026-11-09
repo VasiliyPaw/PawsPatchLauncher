@@ -81,12 +81,30 @@ export async function gameActivityTests(db,login,rpc,user,peer,outsider) {
  check(!guest.player.configuration&&!guest.player.versions&&!Object.keys(guest.player.components??{}).length,'roster identity does not expose friend configuration');
  check((await rpc('paw_game_activity',[outsider])).status==='ok','recognized participant details remain navigable');
  check((await rpc('paw_send_message',[outsider,'30000000-0000-0000-0000-000000000077','fixture','text'])).status==='friend_required','roster access never permits unsolicited chat');
+ const publicConfig='PAW-STABLE-VANILLA-PP1-CL1-OOS1';
+ await ready(outsider);
+ check((await rpc('paw_presence',[true,'stable',{core:true,colors:true,_activity:{...a,self:'p3'}},publicConfig])).status==='ok','nonfriend publishes full configuration');
+ await login(peer);
+ const fullCard=(await rpc('paw_profile_card',[outsider])).player;
+ check(!fullCard.is_friend&&fullCard.configuration===publicConfig&&fullCard.components.core&&fullCard.activity.phase==='match','unblocked nonfriend full profile includes configuration, components and activity');
+ const fullActivity=await rpc('paw_profile_activity',[outsider]);
+ check(fullActivity.status==='ok'&&fullActivity.activity.players.length===3&&!('room' in fullActivity.activity)&&!('self' in fullActivity.activity),'public details retain roster while stripping matching metadata');
+ await db.exec('reset role');
+ const grants=(await q("select has_function_privilege('anon','public.paw_profile_card(uuid)','execute') card,has_function_privilege('anon','public.paw_profile_activity(uuid)','execute') activity"))[0];
+ check(!grants.card&&!grants.activity,'guests cannot execute full profile endpoints');
+ await login(peer);
  const avatarAllowed=async()=>{await db.exec('reset role');const result=(await q('select public.paw_friend_avatar_allowed($1,$1,(select launcher_id from paw_private.social_presence where player_id=$1),$2) yes',[peer,outsider]))[0].yes;await login(peer);return result;};
  check(await avatarAllowed(),'current participant avatar authorized for signed-in viewer');
- const noParticipant=async reason=>{check((await rpc('paw_player_profile',[outsider])).status==='friend_required',reason+' profile');check(!await avatarAllowed(),reason+' avatar');};
+ const noParticipant=async(reason,blocked=false)=>{
+  check((await rpc('paw_player_profile',[outsider])).status==='friend_required',reason+' legacy roster profile');
+  check(await avatarAllowed()===!blocked,reason+' new profile avatar follows blocks rather than roster membership');
+  const card=await rpc('paw_profile_card',[outsider]);const activity=await rpc('paw_profile_activity',[outsider]);
+  check(blocked ? ['profile_blocked','profile_hidden'].includes(card.status)&&!card.player : card.status==='ok'&&card.player.id===outsider,reason+' full public profile authorization');
+  check(blocked ? ['profile_blocked','profile_hidden'].includes(activity.status)&&!activity.activity : activity.status==='ok',reason+' full activity authorization');
+ };
  for(const [actor,target] of [[peer,outsider],[outsider,peer]]){
   await db.exec('reset role');await q('insert into public.paw_blocks(owner_id,target_id) values($1,$2)',[actor,target]);await login(peer);
-  await noParticipant('block either direction');
+  await noParticipant('block either direction',true);
   await db.exec('reset role');await q('delete from public.paw_blocks where owner_id=$1 and target_id=$2',[actor,target]);await login(peer);
  }
  await ready(outsider);await send({...a,self:'p3',room:'C'.repeat(64)});await login(peer);await noParticipant('different room');

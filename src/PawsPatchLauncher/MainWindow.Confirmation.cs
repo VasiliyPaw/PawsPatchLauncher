@@ -49,10 +49,16 @@ public partial class MainWindow
     }
 
     private Task<bool> ConfirmActionAsync(string title, string body, string detailsLabel, string details, string action)
+        => BeginActionConfirmation(title, body, detailsLabel, details, action, allowDuringGameOperation: false);
+
+    private Task<bool> ConfirmSocialActionAsync(string title, string body, string detailsLabel, string details, string action)
+        => BeginActionConfirmation(title, body, detailsLabel, details, action, allowDuringGameOperation: true);
+
+    private Task<bool> BeginActionConfirmation(string title, string body, string detailsLabel, string details, string action, bool allowDuringGameOperation)
     {
         // Confirmation reserves the UI, but is not an installation/removal operation.
-        if (ConfirmationActive || _busy || FeedBlocksActions || ModNoticeOverlay.Visibility == Visibility.Visible) return Task.FromResult(false);
-        CancelBackgroundFeed();
+        if (ConfirmationActive || !allowDuringGameOperation && (_busy || FeedBlocksActions) || ModNoticeOverlay.Visibility == Visibility.Visible) return Task.FromResult(false);
+        if (!allowDuringGameOperation) CancelBackgroundFeed();
         _confirmation = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         _confirmationPreviousFocus = Keyboard.FocusedElement;
         Motion.Hide(HelpOverlay);

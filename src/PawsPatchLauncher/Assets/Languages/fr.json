@@ -1264,5 +1264,14 @@
   "{0} of {1}": "{0} sur {1}",
   "No players are online right now.": "Aucun joueur en ligne pour le moment.",
   "Players with an active launcher session": "Joueurs avec une session active du lanceur",
-  "Could not load players. Click Refresh to try again.": "Impossible de charger les joueurs. Cliquez sur Actualiser."
+  "Could not load players. Click Refresh to try again.": "Impossible de charger les joueurs. Cliquez sur Actualiser.",
+  "Wait for the current file operation to finish.": "Attendez la fin de l’opération en cours sur les fichiers.",
+  "Find a player by username.": "Recherchez un joueur par son pseudo.",
+  "Manage blocked players.": "Gérez les joueurs bloqués.",
+  "Accept a request to start a conversation.": "Acceptez une demande pour commencer une conversation.",
+  "Your sent requests and pending replies.": "Vos demandes envoyées en attente de réponse.",
+  "This player has blocked you. Their profile is unavailable.": "Ce joueur vous a bloqué. Son profil est indisponible.",
+  "You blocked this player. Unblock them to view their profile.": "Vous avez bloqué ce joueur. Débloquez-le pour voir son profil.",
+  "Could not open the profile. Check your connection and try again.": "Impossible d’ouvrir le profil. Vérifiez votre connexion et réessayez.",
+  ". New: online player directory.": ". Nouveau : liste des joueurs en ligne."
 }

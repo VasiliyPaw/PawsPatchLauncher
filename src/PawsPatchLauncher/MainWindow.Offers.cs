@@ -230,18 +230,23 @@ public partial class MainWindow
             var actions=new WrapPanel{Margin=new Thickness(0,12,0,0)};
             var accept=SocialButton(T("Принять","Accept"),()=>AcceptSocialOfferAsync(offer));accept.Style=(Style)FindResource("GoldButton");
             var decline=SocialButton(T("Отклонить","Decline"),async()=>{
-                if(_busy||ConfirmationActive)return;
+                if(ConfirmationActive||_account.Restricted||AccountConnectionBlocked)return;
                 try{UpdateLocalOffer(await _account.OfferActionAsync(offer.Id,"decline",ct:_accountLifetime.Token));}
                 catch(AccountException e){ShowToast(()=>SocialError(e.Code),true);}
                 catch(OperationCanceledException){}
                 catch{ShowToast(()=>T("Не удалось отклонить предложение. Повторите попытку.","Could not decline the offer. Try again."),true);}
             });
             accept.Tag=offer.Kind=="config"?offer.Configuration:null;
-            accept.IsEnabled=CanAcceptOffer(offer);decline.IsEnabled=!_busy&&!ConfirmationActive;actions.Children.Add(accept);actions.Children.Add(decline);content.Children.Add(actions);
+            accept.CommandParameter="offer-accept"; decline.CommandParameter="offer-decline";
+            if(_busy) { accept.ToolTip=T("Дождитесь завершения текущей операции с файлами.","Wait for the current file operation to finish."); ToolTipService.SetShowOnDisabled(accept,true); }
+            accept.IsEnabled=CanAcceptOffer(offer);decline.IsEnabled=!ConfirmationActive&&!_account.Restricted&&!AccountConnectionBlocked;actions.Children.Add(accept);actions.Children.Add(decline);content.Children.Add(actions);
         }
         if(offer.Sender.ToString()==_account.UserId && offer.State is "pending" or "uploading"){
             var actions=new WrapPanel{Margin=new Thickness(0,12,0,0)};
-            actions.Children.Add(SocialButton(T("Отменить предложение","Cancel offer"),()=>CancelSocialOfferAsync(offer)));
+            var cancel=SocialButton(T("Отменить предложение","Cancel offer"),()=>CancelSocialOfferAsync(offer));
+            cancel.CommandParameter="offer-cancel";
+            cancel.IsEnabled=!ConfirmationActive&&!_account.Restricted&&!AccountConnectionBlocked;
+            actions.Children.Add(cancel);
             content.Children.Add(actions);
         }
         return new Border { Opacity=offer.State=="sending"?.55:1,Tag=offer.Id,Background=SocialBrush("#172B41"),BorderBrush=SocialBrush("#4C657E"),BorderThickness=new Thickness(1),CornerRadius=new CornerRadius(9),Padding=new Thickness(14),Margin=new Thickness(8,0,8,12),Child=content };
@@ -255,6 +260,11 @@ public partial class MainWindow
                 foreach(var actions in panel.Children.OfType<WrapPanel>())
                     foreach(var button in actions.Children.OfType<Button>())
                     {
+                        if(button.CommandParameter is "offer-decline" or "offer-cancel")
+                        {
+                            button.IsEnabled=!ConfirmationActive&&!_account.Restricted&&!AccountConnectionBlocked;
+                            continue;
+                        }
                         var status=PeerVersionStatus.Current;
                         if(button.Tag is string code)
                             status=peer is not null && FriendConfiguration.TryParse(code,code.StartsWith("PAW-BETA-")?"beta":"stable",out var imported)
@@ -266,6 +276,12 @@ public partial class MainWindow
                             button.ToolTip=status==PeerVersionStatus.Current?null:FriendVersionWarning(status);
                             ToolTipService.SetShowOnDisabled(button,true);
                         }
+                        if(button.CommandParameter is "offer-accept" && _busy)
+                        {
+                            button.ToolTip=T("Дождитесь завершения текущей операции с файлами.","Wait for the current file operation to finish.");
+                            ToolTipService.SetShowOnDisabled(button,true);
+                        }
+                        else if(button.CommandParameter is "offer-accept" && button.Tag is not string)button.ToolTip=null;
                     }
     }
     private async Task AcceptSocialOfferAsync(SocialOffer offer)

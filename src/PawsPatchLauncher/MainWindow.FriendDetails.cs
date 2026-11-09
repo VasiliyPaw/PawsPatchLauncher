@@ -37,6 +37,8 @@ public partial class MainWindow
     {
         if (_socialDetailsPeer?.ToString() == _account.UserId && _ownPlayerCard?.Id == _socialDetailsPeer) return _ownPlayerCard;
         var listed = _socialPlayers.FirstOrDefault(p => p.Id == _socialDetailsPeer);
+        if (_publicProfilePeer == _socialDetailsPeer && _activityViewedPlayer is { } authorized && authorized.Id == _socialDetailsPeer)
+            return listed is null ? authorized : authorized with { Relation = listed.Relation, IsFriend = listed.IsFriend };
         if (listed is { Relation: "friend" }) return listed;
         var viewed = _activityViewedPlayer?.Id == _socialDetailsPeer ? _activityViewedPlayer
             : _account.AdminLevel > 0 && _adminViewedPlayer?.Id == _socialDetailsPeer ? _adminViewedPlayer : null;
@@ -49,6 +51,7 @@ public partial class MainWindow
 
     private void CloseSocialDetails()
     {
+        ClearPublicProfile();
         CloseAvatarPreview();
         CloseGameActivity();
         _socialDetailsGeneration++;
@@ -76,6 +79,7 @@ public partial class MainWindow
 
     private void ShowSocialDetails(SocialPlayer player)
     {
+        if (_publicProfilePeer != player.Id) ClearPublicProfile();
         if (player.Deleted || (player.Relation != "friend" || !_socialPlayers.Any(p => p.Id == player.Id && p.Relation == "friend"))
             && !(_account.AdminLevel>0&&_adminViewedPlayer?.Id==player.Id) && _activityViewedPlayer?.Id!=player.Id && player.Id.ToString()!=_account.UserId) return;
         // A visible card may already be fading out. Reopening it must cancel
@@ -216,7 +220,7 @@ public partial class MainWindow
         SocialDetailsCopyButton.IsEnabled = !matches && exact && player?.Available==true && !_account.Restricted && hint.Length == 0 && !_busy && !FeedBlocksActions && !_accountBusy && !_socialBusy && !ConfirmationActive;
         var viewed = SocialDetailsPlayer();
         SocialDetailsRemoveButton.IsEnabled=SocialDetailsBlockButton.IsEnabled=viewed is not null&&_account.State==AccountState.SignedIn
-            &&!_busy&&!FeedBlocksActions&&!_accountBusy&&!_socialBusy&&!ConfirmationActive;
+            &&!_accountBusy&&!_socialBusy&&!ConfirmationActive;
         SocialDetailsRemoveButton.IsEnabled&=viewed?.Deleted==false&&(viewed.IsFriend||viewed.Available&&viewed.Relation is not ("outgoing" or "blocked"))&&!_account.Restricted;
         SocialDetailsBlockButton.IsEnabled&=viewed?.AdminLevel==0&&viewed?.Deleted==false&&!_account.Restricted;
     }
@@ -230,7 +234,7 @@ public partial class MainWindow
     }
     private async void SocialDetailsFriendAction_Click(object sender,RoutedEventArgs e)
     {
-        if(sender is not Button {IsEnabled:true,Tag:string action}||action is not ("remove" or "block" or "request" or "accept")||ConfirmationActive||_busy)return;
+        if(sender is not Button {IsEnabled:true,Tag:string action}||action is not ("remove" or "block" or "request" or "accept")||ConfirmationActive)return;
         var player=SocialDetailsPlayer();
         if(player is null)return;
         if(action=="request")await RequestProfileFriendAsync(player);

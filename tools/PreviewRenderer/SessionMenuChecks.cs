@@ -30,7 +30,7 @@ internal static class SessionMenuChecks
             var actions=(StackPanel)grid.Children[1];var anchor=(Button)actions.Children[1];
             Check(actions.Children.Count==2 && ((Button)actions.Children[0]).Tag?.ToString()=="accept" && anchor.Tag?.ToString()=="decline",
                 "incoming request still has a menu instead of direct accept/decline");
-            Check(actions.Children.OfType<Button>().All(button=>button.Height==26), "request buttons are not compact");
+            Check(actions.Children.OfType<Button>().All(button=>button.Height>=32), "request buttons need readable hit areas");
             double rowHeight=card.ActualHeight;
             var players=(IReadOnlyList<SocialPlayer>)typeof(MainWindow).GetField("_socialPlayers",Flags)!.GetValue(w)!;
             var incoming=players.Single(p=>p.Relation=="incoming");

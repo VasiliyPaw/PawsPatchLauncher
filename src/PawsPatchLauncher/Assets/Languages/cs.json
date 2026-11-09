@@ -1264,5 +1264,14 @@
   "{0} of {1}": "{0} z {1}",
   "No players are online right now.": "Právě není nikdo online.",
   "Players with an active launcher session": "Hráči s aktivní relací launcheru",
-  "Could not load players. Click Refresh to try again.": "Seznam hráčů se nepodařilo načíst. Klikněte na Obnovit."
+  "Could not load players. Click Refresh to try again.": "Seznam hráčů se nepodařilo načíst. Klikněte na Obnovit.",
+  "Wait for the current file operation to finish.": "Počkejte na dokončení aktuální operace se soubory.",
+  "Find a player by username.": "Najděte hráče podle přezdívky.",
+  "Manage blocked players.": "Spravujte zablokované hráče.",
+  "Accept a request to start a conversation.": "Přijetím žádosti můžete zahájit konverzaci.",
+  "Your sent requests and pending replies.": "Vaše odeslané žádosti čekající na odpověď.",
+  "This player has blocked you. Their profile is unavailable.": "Tento hráč vás zablokoval. Jeho profil není dostupný.",
+  "You blocked this player. Unblock them to view their profile.": "Tohoto hráče jste zablokovali. Pro zobrazení profilu ho odblokujte.",
+  "Could not open the profile. Check your connection and try again.": "Profil se nepodařilo otevřít. Zkontrolujte připojení a zkuste to znovu.",
+  ". New: online player directory.": ". Novinka: seznam hráčů online."
 }

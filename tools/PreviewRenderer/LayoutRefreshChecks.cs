@@ -67,7 +67,7 @@ internal static class LayoutRefreshChecks
             var outgoingCard=(Border)Call("RenderSocialRequest",outgoing)!;
             var outgoingGrid=(Grid)((StackPanel)outgoingCard.Child).Children[0];
             var outgoingActions=(StackPanel)outgoingGrid.Children[1];
-            Check(outgoingActions.Children.Count==1 && outgoingActions.Children[0] is Button { Height:26, Tag:"cancel" },
+            Check(outgoingActions.Children.Count==1 && outgoingActions.Children[0] is Button { Height:>=32, Tag:"cancel" },
                 "outgoing request missing compact direct cancel");
             Check(!Field<bool>("_broadcastConfig") && C<Button>("BroadcastChooseFile").Visibility==Visibility.Visible,"save not default");
             var tabs=(Panel)C<Button>("BroadcastSaveTab").Parent;

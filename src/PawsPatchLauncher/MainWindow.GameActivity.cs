@@ -79,7 +79,7 @@ public partial class MainWindow
             _gameActivityClockTimer.Tick+=(_,_)=>RefreshGameActivityClock();
         }
         _gameActivityClockTimer.Start();
-        if(_gameActivityCache.TryGetValue(peer,out var cached)&&DateTimeOffset.UtcNow-cached.received<TimeSpan.FromSeconds(15))
+        if(_publicProfilePeer!=peer && _gameActivityCache.TryGetValue(peer,out var cached)&&DateTimeOffset.UtcNow-cached.received<TimeSpan.FromSeconds(15))
         { RenderGameActivity(cached.details);await RefreshGameParticipantAvatarsAsync(cached.details,_gameActivityGeneration);return; }
         await RefreshGameActivityAsync();
     }
@@ -94,7 +94,8 @@ public partial class MainWindow
         try
         {
             var details=peer.ToString()==_account.UserId ? OwnGameActivityDetails()
-                : await (_gameActivityReadOverride?.Invoke(peer,timeout.Token)??_account.GetGameActivityAsync(peer,timeout.Token));
+                : await (_gameActivityReadOverride?.Invoke(peer,timeout.Token)??(_publicProfilePeer==peer
+                    ? _account.GetPublicGameActivityAsync(peer,timeout.Token) : _account.GetGameActivityAsync(peer,timeout.Token)));
             if(generation!=_gameActivityGeneration||peer!=_gameActivityPeer)return;
             if(details is null)
             {
@@ -108,6 +109,10 @@ public partial class MainWindow
         }
         catch(Exception error) when(error is AccountException or System.Net.Http.HttpRequestException or OperationCanceledException or System.IO.IOException)
         {
+            if(generation==_gameActivityGeneration && error is AccountException {Code:"profile_blocked" or "profile_hidden"} blocked)
+            {
+                _gameActivityCache.Remove(peer); CloseSocialDetails(); ShowToast(()=>PublicProfileError(blocked.Code),true); return;
+            }
             if(generation==_gameActivityGeneration)GameActivityStatus.Text=T("Не удалось обновить сведения. Попробуем ещё раз.", "Could not refresh details. We will try again.");
         }
         finally { if(generation==_gameActivityGeneration)_gameActivityBusy=false; }

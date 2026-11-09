@@ -23,6 +23,12 @@ public partial class MainWindow
         if (ConfirmationActive) return;
         if (_onlineWindow is { } existing) { existing.Activate(); return; }
         var (window, body) = CreateCommunityDialog(T("Игроки в сети", "Online players"), IconKind.Person, 460, 780);
+        if (!_settings.OnlineDirectorySeen)
+        {
+            // Deliberately not keyed by launcher version: upgrades, language
+            // changes and account switches must never advertise it again.
+            _settings.OnlineDirectorySeen = true; _settingsStore.Save(_settings); RefreshCommunityOnline();
+        }
         _onlineWindow = window; _onlinePage = null;
         var layout = new Grid();
         layout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -174,7 +180,7 @@ public partial class MainWindow
     private async Task OpenOnlinePlayerProfileAsync(Window directory, CommunityOnlinePlayer player)
     {
         if (_onlineWindow != directory || ConfirmationActive) return;
-        var inMain = player.Id.ToString() == _account.UserId || _socialPlayers.Any(p => p.Id == player.Id && p.Relation == "friend");
+        var inMain = _account.State != AccountState.Guest;
         if (inMain)
         {
             // Owned windows stay above their owner. Let the main profile come to

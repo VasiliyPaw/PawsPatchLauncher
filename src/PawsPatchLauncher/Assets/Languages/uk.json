@@ -1264,5 +1264,14 @@
   "{0} of {1}": "{0} з {1}",
   "No players are online right now.": "Зараз у мережі нікого немає.",
   "Players with an active launcher session": "Гравці з активним сеансом лаунчера",
-  "Could not load players. Click Refresh to try again.": "Не вдалося завантажити список. Натисніть «Оновити»."
+  "Could not load players. Click Refresh to try again.": "Не вдалося завантажити список. Натисніть «Оновити».",
+  "Wait for the current file operation to finish.": "Дочекайтеся завершення поточної операції з файлами.",
+  "Find a player by username.": "Знайдіть гравця за ніком.",
+  "Manage blocked players.": "Керуйте заблокованими гравцями.",
+  "Accept a request to start a conversation.": "Прийміть заявку, щоб почати спілкування.",
+  "Your sent requests and pending replies.": "Ваші надіслані заявки, що очікують відповіді.",
+  "This player has blocked you. Their profile is unavailable.": "Цей гравець заблокував вас. Профіль недоступний.",
+  "You blocked this player. Unblock them to view their profile.": "Ви заблокували цього гравця. Розблокуйте його, щоб відкрити профіль.",
+  "Could not open the profile. Check your connection and try again.": "Не вдалося відкрити профіль. Перевірте підключення та спробуйте ще раз.",
+  ". New: online player directory.": ". Нове: список гравців у мережі."
 }

@@ -42,8 +42,10 @@ public partial class MainWindow
         SetNavState(FriendsBlockedTab,_friendsDialog=="blocked");
         FriendsRequestTabs.Visibility = _friendsDialog == "requests" ? Visibility.Visible : Visibility.Collapsed;
         var outgoing = guest ? 0 : _socialPlayers.Count(p => p.Relation == "outgoing");
-        FriendsIncomingTab.Content = T("Входящие", "Incoming") + (incoming > 0 ? " · " + incoming : "");
-        FriendsOutgoingTab.Content = T("Исходящие", "Outgoing") + (outgoing > 0 ? " · " + outgoing : "");
+        FriendsIncomingLabel.Text = T("Входящие", "Incoming"); FriendsIncomingCount.Text = incoming > 99 ? "99+" : incoming.ToString();
+        FriendsOutgoingLabel.Text = T("Исходящие", "Outgoing"); FriendsOutgoingCount.Text = outgoing > 99 ? "99+" : outgoing.ToString();
+        AutomationProperties.SetName(FriendsIncomingTab, FriendsIncomingLabel.Text + ": " + incoming);
+        AutomationProperties.SetName(FriendsOutgoingTab, FriendsOutgoingLabel.Text + ": " + outgoing);
         SetNavState(FriendsIncomingTab, _socialRequestSection == "incoming");
         SetNavState(FriendsOutgoingTab, _socialRequestSection == "outgoing");
         AutomationProperties.SetName(FriendsNav, T("Друзья", "Friends") +
@@ -210,32 +212,48 @@ public partial class MainWindow
     private Border RenderSocialRequest(SocialPlayer player)
     {
         var body = new StackPanel();
-        var card = new Border { Tag=player.Id, Background = new SolidColorBrush(Color.FromRgb(22, 42, 69)),
-            BorderBrush = new SolidColorBrush(Color.FromRgb(52, 77, 109)), BorderThickness = new Thickness(1),
-            CornerRadius = new CornerRadius(7), Padding = new Thickness(10, 6, 8, 6), Margin = new Thickness(0, 0, 0, 8), Child = body };
+        var card = new Border { Tag=player.Id, Background = SocialBrush("#142B42"),
+            BorderBrush = SocialBrush("#2E4863"), BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(10), Padding = new Thickness(14), Margin = new Thickness(0, 0, 0, 10), Child = body };
         var line = new Grid();
+        line.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); line.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         line.ColumnDefinitions.Add(new ColumnDefinition());
         line.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-        var identity = new DockPanel { Margin = new Thickness(0,0,10,0) };
-        var avatar = SocialAvatar(player.Id, 36, false); avatar.Margin = new Thickness(0,0,10,0); DockPanel.SetDock(avatar, Dock.Left);
+        var identity = new DockPanel { Margin = new Thickness(0,0,16,0), VerticalAlignment = VerticalAlignment.Center };
+        var avatar = SocialAvatar(player.Id, 42, false); avatar.Margin = new Thickness(0,0,12,0); DockPanel.SetDock(avatar, Dock.Left);
         identity.Children.Add(avatar); identity.Children.Add(SocialNameLabel(player)); line.Children.Add(identity);
         var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
         var action = player.Relation == "incoming" ? "accept" : player.Relation == "blocked" ? "unblock" : "cancel";
         var label = action == "accept" ? T("Принять", "Accept") : action == "unblock" ? T("Разблокировать", "Unblock") : T("Отменить", "Cancel");
         var primary = SocialButton(label, () => SocialFriendActionAsync(player, action), action == "accept");
-        primary.Tag = action; primary.Margin = new Thickness(0); primary.Padding = new Thickness(8, 2, 8, 2); primary.FontSize = 12; primary.Height = 26;
+        primary.Tag = action; primary.Margin = new Thickness(0); primary.Padding = new Thickness(12, 5, 12, 5); primary.FontSize = 12; primary.Height = 34;
+        if(action == "accept")
+        {
+            LauncherIcon.SetKind(primary, IconKind.Check);
+            primary.Content = new TextBlock { Text = label, Foreground = SocialBrush("#151009"), FontWeight = FontWeights.SemiBold };
+        }
         AutomationProperties.SetName(primary, label + ": " + player.Nickname);
         actions.Children.Add(primary);
         if (player.Relation == "incoming")
         {
             var decline = SocialButton(T("Отклонить", "Decline"), () => SocialFriendActionAsync(player, "decline"));
-            decline.Tag = "decline"; decline.Margin = new Thickness(5, 0, 0, 0);
-            decline.Padding = new Thickness(8, 2, 8, 2); decline.FontSize = 12; decline.Height = 26;
-            decline.Foreground = new SolidColorBrush(Color.FromRgb(240, 123, 114));
+            decline.Tag = "decline"; decline.Margin = new Thickness(8, 0, 0, 0);
+            decline.Padding = new Thickness(12, 5, 12, 5); decline.FontSize = 12; decline.Height = 34;
+            decline.Foreground = SocialBrush("#B9CBDD"); decline.Background = Brushes.Transparent; decline.BorderBrush = SocialBrush("#3B546D");
             AutomationProperties.SetName(decline, T("Отклонить: ", "Decline: ") + player.Nickname);
             actions.Children.Add(decline);
         }
         Grid.SetColumn(actions, 1); line.Children.Add(actions); body.Children.Add(line);
+        bool? compact = null;
+        line.SizeChanged += (_, _) =>
+        {
+            var narrow = line.ActualWidth < 470;
+            if (compact == narrow) return;
+            compact = narrow;
+            Grid.SetColumnSpan(identity, narrow ? 2 : 1);
+            Grid.SetRow(actions, narrow ? 1 : 0); Grid.SetColumn(actions, narrow ? 0 : 1); Grid.SetColumnSpan(actions, narrow ? 2 : 1);
+            actions.HorizontalAlignment = HorizontalAlignment.Right; actions.Margin = new Thickness(0, narrow ? 12 : 0, 0, 0);
+        };
         FriendsDialogRows.Children.Add(card);
         return card;
     }

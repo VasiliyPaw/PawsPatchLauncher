@@ -37,9 +37,10 @@ presence expires; it is cleared by the next accepted heartbeat without activity.
 Received details are cached in memory for up to 16 profiles and reused for 15
 seconds; they are cleared at sign-out and are not written to diagnostic logs.
 
-Users who can view a current lobby or match can also open the profiles and avatars
-of uniquely identified launcher participants, including players outside their friends
-list. This does not grant access to their chat, files or friend-only configuration.
+Signed-in users can open full profiles and avatars, including players outside their
+friends list: general status, applied mod and component settings, and shared game
+activity. Either player's block prevents this access. Private messages and file
+sharing still require friendship. Guests see only the basic public card.
 Avatars are normalized to 256 × 256 JPEGs before upload; original images are not
 uploaded. Received participant images are cached in memory by avatar revision and
 cleared at sign-out.
@@ -53,7 +54,7 @@ Each community channel keeps a bounded history: when it reaches 10,000 messages,
 the 5,000 oldest messages are removed. Authors and authorized moderators can remove
 messages earlier. Deleted messages are replaced with an empty placeholder until
 retention removes the record. Public profile cards do not grant access to private
-messages or friend-only information.
+messages or shared files.
 
 Account and social data remain on the service for the relevant features and their
 maintenance/moderation rules. Signing out or uninstalling does not by itself delete
@@ -94,9 +95,11 @@ in a public GitHub issue.
 Для сопоставления аккаунтов используется хеш игровой сессии и место участника;
 Steam ID и команды подключения не отправляются. История матчей не ведётся.
 
-Пользователь, которому доступно текущее лобби или матч, может открыть профиль и
-аватарку распознанного участника с лаунчером, даже если тот не добавлен в друзья.
-Это не даёт доступа к переписке, файлам или настройкам, доступным друзьям.
+Вошедшие в аккаунт пользователи могут открыть полный профиль и аватарку любого
+игрока, включая игроков вне друзей: общий статус, установленный мод, настройки
+компонентов и опубликованную игровую активность. Блокировка с любой стороны
+закрывает этот доступ. Переписка и передача файлов по-прежнему требуют дружбы.
+Гости видят только общую публичную карточку.
 Перед отправкой аватарки уменьшаются до JPEG 256 × 256; исходное изображение не
 загружается на сервер. Полученные аватарки участников сохраняются в памяти до
 выхода из аккаунта и скачиваются заново при изменении.
@@ -110,6 +113,6 @@ Steam ID и команды подключения не отправляются.
 в профиле; уже полученные другими людьми копии данных от этого не исчезают.
 Полное описание данных и сервисов приведено выше.
 
-Community chat authors’ current avatars are visible to all readers, including guests, while they have a retained, non-removed message. Clicking the online counter also opens a public directory of active signed-in users, with usernames, display names, current avatars and general Online/Playing status, ten players per page. Signing out stops presence; the server excludes expired or replaced sessions from the directory. A public card does not reveal friend-only profile information or detailed game activity.
+Community chat authors’ current avatars are visible to all readers, including guests, while they have a retained, non-removed message. Clicking the online counter also opens a public directory of active signed-in users, with usernames, display names, current avatars and general Online/Playing status, ten players per page. Signing out stops presence; the server excludes expired or replaced sessions from the directory. Opening a full profile requires signing in and checks blocks as described above.
 
-Аватарки авторов общего чата видны всем читателям, включая гостей, пока в истории есть их неудалённое сообщение. Нажатие на счётчик онлайна также открывает общедоступный список вошедших пользователей с активным лаунчером: имя, ник, текущая аватарка и общий статус «В сети»/«Играет», по десять игроков на странице. Выход из аккаунта прекращает передачу статуса; просроченные и заменённые сессии исключаются из списка. Публичная карточка не раскрывает сведения профиля, доступные только друзьям, или подробную игровую активность.
+Аватарки авторов общего чата видны всем читателям, включая гостей, пока в истории есть их неудалённое сообщение. Нажатие на счётчик онлайна также открывает общедоступный список вошедших пользователей с активным лаунчером: имя, ник, текущая аватарка и общий статус «В сети»/«Играет», по десять игроков на странице. Выход из аккаунта прекращает передачу статуса; просроченные и заменённые сессии исключаются из списка. Полный профиль доступен после входа с проверкой блокировок, как описано выше.

@@ -23,7 +23,7 @@ public partial class MainWindow
         CloseSocialMenu();
         _friendsDialogPreviousFocus = Keyboard.FocusedElement;
         _friendsDialog = kind; _friendsDialogSignature = "";
-        FriendsDialogCard.MaxWidth = kind == "add" ? 430 : 590;
+        FriendsDialogCard.MaxWidth = kind == "add" ? 430 : 660;
         FriendsAddPanel.Visibility = kind == "add" ? Visibility.Visible : Visibility.Collapsed;
         FriendsDialogScroll.Visibility = kind == "add" ? Visibility.Collapsed : Visibility.Visible;
         RenderFriendsDialogRows(); RenderSocialNotifications();
@@ -37,6 +37,12 @@ public partial class MainWindow
         if (_friendsDialog.Length == 0 || FriendsDialogRows is null) return;
         FriendsDialogTitle.Text = _friendsDialog == "add" ? T("Добавить друга", "Add friend")
             : _friendsDialog == "blocked" ? T("Заблокированные", "Blocked") : T("Заявки в друзья", "Friend requests");
+        FriendsDialogIcon.Kind = _friendsDialog == "add" ? IconKind.AddFriend : _friendsDialog == "blocked" ? IconKind.BlockedUsers : IconKind.Requests;
+        FriendsDialogEmptyIcon.Kind = FriendsDialogIcon.Kind;
+        FriendsDialogSubtitle.Text = _friendsDialog == "add" ? T("Найдите игрока по нику.","Find a player by username.")
+            : _friendsDialog == "blocked" ? T("Управление заблокированными игроками.","Manage blocked players.")
+            : _socialRequestSection == "incoming" ? T("Примите заявку, чтобы начать общение.","Accept a request to start a conversation.")
+            : T("Отправленные заявки и ожидание ответа.","Your sent requests and pending replies.");
         if (_friendsDialog == "add") return;
         var relation = _friendsDialog == "blocked" ? "blocked" : _socialRequestSection;
         var players = _socialPlayers.Where(p => p.Relation == relation).ToArray();
@@ -50,7 +56,7 @@ public partial class MainWindow
         FriendsDialogRows.Children.Clear();
         FriendsDialogEmpty.Text = relation == "blocked" ? T("Заблокированных пользователей нет", "No blocked users")
             : relation == "incoming" ? T("Входящих заявок пока нет", "No incoming requests") : T("Исходящих заявок пока нет", "No outgoing requests");
-        FriendsDialogEmpty.Visibility = players.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+        FriendsDialogEmpty.Visibility = FriendsDialogEmptyCard.Visibility = players.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         var animated = 0;
         foreach (var player in players)
         {

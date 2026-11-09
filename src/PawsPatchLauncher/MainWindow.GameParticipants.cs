@@ -92,16 +92,16 @@ public partial class MainWindow
         GameActivityStatus.Text=T("Открываю профиль…","Opening profile…");
         try
         {
-            var player=_socialPlayers.FirstOrDefault(p=>p.Id==profile.Id&&p.Relation=="friend")
-                ??await (_gameProfileReadOverride?.Invoke(profile.Id,timeout.Token)??_account.GetPlayerProfileAsync(profile.Id,timeout.Token));
+            var player=await (_gameProfileReadOverride?.Invoke(profile.Id,timeout.Token)??_account.GetPublicPlayerProfileAsync(profile.Id,timeout.Token));
             if(generation!=_gameActivityGeneration||owner!=_account.UserId||timeout.IsCancellationRequested)return;
             if(player.Id!=profile.Id||player.Deleted)throw new AccountException("player_unavailable");
             CloseGameActivity();
-            _activityViewedPlayer=player;ShowSocialDetails(player);
+            ShowAuthorizedPublicProfile(player);
         }
         catch(Exception error) when(error is AccountException or OperationCanceledException or System.Net.Http.HttpRequestException)
         {
-            if(generation==_gameActivityGeneration)GameActivityStatus.Text=T("Не удалось открыть профиль. Игрок мог выйти из лобби или потерять подключение. Попробуйте ещё раз.",
+            if(generation==_gameActivityGeneration)GameActivityStatus.Text=error is AccountException { Code: "profile_blocked" or "profile_hidden" } blocked
+                ? PublicProfileError(blocked.Code) : T("Не удалось открыть профиль. Игрок мог выйти из лобби или потерять подключение. Попробуйте ещё раз.",
                 "Could not open the profile. The player may have left the lobby or disconnected. Try again.");
         }
         finally{if(generation==_gameActivityGeneration)_gameActivityOpeningProfile=false;}
