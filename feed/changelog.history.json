@@ -1,6 +1,31 @@
 {
   "stable": [
     {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "stable",
+      "version": "0.5.0",
+      "publishedAt": "2026-11-09",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0 — Arcane Wars",
+        "en": "Paw’s Patch 0.5.0 — Arcane Wars",
+        "de": "Paw’s Patch 0.5.0 — Arcane Wars",
+        "fr": "Paw’s Patch 0.5.0 — Arcane Wars",
+        "cs": "Paw’s Patch 0.5.0 — Arcane Wars",
+        "uk": "Paw’s Patch 0.5.0 — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Добавлены смешанные биомы с выбором их количества.\n- Добавлена плавная смена дня и ночи с циклом 10 минут.\n- Исправлены расположение меню и порядок пунктов в лобби.\n- Отключены вход в идущую партию и лишние автоматические паузы при задержках связи.",
+        "en": "- Added mixed biomes with a choice of biome count.\n- Added a smooth day and night cycle lasting 10 minutes.\n- Fixed menu placement and the order of lobby options.\n- Disabled joining ongoing matches and unnecessary automatic pauses during connection delays.",
+        "de": "- Gemischte Biome mit wählbarer Anzahl hinzugefügt.\n- Fließenden Tag-Nacht-Wechsel mit einem Zyklus von 10 Minuten hinzugefügt.\n- Menüpositionen und Reihenfolge der Lobbyoptionen korrigiert.\n- Beitritt zu laufenden Partien und unnötige automatische Pausen bei Verbindungsverzögerungen deaktiviert.",
+        "fr": "- Ajout de biomes mixtes avec choix de leur nombre.\n- Ajout d’un cycle jour-nuit progressif de 10 minutes.\n- Correction de la position des menus et de l’ordre des options du salon.\n- Désactivation de l’entrée dans les parties en cours et des pauses automatiques inutiles lors des ralentissements de connexion.",
+        "cs": "- Přidány smíšené biomy s volbou jejich počtu.\n- Přidán plynulý cyklus dne a noci trvající 10 minut.\n- Opraveno umístění nabídek a pořadí možností v herní místnosti.\n- Vypnuto připojování do probíhajících her a zbytečné automatické pauzy při zpoždění spojení.",
+        "uk": "- Додано змішані біоми з вибором їх кількості.\n- Додано плавну зміну дня й ночі з циклом 10 хвилин.\n- Виправлено розташування меню та порядок пунктів у лобі.\n- Вимкнено вхід до поточної партії та зайві автоматичні паузи під час затримок зв’язку."
+      }
+    },
+    {
       "category": "launcher",
       "version": "1.0.12",
       "publishedAt": "2026-11-09",
