@@ -95,3 +95,10 @@ earlier test distribution.
 Revision 2 native startup passed with isolated profile/cache and auto-update suppression.
 EXE: `G:\CodexData\projects\Codex\2026-09-09\paws-patch-kohan-ii-3\outputs\launcher-usability-test-20261109-r2\PawsLauncherTest.exe`; SHA-256 `7e53e3eaf89606457271754a36a8b56a78b78e59102787f75e3cae008d5cd4dd`.
 ZIP: `G:\CodexData\projects\Codex\2026-09-09\paws-patch-kohan-ii-3\outputs\PawsLauncher-Test-20261109-r2.zip`; 13 screenshot entries and EXE hash verified after packaging.
+
+## Subsequent production release
+
+The user later authorized publication as 1.0.12, including the final Save label,
+automatic retry and all six interface languages. The preview-only distribution
+above is historical. See `verification-launcher-1.0.12-20261109.md` for the
+ordinary production artifact and final checks.

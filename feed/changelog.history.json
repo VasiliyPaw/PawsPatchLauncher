@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "1.0.12",
+      "publishedAt": "2026-11-09",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.12 — загрузки, сравнение и приватность",
+        "en": "Paw’s Launcher 1.0.12 — downloads, comparison and privacy",
+        "de": "Paw’s Launcher 1.0.12 — Downloads, Vergleich und Privatsphäre",
+        "fr": "Paw’s Launcher 1.0.12 — téléchargements, comparaison et confidentialité",
+        "cs": "Paw’s Launcher 1.0.12 — stahování, porovnání a soukromí",
+        "uk": "Paw’s Launcher 1.0.12 — завантаження, порівняння та приватність"
+      },
+      "body": {
+        "ru": "- Загрузку можно поставить на паузу, остановить и продолжить после перезапуска. Добавлено ограничение скорости.\n- После ошибки установки показываются понятное объяснение и действия для продолжения.\n- Из профиля игрока можно открыть сравнение игровых настроек. Язык текста и озвучки не считается различием для совместной игры.\n- В профиле аккаунта можно отдельно выбрать видимость настроек и подробной активности: всем, друзьям или никому.\n- Настройки видимости загружаются автоматически и сохраняются кнопкой «Сохранить». Если игрок скрыл данные, об этом написано в его профиле.\n- Уменьшена нагрузка на интерфейс при загрузке файлов и отображении аватарок.",
+        "en": "- Downloads can be paused, stopped and resumed after restarting. Added a speed limit.\n- Installation errors now show a clear explanation and actions to continue.\n- Player profiles offer a gameplay settings comparison. Text and speech languages are excluded from multiplayer differences.\n- Your account profile lets you separately share settings and detailed activity with everyone, friends only or nobody.\n- Visibility settings load automatically and use a single Save button. Profiles explain when a player has hidden data.\n- Reduced interface work during file downloads and avatar loading.",
+        "de": "- Downloads können pausiert, gestoppt und nach einem Neustart fortgesetzt werden. Ein Geschwindigkeitslimit wurde hinzugefügt.\n- Installationsfehler zeigen nun eine verständliche Erklärung und passende Schritte zum Fortsetzen.\n- Spielerprofile bieten einen Vergleich der Spieleinstellungen. Text- und Sprachausgabe zählen nicht als Mehrspieler-Unterschiede.\n- Im Kontoprofil lässt sich die Sichtbarkeit von Einstellungen und detaillierter Aktivität getrennt auf alle, nur Freunde oder niemanden beschränken.\n- Sichtbarkeitseinstellungen werden automatisch geladen und mit Speichern übernommen. Profile erklären, wenn ein Spieler Daten verborgen hat.\n- Weniger Arbeit für die Oberfläche beim Herunterladen von Dateien und Laden von Avataren.",
+        "fr": "- Les téléchargements peuvent être mis en pause, arrêtés et repris après un redémarrage. Une limite de vitesse a été ajoutée.\n- Les erreurs d’installation affichent désormais une explication claire et des actions pour continuer.\n- Les profils permettent de comparer les paramètres de jeu. Les langues du texte et des voix sont exclues des différences multijoueurs.\n- Le profil du compte permet de choisir séparément qui voit les paramètres et l’activité détaillée : tout le monde, les amis ou personne.\n- La visibilité est chargée automatiquement et enregistrée avec le bouton Enregistrer. Les profils indiquent les données masquées par le joueur.\n- Moins de travail pour l’interface pendant les téléchargements et le chargement des avatars.",
+        "cs": "- Stahování lze pozastavit, zastavit a obnovit po restartu. Přibylo omezení rychlosti.\n- Chyby instalace nyní zobrazují srozumitelné vysvětlení a kroky pro pokračování.\n- Z profilu hráče lze otevřít porovnání herních nastavení. Jazyk textu a dabingu se nepočítá mezi rozdíly pro hru více hráčů.\n- V profilu účtu lze samostatně nastavit viditelnost nastavení a podrobné aktivity: všichni, pouze přátelé nebo nikdo.\n- Viditelnost se načítá automaticky a potvrzuje tlačítkem Uložit. Profil vysvětluje, pokud hráč údaje skryl.\n- Menší zátěž rozhraní při stahování souborů a načítání avatarů.",
+        "uk": "- Завантаження можна призупинити, зупинити та продовжити після перезапуску. Додано обмеження швидкості.\n- Після помилки встановлення показуються зрозуміле пояснення та дії для продовження.\n- З профілю гравця можна відкрити порівняння ігрових налаштувань. Мова тексту й озвучення не вважається відмінністю для спільної гри.\n- У профілі акаунта можна окремо вибрати видимість налаштувань і докладної активності: усім, друзям або нікому.\n- Налаштування видимості завантажуються автоматично та зберігаються кнопкою «Зберегти». Якщо гравець приховав дані, про це написано в його профілі.\n- Зменшено навантаження на інтерфейс під час завантаження файлів і аватарок."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "1.0.11",
       "publishedAt": "2026-11-09",
       "title": {
@@ -1406,6 +1427,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "1.0.12",
+      "publishedAt": "2026-11-09",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.12 — загрузки, сравнение и приватность",
+        "en": "Paw’s Launcher 1.0.12 — downloads, comparison and privacy",
+        "de": "Paw’s Launcher 1.0.12 — Downloads, Vergleich und Privatsphäre",
+        "fr": "Paw’s Launcher 1.0.12 — téléchargements, comparaison et confidentialité",
+        "cs": "Paw’s Launcher 1.0.12 — stahování, porovnání a soukromí",
+        "uk": "Paw’s Launcher 1.0.12 — завантаження, порівняння та приватність"
+      },
+      "body": {
+        "ru": "- Загрузку можно поставить на паузу, остановить и продолжить после перезапуска. Добавлено ограничение скорости.\n- После ошибки установки показываются понятное объяснение и действия для продолжения.\n- Из профиля игрока можно открыть сравнение игровых настроек. Язык текста и озвучки не считается различием для совместной игры.\n- В профиле аккаунта можно отдельно выбрать видимость настроек и подробной активности: всем, друзьям или никому.\n- Настройки видимости загружаются автоматически и сохраняются кнопкой «Сохранить». Если игрок скрыл данные, об этом написано в его профиле.\n- Уменьшена нагрузка на интерфейс при загрузке файлов и отображении аватарок.",
+        "en": "- Downloads can be paused, stopped and resumed after restarting. Added a speed limit.\n- Installation errors now show a clear explanation and actions to continue.\n- Player profiles offer a gameplay settings comparison. Text and speech languages are excluded from multiplayer differences.\n- Your account profile lets you separately share settings and detailed activity with everyone, friends only or nobody.\n- Visibility settings load automatically and use a single Save button. Profiles explain when a player has hidden data.\n- Reduced interface work during file downloads and avatar loading.",
+        "de": "- Downloads können pausiert, gestoppt und nach einem Neustart fortgesetzt werden. Ein Geschwindigkeitslimit wurde hinzugefügt.\n- Installationsfehler zeigen nun eine verständliche Erklärung und passende Schritte zum Fortsetzen.\n- Spielerprofile bieten einen Vergleich der Spieleinstellungen. Text- und Sprachausgabe zählen nicht als Mehrspieler-Unterschiede.\n- Im Kontoprofil lässt sich die Sichtbarkeit von Einstellungen und detaillierter Aktivität getrennt auf alle, nur Freunde oder niemanden beschränken.\n- Sichtbarkeitseinstellungen werden automatisch geladen und mit Speichern übernommen. Profile erklären, wenn ein Spieler Daten verborgen hat.\n- Weniger Arbeit für die Oberfläche beim Herunterladen von Dateien und Laden von Avataren.",
+        "fr": "- Les téléchargements peuvent être mis en pause, arrêtés et repris après un redémarrage. Une limite de vitesse a été ajoutée.\n- Les erreurs d’installation affichent désormais une explication claire et des actions pour continuer.\n- Les profils permettent de comparer les paramètres de jeu. Les langues du texte et des voix sont exclues des différences multijoueurs.\n- Le profil du compte permet de choisir séparément qui voit les paramètres et l’activité détaillée : tout le monde, les amis ou personne.\n- La visibilité est chargée automatiquement et enregistrée avec le bouton Enregistrer. Les profils indiquent les données masquées par le joueur.\n- Moins de travail pour l’interface pendant les téléchargements et le chargement des avatars.",
+        "cs": "- Stahování lze pozastavit, zastavit a obnovit po restartu. Přibylo omezení rychlosti.\n- Chyby instalace nyní zobrazují srozumitelné vysvětlení a kroky pro pokračování.\n- Z profilu hráče lze otevřít porovnání herních nastavení. Jazyk textu a dabingu se nepočítá mezi rozdíly pro hru více hráčů.\n- V profilu účtu lze samostatně nastavit viditelnost nastavení a podrobné aktivity: všichni, pouze přátelé nebo nikdo.\n- Viditelnost se načítá automaticky a potvrzuje tlačítkem Uložit. Profil vysvětluje, pokud hráč údaje skryl.\n- Menší zátěž rozhraní při stahování souborů a načítání avatarů.",
+        "uk": "- Завантаження можна призупинити, зупинити та продовжити після перезапуску. Додано обмеження швидкості.\n- Після помилки встановлення показуються зрозуміле пояснення та дії для продовження.\n- З профілю гравця можна відкрити порівняння ігрових налаштувань. Мова тексту й озвучення не вважається відмінністю для спільної гри.\n- У профілі акаунта можна окремо вибрати видимість налаштувань і докладної активності: усім, друзям або нікому.\n- Налаштування видимості завантажуються автоматично та зберігаються кнопкою «Зберегти». Якщо гравець приховав дані, про це написано в його профілі.\n- Зменшено навантаження на інтерфейс під час завантаження файлів і аватарок."
+      }
+    },
     {
       "category": "launcher",
       "version": "1.0.11",

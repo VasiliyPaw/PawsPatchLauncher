@@ -32,3 +32,25 @@ short bullets in RU/EN/UK/CS/DE/FR.
 Release workflow, public artifacts and signed catalogs are verified separately
 before completion. The ordinary release build does not enable the usability or
 community test constants and includes no test profile marker.
+
+## Distribution validation
+
+- Source/tag commit: `8073221c543c3c0f1b2a12603a77241c8042fca0`.
+- [Build and test](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/42552338287): success.
+- [Publish launcher](https://github.com/VasiliyPaw/PawsPatchLauncher/actions/runs/42552340972): success,
+  including account database, Windows packaging and artifact identity checks.
+- [Public release](https://github.com/VasiliyPaw/PawsPatchLauncher/releases/tag/v1.0.12).
+- Downloaded EXE: 74,390,262 bytes; SHA-256
+  `240198095DBC9EB5AE631C22253E979A17E7855D6B1636A13CE17EA2F0D317F4`.
+- Downloaded ZIP: 68,983,041 bytes; SHA-256
+  `0C6B3A58AFDF8D20B1D00E28E02D5A38043FDC46F71A4482E5F5F768A8F6749C`.
+- The public EXE and every ZIP entry match the tagged CI artifact manifest.
+- Public EXE startup completed with version 1.0.12 and file version 1.0.12.0.
+  Health metadata confirms `usabilityTest=false` and
+  `automaticLauncherUpdatesDisabled=false`; the startup check used a separate
+  profile and exited without launching the game.
+- Six update catalogs were signed and verified before promotion. All game
+  package fields remain byte-for-byte equivalent as structured data.
+- Catalog publication evidence is kept in top-level outputs under
+  `release1012-catalogs-20261109`: `preparation.json`, `readback.json` and
+  `live-readback.json`. The last two are produced by post-push verification.
