@@ -38,6 +38,7 @@ DECREE_NAME, REQUEST_NAME = BASE+0x1960, BASE+0x1964
 # complete-session snapshots. IDs survive seat changes and object reconstruction;
 # a disconnected/replaced participant receives a new ID, so cannot inherit a seat.
 OWNERS, PREFERENCES = BASE+0x3d000, BASE+0x3d100
+SESSION_GUID = BASE+0x3df00  # 33 WCHARs; separate from retired-color name pointers.
 PREFERENCE_COUNT = 256
 RETIRED = json.loads((Path(__file__).with_name("retired-colors.json")).read_text("utf-8"))
 assert len(RETIRED) == 10
@@ -46,6 +47,8 @@ assert RETIRED[0]['id']=='paws_light_red' and RETIRED[0]['wire_id']==0x5044fffe
 assert all(0x3da00<=c['descriptor']<c['descriptor']+36<=0x3de00 for c in RETIRED)
 assert all(0x3da00<=c['name_pointer']<c['name_pointer']+4<=0x3e000 for c in RETIRED)
 assert all(not (d['descriptor']<=c['name_pointer']<d['descriptor']+36) for c in RETIRED for d in RETIRED)
+assert all(c['name_pointer']+4 <= SESSION_GUID-BASE for c in RETIRED)
+assert SESSION_GUID+66 <= BASE+0x3e000
 assert all(0x5044ff00<=c['wire_id']<=0x5044fffe for c in RETIRED)
 NAMES = ['ensure','find','eligible','lookup','mask','apply','refresh','callback','create','clear','ctor_hook','tick_hook','dtor_hook']
 NAMES += ['state_init','allocate','commit','create_world_hook','configure_world_hook','active','index']
@@ -474,6 +477,8 @@ again: push dword ptr [edi*4+{KSTR}]; push esi
 done: mov eax,edi; pop edi; pop esi; ret
 ''')
 
+# Native Session::Reset reuses its object and restarts the participant ID counter.
+# Its GUID at +0x170 identifies the lifetime, even if its string buffer is reused.
 # A new staging session starts at Random. SP uses a private xorshift shuffle;
 # MP defers its shuffle until allocation, AFTER native launch finalizes the
 # shared world seed. A lobby's raw MapSeed=0 means Random, not the resolved seed.
@@ -481,6 +486,16 @@ asm('state_init',f'''
     push ebx; push esi; push edi; mov esi,ecx
     cmp dword ptr [{STATE+32}],1; jne reset
     cmp dword ptr [{STATE+28}],esi; jne reset
+    mov ebx,dword ptr [esi+0x170]; xor edi,edi
+compare_guid:
+    xor eax,eax; test ebx,ebx; jz compare_char
+    movzx eax,word ptr [ebx+edi*2]
+compare_char:
+    cmp ax,word ptr [edi*2+{SESSION_GUID}]; jne reset
+    test eax,eax; jz same_lifetime
+    inc edi; cmp edi,33; jb compare_guid
+    jmp reset
+same_lifetime:
     cmp dword ptr [{STATE+40}],0; je done
     cmp dword ptr [esi+0x64],0; jne done
     mov dword ptr [{STATE+40}],0
@@ -500,6 +515,16 @@ reset:
     mov dword ptr [{STATE+32}],1
     mov dword ptr [{STATE+40}],0
     mov dword ptr [{STATE+44}],0
+    mov ebx,dword ptr [esi+0x170]; xor edi,edi
+copy_guid:
+    xor eax,eax; test ebx,ebx; jz copy_char
+    movzx eax,word ptr [ebx+edi*2]
+copy_char:
+    mov word ptr [edi*2+{SESSION_GUID}],ax
+    test eax,eax; jz guid_copied
+    inc edi; cmp edi,32; jb copy_guid
+    mov word ptr [{SESSION_GUID+64}],0
+guid_copied:
     push ecx
     mov edi,{OWNERS}; xor eax,eax; mov ecx,16; rep stosd
     mov edi,{PREFERENCES}; mov ecx,{PREFERENCE_COUNT*2}; rep stosd
@@ -1434,6 +1459,8 @@ manifest['saved_lobby_color_readonly_preview']=True
 manifest['saved_source_kind']=2
 manifest['saved_preview_preserves_new_game_choices']=True
 manifest['participant_color_ownership']='native replicated player ID, independent of seat and nickname'
+manifest['session_lifetime_key']='native Session::Reset GUID at session+0x170, copied by value (max32 WCHARs)'
+manifest['session_guid_offset']=SESSION_GUID-BASE
 manifest['compact_color_control']=True
 manifest['retired_colors']=[{k:v for k,v in c.items() if not k.endswith('_va')} for c in RETIRED]
 (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')

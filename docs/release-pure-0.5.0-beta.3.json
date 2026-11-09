@@ -1,0 +1,26 @@
+{
+  "category": "patch",
+  "mods": [
+    "vanilla",
+    "immortals"
+  ],
+  "channel": "beta",
+  "version": "0.5.0-beta.3",
+  "publishedAt": "2026-11-09",
+  "title": {
+    "ru": "Paw’s Patch 0.5.0-beta.3 — Vanilla / Immortals",
+    "en": "Paw’s Patch 0.5.0-beta.3 — Vanilla / Immortals",
+    "de": "Paw’s Patch 0.5.0-beta.3 — Vanilla / Immortals",
+    "fr": "Paw’s Patch 0.5.0-beta.3 — Vanilla / Immortals",
+    "cs": "Paw’s Patch 0.5.0-beta.3 — Vanilla / Immortals",
+    "uk": "Paw’s Patch 0.5.0-beta.3 — Vanilla / Immortals"
+  },
+  "body": {
+    "ru": "- Исправлено перепутывание цветов игроков в новом лобби после матча.",
+    "en": "- Fixed players receiving each other’s colors in a new lobby after a match.",
+    "de": "- Falsche Spielerfarben in einer neuen Lobby nach einer Partie behoben.",
+    "fr": "- Correction de l’échange des couleurs des joueurs dans un nouveau salon après une partie.",
+    "cs": "- Opraveno zaměňování barev hráčů v nové místnosti po zápase.",
+    "uk": "- Виправлено переплутування кольорів гравців у новому лобі після матчу."
+  }
+}

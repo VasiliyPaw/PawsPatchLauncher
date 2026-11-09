@@ -1,5 +1,29 @@
 # Arcane Wars player palette
 
+## New-lobby participant-ID reuse fix (2026-11-09, local candidate)
+
+Native `Session::Reset` restarts `session+0xF4` while retaining the Session
+object. Old participant IDs can therefore identify different people in a new
+lobby. In addition to the object address, `state_init` now compares a bounded
+copy of the native reset GUID at `session+0x170`. Comparing string contents is
+necessary: the string allocation can also be reused. A new lifetime clears
+choices and ownership; a return to the same lobby after a match retains them.
+This remains a room-local preference, not a Steam-account preference.
+
+`test_session_lifetime.py --legacy <directory> --candidate <candidate>
+--expect-fixed 1` executes the emitted x86 with reused Session/player/string
+addresses, a GUID differing only at its final character, three participants,
+host/client snapshots and a late join. Run it with the released payload and
+`--expect-fixed 0` to reproduce the original inheritance bug. It does not launch
+the game. Existing participant, saved-color and popup regression suites still
+apply. `test_native_session_reset.py` runs the actual 361-byte stock reset
+routine followed by the candidate; only external GUID/timer/formatting and
+unrelated subsystem calls are stubbed. It reproduces stale colors with the
+released payload and verifies their removal with the candidate.
+`build_lifetime_candidate.py` can rebuild a hash-verified accepted helper
+set into an unused local directory with the candidate resources; it never
+installs or publishes anything.
+
 ## 0.3.2-beta.1: 39 selectable colors
 
 The Arcane beta palette removes original 48-color table entries 6, 18, 20,

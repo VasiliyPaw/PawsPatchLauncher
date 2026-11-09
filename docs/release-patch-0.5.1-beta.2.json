@@ -1,0 +1,25 @@
+{
+  "category": "patch",
+  "mods": [
+    "arcane-wars"
+  ],
+  "channel": "beta",
+  "version": "0.5.1-beta.2",
+  "publishedAt": "2026-11-09",
+  "title": {
+    "ru": "Paw’s Patch 0.5.1-beta.2 — Arcane Wars",
+    "en": "Paw’s Patch 0.5.1-beta.2 — Arcane Wars",
+    "de": "Paw’s Patch 0.5.1-beta.2 — Arcane Wars",
+    "fr": "Paw’s Patch 0.5.1-beta.2 — Arcane Wars",
+    "cs": "Paw’s Patch 0.5.1-beta.2 — Arcane Wars",
+    "uk": "Paw’s Patch 0.5.1-beta.2 — Arcane Wars"
+  },
+  "body": {
+    "ru": "- Исправлено перепутывание цветов игроков в новом лобби после матча.",
+    "en": "- Fixed players receiving each other’s colors in a new lobby after a match.",
+    "de": "- Falsche Spielerfarben in einer neuen Lobby nach einer Partie behoben.",
+    "fr": "- Correction de l’échange des couleurs des joueurs dans un nouveau salon après une partie.",
+    "cs": "- Opraveno zaměňování barev hráčů v nové místnosti po zápase.",
+    "uk": "- Виправлено переплутування кольорів гравців у новому лобі після матчу."
+  }
+}
