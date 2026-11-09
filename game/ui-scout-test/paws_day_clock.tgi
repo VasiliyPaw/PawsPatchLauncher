@@ -1,0 +1,14 @@
+[PawsDayClock Template=LabelWidget]
+{
+    [View Template=NoVE]
+    [Label]
+    {
+        L = 0%
+        T = 7
+        R = 100%
+        B = +24
+        text = ""
+        font = small
+        justify = CENTER
+    }
+}

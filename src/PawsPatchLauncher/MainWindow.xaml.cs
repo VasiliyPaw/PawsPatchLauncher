@@ -644,8 +644,12 @@ public partial class MainWindow : Window
                 EnsureGameClosed();
                 await _prepareGameLobby(_game.Directory, vanillaInstaller.LoadState().AppliedSettings ?? GetEffectiveSettings());
                 EnsureGameClosed();
+                var voicePlan = await FactionVoiceRuntime.PrepareAsync(_game.Directory, vanillaInstaller.LoadState().AppliedSettings ?? GetEffectiveSettings());
+                var voiceStarted = DateTimeOffset.UtcNow;
                 var original = _startGameProcess(new ProcessStartInfo(vanilla) { WorkingDirectory = _game.Directory, UseShellExecute = true })
                     ?? throw new IOException("Cannot start Kohan II.");
+                if (voicePlan is not null) ShowWorking(() => T("Включаю озвучку фракций…", "Enabling faction speech…"));
+                await FactionVoiceRuntime.InstallAsync(_game.Directory, voicePlan, voiceStarted, original);
                 BeginGameObservation(original, new ModuleInstaller(_game.Directory).LoadState());
                 ShowResult(() => T("Игра запущена.", "Game launched."));
                 return;
@@ -683,8 +687,12 @@ public partial class MainWindow : Window
             EnsureModAccess(_settings.Mod);
             await _prepareGameLobby(_game.Directory, state.AppliedSettings ?? GetEffectiveSettings());
             EnsureGameClosed();
+            var factionVoicePlan = await FactionVoiceRuntime.PrepareAsync(_game.Directory, state.AppliedSettings ?? GetEffectiveSettings());
+            var factionVoiceStarted = DateTimeOffset.UtcNow;
             var process = _startGameProcess(new ProcessStartInfo(executable) { WorkingDirectory = _game.Directory, UseShellExecute = true })
                 ?? throw new IOException("Cannot start Kohan II.");
+            if (factionVoicePlan is not null) ShowWorking(() => T("Включаю озвучку фракций…", "Enabling faction speech…"));
+            await FactionVoiceRuntime.InstallAsync(_game.Directory, factionVoicePlan, factionVoiceStarted, process);
             BeginGameObservation(process, installer.LoadState());
             ShowResult(() => T("Игра запущена.", "Game launched."));
         }

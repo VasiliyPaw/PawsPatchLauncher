@@ -6,7 +6,7 @@ public static class UpdateDetector
     public static bool HasSettingsChanges(InstallState state, IReadOnlyCollection<PackageRelease> selected, UserSettings desired)
         => HasModuleChanges(state, selected) || state.AppliedSettings is { } applied
             && (applied.Mod != desired.Mod || applied.Channel != desired.Channel || applied.PawPatchEnabled != desired.PawPatchEnabled || applied.DataOnly != desired.DataOnly
-                || GameLanguages.Text(applied) != GameLanguages.Text(desired) || GameLanguages.Voice(applied) != GameLanguages.Voice(desired) || applied.IndependentHostility != desired.IndependentHostility
+                || GameLanguages.Text(applied) != GameLanguages.Text(desired) || CustomVoices.Signature(applied) != CustomVoices.Signature(desired) || applied.IndependentHostility != desired.IndependentHostility
                 || applied.IgnoreZeroMorale != desired.IgnoreZeroMorale
                 || !applied.DesyncMode.Equals(desired.DesyncMode, StringComparison.OrdinalIgnoreCase));
 
@@ -30,7 +30,7 @@ public static class UpdateDetector
     public static bool HasModuleChanges(InstallState state, IReadOnlyCollection<PackageRelease> selected)
     {
         var desiredIds = selected.Select(package => package.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
-        if (state.Modules.Keys.Any(id => id != CustomRwdMods.ModuleId && !desiredIds.Contains(id))) return true;
+        if (state.Modules.Keys.Any(id => id != CustomRwdMods.ModuleId && !CustomVoices.IsGenerated(id) && !desiredIds.Contains(id))) return true;
 
         foreach (var package in selected)
         {

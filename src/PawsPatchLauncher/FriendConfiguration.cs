@@ -21,6 +21,7 @@ public static class FriendConfiguration
         var result = EffectiveSettings.ForChannel(incoming);
         GameLanguages.SetText(result, GameLanguages.Text(local));
         result.GameVoiceLanguage = GameLanguages.Voice(local);
+        result.FactionVoiceLanguages = CustomVoices.Copy(local);
         return result;
     }
 

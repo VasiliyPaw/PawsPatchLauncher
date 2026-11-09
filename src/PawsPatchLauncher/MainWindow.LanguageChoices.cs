@@ -39,7 +39,7 @@ public partial class MainWindow
             {
                 _choiceLanguage = _text.Language;
                 GameLanguageCombo.ItemsSource = GameLanguages.Choices.Select(code => new LanguageChoice(code, UiLanguages.GameLanguageName(code, _text.Language))).ToArray();
-                GameVoiceCombo.ItemsSource = GameLanguages.VoiceChoices.Select(code => new LanguageChoice(code, UiLanguages.GameLanguageName(code, _text.Language))).ToArray();
+                GameVoiceCombo.ItemsSource = GameLanguages.VoiceChoices.Append("custom").Select(code => new LanguageChoice(code, UiLanguages.GameLanguageName(code, _text.Language))).ToArray();
             }
             if (GameLanguageCombo.ItemsSource is IEnumerable<LanguageChoice> gameLanguages)
                 GameLanguageCombo.SelectedItem = gameLanguages.First(x => x.Code == GameLanguages.Text(_settings));
@@ -50,6 +50,10 @@ public partial class MainWindow
             GameTextLabel.Text = T("Текст", "Text");
             GameVoiceLabel.Text = T("Озвучка", "Speech");
             GameVoiceCombo.IsEnabled = !_busy && CanChooseSeparateVoice;
+            CustomVoicesButton.Visibility = GameLanguages.Voice(_settings) == "custom" ? Visibility.Visible : Visibility.Collapsed;
+            CustomVoicesButton.IsEnabled = !_busy && CanChooseSeparateVoice;
+            CustomVoicesButton.ToolTip = T("Настроить озвучку фракций", "Configure faction speech");
+            System.Windows.Automation.AutomationProperties.SetName(CustomVoicesButton, CustomVoicesButton.ToolTip.ToString());
             GameVoiceCombo.ToolTip = GameLanguages.SupportsSeparateVoice(_channel) ? null : CanChooseSeparateVoice
                 ? T("Для раздельного выбора текста и озвучки потребуется обновить файлы мода.", "Separate text and speech choices will require updating the mod files.")
                 : T("Отдельный выбор озвучки появится после обновления файлов режима.", "Separate speech selection requires updated mode files.");
@@ -79,8 +83,10 @@ public partial class MainWindow
         if (_initializing || _syncingLanguages || GameVoiceCombo.SelectedItem is not LanguageChoice language) return;
         if (_busy || ConfirmationActive) { SyncLanguageChoices(); return; }
         if (GameLanguages.Voice(_settings) == language.Code) return;
+        if (language.Code == "custom") CustomVoices.Initialize(_settings, GameLanguages.Voice(_settings));
         _settings.GameVoiceLanguage = language.Code;
         _settingsStore.Save(_settings);
+        SyncLanguageChoices();
         RefreshLanguageSelection();
     }
 

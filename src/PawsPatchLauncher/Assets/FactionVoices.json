@@ -1,0 +1,77 @@
+{
+  "revision": 1,
+  "preferredImage": 4587520,
+  "preferredCave": 268435456,
+  "entry": 16384,
+  "ownerAdapter": 16640,
+  "state": 20480,
+  "size": 20544,
+  "site": 2908633,
+  "guard": "e88c87d5ff",
+  "fixups": [
+    [
+      4684,
+      0,
+      1
+    ],
+    [
+      4726,
+      0,
+      1
+    ],
+    [
+      4768,
+      0,
+      1
+    ],
+    [
+      4810,
+      0,
+      1
+    ],
+    [
+      4852,
+      0,
+      1
+    ],
+    [
+      5604,
+      0,
+      1
+    ],
+    [
+      5615,
+      0,
+      1
+    ],
+    [
+      16411,
+      0,
+      1
+    ],
+    [
+      16435,
+      1,
+      -1
+    ]
+  ],
+  "exports": {
+    "select_voice": 5593
+  },
+  "dataFields": [
+    "magic",
+    "image",
+    "royalist",
+    "council",
+    "nationalist",
+    "ceyah",
+    "fallen",
+    "other",
+    "calls",
+    "switched",
+    "lastFaction",
+    "lastLanguage",
+    "ownerAdapter"
+  ],
+  "sha256": "c22c69c866bf38d76d2c4248718e4fdca1349126feaf92a29b15353229a35fde"
+}

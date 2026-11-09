@@ -35,7 +35,7 @@ public partial class MainWindow
     private Dictionary<Border, string> CaptureAppearance() => new()
     {
         [CoreModuleCard] = GameMod.PawPatchSelected(_settings).ToString(),
-        [RussianModuleCard] = GameLanguages.Text(_settings) + ":" + GameLanguages.Voice(_settings),
+        [RussianModuleCard] = GameLanguages.Text(_settings) + ":" + CustomVoices.Signature(_settings),
         [ColorsModuleCard] = GameMod.ColorsSelected(_settings).ToString(),
         [IndependentHostilityCard] = (GameMod.IsArcaneWars(_settings) ? _settings.IndependentHostility : GameMod.PureComponents(_settings).IndependentHostility).ToString(),
         [AdditionalRoamingCard] = (GameMod.IsArcaneWars(_settings) ? _settings.AdditionalRoamingCompanies : GameMod.PureComponents(_settings).AdditionalRoamingCompanies).ToString(),

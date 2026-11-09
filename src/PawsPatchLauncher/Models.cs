@@ -43,6 +43,9 @@ public sealed class UserSettings
     public bool RussianLocalization { get; set; } = true;
     public string? GameTextLanguage { get; set; }
     public string? GameVoiceLanguage { get; set; }
+    // Retained only to avoid reinterpreting the obsolete race-based preview.
+    public Dictionary<string, string> CustomVoiceLanguages { get; set; } = new();
+    public Dictionary<string, string> FactionVoiceLanguages { get; set; } = new();
     public bool CustomPlayerColors { get; set; }
     public string DesyncMode { get; set; } = "official";
     public bool PureBetaFeatures { get; set; }

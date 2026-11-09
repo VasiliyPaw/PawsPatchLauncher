@@ -34,7 +34,8 @@ public static class GamePackageSelector
         var voice = settings.GameVoiceLanguage ?? GameLanguages.DefaultVoice(text);
         if (GameLanguages.SupportsSeparateVoice(channel))
         {
-            if (voice != "en") packages.Add(LanguagePackage("game-voice-" + voice));
+            foreach (var selectedVoice in CustomVoices.SelectedLanguages(settings).Where(v => v != "en"))
+                packages.Add(LanguagePackage("game-voice-" + selectedVoice));
         }
         else if (voice != text || text is "de" or "fr" or "cs" or "uk")
             throw new InvalidDataException("Этот старый выпуск не поддерживает отдельный выбор озвучки. Выберите новый выпуск. / This older release does not support separate speech. Select a newer release.");

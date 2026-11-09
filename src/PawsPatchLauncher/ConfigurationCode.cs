@@ -5,6 +5,14 @@ public static class ConfigurationCode
     public static UserSettings Parse(string code)
     {
         var voiceCode = code.Trim().ToUpperInvariant();
+        if (voiceCode.Length >= 10 && voiceCode[^9..^6] == "-VF" && voiceCode[^6..].All(c => c is >= '0' and <= '3'))
+        {
+            var settings = Parse(voiceCode[..^9]);
+            settings.GameVoiceLanguage = "custom";
+            for (var i = 0; i < CustomVoices.Groups.Count; i++)
+                settings.FactionVoiceLanguages[CustomVoices.Groups[i]] = GameLanguages.VoiceChoices[voiceCode[^6..][i] - '0'];
+            return settings;
+        }
         if (GameLanguages.VoiceChoices.Any(language => voiceCode.EndsWith("-VO" + language.ToUpperInvariant())))
         {
             var settings = Parse(voiceCode[..^5]);
@@ -101,6 +109,7 @@ public static class ConfigurationCode
         ModChannelSelection.Remember(target);
         GameLanguages.SetText(target, GameLanguages.Text(source));
         target.GameVoiceLanguage = GameLanguages.Voice(source);
+        if (target.GameVoiceLanguage == "custom") target.FactionVoiceLanguages = CustomVoices.Copy(source);
         // Importing another mod keeps remembered Arcane Wars components.
         if (!GameMod.IsArcaneWars(source))
         {
@@ -137,6 +146,8 @@ public static class ConfigurationCode
         var code = CreateComponents(settings);
         var text = GameLanguages.Text(settings);
         if (text is not ("en" or "ru")) code += "-TX" + text.ToUpperInvariant();
+        if (GameLanguages.Voice(settings) == "custom")
+            return code + "-VF" + string.Concat(CustomVoices.Groups.Select(g => GameLanguages.VoiceChoices.ToList().IndexOf(CustomVoices.Language(settings, g))));
         return GameLanguages.Voice(settings) == text
             ? code : code + "-VO" + GameLanguages.Voice(settings).ToUpperInvariant();
     }

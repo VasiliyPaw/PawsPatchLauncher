@@ -136,9 +136,6 @@ public partial class MainWindow
             ? T("Игрок скрыл игровые настройки и активность.", "This player has hidden gameplay settings and activity.")
             : player.ConfigurationHidden ? T("Игрок скрыл игровые настройки.", "This player has hidden gameplay settings.")
             : player.ActivityHidden ? T("Игрок скрыл подробную игровую активность.", "This player has hidden detailed game activity.") : "";
-        CompareProfileButton.Content = T("Сравнить игровые настройки", "Compare gameplay settings");
-        CompareProfileButton.Visibility = player.Id.ToString() != _account.UserId && player.Available
-            && !player.ConfigurationHidden && FriendConfiguration.TryParse(player.Configuration, player.Channel, out _) ? Visibility.Visible : Visibility.Collapsed;
         SocialDetailsChannel.Text = player.Channel == "beta" ? T("Бета", "Beta") : player.Channel == "stable" ? T("Релиз", "Release") : T("Неизвестен", "Unknown");
         if (FriendConfiguration.TryParse(player.Configuration,player.Channel,out var gameSettings))
             SocialDetailsChannel.Text = GameMod.Name(gameSettings.Mod, _text.Language == "ru") + " · " + SocialDetailsChannel.Text;
@@ -221,9 +218,9 @@ public partial class MainWindow
 
     private void RefreshSocialCopyAvailability()
     {
-        var player = _socialPlayers.FirstOrDefault(p => p.Id == _socialDetailsPeer && p.Relation == "friend");
+        var player = SocialDetailsPlayer();
         var exact = player is not null && FriendConfiguration.TryParse(player.Configuration, player.Channel, out _);
-        var available = player?.Available == true && !_account.Restricted;
+        var available = player?.Available == true && player.Id.ToString() != _account.UserId && !player.Deleted && !_account.Restricted;
         var versionStatus=player is null?PeerVersionStatus.Unknown:FriendVersionStatus(player);
         var hint = !available ? "" : !exact ? T("Полная конфигурация игрока пока недоступна. Копирование станет доступно после получения настроек и проверки версий.", "The player's full configuration is not available yet. Copying will be available after their settings are received and versions are checked.")
             : versionStatus!=PeerVersionStatus.Current ? FriendVersionWarning(versionStatus)
@@ -264,13 +261,14 @@ public partial class MainWindow
 
     private Task CopyFriendSettingsAsync()
     {
-        var player = _socialPlayers.FirstOrDefault(p => p.Id == _socialDetailsPeer && p.Relation == "friend");
+        var player = SocialDetailsPlayer();
         return player is null ? Task.CompletedTask : CopyConfigurationAsync(player);
     }
 
     private async Task CopyConfigurationAsync(SocialPlayer? player, SocialOffer? offer = null)
     {
-        if (player is null || !FriendConfiguration.TryParse(player.Configuration, player.Channel, out var imported)
+        if (player is null || player.Deleted || !player.Available || player.ConfigurationHidden || player.Id.ToString() == _account.UserId
+            || !FriendConfiguration.TryParse(player.Configuration, player.Channel, out var imported)
             || _game is null || _busy || FeedBlocksActions || _accountBusy || _socialBusy || ConfirmationActive || _account.State != AccountState.SignedIn) return;
         var owner = _account.UserId;
         var game = _game;
@@ -331,16 +329,23 @@ public partial class MainWindow
             CloseSocialDetails();
             ownsOperation = true;
             SetBusy(true, T("Применяю конфигурацию…", "Applying configuration…"));
-            ShowToast(() => T("Началось применение конфигурации друга.", "Applying your friend's configuration."));
+            ShowToast(() => T("Началось применение конфигурации игрока.", "Applying the player's configuration."));
             if (offer is not null) receipt = await BeginOfferApplicationAsync(offer);
             async Task Revalidate()
             {
                 CheckContext();
-                var friends = _friendSettingsReadOverride is not null ? await _friendSettingsReadOverride() : await _account.GetFriendsAsync(_accountLifetime.Token);
+                SocialPlayer? fresh;
+                if (player.Relation == "friend" || offer is not null)
+                {
+                    var friends = _friendSettingsReadOverride is not null ? await _friendSettingsReadOverride() : await _account.GetFriendsAsync(_accountLifetime.Token);
+                    fresh = friends.FirstOrDefault(p => p.Id == player.Id && p.Relation == "friend");
+                }
+                else fresh = await (_publicProfileReadOverride?.Invoke(player.Id, _accountLifetime.Token)
+                    ?? _account.GetPublicPlayerProfileAsync(player.Id, _accountLifetime.Token));
                 CheckContext();
-                var fresh = friends.FirstOrDefault(p => p.Id == player.Id && p.Relation == "friend");
-                if (fresh is null || offer is null && (fresh.Configuration != originalCode || fresh.Channel != player.Channel))
-                    throw new FriendCopyException(() => T("Данные друга изменились. Откройте профиль и повторите.", "Your friend's details changed. Open their profile and try again."));
+                if (fresh is null || fresh.Id != player.Id || !fresh.Available || fresh.Deleted || fresh.ConfigurationHidden
+                    || fresh.Relation == "blocked" || offer is null && (fresh.Configuration != originalCode || fresh.Channel != player.Channel))
+                    throw new FriendCopyException(() => T("Данные игрока изменились. Откройте профиль и повторите.", "The player's details changed. Open their profile and try again."));
                 RequireCurrentPeerVersions(fresh with {Configuration=originalCode,Channel=player.Channel},_friendVersionCatalogs[channel.Channel]);
                 if (receipt is not null) await VerifyOfferApplicationAsync(receipt);
                 EnsureGameClosed();

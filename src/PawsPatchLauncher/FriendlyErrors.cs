@@ -36,6 +36,14 @@ public static class FriendlyErrors
             else if (error.InnerException is not null) Visit(error.InnerException);
         }
         Visit(exception);
+        if (all.OfType<FactionVoiceException>().FirstOrDefault() is { } voice)
+            return voice.Code == "faction-voice-version"
+                ? new(voice.Code, "Для озвучки фракций нужна Kohan II 1.3.72", "Faction speech requires Kohan II 1.3.72",
+                    "Разные языки фракций требуют поддерживаемую версию игры. Выберите обычную озвучку либо установите поддерживаемую Steam-версию Kohan II.",
+                    "Different faction languages require a supported game version. Choose a regular speech language or install the supported Steam version of Kohan II.", ErrorAction.Settings)
+                : new(voice.Code, "Озвучка фракций не включена", "Faction speech was not enabled",
+                    "Закройте игру, примените настройки и снова запустите её через лаунчер. Если ошибка повторится, создайте диагностику.",
+                    "Close the game, apply settings and start it through the launcher again. If this persists, create diagnostics.", ErrorAction.Diagnostics);
         if (all.Any(x => x is CryptographicException or AuthenticationException))
             return new("security", "Проверка безопасности не пройдена", "Security verification failed",
                 "Не удалось подтвердить подлинность обновления или защищённое соединение. Установка остановлена. Проверьте дату и время Windows; если ошибка повторится, отправьте диагностику. Проверки безопасности отключать не нужно.",

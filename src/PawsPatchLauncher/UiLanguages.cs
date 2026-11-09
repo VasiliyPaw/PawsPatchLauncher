@@ -40,6 +40,7 @@ public static class UiLanguages
     public static string English(string language, string en) => Catalogs.TryGetValue(language, out var catalog) && catalog.TryGetValue(en, out var value) ? value : en;
     public static string GameLanguageName(string code, string language) => code switch
     {
+        "custom" => Text(language, "Пользовательская", "Custom"),
         "en" => Text(language, "Английский (оригинал)", "English (Original)"),
         "ru" => Text(language, "Русский", "Russian"),
         "de" => Text(language, "Немецкий", "German"),

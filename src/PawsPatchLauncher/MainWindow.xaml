@@ -954,15 +954,16 @@
             <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="20"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
             <Border x:Name="RussianModuleCard" CornerRadius="6" Padding="0" BorderThickness="0" Background="Transparent">
                 <Grid>
-                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="0.8*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="1.2*"/></Grid.ColumnDefinitions>
                     <StackPanel Visibility="Collapsed"><TextBlock x:Name="RussianTitleText"/><TextBlock x:Name="RussianDescriptionText"/><CheckBox x:Name="RussianToggle" Click="OptionChanged"/></StackPanel>
                     <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                         <TextBlock x:Name="GameTextLabel" VerticalAlignment="Center" Margin="0,0,8,0" Style="{StaticResource MetadataText}"/>
                         <ComboBox x:Name="GameLanguageCombo" Grid.Column="1" MinWidth="115" Style="{StaticResource ReleaseCombo}" DisplayMemberPath="Label" SelectionChanged="GameLanguage_Changed"/>
                     </Grid>
-                    <Grid Grid.Column="2"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                    <Grid Grid.Column="2"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <TextBlock x:Name="GameVoiceLabel" VerticalAlignment="Center" Margin="0,0,8,0" Style="{StaticResource MetadataText}"/>
-                        <ComboBox x:Name="GameVoiceCombo" Grid.Column="1" MinWidth="115" Style="{StaticResource ReleaseCombo}" DisplayMemberPath="Label" SelectionChanged="GameVoice_Changed"/>
+                        <ComboBox x:Name="GameVoiceCombo" Grid.Column="1" MinWidth="150" Style="{StaticResource ReleaseCombo}" DisplayMemberPath="Label" SelectionChanged="GameVoice_Changed"/>
+                        <Button x:Name="CustomVoicesButton" Grid.Column="2" Style="{StaticResource GhostButton}" Width="32" Height="32" Padding="0" Margin="6,0,0,0" Visibility="Collapsed" Click="CustomVoices_Click"><local:LauncherIcon Kind="Gear" Width="17" Height="17"/></Button>
                     </Grid>
                 </Grid>
             </Border>
@@ -1609,7 +1610,6 @@
                             <Border x:Name="SocialDetailsPrivacyNotice" Visibility="Collapsed" Background="#24374C" BorderBrush="#52677F" BorderThickness="1" CornerRadius="9" Padding="13" Margin="0,0,0,12">
                                 <TextBlock x:Name="SocialDetailsPrivacyText" TextWrapping="Wrap" Foreground="#D3E0EE" FontSize="13"/>
                             </Border>
-                            <Button x:Name="CompareProfileButton" Style="{StaticResource GhostButton}" Click="CompareProfile_Click" Margin="0,0,0,9" Padding="10,8"/>
                             <TextBlock x:Name="SocialDetailsCopyHint" FontSize="12" Foreground="#A8BBD2" TextWrapping="Wrap" Margin="0,0,0,9"/>
                             <Button x:Name="SocialDetailsCopyButton" Style="{StaticResource GoldButton}" local:LauncherIcon.Kind="Copy"
                                     HorizontalAlignment="Stretch" Padding="18,10" Click="SocialDetailsCopy_Click"/>

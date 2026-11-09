@@ -144,6 +144,9 @@ public static class Program
         if (idleCpuProbe) { IdleCpuProbe.Run(args[0]); app.Shutdown(); return; }
         if (lobbyLaunchFixture is not null) { LobbyLaunchChecks.Run(lobbyLaunchFixture); app.Shutdown(); return; }
         if (modDbDialogPreview) { ModDbDialogPreview.Run(language, args[0]); app.Shutdown(); return; }
+        if (Environment.GetCommandLineArgs().Contains("--installed-preset-checks")) { InstalledPresetChecks.Run(Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
+        if (Environment.GetCommandLineArgs().Contains("--public-copy-checks")) { PublicCopyChecks.Run(language); app.Shutdown(); return; }
+        if (Environment.GetCommandLineArgs().Contains("--faction-voice-checks")) { FactionVoiceChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (Environment.GetCommandLineArgs().Contains("--usability-checks")) { UsabilityChecks.Run(language, Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (communityChecks) { CommunityChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (pureOptionsConfig is not null) { PureOptionsUiChecks.Run(pureOptionsConfig); app.Shutdown(); return; }

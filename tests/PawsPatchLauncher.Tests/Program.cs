@@ -5,6 +5,12 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 2 && args[0] == "--rebuild-installed-faction-voices") { await CustomVoiceTests.RebuildInstalledAsync(args[1]); return; }
+if (args.Length == 3 && args[0] == "--verify-installed-faction-launch") { await CustomVoiceTests.RunInstalledLaunchAsync(args[1], args[2]); return; }
+if (args.Length == 5 && args[0] == "--prepare-installed-faction-preset") { await InstalledFactionPreset.RunAsync(args[1], args[2], args[3], args[4]); return; }
+if (args.Length >= 3 && args[0] == "--voice-hook-fixture") { await CustomVoiceTests.RunHookFixtureAsync(args[1], args[2]); return; }
+if (args.Length == 4 && args[0] == "--verify-custom-voices") { await CustomVoiceTests.RunPublishedAsync(args[1], args[2], args[3]); return; }
+if (args.Length == 1 && args[0] == "--custom-voices") { var voiceRoot = Path.Combine(Path.GetTempPath(), "PawsCustomVoices", Guid.NewGuid().ToString("N")); Directory.CreateDirectory(voiceRoot); await CustomVoiceTests.RunAsync(voiceRoot); return; }
 if(args.Length is 4 or 5 && args[0]=="--verify-published-downloads") {await PublishedPackageDownloadTests.RunAsync(args[1],args[2],args[3],args.Length==5?args[4]:null);return;}
 if(args.Length==1&&args[0]=="--company-behavior") {CompanyBehaviorTests.Run();AiOptionsTests.Run();return;}
 if (args.Length == 2 && args[0] == "--verify-active-beta") { PublishedBetaCatalogTests.Run(args[1]); return; }
@@ -210,6 +216,7 @@ try
         passed += await AtomicStateWriteTests.RunAsync(root);
         passed += await LauncherDownloadRecoveryTests.RunAsync(root);
         passed += await UsabilityTests.RunAsync(root);
+        passed += await CustomVoiceTests.RunAsync(root);
         passed += await StartupCompatibilityTests.RunAsync(root);
         passed += await AccountTests.RunAsync(root);
         passed += await AccountModerationTests.RunAsync(root);

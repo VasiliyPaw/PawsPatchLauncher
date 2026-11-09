@@ -91,7 +91,8 @@ public static class GameMod
             throw new InvalidDataException("This game mode is not available yet.");
         if (settings.GameTextLanguage is not null && !GameLanguages.Choices.Contains(settings.GameTextLanguage))
             throw new InvalidDataException("This text language is not available yet.");
-        if (settings.GameVoiceLanguage is not (null or "en" or "ru" or "de" or "fr"))
+        if (settings.GameVoiceLanguage is not (null or "en" or "ru" or "de" or "fr" or "custom"))
             throw new InvalidDataException("This speech language is not available yet.");
+        CustomVoices.Validate(settings);
     }
 }

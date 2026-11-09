@@ -42,6 +42,36 @@ public sealed class ModuleInstaller
         return new InstallState();
     }
 
+    public async Task MigrateFactionVoiceModuleAsync()
+    {
+        var state = LoadState();
+        if (!state.Modules.TryGetValue(CustomVoices.LegacyModuleId, out var legacy)) return;
+        if (state.Modules.ContainsKey(CustomVoices.ModuleId)) throw new InvalidDataException("Conflicting faction speech modules.");
+        var oldCache = CryptoAndIO.SafeChildPath(_packageRoot, CustomVoices.LegacyModuleId + "/" + Sanitize(legacy.Version));
+        var newCache = CryptoAndIO.SafeChildPath(_packageRoot, CustomVoices.ModuleId + "/" + Sanitize(legacy.Version));
+        RemovalSafety.CheckNoLinks(oldCache);
+        RemovalSafety.CheckNoLinks(newCache);
+        // A crash after the move is recoverable: the next launch resumes here.
+        if (Directory.Exists(oldCache) && !Directory.Exists(newCache))
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(newCache)!);
+            Directory.Move(oldCache, newCache);
+        }
+        var manifestPath = Path.Combine(newCache, "module.json");
+        if (File.Exists(manifestPath))
+        {
+            var manifest = JsonSerializer.Deserialize(await File.ReadAllTextAsync(manifestPath), LauncherJsonContext.Default.ModuleArchiveManifest)
+                ?? throw new InvalidDataException("Missing faction speech manifest.");
+            if (!CustomVoices.IsGenerated(manifest.Id) || manifest.Version != legacy.Version)
+                throw new InvalidDataException("Conflicting faction speech cache.");
+            manifest.Id = CustomVoices.ModuleId;
+            await CryptoAndIO.AtomicWriteTextAsync(manifestPath, JsonSerializer.Serialize(manifest, LauncherJsonContext.Default.ModuleArchiveManifest));
+        }
+        state.Modules.Remove(CustomVoices.LegacyModuleId);
+        state.Modules.Add(CustomVoices.ModuleId, legacy);
+        await CryptoAndIO.AtomicWriteTextAsync(_statePath, JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState));
+    }
+
     public Task RememberLegacyConfigurationAsync(UserSettings settings, string releaseId)
         => Task.Run(() => RememberLegacyConfigurationCoreAsync(settings, releaseId));
 
@@ -149,6 +179,7 @@ public sealed class ModuleInstaller
         state.CustomMods = CustomRwdMods.Copy(customMods ?? state.CustomMods);
         desired = await new CustomRwdMods(_gameRoot).ComposeAsync(desired, previous, state.CustomMods,
             resetOriginals ? null : settings?.Mod, cancellationToken);
+        desired = await FactionVoiceResources.ComposeAsync(_gameRoot, desired, settings, cancellationToken);
         var winners = new Dictionary<string, (string Id, InstalledModule Module, ModuleFile? File)>(StringComparer.OrdinalIgnoreCase);
         foreach (var pair in desired.Where(x => x.Value.Enabled).OrderBy(x => x.Value.Priority).ThenBy(x => x.Key, StringComparer.OrdinalIgnoreCase))
         {

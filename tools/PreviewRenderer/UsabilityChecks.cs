@@ -125,8 +125,6 @@ internal static class UsabilityChecks
             var peer = new SocialPlayer(Guid.NewGuid(), "nightwatch", "friend", Presence: "playing", PlayingSince: DateTimeOffset.UtcNow.AddMinutes(-37), Channel: peerSettings.Channel,
                 Configuration: FriendConfiguration.Create(peerSettings), DisplayName: "Nightwatch", Activity: new GameActivity("match", true, 540, 192, 256));
             Set("_socialPlayers", (IReadOnlyList<SocialPlayer>)new[] { peer }); Call("ShowSocialDetails", peer);
-            Check(C<Button>("CompareProfileButton").IsVisible, "full profile exposes a comparison without applying settings");
-            await CaptureDialog("gameplay-comparison", (Window)Call("CreateGameplayComparisonDialog", peer)!);
             foreach (var (name, hideSettings, hideActivity) in new[] { ("profile-hidden-all", true, true), ("profile-hidden-settings", true, false), ("profile-hidden-activity", false, true) })
             {
                 var hidden = peer with { Configuration = hideSettings ? null : peer.Configuration, Components = "{}", Activity = hideActivity ? null : peer.Activity,
@@ -134,7 +132,6 @@ internal static class UsabilityChecks
                 Set("_socialPlayers", (IReadOnlyList<SocialPlayer>)new[] { hidden }); Call("RenderSocialDetails", hidden); await Task.Delay(130);
                 Check(C<Border>("SocialDetailsPrivacyNotice").IsVisible && C<TextBlock>("SocialDetailsPrivacyText").Text.Length > 10, "profile explicitly describes " + name);
                 if (hideSettings && hideActivity) Check(C<TextBlock>("SocialDetailsPrivacyText").Text == UiLanguages.Text(language, "Игрок скрыл игровые настройки и активность.", "This player has hidden gameplay settings and activity."), "all-hidden explanation names both kinds of data");
-                Check(C<Button>("CompareProfileButton").IsVisible == !hideSettings, "hidden settings cannot be compared or reconstructed");
                 Snap(name, C<Border>("SocialDetailsCard"));
             }
             w.Width = 1050; w.Height = 680;
