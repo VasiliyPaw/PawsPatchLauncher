@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.0-beta.4",
+  "version": "0.5.1-beta.1",
   "entries": [
+    {
+      "id": "presentation-051",
+      "category": "always",
+      "titleRu": "Плавность и интерфейс",
+      "titleEn": "Performance and interface",
+      "bodyRu": "- Улучшена работа кэшей моделей и анимаций.\n- Добавлены часы суток и масштабирование миникарты колёсиком.\n- Исправлены окно выхода и статистика фортов.\n- Улучшена воздушная разведка ботов.",
+      "bodyEn": "- Improved model and animation caching.\n- Added a time-of-day clock and minimap zoom with the mouse wheel.\n- Fixed the exit dialog and fort statistics.\n- Improved AI aerial scouting."
+    },
     {
       "id": "network-session",
       "category": "always",

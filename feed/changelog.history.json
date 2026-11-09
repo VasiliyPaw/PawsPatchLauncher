@@ -1472,6 +1472,31 @@
   "beta": [
     {
       "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "version": "0.5.1-beta.1",
+      "publishedAt": "2026-11-09",
+      "title": {
+        "ru": "Paw’s Patch 0.5.1 beta — Arcane Wars",
+        "en": "Paw’s Patch 0.5.1 beta — Arcane Wars",
+        "de": "Paw’s Patch 0.5.1 beta — Arcane Wars",
+        "fr": "Paw’s Patch 0.5.1 beta — Arcane Wars",
+        "cs": "Paw’s Patch 0.5.1 beta — Arcane Wars",
+        "uk": "Paw’s Patch 0.5.1 beta — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Добавлены оптимизации отображения войск.\n- Добавлены часы суток и масштабирование миникарты колёсиком.\n- Исправлены окно выхода и учёт фортов в статистике.\n- Улучшена воздушная разведка ботов.",
+        "en": "- Added optimizations for displaying armies.\n- Added a time-of-day clock and minimap zoom with the mouse wheel.\n- Fixed the exit dialog and fort statistics.\n- Improved AI aerial scouting.",
+        "de": "- Darstellung von Truppen optimiert.\n- Tageszeituhr und Minikartenzoom per Mausrad hinzugefügt.\n- Beenden-Dialog und Festungsstatistik korrigiert.\n- Luftaufklärung der KI verbessert.",
+        "fr": "- Ajout d’optimisations pour l’affichage des troupes.\n- Ajout d’une horloge et du zoom de la minicarte à la molette.\n- Correction de la fenêtre de sortie et des statistiques des forts.\n- Amélioration de la reconnaissance aérienne de l’IA.",
+        "cs": "- Přidány optimalizace zobrazení vojsk.\n- Přidány hodiny a přibližování minimapy kolečkem myši.\n- Opraven dialog ukončení a statistiky pevností.\n- Vylepšen letecký průzkum botů.",
+        "uk": "- Додано оптимізації відображення військ.\n- Додано годинник і масштабування мінімапи коліщатком.\n- Виправлено вікно виходу та облік фортів у статистиці.\n- Покращено повітряну розвідку ботів."
+      }
+    },
+    {
+      "category": "patch",
       "version": "0.5.0-beta.1",
       "publishedAt": "2026-11-09",
       "title": {
