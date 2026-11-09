@@ -1,0 +1,26 @@
+{
+  "category": "patch",
+  "version": "0.5.0-beta.2",
+  "publishedAt": "2026-11-09",
+  "title": {
+    "ru": "Paw’s Patch 0.5.0 beta 2 — Vanilla / Immortals",
+    "en": "Paw’s Patch 0.5.0 beta 2 — Vanilla / Immortals",
+    "de": "Paw’s Patch 0.5.0 beta 2 — Vanilla / Immortals",
+    "fr": "Paw’s Patch 0.5.0 beta 2 — Vanilla / Immortals",
+    "cs": "Paw’s Patch 0.5.0 beta 2 — Vanilla / Immortals",
+    "uk": "Paw’s Patch 0.5.0 beta 2 — Vanilla / Immortals"
+  },
+  "body": {
+    "ru": "- Исправлено распределение кэша ресурсов.\n- Добавлена подготовка моделей и анимаций при загрузке и на паузе.\n- Добавлено удержание анимаций с проверкой доступной памяти.\n- Добавлено переиспользование графических буферов и ускорен поиск групп при отрисовке.",
+    "en": "- Fixed resource-cache allocation.\n- Added model and animation preparation during loading and pause.\n- Added animation retention with available-memory checks.\n- Added graphics-buffer reuse and faster rendering-group lookup.",
+    "de": "- Verteilung des Ressourcen-Caches korrigiert.\n- Vorbereitung von Modellen und Animationen beim Laden und während der Pause hinzugefügt.\n- Animationen werden nach Prüfung des verfügbaren Speichers im Cache gehalten.\n- Wiederverwendung von Grafikpuffern und schnellere Suche nach Rendergruppen hinzugefügt.",
+    "fr": "- Correction de la répartition du cache de ressources.\n- Préparation des modèles et animations pendant le chargement et la pause.\n- Conservation des animations en cache après vérification de la mémoire disponible.\n- Réutilisation des tampons graphiques et recherche plus rapide des groupes de rendu.",
+    "cs": "- Opraveno rozdělení mezipaměti prostředků.\n- Přidána příprava modelů a animací při načítání a během pauzy.\n- Přidáno uchování animací po kontrole dostupné paměti.\n- Přidáno opakované použití grafických bufferů a rychlejší hledání skupin při vykreslování.",
+    "uk": "- Виправлено розподіл кешу ресурсів.\n- Додано підготовку моделей та анімацій під час завантаження й паузи.\n- Додано утримання анімацій із перевіркою доступної пам’яті.\n- Додано повторне використання графічних буферів і прискорено пошук груп під час відображення."
+  },
+  "mods": [
+    "vanilla",
+    "immortals"
+  ],
+  "channel": "beta"
+}

@@ -1,0 +1,135 @@
+{
+  "passed": true,
+  "patchVersion": "0.5.0-beta.2",
+  "packages": {
+    "pure-fixes-runtime": {
+      "version": "1.3.72-pure.18-beta.2",
+      "size": 1020021,
+      "sha256": "F6C9DCBCA583BE911557B0014E4ABFACD57D9840ED1A992F54ADD7D1B2045B36"
+    },
+    "pure-fixes-data": {
+      "version": "0.5.0-beta.2",
+      "size": 31001,
+      "sha256": "1ADD5615A396434E72673F9855625F6C6BC78819C7A6E30BA50A9AC3F305DCF7"
+    },
+    "pure-beta-common": {
+      "version": "0.5.0-beta.2",
+      "size": 6042320,
+      "sha256": "D3EABC2A51D588902EA3DEEC4C77E6692B92D410B92D247C57E0A1BD942AFF66"
+    }
+  },
+  "helperHashes": {
+    "k2_paws_pure_fixes_1372.exe": "5324ED085CB2C9A5E3B841F6F5E0B9A0B7D0650FCF1FB62150D119CFE59DCCA2",
+    "k2_paws_pure_sync_1372.exe": "657957407BE03C344A23B9C553823A5691611588FEE761E23667E0B70F7FA7D9",
+    "k2_paws_pure_colors_1372.exe": "CC68D544D5AD0CB49D9EE9B8EBFDF6D38229F4B908CD759BDDE6898B135A504D",
+    "k2_paws_pure_colors_sync_1372.exe": "D9B16BDB1F9C282881B04CF3694736D9835A7E098DAEF1F99672871166092370"
+  },
+  "nativePeerChecksums": {
+    "common": 53,
+    "mismatches": [],
+    "samples": [
+      367,
+      368
+    ]
+  },
+  "optimizationSnapshots": {
+    "vanilla": {
+      "resource": {
+        "weightCalls": 84,
+        "frames": 9988,
+        "prepared": 544,
+        "models": 179,
+        "animations": 365,
+        "failures": 0,
+        "pressureSkips": 0,
+        "maxAssetMs": 16,
+        "callback": 576524813,
+        "animationPolicy": 1
+      },
+      "animationPercent": 80,
+      "findHookTarget": 576535279,
+      "buffers": {
+        "mode": 1,
+        "hits": 31214,
+        "keeps": 216,
+        "drops": 0,
+        "held": 66,
+        "bytes": 6720,
+        "privateDrops": 0,
+        "busy": 111485,
+        "evictions": 150,
+        "frame": 9984
+      },
+      "graphicsSha256": "112920FF0CB9A38158A12E9F8875B6B4FBBCE9ADA5C364EF55936EBBE4A83179"
+    },
+    "immortals-loaded": {
+      "resource": {
+        "weightCalls": 28,
+        "frames": 1934,
+        "prepared": 491,
+        "models": 178,
+        "animations": 313,
+        "failures": 0,
+        "pressureSkips": 0,
+        "maxAssetMs": 16,
+        "callback": 604836365,
+        "animationPolicy": 1
+      },
+      "animationPercent": 80,
+      "findHookTarget": 604846831,
+      "buffers": {
+        "mode": 1,
+        "hits": 530,
+        "keeps": 160,
+        "drops": 0,
+        "held": 160,
+        "bytes": 64980,
+        "privateDrops": 0,
+        "busy": 492,
+        "evictions": 0,
+        "frame": 1931
+      },
+      "graphicsSha256": "112920FF0CB9A38158A12E9F8875B6B4FBBCE9ADA5C364EF55936EBBE4A83179"
+    },
+    "immortals-second": {
+      "resource": {
+        "weightCalls": 88,
+        "frames": 9179,
+        "prepared": 546,
+        "models": 178,
+        "animations": 368,
+        "failures": 0,
+        "pressureSkips": 0,
+        "maxAssetMs": 16,
+        "callback": 604836365,
+        "animationPolicy": 1
+      },
+      "animationPercent": 80,
+      "findHookTarget": 604846831,
+      "buffers": {
+        "mode": 1,
+        "hits": 3454,
+        "keeps": 398,
+        "drops": 0,
+        "held": 128,
+        "bytes": 36000,
+        "privateDrops": 0,
+        "busy": 3904,
+        "evictions": 270,
+        "frame": 9175
+      },
+      "graphicsSha256": "112920FF0CB9A38158A12E9F8875B6B4FBBCE9ADA5C364EF55936EBBE4A83179"
+    }
+  },
+  "automaticRecovery": false,
+  "limitations": [
+    "Functional compatibility, no isolated Pure FPS or frame-time A/B claim",
+    "Local two-player Vanilla LAN; Immortals actual-save reload and second match",
+    "No new Internet, other-PC/GPU or many-hour large-army acceptance"
+  ],
+  "sourceBundle": {
+    "files": 107,
+    "size": 357264,
+    "sha256": "3734D4C708489CB9E3FC414027A6D2E6681C361405C7100A345821C6069A787F"
+  }
+}
