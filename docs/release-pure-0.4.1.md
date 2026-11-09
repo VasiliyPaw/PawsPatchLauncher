@@ -1,0 +1,13 @@
+# Paw’s Patch 0.4.1 — Vanilla / Immortals
+
+В релиз перенесены улучшения беты 0.4.1-beta.12: исправления широкоформатного интерфейса, выделение более шести рот и прокрутка карточек, расширенные построения, исправления группового движения, атаки и отступления, воспроизведения повторов и отдельных вылетов. Увеличен запас текстур местности при отдалённой камере.
+
+Автоматическое восстановление матча после отключения игрока отключено. Сетевые автосохранения каждые пять минут в два чередующихся слота и локальные копии сохранений у клиентов сохранены. Возвращаться в партию следует через обычную загрузку сохранения в лобби.
+
+---
+
+# Paw’s Patch 0.4.1 — Vanilla / Immortals
+
+The 0.4.1-beta.12 improvements are now in Release: widescreen interface fixes, selection of more than six companies with scrolling cards, extended formations, group movement, attack and retreat fixes, replay fixes and targeted crash fixes. The terrain texture pool for the extended camera is increased.
+
+Automatic match recovery after a player disconnects is disabled. Multiplayer autosaves every five minutes in alternating slots and local client save copies remain available. Resume a saved match through the normal lobby loading flow.
