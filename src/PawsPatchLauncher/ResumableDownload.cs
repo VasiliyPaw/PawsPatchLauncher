@@ -7,12 +7,13 @@ namespace PawsPatchLauncher;
 public static class ResumableDownload
 {
     public static async Task DownloadAsync(HttpClient http, string url, string destination, long size,
-        IProgress<(long Received, long? Total)>? progress, CancellationToken ct)
+        IProgress<(long Received, long? Total)>? progress, CancellationToken ct, DownloadControl? control = null)
     {
         for (var attempt = 0; attempt < 3; attempt++)
         {
             try
             {
+                if (control is not null) await control.WaitAsync(ct);
                 var offset = File.Exists(destination) ? new FileInfo(destination).Length : 0;
                 if (size > 0 && offset == size) return; // Caller verifies the signed hash.
                 if (size > 0 && offset > size) { File.Delete(destination); offset = 0; }
@@ -36,10 +37,15 @@ public static class ResumableDownload
                 var buffer = new byte[65536];
                 var received = offset;
                 progress?.Report((received, total));
-                int count;
-                while ((count = await input.ReadAsync(buffer, ct)) > 0)
+                while (true)
                 {
+                    if (control is not null) await control.WaitAsync(ct);
+                    using var idle = CancellationTokenSource.CreateLinkedTokenSource(ct);
+                    idle.CancelAfter(TimeSpan.FromSeconds(30));
+                    var count = await input.ReadAsync(buffer, idle.Token);
+                    if (count == 0) break;
                     if (size > 0 && received + count > size) throw new InvalidDataException("Downloaded file exceeds signed size: " + url);
+                    if (control is not null) await control.PaceAsync(count, ct);
                     await output.WriteAsync(buffer.AsMemory(0, count), ct);
                     received += count;
                     progress?.Report((received, total));
@@ -52,6 +58,8 @@ public static class ResumableDownload
             {
                 await Task.Delay(500 * (attempt + 1), ct);
             }
+            catch (OperationCanceledException error) when (!ct.IsCancellationRequested)
+            { throw new TimeoutException("The download server stopped responding. Partial bytes are retained.", error); }
         }
         throw new IOException("The server could not resume this download: " + url);
     }

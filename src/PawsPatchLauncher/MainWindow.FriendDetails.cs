@@ -117,7 +117,7 @@ public partial class MainWindow
         SocialDetailsStatus.Text = SocialStatusName(presence);
         SocialDetailsStatus.Foreground = SocialBrush(presence == "playing" ? "#62DCA6" : presence == "online" ? "#82B5FF" : "#A8BBD2");
         SocialDetailsActivity.Text = "";
-        if (presence == "playing" && player.PlayingSince is DateTimeOffset started)
+        if (presence == "playing" && !player.ActivityHidden && player.PlayingSince is DateTimeOffset started)
         {
             var duration = DateTimeOffset.UtcNow - started; if (duration < TimeSpan.Zero) duration = TimeSpan.Zero;
             SocialDetailsActivity.Text = T("В игре: ", "Playing for: ") + (duration.TotalHours >= 1 ? $"{(int)duration.TotalHours} " + T("ч ", "h ") : "") + $"{(int)duration.TotalMinutes % 60} " + T("мин", "min");
@@ -131,6 +131,14 @@ public partial class MainWindow
         SocialDetailsGameActivityButton.ToolTip=T("Состояние игры и участники", "Game activity and participants");
         SocialDetailsGameActivityButton.IsEnabled=!AccountConnectionBlocked;
         SocialDetailsChannelLabel.Text = T("Мод и канал патча", "Mod and patch channel");
+        SocialDetailsPrivacyNotice.Visibility = player.ConfigurationHidden || player.ActivityHidden ? Visibility.Visible : Visibility.Collapsed;
+        SocialDetailsPrivacyText.Text = player.ConfigurationHidden && player.ActivityHidden
+            ? T("Игрок скрыл игровые настройки и активность.", "This player has hidden gameplay settings and activity.")
+            : player.ConfigurationHidden ? T("Игрок скрыл игровые настройки.", "This player has hidden gameplay settings.")
+            : player.ActivityHidden ? T("Игрок скрыл подробную игровую активность.", "This player has hidden detailed game activity.") : "";
+        CompareProfileButton.Content = T("Сравнить игровые настройки", "Compare gameplay settings");
+        CompareProfileButton.Visibility = player.Id.ToString() != _account.UserId && player.Available
+            && !player.ConfigurationHidden && FriendConfiguration.TryParse(player.Configuration, player.Channel, out _) ? Visibility.Visible : Visibility.Collapsed;
         SocialDetailsChannel.Text = player.Channel == "beta" ? T("Бета", "Beta") : player.Channel == "stable" ? T("Релиз", "Release") : T("Неизвестен", "Unknown");
         if (FriendConfiguration.TryParse(player.Configuration,player.Channel,out var gameSettings))
             SocialDetailsChannel.Text = GameMod.Name(gameSettings.Mod, _text.Language == "ru") + " · " + SocialDetailsChannel.Text;
@@ -156,7 +164,7 @@ public partial class MainWindow
         SocialDetailsBlockButton.Content=T("Заблокировать","Block");
         SocialDetailsClose.ToolTip = T("Закрыть", "Close");
         System.Windows.Automation.AutomationProperties.SetName(SocialDetailsClose, T("Закрыть", "Close"));
-        var key = $"{player.Id}|{player.Components}|{player.Configuration}|{player.Presence}|{player.Available}|{player.AvatarRevision}|{player.Deleted}|{_socialAvatarGeneration}|{_text.Language}";
+        var key = $"{player.Id}|{player.Components}|{player.Configuration}|{player.Presence}|{player.Available}|{player.AvatarRevision}|{player.Deleted}|{_socialAvatarGeneration}|{_text.Language}|{player.ConfigurationHidden}|{player.ActivityHidden}";
         if (_socialDetailsLayoutKey != key)
         {
             _socialDetailsLayoutKey = key;
@@ -194,8 +202,21 @@ public partial class MainWindow
         }
         RefreshAvatarPreviewAvailability();
         RefreshSocialCopyAvailability();
-        if(player.Id.ToString()!=_account.UserId) _ = RefreshPeerVersionsAsync(player);
+        if (player.ConfigurationHidden)
+        {
+            SocialDetailsChannel.Text = T("Скрыто", "Hidden");
+            SocialDetailsComponents.Children.Clear();
+            SocialDetailsComponents.Children.Add(new TextBlock { Text = T("Настройки недоступны по выбору игрока.", "These settings are hidden by the player."), Foreground = SocialBrush("#A8BBD2"), TextWrapping = TextWrapping.Wrap });
+        }
+        if (player.ActivityHidden)
+        {
+            _gameActivityCache.Remove(player.Id);
+            if (_gameActivityPeer == player.Id) CloseGameActivity();
+        }
+        if(player.Id.ToString()!=_account.UserId && !player.ConfigurationHidden) _ = RefreshPeerVersionsAsync(player);
         SocialDetailsComponents.Visibility=SocialDetailsChannel.Visibility=SocialDetailsChannelLabel.Visibility=SocialDetailsComponentsLabel.Visibility=player.Available?Visibility.Visible:Visibility.Collapsed;
+        SocialDetailsConfigurationHeader.Visibility = player.Available && !player.ConfigurationHidden ? Visibility.Visible : Visibility.Collapsed;
+        if (player.ConfigurationHidden) SocialDetailsComponents.Visibility = SocialDetailsComponentsLabel.Visibility = Visibility.Collapsed;
     }
 
     private void RefreshSocialCopyAvailability()
@@ -212,8 +233,8 @@ public partial class MainWindow
         var matches = available && exact && PlayerConfigurationAlreadyApplied(player!);
         SocialDetailsCopyHint.Text = hint.Length == 0 && matches ? T("Эта конфигурация и версия патча уже применены.", "This configuration and patch version are already applied.") : hint;
         SocialDetailsCopyButton.Content = matches ? T("Конфигурации совпадают", "Configurations match") : T("Скопировать конфигурацию", "Copy configuration");
-        SocialDetailsCopyButton.Visibility = available ? Visibility.Visible : Visibility.Collapsed;
-        SocialDetailsCopyHint.Visibility = SocialDetailsCopyHint.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+        SocialDetailsCopyButton.Visibility = available && player?.ConfigurationHidden != true ? Visibility.Visible : Visibility.Collapsed;
+        SocialDetailsCopyHint.Visibility = SocialDetailsCopyHint.Text.Length == 0 || player?.ConfigurationHidden == true ? Visibility.Collapsed : Visibility.Visible;
         SocialDetailsCopyHint.Foreground=SocialBrush(versionStatus is not (PeerVersionStatus.Current or PeerVersionStatus.Checking)?"#FFB1A8":"#A8BBD2");
         SocialDetailsCopyButton.ToolTip=hint.Length==0?null:hint;
         ToolTipService.SetShowOnDisabled(SocialDetailsCopyButton,true);

@@ -62,7 +62,7 @@ public static class EnhancementTests
             (new AggregateException(new HttpRequestException("raw", null, HttpStatusCode.NotFound)), "http-404"),
             (new HttpRequestException("raw", null, HttpStatusCode.Forbidden), "http-access"),
             (new HttpRequestException("raw", null, HttpStatusCode.TooManyRequests), "http-access"),
-            (new HttpRequestException("raw", null, HttpStatusCode.ServiceUnavailable), "network"),
+            (new HttpRequestException("raw", null, HttpStatusCode.ServiceUnavailable), "server-unavailable"),
             (new AuthenticationException("TLS"), "security"), (new System.Security.Cryptography.CryptographicException("signature"), "security"),
             (new IOException("disk", unchecked((int)0x80070070)), "disk-full"),
             (new IOException("sharing", unchecked((int)0x80070020)), "locked"),

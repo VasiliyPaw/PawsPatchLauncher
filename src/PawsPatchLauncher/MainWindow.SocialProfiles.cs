@@ -109,7 +109,8 @@ public partial class MainWindow
             using var timeout=CancellationTokenSource.CreateLinkedTokenSource(_accountLifetime.Token);timeout.CancelAfter(TimeSpan.FromSeconds(10));
             var jpeg=await _account.GetFriendAvatarAsync(player.Id,timeout.Token);
             if(_account.UserId!=owner.ToString() || !_socialPlayers.Any(p=>p.Id==player.Id && p.Relation=="friend" && p.AvatarRevision==player.AvatarRevision))return;
-            var image=jpeg is null?null:new ImageBrush(AccountAvatarImage.Decode(jpeg,normalized:true)){Stretch=Stretch.UniformToFill};image?.Freeze();
+            var image = await DecodeSocialAvatarAsync(jpeg);
+            if (_account.UserId != owner.ToString()) return;
             _socialAvatars[player.Id]=(player.AvatarRevision,image);_socialAvatarGeneration++;
             RenderSocialRows();RenderSocialMessages();
             if(_socialDetailsPeer==player.Id)RenderSocialDetails(player);
@@ -117,4 +118,10 @@ public partial class MainWindow
         catch(AccountException e) when(e.Code is not ("session_expired" or "session_replaced" or "unauthorized")) { }
         catch(OperationCanceledException) when(!_accountLifetime.IsCancellationRequested) { }
     }
+
+    private static Task<ImageBrush?> DecodeSocialAvatarAsync(byte[]? bytes) => bytes is null ? Task.FromResult<ImageBrush?>(null) : Task.Run<ImageBrush?>(() =>
+    {
+        var image = new ImageBrush(AccountAvatarImage.Decode(bytes, normalized: true)) { Stretch = Stretch.UniformToFill };
+        image.Freeze(); return image;
+    });
 }

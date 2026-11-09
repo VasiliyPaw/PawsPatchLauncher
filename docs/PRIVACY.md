@@ -39,7 +39,9 @@ seconds; they are cleared at sign-out and are not written to diagnostic logs.
 
 Signed-in users can open full profiles and avatars, including players outside their
 friends list: general status, applied mod and component settings, and shared game
-activity. Either player's block prevents this access. Private messages and file
+activity. Account settings let players choose Everyone, Friends only or Nobody
+separately for gameplay settings and detailed activity. These preferences are
+saved on the server and apply to older clients as well; the default remains Everyone. Either player's block prevents this access. Private messages and file
 sharing still require friendship. Guests see only the basic public card.
 Avatars are normalized to 256 × 256 JPEGs before upload; original images are not
 uploaded. Received participant images are cached in memory by avatar revision and
@@ -97,7 +99,10 @@ Steam ID и команды подключения не отправляются.
 
 Вошедшие в аккаунт пользователи могут открыть полный профиль и аватарку любого
 игрока, включая игроков вне друзей: общий статус, установленный мод, настройки
-компонентов и опубликованную игровую активность. Блокировка с любой стороны
+компонентов и опубликованную игровую активность. Для настроек игры и подробной
+активности можно отдельно выбрать «Всем», «Только друзьям» или «Никому». Этот выбор
+сохраняется на сервере для аккаунта и действует также в старых клиентах; по умолчанию
+выбрано «Всем». Блокировка с любой стороны
 закрывает этот доступ. Переписка и передача файлов по-прежнему требуют дружбы.
 Гости видят только общую публичную карточку.
 Перед отправкой аватарки уменьшаются до JPEG 256 × 256; исходное изображение не

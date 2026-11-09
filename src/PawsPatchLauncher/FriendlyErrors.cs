@@ -44,6 +44,14 @@ public static class FriendlyErrors
             return new("disk-full", "Недостаточно места", "Not enough disk space",
                 "На диске закончилось место. В настройках можно проверить размер кеша и безопасно очистить устаревшие данные. После освобождения места повторите установку.",
                 "The disk is full. Settings shows cache sizes and can safely clean old data. Free some space, then retry installation.", ErrorAction.Storage);
+        if (all.Any(x => x is FileNotFoundException or DirectoryNotFoundException))
+            return new("missing-path", "Файл или папка больше недоступны", "File or folder is no longer available",
+                "Проверьте, подключён ли диск и существует ли выбранная папка игры. Если игру переместили, выберите её новую папку в настройках. Затем повторите действие.",
+                "Check that the drive is connected and the selected game folder exists. If the game was moved, select its new folder in Settings, then retry.", ErrorAction.Settings);
+        if (all.OfType<HttpRequestException>().Any(x => x.StatusCode is not null && (int)x.StatusCode >= 500))
+            return new("server-unavailable", "Сервер временно недоступен", "Server temporarily unavailable",
+                "Сервер обновлений вернул ошибку. Подождите немного и повторите установку. Полученные данные сохранены; исправные файлы игры не нужно удалять или скачивать заново.",
+                "The update server returned an error. Wait a little and retry installation. Received data is kept; do not delete or redownload valid game files.", ErrorAction.CheckUpdates);
         if (all.OfType<HttpRequestException>().Any(x => x.StatusCode == HttpStatusCode.NotFound))
             return new("http-404", "Файл обновления не найден", "Update file not found",
                 "Сервер не нашёл запрошенный файл (404). Обновите список версий и попробуйте снова. Если ошибка повторится, автору нужно исправить публикацию; переустановка игры не требуется.",

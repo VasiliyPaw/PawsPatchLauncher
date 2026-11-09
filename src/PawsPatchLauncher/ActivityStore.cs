@@ -44,7 +44,20 @@ public static class ActivityStore
         catch (IOException) { return false; }
         catch (UnauthorizedAccessException) { return false; }
     }
+    public static bool IsUsabilityTest { get; } =
+#if USABILITY_TEST
+        true;
+#else
+        UsabilityTestMarker();
+#endif
+    private static bool UsabilityTestMarker()
+    {
+        try { return File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "launcher.test-mode")).Trim() == "usability-20261109"; }
+        catch (IOException) { return false; }
+        catch (UnauthorizedAccessException) { return false; }
+    }
     public static string? LocalTestProfile => Environment.GetCommandLineArgs().FirstOrDefault(a => a.StartsWith("--test-profile=", StringComparison.Ordinal))?["--test-profile=".Length..]
+        ?? (IsUsabilityTest ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher-UsabilityTest-20261109") : null)
         ?? (IsCommunityTest && !IsSmokeTest ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher-CommunityTest") : null)
         ?? (File.Exists(Path.Combine(AppContext.BaseDirectory, "launcher.test-mode")) ? Path.Combine(AppContext.BaseDirectory, "test-profile") : null);
     public static string Root => LocalTestProfile is { Length: > 0 } profile ? Path.GetFullPath(profile) : IsSmokeTest

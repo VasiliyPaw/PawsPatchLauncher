@@ -50,6 +50,8 @@ public partial class MainWindow : Window
         _configuration = configuration ?? SettingsStore.LoadConfiguration();
         _feedClient = feedClient ?? new FeedClient(_configuration);
         _settings = _settingsStore.Load();
+        if (ActivityStore.IsSmokeTest && Environment.GetCommandLineArgs().Contains("--smoke-exit"))
+        { WindowStartupLocation = WindowStartupLocation.Manual; Left = Top = -30000; ShowActivated = false; ShowInTaskbar = false; }
         if (!_settings.LargeMapSizes && _settings.PawPatchEnabled && !GameMod.IsVanilla(_settings))
         {
             _settings.LargeMapSizes = true;
@@ -64,6 +66,8 @@ public partial class MainWindow : Window
         InitializeNotifications();
         InitializeReliabilityUi();
         InitializeEnhancementsUi();
+        InitializeDownloadExperience();
+        InitializeProfileVisibility();
         InitializeDiagnosticsUi();
         InitializeConfirmation();
         InitializeAppearance();
@@ -92,6 +96,8 @@ public partial class MainWindow : Window
         Closing += (_, e) =>
         {
             if (ConfirmationActive) { e.Cancel = true; _ = CompleteConfirmationAsync(false); }
+            else if (_busy && _downloadCancellation is not null && _feedClient.Downloads.IsPaused)
+            { _closingPausedDownload = true; _downloadCancellation.Cancel(); }
             else if (_busy || _customModsBusy) { e.Cancel = true; ShowToast(() => T("Дождитесь окончания операции или приостановите загрузку.", "Wait for the operation or pause the download.")); }
         };
         _initializing = false;
@@ -111,6 +117,12 @@ public partial class MainWindow : Window
             await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
             SelfUpdater.AcknowledgeStartup();
             File.WriteAllText(Path.Combine(ActivityStore.Root, "window-ready.txt"), SelfUpdater.CurrentVersion.ToString(3));
+            if (Environment.GetCommandLineArgs().Contains("--smoke-exit"))
+            {
+                File.WriteAllText(Path.Combine(ActivityStore.Root, "test-build-health.json"), System.Text.Json.JsonSerializer.Serialize(new
+                { usabilityTest = ActivityStore.IsUsabilityTest, automaticLauncherUpdatesDisabled = ActivityStore.IsCommunityTest, profileRoot = ActivityStore.Root, cacheRoot = _feedClient.CacheDirectory }));
+                Application.Current.Shutdown();
+            }
             return;
         }
         try
@@ -142,6 +154,8 @@ public partial class MainWindow : Window
 
     private void ApplyLanguage()
     {
+        RefreshDownloadControls();
+        RefreshProfileVisibility();
         ApplyReliabilityLanguage();
         TitleText.Text = _text["app.title"];
         SubtitleText.Text = _text["app.subtitle"];
@@ -150,6 +164,7 @@ public partial class MainWindow : Window
             SubtitleText.Text = T("Тестовая сборка · локальные обновления", "Test build · local updates");
             Title = "Paw's Launcher — Local test";
             if (ActivityStore.IsCommunityTest) SubtitleText.Text = T("Тестовая сборка · общий чат RU / EN", "Test build · RU / EN community chat");
+            if (ActivityStore.IsUsabilityTest) SubtitleText.Text = T("Тестовая сборка · загрузки, сравнение и приватность", "Test build · downloads, comparison and privacy");
             if (ActivityStore.IsCustomModsTest) SubtitleText.Text = T("Тестовая сборка · пользовательские моды", "Test build · custom mods");
         }
         HomeNav.Content = _text["nav.home"];
@@ -498,9 +513,11 @@ public partial class MainWindow : Window
         if (_game is null || target is null || _busy || ArcaneAccessBlocked || _selectionRequiresUpdate && !_selectionUpdateAvailable) return;
         try
         {
+            RememberInstallation(target);
             SetBusy(true, _text["progress.downloading"]);
             await ApplySelectedConfigurationAsync(target, prepareWholeChannel: true);
             _channel = target;
+            ForgetInstallation();
             ShowResult(() => T("Установка завершена.", "Installation complete."));
         }
         catch (Exception ex) { ShowError(ex); }
@@ -565,6 +582,7 @@ public partial class MainWindow : Window
     {
         using var cancellation = new CancellationTokenSource();
         _downloadCancellation = cancellation;
+        _feedClient.Downloads.Resume();
         CancelDownloadButton.Visibility = Visibility.Visible;
         var progress = TransferProgress(ChannelPresentation.PlainPunctuation(package.Name.Get(_text.Language)));
         try { return await _feedClient.DownloadVerifiedAsync(package, progress, cancellation.Token, ChooseModDbArchiveAsync); }
@@ -573,6 +591,7 @@ public partial class MainWindow : Window
             FinishTransfer();
             _downloadCancellation = null;
             CancelDownloadButton.Visibility = Visibility.Collapsed;
+            _feedClient.Downloads.Resume(); RefreshDownloadControls();
         }
     }
 
@@ -1105,6 +1124,7 @@ public partial class MainWindow : Window
         if (busy) CancelBackgroundFeed();
         if (busy && !_busy) _operationRevision++;
         _busy = busy;
+        RefreshDownloadControls();
         RefreshOfferActions();
         if (!busy)
         {
@@ -1124,6 +1144,7 @@ public partial class MainWindow : Window
 
     private void ShowError(Exception exception)
     {
+        if (_closingPausedDownload) return;
         ActionJournal.Record("operation.error", exception.GetType().Name);
         if (exception is GameAlreadyRunningException)
         {
@@ -1136,12 +1157,12 @@ public partial class MainWindow : Window
             ShowResult(() => exception.Message);
             return;
         }
-        ActivityStore.Log(exception);
         if (exception is OperationCanceledException)
         {
-            ShowResult(() => T("Загрузка приостановлена. При повторной установке она продолжится.", "Download paused. Install again to resume."), failure: true);
+            ShowResult(() => T("Загрузка остановлена. Полученные данные сохранены — можно продолжить позже.", "Download stopped. Received data is saved so you can resume later."));
             return;
         }
+        ActivityStore.Log(exception);
         SetFriendlyError(exception);
         var friendly = _presentedError!;
         ShowResult(() => friendly.Title(_text.Language), failure: true);
@@ -1170,6 +1191,7 @@ public partial class MainWindow : Window
         if (changed && _activePage == "friends") _chatUnreadDivider.End();
         if (changed && page == "account") _accountReturnPage = _activePage;
         _activePage = page;
+        RefreshProfileVisibility();
         var home = page == "home";
         var modules = page == "modules";
         RefreshActionLayout();

@@ -8,7 +8,8 @@ public sealed record SocialPlayer(Guid Id, string Nickname, string Relation, int
     string Presence="offline", DateTimeOffset? LastSeen=null, DateTimeOffset? PlayingSince=null,
     string Channel="unknown", string Components="{}", DateTimeOffset? AvatarRevision=null, string? Configuration=null,string? DisplayName=null,
     int AdminLevel=0,DateTimeOffset? BannedAt=null,DateTimeOffset? BanUntil=null,string BanReason="",DateTimeOffset? DeletedAt=null,DateTimeOffset? CreatedAt=null,bool IsFriend=true,
-    DateTimeOffset? LastMessageAt=null,long LastMessageOrdinal=0,bool PawsTeam=false,SocialVersions? Versions=null,GameActivity? Activity=null)
+    DateTimeOffset? LastMessageAt=null,long LastMessageOrdinal=0,bool PawsTeam=false,SocialVersions? Versions=null,GameActivity? Activity=null,
+    bool ConfigurationHidden=false,bool ActivityHidden=false)
 {
     public string Name=>Deleted?"Удалённый аккаунт":string.IsNullOrEmpty(DisplayName)?Nickname:DisplayName;
     public bool Deleted=>DeletedAt is not null;
@@ -41,7 +42,7 @@ public sealed partial class AccountService
                 "session_expired" or "session_replaced" or "player_unavailable" or "friend_limit" or "request_missing" or "friend_required"
                 or "invalid_message" or "invalid_presence" or "message_conflict" or "rate_limit" or "message_limit"
                 or "offer_expired" or "offer_unavailable" or "invalid_offer" or "invalid_save" or "storage_limit" or "configuration_matches"
-                or "profile_blocked" or "profile_hidden" => status,
+                or "profile_blocked" or "profile_hidden" or "invalid_visibility" => status,
                 "admin_required" or "higher_role_required" or "protected_account" or "self_moderation" or "invalid_ban" or "restore_expired"
                 or "account_banned" or "account_deletion_pending" or "admin_cannot_block" or "account_busy" => status,
                 _ => "service_error" });
@@ -69,18 +70,21 @@ public sealed partial class AccountService
                 var channel=Text(p,"channel"); if(channel.Length==0)channel="unknown";
                 if(presence is not ("offline" or "online" or "playing") || channel is not ("stable" or "beta" or "unknown"))throw new AccountException("invalid_response");
                 DateTimeOffset? Date(string key)=>p.TryGetProperty(key,out var v) && v.ValueKind==JsonValueKind.String?v.GetDateTimeOffset():null;
+                var configurationHidden = ModerationBool(p,"configuration_hidden");
+                var activityHidden = ModerationBool(p,"activity_hidden");
                 var components=p.TryGetProperty("components",out var c)?c.GetRawText():"{}";
                 if(components.Length>2048 || c.ValueKind is not (JsonValueKind.Undefined or JsonValueKind.Object))throw new AccountException("invalid_response");
-                var configuration=Text(p,"configuration");
+                var configuration=configurationHidden ? "" : Text(p,"configuration");
                 var lastOrdinal=p.TryGetProperty("last_message_ordinal",out var last)?last.GetInt64():0;
                 if(lastOrdinal<0)throw new AccountException("invalid_response");
-                return new SocialPlayer(p.GetProperty("id").GetGuid(),NormalizeUsername(name),relation,unread,presence,Date("last_seen"),Date("playing_since"),channel,components,Date("avatar_revision"),
+                return new SocialPlayer(p.GetProperty("id").GetGuid(),NormalizeUsername(name),relation,unread,presence,Date("last_seen"),Date("playing_since"),configurationHidden ? "unknown" : channel,configurationHidden ? "{}" : components,Date("avatar_revision"),
                     FriendConfiguration.TryParse(configuration,channel,out _) ? configuration : null,displayName,
                     ModerationInt(p,"admin_level"),Date("banned_at"),Date("ban_until"),Text(p,"ban_reason"),Date("deleted_at"),Date("created_at"),
                     !p.TryGetProperty("is_friend",out var friendship)||friendship.ValueKind==JsonValueKind.True,
                     Date("last_message_at"),lastOrdinal,ModerationBool(p,"paws_team"),
-                    p.TryGetProperty("versions",out var versions)?SocialVersions.Read(versions):null,
-                    p.TryGetProperty("activity",out var activity)?GameActivity.Read(activity):null);
+                    !configurationHidden && p.TryGetProperty("versions",out var versions)?SocialVersions.Read(versions):null,
+                    !activityHidden && p.TryGetProperty("activity",out var activity)?GameActivity.Read(activity):null,
+                    configurationHidden,activityHidden);
     }
 
     public Task FriendActionAsync(string action, Guid? target=null, string? nickname=null, CancellationToken ct=default)

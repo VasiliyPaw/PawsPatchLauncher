@@ -252,6 +252,9 @@ public partial class MainWindow
         var visible = _presentedError is not null && !_busy && !FeedBlocksActions;
         ErrorActionsPanel.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         if (_presentedError is not null) ErrorActionButton.Content = _presentedError.ActionText(_text.Language);
+        ErrorRecoveryHint.Text = _presentedError?.Body(_text.Language) ?? "";
+        RetryInstallationButton.Content = T("Повторить установку", "Retry installation");
+        RetryInstallationButton.Visibility = visible && _pendingInstall is not null ? Visibility.Visible : Visibility.Collapsed;
         ErrorDetailsButton.Content = T("Объяснение и подробности", "Explanation and details");
     }
     private async void ErrorAction_Click(object sender, RoutedEventArgs e)
@@ -275,6 +278,7 @@ public partial class MainWindow
         panel.Children.Add(new TextBlock { Text = error.Title(_text.Language), FontSize = 20, FontWeight = FontWeights.Bold, TextWrapping = TextWrapping.Wrap });
         panel.Children.Add(new TextBlock { Text = error.Body(_text.Language), FontSize = 13, LineHeight = 20, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 12, 0, 16) });
         var action = new Button { Style = (Style)FindResource("GoldButton"), Content = error.ActionText(_text.Language), Margin = new Thickness(0, 0, 0, 10) };
+        action.Content = new TextBlock { Text = error.ActionText(_text.Language), Foreground = SocialBrush("#151009"), FontWeight = FontWeights.SemiBold };
         var copy = new Button { Style = (Style)FindResource("GhostButton"), Content = T("Скопировать технические подробности", "Copy technical details") };
         var details = exception.ToString();
         panel.Children.Add(action); panel.Children.Add(copy);

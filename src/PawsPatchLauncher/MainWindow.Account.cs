@@ -129,6 +129,7 @@ public partial class MainWindow
         RenderAccountProfile();
         RenderEmailConfirmation();
         RenderSocialIdentity();
+        RefreshProfileVisibility();
         RenderModerationState();
         var access = CanSelectArcaneWars;
         if (_renderedTeamAccess != access || _renderedLiveTeamAccess != LiveArcaneAccess)

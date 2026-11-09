@@ -117,7 +117,7 @@ public partial class MainWindow
             OperationFooterHost.Content = OperationStatusPanel;
         }
         OperationStatusPanel.Margin = new Thickness(0,0,0,10);
-        OperationStatusPanel.Visibility = !_launcherRestarting && (_busy || _selectionRequiresUpdate || _presentedError is not null && (!_errorFromFeed || !_silentFeedFailure))
+        OperationStatusPanel.Visibility = !_launcherRestarting && (_busy || _pendingInstall is not null || _selectionRequiresUpdate || _presentedError is not null && (!_errorFromFeed || !_silentFeedFailure))
             ? Visibility.Visible : Visibility.Collapsed;
     }
 }

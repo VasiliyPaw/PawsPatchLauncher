@@ -31,6 +31,7 @@ public sealed class UserSettings
     public string CommunityChannel { get; set; } = "";
     public string CommunityNotifications { get; set; } = "mentions";
     public bool OnlineDirectorySeen { get; set; }
+    public int DownloadLimitKiB { get; set; }
     public Dictionary<string, long> CommunityRead { get; set; } = new();
     public int NotificationVolume { get; set; } = 100;
     public string NotificationSoundName { get; set; } = "";

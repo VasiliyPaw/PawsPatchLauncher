@@ -15,12 +15,13 @@ public sealed class FeedClient
     private void RememberChannel(ChannelManifest manifest) => _knownChannels.AddOrUpdate(manifest.Channel, manifest,
         (_, previous) => DateTimeOffset.TryParse(previous.PublishedAt, out var before) && DateTimeOffset.TryParse(manifest.PublishedAt, out var after) && before > after ? previous : manifest);
     public string CacheDirectory => _cacheRoot;
+    public DownloadControl Downloads { get; } = new();
 
     public FeedClient(LauncherConfiguration configuration, HttpClient? http = null)
     {
         _configuration = configuration;
         _cacheRoot = string.IsNullOrWhiteSpace(configuration.CacheRoot)
-            ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher")
+            ? ActivityStore.IsUsabilityTest ? Path.Combine(ActivityStore.Root, "cache") : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PawsPatchLauncher")
             : Path.GetFullPath(configuration.CacheRoot);
         _http = http ?? new HttpClient(LocalTestNetwork.Handler(() => new HttpClientHandler())) { Timeout = TimeSpan.FromMinutes(10) };
         _http.DefaultRequestHeaders.UserAgent.ParseAdd("PawsPatchLauncher/0.2");
@@ -104,8 +105,9 @@ public sealed class FeedClient
         var cacheRoot = Path.Combine(_cacheRoot, "downloads", package.Id, package.Version);
         Directory.CreateDirectory(cacheRoot);
         var destination = CachedPackagePath(package);
+        await Downloads.WaitAsync(cancellationToken);
         if (File.Exists(destination) && string.Equals(await CryptoAndIO.Sha256Async(destination, cancellationToken), package.Sha256, StringComparison.OrdinalIgnoreCase))
-            return destination;
+        { await Downloads.WaitAsync(cancellationToken); return destination; }
 
         if (package.SourceRecipe is not null)
             return await DownloadAssembledAsync(package, destination, progress, cancellationToken, chooseModDbArchive);
@@ -117,12 +119,14 @@ public sealed class FeedClient
             try
             {
                 await DownloadAsync(url, temporary, progress, cancellationToken, package.Size);
+                await Downloads.WaitAsync(cancellationToken);
                 var actual = await CryptoAndIO.Sha256Async(temporary, cancellationToken);
                 if (!string.Equals(actual, package.Sha256, StringComparison.OrdinalIgnoreCase))
                 {
                     File.Delete(temporary);
                     throw new InvalidDataException($"SHA-256 mismatch for {package.Id}: expected {package.Sha256}, got {actual}.");
                 }
+                await Downloads.WaitAsync(cancellationToken);
                 File.Move(temporary, destination, true);
                 await PackageDownloadDate.RecordAsync(destination, cancellationToken);
                 return destination;
@@ -167,8 +171,9 @@ public sealed class FeedClient
         var directory = Path.Combine(_cacheRoot, "launcher");
         Directory.CreateDirectory(directory);
         var destination = CryptoAndIO.SafeChildPath(directory, $"PawsPatchLauncher-{release.Version}-{release.Sha256}.exe");
+        await Downloads.WaitAsync(cancellationToken);
         if (File.Exists(destination) && string.Equals(await CryptoAndIO.Sha256Async(destination, cancellationToken), release.Sha256, StringComparison.OrdinalIgnoreCase))
-            return destination;
+        { await Downloads.WaitAsync(cancellationToken); return destination; }
 
         var errors = new List<Exception>();
         foreach (var url in release.Urls.Concat(release.Urls))
@@ -177,12 +182,14 @@ public sealed class FeedClient
             try
             {
                 await DownloadAsync(url, temporary, progress, cancellationToken, release.Size);
+                await Downloads.WaitAsync(cancellationToken);
                 var actual = await CryptoAndIO.Sha256Async(temporary, cancellationToken);
                 if (!actual.Equals(release.Sha256, StringComparison.OrdinalIgnoreCase))
                 {
                     File.Delete(temporary);
                     throw new InvalidDataException($"Launcher SHA-256 mismatch: expected {release.Sha256}, got {actual}.");
                 }
+                await Downloads.WaitAsync(cancellationToken);
                 File.Move(temporary, destination, true);
                 return destination;
             }
@@ -235,7 +242,7 @@ public sealed class FeedClient
 
         if (ModDbDownload.IsStartUrl(source))
             source = await ModDbDownload.ResolveAsync(_http, source, cancellationToken);
-        await ResumableDownload.DownloadAsync(_http, source, destination, expectedSize, progress, cancellationToken);
+        await ResumableDownload.DownloadAsync(_http, source, destination, expectedSize, progress, cancellationToken, Downloads);
     }
 
     private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, SemaphoreSlim> AssemblyLocks = new(StringComparer.OrdinalIgnoreCase);
@@ -257,7 +264,7 @@ public sealed class FeedClient
             RemovalSafety.CheckNoLinks(destination);
             RemovalSafety.CheckNoLinks(temporary);
             if (File.Exists(destination) && (await CryptoAndIO.Sha256Async(destination, ct)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase))
-                return destination;
+            { await Downloads.WaitAsync(ct); return destination; }
             var directory = Path.Combine(_cacheRoot, "source-archives");
             RemovalSafety.CheckNoLinks(directory);
             Directory.CreateDirectory(directory);
@@ -283,20 +290,24 @@ public sealed class FeedClient
                         // Copy first and verify the exact bytes used by the assembler. Never trust a filename.
                         await DownloadAsync(selected, path + ".download", sourceProgress, ct, input.Size);
                     }
+                    await Downloads.WaitAsync(ct);
                     if (new FileInfo(path + ".download").Length != input.Size || !(await CryptoAndIO.Sha256Async(path + ".download", ct)).Equals(input.Sha256, StringComparison.OrdinalIgnoreCase))
                     {
                         File.Delete(path + ".download");
                         throw new InvalidDataException("Source archive SHA-256 mismatch.");
                     }
+                    await Downloads.WaitAsync(ct);
                     File.Move(path + ".download", path, true);
                 }
                 paths.Add(path);
                 completed += input.Size;
                 progress?.Report((completed, total));
             }
+            await Downloads.WaitAsync(ct);
             await Task.Run(() => ArcaneSourceAssembly.Build(paths[0], paths[1], temporary, package.Version, ct), ct);
             if (new FileInfo(temporary).Length != package.Size || !(await CryptoAndIO.Sha256Async(temporary, ct)).Equals(package.Sha256, StringComparison.OrdinalIgnoreCase))
                 throw new InvalidDataException("Assembled Arcane Wars package does not match the signed catalog.");
+            await Downloads.WaitAsync(ct);
             File.Move(temporary, destination, true);
             await PackageDownloadDate.RecordAsync(destination, ct);
             return destination;
@@ -313,7 +324,7 @@ public sealed class FeedClient
         public void Report((long Received, long? Total) value) => report(value);
     }
 
-    private static async Task CopyWithProgressAsync(Stream input, Stream output, long? total,
+    private async Task CopyWithProgressAsync(Stream input, Stream output, long? total,
         IProgress<(long Received, long? Total)>? progress, CancellationToken cancellationToken)
     {
         var buffer = new byte[1024 * 1024];
@@ -321,6 +332,7 @@ public sealed class FeedClient
         int read;
         while ((read = await input.ReadAsync(buffer, cancellationToken)) > 0)
         {
+            await Downloads.WaitAsync(cancellationToken);
             await output.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
             received += read;
             progress?.Report((received, total));

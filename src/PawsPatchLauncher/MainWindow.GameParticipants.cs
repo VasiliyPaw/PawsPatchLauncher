@@ -25,7 +25,7 @@ public partial class MainWindow
         {
             using var timeout=CancellationTokenSource.CreateLinkedTokenSource(_accountLifetime.Token);timeout.CancelAfter(TimeSpan.FromSeconds(8));
             var bytes=await (_gameAvatarReadOverride?.Invoke(player.Id,timeout.Token)??_account.GetFriendAvatarAsync(player.Id,timeout.Token));
-            var image=bytes is null?null:new ImageBrush(AccountAvatarImage.Decode(bytes,normalized:true)){Stretch=Stretch.UniformToFill};image?.Freeze();
+            var image = await DecodeSocialAvatarAsync(bytes);
             if(generation!=_socialDetailsGeneration||owner!=_account.UserId||_socialDetailsPeer!=player.Id)return;
             if(_gameParticipantAvatars.Count>=64&&!_gameParticipantAvatars.ContainsKey(player.Id))_gameParticipantAvatars.Remove(_gameParticipantAvatars.Keys.First());
             _gameParticipantAvatars[player.Id]=(player.AvatarRevision,image);
