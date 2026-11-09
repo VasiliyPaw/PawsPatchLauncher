@@ -111,9 +111,19 @@ one clock and advanced simulation. It then returned through the native score/LAN
 flow and created a new match in the same process. The new match has a different
 random phase and exactly one clock. Normal exit and error scan passed.
 
-The final two-peer candidate result and exact package hashes are recorded in the
-publication acceptance/readback receipts. Local LAN coverage does not claim a
-new Internet/VM, three-player, host-migration or historical-film compatibility run.
+`vanilla-pair-r5` passes with the exact four final helper hashes. Both peers
+loaded a real Mixed / Dynamic / All 384 match. The observer collected 370 coherent
+samples per peer and 42 common tick/world-index CRC pairs, with no differences.
+The saved phase agrees between peers; host clock uniqueness, pause, lighting,
+native-time agreement, simulation, speed, native save and normal exit all pass.
+The actual two-human Vote / Leave / Cancel panel is centered at (640,360) in
+1280×720, with bounds (496,242)–(784,479). Cancel returns to the match; both
+processes then exit normally without assertions or desync reports.
+
+Exact package hashes and scoped evidence are recorded in the publication
+acceptance/readback receipts and the JSON verification record beside this file.
+Local LAN coverage does not claim a new Internet/VM, three-player, host-migration
+or historical-film compatibility run.
 
 ## Failures found and corrections
 
@@ -132,13 +142,24 @@ new Internet/VM, three-player, host-migration or historical-film compatibility r
   Every RMC now explicitly hides `PawsDayPhase` through its native Rules UI flag.
 - Earlier pair attempts are retained as failures. One stopped at the private
   memory reserve; another never completed the client's queued startup script.
-  Pair r3 entered the native LAN lobby but timed out before launch. The old QA
-  `StagingReady 0` command clears readiness: native button logs confirm that 1
-  sets it. Manual toggles and repeated launch requests made that attempt
-  unsuitable for acceptance. Later manual pair navigation uses only an Echo
+  Pair r3 entered the native LAN lobby but timed out before launch. An initial
+  interpretation of immediate button screenshots was wrong: the native command
+  handler at RVA `0x105205` inverts its argument before forming the message.
+  `StagingReady 0` sets readiness; 1 clears it. The final live host screenshot
+  `ready-zero-proof.png` confirms this with the client's green check. Manual
+  toggles and repeated launch requests made r3 unsuitable for acceptance.
+  Later manual pair navigation uses only an Echo
   startup script, then individual native requests after actual helper/menu
   readiness. It preserves command sequence numbers and explicitly enables the
   known private `MPRunWhenInactive` setting. Map settings still use real widgets.
+  Native session state 0 can precede menu command registration; the driver now
+  waits for `connect end MainMenuInterface` in its fresh native log before any
+  navigation. An initial r4 fixture also stopped before launch because its old
+  external loader path had moved; r5 uses the hash-verified loader retained in
+  our own previous disposable fixture. Since the native log buffers its output,
+  harmless native Echo commands flush the genuine preceding menu-connect line;
+  native PrintScreen independently confirms the ready menu. No test writes
+  fake log lines or edits game readiness/session state.
 - Disposable single-player checks retain a 2 GiB available-commit reserve;
   pair checks use 1 GiB and retain the separate 3 GiB physical-memory guard.
   Memory readback is recorded throughout. These are QA stop conditions, not

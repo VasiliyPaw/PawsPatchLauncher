@@ -7,8 +7,9 @@ source=REPO/'game/reconnect-test/installed_saves_pair.py';code=source.read_text(
 code=code.replace(" p.add_argument('--different-keys'", " p.add_argument('--manual',action='store_true')\n p.add_argument('--large',action='store_true')\n p.add_argument('--pair',action='store_true')\n p.add_argument('--reload',action='store_true')\n p.add_argument('--hold',action='store_true')\n p.add_argument('--different-keys'",1)
 code=code.replace('Wait 45\\nRequestMultiplayer','Wait 10\\nRequestMultiplayer')
 code=code.replace('LobbySetLANNickname PawSavesClient\\nWait 2\\nLobbyJoinDirect','LobbySetLANNickname PawSavesClient\\nWait 2\\nMessageBoxButtonAction 1\\nWait 1\\nLobbyJoinDirect')
-code=code.replace("command(c,'StagingReady 0')", "command(c,'StagingReady 1')")
 code=code.replace("  i['seq']+=1;mods=i['dir']/'game/Mods';n=i['seq']", "  mods=i['dir']/'game/Mods';i['seq']=max(i['seq'],int(text(mods/'rig-command.txt').strip()or'0'))+1;n=i['seq']")
+anchor='  stay(8)\n  return i';assert code.count(anchor)==1
+code=code.replace(anchor,"  wait(lambda:any('connect end MainMenuInterface'in text(f)for f in(d/'game/Logs').glob('log-*.log')),120,'Actual native menu interface connected '+d.name);stay(2)\n  return i")
 # Manual navigation must not leave an old startup +Exec Wait queued behind it.
 anchor="  (mods/'rig.txt').write_text(opening)";assert code.count(anchor)==1
 code=code.replace(anchor,"  if a.manual:opening='Echo Pure isolated manual QA\\n'\n"+anchor)

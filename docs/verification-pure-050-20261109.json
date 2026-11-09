@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "patchVersion": "0.5.0-beta.1",
+  "packages": {
+    "pure-fixes-data": {
+      "sha256": "E993C798698AACCFF329A9F5BD2203B35A379158955FBABEDD53456CAAD95148",
+      "size": 31001,
+      "version": "0.5.0-beta.1"
+    },
+    "pure-fixes-runtime": {
+      "sha256": "96207DA451E431A5821EFCCFB5D3E4CC97CBC64FB3154DD2A5EA8B06505A99E5",
+      "size": 972924,
+      "version": "1.3.72-pure.17-beta.1"
+    },
+    "pure-beta-common": {
+      "sha256": "A2163C11E82C203356CDE9CF2448E80055B10E69A8F69996E5D0F483362E7DF1",
+      "size": 6035502,
+      "version": "0.5.0-beta.1"
+    },
+    "pure-vanilla-rules": {
+      "sha256": "761770060AE6BD73915444D14D62C9142416870756C4DE3E795F0E501B2CAC22",
+      "size": 91224,
+      "version": "0.5.0-beta.1"
+    },
+    "pure-immortals-rules": {
+      "sha256": "3284FF5A357EB30BE924CB81DB9C58948AA28D731E5289E2780D13C7E971F5BA",
+      "size": 91234,
+      "version": "0.5.0-beta.1"
+    },
+    "pure-vanilla-hostility": {
+      "sha256": "94FB7E7A248E46DAA930F644B357E1D175E433A02249320B3CE48393F6C43CC5",
+      "size": 4185,
+      "version": "0.5.0-beta.1"
+    },
+    "pure-immortals-hostility": {
+      "sha256": "6C5D56FD5E92888F458B861C38C924640BF75DA242974914E17476D301EBBFA2",
+      "size": 4190,
+      "version": "0.5.0-beta.1"
+    }
+  },
+  "nativePeerChecksums": {
+    "common": 42,
+    "mismatches": [],
+    "samples": [
+      370,
+      370
+    ]
+  },
+  "helpers": {
+    "k2_paws_pure_fixes_1372.exe": "1659BB5661F8D672F82CDB261B0B56B5154C3718610E31205DCAED8691686BEC",
+    "k2_paws_pure_sync_1372.exe": "9F13E6667A4128E713BA5C378342FD2201FD8CE6FDEBE52C28EAEB7EEC41436E",
+    "k2_paws_pure_colors_1372.exe": "1FD5893C3EAFB2E8B116EEC4CB039FD3E01855C52CF95A9EB695C556BA79913E",
+    "k2_paws_pure_colors_sync_1372.exe": "6470D4336922E074A01025946498869B69F50E7B88159F725CAC72C8688E256E"
+  },
+  "sourceBundle": {
+    "files": 121,
+    "size": 382027,
+    "sha256": "387947331432F0CAECA0992788A531D634B58ECC497C193A1F7EDA133856765F"
+  },
+  "automaticRecovery": false,
+  "live": [
+    "vanilla-large-r7: native 2048, full lighting cycle, clock, pause and speed",
+    "immortals-resume-r2: actual save reload and second match without duplicate clock",
+    "vanilla-pair-r5: exact final helpers, two players, 42 CRC pairs, normal exits"
+  ],
+  "limitations": [
+    "Local two-player LAN; no new Internet/VM, three-player, host-migration or historical-film validation",
+    "New extended-registry saves require a supporting patch version"
+  ]
+}
