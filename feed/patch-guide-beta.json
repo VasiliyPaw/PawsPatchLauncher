@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.1-beta.1",
+  "version": "0.5.1-beta.2",
   "entries": [
+    {
+      "id": "lobby-colors-lifetime",
+      "category": "always",
+      "titleRu": "Цвета игроков",
+      "titleEn": "Player colors",
+      "bodyRu": "- Исправлено перепутывание цветов игроков в новом лобби после матча.",
+      "bodyEn": "- Fixed players receiving each other’s colors in a new lobby after a match."
+    },
     {
       "id": "presentation-051",
       "category": "always",
