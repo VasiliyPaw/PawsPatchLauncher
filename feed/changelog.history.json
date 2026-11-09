@@ -1,6 +1,27 @@
 {
   "stable": [
     {
+      "category": "launcher",
+      "version": "1.0.13",
+      "publishedAt": "2026-11-09",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.13 — озвучка фракций",
+        "en": "Paw’s Launcher 1.0.13 — faction speech",
+        "de": "Paw’s Launcher 1.0.13 — Fraktionssprachausgabe",
+        "fr": "Paw’s Launcher 1.0.13 — voix des factions",
+        "cs": "Paw’s Launcher 1.0.13 — dabing frakcí",
+        "uk": "Paw’s Launcher 1.0.13 — озвучення фракцій"
+      },
+      "body": {
+        "ru": "- Добавлен отдельный выбор языка озвучки для каждой фракции.\n- Набор озвучки сохраняется при переключении на обычный режим.\n- Упрощено копирование игровых настроек из профиля игрока.",
+        "en": "- Added a separate speech language choice for each faction.\n- Your faction speech setup is kept when switching to regular speech.\n- Simplified copying game settings from a player’s profile.",
+        "de": "- Für jede Fraktion lässt sich eine eigene Sprache der Sprachausgabe wählen.\n- Die Fraktionsauswahl bleibt beim Wechsel zur normalen Sprachausgabe gespeichert.\n- Spieleinstellungen lassen sich einfacher aus einem Spielerprofil übernehmen.",
+        "fr": "- Ajout du choix d’une langue de voix pour chaque faction.\n- Les choix des factions sont conservés lors du retour aux voix normales.\n- Copie des paramètres de jeu depuis le profil d’un joueur simplifiée.",
+        "cs": "- Pro každou frakci lze vybrat samostatný jazyk dabingu.\n- Výběr dabingu frakcí zůstává uložen při přepnutí na běžný dabing.\n- Zjednodušeno kopírování herních nastavení z profilu hráče.",
+        "uk": "- Додано окремий вибір мови озвучення для кожної фракції.\n- Набір озвучення зберігається при перемиканні на звичайний режим.\n- Спрощено копіювання ігрових налаштувань із профілю гравця."
+      }
+    },
+    {
       "category": "patch",
       "version": "0.4.1",
       "publishedAt": "2026-11-09",
@@ -1470,6 +1491,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "1.0.13",
+      "publishedAt": "2026-11-09",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.13 — озвучка фракций",
+        "en": "Paw’s Launcher 1.0.13 — faction speech",
+        "de": "Paw’s Launcher 1.0.13 — Fraktionssprachausgabe",
+        "fr": "Paw’s Launcher 1.0.13 — voix des factions",
+        "cs": "Paw’s Launcher 1.0.13 — dabing frakcí",
+        "uk": "Paw’s Launcher 1.0.13 — озвучення фракцій"
+      },
+      "body": {
+        "ru": "- Добавлен отдельный выбор языка озвучки для каждой фракции.\n- Набор озвучки сохраняется при переключении на обычный режим.\n- Упрощено копирование игровых настроек из профиля игрока.",
+        "en": "- Added a separate speech language choice for each faction.\n- Your faction speech setup is kept when switching to regular speech.\n- Simplified copying game settings from a player’s profile.",
+        "de": "- Für jede Fraktion lässt sich eine eigene Sprache der Sprachausgabe wählen.\n- Die Fraktionsauswahl bleibt beim Wechsel zur normalen Sprachausgabe gespeichert.\n- Spieleinstellungen lassen sich einfacher aus einem Spielerprofil übernehmen.",
+        "fr": "- Ajout du choix d’une langue de voix pour chaque faction.\n- Les choix des factions sont conservés lors du retour aux voix normales.\n- Copie des paramètres de jeu depuis le profil d’un joueur simplifiée.",
+        "cs": "- Pro každou frakci lze vybrat samostatný jazyk dabingu.\n- Výběr dabingu frakcí zůstává uložen při přepnutí na běžný dabing.\n- Zjednodušeno kopírování herních nastavení z profilu hráče.",
+        "uk": "- Додано окремий вибір мови озвучення для кожної фракції.\n- Набір озвучення зберігається при перемиканні на звичайний режим.\n- Спрощено копіювання ігрових налаштувань із профілю гравця."
+      }
+    },
     {
       "category": "patch",
       "mods": [
