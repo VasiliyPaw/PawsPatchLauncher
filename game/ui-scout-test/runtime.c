@@ -19,7 +19,7 @@ typedef U(FC*Get1)(U,U,U);
 typedef U(FC*Get0)(U,U);
 typedef double(FC*Score)(U,U,U,U);
 typedef U(FC*Project)(U,U,float*,float,float);
-typedef void(FC*Inverse)(U,U,float*,int,int);
+typedef U(FC*Inverse)(U,U,float*,int,int);
 typedef void(FC*Draw)(U,U,U,U);
 typedef U(FC*MakeOrder)(U,U,U,U);
 typedef struct {float x,y,time;U region;} ReconVisit;
@@ -58,12 +58,13 @@ static U FC project(U matrix,U unused,float*out,float x,float y){(void)unused;
  if(match()&&zoom>1){x=(x-cx)*zoom+.5f;y=(y-cy)*zoom+.5f;}
  return ((Project)(base+0x2a495a))(matrix,0,out,x,y);
 }
-static void FC inverse(U self,U unused,float*out,int x,int y){U world,terrain;(void)unused;
- ((Inverse)(base+0x2a42aa))(self,0,out,x,y);
+static U FC inverse(U self,U unused,float*out,int x,int y){U world,terrain,result;(void)unused;
+ result=((Inverse)(base+0x2a42aa))(self,0,out,x,y);
  if(self==mapWidget&&match()&&zoom>1){world=P(base,0x5f3fb8);terrain=P(world,0x30);
   out[0]=((out[0]/F(terrain,0xc)-.5f)/zoom+cx)*F(terrain,0xc);
   out[1]=((out[1]/F(terrain,0x10)-.5f)/zoom+cy)*F(terrain,0x10);
  }
+ return result;
 }
 static void FC map_draw(U renderer,U unused,U vertices,U indices){float*v=(float*)P(vertices,0),umax=0,vmax=0;unsigned i;(void)unused;
  if(v&&match()){
