@@ -27,11 +27,12 @@ internal static class FriendDownloadChecks
         object? Call(string n,params object?[] args)=>typeof(MainWindow).GetMethod(n,flags)!.Invoke(w,args);
         T C<T>(string n)=>(T)w.FindName(n);
         int checks=0;void Check(bool ok,string why){checks++;if(!ok)throw new Exception("Friend download: "+why);}
-        var owner=Guid.NewGuid();var target=Guid.NewGuid();var calls=new List<string>();bool blocked=false;int activityReads=0;
+        var owner=Guid.NewGuid();var target=Guid.NewGuid();var calls=new List<string>();bool blocked=false;int activityReads=0,profileReads=0;
+        var presence="playing"; TaskCompletionSource<bool>? profileGate=null;
         var offers=new Dictionary<Guid,SocialOffer>();var offerActions=new List<string>();
         var settings=new UserSettings{Channel="stable"};var configuration=FriendConfiguration.Create(settings);
         object Profile()=>new{id=target,nickname="nightwatch",display_name="Nightwatch",relation="friend",is_friend=false,
-            presence="playing",playing_since=DateTimeOffset.UtcNow.AddMinutes(-42),channel="stable",configuration,
+            presence,playing_since=DateTimeOffset.UtcNow.AddMinutes(-42),channel="stable",configuration,
             components=new{core=true,colors=true,roaming=false},activity=new{phase="match",multiplayer=true,elapsed=120,width=192,height=256},created_at=DateTimeOffset.UtcNow.AddMonths(-2)};
         HttpResponseMessage Json(object body)=>new(HttpStatusCode.OK){Content=new StringContent(JsonSerializer.Serialize(body))};
         using var service=new AccountService(new AccountSessionStore(Path.Combine(ActivityStore.Root,"download-friends")),new AccountChecks.Handler(async request=>
@@ -41,7 +42,7 @@ internal static class FriendDownloadChecks
             if(path.EndsWith("/paw_profiles"))return Json(new[]{new{id=owner,nickname="fixture"}});
             if(path.EndsWith("/paw_friend_action")){using var body=JsonDocument.Parse(await request.Content!.ReadAsStringAsync());calls.Add(body.RootElement.GetProperty("action").GetString()!);return Json(new{status="ok"});}
             if(path.EndsWith("/paw_social_list"))return Json(new{status="ok",players=Array.Empty<object>()});
-            if(path.EndsWith("/paw_profile_card"))return blocked?Json(new{status="profile_blocked"}):Json(new{status="ok",player=Profile()});
+            if(path.EndsWith("/paw_profile_card")){profileReads++;if(profileGate is not null)await profileGate.Task;return blocked?Json(new{status="profile_blocked"}):Json(new{status="ok",player=Profile()});}
             if(path.EndsWith("/paw_profile_activity")){activityReads++;return Json(new{status="ok",activity=new{phase="match",multiplayer=true,elapsed=120,width=192,height=256,players=Array.Empty<object>()},observed_at=DateTimeOffset.UtcNow});}
             if(path.EndsWith("/paw_offer_action"))
             {
@@ -159,6 +160,37 @@ internal static class FriendDownloadChecks
             await (Task)Call("OpenPublicProfileCardAsync",target)!;
             Check(C<Border>("SocialDetailsOverlay").Visibility==Visibility.Collapsed,"cached identity cannot bypass block on reopen");
             Check(((string)Call("PublicProfileError","profile_blocked")!).Contains(language=="ru"?"заблокировал":"blocked"),"blocked profile has an explicit explanation");
+            blocked=false;
+            var session=(AccountSession)typeof(AccountService).GetField("_session",flags)!.GetValue(service)!;
+            session.AdminLevel=1;
+            var readsBeforeAdmin=profileReads;
+            await (Task)Call("OpenAdminProfileAsync",target)!;
+            var adminPlayer=(SocialPlayer)Call("SocialDetailsPlayer")!;
+            Check(profileReads==readsBeforeAdmin+1&&adminPlayer.Configuration==configuration&&adminPlayer.Presence=="playing"
+                &&C<StackPanel>("SocialDetailsComponents").Children.Count>0,"admin profile must fetch the same full endpoint as the online directory");
+            Check(Field<Guid?>("_publicProfilePeer")==target&&Field<SocialPlayer?>("_adminViewedPlayer")?.Id==target,
+                "admin profile lost public refresh or moderation lifecycle");
+            var previousActivityReads=activityReads;
+            await (Task)Call("ShowGameActivityAsync",target)!;
+            Check(activityReads==previousActivityReads+1&&C<Border>("GameActivityOverlay").IsVisible,
+                "admin profile activity used a friend-only endpoint");Call("CloseGameActivity");
+            await Task.Delay(180);Snap("profile-from-admin",C<Border>("SocialDetailsCard"));
+            presence="online";await (Task)Call("RefreshPublicProfileAsync")!;
+            Check(((SocialPlayer)Call("SocialDetailsPlayer")!).Presence=="online","admin card did not refresh presence");
+            blocked=true;await (Task)Call("RefreshPublicProfileAsync")!;
+            Check(C<Border>("SocialDetailsOverlay").Visibility==Visibility.Collapsed,"admin profile bypassed a new block");
+            await (Task)Call("OpenAdminProfileAsync",target)!;
+            Check(C<Border>("SocialDetailsOverlay").Visibility==Visibility.Collapsed,"admin profile reopened through a block");
+            blocked=false;session.AdminLevel=0;readsBeforeAdmin=profileReads;
+            await (Task)Call("OpenAdminProfileAsync",target)!;
+            Check(profileReads==readsBeforeAdmin,"nonadmin started an admin profile request");
+            session.AdminLevel=1;profileGate=new(TaskCreationOptions.RunContinuationsAsynchronously);
+            var pendingProfile=(Task)Call("OpenAdminProfileAsync",target)!;
+            for(var i=0;i<100&&profileReads==readsBeforeAdmin;i++)await Task.Delay(5);
+            Check(profileReads==readsBeforeAdmin+1&&!pendingProfile.IsCompleted,"admin race fixture did not reach the profile response");
+            session.AdminLevel=0;profileGate.SetResult(true);await pendingProfile;profileGate=null;
+            Check(C<Border>("SocialDetailsOverlay").Visibility==Visibility.Collapsed&&Field<SocialPlayer?>("_adminViewedPlayer") is null,
+                "revoked admin request opened a stale privileged card");
             Call("SetBusy",false,null);
             Console.WriteLine($"FRIEND DOWNLOAD / PUBLIC PROFILE PASS {checks} {language}; mocked accounts and mutations only");
         }

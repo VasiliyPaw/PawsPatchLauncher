@@ -305,11 +305,8 @@ public partial class MainWindow
         catch{if(owner==_account.UserId)ShowToast(()=>T("Не удалось подтвердить действие. Обновите список.","Could not confirm the action. Refresh the list."),true);}
         finally{_adminBusy=false;if(_adminRows is not null)_adminRows.IsEnabled=true;}
     }
-    private async Task OpenAdminProfileAsync(Guid id)
-    {
-        var owner=_account.UserId;
-        await RunAdminReadAsync(async()=>{var player=await _account.GetPlayerProfileAsync(id,_accountLifetime.Token);if(_account.AdminLevel<1||owner!=_account.UserId)return;_adminViewedPlayer=player;ShowSocialDetails(player);});
-    }
+    private Task OpenAdminProfileAsync(Guid id)
+        => RunAdminReadAsync(() => LoadPublicProfileCardAsync(id, fromAdmin: true));
     private async Task OpenAdminChatAsync(Guid id)
     {
         var owner=_account.UserId;

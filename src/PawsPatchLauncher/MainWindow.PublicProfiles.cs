@@ -21,19 +21,23 @@ public partial class MainWindow
         _publicProfileVersion++; _publicProfilePeer = null; _publicProfileTimer?.Stop();
     }
 
-    private async Task OpenPublicProfileCardAsync(Guid target)
+    private Task OpenPublicProfileCardAsync(Guid target) => LoadPublicProfileCardAsync(target, fromAdmin: false);
+
+    private async Task LoadPublicProfileCardAsync(Guid target, bool fromAdmin)
     {
-        if (ConfirmationActive || AccountConnectionBlocked) return;
+        if (ConfirmationActive || AccountConnectionBlocked || fromAdmin && _account.AdminLevel < 1) return;
         var version = ++_publicProfileVersion; var owner = _account.UserId;
         try
         {
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(_accountLifetime.Token);
             timeout.CancelAfter(TimeSpan.FromSeconds(10));
             var player = await (_publicProfileReadOverride?.Invoke(target,timeout.Token) ?? _account.GetPublicPlayerProfileAsync(target,timeout.Token));
-            if (version != _publicProfileVersion || owner != _account.UserId || _accountLifetime.IsCancellationRequested) return;
+            if (version != _publicProfileVersion || owner != _account.UserId || _accountLifetime.IsCancellationRequested
+                || fromAdmin && _account.AdminLevel < 1) return;
             if (player.Id != target || player.Deleted) throw new AccountException("player_unavailable");
             // The server checked blocks before returning the full profile. A
             // cached chat/directory identity cannot bypass that check.
+            if (fromAdmin) _adminViewedPlayer = player;
             ShowAuthorizedPublicProfile(player);
         }
         catch (Exception error) when (error is AccountException or OperationCanceledException or System.Net.Http.HttpRequestException)
