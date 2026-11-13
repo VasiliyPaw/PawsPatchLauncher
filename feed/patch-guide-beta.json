@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.1-beta.3",
+  "version": "0.5.1-beta.4",
   "entries": [
+    {
+      "id": "native-buffer-ownership",
+      "category": "always",
+      "titleRu": "Отображение моделей",
+      "titleEn": "Model rendering",
+      "bodyRu": "- Исправлена ошибка, которая могла повреждать отображение моделей во время боя.",
+      "bodyEn": "- Fixed an issue that could corrupt model rendering during battles."
+    },
     {
       "id": "minimap-return-crash",
       "category": "always",
