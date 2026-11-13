@@ -1,0 +1,25 @@
+{
+  "category": "patch",
+  "mods": [
+    "arcane-wars"
+  ],
+  "channel": "beta",
+  "version": "0.5.1-beta.4",
+  "publishedAt": "2026-11-13",
+  "title": {
+    "ru": "Paw’s Patch 0.5.1-beta.4 — Arcane Wars",
+    "en": "Paw’s Patch 0.5.1-beta.4 — Arcane Wars",
+    "uk": "Paw’s Patch 0.5.1-beta.4 — Arcane Wars",
+    "cs": "Paw’s Patch 0.5.1-beta.4 — Arcane Wars",
+    "de": "Paw’s Patch 0.5.1-beta.4 — Arcane Wars",
+    "fr": "Paw’s Patch 0.5.1-beta.4 — Arcane Wars"
+  },
+  "body": {
+    "ru": "- Исправлена ошибка, которая могла повреждать отображение моделей во время боя.",
+    "en": "- Fixed an issue that could corrupt model rendering during battles.",
+    "uk": "- Виправлено помилку, яка могла спотворювати відображення моделей під час бою.",
+    "cs": "- Opravena chyba, která mohla během bojů poškodit vykreslování modelů.",
+    "de": "- Einen Fehler behoben, der während Kämpfen die Darstellung von Modellen beschädigen konnte.",
+    "fr": "- Correction d’un problème pouvant altérer l’affichage des modèles pendant les combats."
+  }
+}
