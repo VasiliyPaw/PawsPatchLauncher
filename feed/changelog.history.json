@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "1.0.15",
+      "publishedAt": "2026-11-13",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.15",
+        "en": "Paw’s Launcher 1.0.15",
+        "uk": "Paw’s Launcher 1.0.15",
+        "cs": "Paw’s Launcher 1.0.15",
+        "de": "Paw’s Launcher 1.0.15",
+        "fr": "Paw’s Launcher 1.0.15"
+      },
+      "body": {
+        "ru": "- Маленькие исправления.",
+        "en": "- Minor fixes.",
+        "uk": "- Дрібні виправлення.",
+        "cs": "- Drobné opravy.",
+        "de": "- Kleinere Fehlerbehebungen.",
+        "fr": "- Corrections mineures."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "1.0.14",
       "publishedAt": "2026-11-13",
       "title": {
@@ -1512,6 +1533,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "1.0.15",
+      "publishedAt": "2026-11-13",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.15",
+        "en": "Paw’s Launcher 1.0.15",
+        "uk": "Paw’s Launcher 1.0.15",
+        "cs": "Paw’s Launcher 1.0.15",
+        "de": "Paw’s Launcher 1.0.15",
+        "fr": "Paw’s Launcher 1.0.15"
+      },
+      "body": {
+        "ru": "- Маленькие исправления.",
+        "en": "- Minor fixes.",
+        "uk": "- Дрібні виправлення.",
+        "cs": "- Drobné opravy.",
+        "de": "- Kleinere Fehlerbehebungen.",
+        "fr": "- Corrections mineures."
+      }
+    },
     {
       "category": "launcher",
       "version": "1.0.14",
