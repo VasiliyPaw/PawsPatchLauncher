@@ -84,6 +84,7 @@ public partial class StartupWindow : Window
             var release = check.Release;
             if (check.Error is not null) ActivityStore.Log(check.Error);
             if (release is null || !SelfUpdater.IsNewer(release.Version) || SelfUpdater.IsBlocked(release.Sha256)) return;
+            VersionText.Text = SelfUpdater.CurrentVersion.ToString(3) + " → " + release.Version;
             StageText.Text = T("Загружаем обновление", "Downloading update");
             DetailText.Text = T("Новая версия · ", "New version · ") + release.Version;
             FooterText.Text = T("При отмене откроется текущая версия", "Cancel to open the installed version");

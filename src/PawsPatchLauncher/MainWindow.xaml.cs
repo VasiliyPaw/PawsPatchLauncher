@@ -793,7 +793,8 @@ public partial class MainWindow : Window
         try
         {
             _launcherRestarting = true;
-            SetBusy(true, UiLanguages.Format(_text.Language, $"Обновляю лаунчер до {release.Version}…", $"Updating launcher to {release.Version}…"));
+            // Startup checks the catalogs again; the previously discovered version may be stale.
+            SetBusy(true, T("Ищем последнюю версию лаунчера…", "Looking for the latest launcher version…"));
             _settingsStore.Save(_settings);
             _windowPlacement?.SaveOnAcceptedClose();
             await _restartLauncher();
