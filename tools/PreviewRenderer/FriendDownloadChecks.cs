@@ -19,7 +19,7 @@ internal static class FriendDownloadChecks
         if(!ActivityStore.IsSmokeTest)throw new InvalidOperationException("Isolated fixture required");
         Directory.CreateDirectory(output);
         new SettingsStore().Save(new UserSettings{Language=language,ModNoticeSeen=true});
-        var w=new MainWindow(new LauncherConfiguration{FeedUrls=[],BetaFeedUrls=[]},null)
+        var w=new MainWindow(new LauncherConfiguration{FeedUrls=[],BetaFeedUrls=[],CacheRoot=Path.Combine(ActivityStore.Root,"cache")},null)
             {Width=1440,Height=920,Left=-30000,Top=-30000,ShowActivated=false,ShowInTaskbar=false,WindowStartupLocation=WindowStartupLocation.Manual};
         const BindingFlags flags=BindingFlags.Instance|BindingFlags.NonPublic;
         T Field<T>(string n)=>(T)typeof(MainWindow).GetField(n,flags)!.GetValue(w)!;
