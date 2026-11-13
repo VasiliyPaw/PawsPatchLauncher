@@ -252,7 +252,15 @@ public partial class MainWindow : Window
 
     private void LocateGame()
     {
-        _game = GameLocator.Locate(_configuration.SteamAppId, _settings.GamePath);
+        // A saved installation whose EXE disappeared must not silently switch
+        // to a different Steam copy or lose its recovery path.
+        _game = MissingGameExecutable.Find(_settings.GamePath) is null
+            ? GameLocator.Locate(_configuration.SteamAppId, _settings.GamePath) : null;
+        if (_game is null && MissingGameExecutable.Find(_settings.GamePath) is null && GameLocator.LocateMissingExecutable() is { } missing)
+        {
+            _settings.GamePath = missing.Directory;
+            _settingsStore.Save(_settings);
+        }
         if (_game is not null && !string.Equals(_settings.GamePath, _game.Directory, StringComparison.OrdinalIgnoreCase))
         {
             _settings.GamePath = _game.Directory;
@@ -387,7 +395,9 @@ public partial class MainWindow : Window
             catch (Exception ex) { _settingsPending = true; _installationFailure = ex.Message; }
         RefreshFriendAppliedState(state);
         RefreshAvailableUpdates(state);
-        GamePathText.Text = _game?.Directory ?? "-";
+        RefreshMissingExecutable(state);
+        if (_missingExecutable?.IsPatchHelper == true) _settingsPending = true;
+        GamePathText.Text = _game?.Directory ?? _missingExecutable?.Directory ?? "-";
         GameVersionText.Text = _game is null ? "-" : $"{(_game.Branch == "beta" ? "Beta" : "Steam")} · build {_game.SteamBuild ?? "?"}";
         RefreshInstalledPatchVersions(state);
         ReadyStatusText.Text = FrequencyUnavailable ? T("Режим ×2 недоступен", "×2 unavailable in this release")
@@ -416,6 +426,7 @@ public partial class MainWindow : Window
         if (_selectionRequiresUpdate && _installationFailure is null && !_fileCheckFailed)
             ReadyStatusText.Text = T("Нужно обновить файлы мода", "Mod files need an update");
         ReadyStatusBadge.ToolTip = _selectionRequiresUpdate ? SelectionUpdateText : null;
+        if (_missingExecutable is not null) { ReadyStatusText.Text = MissingExecutableTitleText(); statusKind = "danger"; }
         ReadyStatusText.Foreground = (Brush)FindResource(statusKind == "danger" ? "DangerBrush" : statusKind == "update" ? "GoldBrightBrush" : "SuccessBrush");
         ReadyStatusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#3B2226" : statusKind == "update" ? "#40351E" : "#193926"));
         ReadyStatusBadge.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(statusKind == "danger" ? "#844B50" : statusKind == "update" ? "#A9873E" : "#3F8D64"));
@@ -623,6 +634,11 @@ public partial class MainWindow : Window
 
     private async Task LaunchGameAsync()
     {
+        if (!_busy)
+        {
+            RefreshStatus();
+            if (_missingExecutable is not null) { CreateMissingExecutableDialog().ShowDialog(); return; }
+        }
         if (_game is null || _busy || _customModsBusy || _customModsDirty || _launchStarting || ArcaneAccessBlocked) return;
         if (_settingsPending || !_patchInstalled)
         {
@@ -807,6 +823,11 @@ public partial class MainWindow : Window
         var found = GameLocator.Validate(dialog.FolderName, _configuration.SteamAppId);
         if (found is null)
         {
+            if (MissingGameExecutable.Find(dialog.FolderName) is { } missing)
+            {
+                _game = null; _settings.GamePath = missing.Directory; _settingsStore.Save(_settings);
+                RefreshStatus(); CreateMissingExecutableDialog().ShowDialog(); return;
+            }
             MessageBox.Show(_text["status.notfound"], _text["error.title"], MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }

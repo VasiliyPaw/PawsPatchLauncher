@@ -1,0 +1,21 @@
+{
+  "category": "launcher",
+  "version": "1.0.14",
+  "publishedAt": "2026-11-13",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.14 — восстановление файлов запуска",
+    "en": "Paw’s Launcher 1.0.14 — launch file recovery",
+    "uk": "Paw’s Launcher 1.0.14 — відновлення файлів запуску",
+    "cs": "Paw’s Launcher 1.0.14 — obnovení spouštěcích souborů",
+    "de": "Paw’s Launcher 1.0.14 — fehlende Startdateien wiederherstellen",
+    "fr": "Paw’s Launcher 1.0.14 — restauration des fichiers de lancement"
+  },
+  "body": {
+    "ru": "- Добавлено предупреждение, если пропал EXE игры или запускатель патча.\n- Добавлены подсказки по восстановлению файла и проверка после восстановления.\n- Папка игры сохраняется, даже если файл запуска отсутствует.",
+    "en": "- Added a warning when the game executable or patch launcher is missing.\n- Added file recovery guidance and a check after restoration.\n- The game folder is kept when its launch file is missing.",
+    "uk": "- Додано попередження, якщо зник EXE гри або запускний файл патча.\n- Додано підказки щодо відновлення файлу та перевірку після відновлення.\n- Папка гри зберігається, навіть якщо файл запуску відсутній.",
+    "cs": "- Přidáno upozornění, pokud chybí EXE hry nebo spouštěcí soubor patche.\n- Přidán návod k obnovení souboru a kontrola po obnovení.\n- Složka hry zůstává uložená, i když spouštěcí soubor chybí.",
+    "de": "- Neue Warnung, wenn die EXE des Spiels oder die Startdatei des Patches fehlt.\n- Neue Hinweise zur Wiederherstellung und erneute Prüfung der Datei.\n- Der Spielordner bleibt gespeichert, auch wenn die Startdatei fehlt.",
+    "fr": "- Ajout d’un avertissement si l’EXE du jeu ou le lanceur du patch est introuvable.\n- Ajout d’instructions de restauration et d’une vérification après restauration.\n- Le dossier du jeu reste enregistré même si son fichier de lancement manque."
+  }
+}

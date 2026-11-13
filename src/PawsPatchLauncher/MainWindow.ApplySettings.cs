@@ -94,7 +94,7 @@ public partial class MainWindow
                 return;
             }
             var state = new ModuleInstaller(_game.Directory).LoadState();
-            if (!UpdateDetector.HasSettingsChanges(state, ResolveSelectedPackages(_channel!), GetEffectiveSettings())) return;
+            if (_missingExecutable?.IsPatchHelper != true && !UpdateDetector.HasSettingsChanges(state, ResolveSelectedPackages(_channel!), GetEffectiveSettings())) return;
             SetBusy(true, T("Применяю настройки…", "Applying settings…"));
             await ApplySelectedConfigurationAsync(_channel!, false);
             ShowResult(() => T("Настройки применены. Можно запускать игру.", "Settings applied. Ready to launch the game."));

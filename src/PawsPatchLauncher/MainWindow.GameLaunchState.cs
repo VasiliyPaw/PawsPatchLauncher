@@ -22,7 +22,7 @@ public partial class MainWindow
         RefreshCompatibility();
         LaunchButton.Content = running ? T("Игра запущена", "Game running") : _text["button.launch"];
         LaunchButton.IsEnabled = !running && !_busy && !_customModsBusy && !_customModsDirty && !_launchStarting && !FeedBlocksActions && !ArcaneAccessBlocked && !_settingsPending && _patchInstalled && _installationFailure is null && !_fileCheckFailed
-            && (!CompatibilityRelevant || !CompatibilityBlocksLaunch) && _game is not null;
+            && (!CompatibilityRelevant || !CompatibilityBlocksLaunch) && _game is not null && _missingExecutable is null;
         AccountLogoutButton.IsEnabled = !_busy && !FeedBlocksActions && !_accountBusy;
         if (SocialDetailsOverlay.Visibility == System.Windows.Visibility.Visible) RefreshSocialCopyAvailability();
     }

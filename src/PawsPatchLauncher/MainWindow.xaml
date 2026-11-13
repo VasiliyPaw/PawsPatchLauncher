@@ -865,6 +865,20 @@
 
                                 <StackPanel x:Name="ConfigurationImportHost" Visibility="Collapsed"/>
                                 <StackPanel x:Name="ReliabilityPanels"/>
+                                <Border x:Name="MissingExecutableCard" Style="{StaticResource Card}" Background="#302A1E" BorderBrush="#A9873E" Margin="0,0,0,14" Visibility="Collapsed">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <local:LauncherIcon Kind="Warning" Width="22" Height="22" Margin="0,0,10,0"/>
+                                            <TextBlock x:Name="MissingExecutableTitle" FontSize="19" FontWeight="SemiBold" Foreground="#F0CC78" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <TextBlock x:Name="MissingExecutableName" FontSize="15" FontWeight="SemiBold" Foreground="#F4E5BC" Margin="0,0,0,7" TextWrapping="Wrap"/>
+                                        <TextBlock x:Name="MissingExecutableBody" Foreground="#D8CEB8" TextWrapping="Wrap"/>
+                                        <WrapPanel Margin="0,14,0,0">
+                                            <Button x:Name="MissingExecutableDetailsButton" Style="{StaticResource GoldButton}" Click="MissingExecutableDetails_Click" Margin="0,0,8,0"/>
+                                            <Button x:Name="MissingExecutableRecheckButton" Style="{StaticResource GhostButton}" Click="MissingExecutableRecheck_Click"/>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </Border>
                                 <Border x:Name="HomeWelcomeCard" Style="{StaticResource Card}" Margin="0,0,0,14">
                                     <StackPanel>
                                         <TextBlock x:Name="HomeWelcomeTitleText" Style="{StaticResource CardTitle}"/>

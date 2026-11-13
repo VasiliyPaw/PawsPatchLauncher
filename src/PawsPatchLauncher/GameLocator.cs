@@ -48,6 +48,12 @@ public static partial class GameLocator
         catch { return null; }
     }
 
+    public static MissingGameExecutable? LocateMissingExecutable()
+        => FindMissingExecutable(FindSteamLibraries().Select(library => Path.Combine(library, "steamapps", "common", "Kohan II")));
+
+    internal static MissingGameExecutable? FindMissingExecutable(IEnumerable<string> directories)
+        => directories.Select(path => MissingGameExecutable.Find(path)).FirstOrDefault(missing => missing is not null);
+
     private static IEnumerable<string> FindSteamLibraries()
     {
         var found = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

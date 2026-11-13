@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 2 && args[0] == "--missing-executable") { Directory.CreateDirectory(args[1]); MissingExecutableTests.Run(args[1]); return; }
 if (args.Length == 2 && args[0] == "--rebuild-installed-faction-voices") { await CustomVoiceTests.RebuildInstalledAsync(args[1]); return; }
 if (args.Length == 3 && args[0] == "--verify-installed-faction-launch") { await CustomVoiceTests.RunInstalledLaunchAsync(args[1], args[2]); return; }
 if (args.Length == 5 && args[0] == "--prepare-installed-faction-preset") { await InstalledFactionPreset.RunAsync(args[1], args[2], args[3], args[4]); return; }
@@ -216,6 +217,7 @@ try
         passed += await AtomicStateWriteTests.RunAsync(root);
         passed += await LauncherDownloadRecoveryTests.RunAsync(root);
         passed += await UsabilityTests.RunAsync(root);
+        passed += MissingExecutableTests.Run(root);
         passed += await CustomVoiceTests.RunAsync(root);
         passed += await StartupCompatibilityTests.RunAsync(root);
         passed += await AccountTests.RunAsync(root);
