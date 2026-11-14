@@ -55,7 +55,7 @@ internal static class RebornChecks
             session.AdminLevel=1;Call("RenderAccount");w.UpdateLayout();
             var bottomNav=(StackPanel)C<Button>("AdminNav").Parent;
             Check(C<Button>("RebornNav").Parent==bottomNav&&bottomNav.Children.IndexOf(C<Button>("RebornNav"))+1==bottomNav.Children.IndexOf(C<Button>("AdminNav")),"Reborn must sit immediately above admin navigation");
-            Check(LauncherIcon.GetKind(C<Button>("RebornNav"))==IconKind.Reborn,"Reborn does not use its own circled K icon");
+            Check(LauncherIcon.GetKind(C<Button>("RebornNav"))==IconKind.Reborn,"Reborn does not use its own K icon");
             Check(!Desc<Button>(C<StackPanel>("RebornBody")).Any()||Desc<Button>(C<StackPanel>("RebornBody")).All(b=>b.Name is "RebornReleaseChoice" or "RebornBetaChoice"),"folder chooser or install action remains in page cards");
             await (Task)Call("RebornActionAsync",false)!;
             Check(Field<UserSettings>("_settings").RebornPath is null,"empty-channel action prompts for or saves a folder");
