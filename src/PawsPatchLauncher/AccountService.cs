@@ -333,7 +333,7 @@ public sealed partial class AccountService : IDisposable
             int count;
             while ((count = await source.ReadAsync(buffer, timeout.Token).ConfigureAwait(false)) != 0)
             {
-                if (output.Length + count > (portal ? 350000 : database && route is "rpc/paw_community_read" or "rpc/paw_read_messages" or "rpc/paw_read_message_page" or "rpc/paw_read_offer_states" ? 768000 : database&&route=="rpc/paw_social_list"?2097152:database&&route=="rpc/paw_admin_list"?262144:65536)) throw new AccountException("invalid_response");
+                if (output.Length + count > (portal && route == "reborn-builds?action=history" ? 33554432 : portal ? 350000 : database && route is "rpc/paw_community_read" or "rpc/paw_read_messages" or "rpc/paw_read_message_page" or "rpc/paw_read_offer_states" ? 768000 : database&&route=="rpc/paw_social_list"?2097152:database&&route=="rpc/paw_admin_list"?262144:65536)) throw new AccountException("invalid_response");
                 output.Write(buffer, 0, count);
             }
             if ((int)response.StatusCode < 500) Connection.Complete(connectionObservation, true);

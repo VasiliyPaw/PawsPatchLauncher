@@ -26,9 +26,9 @@ internal static class RebornChecks
         IEnumerable<T> Desc<T>(DependencyObject root) where T:DependencyObject
         { if(root is T found)yield return found;for(var i=0;i<VisualTreeHelper.GetChildrenCount(root);i++)foreach(var item in Desc<T>(VisualTreeHelper.GetChild(root,i)))yield return item; }
         Button Choice(string name)=>Desc<Button>(C<StackPanel>("RebornBody")).Single(b=>b.Name==name);
-        void Snap(string name)
+        void Snap(string name,FrameworkElement? target=null)
         {
-            w.UpdateLayout();var root=(FrameworkElement)w.Content;var visual=new DrawingVisual();
+            w.UpdateLayout();var root=target??(FrameworkElement)w.Content;var visual=new DrawingVisual();
             using(var dc=visual.RenderOpen())dc.DrawRectangle(new VisualBrush(root),null,new Rect(root.RenderSize));
             var bmp=new RenderTargetBitmap((int)root.ActualWidth,(int)root.ActualHeight,96,96,PixelFormats.Pbgra32);bmp.Render(visual);
             var png=new PngBitmapEncoder();png.Frames.Add(BitmapFrame.Create(bmp));using var file=File.Create(Path.Combine(output,name+"-"+language+".png"));png.Save(file);
@@ -37,11 +37,14 @@ internal static class RebornChecks
         {
             Set("_gameRunningProbe",(Func<bool>)(()=>false));
             Check(C<Button>("RebornNav").Visibility==Visibility.Collapsed,"guest sees private navigation");
+            bool HistoryChoice()=>((MainWindow.TimelineChoice[])C<ComboBox>("HistorySubjectCombo").ItemsSource).Any(c=>c.Id=="reborn");
+            Call("SyncHistoryFilters");Check(!HistoryChoice(),"guest sees private history subject");
             var account=Field<AccountService>("_account");var session=new AccountSession { UserId=Guid.NewGuid().ToString(),Nickname="paw",DisplayName="Paw",Email="fixture@example.invalid",AdminLevel=2 };
             typeof(AccountService).GetField("_session",flags)!.SetValue(account,session);
             typeof(AccountService).GetProperty("State")!.SetValue(account,AccountState.SignedIn);
             Set("_rebornCatalogOverride",(Func<CancellationToken,Task<IReadOnlyList<RebornBuild>>>)(_=>Task.FromResult<IReadOnlyList<RebornBuild>>([])));
             Call("RenderAccount");Check(C<Button>("RebornNav").Visibility==Visibility.Visible,"admin role without team cannot see Reborn");
+            Check(HistoryChoice(),"admin without team cannot see Reborn history");
             Call("SetActivePage","reborn");Check(C<ScrollViewer>("RebornPage").Visibility==Visibility.Visible,"admin without team cannot open Reborn");
             session.AdminLevel=0;Call("RenderAccount");Check(C<Button>("RebornNav").Visibility==Visibility.Collapsed&&Field<string>("_activePage")=="home","withdrawn admin access leaves Reborn visible");
             session.AdminLevel=0;session.PawsTeam=true;
@@ -91,11 +94,41 @@ internal static class RebornChecks
             Set("_rebornBusy",false);Call("RenderReborn");
             var chosen=Field<UserSettings>("_settings").GamePath;Call("SetActivePage","home");
             Check(C<StackPanel>("KohanActionsFooter").IsVisible&&!C<StackPanel>("RebornActionsFooter").IsVisible&&C<ScrollViewer>("MainOptionsScroll").IsVisible,"original game controls not restored");
+            Call("SetActivePage","reborn");Choice("RebornReleaseChoice").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Call("HistoryButton_Click",null,new RoutedEventArgs());
+            var historyWindow=Field<Window>("_historyWindow");historyWindow.Left=historyWindow.Top=-30000;historyWindow.ShowActivated=false;
+            await Task.Delay(180);w.UpdateLayout();historyWindow.UpdateLayout();
+            Check(HistoryChoice()&&Field<string>("_historySubject")=="reborn"&&C<ComboBox>("HistorySourceCombo").Visibility==Visibility.Collapsed&&C<ComboBox>("HistoryBranchCombo").IsVisible,"history opened from Reborn does not select its own two-channel history");
+            Check(Field<IReadOnlyList<TimelineEntry>>("_renderedHistory").Count==0&&Desc<TextBlock>(C<StackPanel>("NewsEntriesPanel")).Any(t=>t.Text==UiLanguages.Text(language,"Сборка ещё не опубликована","No build published yet")),"empty history invents release notes");
+            Snap("reborn-history-release",(FrameworkElement)historyWindow.Content);
+            void Branch(string id)=>C<ComboBox>("HistoryBranchCombo").SelectedItem=((MainWindow.TimelineChoice[])C<ComboBox>("HistoryBranchCombo").ItemsSource).Single(c=>c.Id==id);
+            Branch("beta");await Task.Delay(220);Snap("reborn-history-beta",(FrameworkElement)historyWindow.Content);
+            var older=fixtureBuild with {Id=Guid.NewGuid(),Channel="stable",Version="0.0.9-test",PublishedAt=DateTimeOffset.UtcNow.AddDays(-2),Notes=new(){[language]="older fixture"}};
+            var newer=older with {Id=Guid.NewGuid(),Version="0.1.0-test",PublishedAt=older.PublishedAt.AddDays(1),Notes=new(){[language]="newer fixture"}};
+            var betaNotes=fixtureBuild with {Notes=new(){[language]="beta fixture"}};
+            Set("_rebornHistoryOverride",(Func<CancellationToken,Task<IReadOnlyList<RebornBuild>>>)(_=>Task.FromResult<IReadOnlyList<RebornBuild>>([older,betaNotes,newer])));
+            await (Task)Call("LoadRebornHistoryAsync",true)!;
+            Check(Field<IReadOnlyList<TimelineEntry>>("_renderedHistory").Count==1&&Field<IReadOnlyList<TimelineEntry>>("_renderedHistory")[0].Branch=="beta","Beta history contains another channel");
+            Check(Desc<TextBlock>(C<StackPanel>("NewsEntriesPanel")).Any(t=>t.Text=="beta fixture"),"translated history notes absent from real cards");
+            Branch("stable");await Task.Delay(220);
+            Check(Field<IReadOnlyList<TimelineEntry>>("_renderedHistory").Count==2&&Field<IReadOnlyList<TimelineEntry>>("_renderedHistory")[0].Entry.Version=="0.1.0-test","Release history loses older versions or sorts incorrectly");
+            Branch("all");await Task.Delay(220);
+            Check(Field<IReadOnlyList<TimelineEntry>>("_renderedHistory").Count==3,"all channels history loses a branch");
+            Check(!C<Button>("RebornInstallButton").IsEnabled,"history rows incorrectly become downloadable catalog builds");
+            Set("_rebornHistoryOverride",(Func<CancellationToken,Task<IReadOnlyList<RebornBuild>>>)(_=>Task.FromException<IReadOnlyList<RebornBuild>>(new IOException("fixture offline"))));
+            await (Task)Call("LoadRebornHistoryAsync",true)!;
+            Check(Field<bool>("_rebornHistoryError")&&Desc<Button>(C<StackPanel>("NewsEntriesPanel")).Any(),"history transport failure lacks a retry action");
+            var historyGate=new TaskCompletionSource<IReadOnlyList<RebornBuild>>(TaskCreationOptions.RunContinuationsAsynchronously);
+            Set("_rebornHistoryOverride",(Func<CancellationToken,Task<IReadOnlyList<RebornBuild>>>)(_=>historyGate.Task));
+            var pendingHistory=(Task)Call("LoadRebornHistoryAsync",true)!;
             var gate=new TaskCompletionSource<IReadOnlyList<RebornBuild>>(TaskCreationOptions.RunContinuationsAsynchronously);
             Set("_rebornCatalogOverride",(Func<CancellationToken,Task<IReadOnlyList<RebornBuild>>>)(_=>gate.Task));Call("SetActivePage","reborn");
             session.PawsTeam=false;Call("RenderAccount");
             gate.SetResult([new RebornBuild(Guid.NewGuid(),"beta","0.1.0-test",100,new string('A',64),"KohanReborn.exe",DateTimeOffset.UtcNow,new())]);await Task.Delay(50);
             Check(C<Button>("RebornNav").Visibility==Visibility.Collapsed&&Field<string>("_activePage")=="home"&&Field<IReadOnlyList<RebornBuild>>("_rebornBuilds").Count==0,"revoked role/stale response leaks private page");
+            historyGate.SetResult([older,betaNotes,newer]);await pendingHistory;
+            Check(!HistoryChoice()&&Field<string>("_historySubject")!="reborn"&&Field<IReadOnlyList<RebornBuild>>("_rebornHistory").Count==0&&Field<IReadOnlyList<TimelineEntry>>("_renderedHistory").All(r=>r.Source!="reborn"),"revoked membership or stale response leaves private history visible");
+            historyWindow.Close();
             Check(Field<UserSettings>("_settings").GamePath==chosen,"Reborn navigation changed Kohan II installation");
             Console.WriteLine($"REBORN UI PASS {checks} {language}: team/admin access, honest empty Release/Beta, channel persistence, separate controls, role revocation and no game mutations");
         }

@@ -8,11 +8,12 @@ Local feature candidate. No archive, production migration, edge deployment or la
 - Release (`stable`) and Beta (`beta`) start empty. No example build is inserted by the migration. The page honestly shows that no build has been published, with Download disabled.
 - The navigation entry sits directly above the admin menu and uses a dedicated K icon. Installation, update checking and Play use the same footer positions as Kohan II. The folder picker opens only when the first available build is installed; it is absent from the page.
 - Channel choice and the shared installation folder are local launcher preferences. The root contains `Release` and `Beta` subfolders with fixed names independent of UI language. The two channels keep separate active builds and version directories; changing channel does not reinstall the other channel or alter Kohan II.
+- Release history includes a private **Kohan Reborn** subject for the same eligible roles, with Release, Beta and All branches filters. It opens on the selected Reborn channel when launched from that page. The history endpoint returns up to 200 published enabled builds, including earlier versions; it never issues download tickets. Notes use the selected UI language with English/Russian fallback. Read state is independent of UI language and tracks edits in every supported translation.
 - Account identity/role changes invalidate pending page responses and cancel an active Reborn operation. Launcher self-update and closing are deferred while Reborn is installing; friendship/chat controls remain independent.
 
 ## Server contract prepared for activation
 
-1. Apply `supabase/migrations/20261114000000_reborn_builds.sql` through the established production migration procedure.
+1. Apply `supabase/migrations/20261114000000_reborn_builds.sql` and `20261114010000_reborn_history.sql` through the established production migration procedure.
 2. Deploy `supabase/functions/reborn-builds` using the same environment/authentication configuration as the existing account edge functions. The handler validates the Auth user, confirmed email, active launcher session and current database role.
 3. Verify both empty catalogs using a team account and an admin account; verify rejection of ordinary/guest/restricted accounts.
 

@@ -5,8 +5,10 @@ namespace PawsPatchLauncher;
 
 public sealed record TimelineEntry(string Subject, string Source, string Branch, ChangelogEntry Entry, bool Overview = false)
 {
+    public string? LocalizedBody { get; init; }
+    public string? Revision { get; init; }
     public string ContentId => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(string.Join("\n",
-        Entry.Version, Entry.PublishedAt, Entry.Title.Ru, Entry.Title.En, Entry.Body.Ru, Entry.Body.En))));
+        Entry.Version, Entry.PublishedAt, Entry.Title.Ru, Entry.Title.En, Entry.Body.Ru, Entry.Body.En) + (Revision is null ? "" : "\n" + Revision))));
     public string ReadKey => "timeline:2:" + Subject + ":" + Source + ":" + Branch + ":" + Entry.Version + ":" + Entry.PublishedAt + ":" + Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(Entry.Title.Ru + "\n" + Entry.Title.En)))[..16];
 }
 

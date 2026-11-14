@@ -416,7 +416,7 @@ public partial class MainWindow
     {
         if (_settings is null || HistoryUnreadBadge is null) return;
         bool Unread(string subject, string source, string branch) => HistoryRows(subject, source, branch).Any(r => ChangelogTimeline.IsUnread(_settings, r));
-        var unread = Unread("launcher", "all", "all") || Unread(_settings.Mod, "all", _settings.Channel);
+        var unread = Unread("launcher", "all", "all") || Unread(_settings.Mod, "all", _settings.Channel) || RebornAccess && Unread("reborn", "all", "all");
         HistoryUnreadBadge.Visibility = unread ? Visibility.Visible : Visibility.Collapsed;
         if (HistoryButtonBadge is not null) HistoryButtonBadge.Visibility = unread ? Visibility.Visible : Visibility.Collapsed;
         SyncHistoryFilters();

@@ -5,6 +5,25 @@ namespace PawsPatchLauncher;
 
 public sealed partial class AccountService
 {
+    public async Task<IReadOnlyList<RebornBuild>> GetRebornHistoryAsync(CancellationToken ct = default)
+    {
+        IReadOnlyList<RebornBuild> history = [];
+        await WithAccountAsync(async () =>
+        {
+            if (!PawsTeam && AdminLevel < 1) throw new AccountException("reborn_access_denied");
+            using var result = await RequestAsync(HttpMethod.Post,"reborn-builds?action=history",null,_session!.AccessToken,ct,portal:true).ConfigureAwait(false);
+            history = ReadRebornResponse<IReadOnlyList<RebornBuild>>(() =>
+            {
+                var rows = result.RootElement.GetProperty("releases");
+                if (rows.GetArrayLength() > RebornHistory.Limit) throw new AccountException("invalid_response");
+                var parsed = rows.EnumerateArray().Select(RebornBuild.Read).ToArray();
+                if (parsed.Select(b => b.Id).Distinct().Count() != parsed.Length) throw new AccountException("invalid_response");
+                return parsed;
+            });
+        },ct).ConfigureAwait(false);
+        return history;
+    }
+
     public async Task<IReadOnlyList<RebornBuild>> GetRebornBuildsAsync(CancellationToken ct = default)
     {
         IReadOnlyList<RebornBuild> builds = [];

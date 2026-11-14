@@ -56,6 +56,48 @@ internal static class RebornTests
         var translated=stable.Build with{Id=Guid.NewGuid(),Notes=new(){["ru"]=new('Ж',10000),["uk"]=new('І',10000)}};
         await RebornInstall.InstallAsync(install,translated,stable.Archive,Authorize,CancellationToken.None);
         Check(RebornInstall.Installed(install,"stable")?.Notes["uk"].Length==10000,"valid localized changelog exceeds installation-marker limit");
+        var historyRelease=stable.Build with { PublishedAt=DateTimeOffset.Parse("2026-11-10T12:00:00Z"),Notes=new(){["ru"]="Релиз",["en"]="Release",["uk"]="Українські зміни",["cs"]="České změny",["de"]="Deutsche Änderungen",["fr"]="Modifications françaises"} };
+        var historyBeta=beta.Build with { PublishedAt=historyRelease.PublishedAt.AddDays(1),Notes=new(){["en"]="Beta notes"} };
+        var historyOld=historyRelease with { Id=Guid.NewGuid(),Version="0.0.9",PublishedAt=historyRelease.PublishedAt.AddDays(-1) };
+        var rows=RebornHistory.Entries([historyRelease,historyOld,historyBeta],"all","fr");
+        Check(rows.Count==3&&rows[0].Branch=="beta"&&rows[2].Entry.Version=="0.0.9","history omits older builds or sorts by wrong date");
+        Check(RebornHistory.Entries([historyRelease,historyOld,historyBeta],"stable","ru").Count==2&&RebornHistory.Entries([historyRelease,historyOld,historyBeta],"beta","ru").Count==1,"history channel filtering");
+        foreach(var lang in new[]{"ru","en","uk","cs","de","fr"})
+            Check(RebornHistory.Entries([historyRelease],"stable",lang)[0].LocalizedBody==historyRelease.Notes[lang],"history ignores translated notes: "+lang);
+        Check(rows[0].LocalizedBody=="Beta notes","history missing-translation fallback");
+        var read=new UserSettings();var french=RebornHistory.Entries([historyRelease],"stable","fr")[0];
+        Check(ChangelogTimeline.MarkViewed(read,[french],true)&&!ChangelogTimeline.IsUnread(read,RebornHistory.Entries([historyRelease],"stable","uk")[0]),"changing interface language marks the same history unread");
+        var edited=historyRelease with { Notes=new(historyRelease.Notes){["uk"]="Змінений текст"} };
+        Check(ChangelogTimeline.IsUnread(read,RebornHistory.Entries([edited],"stable","fr")[0]),"edited translated notes are not marked unread");
+        Check(!ChangelogTimeline.IsUnread(read,RebornHistory.Entries([historyRelease with {Notes=historyRelease.Notes.Reverse().ToDictionary(n=>n.Key,n=>n.Value)}],"stable","fr")[0]),"dictionary key order changes history identity");
+        var player=Guid.NewGuid();var historyCalls=0;var mode="valid";
+        object Wire(RebornBuild b)=>new {id=b.Id,channel=b.Channel,version=b.Version,size=b.Size,sha256=b.Sha256,executable=b.Executable,published_at=b.PublishedAt,notes=b.Notes};
+        var largeRows=Enumerable.Range(0,20).Select(i=>Wire(historyRelease with {Id=Guid.NewGuid(),Version="0.1."+i,Notes=new(){["ru"]=new('Ж',10000)}})).ToArray();
+        var largeResponse=JsonSerializer.Serialize(new{status="ok",releases=largeRows});
+        Check(System.Text.Encoding.UTF8.GetByteCount(largeResponse)>350000,"history transport fixture must exceed the ordinary portal limit");
+        using(var account=new AccountService(new AccountSessionStore(Path.Combine(fixture,"history-account")),new AccountTests.FakeAuth(request=>
+        {
+            var path=request.RequestUri!.AbsolutePath;var user=new{id=player,email="reborn@example.invalid"};
+            if(path.EndsWith("/token"))return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(new{access_token="fixture-access",refresh_token="fixture-refresh",expires_in=3600,user})));
+            if(path.EndsWith("/user"))return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(user)));
+            if(path.EndsWith("paw_profiles"))return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(new[]{new{id=player,nickname="reborn",paws_team=true}})));
+            if(path.EndsWith("/reborn-builds"))
+            {
+                historyCalls++;Check(request.RequestUri.Query=="?action=history"&&request.Headers.Authorization?.Scheme=="Bearer"&&request.Headers.Contains("x-paw-launcher"),"history must use an authenticated private endpoint and launcher session");
+                return Task.FromResult(mode=="denied"?new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Forbidden){Content=new System.Net.Http.StringContent("{\"status\":\"reborn_access_denied\"}")}:
+                    AccountTests.Ok(mode=="duplicate"?JsonSerializer.Serialize(new{status="ok",releases=new[]{Wire(historyRelease),Wire(historyRelease)}}):mode=="oversized"?JsonSerializer.Serialize(new{status="ok",releases=Enumerable.Range(0,201).Select(_=>Wire(historyRelease)).ToArray()}):largeResponse));
+            }
+            throw new Exception("Unexpected Reborn history fixture route");
+        })))
+        {
+            await account.SignInAsync("reborn@example.invalid","fixture-password");
+            Check((await account.GetRebornHistoryAsync()).Count==20,"bounded multilingual history response was truncated by ordinary portal limit");
+            foreach(var test in new[]{("duplicate","invalid_response"),("oversized","invalid_response"),("denied","reborn_access_denied")})
+            {
+                mode=test.Item1;try{await account.GetRebornHistoryAsync();throw new Exception("Expected history rejection");}catch(AccountException error){Check(error.Code==test.Item2,"history error mapping: "+mode);}
+            }
+        }
+        Check(historyCalls==4,"history transport performed unexpected requests");
         Console.WriteLine($"REBORN INSTALL PASS {checks}: independent channels, verification, safe extraction, retry, revocation, cancellation and preserved installations; no EXE executed");return checks;
     }
 }

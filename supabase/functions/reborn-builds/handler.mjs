@@ -4,8 +4,8 @@ const reply=(data,http=200)=>Response.json(data,{status:http,headers:{"Cache-Con
 class Fault extends Error{constructor(code,http=403){super(code);this.code=code;this.http=http;}}
 export function makeHandler({url,serviceKey,publicKey,fetcher=fetch,clock=()=>Date.now()}){
  async function call(path,init){return fetcher(url+path,{...init,redirect:"error",signal:AbortSignal.timeout(10000)});}
- async function authorize(context){
-  const res=await call("/rest/v1/rpc/paw_reborn_authorize",{method:"POST",headers:{apikey:serviceKey,Authorization:"Bearer "+serviceKey,"Content-Type":"application/json"},body:JSON.stringify(context)});
+ async function authorize(context,rpc="paw_reborn_authorize"){
+  const res=await call("/rest/v1/rpc/"+rpc,{method:"POST",headers:{apikey:serviceKey,Authorization:"Bearer "+serviceKey,"Content-Type":"application/json"},body:JSON.stringify(context)});
   if(!res.ok)throw new Fault("service_unavailable",503);
   const data=await res.json();
   if(data?.status!=="ok")throw new Fault(["reborn_access_denied","reborn_unavailable","session_replaced"].includes(data?.status)?data.status:"service_unavailable",data?.status==="session_replaced"?401:403);
@@ -23,7 +23,12 @@ export function makeHandler({url,serviceKey,publicKey,fetcher=fetch,clock=()=>Da
    try{const part=auth.slice(7).split('.')[1].replaceAll('-','+').replaceAll('_','/');session=JSON.parse(atob(part.padEnd(Math.ceil(part.length/4)*4,'='))).session_id;}catch{throw new Fault("unauthorized",401);}
    if(!uuid.test(user.id)||!uuid.test(session)||!user.email_confirmed_at)throw new Fault("unauthorized",401);
    const query=new URL(req.url).searchParams,action=query.get("action"),channel=query.get("channel"),id=query.get("build_id");
-   if(action!=="catalog"&&(action!=="download"||!['stable','beta'].includes(channel)||!uuid.test(id||"")))throw new Fault("invalid_request",400);
+   if(action!=="catalog"&&action!=="history"&&(action!=="download"||!['stable','beta'].includes(channel)||!uuid.test(id||"")))throw new Fault("invalid_request",400);
+   if(action==="history"){
+    const history=await authorize({player:user.id,session,launcher},"paw_reborn_history");
+    if(!Array.isArray(history.releases)||history.releases.length>200)throw new Fault("service_unavailable",503);
+    return reply({status:"ok",releases:history.releases});
+   }
    const context={player:user.id,session,launcher,selected_channel:action==="download"?channel:null,build_id:action==="download"?id:null};
    const permission=await authorize(context);
    if(action==="catalog"){

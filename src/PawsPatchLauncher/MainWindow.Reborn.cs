@@ -23,7 +23,7 @@ public partial class MainWindow
     private void InitializeReborn()
     {
         LauncherIcon.SetKind(RebornNav,IconKind.Reborn);
-        _rebornTimer.Tick += async (_, _) => { if (_activePage == "reborn") await LoadRebornCatalogAsync(); };
+        _rebornTimer.Tick += async (_, _) => { if (_activePage == "reborn") await LoadRebornCatalogAsync(); if (_historyWindow?.IsVisible == true) await LoadRebornHistoryAsync(force:true); };
         if (!ActivityStore.IsSmokeTest) _rebornTimer.Start();
         Closed += (_, _) => { _rebornTimer.Stop(); _rebornOperation?.Cancel(); _rebornGeneration++; };
         RefreshRebornAccess();
@@ -38,6 +38,7 @@ public partial class MainWindow
         RebornNav.Content = "Kohan Reborn";
         RefreshActionLayout();
         if (!RebornAccess && _activePage == "reborn") SetActivePage("home");
+        RefreshRebornHistoryAccess();
         if (RebornAccess && _activePage == "reborn" && !_rebornBusy) RenderReborn();
     }
     private void RebornNav_Click(object sender, RoutedEventArgs e) { if (RebornAccess) SetActivePage("reborn"); }
@@ -88,7 +89,7 @@ public partial class MainWindow
             var button = new Button { Name = channel == "stable" ? "RebornReleaseChoice" : "RebornBetaChoice", Content = words, Style = (Style)FindResource("GhostButton"),
                 HorizontalContentAlignment = HorizontalAlignment.Left, Padding = new Thickness(18,14,18,14), Margin = new Thickness(0,0,8,0), IsEnabled = !_rebornBusy,
                 Background = SocialBrush(channel == selected ? "#30465D" : "#14283E"), BorderBrush = SocialBrush(channel == selected ? "#D0AD5B" : "#344B63") };
-            button.Click += (_,_) => { if (_rebornBusy) return; _settings.RebornChannel = channel; _settingsStore.Save(_settings); RenderReborn(); };
+            button.Click += (_,_) => { if (_rebornBusy) return; _settings.RebornChannel = channel; _settingsStore.Save(_settings); RenderReborn(); if (_historyWindow is not null) RefreshNews(); };
             channels.Children.Add(button);
         }
         RebornBody.Children.Add(channels);

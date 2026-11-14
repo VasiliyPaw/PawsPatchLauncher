@@ -146,7 +146,7 @@ public partial class MainWindow
         _historyWindow = window;
         ChangelogCard.Margin = new Thickness(0); ChangelogCard.Padding = new Thickness(16);
         NewsTitleText.Visibility = Visibility.Collapsed; body.Content = ChangelogCard;
-        window.ContentRendered += (_, _) => { RefreshNews(); MarkVisibleChangelogRead(); };
+        window.ContentRendered += (_, _) => { RefreshNews(); MarkVisibleChangelogRead(); _ = LoadRebornHistoryAsync(force:true); };
         window.Activated += (_, _) => MarkVisibleChangelogRead();
         window.Closed += (_, _) => { body.Content = null; ChangelogCard.ClearValue(Border.PaddingProperty); NewsTitleText.Visibility = Visibility.Visible;
             _historyWindow = null; CancelChangelogTransition(); };
