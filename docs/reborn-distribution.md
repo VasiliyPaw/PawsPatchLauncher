@@ -1,6 +1,6 @@
 # Kohan Reborn launcher integration
 
-Local feature candidate. No archive, production migration, edge deployment or launcher release has been published by this work.
+The launcher UI can ship with empty channels before the first accepted archive. The production migration and edge deployment remain pending until build distribution is activated.
 
 ## Access and channels
 
@@ -15,6 +15,8 @@ Local feature candidate. No archive, production migration, edge deployment or la
 
 1. Apply `supabase/migrations/20261114000000_reborn_builds.sql` and `20261114010000_reborn_history.sql` through the established production migration procedure.
 2. Deploy `supabase/functions/reborn-builds` using the same environment/authentication configuration as the existing account edge functions. The handler validates the Auth user, confirmed email, active launcher session and current database role.
+The client treats only the gateway’s explicit `404 NOT_FOUND` missing-function response as empty catalogs/history. Authorization failures, generic 404 responses and network/server failures remain errors. Download tickets never use this fallback. This lets the intentionally empty channels work until server activation, then start using real catalogs automatically.
+
 3. Verify both empty catalogs using a team account and an admin account; verify rejection of ordinary/guest/restricted accounts.
 
 The `paw-reborn-builds` storage bucket is private. No anon/authenticated direct-storage policy is added. The authorization RPC is callable by `service_role` only, so a client cannot impersonate another player by passing an arbitrary UUID. Download authorization is repeated after the signed URL is prepared. URLs expire in 120 seconds, are returned with `no-store`, and are never saved in installation metadata.

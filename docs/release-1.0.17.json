@@ -1,0 +1,21 @@
+{
+  "category": "launcher",
+  "version": "1.0.17",
+  "publishedAt": "2026-11-14",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.17",
+    "en": "Paw’s Launcher 1.0.17",
+    "uk": "Paw’s Launcher 1.0.17",
+    "cs": "Paw’s Launcher 1.0.17",
+    "de": "Paw’s Launcher 1.0.17",
+    "fr": "Paw’s Launcher 1.0.17"
+  },
+  "body": {
+    "ru": "- Исправлена лишняя точка в истории изменений.\n- Добавлены выбор количества логов игры и оценка размера архива диагностики.",
+    "en": "- Fixed a stray dot in release history.\n- Added game log count selection and a diagnostic archive size estimate.",
+    "uk": "- Виправлено зайву крапку в історії змін.\n- Додано вибір кількості логів гри та оцінку розміру архіву діагностики.",
+    "cs": "- Opravena nadbytečná tečka v historii změn.\n- Přidán výběr počtu herních protokolů a odhad velikosti diagnostického archivu.",
+    "de": "- Ein überflüssiger Punkt im Änderungsverlauf wurde entfernt.\n- Die Anzahl der Spielprotokolle ist wählbar; die Größe des Diagnosearchivs wird vorab geschätzt.",
+    "fr": "- Correction d’un point superflu dans l’historique des modifications.\n- Ajout du choix du nombre de journaux de jeu et d’une estimation de la taille de l’archive de diagnostic."
+  }
+}

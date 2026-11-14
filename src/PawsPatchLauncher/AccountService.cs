@@ -349,6 +349,9 @@ public sealed partial class AccountService : IDisposable
             }
             if (portal)
             {
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound && (route is "reborn-builds?action=catalog" or "reborn-builds?action=history")
+                    && Text(json.RootElement,"code") == "NOT_FOUND")
+                { json.Dispose(); throw new AccountException("reborn_not_deployed"); }
                 var status = Text(json.RootElement, "status");
                 if (response.IsSuccessStatusCode && status == "ok") return json;
                 json.Dispose();

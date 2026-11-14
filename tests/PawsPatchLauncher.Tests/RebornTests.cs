@@ -83,7 +83,8 @@ internal static class RebornTests
             if(path.EndsWith("paw_profiles"))return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(new[]{new{id=player,nickname="reborn",paws_team=true}})));
             if(path.EndsWith("/reborn-builds"))
             {
-                historyCalls++;Check(request.RequestUri.Query=="?action=history"&&request.Headers.Authorization?.Scheme=="Bearer"&&request.Headers.Contains("x-paw-launcher"),"history must use an authenticated private endpoint and launcher session");
+                historyCalls++;Check((request.RequestUri.Query=="?action=history"||mode=="unpublished")&&request.Headers.Authorization?.Scheme=="Bearer"&&request.Headers.Contains("x-paw-launcher"),"history must use an authenticated private endpoint and launcher session");
+                if(mode=="unpublished"||mode=="other404")return Task.FromResult(new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.NotFound){Content=new System.Net.Http.StringContent(mode=="unpublished"?"{\"code\":\"NOT_FOUND\",\"message\":\"Requested function was not found\"}":"{\"status\":\"invalid_request\"}")});
                 return Task.FromResult(mode=="denied"?new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Forbidden){Content=new System.Net.Http.StringContent("{\"status\":\"reborn_access_denied\"}")}:
                     AccountTests.Ok(mode=="duplicate"?JsonSerializer.Serialize(new{status="ok",releases=new[]{Wire(historyRelease),Wire(historyRelease)}}):mode=="oversized"?JsonSerializer.Serialize(new{status="ok",releases=Enumerable.Range(0,201).Select(_=>Wire(historyRelease)).ToArray()}):largeResponse));
             }
@@ -92,12 +93,13 @@ internal static class RebornTests
         {
             await account.SignInAsync("reborn@example.invalid","fixture-password");
             Check((await account.GetRebornHistoryAsync()).Count==20,"bounded multilingual history response was truncated by ordinary portal limit");
-            foreach(var test in new[]{("duplicate","invalid_response"),("oversized","invalid_response"),("denied","reborn_access_denied")})
+            mode="unpublished";Check((await account.GetRebornHistoryAsync()).Count==0&&(await account.GetRebornBuildsAsync()).Count==0,"missing undeployed read endpoint must give intentionally empty channels");
+            foreach(var test in new[]{("other404","service_error"),("duplicate","invalid_response"),("oversized","invalid_response"),("denied","reborn_access_denied")})
             {
                 mode=test.Item1;try{await account.GetRebornHistoryAsync();throw new Exception("Expected history rejection");}catch(AccountException error){Check(error.Code==test.Item2,"history error mapping: "+mode);}
             }
         }
-        Check(historyCalls==4,"history transport performed unexpected requests");
+        Check(historyCalls==7,"history transport performed unexpected requests");
         Console.WriteLine($"REBORN INSTALL PASS {checks}: independent channels, verification, safe extraction, retry, revocation, cancellation and preserved installations; no EXE executed");return checks;
     }
 }
