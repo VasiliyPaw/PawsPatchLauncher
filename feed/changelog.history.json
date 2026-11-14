@@ -1,6 +1,31 @@
 {
   "stable": [
     {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "stable",
+      "version": "0.5.1",
+      "publishedAt": "2026-11-15",
+      "title": {
+        "ru": "Paw’s Patch 0.5.1 — Arcane Wars",
+        "en": "Paw’s Patch 0.5.1 — Arcane Wars",
+        "de": "Paw’s Patch 0.5.1 — Arcane Wars",
+        "fr": "Paw’s Patch 0.5.1 — Arcane Wars",
+        "cs": "Paw’s Patch 0.5.1 — Arcane Wars",
+        "uk": "Paw’s Patch 0.5.1 — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Увеличены кэши моделей, анимаций, эффектов и земли.\n- Объём кэша подстраивается под доступную память.\n- Отключены экспериментальные оптимизации отрисовки.\n- Исправлено зависание погибших воздушных разведчиков.\n- Исправлена ошибка, которая могла повреждать отображение моделей во время боя.\n- Исправлен вылет при использовании миникарты.\n- Исправлено перепутывание цветов игроков в новом лобби после матча.\n- Добавлены часы суток и масштабирование миникарты колёсиком.\n- Исправлены окно выхода и учёт фортов в статистике.\n- Улучшена воздушная разведка ботов.",
+        "en": "- Increased caches for models, animations, effects and terrain.\n- Cache budgets adapt to available memory.\n- Disabled experimental rendering optimizations.\n- Fixed dead aerial scouts getting stuck in the air.\n- Fixed an issue that could corrupt model rendering during battles.\n- Fixed a crash when using the minimap.\n- Fixed players receiving each other’s colors in a new lobby after a match.\n- Added a time-of-day clock and minimap zoom with the mouse wheel.\n- Fixed the exit dialog and fort statistics.\n- Improved AI aerial scouting.",
+        "de": "- Größere Zwischenspeicher für Modelle, Animationen, Effekte und Gelände.\n- Die Cache-Größe passt sich dem verfügbaren Speicher an.\n- Experimentelle Rendering-Optimierungen deaktiviert.\n- Tote Luftaufklärer bleiben nicht mehr in der Luft hängen.\n- Einen Fehler behoben, der während Kämpfen die Darstellung von Modellen beschädigen konnte.\n- Einen Absturz bei der Nutzung der Minikarte behoben.\n- Falsche Spielerfarben in einer neuen Lobby nach einer Partie behoben.\n- Tageszeituhr und Minikartenzoom per Mausrad hinzugefügt.\n- Beenden-Dialog und Festungsstatistik korrigiert.\n- Luftaufklärung der KI verbessert.",
+        "fr": "- Augmentation des caches des modèles, animations, effets et terrains.\n- La taille des caches s’adapte à la mémoire disponible.\n- Désactivation des optimisations expérimentales du rendu.\n- Correction des éclaireurs aériens morts restant bloqués en vol.\n- Correction d’un problème pouvant altérer l’affichage des modèles pendant les combats.\n- Correction d’un plantage lors de l’utilisation de la minicarte.\n- Correction de l’échange des couleurs des joueurs dans un nouveau salon après une partie.\n- Ajout d’une horloge et du zoom de la minicarte à la molette.\n- Correction de la fenêtre de sortie et des statistiques des forts.\n- Amélioration de la reconnaissance aérienne de l’IA.",
+        "cs": "- Zvětšeny mezipaměti modelů, animací, efektů a terénu.\n- Velikost mezipaměti se přizpůsobuje dostupné paměti.\n- Vypnuty experimentální optimalizace vykreslování.\n- Opraveni mrtví letečtí průzkumníci zůstávající ve vzduchu.\n- Opravena chyba, která mohla během bojů poškodit vykreslování modelů.\n- Opraven pád při používání minimapy.\n- Opraveno zaměňování barev hráčů v nové místnosti po zápase.\n- Přidány hodiny a přibližování minimapy kolečkem myši.\n- Opraven dialog ukončení a statistiky pevností.\n- Vylepšen letecký průzkum botů.",
+        "uk": "- Збільшено кеші моделей, анімацій, ефектів і місцевості.\n- Обсяг кешу підлаштовується під доступну пам’ять.\n- Вимкнено експериментальні оптимізації відображення.\n- Виправлено зависання загиблих повітряних розвідників.\n- Виправлено помилку, яка могла спотворювати відображення моделей під час бою.\n- Виправлено виліт під час використання мінікарти.\n- Виправлено переплутування кольорів гравців у новому лобі після матчу.\n- Додано годинник і масштабування мінімапи коліщатком.\n- Виправлено вікно виходу та облік фортів у статистиці.\n- Покращено повітряну розвідку ботів."
+      }
+    },
+    {
       "category": "launcher",
       "version": "1.0.18",
       "publishedAt": "2026-11-14",

@@ -1,7 +1,47 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.0",
+  "version": "0.5.1",
   "entries": [
+    {
+      "id": "cache-stability-20261114",
+      "category": "always",
+      "titleRu": "Память и воздушная разведка",
+      "titleEn": "Memory and aerial scouts",
+      "bodyRu": "- Увеличены кэши моделей, анимаций, эффектов и земли.\n- Объём кэша подстраивается под доступную память.\n- Отключены экспериментальные оптимизации отрисовки.\n- Исправлено зависание погибших воздушных разведчиков.",
+      "bodyEn": "- Increased caches for models, animations, effects and terrain.\n- Cache budgets adapt to available memory.\n- Disabled experimental rendering optimizations.\n- Fixed dead aerial scouts getting stuck in the air."
+    },
+    {
+      "id": "native-buffer-ownership",
+      "category": "always",
+      "titleRu": "Отображение моделей",
+      "titleEn": "Model rendering",
+      "bodyRu": "- Исправлена ошибка, которая могла повреждать отображение моделей во время боя.",
+      "bodyEn": "- Fixed an issue that could corrupt model rendering during battles."
+    },
+    {
+      "id": "minimap-return-crash",
+      "category": "always",
+      "titleRu": "Стабильность миникарты",
+      "titleEn": "Minimap stability",
+      "bodyRu": "- Исправлен вылет при использовании миникарты.",
+      "bodyEn": "- Fixed a crash when using the minimap."
+    },
+    {
+      "id": "lobby-colors-lifetime",
+      "category": "always",
+      "titleRu": "Цвета игроков",
+      "titleEn": "Player colors",
+      "bodyRu": "- Исправлено перепутывание цветов игроков в новом лобби после матча.",
+      "bodyEn": "- Fixed players receiving each other’s colors in a new lobby after a match."
+    },
+    {
+      "id": "presentation-051",
+      "category": "always",
+      "titleRu": "Плавность и интерфейс",
+      "titleEn": "Performance and interface",
+      "bodyRu": "- Улучшена работа кэшей моделей и анимаций.\n- Добавлены часы суток и масштабирование миникарты колёсиком.\n- Исправлены окно выхода и статистика фортов.\n- Улучшена воздушная разведка ботов.",
+      "bodyEn": "- Improved model and animation caching.\n- Added a time-of-day clock and minimap zoom with the mouse wheel.\n- Fixed the exit dialog and fort statistics.\n- Improved AI aerial scouting."
+    },
     {
       "id": "network-session",
       "category": "always",
@@ -79,8 +119,8 @@
       "category": "always",
       "titleRu": "Paw's Patch и Arcane Wars",
       "titleEn": "Paw's Patch and Arcane Wars",
-      "bodyRu": "Лаунчер устанавливает Arcane Wars как основу и применяет Paw’s Patch 0.5.0. Возможности прежней беты теперь доступны в релизном канале. Настройки компонентов применяются перед запуском игры.",
-      "bodyEn": "The launcher installs Arcane Wars as the base mod and applies Paw’s Patch 0.5.0. Former beta features are now available in the stable channel. Component settings are applied before starting the game."
+      "bodyRu": "Лаунчер устанавливает Arcane Wars как основу и применяет Paw’s Patch 0.5.1. Возможности прежней беты теперь доступны в релизном канале. Настройки компонентов применяются перед запуском игры.",
+      "bodyEn": "The launcher installs Arcane Wars as the base mod and applies Paw’s Patch 0.5.1. Former beta features are now available in the stable channel. Component settings are applied before starting the game."
     },
     {
       "id": "powers-shards",
