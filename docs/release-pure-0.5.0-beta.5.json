@@ -1,0 +1,26 @@
+{
+  "category": "patch",
+  "mods": [
+    "vanilla",
+    "immortals"
+  ],
+  "channel": "beta",
+  "version": "0.5.0-beta.5",
+  "publishedAt": "2026-11-13",
+  "title": {
+    "ru": "Paw’s Patch 0.5.0-beta.5 — Vanilla / Immortals",
+    "en": "Paw’s Patch 0.5.0-beta.5 — Vanilla / Immortals",
+    "uk": "Paw’s Patch 0.5.0-beta.5 — Vanilla / Immortals",
+    "cs": "Paw’s Patch 0.5.0-beta.5 — Vanilla / Immortals",
+    "de": "Paw’s Patch 0.5.0-beta.5 — Vanilla / Immortals",
+    "fr": "Paw’s Patch 0.5.0-beta.5 — Vanilla / Immortals"
+  },
+  "body": {
+    "ru": "- Исправлена ошибка, которая могла повреждать отображение моделей во время боя.",
+    "en": "- Fixed an issue that could corrupt model rendering during battles.",
+    "uk": "- Виправлено помилку, яка могла спотворювати відображення моделей під час бою.",
+    "cs": "- Opravena chyba, která mohla během bojů poškodit vykreslování modelů.",
+    "de": "- Einen Fehler behoben, der während Kämpfen die Darstellung von Modellen beschädigen konnte.",
+    "fr": "- Correction d’un problème pouvant altérer l’affichage des modèles pendant les combats."
+  }
+}

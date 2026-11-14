@@ -4,7 +4,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent;REPO=HERE.parents[1];VERSION='0.5.1-beta.1'
 LEG=Path('G:/CodexData/projects/Codex/2026-08-11/kohan-ii-d-steamlibrary-steamapps-common/work')
 BASE=REPO/'outputs/arcane-051-release-20261109/stable/helpers'
-EXTRA=dict(resourceCacheRevision=1,resourcePrewarmRevision=1,animationCacheRevision=1,bufferReuseRevision=1,perFindCacheRevision=1,presentationRuntimeRevision=1,minimapWheelZoomRevision=1,inGameDayClockRevision=1,airReconRevision=1,fortStatisticsRevision=1,resignDialogCenterRevision=1)
+EXTRA=dict(resourceCacheRevision=1,resourcePrewarmRevision=1,animationCacheRevision=1,bufferReuseRevision=0,perFindCacheRevision=1,presentationRuntimeRevision=1,minimapWheelZoomRevision=1,inGameDayClockRevision=1,airReconRevision=1,fortStatisticsRevision=1,resignDialogCenterRevision=1)
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest().upper()
 def replace(s,a,b):assert s.count(a)==1,(a[:80],s.count(a));return s.replace(a,b)
 def run(args):
@@ -14,6 +14,7 @@ def run(args):
 def main():
  p=argparse.ArgumentParser();p.add_argument('--native',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args();out=a.out.resolve();out.mkdir(parents=True,exist_ok=False);src=out/'source';src.mkdir()
  baseline=json.loads((BASE/'build-report.json').read_text());native=a.native.resolve();meta=json.loads((native/'runtime.json').read_text());graphics=json.loads((native/'graphics/product.json').read_text())
+ assert graphics.get('nativeBufferOwnership') is True and graphics.get('bufferReuseRevision')==0, 'Retired buffer reuse must not be reintroduced'
  assert sha(native/'PawsPresentation1372.dll')==meta['sha256'] and sha(native/'graphics/d3d9.dll')==graphics['sha256']
  for row in baseline.values():
   for source,h in row['sources'].items():assert sha(source)==h,source

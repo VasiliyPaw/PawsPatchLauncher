@@ -74,44 +74,19 @@ def build_cache(out):
  script=out/'build-cache.py';script.write_text(builder+"\nif __name__=='__main__':main()\n")
  subprocess.run([sys.executable,str(script),'--out',str(out/'cache-build')],check=True)
 def build_graphics(out):
- frozen=Path('C:/PawsReuseQA-20261108/pool-build-r6');assert sha(frozen/'d3d9.dll')=='0EF79AE6B0476D35B15BCECEDEA966C647456E7A9DDC83E97EC34C662FDC16E2'
- target=out/'graphics';target.mkdir()
- for source in frozen.iterdir():
-  if source.suffix in ['.c','.h','.def']:
-   assert sha(source).lower()==json.loads((frozen/'pool-build.json').read_text())[source.name],source
-   shutil.copy2(source,target/source.name)
- s=(target/'gpu_warm.h').read_text().replace('#include "buffer_profile.h"','')
- old='{UINT measured=r->kind==2||r->kind==3;LARGE_INTEGER a,b;if(measured)QueryPerformanceCounter(&a);count=fn(object);if(measured){QueryPerformanceCounter(&b);br_released(b.QuadPart-a.QuadPart);}}'
- s=replace(s,old,'count=fn(object);')
- for kind,method in [(2,'Vb'),(3,'Ib')]:
-  s=replace(s,'QueryPerformanceCounter(&a);hr=((GpuBufferFn)gpuCreate'+method+')(d,n,u,f,p,o,s);QueryPerformanceCounter(&b);br_created('+str(kind)+',n,u,f,p,(UINT)(uintptr_t)__builtin_return_address(0),b.QuadPart-a.QuadPart);','hr=((GpuBufferFn)gpuCreate'+method+')(d,n,u,f,p,o,s);')
- s=replace(s,'__declspec(dllexport) void WINAPI PawGpuTick(UINT world,UINT phase,UINT paused,UINT warm){','__declspec(dllexport) void WINAPI PawGpuTick(UINT world,UINT phase,UINT paused,UINT warm){warm=0;')
- s=s[:s.index('__declspec(dllexport) UINT WINAPI PawGpuSelfTest(')]
- s+='\n#ifdef PAW_BUFFER_FIXTURE\n__declspec(dllexport) UINT WINAPI PawGpuResetSerial(void){UINT value;EnterCriticalSection(&initLock);value=gpuStats.resets;LeaveCriticalSection(&initLock);return value;}\n#endif\n'
- (target/'gpu_warm.h').write_text(s)
- s=(target/'buffer_pool.h').read_text();start=s.index('static void br_pool_init(');end=s.index('static int br_allowed(',start)
- s=s[:start]+'''static void br_pool_init(void){brMode=1;brTest=0;
-#ifdef PAW_BUFFER_FIXTURE
- {char text[16]={0};GetEnvironmentVariableA("PAWS_BUFFER_REUSE_TEST",text,16);brTest=atoi(text)==1;}
-#endif
-}
-''' + s[end:]
- (target/'buffer_pool.h').write_text(s)
- for flags,name in [([], 'd3d9.dll'),(['-DPAW_BUFFER_FIXTURE'],'d3d9-fixture.dll')]:
-  subprocess.run([str(TCC),'-shared','-Wall','-Werror',*flags,str(target/'graphics_guard_gpu.c'),'-o',str(target/name),'-lkernel32','-luser32'],check=True)
-  subprocess.run([sys.executable,str(REPO/'game/graphics-guard/prepare_guard_exports.py'),str(target/name)],check=True)
- for name in ['test_graphics_guard','test_graphics_guard_d3d']:
-  subprocess.run([str(frozen/(name+'.exe')),str(target/'d3d9.dll')],check=True)
- subprocess.run([str(frozen/'test_buffers.exe'),str(target/'d3d9-fixture.dll')],check=True)
- exports={e.name.decode() for e in pefile.PE(str(target/'d3d9.dll')).DIRECTORY_ENTRY_EXPORT.symbols}
- assert 'PawBufferProfile' not in exports and 'PawBufferWriteProfile' not in exports
- (target/'product.json').write_text(json.dumps(dict(sha256=sha(target/'d3d9.dll'),fixtureSha256=sha(target/'d3d9-fixture.dll'),warmAlwaysDisabled=True,fixtureNotShipped=True,sourceBaseline=sha(frozen/'d3d9.dll'),sources={p.name:sha(p) for p in target.iterdir() if p.suffix in ['.c','.h']}),indent=2))
+ # State blocks retain implicit resource references that are not reflected in
+ # the public Release count. Product builds must use native buffer ownership.
+ import importlib.util
+ spec=importlib.util.spec_from_file_location('native_buffers',REPO/'game/graphics-guard/build_native_buffers.py')
+ module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+ module.build(out/'graphics')
+
 def main():
  p=argparse.ArgumentParser();p.add_argument('--out',required=True,type=Path);p.add_argument('--reuse-graphics',type=Path);a=p.parse_args();out=a.out.resolve();out.mkdir(parents=True,exist_ok=False)
  build_runtime(out);build_cache(out)
  if a.reuse_graphics:
-  proof=json.loads((a.reuse_graphics/'product.json').read_text());assert proof['warmAlwaysDisabled'] and proof['fixtureNotShipped']
-  assert sha(a.reuse_graphics/'d3d9.dll')==proof['sha256']=='112920FF0CB9A38158A12E9F8875B6B4FBBCE9ADA5C364EF55936EBBE4A83179'
+  proof=json.loads((a.reuse_graphics/'product.json').read_text());assert proof['warmAlwaysDisabled'] and proof['fixtureNotShipped'] and proof.get('nativeBufferOwnership') is True and proof.get('bufferReuseRevision')==0
+  assert sha(a.reuse_graphics/'d3d9.dll')==proof['sha256']
   for name,h in proof['sources'].items():assert sha(a.reuse_graphics/name)==h,name
   shutil.copytree(a.reuse_graphics,out/'graphics')
  else:build_graphics(out)

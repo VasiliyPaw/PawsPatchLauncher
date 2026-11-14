@@ -37,7 +37,7 @@ internal static class PresentationRuntimePatch
         }
         if(ReleaseStartup.Hash(dll)!=PresentationRuntimePayload.Sha256)throw new IOException("Cached presentation runtime differs.");
         using(var installer=new Installer(game,image))installer.Install(dll,root);
-        log("PRESENTATION_READY revision=1; minimapZoom=1..4; dayClock=true; reconRevision=26; localFind=true; animationCache=80/100/100; resourcePreparation=bounded; bufferReuse=32MiB; gpuPreload=false");
+        log("PRESENTATION_READY revision=1; minimapZoom=1..4; dayClock=true; reconRevision=26; localFind=true; animationCache=80/100/100; resourcePreparation=bounded; bufferReuse=disabled/native-allocation; gpuPreload=false");
     }
     sealed class Installer:IDisposable
     {

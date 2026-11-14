@@ -8,6 +8,14 @@ namespace PawsPatchLauncher;
 
 public static class FactionVoiceResources
 {
+    const string GenerationPrefix = "3-";
+    internal static bool NeedsResourceRebuild(InstallState state, UserSettings desired)
+        => GameLanguages.Voice(desired) == "custom"
+            && (!state.Modules.TryGetValue(CustomVoices.ModuleId, out var generated) || !generated.Enabled
+                || generated.Version.Length != GenerationPrefix.Length + 64
+                || !generated.Version.StartsWith(GenerationPrefix, StringComparison.Ordinal)
+                || !generated.Version[GenerationPrefix.Length..].All(char.IsAsciiHexDigit));
+
     static readonly Regex AudioBlocks = new(@"\[Audio\s+[^\]]*\]\s*\{(?<body>.*?)^\s*\}", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
     static readonly Regex IdField = new(@"^(\s*IDS\s*=\s*)([A-Za-z0-9_]+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
     static readonly Regex FilesField = new(@"^(\s*files\s*=\s*)([^\r\n]+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
@@ -23,6 +31,24 @@ public static class FactionVoiceResources
     }
     static string Decode(byte[] bytes) => bytes.AsSpan().StartsWith(new byte[] { 0xff, 0xfe })
         ? Encoding.Unicode.GetString(bytes).TrimStart('\ufeff') : Encoding.UTF8.GetString(bytes).TrimStart('\ufeff');
+
+    // TGI ';' starts a comment outside quotes. A commented-out last recording
+    // must not reject every usable recording in the cue or enter a clone path.
+    internal static string[] FileReferences(string value)
+    {
+        var files = new List<string>(); var start = 0; var quoted = false;
+        for (var i = 0; i <= value.Length; i++)
+        {
+            var end = i == value.Length;
+            if (!end && value[i] == '"') quoted = !quoted;
+            if (!end && (quoted || value[i] is not (',' or ';'))) continue;
+            var file = value[start..i].Trim().Trim('"').Replace('\\', '/');
+            if (file.Length != 0) files.Add(file);
+            if (end || value[i] == ';') break;
+            start = i + 1;
+        }
+        return files.ToArray();
+    }
 
     public static async Task<IReadOnlyDictionary<string, InstalledModule>> ComposeAsync(string game,
         IReadOnlyDictionary<string, InstalledModule> desired, UserSettings? settings, CancellationToken ct)
@@ -45,9 +71,10 @@ public static class FactionVoiceResources
             var source = CryptoAndIO.SafeChildPath(Path.Combine(game, ".pawpatch/packages", id, module.Version, "payload"), file.Path);
             tables[path] = await File.ReadAllBytesAsync(source, ct);
         }
-        var identity = "faction-voices-2|" + baseHash + "|" + string.Join('|', voices.OrderBy(p => p.Key).Select(p => p.Key + ":" + p.Value.Version + ":" + p.Value.ArchiveSha256))
+        var identity = "faction-voices-3|" + baseHash + "|" + string.Join('|', voices.OrderBy(p => p.Key).Select(p => p.Key + ":" + p.Value.Version + ":" + p.Value.ArchiveSha256))
             + "|" + string.Join('|', tables.OrderBy(p => p.Key).Select(p => p.Key + ":" + Convert.ToHexString(SHA256.HashData(p.Value))));
-        var version = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(identity)));
+        var digest = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(identity)));
+        var version = GenerationPrefix + digest;
         var directory = Path.Combine(game, ".pawpatch/packages", CustomVoices.ModuleId, version);
         RemovalSafety.CheckNoLinks(directory); Directory.CreateDirectory(directory);
         var payload = Path.Combine(directory, "payload"); var manifestPath = Path.Combine(directory, "module.json");
@@ -68,7 +95,7 @@ public static class FactionVoiceResources
                         var source = CryptoAndIO.SafeChildPath(payload, file.Path);
                         if (!File.Exists(source) || new FileInfo(source).Length != file.Size || !string.Equals(await CryptoAndIO.Sha256Async(source, ct), file.Sha256, StringComparison.OrdinalIgnoreCase)) { valid = false; break; }
                     }
-                    if (valid) generated = new InstalledModule { Version = version, ArchiveSha256 = version, Enabled = true, Priority = 240, Files = manifest.Files };
+                    if (valid) generated = new InstalledModule { Version = version, ArchiveSha256 = digest, Enabled = true, Priority = 240, Files = manifest.Files };
                 }
             }
             catch (Exception error) when (error is JsonException or InvalidDataException or IOException) { }
@@ -107,7 +134,8 @@ public static class FactionVoiceResources
             {
                 var id = IdField.Match(block.Value); var list = FilesField.Match(block.Value);
                 if (!id.Success || !list.Success) continue;
-                var refs = list.Groups[2].Value.Split(',').Select(p => p.Trim().Trim('"').Replace('\\', '/')).ToArray();
+                var refs = FileReferences(list.Groups[2].Value);
+                if (refs.Length == 0) continue;
                 if (!refs.Any(p => paths.Values.Any(set => set.Contains(p)))) continue;
                 if (refs.Any(p => !paths["en"].Contains(p))) continue; // A mod's unavailable recording keeps its original definition.
                 definitions[id.Groups[2].Value] = block.Value;
@@ -119,15 +147,15 @@ public static class FactionVoiceResources
             foreach (var language in GameLanguages.VoiceChoices)
             {
                 var clone = IdField.Replace(block, m => m.Groups[1].Value + "paws_voice_" + language + "_" + id, 1);
-                clone = FilesField.Replace(clone, m => m.Groups[1].Value + string.Join(", ", m.Groups[2].Value.Split(',').Select(p =>
+                clone = FilesField.Replace(clone, m => m.Groups[1].Value + string.Join(", ", FileReferences(m.Groups[2].Value).Select(path =>
                 {
-                    var path = p.Trim().Trim('"').Replace('\\', '/'); var actual = paths[language].Contains(path) ? language : "en";
+                    var actual = paths[language].Contains(path) ? language : "en";
                     return "PawVoices/" + actual + "/" + path;
                 })), 1);
                 text.AppendLine(clone);
             }
             await Write("data/Audio/paws_faction_voices.tgi", Encoding.Unicode.GetPreamble().Concat(Encoding.Unicode.GetBytes(text.ToString())).ToArray());
-            generated = new InstalledModule { Version = version, ArchiveSha256 = version, Enabled = true, Priority = 240, Files = files.Values.OrderBy(f => f.Path).ToList() };
+            generated = new InstalledModule { Version = version, ArchiveSha256 = digest, Enabled = true, Priority = 240, Files = files.Values.OrderBy(f => f.Path).ToList() };
             var manifest = new ModuleArchiveManifest { Id = CustomVoices.ModuleId, Version = version, Files = generated.Files };
             await File.WriteAllTextAsync(manifestPath, JsonSerializer.Serialize(manifest, LauncherJsonContext.Default.ModuleArchiveManifest), ct);
         }

@@ -1,0 +1,26 @@
+{
+  "category": "patch",
+  "mods": [
+    "vanilla",
+    "immortals"
+  ],
+  "channel": "beta",
+  "version": "0.5.0-beta.6",
+  "publishedAt": "2026-11-14",
+  "title": {
+    "ru": "Paw’s Patch 0.5.0-beta.6 — Vanilla / Immortals",
+    "en": "Paw’s Patch 0.5.0-beta.6 — Vanilla / Immortals",
+    "uk": "Paw’s Patch 0.5.0-beta.6 — Vanilla / Immortals",
+    "cs": "Paw’s Patch 0.5.0-beta.6 — Vanilla / Immortals",
+    "de": "Paw’s Patch 0.5.0-beta.6 — Vanilla / Immortals",
+    "fr": "Paw’s Patch 0.5.0-beta.6 — Vanilla / Immortals"
+  },
+  "body": {
+    "ru": "- Увеличены кэши моделей, анимаций, эффектов и земли.\n- Объём кэша подстраивается под доступную память.\n- Отключены экспериментальные оптимизации отрисовки.\n- Исправлено зависание погибших воздушных разведчиков.",
+    "en": "- Increased caches for models, animations, effects and terrain.\n- Cache budgets adapt to available memory.\n- Disabled experimental rendering optimizations.\n- Fixed dead aerial scouts getting stuck in the air.",
+    "uk": "- Збільшено кеші моделей, анімацій, ефектів і місцевості.\n- Обсяг кешу підлаштовується під доступну пам’ять.\n- Вимкнено експериментальні оптимізації відображення.\n- Виправлено зависання загиблих повітряних розвідників.",
+    "cs": "- Zvětšeny mezipaměti modelů, animací, efektů a terénu.\n- Velikost mezipaměti se přizpůsobuje dostupné paměti.\n- Vypnuty experimentální optimalizace vykreslování.\n- Opraveni mrtví letečtí průzkumníci zůstávající ve vzduchu.",
+    "de": "- Größere Zwischenspeicher für Modelle, Animationen, Effekte und Gelände.\n- Die Cache-Größe passt sich dem verfügbaren Speicher an.\n- Experimentelle Rendering-Optimierungen deaktiviert.\n- Tote Luftaufklärer bleiben nicht mehr in der Luft hängen.",
+    "fr": "- Augmentation des caches des modèles, animations, effets et terrains.\n- La taille des caches s’adapte à la mémoire disponible.\n- Désactivation des optimisations expérimentales du rendu.\n- Correction des éclaireurs aériens morts restant bloqués en vol."
+  }
+}
