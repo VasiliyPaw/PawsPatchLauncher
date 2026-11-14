@@ -6,7 +6,7 @@ Local feature candidate. No archive, production migration, edge deployment or la
 
 - Eligible accounts: a verified, unrestricted Paw’s Team member **or an administrator**. Arcane Wars' public-access switch is unrelated and is not reused.
 - Release (`stable`) and Beta (`beta`) start empty. No example build is inserted by the migration. The page honestly shows that no build has been published, with Download disabled.
-- The navigation entry sits directly above the admin menu and uses a dedicated castle icon. Installation, update checking and Play use the same footer positions as Kohan II. The folder picker opens only when the first available build is installed; it is absent from the page.
+- The navigation entry sits directly above the admin menu and uses a dedicated circled K icon. Installation, update checking and Play use the same footer positions as Kohan II. The folder picker opens only when the first available build is installed; it is absent from the page.
 - Channel choice and the shared installation folder are local launcher preferences. The root contains `Release` and `Beta` subfolders with fixed names independent of UI language. The two channels keep separate active builds and version directories; changing channel does not reinstall the other channel or alter Kohan II.
 - Account identity/role changes invalidate pending page responses and cancel an active Reborn operation. Launcher self-update and closing are deferred while Reborn is installing; friendship/chat controls remain independent.
 
