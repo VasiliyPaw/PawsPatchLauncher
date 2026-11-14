@@ -47,6 +47,8 @@ def main():
     guide=copy.deepcopy(beta['patchGuide']);guide['version']=VERSION
     for e in guide['entries']:
         if e['category']=='beta':e['category']='always'
+        if e['id']=='base':
+            for field in ['bodyRu','bodyEn']:e[field]=e[field].replace('Paw’s Patch 0.4.0','Paw’s Patch '+VERSION)
     private=serialization.load_pem_private_key(KEY.read_bytes(),None);assert private.public_key().public_numbers()==key().public_numbers()
     changedpaths=[]
     for prefix in ['v3','v2']:

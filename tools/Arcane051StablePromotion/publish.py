@@ -17,6 +17,7 @@ def gate():
     for rel in p['changed'][:2]:
         f=verify(read(OUT/'signed'/rel),key());a=verify(read(OUT/'before'/rel),key())
         assert f['patchGuide']['version']==VERSION and f['launcher']==a['launcher'] and f.get('modGuides')==a.get('modGuides')
+        assert all(VERSION in e[field] for e in f['patchGuide']['entries'] if e['id']=='base' for field in ['bodyRu','bodyEn'])
         assert [p for p in f['packages'] if p.get('mods')!=['arcane-wars']]==[p for p in a['packages'] if p.get('mods')!=['arcane-wars']]
     return p
 def bundle():
