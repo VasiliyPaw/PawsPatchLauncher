@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.1-beta.4",
+  "version": "0.5.1-beta.5",
   "entries": [
+    {
+      "id": "cache-stability-20261114",
+      "category": "always",
+      "titleRu": "Память и воздушная разведка",
+      "titleEn": "Memory and aerial scouts",
+      "bodyRu": "- Увеличены кэши моделей, анимаций, эффектов и земли.\n- Объём кэша подстраивается под доступную память.\n- Отключены экспериментальные оптимизации отрисовки.\n- Исправлено зависание погибших воздушных разведчиков.",
+      "bodyEn": "- Increased caches for models, animations, effects and terrain.\n- Cache budgets adapt to available memory.\n- Disabled experimental rendering optimizations.\n- Fixed dead aerial scouts getting stuck in the air."
+    },
     {
       "id": "native-buffer-ownership",
       "category": "always",
