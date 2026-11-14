@@ -20,6 +20,7 @@ internal static class RebornTests
         var stable=await Package("stable",("KohanReborn.exe","fixture executable; never run",null),("Assets/data.bin","release data",null));
         var beta=await Package("beta",("KohanReborn.exe","beta fixture; never run",null),("data.pck","beta data",null));
         var authorizations=0;Task Authorize(){authorizations++;return Task.CompletedTask;}
+        Check(Path.GetDirectoryName(RebornInstall.ChannelPath(install,"stable"))==Path.GetFullPath(install)&&Path.GetFileName(RebornInstall.ChannelPath(install,"stable"))=="Release"&&Path.GetFileName(RebornInstall.ChannelPath(install,"beta"))=="Beta","channel folders must share a root and use stable Release/Beta names");
         Check(RebornInstall.Installed(install,"stable") is null,"empty installation invented a build");
         await RebornInstall.InstallAsync(install,stable.Build,stable.Archive,Authorize,CancellationToken.None);
         Check(RebornInstall.Installed(install,"stable")?.Id==stable.Build.Id&&RebornInstall.Installed(install,"beta") is null,"Release did not install independently");
@@ -48,8 +49,8 @@ internal static class RebornTests
         await Reject(()=>RebornInstall.InstallAsync(install,stable.Build,stable.Archive,Authorize,CancellationToken.None),"existing user files");
         Check(File.ReadAllText(Path.Combine(Path.GetDirectoryName(RebornInstall.Executable(install,stable.Build))!,"keep.txt"))=="user content","user files were overwritten");
         await Reject(()=>Task.Run(()=>RebornBuild.Validate(stable.Build with{Channel="../beta"})),"invalid channel");
-        var foreignRoot=Path.Combine(fixture,"foreign");Directory.CreateDirectory(Path.Combine(foreignRoot,"stable"));
-        var foreignMarker=Path.Combine(foreignRoot,"stable","active.json");await File.WriteAllTextAsync(foreignMarker,"unrelated user file");
+        var foreignRoot=Path.Combine(fixture,"foreign");Directory.CreateDirectory(RebornInstall.ChannelPath(foreignRoot,"stable"));
+        var foreignMarker=Path.Combine(RebornInstall.ChannelPath(foreignRoot,"stable"),"active.json");await File.WriteAllTextAsync(foreignMarker,"unrelated user file");
         await Reject(()=>RebornInstall.InstallAsync(foreignRoot,stable.Build,stable.Archive,Authorize,CancellationToken.None),"foreign marker");
         Check(File.ReadAllText(foreignMarker)=="unrelated user file"&&RebornInstall.Installed(foreignRoot,"stable") is null,"unrelated marker was overwritten or accepted");
         var translated=stable.Build with{Id=Guid.NewGuid(),Notes=new(){["ru"]=new('Ж',10000),["uk"]=new('І',10000)}};

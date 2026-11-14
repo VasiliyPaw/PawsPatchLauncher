@@ -17,14 +17,12 @@ public partial class MainWindow
     private CancellationTokenSource? _rebornOperation;
     private readonly DispatcherTimer _rebornTimer = new() { Interval = TimeSpan.FromSeconds(45) };
     private Func<CancellationToken,Task<IReadOnlyList<RebornBuild>>>? _rebornCatalogOverride = null;
-    private TextBlock? _rebornProgressText;
-    private ProgressBar? _rebornProgressBar;
     private bool RebornAccess => (_account.PawsTeam || _account.AdminLevel > 0) && !_rebornDenied;
     private string RebornChannel => RebornBuild.IsChannel(_settings.RebornChannel) ? _settings.RebornChannel : "stable";
 
     private void InitializeReborn()
     {
-        LauncherIcon.SetKind(RebornNav,IconKind.Play);
+        LauncherIcon.SetKind(RebornNav,IconKind.Reborn);
         _rebornTimer.Tick += async (_, _) => { if (_activePage == "reborn") await LoadRebornCatalogAsync(); };
         if (!ActivityStore.IsSmokeTest) _rebornTimer.Start();
         Closed += (_, _) => { _rebornTimer.Stop(); _rebornOperation?.Cancel(); _rebornGeneration++; };
@@ -116,47 +114,52 @@ public partial class MainWindow
             var notes = Text(available.Note(_text.Language)); notes.Margin = new Thickness(0,0,0,18); buildPanel.Children.Add(notes);
         }
         var installedText = Text(T("Установлено: ","Installed: ")+(installed?.Version ?? "—"),12); installedText.Margin = new Thickness(0,0,0,14); buildPanel.Children.Add(installedText);
-        var actions = new WrapPanel();
-        var mainLabel = installed is null ? T("Скачать Reborn","Download Reborn") : available is not null && available.Id != installed.Id ? T("Обновить Reborn","Update Reborn") : T("Играть","Play");
-        var main = Button(mainLabel,installed is not null && (available is null || installed.Id == available.Id) ? IconKind.Play : IconKind.Download,true,() => _ = RebornActionAsync());
-        main.Name = "RebornPrimaryAction"; main.IsEnabled = !_rebornBusy && !_rebornLoading && (available is not null || installed is not null) && _rebornError != "catalog";
-        if (available is null && installed is null) main.ToolTip = T("Скачивание станет доступно после публикации сборки.","Downloading will become available after a build is published.");
-        actions.Children.Add(main);
-        if (installed is not null && available is not null && installed.Id != available.Id) actions.Children.Add(Button(T("Играть","Play"),IconKind.Play,false,() => _ = RebornActionAsync(playInstalled:true)));
-        buildPanel.Children.Add(actions);
-        if (_rebornBusy)
-        {
-            _rebornProgressText = Text(T("Подготавливаем Reborn…","Preparing Reborn…"),13); _rebornProgressText.Margin = new Thickness(0,12,0,9); buildPanel.Children.Add(_rebornProgressText);
-            _rebornProgressBar = new ProgressBar { Height = 7, IsIndeterminate = true }; buildPanel.Children.Add(_rebornProgressBar);
-            var cancel = Button(T("Отменить","Cancel"),IconKind.Close,false,() => _rebornOperation?.Cancel()); cancel.IsEnabled = true; cancel.Margin = new Thickness(0,12,0,0); buildPanel.Children.Add(cancel);
-        }
         RebornBody.Children.Add(Card(buildPanel));
-        var storage = new StackPanel(); var folderLabel = Text(T("ПАПКА KOHAN REBORN","KOHAN REBORN FOLDER"),11,"#8FA6C0"); folderLabel.FontWeight = FontWeights.SemiBold; storage.Children.Add(folderLabel);
-        var pathText = Text(_settings.RebornPath ?? T("Выберите папку установки","Choose an installation folder"),13); pathText.Margin = new Thickness(0,8,0,12); storage.Children.Add(pathText);
-        var folders = new WrapPanel(); folders.Children.Add(Button(T("Выбрать папку","Choose folder"),IconKind.Folder,false,BrowseRebornFolder));
-        if (_settings.RebornPath is { } path && Directory.Exists(path)) folders.Children.Add(Button(T("Открыть папку","Open folder"),IconKind.Folder,false,() => _ = OpenRebornFolderAsync(path)));
-        storage.Children.Add(folders); var separate = Text(T("Релиз и бета устанавливаются раздельно. Смена канала сохраняет другую сборку.","Release and beta are installed separately. Switching channels keeps the other build."),12); separate.Margin = new Thickness(0,8,0,0); storage.Children.Add(separate);
-        RebornBody.Children.Add(Card(storage));
+        RenderRebornActions(available,installed);
     }
-    private async Task OpenRebornFolderAsync(string path)
+    private void RenderRebornActions(RebornBuild? available, RebornBuild? installed)
     {
-        try { await _openGameFolder(path); }
-        catch (Exception error) when (error is IOException or UnauthorizedAccessException or System.ComponentModel.Win32Exception)
-        { _rebornError = "operation"; RenderReborn(); }
+        var update = installed is not null && available is not null && installed.Id != available.Id;
+        RebornInstallButton.Content = installed is null ? T("Установить","Install") : update ? T("Обновить","Update") : T("Установлено","Installed");
+        LauncherIcon.SetKind(RebornInstallButton,installed is not null && !update ? IconKind.Check : IconKind.Download);
+        RebornInstallButton.IsEnabled = !_rebornBusy && !_rebornLoading && available is not null && (installed is null || update) && _rebornError != "catalog";
+        RebornInstallButton.ToolTip = available is null && installed is null ? T("Скачивание станет доступно после публикации сборки.","Downloading will become available after a build is published.") : null;
+        RebornCheckUpdatesButton.Content = T("Проверить обновления","Check for updates");
+        LauncherIcon.SetKind(RebornCheckUpdatesButton,IconKind.Sync);
+        RebornCheckUpdatesButton.IsEnabled = !_rebornBusy && !_rebornLoading;
+        RebornLaunchButton.Content = T("Играть","Play");
+        LauncherIcon.SetKind(RebornLaunchButton,IconKind.Play);
+        RebornLaunchButton.IsEnabled = !_rebornBusy && !_rebornLoading && installed is not null && _rebornError != "catalog";
+        RebornOperationPanel.Visibility = _rebornBusy ? Visibility.Visible : Visibility.Collapsed;
+        RebornCancelButton.Content = T("Отменить","Cancel");
+        LauncherIcon.SetKind(RebornCancelButton,IconKind.Close);
+        if (_rebornBusy) { RebornProgressText.Text = T("Подготавливаем Reborn…","Preparing Reborn…"); RebornProgressBar.IsIndeterminate = true; }
+        RefreshActionLayout();
     }
-    private void BrowseRebornFolder()
+    private async void RebornInstall_Click(object sender, RoutedEventArgs e) => await RebornActionAsync();
+    private async void RebornLaunch_Click(object sender, RoutedEventArgs e) => await RebornActionAsync(playInstalled:true);
+    private async void RebornCheckUpdates_Click(object sender, RoutedEventArgs e) => await LoadRebornCatalogAsync();
+    private void RebornCancel_Click(object sender, RoutedEventArgs e) => _rebornOperation?.Cancel();
+    private bool ChooseRebornInstallFolder()
     {
-        if (!RebornAccess || _rebornBusy) return;
+        if (!RebornAccess || _rebornBusy) return false;
         var dialog = new OpenFolderDialog { Title = T("Папка Kohan Reborn","Kohan Reborn folder") };
-        if (dialog.ShowDialog(this) == true) { _settings.RebornPath = dialog.FolderName; _settingsStore.Save(_settings); RenderReborn(); }
+        if (dialog.ShowDialog(this) != true || !RebornAccess) return false;
+        _settings.RebornPath = dialog.FolderName;
+        _settingsStore.Save(_settings);
+        return true;
     }
     private async Task RebornActionAsync(bool playInstalled = false)
     {
         if (!RebornAccess || _rebornBusy || _rebornLoading) return;
-        if (string.IsNullOrWhiteSpace(_settings.RebornPath)) { BrowseRebornFolder(); if (string.IsNullOrWhiteSpace(_settings.RebornPath)) return; }
-        var root = _settings.RebornPath; var channel = RebornChannel; var owner = _account.UserId;
-        var installed = RebornInstall.Installed(root,channel); var build = _rebornBuilds.FirstOrDefault(b => b.Channel == channel);
-        if (build is null && installed is null) return;
+        var channel = RebornChannel;
+        var installed = RebornInstall.Installed(_settings.RebornPath,channel);
+        var build = _rebornBuilds.FirstOrDefault(b => b.Channel == channel);
+        if (playInstalled ? installed is null : build is null || installed?.Id == build.Id) return;
+        // Pick one shared root only when the first actual installation begins.
+        if (string.IsNullOrWhiteSpace(_settings.RebornPath) && !ChooseRebornInstallFolder()) return;
+        if (!RebornAccess) return;
+        var root = _settings.RebornPath!; var owner = _account.UserId;
         _rebornBusy = true; _rebornError = ""; _rebornOperation = CancellationTokenSource.CreateLinkedTokenSource(_accountLifetime.Token); var ct = _rebornOperation.Token;
         string? archive = null; RenderReborn();
         void Guard() { ct.ThrowIfCancellationRequested(); if (!RebornAccess || owner != _account.UserId) throw new OperationCanceledException(); }
@@ -175,11 +178,11 @@ public partial class MainWindow
                 var progress = new CoalescingProgress<(long Received,long Total)>(p =>
                 {
                     if (!RebornAccess || owner != _account.UserId || ct.IsCancellationRequested) return;
-                    if (_rebornProgressBar is { } bar) { bar.IsIndeterminate = false; bar.Value = 100d*p.Received/p.Total; }
-                    if (_rebornProgressText is { } text) text.Text = $"{p.Received/1048576d:0.0} / {p.Total/1048576d:0.0} MB";
+                    RebornProgressBar.IsIndeterminate = false; RebornProgressBar.Value = 100d*p.Received/p.Total;
+                    RebornProgressText.Text = $"{p.Received/1048576d:0.0} / {p.Total/1048576d:0.0} MB";
                 });
                 await RebornInstall.DownloadAsync(ticket,archive,progress,ct); Guard();
-                if (_rebornProgressText is { } status) status.Text = T("Устанавливаем Reborn…","Installing Reborn…");
+                RebornProgressText.Text = T("Устанавливаем Reborn…","Installing Reborn…");
                 await RebornInstall.InstallAsync(root,build!,archive,async () => { await _account.GetRebornTicketAsync(build!,ct); Guard(); },ct);
             }
         }

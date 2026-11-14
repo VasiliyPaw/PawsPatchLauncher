@@ -393,7 +393,6 @@
                                     <TextBlock Text="!" FontSize="12" FontWeight="Bold" Foreground="White" TextAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
-                            <Button x:Name="RebornNav" Content="Kohan Reborn" Visibility="Collapsed" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Margin="0,0,0,8" Click="RebornNav_Click"/>
                             <Grid Margin="0,0,0,8">
                                 <Button x:Name="FriendsNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Click="FriendsNav_Click"/>
                                 <Border x:Name="FriendsNavBadge" Background="#B94757" CornerRadius="9" MinWidth="18" Height="18" Padding="4,0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" IsHitTestVisible="False" Visibility="Collapsed">
@@ -406,6 +405,7 @@
                         </StackPanel>
                         <StackPanel Grid.Row="4">
                             <Button x:Name="PrivacyPolicyButton" Style="{StaticResource GhostButton}" FontSize="12" Padding="8,8" HorizontalContentAlignment="Left" Margin="0,0,0,10" Click="PrivacyPolicy_Click"/>
+                            <Button x:Name="RebornNav" Content="Kohan Reborn" Visibility="Collapsed" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Margin="0,0,0,8" Click="RebornNav_Click"/>
                             <Button x:Name="AdminNav" Style="{StaticResource GhostButton}" local:LauncherIcon.Kind="Shield" HorizontalContentAlignment="Left" Margin="0,0,0,16" Visibility="Collapsed" Click="AdminNav_Click"/>
                             <TextBlock x:Name="LauncherVersionLabel" Style="{StaticResource SmallMetadataText}" Foreground="#708098"/>
                             <TextBlock x:Name="LauncherVersionText" Foreground="{StaticResource TextMutedBrush}" FontSize="13" Margin="0,3,0,0"/>
@@ -1349,6 +1349,20 @@
                         <Button x:Name="ApplySettingsButton" Grid.Row="1" Grid.Column="3" Style="{StaticResource GoldButton}" Margin="10,0,10,0" Visibility="Collapsed" Click="ApplySettingsButton_Click"/>
                         <Button x:Name="LaunchButton" Grid.Row="1" Grid.Column="4" Style="{StaticResource GoldButton}" Padding="30,11" Click="LaunchButton_Click"/>
                     </Grid>
+                    </StackPanel>
+                    <StackPanel x:Name="RebornActionsFooter" Grid.Row="2" Visibility="Collapsed">
+                        <StackPanel x:Name="RebornOperationPanel" Visibility="Collapsed" Margin="0,0,0,14">
+                            <TextBlock x:Name="RebornProgressText" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                            <ProgressBar x:Name="RebornProgressBar" Height="7" IsIndeterminate="True"/>
+                            <Button x:Name="RebornCancelButton" Style="{StaticResource GhostButton}" HorizontalAlignment="Left" Margin="0,10,0,0" Click="RebornCancel_Click"/>
+                        </StackPanel>
+                        <Grid x:Name="RebornActionBar">
+                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <Button x:Name="RebornInstallButton" Grid.Row="1" Style="{StaticResource GoldButton}" Click="RebornInstall_Click"/>
+                            <Button x:Name="RebornCheckUpdatesButton" Grid.Row="1" Grid.Column="1" Style="{StaticResource GhostButton}" Margin="10,0,0,0" Click="RebornCheckUpdates_Click"/>
+                            <Button x:Name="RebornLaunchButton" Grid.Row="1" Grid.Column="4" Style="{StaticResource GoldButton}" Padding="30,11" Click="RebornLaunch_Click"/>
+                        </Grid>
                     </StackPanel>
                         </Grid>
                         <GridSplitter x:Name="CommunitySplitter" Grid.Column="1" Width="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" DragStarted="CommunitySplitter_Started" DragDelta="CommunitySplitter_Delta" DragCompleted="CommunitySplitter_Completed" PreviewKeyDown="CommunitySplitter_KeyDown" MouseDoubleClick="CommunitySplitter_Reset" Focusable="True">

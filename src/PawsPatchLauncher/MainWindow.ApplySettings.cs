@@ -38,6 +38,10 @@ public partial class MainWindow
         Grid.SetColumn(LaunchButton, narrow ? 0 : 4);
         Grid.SetColumnSpan(LaunchButton, narrow ? 5 : 1);
         LaunchButton.Margin = narrow ? new Thickness(0, 8, 0, 0) : new Thickness(0);
+        Grid.SetRow(RebornLaunchButton, narrow ? 2 : 1);
+        Grid.SetColumn(RebornLaunchButton, narrow ? 0 : 4);
+        Grid.SetColumnSpan(RebornLaunchButton, narrow ? 5 : 1);
+        RebornLaunchButton.Margin = narrow ? new Thickness(0, 8, 0, 0) : new Thickness(0);
         Grid.SetRow(ApplySettingsButton, compact ? 0 : 1);
         Grid.SetColumn(ApplySettingsButton, compact ? 4 : 3);
         ApplySettingsButton.Margin = compact ? new Thickness(0, 0, 0, 8) : new Thickness(10, 0, 10, 0);

@@ -1219,6 +1219,7 @@ public partial class MainWindow : Window
         RebornPage.Visibility=page=="reborn"?Visibility.Visible:Visibility.Collapsed;
         ReadyStatusBadge.Visibility=page=="reborn"?Visibility.Collapsed:Visibility.Visible;
         KohanActionsFooter.Visibility=page=="reborn"?Visibility.Collapsed:Visibility.Visible;
+        RebornActionsFooter.Visibility=page=="reborn"?Visibility.Visible:Visibility.Collapsed;
         SetNavState(RebornNav,page=="reborn");
         SetNavState(AdminNav,page=="admin");
         if (page == "multiplayer") page = "friends";

@@ -10,7 +10,7 @@ public static class RebornInstall
     public static string ChannelPath(string root, string channel)
     {
         if (!RebornBuild.IsChannel(channel)) throw new InvalidDataException("Invalid Reborn channel.");
-        var path = Path.Combine(Path.GetFullPath(root),channel); RemovalSafety.CheckNoLinks(path); return path;
+        var path = Path.Combine(Path.GetFullPath(root),channel == "stable" ? "Release" : "Beta"); RemovalSafety.CheckNoLinks(path); return path;
     }
     public static RebornBuild? Installed(string? root, string channel)
     {

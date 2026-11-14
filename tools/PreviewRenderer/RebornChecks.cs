@@ -48,14 +48,21 @@ internal static class RebornChecks
             Set("_rebornCatalogOverride",(Func<CancellationToken,Task<IReadOnlyList<RebornBuild>>>)(_=>Task.FromResult<IReadOnlyList<RebornBuild>>([])));
             Call("RenderAccount");Check(C<Button>("RebornNav").Visibility==Visibility.Visible,"team member cannot see Reborn navigation");
             Call("SetActivePage","reborn");await Task.Delay(200);w.UpdateLayout();
-            Check(C<ScrollViewer>("RebornPage").IsVisible&&!C<StackPanel>("KohanActionsFooter").IsVisible&&!C<Grid>("MainOptionsHost").IsVisible,"Reborn shares original game actions/content");
-            Check(!Choice("RebornPrimaryAction").IsEnabled&&Field<IReadOnlyList<RebornBuild>>("_rebornBuilds").Count==0,"empty channel offers a download or invented build");
+            Check(C<ScrollViewer>("RebornPage").IsVisible&&!C<StackPanel>("KohanActionsFooter").IsVisible&&C<StackPanel>("RebornActionsFooter").IsVisible&&!C<Grid>("MainOptionsHost").IsVisible,"Reborn shares original game actions/content");
+            Check(!C<Button>("RebornInstallButton").IsEnabled&&!C<Button>("RebornLaunchButton").IsEnabled&&Field<IReadOnlyList<RebornBuild>>("_rebornBuilds").Count==0,"empty channel offers a download or invented build");
             Check(Field<UserSettings>("_settings").RebornChannel=="stable","initial channel is not Release");
             Check(Desc<TextBlock>(C<StackPanel>("RebornBody")).Any(t=>t.Text==UiLanguages.Text(language,"Сборка ещё не опубликована","No build published yet")),"missing honest empty-channel state");
-            session.AdminLevel=1;Call("RenderAccount");Snap("reborn-release");
+            session.AdminLevel=1;Call("RenderAccount");w.UpdateLayout();
+            var bottomNav=(StackPanel)C<Button>("AdminNav").Parent;
+            Check(C<Button>("RebornNav").Parent==bottomNav&&bottomNav.Children.IndexOf(C<Button>("RebornNav"))+1==bottomNav.Children.IndexOf(C<Button>("AdminNav")),"Reborn must sit immediately above admin navigation");
+            Check(LauncherIcon.GetKind(C<Button>("RebornNav"))==IconKind.Reborn,"Reborn does not use its own castle icon");
+            Check(!Desc<Button>(C<StackPanel>("RebornBody")).Any()||Desc<Button>(C<StackPanel>("RebornBody")).All(b=>b.Name is "RebornReleaseChoice" or "RebornBetaChoice"),"folder chooser or install action remains in page cards");
+            await (Task)Call("RebornActionAsync",false)!;
+            Check(Field<UserSettings>("_settings").RebornPath is null,"empty-channel action prompts for or saves a folder");
+            Snap("reborn-release");
             Choice("RebornBetaChoice").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));await Task.Delay(60);
             Check(Field<UserSettings>("_settings").RebornChannel=="beta"&&new SettingsStore().Load().RebornChannel=="beta","Beta preference not saved");
-            Check(!Choice("RebornPrimaryAction").IsEnabled,"empty Beta offers a download");Snap("reborn-beta");
+            Check(!C<Button>("RebornInstallButton").IsEnabled&&!C<Button>("RebornLaunchButton").IsEnabled,"empty Beta offers a download");Snap("reborn-beta");
             Set("_rebornBusy",true);Set("_pendingLauncherUpdate",new LauncherRelease{Version="99.0.0",Size=1,Sha256=new string('A',64),Urls=["https://fixture.invalid/never.exe"]});
             var restart=false;Set("_restartLauncher",(Func<Task>)(()=>{restart=true;return Task.CompletedTask;}));Set("_finishLauncherRestart",(Action)(()=>{}));
             Check(!await (Task<bool>)Call("InstallPendingLauncherUpdateAsync",false)!&&!restart,"launcher restarts during a Reborn operation");Set("_rebornBusy",false);
@@ -63,9 +70,27 @@ internal static class RebornChecks
             var root=(FrameworkElement)w.Content;
             Check(C<Button>("AboutNav").TranslatePoint(new Point(0,C<Button>("AboutNav").ActualHeight),root).Y<=C<Button>("PrivacyPolicyButton").TranslatePoint(new Point(),root).Y,
                 "extra Reborn navigation overlaps sidebar footer in a compact admin window");Snap("reborn-beta-compact");
+            Check(C<Button>("RebornLaunchButton").TranslatePoint(new Point(),C<Grid>("RebornActionBar")).Y>=C<Button>("RebornInstallButton").TranslatePoint(new Point(),C<Grid>("RebornActionBar")).Y+C<Button>("RebornInstallButton").ActualHeight,"compact launch button overlaps installation actions");
             w.Width=1600;w.Height=1000;session.AdminLevel=0;Call("RenderAccount");
+            var rootPath=Path.Combine(ActivityStore.Root,"reborn-installed-fixture");
+            var archivePath=Path.Combine(ActivityStore.Root,Guid.NewGuid()+".zip");
+            using(var zip=System.IO.Compression.ZipFile.Open(archivePath,System.IO.Compression.ZipArchiveMode.Create))
+            { var entry=zip.CreateEntry("Reborn.exe");using var writer=new StreamWriter(entry.Open());writer.Write("fixture only; never execute"); }
+            var fixtureBuild=new RebornBuild(Guid.NewGuid(),"beta","0.1.0-test",new FileInfo(archivePath).Length,await CryptoAndIO.Sha256Async(archivePath),"Reborn.exe",DateTimeOffset.UtcNow,new());
+            await RebornInstall.InstallAsync(rootPath,fixtureBuild,archivePath,()=>Task.CompletedTask,CancellationToken.None);
+            var settings=Field<UserSettings>("_settings");settings.RebornPath=rootPath;
+            Set("_rebornBuilds",new RebornBuild[]{fixtureBuild});Call("RenderReborn");w.UpdateLayout();
+            Check(!C<Button>("RebornInstallButton").IsEnabled&&C<Button>("RebornLaunchButton").IsEnabled,"installed build cannot launch or offers reinstall");
+            Set("_rebornBuilds",new RebornBuild[]{fixtureBuild with { Id=Guid.NewGuid(),Version="0.2.0-test" }});Call("RenderReborn");
+            Check(C<Button>("RebornInstallButton").IsEnabled&&C<Button>("RebornLaunchButton").IsEnabled,"update must preserve Play for the installed build");
+            Choice("RebornReleaseChoice").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Check(!C<Button>("RebornLaunchButton").IsEnabled&&settings.RebornPath==rootPath,"switching to empty Release reuses a Beta launch or changes the shared folder");
+            Choice("RebornBetaChoice").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Set("_rebornBusy",true);Call("RenderReborn");
+            Check(C<StackPanel>("RebornOperationPanel").IsVisible&&!C<Button>("RebornInstallButton").IsEnabled&&!C<Button>("RebornLaunchButton").IsEnabled&&!C<Button>("RebornCheckUpdatesButton").IsEnabled,"operation footer does not lock Reborn actions");
+            Set("_rebornBusy",false);Call("RenderReborn");
             var chosen=Field<UserSettings>("_settings").GamePath;Call("SetActivePage","home");
-            Check(C<StackPanel>("KohanActionsFooter").IsVisible&&C<ScrollViewer>("MainOptionsScroll").IsVisible,"original game controls not restored");
+            Check(C<StackPanel>("KohanActionsFooter").IsVisible&&!C<StackPanel>("RebornActionsFooter").IsVisible&&C<ScrollViewer>("MainOptionsScroll").IsVisible,"original game controls not restored");
             var gate=new TaskCompletionSource<IReadOnlyList<RebornBuild>>(TaskCreationOptions.RunContinuationsAsynchronously);
             Set("_rebornCatalogOverride",(Func<CancellationToken,Task<IReadOnlyList<RebornBuild>>>)(_=>gate.Task));Call("SetActivePage","reborn");
             session.PawsTeam=false;Call("RenderAccount");
