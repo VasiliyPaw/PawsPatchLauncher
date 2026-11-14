@@ -2,6 +2,7 @@
 import copy,hashlib,json,os,subprocess,sys
 from pathlib import Path
 REPO=Path(__file__).resolve().parents[2];WS=REPO.parents[1];OUT=WS/'outputs/cache-stability-release-20261114'
+PYTHON=sys.executable
 VERSIONS={'arcane':'0.5.1-beta.5','pure':'0.5.0-beta.6'};RUNTIME='1.3.72-pure.20-beta.6'
 LEG=Path('G:/CodexData/projects/Codex/2026-08-11/kohan-ii-d-steamlibrary-steamapps-common/work')
 KEY=LEG/'PawsPatchLauncher/.local/signing/pawpatch-signing-private.pem'
