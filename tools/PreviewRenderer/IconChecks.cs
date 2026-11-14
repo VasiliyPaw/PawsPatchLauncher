@@ -24,7 +24,7 @@ internal static class IconChecks
         {
             checks++;
             if (!shapes.TryGetValue(kind, out var geometry)) { errors.Add("Missing geometry: " + kind); continue; }
-            var bounds = kind == IconKind.Discord ? geometry.Bounds : geometry.GetRenderBounds(pen);
+            var bounds = kind is IconKind.Discord or IconKind.Reborn ? geometry.Bounds : geometry.GetRenderBounds(pen);
             if (!new Rect(0, 0, 24, 24).Contains(bounds)) errors.Add($"{kind}: stroke outside 24-unit canvas: {bounds}");
             foreach (var size in new[] { 15, 18, 19, 21, 24, 32, 42 })
             foreach (var dpi in new[] { 1d, 1.25, 1.5, 2d })
