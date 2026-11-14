@@ -4,7 +4,7 @@ public static class UpdateDetector
 {
     // Applying a channel also records which branch supplies future updates and menu labels.
     public static bool HasSettingsChanges(InstallState state, IReadOnlyCollection<PackageRelease> selected, UserSettings desired)
-        => HasModuleChanges(state, selected) || state.AppliedSettings is { } applied
+        => HasModuleChanges(state, selected) || FactionVoiceResources.NeedsResourceRebuild(state, desired) || state.AppliedSettings is { } applied
             && (applied.Mod != desired.Mod || applied.Channel != desired.Channel || applied.PawPatchEnabled != desired.PawPatchEnabled || applied.DataOnly != desired.DataOnly
                 || GameLanguages.Text(applied) != GameLanguages.Text(desired) || CustomVoices.Signature(applied) != CustomVoices.Signature(desired) || applied.IndependentHostility != desired.IndependentHostility
                 || applied.IgnoreZeroMorale != desired.IgnoreZeroMorale

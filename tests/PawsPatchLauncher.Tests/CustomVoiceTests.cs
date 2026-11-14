@@ -277,6 +277,7 @@ internal static class CustomVoiceTests
     {
         var count = 0;
         void Check(bool ok, string why) { if (!ok) throw new Exception("Custom voices: " + why); count++; }
+        count += await FactionVoiceCommentTests.RunAsync(root);
         count += await RunReadinessAsync(root);
         var settings = new UserSettings { Mod = GameMod.Vanilla, GameVoiceLanguage = "ru" };
         foreach (var alreadyMoved in new[] { false, true })

@@ -1,0 +1,21 @@
+{
+  "category": "launcher",
+  "version": "1.0.16",
+  "publishedAt": "2026-11-14",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.16",
+    "en": "Paw’s Launcher 1.0.16",
+    "uk": "Paw’s Launcher 1.0.16",
+    "cs": "Paw’s Launcher 1.0.16",
+    "de": "Paw’s Launcher 1.0.16",
+    "fr": "Paw’s Launcher 1.0.16"
+  },
+  "body": {
+    "ru": "- Исправлено смешение языков в озвучке фракций.",
+    "en": "- Fixed mixed languages in faction voices.",
+    "uk": "- Виправлено змішування мов в озвученні фракцій.",
+    "cs": "- Opraveno míchání jazyků v hlasech frakcí.",
+    "de": "- Die Vermischung von Sprachen bei Fraktionsstimmen wurde behoben.",
+    "fr": "- Correction du mélange des langues dans les voix des factions."
+  }
+}
