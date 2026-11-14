@@ -1,0 +1,5 @@
+using System;using System.IO;using System.Linq;using System.Reflection;using System.Security.Cryptography;
+class ResourceChecks{
+ static byte[] Bytes(Assembly a,string n){using(var s=a.GetManifestResourceStream(n))using(var b=new MemoryStream()){s.CopyTo(b);return b.ToArray();}}
+ static int Main(string[] args){int count=0,helpers=0;foreach(string p in Directory.GetFiles(args[0],"*.exe")){string q=Path.Combine(args[1],Path.GetFileName(p));var a=Assembly.Load(File.ReadAllBytes(p));var b=Assembly.Load(File.ReadAllBytes(q));var names=a.GetManifestResourceNames().OrderBy(x=>x).ToArray();if(!names.SequenceEqual(b.GetManifestResourceNames().OrderBy(x=>x)))throw new Exception("Resource set changed");foreach(string n in names){if(!Bytes(a,n).SequenceEqual(Bytes(b,n)))throw new Exception(Path.GetFileName(p)+": resource changed "+n);count++;}helpers++;}if(helpers!=8)throw new Exception("Missing helper");Console.WriteLine("NATIVE_RESOURCES_UNCHANGED_PASS "+helpers+" helpers; "+count+" embedded resources; no game launched");return 0;}
+}
