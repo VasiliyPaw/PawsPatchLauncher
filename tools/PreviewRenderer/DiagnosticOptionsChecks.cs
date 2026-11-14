@@ -31,7 +31,7 @@ internal static class DiagnosticOptionsChecks
         async Task Ready(Window dialog)
         {
             for(var i=0;i<200&&!Named<Button>(dialog,"DiagnosticCreate").IsEnabled;i++)await Task.Delay(25);
-            Check(Named<Button>(dialog,"DiagnosticCreate").IsEnabled,"preview does not complete");dialog.UpdateLayout();
+            Check(Named<Button>(dialog,"DiagnosticCreate").IsEnabled,"preview does not complete");await Task.Delay(220);dialog.UpdateLayout();
         }
         Window Open(Action<DiagnosticOptions> select,DiagnosticLocations? locations)
         {
@@ -53,14 +53,14 @@ internal static class DiagnosticOptionsChecks
             count.SelectedIndex=1;await Ready(dialog);var withDumps=Named<TextBlock>(dialog,"DiagnosticSizeEstimate").Text;
             dumps.IsChecked=false;await Ready(dialog);
             Check(Named<TextBlock>(dialog,"DiagnosticSizeEstimate").Text!=withDumps,"dump toggle does not update size");
-            count.SelectedIndex=0;await Ready(dialog);Check(!dumps.IsEnabled,"No logs does not disable dumps");
+            dumps.IsChecked=true;count.SelectedIndex=0;await Ready(dialog);Check(!dumps.IsEnabled&&dumps.IsChecked==false,"No logs does not disable and uncheck dumps");
             Check(Named<TextBlock>(dialog,"DiagnosticSelectionDetails").Text.Contains("0"),"empty selection has no count preview");
             count.SelectedIndex=8;await Ready(dialog);Named<Button>(dialog,"DiagnosticCreate").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             Check(accepted is {RecentCount:int.MaxValue,IncludeCrashDumps:false},"Create ignores selected options");
             var cancel=Open(_=>throw new Exception("Cancel accepted options"),locations);Named<Button>(cancel,"DiagnosticCancel").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));await Task.Delay(50);
             Check(!cancel.IsVisible,"Cancel does not close preview");
             Set("_game",null);var launcherOnly=Open(_=>{},null);await Ready(launcherOnly);
-            Check(!Named<ComboBox>(launcherOnly,"DiagnosticLogCount").IsEnabled&&!Named<CheckBox>(launcherOnly,"DiagnosticIncludeDumps").IsEnabled,"launcher-only dialog offers game files");launcherOnly.Close();
+            Check(!Named<ComboBox>(launcherOnly,"DiagnosticLogCount").IsEnabled&&!Named<CheckBox>(launcherOnly,"DiagnosticIncludeDumps").IsEnabled&&Named<CheckBox>(launcherOnly,"DiagnosticIncludeDumps").IsChecked==false,"launcher-only dialog offers game files");launcherOnly.Close();
             Call("HistoryButton_Click",null,new RoutedEventArgs());
             var history=(Window)typeof(MainWindow).GetField("_historyWindow",flags)!.GetValue(w)!;history.Left=history.Top=-30000;await Task.Delay(100);
             var badge=(Border)w.FindName("HistoryUnreadBadge");badge.Visibility=Visibility.Visible;history.UpdateLayout();

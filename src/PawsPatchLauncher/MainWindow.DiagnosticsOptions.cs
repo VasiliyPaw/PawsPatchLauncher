@@ -21,7 +21,7 @@ public partial class MainWindow
         var choices = new[] {0,1,3,5,10,20,50,100,int.MaxValue}.Select(n=>new DiagnosticLogChoice(n,n==0 ? T("Без логов игры","No game logs") : n==int.MaxValue ? T("Все","All") : n.ToString())).ToArray();
         var count = new ComboBox { Name="DiagnosticLogCount",Style=(Style)FindResource("ReleaseCombo"),ItemsSource=choices,DisplayMemberPath="Label",SelectedIndex=2,IsEnabled=_game is not null };
         System.Windows.Automation.AutomationProperties.SetName(count,caption.Text);panel.Children.Add(count);
-        var dumps = new CheckBox { Name="DiagnosticIncludeDumps",Content=T("Добавить дампы сбоев","Include crash dumps"),IsChecked=true,IsEnabled=_game is not null,Margin=new Thickness(0,14,0,10) };
+        var dumps = new CheckBox { Name="DiagnosticIncludeDumps",Content=T("Добавить дампы сбоев","Include crash dumps"),IsChecked=_game is not null,IsEnabled=_game is not null,Margin=new Thickness(0,14,0,10) };
         panel.Children.Add(dumps);
         panel.Children.Add(Text(T("Основной лог и ART считаются одним набором. С дампами также добавляются относящиеся к ним логи сбоев.","The main log and ART count as one set. Crash dumps also include their companion crash logs."),12));
         var estimate = Text(T("Оцениваем размер…","Estimating size…"),20);estimate.Name="DiagnosticSizeEstimate";estimate.FontWeight=FontWeights.SemiBold;estimate.Foreground=SocialBrush("#EAD096");
@@ -60,7 +60,7 @@ public partial class MainWindow
             }
         }
         void Queue() { if(!window.IsLoaded)return;version++;pending?.Cancel();create.IsEnabled=false;estimate.Text=T("Оцениваем размер…","Estimating size…");delay.Stop();delay.Start(); }
-        delay.Tick+=async(_,_)=>await Update();count.SelectionChanged+=(_,_)=>Queue();dumps.Checked+=(_,_)=>Queue();dumps.Unchecked+=(_,_)=>Queue();
+        delay.Tick+=async(_,_)=>await Update();count.SelectionChanged+=(_,_)=>{if(((DiagnosticLogChoice)count.SelectedItem).Count==0)dumps.IsChecked=false;Queue();};dumps.Checked+=(_,_)=>Queue();dumps.Unchecked+=(_,_)=>Queue();
         window.Loaded+=async(_,_)=>await Update();
         window.Closed+=(_,_)=>{closed=true;version++;delay.Stop();pending?.Cancel();pending?.Dispose();};
         cancel.Click+=(_,_)=>window.Close();create.Click+=(_,_)=>{if(create.IsEnabled){select(Selected());window.Close();}};
