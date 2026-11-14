@@ -1080,6 +1080,10 @@ public partial class MainWindow : Window
     private async void DiagnosticsButton_Click(object sender, RoutedEventArgs e)
     {
         if (_busy) return;
+        DiagnosticOptions? options = null;
+        var optionsDialog = CreateDiagnosticsOptionsDialog(value => options = value);
+        optionsDialog.ShowDialog();
+        if (options is null) return;
         var downloads = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
         var dialog = new SaveFileDialog
         {
@@ -1097,7 +1101,7 @@ public partial class MainWindow : Window
             SetBusy(true, _text["diagnostics.progress"]);
             var archive = _game is null
                 ? await DiagnosticsCollector.CreateLauncherOnlyAsync(dialog.FileName)
-                : await CreateGameDiagnosticsAsync(dialog.FileName);
+                : await CreateGameDiagnosticsAsync(dialog.FileName,options);
             var remembered = await RememberCreatedDiagnosticsAsync(archive);
             ShowResult(() => string.Format(_text["diagnostics.ready"], archive), duration: TimeSpan.FromSeconds(30));
             if (remembered) ShowToast(() => T("Архив диагностики готов.", "Diagnostic archive is ready."));

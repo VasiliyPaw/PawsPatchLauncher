@@ -145,10 +145,10 @@ public partial class MainWindow
         var (window, body) = CreateCommunityDialog(T("История изменений", "Release history"), IconKind.ReleaseNotes, 840, 840);
         _historyWindow = window;
         ChangelogCard.Margin = new Thickness(0); ChangelogCard.Padding = new Thickness(16);
-        NewsTitleText.Visibility = Visibility.Collapsed; body.Content = ChangelogCard;
+        NewsHeaderGrid.Visibility = Visibility.Collapsed; body.Content = ChangelogCard;
         window.ContentRendered += (_, _) => { RefreshNews(); MarkVisibleChangelogRead(); _ = LoadRebornHistoryAsync(force:true); };
         window.Activated += (_, _) => MarkVisibleChangelogRead();
-        window.Closed += (_, _) => { body.Content = null; ChangelogCard.ClearValue(Border.PaddingProperty); NewsTitleText.Visibility = Visibility.Visible;
+        window.Closed += (_, _) => { body.Content = null; ChangelogCard.ClearValue(Border.PaddingProperty); NewsHeaderGrid.Visibility = Visibility.Visible;
             _historyWindow = null; CancelChangelogTransition(); };
         window.Show();
     }

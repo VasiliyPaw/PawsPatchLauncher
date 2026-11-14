@@ -500,14 +500,14 @@ public partial class MainWindow
     }
     private void CancelDownload_Click(object sender, RoutedEventArgs e) { _downloadCancellation?.Cancel(); _feedClient.Downloads.Resume(); }
 
-    private async Task<string> CreateGameDiagnosticsAsync(string path)
+    private async Task<string> CreateGameDiagnosticsAsync(string path,DiagnosticOptions? options = null)
     {
         var installer = new ModuleInstaller(_game!.Directory);
         InstallState state;
         IReadOnlyList<string> errors;
         try { state = installer.LoadState(); errors = await installer.VerifyAsync(); }
         catch (Exception ex) { ActivityStore.Log(ex); state = new InstallState(); errors = [ex.Message]; }
-        return await DiagnosticsCollector.CreateAsync(path, _game, GetEffectiveSettings(), state, errors);
+        return await DiagnosticsCollector.CreateAsync(path, _game, GetEffectiveSettings(), state, errors,options:options);
     }
 
     private void BeginGameObservation(Process process, InstallState state)

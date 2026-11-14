@@ -1388,5 +1388,19 @@
   "The build catalog is unavailable. Check your connection and try again.": "Le catalogue des versions est indisponible. Vérifiez la connexion et réessayez.",
   "Update Reborn": "Mettre à jour Reborn",
   "Familiar Kohan on a new engine. Private builds for the team and administrators.": "Le Kohan familier sur un nouveau moteur. Versions privées pour l’équipe et les administrateurs.",
-  "Update": "Mettre à jour"
+  "Update": "Mettre à jour",
+  "Choose how many recent game logs to include in the archive.": "Choisissez le nombre de journaux de jeu récents à inclure dans l’archive.",
+  "Number of log sets": "Nombre de groupes de journaux",
+  "No game logs": "Sans journaux de jeu",
+  "All": "Tous",
+  "Include crash dumps": "Inclure les fichiers de vidage des plantages",
+  "The main log and ART count as one set. Crash dumps also include their companion crash logs.": "Le journal principal et ART comptent comme un groupe. Les fichiers de vidage incluent aussi les journaux de plantage associés.",
+  "Estimating size…": "Estimation de la taille…",
+  "No game is selected. The archive will contain launcher diagnostics only.": "Aucun jeu n’est sélectionné. L’archive contiendra uniquement le diagnostic du lanceur.",
+  "The size is approximate: compression and new log entries may change it. Launcher logs and system information are always included.": "La taille est approximative : la compression et les nouvelles entrées peuvent la modifier. Les journaux du lanceur et les informations système sont toujours inclus.",
+  "Estimated archive size: ": "Taille estimée de l’archive : ",
+  "Game log files: {0} · Dumps and reports: {1}": "Journaux de jeu : {0} · Vidages et rapports : {1}",
+  "Some files are unavailable and may be omitted from the archive.": "Certains fichiers sont indisponibles et peuvent être exclus de l’archive.",
+  "Could not estimate the size": "Impossible d’estimer la taille",
+  "You can create the archive without a size estimate.": "Vous pouvez créer l’archive sans estimation de taille."
 }

@@ -1388,5 +1388,19 @@
   "The build catalog is unavailable. Check your connection and try again.": "Der Build-Katalog ist nicht verfügbar. Prüfe die Verbindung und versuche es erneut.",
   "Update Reborn": "Reborn aktualisieren",
   "Familiar Kohan on a new engine. Private builds for the team and administrators.": "Das vertraute Kohan auf einer neuen Engine. Private Builds für das Team und Administratoren.",
-  "Update": "Aktualisieren"
+  "Update": "Aktualisieren",
+  "Choose how many recent game logs to include in the archive.": "Wähle, wie viele aktuelle Spielprotokolle ins Archiv aufgenommen werden sollen.",
+  "Number of log sets": "Anzahl der Protokollsätze",
+  "No game logs": "Keine Spielprotokolle",
+  "All": "Alle",
+  "Include crash dumps": "Absturzabbilder hinzufügen",
+  "The main log and ART count as one set. Crash dumps also include their companion crash logs.": "Hauptprotokoll und ART zählen als ein Satz. Absturzabbilder enthalten auch die zugehörigen Absturzprotokolle.",
+  "Estimating size…": "Größe wird geschätzt…",
+  "No game is selected. The archive will contain launcher diagnostics only.": "Es ist kein Spiel ausgewählt. Das Archiv enthält nur die Launcher-Diagnose.",
+  "The size is approximate: compression and new log entries may change it. Launcher logs and system information are always included.": "Die Größe ist ungefähr: Komprimierung und neue Protokolleinträge können sie verändern. Launcher-Protokolle und Systeminformationen sind immer enthalten.",
+  "Estimated archive size: ": "Geschätzte Archivgröße: ",
+  "Game log files: {0} · Dumps and reports: {1}": "Spielprotokolle: {0} · Abbilder und Berichte: {1}",
+  "Some files are unavailable and may be omitted from the archive.": "Einige Dateien sind nicht verfügbar und werden möglicherweise ausgelassen.",
+  "Could not estimate the size": "Größe konnte nicht geschätzt werden",
+  "You can create the archive without a size estimate.": "Du kannst das Archiv ohne Größenschätzung erstellen."
 }

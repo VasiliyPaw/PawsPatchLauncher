@@ -1263,7 +1263,7 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Grid>
+                                <Grid x:Name="NewsHeaderGrid">
                                     <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
                                     <TextBlock x:Name="NewsTitleText" Style="{StaticResource CardTitle}" Margin="0"/>
                                     <Border x:Name="HistoryUnreadBadge" Grid.Column="1" Width="8" Height="8" Background="#E55E71" CornerRadius="4" Margin="8,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"/>

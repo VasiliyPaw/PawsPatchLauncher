@@ -7,9 +7,29 @@ namespace PawsPatchLauncher;
 
 public static class DiagnosticsCollector
 {
+    private static readonly string[] LauncherFiles = ["launcher-errors.log", "self-update.log", "launcher-run.json", "previous-launcher-run.json", "game-run.json", "failed-launcher-sha256.txt", "update-rollback.txt", "user-actions.jsonl", "user-actions.1.jsonl", "user-actions.2.jsonl"];
+    public static async Task<DiagnosticCollectionReport> PreviewAsync(string? gameRoot,DiagnosticOptions options,CancellationToken token = default,DiagnosticLocations? locations = null)
+    {
+        options.Validate();
+        var report = gameRoot is null ? new DiagnosticCollectionReport() : await GameDiagnosticFiles.PreviewAsync(locations ?? DiagnosticLocations.Current(gameRoot),options,token);
+        // Allow for generated system/install reports, inventory, collection report and hash manifest.
+        report.EstimatedArchiveBytes += 131072;
+        foreach (var name in LauncherFiles)
+        {
+            var file = Path.Combine(ActivityStore.Root,name);
+            if (File.Exists(file)) await GameDiagnosticFiles.EstimateFileAsync(file,"launcher/"+name,"launcher",report,token);
+        }
+        if (gameRoot is not null)
+            foreach (var name in new[] { "state.json", "last-working.json", "rollback.txt", "mod-library.json" })
+            {
+                var file = Path.Combine(gameRoot,".pawpatch",name);
+                if (File.Exists(file)) await GameDiagnosticFiles.EstimateFileAsync(file,"launcher/"+name,"installation",report,token);
+            }
+        return report;
+    }
     private static async Task CopyLauncherDiagnosticsAsync(string staging, DiagnosticCollectionReport report, CancellationToken token)
     {
-        foreach (var name in new[] { "launcher-errors.log", "self-update.log", "launcher-run.json", "previous-launcher-run.json", "game-run.json", "failed-launcher-sha256.txt", "update-rollback.txt", "user-actions.jsonl", "user-actions.1.jsonl", "user-actions.2.jsonl" })
+        foreach (var name in LauncherFiles)
         {
             var file = Path.Combine(ActivityStore.Root, name);
             if (File.Exists(file)) await GameDiagnosticFiles.CopyFileAsync(file, staging, "launcher/" + name, "launcher", report, token);
@@ -45,12 +65,13 @@ public static class DiagnosticsCollector
         InstallState state,
         IReadOnlyCollection<string> verificationErrors,
         CancellationToken cancellationToken = default,
-        DiagnosticLocations? locations = null) => Task.Run(() => CreateCoreAsync(destination, game, settings, state,
-            verificationErrors, cancellationToken, locations), cancellationToken);
+        DiagnosticLocations? locations = null, DiagnosticOptions? options = null) => Task.Run(() => CreateCoreAsync(destination, game, settings, state,
+            verificationErrors, cancellationToken, locations, options ?? new()), cancellationToken);
 
     private static async Task<string> CreateCoreAsync(string destination, GameInstallation game, UserSettings settings,
-        InstallState state, IReadOnlyCollection<string> verificationErrors, CancellationToken cancellationToken, DiagnosticLocations? locations)
+        InstallState state, IReadOnlyCollection<string> verificationErrors, CancellationToken cancellationToken, DiagnosticLocations? locations, DiagnosticOptions options)
     {
+        options.Validate();
         var staging = Path.Combine(Path.GetTempPath(), "PawsPatchDiagnostics", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(staging);
         try
@@ -58,7 +79,7 @@ public static class DiagnosticsCollector
             ActionJournal.Record("diagnostics.create", "game");
             await ActionJournal.FlushAsync();
             await WriteTextAsync(staging, "system-information.json", await SystemDiagnostics.CollectAsync(game.Directory, cancellationToken), cancellationToken);
-            var report = BuildReport(game, settings, state, verificationErrors);
+            var report = BuildReport(game, settings, state, verificationErrors,options);
             await WriteTextAsync(staging, "launcher-report.txt", report, cancellationToken);
             await WriteTextAsync(staging, "install-state.json",
                 JsonSerializer.Serialize(state, LauncherJsonContext.Default.InstallState), cancellationToken);
@@ -71,7 +92,7 @@ public static class DiagnosticsCollector
                 var file = Path.Combine(game.Directory, ".pawpatch", name);
                 if (File.Exists(file)) await GameDiagnosticFiles.CopyFileAsync(file, staging, "launcher/" + name, "installation", collection, cancellationToken);
             }
-            await GameDiagnosticFiles.CollectAsync(staging, locations ?? DiagnosticLocations.Current(game.Directory), cancellationToken, collection);
+            await GameDiagnosticFiles.CollectAsync(staging, locations ?? DiagnosticLocations.Current(game.Directory), cancellationToken, collection,options);
 
             await WriteHashManifestAsync(staging, cancellationToken);
             await WriteArchiveAsync(staging, destination, cancellationToken);
@@ -84,7 +105,7 @@ public static class DiagnosticsCollector
         }
     }
 
-    private static string BuildReport(GameInstallation game, UserSettings settings, InstallState state, IReadOnlyCollection<string> errors)
+    private static string BuildReport(GameInstallation game, UserSettings settings, InstallState state, IReadOnlyCollection<string> errors,DiagnosticOptions options)
     {
         var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
         var builder = new StringBuilder();
@@ -107,7 +128,7 @@ public static class DiagnosticsCollector
         builder.AppendLine();
         builder.AppendLine("Privacy note: crash dumps can contain fragments of process memory. Review the archive before sharing it publicly.");
         builder.AppendLine("User actions: last three logs (2 MiB each). Static control/action names, configuration changes and outcomes only; no typed text, passwords, codes or message contents. History begins with installation of this launcher build.");
-        builder.AppendLine("Crash history: three newest readable log sets and ordinary game dumps, plus up to three Windows dumps and three Kohan WER reports. One newest full graphics/crash memory dump is included. AI action logs are excluded. Large text files retain their first 64 KiB and last 4 MiB. Companion logs and patch status are included. See collection-report.json for collected files, searched locations and failures. No dumps are created by this operation.");
+        builder.AppendLine($"Crash history: newest readable sets per category: {(options.RecentCount == int.MaxValue ? "all" : options.RecentCount)}. Crash dumps included: {options.IncludeCrashDumps && options.RecentCount > 0}. When dumps are selected, one newest full-memory dump and its companion logs are included. AI action logs are excluded. Large text files retain their first 64 KiB and last 4 MiB. See collection-report.json for collected files, searched locations and failures. No dumps are created by this operation.");
         return builder.ToString();
     }
 

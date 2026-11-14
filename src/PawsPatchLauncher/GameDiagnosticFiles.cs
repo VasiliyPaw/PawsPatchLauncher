@@ -42,14 +42,20 @@ public sealed record DiagnosticLocations(string GameRoot, string Documents, stri
 public sealed class DiagnosticCollectionReport
 {
     public int SchemaVersion { get; } = 1;
-    public int RecentGroupsPerCategory { get; } = GameDiagnosticFiles.RecentCount;
+    public int RecentGroupsPerCategory { get; set; } = GameDiagnosticFiles.RecentCount;
+    public bool IncludeCrashDumps { get; set; } = true;
+    public long EstimatedArchiveBytes { get; set; }
     public List<DiagnosticSearchResult> Searches { get; } = [];
     public List<DiagnosticCopyResult> Files { get; } = [];
-    public string Note { get; } = "Three newest readable game log sets, ordinary game dumps, Windows dumps and WER reports are collected separately, plus one newest full graphics/crash memory dump, companion logs and current patch status. Large text files retain their first 64 KiB and last 4 MiB; truncation and original size are recorded. AI action logs, backups, saves, chat text and other applications' Windows dumps are excluded. Sources are never modified; missing sources and copy failures are listed.";
+    public string Note { get; } = "The selected number of newest readable log/report sets is collected per category. When crash dumps are selected, one newest full graphics/crash memory dump and crash companion logs are also included. Current patch status is always included. Large text files retain their first 64 KiB and last 4 MiB; truncation and original size are recorded. AI action logs, backups, saves, chat text and other applications' Windows dumps are excluded. Sources are never modified; missing sources and copy failures are listed. Preview compression is estimated from bounded samples, not an exact ZIP size.";
 }
 public sealed record DiagnosticSearchResult(string Source, string Path, string Status, string? Error = null);
 public sealed record DiagnosticCopyResult(string Source, string ArchivePath, string Category, string Status,
     long Bytes, DateTime? ModifiedUtc, string? Error = null, long? SourceBytes = null, bool Truncated = false);
+public sealed record DiagnosticOptions(int RecentCount = GameDiagnosticFiles.RecentCount, bool IncludeCrashDumps = true)
+{
+    public void Validate() { if (RecentCount < 0 || RecentCount > 10000 && RecentCount != int.MaxValue) throw new ArgumentOutOfRangeException(nameof(RecentCount)); }
+}
 
 public static class GameDiagnosticFiles
 {
@@ -65,10 +71,18 @@ public static class GameDiagnosticFiles
     private sealed record Candidate(string Path, string ArchivePath, string Category, string Group, DateTime ModifiedUtc);
     private sealed record Group(string Key, string Category, DateTime ModifiedUtc, Candidate[] Files);
 
-    public static async Task<DiagnosticCollectionReport> CollectAsync(string staging, DiagnosticLocations locations,
-        CancellationToken token = default, DiagnosticCollectionReport? report = null)
+    public static Task<DiagnosticCollectionReport> CollectAsync(string staging, DiagnosticLocations locations,
+        CancellationToken token = default, DiagnosticCollectionReport? report = null, DiagnosticOptions? options = null)
+        => CollectCoreAsync(staging,locations,token,report,options ?? new(),false);
+    public static Task<DiagnosticCollectionReport> PreviewAsync(DiagnosticLocations locations, DiagnosticOptions options, CancellationToken token = default)
+        => Task.Run(() => CollectCoreAsync("",locations,token,null,options,true),token);
+    private static async Task<DiagnosticCollectionReport> CollectCoreAsync(string staging, DiagnosticLocations locations,
+        CancellationToken token, DiagnosticCollectionReport? report, DiagnosticOptions options, bool preview)
     {
+        options.Validate();
         report ??= new();
+        report.RecentGroupsPerCategory = options.RecentCount;
+        report.IncludeCrashDumps = options.IncludeCrashDumps && options.RecentCount > 0;
         var candidates = new Dictionary<string, Candidate>(Paths);
         var visited = new HashSet<string>(Paths);
         void Add(string path, string sourceRoot, string label, string category, string group)
@@ -184,14 +198,16 @@ public static class GameDiagnosticFiles
         async Task<bool> Copy(Candidate file)
         {
             if (copied.Contains(file.Path)) return true;
-            var success = await CopyFileAsync(file.Path, staging, file.ArchivePath, file.Category, report, token);
+            var success = preview ? await EstimateFileAsync(file.Path,file.ArchivePath,file.Category,report,token)
+                : await CopyFileAsync(file.Path, staging, file.ArchivePath, file.Category, report, token);
             if (success) copied.Add(file.Path);
             return success;
         }
         foreach (var bucket in groups.GroupBy(g => g.Category))
         {
+            if (!report.IncludeCrashDumps && bucket.Key is "game-dumps" or "full-memory-dumps" or "windows-dumps" or "windows-reports") continue;
             var successes = 0;
-            var limit = bucket.Key.StartsWith("status:", StringComparison.Ordinal) || bucket.Key == "full-memory-dumps" ? 1 : RecentCount;
+            var limit = bucket.Key.StartsWith("status:", StringComparison.Ordinal) || bucket.Key == "full-memory-dumps" ? 1 : options.RecentCount;
             foreach (var group in bucket.OrderByDescending(g => g.ModifiedUtc).ThenBy(g => g.Key, Paths))
             {
                 if (successes >= limit) break;
@@ -206,8 +222,36 @@ public static class GameDiagnosticFiles
             var key = Path.Combine(Path.GetDirectoryName(dump.Path)!, Path.GetFileNameWithoutExtension(dump.Path));
             foreach (var companion in candidates.Values.Where(c => c.Category == "game-logs" && Paths.Equals(c.Group, key))) await Copy(companion);
         }
-        await WriteReportAsync(staging, report, token);
+        if (!preview) await WriteReportAsync(staging, report, token);
         return report;
+    }
+
+    internal static async Task<bool> EstimateFileAsync(string source,string relative,string category,DiagnosticCollectionReport report,CancellationToken token)
+    {
+        try
+        {
+            token.ThrowIfCancellationRequested();
+            if ((File.GetAttributes(source) & FileAttributes.ReparsePoint) != 0) throw new IOException("LinkSkipped");
+            using var input = new FileStream(source,FileMode.Open,FileAccess.Read,FileShare.ReadWrite|FileShare.Delete,65536,FileOptions.Asynchronous|FileOptions.RandomAccess);
+            var length = input.Length;
+            var text = new[] { ".log", ".txt", ".jsonl" }.Contains(Path.GetExtension(source),StringComparer.OrdinalIgnoreCase);
+            var truncated = text && length > TextHeadBytes+TextTailBytes;
+            var included = truncated ? TextHeadBytes+TextTailBytes+160L : length;
+            // Sample both ends without copying full logs or multi-gigabyte dumps for a preview.
+            var sample = new byte[(int)Math.Min(length,131072)];
+            var head = Math.Min(sample.Length,65536);
+            await input.ReadExactlyAsync(sample.AsMemory(0,head),token);
+            var tail = sample.Length-head;
+            if (tail > 0) { input.Position = length-tail; await input.ReadExactlyAsync(sample.AsMemory(head,tail),token); }
+            using var compressed = new MemoryStream();
+            using (var deflate = new System.IO.Compression.DeflateStream(compressed,System.IO.Compression.CompressionLevel.Optimal,true)) await deflate.WriteAsync(sample,token);
+            var ratio = sample.Length == 0 ? 1 : Math.Clamp((compressed.Length+16d)/sample.Length,0.002,1.02);
+            report.EstimatedArchiveBytes += (long)Math.Ceiling(included*ratio)+256+Encoding.UTF8.GetByteCount(relative);
+            report.Files.Add(new(source,relative,category,"estimated",included,File.GetLastWriteTimeUtc(source),SourceBytes:length,Truncated:truncated));
+            return true;
+        }
+        catch (Exception error) when (FileError(error))
+        { report.Files.Add(new(source,relative,category,"failed",0,null,error.GetType().Name)); return false; }
     }
 
     public static async Task<bool> CopyFileAsync(string source, string staging, string relative, string category,

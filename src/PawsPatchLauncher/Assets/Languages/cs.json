@@ -1388,5 +1388,19 @@
   "The build catalog is unavailable. Check your connection and try again.": "Katalog sestavení není dostupný. Zkontrolujte připojení a zkuste to znovu.",
   "Update Reborn": "Aktualizovat Reborn",
   "Familiar Kohan on a new engine. Private builds for the team and administrators.": "Známý Kohan na novém enginu. Soukromá sestavení pro tým a správce.",
-  "Update": "Aktualizovat"
+  "Update": "Aktualizovat",
+  "Choose how many recent game logs to include in the archive.": "Vyberte, kolik nejnovějších herních protokolů zahrnout do archivu.",
+  "Number of log sets": "Počet sad protokolů",
+  "No game logs": "Bez herních protokolů",
+  "All": "Vše",
+  "Include crash dumps": "Zahrnout výpisy pádů",
+  "The main log and ART count as one set. Crash dumps also include their companion crash logs.": "Hlavní protokol a ART se počítají jako jedna sada. Výpisy pádů zahrnují také související protokoly.",
+  "Estimating size…": "Odhad velikosti…",
+  "No game is selected. The archive will contain launcher diagnostics only.": "Není vybrána hra. Archiv bude obsahovat pouze diagnostiku spouštěče.",
+  "The size is approximate: compression and new log entries may change it. Launcher logs and system information are always included.": "Velikost je přibližná: komprese a nové záznamy v protokolech ji mohou změnit. Protokoly spouštěče a informace o systému se přidávají vždy.",
+  "Estimated archive size: ": "Odhadovaná velikost archivu: ",
+  "Game log files: {0} · Dumps and reports: {1}": "Herní protokoly: {0} · Výpisy a hlášení: {1}",
+  "Some files are unavailable and may be omitted from the archive.": "Některé soubory jsou nedostupné a mohou být z archivu vynechány.",
+  "Could not estimate the size": "Velikost se nepodařilo odhadnout",
+  "You can create the archive without a size estimate.": "Archiv lze vytvořit i bez odhadu velikosti."
 }

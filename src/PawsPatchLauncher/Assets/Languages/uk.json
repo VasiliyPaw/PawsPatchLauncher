@@ -1388,5 +1388,19 @@
   "The build catalog is unavailable. Check your connection and try again.": "Каталог збірок поки недоступний. Перевірте з’єднання та спробуйте ще раз.",
   "Update Reborn": "Оновити Reborn",
   "Familiar Kohan on a new engine. Private builds for the team and administrators.": "Знайомий Kohan на новому рушії. Закриті збірки для команди й адміністраторів.",
-  "Update": "Оновити"
+  "Update": "Оновити",
+  "Choose how many recent game logs to include in the archive.": "Виберіть, скільки останніх логів гри додати до архіву.",
+  "Number of log sets": "Кількість наборів логів",
+  "No game logs": "Без логів гри",
+  "All": "Усі",
+  "Include crash dumps": "Додати дампи збоїв",
+  "The main log and ART count as one set. Crash dumps also include their companion crash logs.": "Основний лог і ART вважаються одним набором. Разом із дампами додаються відповідні логи збоїв.",
+  "Estimating size…": "Оцінюємо розмір…",
+  "No game is selected. The archive will contain launcher diagnostics only.": "Гру не вибрано. Архів міститиме лише діагностику лаунчера.",
+  "The size is approximate: compression and new log entries may change it. Launcher logs and system information are always included.": "Розмір приблизний: стиснення та нові записи в логах можуть його змінити. Логи лаунчера й відомості про систему додаються завжди.",
+  "Estimated archive size: ": "Приблизний розмір архіву: ",
+  "Game log files: {0} · Dumps and reports: {1}": "Файлів логів гри: {0} · Дампів і звітів: {1}",
+  "Some files are unavailable and may be omitted from the archive.": "Деякі файли недоступні й можуть не потрапити до архіву.",
+  "Could not estimate the size": "Не вдалося оцінити розмір",
+  "You can create the archive without a size estimate.": "Архів можна створити без попередньої оцінки розміру."
 }

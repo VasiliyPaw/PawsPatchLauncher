@@ -163,6 +163,36 @@ internal static class GameDiagnosticsTests
         Check(text.StartsWith("START\n") && text.EndsWith("\nCRASH END") && text.Contains("middle of oversized text omitted"), "Log header or crash tail lost");
         Check(result.Bytes <= GameDiagnosticFiles.TextHeadBytes + GameDiagnosticFiles.TextTailBytes + 256, "Text copy exceeded budget");
         Check(File.ReadAllBytes(oversized).SequenceEqual(expected[oversized]), "Original large log was altered");
+        var optionsRoot=Path.Combine(fixture,"options-game");
+        for(var i=1;i<=8;i++){Add(optionsRoot,$"log-{i}.log",i,new string('a',20000)+i);Add(optionsRoot,$"ART_log-{i}.log",i,new string('b',10000)+i);}
+        Add(optionsRoot,"log-2.dmp",2,"crash");
+        var selectionLocations=new DiagnosticLocations(optionsRoot,Path.Combine(fixture,"no-docs"),Path.Combine(fixture,"no-local"),Path.Combine(fixture,"no-system"),[]);
+        var fileCountBefore=Directory.GetFiles(fixture,"*",SearchOption.AllDirectories).Length;
+        var onePreview=await GameDiagnosticFiles.PreviewAsync(selectionLocations,new(1,false));
+        var threePreview=await GameDiagnosticFiles.PreviewAsync(selectionLocations,new(3,false));
+        var allPreview=await GameDiagnosticFiles.PreviewAsync(selectionLocations,new(int.MaxValue,false));
+        Check(onePreview.Files.Count(f=>f.Category=="game-logs"&&f.Status=="estimated")==2,"one selected set must retain main/ART pair");
+        Check(threePreview.Files.Count(f=>f.Category=="game-logs"&&f.Status=="estimated")==6&&allPreview.Files.Count(f=>f.Category=="game-logs"&&f.Status=="estimated")==16,"selected retention or All ignored");
+        Check(onePreview.EstimatedArchiveBytes>0&&onePreview.EstimatedArchiveBytes<threePreview.EstimatedArchiveBytes&&threePreview.EstimatedArchiveBytes<allPreview.EstimatedArchiveBytes,"size estimate must reflect chosen history");
+        Check(Directory.GetFiles(fixture,"*",SearchOption.AllDirectories).Length==fileCountBefore,"preview writes copies or archives");
+        var withDump=await GameDiagnosticFiles.PreviewAsync(selectionLocations,new(1,true));
+        Check(withDump.Files.Any(f=>f.Category=="game-dumps")&&withDump.Files.Any(f=>f.Source.EndsWith("ART_log-2.log")),"preview lost selected crash companions");
+        var noLogs=await GameDiagnosticFiles.PreviewAsync(selectionLocations,new(0,true));
+        Check(noLogs.Files.Count==0&&!noLogs.IncludeCrashDumps,"No game logs must not sneak dump companion logs back in");
+        var selectedStage=Path.Combine(fixture,"selected-stage");Directory.CreateDirectory(selectedStage);
+        var selectedReport=await GameDiagnosticFiles.CollectAsync(selectedStage,selectionLocations,options:new(1,false));
+        Check(selectedReport.Files.Where(f=>f.Status=="copied").Select(f=>f.ArchivePath).ToHashSet().SetEquals(onePreview.Files.Where(f=>f.Status=="estimated").Select(f=>f.ArchivePath)),"preview and collection select different files");
+        Check(selectedReport.RecentGroupsPerCategory==1&&!selectedReport.IncludeCrashDumps&&selectedReport.Files.All(f=>!f.Category.Contains("dump")),"selection absent from archive report");
+        try{await GameDiagnosticFiles.PreviewAsync(selectionLocations,new(-1));throw new Exception("invalid retention accepted");}catch(ArgumentOutOfRangeException){count++;}
+        try{await GameDiagnosticFiles.PreviewAsync(selectionLocations,new(1),new CancellationToken(true));throw new Exception("preview ignored cancellation");}catch(OperationCanceledException){count++;}
+        foreach(var file in expected)Check(File.ReadAllBytes(file.Key).SequenceEqual(file.Value),"preview/selected collection modified source file");
+        if(completeArchive)
+        {
+            var selectedZip=Path.Combine(fixture,"selected-diagnostics.zip");
+            await DiagnosticsCollector.CreateAsync(selectedZip,new(optionsRoot,Path.Combine(optionsRoot,"k2.exe"),null,null),new(),new(),[],locations:selectionLocations,options:new(1,false));
+            using var zip=ZipFile.OpenRead(selectedZip);
+            Check(zip.Entries.Count(e=>e.FullName.EndsWith(".log")&&e.FullName.StartsWith("logs/"))==2&&zip.Entries.All(e=>!e.FullName.EndsWith(".dmp")),"actual archive ignores selected log count/dump checkbox");
+        }
         Console.WriteLine($"GAME DIAGNOSTICS PASS {count}: three recent groups, one full-memory dump, bounded text, excluded AI logs, companion logs, locked fallback, original preservation, archive={completeArchive}");
         return count;
     }
