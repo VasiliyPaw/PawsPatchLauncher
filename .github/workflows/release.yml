@@ -73,6 +73,20 @@ jobs:
             -p:PublishReadyToRun=false -p:IncludeSourceRevisionInInformationalVersion=false `
             -o artifacts/unsigned
           if ($LASTEXITCODE -ne 0) { throw 'Launcher publish failed.' }
+      - name: Test packaged production startup
+        shell: pwsh
+        run: |
+          $profile = Join-Path $env:RUNNER_TEMP 'paws-launcher-release-smoke'
+          $env:DOTNET_BUNDLE_EXTRACT_BASE_DIR = Join-Path $env:RUNNER_TEMP 'paws-launcher-release-bundle'
+          $process = Start-Process -FilePath (Resolve-Path 'artifacts/unsigned/PawsPatchLauncher.exe').Path `
+            -ArgumentList @('--smoke-test', '--smoke-exit', "--test-profile=$profile") -WindowStyle Hidden -PassThru
+          if (!$process.WaitForExit(45000)) { $process.Kill(); throw 'Packaged launcher startup timed out.' }
+          if ($process.ExitCode -ne 0) { throw "Packaged launcher failed: $($process.ExitCode)." }
+          $health = Get-Content -LiteralPath (Join-Path $profile 'test-build-health.json') -Raw | ConvertFrom-Json
+          if ($health.usabilityTest -or $health.automaticLauncherUpdatesDisabled) { throw 'A test-only launcher cannot be released.' }
+          [xml]$project = Get-Content src/PawsPatchLauncher/PawsPatchLauncher.csproj -Raw
+          if ((Get-Content -LiteralPath (Join-Path $profile 'window-ready.txt') -Raw).Trim() -ne [string]$project.Project.PropertyGroup.Version) { throw 'Packaged startup version mismatch.' }
+          Write-Output 'PACKAGED PRODUCTION STARTUP PASS; automatic updates enabled.'
       - name: Test packaging and unsigned rejection
         shell: pwsh
         run: ./tools/TestLauncherSigning.ps1 -BuildDirectory artifacts/unsigned -WorkDirectory artifacts/signing-tests
