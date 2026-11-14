@@ -1,0 +1,21 @@
+{
+  "category": "launcher",
+  "version": "1.0.18",
+  "publishedAt": "2026-11-14",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.18",
+    "en": "Paw’s Launcher 1.0.18",
+    "uk": "Paw’s Launcher 1.0.18",
+    "cs": "Paw’s Launcher 1.0.18",
+    "de": "Paw’s Launcher 1.0.18",
+    "fr": "Paw’s Launcher 1.0.18"
+  },
+  "body": {
+    "ru": "- Маленькие исправления.",
+    "en": "- Minor fixes.",
+    "uk": "- Невеликі виправлення.",
+    "cs": "- Drobné opravy.",
+    "de": "- Kleine Fehlerbehebungen.",
+    "fr": "- Corrections mineures."
+  }
+}

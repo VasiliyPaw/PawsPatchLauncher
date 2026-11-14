@@ -35,4 +35,8 @@ jobs:
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
           node run.mjs
+      - name: Test private download service
+        run: |
+          node supabase/functions/reborn-builds/handler.test.mjs
+          node supabase/functions/reborn-builds/github.test.mjs
 

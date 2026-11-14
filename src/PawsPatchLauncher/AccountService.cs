@@ -314,6 +314,8 @@ public sealed partial class AccountService : IDisposable
 
     private async Task<JsonDocument> RequestAsync(HttpMethod method, string route, object? body, string? accessToken, CancellationToken cancellationToken, bool database = false, bool portal = false)
     {
+        var rebornHistoryRoute = route is "reborn-builds?action=history" or "reborn-builds?action=history&protocol=2";
+        var rebornCatalogRoute = route is "reborn-builds?action=catalog" or "reborn-builds?action=catalog&protocol=2";
         var connectionObservation = Connection.Begin();
         using var request = new HttpRequestMessage(method, new Uri(ProjectUrl + (portal ? "/functions/v1/" : database ? "/rest/v1/" : "/auth/v1/") + route));
         request.Headers.Add("apikey", PublishableKey);
@@ -333,7 +335,7 @@ public sealed partial class AccountService : IDisposable
             int count;
             while ((count = await source.ReadAsync(buffer, timeout.Token).ConfigureAwait(false)) != 0)
             {
-                if (output.Length + count > (portal && route == "reborn-builds?action=history" ? 33554432 : portal ? 350000 : database && route is "rpc/paw_community_read" or "rpc/paw_read_messages" or "rpc/paw_read_message_page" or "rpc/paw_read_offer_states" ? 768000 : database&&route=="rpc/paw_social_list"?2097152:database&&route=="rpc/paw_admin_list"?262144:65536)) throw new AccountException("invalid_response");
+                if (output.Length + count > (portal && rebornHistoryRoute ? 33554432 : portal ? 350000 : database && route is "rpc/paw_community_read" or "rpc/paw_read_messages" or "rpc/paw_read_message_page" or "rpc/paw_read_offer_states" ? 768000 : database&&route=="rpc/paw_social_list"?2097152:database&&route=="rpc/paw_admin_list"?262144:65536)) throw new AccountException("invalid_response");
                 output.Write(buffer, 0, count);
             }
             if ((int)response.StatusCode < 500) Connection.Complete(connectionObservation, true);
@@ -349,7 +351,7 @@ public sealed partial class AccountService : IDisposable
             }
             if (portal)
             {
-                if (response.StatusCode == System.Net.HttpStatusCode.NotFound && (route is "reborn-builds?action=catalog" or "reborn-builds?action=history")
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound && (rebornCatalogRoute || rebornHistoryRoute)
                     && Text(json.RootElement,"code") == "NOT_FOUND")
                 { json.Dispose(); throw new AccountException("reborn_not_deployed"); }
                 var status = Text(json.RootElement, "status");

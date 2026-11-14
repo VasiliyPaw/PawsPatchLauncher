@@ -1,40 +1,55 @@
-# Kohan Reborn launcher integration
+# Kohan Reborn distribution
 
-The launcher UI can ship with empty channels before the first accepted archive. The production migration and edge deployment remain pending until build distribution is activated.
+## Access and installation
 
-## Access and channels
+Reborn is available to confirmed, unrestricted Paw’s Team members **or administrators**, with an active launcher session. Public Arcane Wars access is unrelated. Navigation sits directly above administration. Installation, update checking and Play share the standard footer. The folder picker opens at first installation. One root contains independent `Release` and `Beta` directories with atomic per-build activation; Kohan II files are untouched.
 
-- Eligible accounts: a verified, unrestricted Paw’s Team member **or an administrator**. Arcane Wars' public-access switch is unrelated and is not reused.
-- Release (`stable`) and Beta (`beta`) start empty. No example build is inserted by the migration. The page honestly shows that no build has been published, with Download disabled.
-- The navigation entry sits directly above the admin menu and uses a dedicated K icon. Installation, update checking and Play use the same footer positions as Kohan II. The folder picker opens only when the first available build is installed; it is absent from the page.
-- Channel choice and the shared installation folder are local launcher preferences. The root contains `Release` and `Beta` subfolders with fixed names independent of UI language. The two channels keep separate active builds and version directories; changing channel does not reinstall the other channel or alter Kohan II.
-- Release history includes a private **Kohan Reborn** subject for the same eligible roles, with Release, Beta and All branches filters. It opens on the selected Reborn channel when launched from that page. The history endpoint returns up to 200 published enabled builds, including earlier versions; it never issues download tickets. Notes use the selected UI language with English/Russian fallback. Read state is independent of UI language and tracks edits in every supported translation.
-- Account identity/role changes invalidate pending page responses and cancel an active Reborn operation. Launcher self-update and closing are deferred while Reborn is installing; friendship/chat controls remain independent.
+Private release history includes both channels and up to 200 published builds. Notes support RU/EN/UK/CS/DE/FR with English/Russian fallback. Account/role changes cancel pending operations. Self-update/closing is deferred during installation; social controls remain independent.
 
-## Server contract prepared for activation
+## Backend and protocol
 
-1. Apply `supabase/migrations/20261114000000_reborn_builds.sql` and `20261114010000_reborn_history.sql` through the established production migration procedure.
-2. Deploy `supabase/functions/reborn-builds` using the same environment/authentication configuration as the existing account edge functions. The handler validates the Auth user, confirmed email, active launcher session and current database role.
-The client treats only the gateway’s explicit `404 NOT_FOUND` missing-function response as empty catalogs/history. Authorization failures, generic 404 responses and network/server failures remain errors. Download tickets never use this fallback. This lets the intentionally empty channels work until server activation, then start using real catalogs automatically.
+Apply the three migrations `20261114000000_reborn_builds.sql`, `20261114010000_reborn_history.sql` and `20261114020000_reborn_github.sql`, then deploy `supabase/functions/reborn-builds`. JWT gateway verification is disabled because the handler validates the token with Auth itself, then checks confirmed email, current role and active session through service-only RPCs. Anonymous/authenticated database roles cannot read build rows or impersonate RPC callers. The Storage bucket remains private.
 
-3. Verify both empty catalogs using a team account and an admin account; verify rejection of ordinary/guest/restricted accounts.
+The edge accepts authenticated POSTs with the launcher session header:
 
-The `paw-reborn-builds` storage bucket is private. No anon/authenticated direct-storage policy is added. The authorization RPC is callable by `service_role` only, so a client cannot impersonate another player by passing an arbitrary UUID. Download authorization is repeated after the signed URL is prepared. URLs expire in 120 seconds, are returned with `no-store`, and are never saved in installation metadata.
+- `?action=catalog&protocol=2`: latest enabled, already-published build per channel.
+- `?action=history&protocol=2`: published history, limited to 200.
+- `?action=download&protocol=2&channel=stable&build_id=<UUID>`: ticket for that exact build.
 
-Private-bucket and expiring-link behavior follows the [Supabase storage documentation](https://supabase.com/docs/guides/storage/buckets/fundamentals); the REST signing request/response matches the [official storage client implementation](https://github.com/supabase/storage-js/blob/main/src/packages/StorageFileApi.ts).
+Protocol 2 supports `supabase` and `github`. Legacy requests omit the protocol, receive only Storage builds and cannot request GitHub tickets. Only the explicit gateway `404 NOT_FOUND` for undeployed catalog/history is empty; other errors and failed downloads remain errors.
 
-The local SQL/WASM and edge tests exercise the authorization contract without touching production.
+## Private GitHub provider
 
-## Adding the first accepted build later
+Configure server environment variables:
 
-- Choose an accepted standalone Windows export. Package the EXE at the ZIP root alongside every required runtime/data file. Supply its actual root EXE filename in metadata, e.g. `KohanReborn.exe`; do not package the unrelated old Recoil prototype or a developing working directory automatically.
-- Generate a new UUID for each build. Compute the ZIP's exact byte length and SHA-256. Upload it to private storage as `stable/<UUID>.zip` or `beta/<UUID>.zip` without upsert.
-- Insert a row in `paw_private.reborn_builds` using a trusted server/SQL administrator: `id`, `channel`, `version`, `size`, `sha256`, `executable`, `published_at`, `notes` and `enabled=false`. Notes are a JSON object with RU/EN/UK/CS/DE/FR text as available. The launcher falls back to English/Russian when a translation is absent.
-- Verify the uploaded immutable archive, then enable that row. Do not replace an existing archive or reuse a UUID. Catalogs select the latest enabled, already-published row per channel.
-- Disabling a row prevents issuance of a new ticket. A previously issued short-lived URL may remain usable until expiry; already downloaded files are not deleted from a player's disk.
+| Name | Value |
+| --- | --- |
+| `REBORN_GITHUB_TOKEN` | Server-only repository credential, Contents: read for the selected private repository |
+| `REBORN_GITHUB_REPOSITORY` | Canonical `OWNER/REPO` |
+| `REBORN_GITHUB_REPOSITORY_ID` | Positive numeric repository ID |
 
-## Client installation
+Manage production secrets in the [Supabase dashboard or CLI](https://supabase.com/docs/guides/functions/secrets). Never commit the token, include it in the launcher or reuse a broad publishing credential as the integration credential. A [fine-grained token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) restricts repository and permissions. Monitor and rotate it before expiry.
 
-The client accepts tickets only for the configured Supabase HTTPS host and exact private object path, checks selected build identity/hash/size/EXE/expiry, refuses redirects, verifies archive size and SHA-256, and extracts into a fresh owned staging folder. Absolute paths, traversal, Windows streams/device names, duplicate case-insensitive paths and archive symlinks are rejected. Server authorization is repeated before activation. A complete directory is activated atomically; an interrupted activation can retry only when all existing build paths/bytes match. Unknown files and unrelated installation markers are preserved.
+Build rows add `download_provider='github'`, `github_repository`, `github_repository_id` and `github_asset_id` to UUID/channel/version/size/SHA-256/root EXE/notes/publication date. Constraints reject incomplete identities. Storage rows default to `supabase` with null GitHub fields. Credentials and signed URLs are never persisted in rows or installation markers.
 
-Tests use tiny text EXEs that are never executed. Real Reborn archives will be provided separately, as requested.
+For each ticket the server verifies the configured repository is private with the expected numeric ID. The exact asset must be uploaded, a ZIP, and match the catalog size and GitHub SHA-256 digest. The [GitHub asset API](https://docs.github.com/en/rest/releases/assets?apiVersion=2022-11-28) is called with manual redirects; only API requests receive the GitHub credential. Binary 200 responses are refused instead of proxied through Supabase. A 302/307 Location is accepted only for HTTPS `release-assets.githubusercontent.com`, default port, no userinfo/fragment, repository-bound release-asset path and non-expired signature. The server never fetches the archive/CDN.
+
+The ticket contains `ticket_version=2`, exact build, `url`, `expires_at` and `url_expires_at`. `expires_at` is the deadline to **start** a download (at most 120 seconds). `url_expires_at` is GitHub's actual signed URL expiry, read from `se`. These are different lifetimes: role withdrawal or ticket expiry cannot instantly revoke an already-issued CDN URL. Responses have `Cache-Control: no-store`. Membership and exact archive identity are checked again before issuing the ticket.
+
+## Publishing
+
+1. ZIP an accepted standalone Windows export with the actual EXE at the root and every required runtime/data file. Choose a fresh UUID and record exact size/SHA-256. Do not reuse UUIDs or replace assets.
+2. Upload to a private GitHub Release, download back and verify. Record canonical repo, numeric repo/asset IDs and localized notes.
+3. Insert metadata with `enabled=false` through the trusted database administration route.
+4. Verify server credential access and download behavior; release a compatible launcher. Only then enable the row. Disabled/future rows do not appear in history/catalogs. Beta may remain empty.
+5. Later compatible builds require new UUIDs/assets and metadata, without updating the launcher.
+
+Existing Storage distribution signs only `paw-reborn-builds/<channel>/<UUID>.zip` for 120 seconds and remains subject to project Storage limits. No paid plan is required or activated.
+
+## Client verification
+
+Tickets bind every archive identity field, including provider/repository/asset IDs. The client restricts HTTPS host/path/port/userinfo/fragment, validates both expiries and refuses redirects. A fresh download client sends no account, Supabase or GitHub credentials to the CDN. Size and SHA-256 are checked before extraction.
+
+Extraction uses fresh owned staging. Absolute/traversal paths, Windows streams/device names, case-insensitive collisions, symlinks and oversized archives are rejected. Authorization is repeated before atomic activation. Unknown files, unrelated markers and existing installations survive failed/cancelled updates. Matching completed builds can be retried. Already downloaded files are not remotely deleted on role withdrawal.
+
+Tests use mocked providers, a loopback HTTP fixture and tiny text EXEs that are never executed. Real desktop game/launcher acceptance is separate.

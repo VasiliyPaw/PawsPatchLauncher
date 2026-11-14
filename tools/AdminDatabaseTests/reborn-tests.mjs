@@ -51,6 +51,19 @@ export async function rebornTests(db,user,admin,launcher){
  check((await history(user)).status==='reborn_access_denied','deletion-pending team account cannot read history');
  check((await call(user)).status==='reborn_access_denied','deletion-pending team account denied');
  await q('update public.paw_profiles set deletion_pending=false,paws_team=false where id=$1',[user]);
+ const github=await build('stable','0.23.0',false,'-1 hour');
+ check((await q('select download_provider from paw_private.reborn_builds where id=$1',[github]))[0].download_provider==='supabase','old publishers retain Storage by default');
+ await q("update paw_private.reborn_builds set download_provider='github',github_repository='Owner/Private',github_repository_id=1458192487,github_asset_id=748818121 where id=$1",[github]);
+ await q('update public.paw_profiles set paws_team=true where id=$1',[user]);
+ check((await call(user,'stable',github)).status==='reborn_unavailable','GitHub metadata alone cannot publish disabled builds');
+ await q('update paw_private.reborn_builds set enabled=true where id=$1',[github]);
+ const githubMetadata=(await call(user,'stable',github)).release;
+ check(githubMetadata.download_provider==='github'&&githubMetadata.github_asset_id===748818121&&githubMetadata.github_repository_id===1458192487,'service-only RPC retains GitHub identity');
+ for(const mutation of ["github_repository=null","github_repository='../Private'","github_repository_id=null","github_repository_id=0","github_asset_id=null","github_asset_id=9007199254740992","download_provider='supabase'","download_provider='external'"]){
+  let rejected=false;try{await q('update paw_private.reborn_builds set '+mutation+' where id=$1',[github]);}catch(error){rejected=error.code==='23514';}
+  check(rejected,'provider constraint must reject '+mutation);
+ }
+ await q('update public.paw_profiles set paws_team=false where id=$1',[user]);
  await q('delete from paw_private.reborn_builds where id=any($1::uuid[])',[releases]);
  console.log('REBORN SQL PASS',count,': role/session gate, private storage, empty channels, latest releases and revocation');return count;
 }

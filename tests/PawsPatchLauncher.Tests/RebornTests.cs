@@ -83,7 +83,7 @@ internal static class RebornTests
             if(path.EndsWith("paw_profiles"))return Task.FromResult(AccountTests.Ok(JsonSerializer.Serialize(new[]{new{id=player,nickname="reborn",paws_team=true}})));
             if(path.EndsWith("/reborn-builds"))
             {
-                historyCalls++;Check((request.RequestUri.Query=="?action=history"||mode=="unpublished")&&request.Headers.Authorization?.Scheme=="Bearer"&&request.Headers.Contains("x-paw-launcher"),"history must use an authenticated private endpoint and launcher session");
+                historyCalls++;Check((request.RequestUri.Query=="?action=history&protocol=2"||mode=="unpublished")&&request.Headers.Authorization?.Scheme=="Bearer"&&request.Headers.Contains("x-paw-launcher"),"history must use an authenticated private endpoint and launcher session");
                 if(mode=="unpublished"||mode=="other404")return Task.FromResult(new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.NotFound){Content=new System.Net.Http.StringContent(mode=="unpublished"?"{\"code\":\"NOT_FOUND\",\"message\":\"Requested function was not found\"}":"{\"status\":\"invalid_request\"}")});
                 return Task.FromResult(mode=="denied"?new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Forbidden){Content=new System.Net.Http.StringContent("{\"status\":\"reborn_access_denied\"}")}:
                     AccountTests.Ok(mode=="duplicate"?JsonSerializer.Serialize(new{status="ok",releases=new[]{Wire(historyRelease),Wire(historyRelease)}}):mode=="oversized"?JsonSerializer.Serialize(new{status="ok",releases=Enumerable.Range(0,201).Select(_=>Wire(historyRelease)).ToArray()}):largeResponse));
@@ -100,6 +100,7 @@ internal static class RebornTests
             }
         }
         Check(historyCalls==7,"history transport performed unexpected requests");
+        checks += await RebornDownloadTests.RunAsync(fixture);
         Console.WriteLine($"REBORN INSTALL PASS {checks}: independent channels, verification, safe extraction, retry, revocation, cancellation and preserved installations; no EXE executed");return checks;
     }
 }
