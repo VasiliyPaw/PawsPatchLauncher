@@ -393,6 +393,7 @@
                                     <TextBlock Text="!" FontSize="12" FontWeight="Bold" Foreground="White" TextAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
+                            <Button x:Name="RebornNav" Content="Kohan Reborn" Visibility="Collapsed" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Margin="0,0,0,8" Click="RebornNav_Click"/>
                             <Grid Margin="0,0,0,8">
                                 <Button x:Name="FriendsNav" Style="{StaticResource GhostButton}" HorizontalContentAlignment="Left" Click="FriendsNav_Click"/>
                                 <Border x:Name="FriendsNavBadge" Background="#B94757" CornerRadius="9" MinWidth="18" Height="18" Padding="4,0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" IsHitTestVisible="False" Visibility="Collapsed">
@@ -483,6 +484,9 @@
                             </ScrollViewer>
                         </Grid>
 
+                        <ScrollViewer x:Name="RebornPage" Grid.ColumnSpan="3" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel x:Name="RebornBody" Margin="0,0,12,0"/>
+                        </ScrollViewer>
                         <Grid x:Name="MainOptionsHost" Grid.Column="0">
                             <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
                             <StackPanel x:Name="PinnedComponentsHost" Visibility="Collapsed" Margin="0,0,12,0"/>
@@ -1334,7 +1338,7 @@
                         </Border>
                     </Grid>
 
-                    <StackPanel Grid.Row="2">
+                    <StackPanel x:Name="KohanActionsFooter" Grid.Row="2">
                     <ContentControl x:Name="OperationFooterHost"/>
                     <TextBlock x:Name="GameCompatibilityHint" Visibility="Collapsed" Foreground="#FF9D9D" TextWrapping="Wrap" HorizontalAlignment="Right" MaxWidth="580" Margin="0,0,0,10" FontSize="12"/>
                     <Grid x:Name="ActionBar">

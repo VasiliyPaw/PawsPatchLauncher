@@ -142,6 +142,7 @@ public static class Program
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         if (Environment.GetCommandLineArgs().Contains("--friend-download-checks")) { FriendDownloadChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (Environment.GetCommandLineArgs().Contains("--startup-version-checks")) { StartupVersionChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
+        if (Environment.GetCommandLineArgs().Contains("--reborn-checks")) { RebornChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (idleCpuProbe) { IdleCpuProbe.Run(args[0]); app.Shutdown(); return; }
         if (lobbyLaunchFixture is not null) { LobbyLaunchChecks.Run(lobbyLaunchFixture); app.Shutdown(); return; }
         if (modDbDialogPreview) { ModDbDialogPreview.Run(language, args[0]); app.Shutdown(); return; }

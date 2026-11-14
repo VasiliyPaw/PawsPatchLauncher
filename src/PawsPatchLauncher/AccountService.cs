@@ -357,7 +357,7 @@ public sealed partial class AccountService : IDisposable
                     or "account_deletion_pending" or "confirmation_required" or "invalid_avatar" or "avatar_too_large"
                     or "current_password_required" or "invalid_email" or "same_email" or "same_password" or "weak_password"
                     or "email_unavailable" or "reauthentication_needed" or "rate_limit" or "outcome_unknown" or "friend_required"
-                    or "account_banned" or "email_banned" or "protected_account" => status,
+                    or "account_banned" or "email_banned" or "protected_account" or "reborn_access_denied" or "reborn_unavailable" => status,
                     "service_unavailable" => "network", _ => "service_error" });
             }
             if (response.IsSuccessStatusCode) return json;

@@ -72,6 +72,7 @@ public partial class MainWindow : Window
         InitializeConfirmation();
         InitializeAppearance();
         InitializeCommunity();
+        InitializeReborn();
         InitializeLanguageChoices();
         InitializeActionJournal();
         SyncPatchChannelControls();
@@ -98,7 +99,7 @@ public partial class MainWindow : Window
             if (ConfirmationActive) { e.Cancel = true; _ = CompleteConfirmationAsync(false); }
             else if (_busy && _downloadCancellation is not null && _feedClient.Downloads.IsPaused)
             { _closingPausedDownload = true; _downloadCancellation.Cancel(); }
-            else if (_busy || _customModsBusy) { e.Cancel = true; ShowToast(() => T("Дождитесь окончания операции или приостановите загрузку.", "Wait for the operation or pause the download.")); }
+            else if (_busy || _customModsBusy || _rebornBusy) { e.Cancel = true; ShowToast(() => T("Дождитесь окончания операции или приостановите загрузку.", "Wait for the operation or pause the download.")); }
         };
         _initializing = false;
         Loaded += async (_, _) => await InitializeAsync();
@@ -789,7 +790,7 @@ public partial class MainWindow : Window
     {
         if (ActivityStore.IsCommunityTest || ActivityStore.IsCustomModsTest) return false;
         var release = _pendingLauncherUpdate;
-        if (release is null || _busy || ConfirmationActive) return false;
+        if (release is null || _busy || _rebornBusy || ConfirmationActive) return false;
         try
         {
             _launcherRestarting = true;
@@ -1211,9 +1212,14 @@ public partial class MainWindow : Window
         if (page == "custom-mods") { OpenGameSettings(); CustomModsTab.IsChecked = true; return; }
         if (_activePage != page) ActionJournal.Record("navigation", page);
         if(page=="admin"&&_account.AdminLevel<1)page="home";
+        if(page=="reborn"&&!RebornAccess)page="home";
         AdminPanel.Visibility=page=="admin"?Visibility.Visible:Visibility.Collapsed;
-        MainOptionsHost.Visibility=page=="admin"?Visibility.Collapsed:Visibility.Visible;
-        MainOptionsScroll.Visibility=page=="admin"?Visibility.Collapsed:Visibility.Visible;
+        MainOptionsHost.Visibility=page is "admin" or "reborn"?Visibility.Collapsed:Visibility.Visible;
+        MainOptionsScroll.Visibility=page is "admin" or "reborn"?Visibility.Collapsed:Visibility.Visible;
+        RebornPage.Visibility=page=="reborn"?Visibility.Visible:Visibility.Collapsed;
+        ReadyStatusBadge.Visibility=page=="reborn"?Visibility.Collapsed:Visibility.Visible;
+        KohanActionsFooter.Visibility=page=="reborn"?Visibility.Collapsed:Visibility.Visible;
+        SetNavState(RebornNav,page=="reborn");
         SetNavState(AdminNav,page=="admin");
         if (page == "multiplayer") page = "friends";
         CloseSocialMenu();
@@ -1221,6 +1227,7 @@ public partial class MainWindow : Window
         if (changed && _activePage == "friends") _chatUnreadDivider.End();
         if (changed && page == "account") _accountReturnPage = _activePage;
         _activePage = page;
+        if(page=="reborn") { RenderReborn(); if(changed) _=LoadRebornCatalogAsync(); }
         RefreshProfileVisibility();
         var home = page == "home";
         var modules = page == "modules";
@@ -1283,7 +1290,7 @@ public partial class MainWindow : Window
         if (home) RefreshNews();
         if (changed && !_initializing)
         {
-            Motion.Reveal(page == "admin" ? (FrameworkElement)AdminPanel : MainOptionsScroll);
+            Motion.Reveal(page == "admin" ? (FrameworkElement)AdminPanel : page == "reborn" ? RebornPage : MainOptionsScroll);
             // Both Friends columns enter together after their first layout.
             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() =>
             {

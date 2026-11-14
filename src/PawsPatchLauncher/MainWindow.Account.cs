@@ -102,6 +102,7 @@ public partial class MainWindow
 
     private void RenderAccount()
     {
+        RefreshRebornAccess();
         RenderConnectionUi();
         var guest = _account.State == AccountState.Guest;
         AccountFormCard.Visibility = guest && !_accountRecoveryOpen && !_accountConfirmation ? Visibility.Visible : Visibility.Collapsed;

@@ -26,8 +26,11 @@ public partial class MainWindow
     private void RefreshActionLayout()
     {
         var shortWindow = (ActualHeight > 0 ? ActualHeight : Height) < 780;
-        BrandMark.Width = BrandMark.Height = shortWindow ? 76 : 108;
-        BrandGapRow.Height = new GridLength(shortWindow ? 14 : 36);
+        var extraNavigation = shortWindow && RebornNav.Visibility == Visibility.Visible;
+        BrandMark.Width = BrandMark.Height = shortWindow ? extraNavigation ? 64 : 76 : 108;
+        BrandGapRow.Height = new GridLength(shortWindow ? extraNavigation ? 10 : 14 : 36);
+        foreach (var navigation in new[] { HomeNav, ModulesNav, RebornNav, FriendsNav, SettingsNav, AboutNav, AdminNav })
+            navigation.Height = extraNavigation ? 36 : double.NaN;
         var contentWidth = PagesWorkspace.ActualWidth > 0 ? PagesWorkspace.ActualWidth : Width - 730;
         var compact = contentWidth < 850;
         var narrow = contentWidth < 620;

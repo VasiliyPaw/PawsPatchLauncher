@@ -218,6 +218,7 @@ try
         passed += await LauncherDownloadRecoveryTests.RunAsync(root);
         passed += await UsabilityTests.RunAsync(root);
         passed += MissingExecutableTests.Run(root);
+        passed += await RebornTests.RunAsync(root);
         passed += await CustomVoiceTests.RunAsync(root);
         passed += await StartupCompatibilityTests.RunAsync(root);
         passed += await AccountTests.RunAsync(root);

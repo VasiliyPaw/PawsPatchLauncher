@@ -15,6 +15,8 @@ public sealed class LauncherConfiguration
 
 public sealed class UserSettings
 {
+    public string RebornChannel { get; set; } = "stable";
+    public string? RebornPath { get; set; }
     public string Mod { get; set; } = GameMod.ArcaneWars;
     public bool PawPatchEnabled { get; set; } = true;
     public ArcaneComponentSelection? SuspendedArcaneComponents { get; set; }

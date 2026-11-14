@@ -60,6 +60,7 @@ public partial class MainWindow
 
     private void RefreshTeamAccess()
     {
+        RefreshRebornAccess();
         if (ArcaneWarsModRadio is null) return;
         ArcaneWarsModRadio.IsEnabled = !_busy && CanSelectArcaneWars;
         ArcaneAccessButton.Visibility = Visibility.Collapsed;
