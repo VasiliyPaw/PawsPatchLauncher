@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.5.1-beta.5",
+  "version": "0.6.0-beta.1",
   "entries": [
+    {
+      "id": "arcane-world-060",
+      "category": "always",
+      "titleRu": "Дороги, мосты и живой мир",
+      "titleEn": "Roads, bridges and a living world",
+      "bodyRu": "- Добавлены дороги и мосты всех рас; боты строят и используют переправы.\n- Мосты получили расовые леса и эффекты строительства по всей длине.\n- Добавлены выбор формы карты и количества рек, плавные переходы суши и дна.\n- Полный цикл времени суток длится 24 минуты.\n- Обновлены интерфейсы рас, значки и мини-карта.\n- Ускорена загрузка игры, улучшена реакция ополчения и осадных отрядов.\n- Сохранены исправления оптимизации и воздушной разведки из предыдущей беты.\nПервое обновление загрузит около 2 ГБ текстур.",
+      "bodyEn": "- Added roads and bridges for every race; bots build and use crossings.\n- Bridges use racial scaffolding and construction effects across their full length.\n- Added map shapes, river counts and smooth land and water-floor transitions.\n- A full time-of-day cycle lasts 24 minutes.\n- Updated racial interfaces, icons and the minimap.\n- Faster game startup and improved militia and siege responses.\n- Includes the previous beta’s optimization and aerial scout fixes.\nThe first update downloads about 2 GB of textures."
+    },
     {
       "id": "cache-stability-20261114",
       "category": "always",
