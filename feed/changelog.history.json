@@ -1627,6 +1627,31 @@
         "arcane-wars"
       ],
       "channel": "beta",
+      "version": "0.6.0-beta.2",
+      "publishedAt": "2026-11-15",
+      "title": {
+        "ru": "Paw’s Patch 0.6.0-beta.2 — Arcane Wars",
+        "en": "Paw’s Patch 0.6.0-beta.2 — Arcane Wars",
+        "uk": "Paw’s Patch 0.6.0-beta.2 — Arcane Wars",
+        "cs": "Paw’s Patch 0.6.0-beta.2 — Arcane Wars",
+        "de": "Paw’s Patch 0.6.0-beta.2 — Arcane Wars",
+        "fr": "Paw’s Patch 0.6.0-beta.2 — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Объём загрузки уменьшен примерно с 2,2 ГБ до 1 ГБ.\n- Текстуры переходов суши и дна сжаты без потери качества; повторные изображения больше не занимают лишнее место.",
+        "en": "- Reduced the download from about 2.2 GB to 1 GB.\n- Land and water-floor transition textures use lossless compression; duplicate images no longer take extra space.",
+        "uk": "- Обсяг завантаження зменшено приблизно з 2,2 ГБ до 1 ГБ.\n- Текстури переходів суші та дна стиснуто без втрати якості; повторні зображення більше не займають зайвого місця.",
+        "cs": "- Velikost stahování snížena přibližně z 2,2 GB na 1 GB.\n- Textury přechodů souše a dna jsou bezeztrátově komprimované; duplicitní obrázky již nezabírají další místo.",
+        "de": "- Downloadgröße von etwa 2,2 GB auf 1 GB reduziert.\n- Texturen der Land- und Gewässerbodenübergänge werden verlustfrei komprimiert; doppelte Bilder belegen keinen zusätzlichen Speicherplatz mehr.",
+        "fr": "- Taille du téléchargement réduite d’environ 2,2 Go à 1 Go.\n- Les textures des transitions terrestres et des fonds aquatiques sont compressées sans perte ; les images en double n’occupent plus d’espace supplémentaire."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
       "version": "0.6.0-beta.1",
       "publishedAt": "2026-11-15",
       "title": {
