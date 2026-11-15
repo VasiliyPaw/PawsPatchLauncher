@@ -74,6 +74,30 @@ internal static class UsabilityTests
         for (int i = 10000; i < 20000; i++) progress.Report(i);
         context.Drain(); Check(callbacks == 1, "progress cannot flood the dispatcher before its minimum interval");
         await Task.Delay(180); context.Drain(); Check(callbacks == 2 && latest == 19999, "throttled dispatcher retains the final sample");
+        progress.Report(20000);
+        progress.Complete();
+        Check(callbacks == 3 && latest == 20000, "completion flushes the latest sample before its delayed UI callback");
+        progress.Report(-1); progress.Complete();
+        await Task.Delay(180); context.Drain();
+        Check(callbacks == 3 && latest == 20000, "retired delayed callbacks and later reports cannot change the next phase");
+        var emptyProgress = new CoalescingProgress<int>(_ => throw new Exception("Empty transfer invented progress"));
+        emptyProgress.Complete(); context.Drain(); checks++;
+        SynchronizationContext.SetSynchronizationContext(context);
+        long finalBytes = -1; long? finalTotal = null; var transferCallbacks = 0;
+        var completedTransfer = new CoalescingProgress<(long Received, long? Total)>(p => { finalBytes = p.Received; finalTotal = p.Total; transferCallbacks++; });
+        SynchronizationContext.SetSynchronizationContext(previous);
+        var verifiedPath = await feed.DownloadVerifiedAsync(new PackageRelease { Id = "final-progress", Version = "1", Size = bytes.Length, Sha256 = package.Sha256, Urls = package.Urls }, completedTransfer);
+        Check(finalBytes == -1, "fixture holds the UI queue until the verified download has returned");
+        completedTransfer.Complete();
+        Check(finalBytes == bytes.Length && finalTotal == bytes.Length && new FileInfo(verifiedPath).Length == bytes.Length, "verified download publishes its exact final bytes before installation");
+        context.Drain();
+        Check(transferCallbacks == 1, "queued download samples do not overwrite the installation phase after completion");
+        SynchronizationContext.SetSynchronizationContext(context);
+        var partialBytes = 0;
+        var interruptedProgress = new CoalescingProgress<int>(p => partialBytes = p);
+        SynchronizationContext.SetSynchronizationContext(previous);
+        interruptedProgress.Report(97); interruptedProgress.Complete(); context.Drain();
+        Check(partialBytes == 97, "completion does not turn an interrupted partial transfer into a fabricated 100 percent");
         var accountId = Guid.NewGuid(); var privacy = new ProfileVisibility(); bool malformed = false;
         using var account = new AccountService(new AccountSessionStore(Path.Combine(root, "privacy-account")), new AsyncHandler(async request =>
         {

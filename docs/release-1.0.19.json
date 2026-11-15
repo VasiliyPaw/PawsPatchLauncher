@@ -1,0 +1,21 @@
+{
+  "category": "launcher",
+  "version": "1.0.19",
+  "publishedAt": "2026-11-15",
+  "title": {
+    "ru": "Paw’s Launcher 1.0.19",
+    "en": "Paw’s Launcher 1.0.19",
+    "uk": "Paw’s Launcher 1.0.19",
+    "cs": "Paw’s Launcher 1.0.19",
+    "de": "Paw’s Launcher 1.0.19",
+    "fr": "Paw’s Launcher 1.0.19"
+  },
+  "body": {
+    "ru": "- Исправлено отображение прогресса загрузки перед установкой.",
+    "en": "- Fixed download progress display before installation.",
+    "uk": "- Виправлено відображення прогресу завантаження перед встановленням.",
+    "cs": "- Opraveno zobrazení průběhu stahování před instalací.",
+    "de": "- Fortschrittsanzeige beim Download vor der Installation korrigiert.",
+    "fr": "- Correction de l’affichage de la progression du téléchargement avant l’installation."
+  }
+}

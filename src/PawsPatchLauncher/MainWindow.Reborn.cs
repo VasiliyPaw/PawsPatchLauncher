@@ -182,7 +182,8 @@ public partial class MainWindow
                     RebornProgressBar.IsIndeterminate = false; RebornProgressBar.Value = 100d*p.Received/p.Total;
                     RebornProgressText.Text = $"{p.Received/1048576d:0.0} / {p.Total/1048576d:0.0} MB";
                 });
-                await RebornInstall.DownloadAsync(ticket,archive,progress,ct); Guard();
+                await RebornInstall.DownloadAsync(ticket,archive,progress,ct);
+                progress.Complete(); Guard();
                 RebornProgressText.Text = T("Устанавливаем Reborn…","Installing Reborn…");
                 await RebornInstall.InstallAsync(root,build!,archive,async () => { await _account.GetRebornTicketAsync(build!,ct); Guard(); },ct);
             }

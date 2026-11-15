@@ -436,12 +436,16 @@ public partial class MainWindow
     }
 
     private object? _activeTransfer;
+    private CoalescingProgress<(long Received, long? Total)>? _transferProgress;
     private long? _transferReceived;
     private long? _transferTotal;
 
     private void FinishTransfer()
     {
-        // Progress<T> posts to the UI queue: ignore callbacks still queued after completion.
+        // Publish the last received sample before invalidating this transfer. Otherwise
+        // its final UI callback can be discarded while installation still shows 97%.
+        _transferProgress?.Complete();
+        _transferProgress = null;
         var hadTransfer = _activeTransfer is not null;
         _activeTransfer = null;
         RefreshDownloadControls();
@@ -478,16 +482,13 @@ public partial class MainWindow
         var watch = Stopwatch.StartNew();
         long? first = null;
         var transportRevision = _feedClient.Downloads.Revision;
-        long lastUpdate = -1000;
-        return new CoalescingProgress<(long Received, long? Total)>(value =>
+        return _transferProgress = new CoalescingProgress<(long Received, long? Total)>(value =>
         {
             if (!ReferenceEquals(_activeTransfer, transfer)) return;
             if (_feedClient.Downloads.IsPaused) return;
             if (transportRevision != _feedClient.Downloads.Revision)
-            { transportRevision = _feedClient.Downloads.Revision; first = null; watch.Restart(); lastUpdate = -1000; }
+            { transportRevision = _feedClient.Downloads.Revision; first = null; watch.Restart(); }
             first ??= value.Received;
-            if (watch.ElapsedMilliseconds - lastUpdate < 180 && value.Received != value.Total) return;
-            lastUpdate = watch.ElapsedMilliseconds;
             var speed = Math.Max(0, value.Received - first.Value) / Math.Max(watch.Elapsed.TotalSeconds, .1);
             var remaining = value.Total is > 0 && speed > 1024 ? TimeSpan.FromSeconds(Math.Clamp((value.Total.Value - value.Received) / speed, 0, 86400)).ToString(@"hh\:mm\:ss") : "-";
             _transferReceived = value.Received;
@@ -496,7 +497,7 @@ public partial class MainWindow
             SetTransferDetails(FormatBytes(value.Received) + " / " + (value.Total is null ? "?" : FormatBytes(value.Total.Value)) + "\n" + FormatBytes((long)speed) + T("/с · осталось ", "/s · remaining ") + remaining);
             SetOperationIndeterminate(value.Total is null);
             SetOperationProgress(value.Total is > 0 ? Math.Clamp(value.Received * 100d / value.Total.Value, 0, 100) : 0);
-        }, TimeSpan.FromMilliseconds(120));
+        }, TimeSpan.FromMilliseconds(180));
     }
     private void CancelDownload_Click(object sender, RoutedEventArgs e) { _downloadCancellation?.Cancel(); _feedClient.Downloads.Resume(); }
 

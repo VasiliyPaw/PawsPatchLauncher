@@ -8,6 +8,8 @@ public sealed class CoalescingProgress<T>(Action<T> handler, TimeSpan? minimumIn
     private readonly object _gate = new();
     private T _latest = default!;
     private bool _queued;
+    private bool _hasValue;
+    private bool _completed;
     private readonly System.Diagnostics.Stopwatch _clock = System.Diagnostics.Stopwatch.StartNew();
     private long _lastDispatch = -100000;
 
@@ -15,13 +17,31 @@ public sealed class CoalescingProgress<T>(Action<T> handler, TimeSpan? minimumIn
     {
         lock (_gate)
         {
+            if (_completed) return;
             _latest = value;
+            _hasValue = true;
             if (_queued) return;
             _queued = true;
         }
         var delay = Math.Max(0, (minimumInterval?.TotalMilliseconds ?? 0) - (_clock.ElapsedMilliseconds - Interlocked.Read(ref _lastDispatch)));
         if (delay == 0) _context.Post(_ => Drain(), null);
         else _ = PostDelayedAsync((int)Math.Ceiling(delay));
+    }
+
+    /// <summary>Call on the creating context before changing phases. Deliver the
+    /// final sample immediately and retire any queued/delayed callbacks.</summary>
+    public void Complete()
+    {
+        T value;
+        bool publish;
+        lock (_gate)
+        {
+            if (_completed) return;
+            _completed = true;
+            publish = _hasValue;
+            value = _latest;
+        }
+        if (publish) handler(value);
     }
 
     private async Task PostDelayedAsync(int delay)
@@ -33,7 +53,11 @@ public sealed class CoalescingProgress<T>(Action<T> handler, TimeSpan? minimumIn
     private void Drain()
     {
         T value;
-        lock (_gate) { value = _latest; Interlocked.Exchange(ref _lastDispatch, _clock.ElapsedMilliseconds); _queued = false; }
+        lock (_gate)
+        {
+            if (_completed) return;
+            value = _latest; Interlocked.Exchange(ref _lastDispatch, _clock.ElapsedMilliseconds); _queued = false;
+        }
         handler(value);
     }
 }

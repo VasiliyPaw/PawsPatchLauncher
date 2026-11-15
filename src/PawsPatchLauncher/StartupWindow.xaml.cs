@@ -121,6 +121,7 @@ public partial class StartupWindow : Window
                 SpeedText.Text = Bytes((long)speed) + T("/с · осталось ", "/s · remaining ") + remaining;
             });
             var downloaded = await _feed.DownloadLauncherAsync(release, progress, downloadCancellation.Token);
+            progress.Complete();
             downloadCancellation.CancelAfter(Timeout.InfiniteTimeSpan);
             _cancel.Token.ThrowIfCancellationRequested();
             _downloading = false; _installing = true; ContinueButton.IsEnabled = false;
