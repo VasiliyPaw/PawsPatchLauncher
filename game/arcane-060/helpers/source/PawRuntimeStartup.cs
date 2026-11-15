@@ -62,7 +62,18 @@ internal static class PawRuntimeStartup {
   catch(Exception e){try{if(Directory.Exists(cache))File.WriteAllText(Path.Combine(cache,"font-preparation-error.txt"),e.ToString());}catch{}}
  }
 
+
+ static void ValidateTextures(string game) {
+  string[] names={"paws-biome-textures-01.rwd","paws-biome-textures-02.rwd","paws-biome-textures-03.rwd","paws-biome-textures-04.rwd"};long[] sizes={231258709L,231349614L,231234996L,208526886L};uint[] stamps={0x833671A8u,0x14FE7AFDu,0xCDA233C9u,0x9F8FD388u};
+  string startup=Path.Combine(game,"startup","autoexec.txt");string mounted=File.Exists(startup)?File.ReadAllText(startup):"";
+  for(int i=0;i<names.Length;i++){
+   string path=Path.Combine(game,names[i]);if(!File.Exists(path)||new FileInfo(path).Length!=sizes[i])throw new InvalidDataException("Paw's Patch terrain textures are missing or incomplete. Apply the update in the launcher.");
+   using(var input=new BinaryReader(File.OpenRead(path))){if(input.ReadUInt32()!=0x4B434754||input.ReadUInt32()!=2||input.ReadUInt32()!=3)throw new InvalidDataException("Paw's Patch terrain archive header differs. Apply the update in the launcher.");input.BaseStream.Position=26;if(input.ReadUInt32()!=stamps[i])throw new InvalidDataException("Paw's Patch terrain archive version differs. Apply the update in the launcher.");}
+   bool found=mounted.Split(new[]{'\r','\n'},StringSplitOptions.RemoveEmptyEntries).Any(line=>String.Equals(line.Trim(),"adddepot "+names[i],StringComparison.OrdinalIgnoreCase));if(!found)throw new InvalidDataException("Paw's Patch terrain textures are not connected. Apply the update in the launcher.");
+  }
+ }
  static void Validate(string game) {
+  ValidateTextures(game);
   if(!File.Exists(Path.Combine(game,"paws_runtime.marker")))throw new InvalidDataException("Paw's Patch 0.6.0 runtime data is missing. Apply the update in the launcher.");
   string[] names={"PawsBridges.dll","PawsMilitia.dll","PawsSiege.dll","PawsWideBiomes.dll","PawsWaterBiomes.dll","PawsCameraRange.dll","PawsMinimapBiomes.dll","PawsStartupOptimizations.dll","PawsFontMetrics.dll"};string[] hashes={"5BC48F3D6639A70F34CD7F1A01CE948804350E927A873B4FF52F70FDBD2D7792","D8FB006916B954A3C6A7AE0564FE375E89A1EA00FA83376FD09EC627757CD7ED","B710145DAE706F341A58DF44B8DB9F96EF81E3B1652E840DF6FE2F749F586365","6C9BE8F0F61EE0CBE9B914C4B7FC42FA594FA7B843E6188FFDB77141A93D86B7","D51879D510689C6BF9EE5F5D5A58DB5A045D2834A95CF101B6C759D7A0F4428A","B3387EFF724E35FFC05EBFC95828BFBEE04597E4B989203F5EECF7FA60FC0B02","69738E50F613D3FB3899B72308085A3A24BA90F2493B2856CDF60D60FE10801B","7AF3C91CD5EA637EA94D238DF5E38B689D4884AADBF03FC79BDA2843E6D2613B","95BAB1F2BE7153606300BC2328F5A666205387E7F4BCD7A8007DFC754E6F25F9"};
   for(int i=0;i<names.Length;i++){string path=Path.Combine(game,"Mods",names[i]);if(!File.Exists(path))throw new FileNotFoundException("Missing Paw's Patch runtime module: "+names[i]);using(var stream=File.OpenRead(path))using(var h=SHA256.Create())if(!String.Equals(BitConverter.ToString(h.ComputeHash(stream)).Replace("-",""),hashes[i],StringComparison.OrdinalIgnoreCase))throw new InvalidDataException("Paw's Patch runtime module differs: "+names[i]);}

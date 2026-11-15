@@ -1,0 +1,234 @@
+{
+  "passed": true,
+  "version": "0.6.0-beta.2",
+  "size": {
+    "passed": true,
+    "oldBytes": 2187766546,
+    "newBytes": 1000473442,
+    "savedPercent": 54.27,
+    "textureBytes": 900056401
+  },
+  "losslessImages": 22464,
+  "duplicates": 5705,
+  "parts": 4,
+  "nativeModulesAndGameplayAssetsUnchanged": true,
+  "checks": {
+    "beta2-upgrade-result.json": {
+      "passed": true,
+      "version": "0.6.0-beta.2",
+      "oldLooseTexturesRemoved": 22464,
+      "archiveCount": 4,
+      "baseArchivesUnchanged": true
+    },
+    "rollback-result.json": {
+      "passed": true,
+      "allFourArchivesRemoved": true,
+      "allFourMountsRemoved": true
+    },
+    "beta2-reapply-result.json": {
+      "passed": true,
+      "version": "0.6.0-beta.2",
+      "oldLooseTexturesRemoved": 22464,
+      "archiveCount": 4,
+      "baseArchivesUnchanged": true
+    },
+    "beta2-network-result.json": {
+      "passed": true,
+      "version": "0.6.0-beta.2",
+      "oldLooseTexturesRemoved": 22464,
+      "archiveCount": 4,
+      "baseArchivesUnchanged": true
+    },
+    "product-smoke.json": {
+      "passed": true,
+      "ordinaryHelper": true,
+      "launcher": "1.0.18",
+      "freshNativeMenu": {
+        "pid": 40392,
+        "path": "G:\\PawsWork\\QA\\Arcane060-20261115\\game\\k2.exe"
+      },
+      "warmNativeMenu": {
+        "pid": 14904,
+        "path": "G:\\PawsWork\\QA\\Arcane060-20261115\\game\\k2.exe"
+      },
+      "savedWorldLoaded": true,
+      "savedBridgeDefinitions": 1,
+      "fontCacheSize": 1303336,
+      "fontStatus": "{\"event\":\"FontCache\",\"mode\":1,\"calls\":53886,\"hits\":0,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":0,\"written\":1,\"entries\":53886,\"consumed\":0,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":1,\"calls\":53886,\"hits\":0,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":0,\"written\":1,\"entries\":53886,\"consumed\":0,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":1,\"calls\":53886,\"hits\":0,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":0,\"written\":1,\"entries\":53886,\"consumed\":0,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":1,\"calls\":53886,\"hits\":0,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":0,\"written\":1,\"entries\":53886,\"consumed\":0,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n",
+      "nativeDefinitionStrings": [
+        {
+          "offset": 8,
+          "text": "paws_bridge_human_wood_y_16"
+        },
+        {
+          "offset": 16,
+          "text": "Wooden bridge"
+        },
+        {
+          "offset": 48,
+          "text": "A crossing between solid banks."
+        }
+      ],
+      "observerAddedOnlyForQA": true,
+      "normalExit": true,
+      "normalNineModules": true,
+      "normalNineMenu": true,
+      "normalNineExit": true
+    },
+    "catalog-qa/result.json": {
+      "passed": true,
+      "selections": 10800,
+      "checks": 159901,
+      "helpers": 8,
+      "launcher": "1.0.18.0"
+    },
+    "network-result.json": {
+      "passed": true,
+      "peers": 3,
+      "officialSync": true,
+      "checksums": {
+        "commonSamples": 66,
+        "alignedSeconds": 65.0,
+        "uninitializedSamples": {
+          "host": 0,
+          "client": 0,
+          "witness": 0
+        },
+        "first": [
+          16,
+          224
+        ],
+        "last": [
+          1056,
+          6395
+        ],
+        "mismatches": [],
+        "mismatchCount": 0,
+        "errors": []
+      },
+      "archiveChecksumLines": {
+        "host": "data.rwd dbf9c0e8 data/ 0 music.rwd 89317623 rivers-data/ 0 paws-biome-textures-01.rwd 833671a8 paws-biome-textures-02.rwd 14fe7afd paws-biome-textures-03.rwd cda233c9 paws-biome-textures-04.rwd 9f8fd388",
+        "client": "data.rwd dbf9c0e8 data/ 0 music.rwd 89317623 rivers-data/ 0 paws-biome-textures-01.rwd 833671a8 paws-biome-textures-02.rwd 14fe7afd paws-biome-textures-03.rwd cda233c9 paws-biome-textures-04.rwd 9f8fd388",
+        "witness": "data.rwd dbf9c0e8 data/ 0 music.rwd 89317623 rivers-data/ 0 paws-biome-textures-01.rwd 833671a8 paws-biome-textures-02.rwd 14fe7afd paws-biome-textures-03.rwd cda233c9 paws-biome-textures-04.rwd 9f8fd388"
+      },
+      "rawEvidence": {
+        "host": {
+          "path": "G:\\PawsWork\\QA\\Arcane060-20261115\\game\\Mods\\network-sync.jsonl",
+          "sha256": "A588F7996D585D6528D5C6864972E9021E9DA5FEE5D775B4E846C8B0A9650AB4",
+          "rows": 66,
+          "world": 613171492
+        },
+        "client": {
+          "path": "G:\\PawsWork\\QA\\Arcane060Beta2Net-20261115\\client\\game\\Mods\\network-sync.jsonl",
+          "sha256": "7D49537E3A7DCA9FD8CC3ABEF1B763E1EC3391C0402213EF0693B28684A3036D",
+          "rows": 66,
+          "world": 734539268
+        },
+        "witness": {
+          "path": "G:\\PawsWork\\QA\\Arcane060Beta2Net-20261115\\witness\\game\\Mods\\network-sync.jsonl",
+          "sha256": "5D3D9D57F0858846F381E6B232D72B6FC31B7765790E22248644CA8F29D32715",
+          "rows": 66,
+          "world": 735937660
+        }
+      },
+      "features": {
+        "colors": false,
+        "resourceCacheRevision": 1,
+        "resourcePrewarmRevision": 0,
+        "animationCacheRevision": 1,
+        "bufferReuseRevision": 0,
+        "perFindCacheRevision": 0,
+        "presentationRuntimeRevision": 1,
+        "minimapWheelZoomRevision": 1,
+        "inGameDayClockRevision": 1,
+        "airReconRevision": 1,
+        "fortStatisticsRevision": 1,
+        "resignDialogCenterRevision": 1,
+        "roadsAndBridgesRevision": 1,
+        "racialBridgeConstructionRevision": 1,
+        "mapShapesAndRiversRevision": 1,
+        "wideBiomesRevision": 1,
+        "startupOptimizationsRevision": 1,
+        "largeMapsRevision": 1,
+        "maximumMapSide": 2048,
+        "objectRegistryCapacity": 262143,
+        "terrainHashRevision": 1,
+        "largeMapWarningRevision": 1,
+        "minimapMarkerScaleRevision": 2,
+        "widescreenUniformUiRevision": 3,
+        "terrainTexturePoolEntries": 2048,
+        "modelEffectCacheRamWeight": 40,
+        "modelEffectCacheVramWeight": 40,
+        "expandedCacheBudgetRevision": 1,
+        "resourceCacheMaximumMiB": 3072,
+        "animationCacheWeight": 120,
+        "resourceCacheRamPercent": 90,
+        "aircraftFallRecoveryRevision": 1,
+        "selectionScrollRevision": 3,
+        "selectionCardsAdaptive": true,
+        "selectionDestinationFlagsAll": true,
+        "groupFormationRevision": 1,
+        "groupFormationRadiusRevision": 1,
+        "groupAttackRecoveryRevision": 1,
+        "groupMovementSpeedRevision": 3,
+        "companyBehaviorRevision": 2,
+        "ignoreZeroMoraleOptionalRevision": 2,
+        "groupRetreatPriorityRevision": 1,
+        "dynamicDayCycleSeconds": 1440,
+        "mixedBiomeSelectionRevision": 1,
+        "hotJoinRevision": 0,
+        "legacySaveLobbyRecovery": false,
+        "bypass": false,
+        "hostility": true,
+        "commonFixes": true,
+        "quiet": true,
+        "cityAssistant": true,
+        "advancedCityPolicy": true,
+        "cityPolicyRevision": 23,
+        "nativeCityQueue": true,
+        "automaticMines": true,
+        "newCityMilitia": true,
+        "startingCityMilitia": true,
+        "fastSaveTransfer": true,
+        "lobbyCompatibility": true,
+        "lobbyCompatibilityProtocol": 1,
+        "patchVersion": "0.6.0-beta.2",
+        "lairWoundedDefendersRevision": 3,
+        "gameplayCameraRevision": 1,
+        "gameplayCameraZoomMaximum": 2,
+        "gameplayCameraFarPlane": 1024,
+        "companyPositionRecoveryRevision": 1,
+        "exhaustionRecoveryRevision": 1,
+        "aiPolicyRevision": 39,
+        "builtInAiDiagnostics": true,
+        "aiImprovementsSelectable": true,
+        "bulkBotLobbyRevision": 3,
+        "fractionalKingdomPointsRevision": 1,
+        "builtInGraphicsDiagnosticsRevision": 3,
+        "settlementBuildingSlotsRevision": 2,
+        "settlementBuildingSlots": 8,
+        "allyEconomyRevision": 2,
+        "sharedAnimationTargetGuardRevision": 1,
+        "animationStopControllerGuardRevision": 1,
+        "missingNetworkClientGuardRevision": 1,
+        "observerTeamCommandGuardRevision": 1,
+        "taskStatusInitializationRevision": 1,
+        "foundationDistributionRevision": 2,
+        "settlementCampPercent": 80,
+        "foundationCampPercent": 20,
+        "nightmareDifficultyRevision": 3,
+        "nightmareRequiresAiImprovements": true,
+        "mixedBiomesRevision": 1,
+        "sharedBiomeSettingsRevision": 1,
+        "minimapBiomeColorsRevision": 1,
+        "largeMapCompanyLimit": 25
+      },
+      "scope": "Three native peers ran 65 seconds in the same generated map. Offline audit of retained raw CRC streams after normal shutdown; compare only the archive checksum suffix, excluding the expected per-player connect identities."
+    },
+    "network-cleanup.json": {
+      "passed": true,
+      "normalNineLists": true,
+      "ownedProcessesStopped": true
+    }
+  }
+}
