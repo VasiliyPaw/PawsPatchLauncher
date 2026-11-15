@@ -1,0 +1,25 @@
+{
+  "category": "patch",
+  "mods": [
+    "arcane-wars"
+  ],
+  "channel": "beta",
+  "version": "0.6.0-beta.1",
+  "publishedAt": "2026-11-15",
+  "title": {
+    "ru": "Paw’s Patch 0.6.0-beta.1 — Arcane Wars",
+    "en": "Paw’s Patch 0.6.0-beta.1 — Arcane Wars",
+    "uk": "Paw’s Patch 0.6.0-beta.1 — Arcane Wars",
+    "cs": "Paw’s Patch 0.6.0-beta.1 — Arcane Wars",
+    "de": "Paw’s Patch 0.6.0-beta.1 — Arcane Wars",
+    "fr": "Paw’s Patch 0.6.0-beta.1 — Arcane Wars"
+  },
+  "body": {
+    "ru": "- Добавлены дороги и мосты всех рас; боты строят и используют переправы.\n- Мосты получили расовые леса и эффекты строительства по всей длине.\n- Добавлены выбор формы карты и количества рек, плавные переходы суши и дна.\n- Полный цикл времени суток длится 24 минуты.\n- Обновлены интерфейсы рас, значки и мини-карта.\n- Ускорена загрузка игры, улучшена реакция ополчения и осадных отрядов.\n- Сохранены исправления оптимизации и воздушной разведки из предыдущей беты.",
+    "en": "- Added roads and bridges for every race; bots build and use crossings.\n- Bridges use racial scaffolding and construction effects across their full length.\n- Added map shapes, river counts and smooth land and water-floor transitions.\n- A full time-of-day cycle lasts 24 minutes.\n- Updated racial interfaces, icons and the minimap.\n- Faster game startup and improved militia and siege responses.\n- Includes the previous beta’s optimization and aerial scout fixes.",
+    "uk": "- Додано дороги й мости всіх рас; боти будують і використовують переправи.\n- Мости отримали расові риштування й ефекти будівництва по всій довжині.\n- Додано вибір форми мапи й кількості річок, плавні переходи суші та дна.\n- Повний цикл часу доби триває 24 хвилини.\n- Оновлено інтерфейси рас, значки й мінімапу.\n- Прискорено запуск гри, поліпшено реакцію ополчення й облогових загонів.\n- Збережено виправлення оптимізації та повітряних розвідників із попередньої бети.",
+    "cs": "- Přidány cesty a mosty všech ras; boti stavějí a používají přechody.\n- Mosty mají rasová lešení a stavební efekty po celé délce.\n- Přidána volba tvaru mapy a počtu řek, plynulé přechody souše a dna.\n- Celý cyklus denní doby trvá 24 minut.\n- Aktualizována rasová rozhraní, ikony a minimapa.\n- Rychlejší spouštění hry a lepší reakce milice a obléhacích jednotek.\n- Zachovány opravy optimalizace a leteckých průzkumníků z předchozí bety.",
+    "de": "- Straßen und Brücken für alle Völker hinzugefügt; Bots bauen und nutzen Übergänge.\n- Brücken erhalten volksspezifische Gerüste und Baueffekte über die gesamte Länge.\n- Kartenformen, Flussanzahl und weiche Übergänge von Land und Gewässerböden hinzugefügt.\n- Ein vollständiger Tageszeitenzyklus dauert 24 Minuten.\n- Benutzeroberflächen der Völker, Symbole und Minikarte aktualisiert.\n- Schnellerer Spielstart und bessere Reaktionen von Miliz und Belagerungseinheiten.\n- Enthält die Optimierungs- und Luftaufklärer-Korrekturen der vorherigen Beta.",
+    "fr": "- Ajout de routes et de ponts pour toutes les races ; les bots construisent et utilisent les passages.\n- Les ponts disposent des échafaudages et effets de construction propres à chaque race sur toute leur longueur.\n- Ajout du choix de la forme de carte, du nombre de rivières et de transitions douces des terres et des fonds aquatiques.\n- Un cycle complet des heures de la journée dure 24 minutes.\n- Interfaces des races, icônes et mini-carte mises à jour.\n- Démarrage plus rapide et meilleure réaction des milices et unités de siège.\n- Inclut les corrections d’optimisation et des éclaireurs aériens de la bêta précédente."
+  }
+}

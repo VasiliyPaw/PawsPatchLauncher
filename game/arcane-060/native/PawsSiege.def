@@ -1,0 +1,5 @@
+LIBRARY PawsSiege.dll
+
+EXPORTS
+K2Plugin_Start
+K2Plugin_Tick

@@ -1,0 +1,259 @@
+{
+  "PawsBridges.dll": {
+    "sha256": "5BC48F3D6639A70F34CD7F1A01CE948804350E927A873B4FF52F70FDBD2D7792",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\runtime.c",
+    "sourceSha256": "171B7A22263224002424C4E22B0A6196EE1486D4639CC552D821D353541E8073",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\runtime.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsBridges.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": true,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\ai.h": "9DC37D149E500A42DB241D91C3CDFB091AB8D7EDA87B8255AD17445B9CD6DE23",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\ai_types.h": "4ED872BD693C73B0EDAE02348E9631C617F4F66EAF009A5B1A23B29B41386236",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\bridge.h": "76E72EE46680AF25EC0984C0985BF7881D7421E29EA5675977CC8ACA0D7CA965",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\bridge_text.h": "9F9135EF961FC9AD58FBB7BF828C81626A1C931D9FDC00734AFDD7D557C00561",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\combat.h": "A00AFBF4FD492D015BB49DD62F39EA08D86ED4E4775115E7E2167F48B9CF0C2D",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\decommission.h": "BE8283A6E784B883649EDA19418E650E7B13F8A7E20CD84CD0138B6C872F7E15",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\geometry.h": "443B565676A32A836DBDEF3B90186D11C37720B0E9434A68E999B0FAD71881BE",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\growth_effect.h": "A178BF1F3681DE85D1517546A0CC736DC1FACD0134A158CF9C5BC7A15B69F745",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\lifecycle.h": "B816869C9DFA330C0CA738BA156D549FF0A2FB8009DDBC872769B3BEA322BB0E",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\navigation.h": "5825526B9F29FE1D5E364A4520C20ABBFF2CCA8A038FFAD4572F0FD5DE908704",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\network.h": "F3D9CDC246615247A4B8BBB4CD8EDF138F9E2AD71E05DF27F0D8C4CE72253128",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\objects.h": "6177F30557DDEFCEF77836AC68B5EE57BB887190655FBD2CEB2E57C54D0E10A5",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\placement.h": "0BB05A38A35DB23BDA53F640C37A576E4EB30F9654361CC5C508F4F1229B8B8F",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\plugin_data.h": "D022BCB1EBD27B4257FE8D83FC533EE549B700E32AEB6A8BE6F615EB8B4D2BED",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\routing.h": "AD006687467F0CED03425035B58471C80F41C01B75D5674B672247F1B82D25C3",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Bridges\\runtime.c": "171B7A22263224002424C4E22B0A6196EE1486D4639CC552D821D353541E8073"
+    }
+  },
+  "PawsMilitia.dll": {
+    "sha256": "D8FB006916B954A3C6A7AE0564FE375E89A1EA00FA83376FD09EC627757CD7ED",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Militia\\militia.c",
+    "sourceSha256": "C57F114E9AEE2F48BC1161CBEBD2D718C2F75E603377BC9C02CA260F211E546D",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Militia",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Militia\\militia.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsMilitia.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": true,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Militia\\militia.c": "C57F114E9AEE2F48BC1161CBEBD2D718C2F75E603377BC9C02CA260F211E546D",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Militia\\policy.h": "75A71DF4C72080B2D1F429BE552E28D931A2268EC627CAE602C571E640327CC6",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Militia\\policy_tests.c": "AA1049BBB054D746F55F83BDC7A1FCF6B64026C73C809D3BA17A1DA914DF8093"
+    }
+  },
+  "PawsSiege.dll": {
+    "sha256": "B710145DAE706F341A58DF44B8DB9F96EF81E3B1652E840DF6FE2F749F586365",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Siege\\siege.c",
+    "sourceSha256": "B18505EC6315BCC3AD68A5BA83A8ABBB2F328B5D1C283CA3C6EDDA6CCC95363E",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Siege",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Siege\\siege.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsSiege.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": true,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Siege\\fixture.h": "DF41480A2787F357E6AC32670DC6F2B8A28A80CCF861CC1AE1F4353BBC51F667",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Siege\\geometry.h": "069E2EFA91E0B1FD28D100DCC871AA91B62B51774F373E85FF0EE72ECF50F882",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Siege\\geometry_tests.c": "0559E8AF75B2DB8E0F8291C83CA2D11ACE8C5BB6466B94C6D53C6406F50615AF",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Siege\\siege.c": "B18505EC6315BCC3AD68A5BA83A8ABBB2F328B5D1C283CA3C6EDDA6CCC95363E"
+    }
+  },
+  "PawsWideBiomes.dll": {
+    "sha256": "6C9BE8F0F61EE0CBE9B914C4B7FC42FA594FA7B843E6188FFDB77141A93D86B7",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\wide_biomes.c",
+    "sourceSha256": "534711E05E2458DA2611D8B9AE59A21C4C86CF5A01965FC04D2ACC118FB3957D",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\wide_biomes.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsWideBiomes.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": true,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\biome_sources.h": "F2FF020EBE0110532B953FBA1F1629714EA5B58F9D51BA14A70E9AD81804429B",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\prewarm_budget.h": "C35CF38BE82E178F70350F7B9C004AF856329A0BF27F399B9CDF2292772E8D80",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\recipe_cache.h": "C51478B210FFE852619999E58A772A8D2AFBECEAD3B4819CCD34BFE7D0B671AC",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\test_budget.c": "B398782977502F6128F1D578E1D48B0DA5791AA551617BD121597A09CA94EC95",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\test_recipe_cache.c": "9DEF6293CA8733962DCEB112B212A6FF93669D1217951BDC6BE383972111124C",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\wide_biomes.c": "534711E05E2458DA2611D8B9AE59A21C4C86CF5A01965FC04D2ACC118FB3957D",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Biomes\\wide_stub.h": "1CFE13381C76F7CBEB599AC080ED2CE51C895FE677B0610A0BECDBA75BA8EA06"
+    }
+  },
+  "PawsWaterBiomes.dll": {
+    "sha256": "D51879D510689C6BF9EE5F5D5A58DB5A045D2834A95CF101B6C759D7A0F4428A",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\water_wide.c",
+    "sourceSha256": "A050F899529B1670066C70C8CBF9983A20396ACD95A05FF2D87EBBA5E884DF98",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\water_wide.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsWaterBiomes.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": true,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\prewarm_budget.h": "C35CF38BE82E178F70350F7B9C004AF856329A0BF27F399B9CDF2292772E8D80",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\recipe_cache.h": "C51478B210FFE852619999E58A772A8D2AFBECEAD3B4819CCD34BFE7D0B671AC",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\test_water_math.c": "BBA569629FBDCD923C218FD060709A6107FF8249A4FEBE7E4F5075D5F2F2F65B",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\water_floor.h": "42B0F404CCCB3D4A9AE88BCC543EEBCC43135597356BCC24E24D351E2CB71C6B",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\water_floor_sources.h": "D45A05D2BBF3E4BD9E63F006EE82048A67265E6E629CC4B43A6EB818980BCF1E",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\water_mix_math.h": "3F57D4254864AAAF00913BAF0DF15933A6F3693CBA5D7F2A58F1E252FDFDBAE4",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\water_stubs.h": "F6A9CF1EDF348DC491629AF3EA9AF18BA44C5851680761F3411125143F48D1F1",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Water\\water_wide.c": "A050F899529B1670066C70C8CBF9983A20396ACD95A05FF2D87EBBA5E884DF98"
+    }
+  },
+  "PawsCameraRange.dll": {
+    "sha256": "B3387EFF724E35FFC05EBFC95828BFBEE04597E4B989203F5EECF7FA60FC0B02",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Camera\\gameplay_range.c",
+    "sourceSha256": "42993ECD1541908C83D7ED02BADDE88C117B0D05C63ABD915172C5F4AECC7F5F",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Camera",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Camera\\gameplay_range.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsCameraRange.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": false,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Camera\\gameplay_range.c": "42993ECD1541908C83D7ED02BADDE88C117B0D05C63ABD915172C5F4AECC7F5F",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Camera\\range_stub.h": "81179313A2FC4B59435F7C3524FC65F396C76C9C0137D3D44272A2FD1D024A02"
+    }
+  },
+  "PawsMinimapBiomes.dll": {
+    "sha256": "69738E50F613D3FB3899B72308085A3A24BA90F2493B2856CDF60D60FE10801B",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Minimap\\minimap_biomes.c",
+    "sourceSha256": "46E83F56A05E7BE052AED31F376985162B1FE286AE756FDBE2E41AD828E93EDD",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Minimap",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Minimap\\minimap_biomes.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsMinimapBiomes.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": false,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Minimap\\minimap_biomes.c": "46E83F56A05E7BE052AED31F376985162B1FE286AE756FDBE2E41AD828E93EDD",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Minimap\\minimap_palette.h": "DFDAC287793763190841C7CDEC47AE035B943050A8CCDDBCD217ED4A5B346AFE",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Minimap\\minimap_stubs.h": "B84B0885515BB0AB696ACD8BB9506E082CF4A0C6BF411982D02066537F4FB17C"
+    }
+  },
+  "PawsStartupOptimizations.dll": {
+    "sha256": "7AF3C91CD5EA637EA94D238DF5E38B689D4884AADBF03FC79BDA2843E6D2613B",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\startup_optimizations.c",
+    "sourceSha256": "26E1170C3DB1B5D4C0CEF70938E441CBDBD33C66109AFA77B7CD3E1D0CECD99A",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\startup_optimizations.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsStartupOptimizations.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": false,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\font_metrics_cache.h": "F3237226FDCC16D7C139923D73CE497E4D0882F23F4B1530C175215DA9556564",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\font_runtime.c": "31F91916B9ED01D7DE14C89889A226F461D97C6D843B4628A8E981D43C88AB6E",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\startup_fields.h": "4D9CE0E8B38E847BA5C5287E040AC595D51D766BFDCA52BC8652AA85BBDF6794",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\startup_lookup.h": "FA111F44F84963992D043349E6C29B13ABB74D65208594E3EE0865391F6AC618",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\startup_memory.h": "E94225B1E31E7A2F644B6D9824A08C7A4742D9A867F7CC889644EF2BD23F8BEA",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\startup_optimizations.c": "26E1170C3DB1B5D4C0CEF70938E441CBDBD33C66109AFA77B7CD3E1D0CECD99A",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\startup_tokens.h": "03C113377D9A06A102434D45CA9E8DB4CFB1531FCDA653EC672C9065A2C40BEE",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Startup\\startup_trim.h": "93FC1F24046B04F55ACC839910FC906349E1C5B4B587EFF04D2200265B5A78EC"
+    }
+  },
+  "PawsFontMetrics.dll": {
+    "sha256": "95BAB1F2BE7153606300BC2328F5A666205387E7F4BCD7A8007DFC754E6F25F9",
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\font_runtime.c",
+    "sourceSha256": "31F91916B9ED01D7DE14C89889A226F461D97C6D843B4628A8E981D43C88AB6E",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "-IG:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\font_runtime.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\PawsFontMetrics.dll",
+      "-lkernel32",
+      "-luser32",
+      "-lgdi32"
+    ],
+    "markerOnlySourceChange": false,
+    "noQADefine": true,
+    "files": {
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\font_metrics_cache.h": "F3237226FDCC16D7C139923D73CE497E4D0882F23F4B1530C175215DA9556564",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\font_runtime.c": "31F91916B9ED01D7DE14C89889A226F461D97C6D843B4628A8E981D43C88AB6E",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\startup_fields.h": "4D9CE0E8B38E847BA5C5287E040AC595D51D766BFDCA52BC8652AA85BBDF6794",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\startup_lookup.h": "FA111F44F84963992D043349E6C29B13ABB74D65208594E3EE0865391F6AC618",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\startup_memory.h": "E94225B1E31E7A2F644B6D9824A08C7A4742D9A867F7CC889644EF2BD23F8BEA",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\startup_optimizations.c": "26E1170C3DB1B5D4C0CEF70938E441CBDBD33C66109AFA77B7CD3E1D0CECD99A",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\startup_tokens.h": "03C113377D9A06A102434D45CA9E8DB4CFB1531FCDA653EC672C9065A2C40BEE",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\startup_trim.h": "93FC1F24046B04F55ACC839910FC906349E1C5B4B587EFF04D2200265B5A78EC"
+    }
+  }
+}

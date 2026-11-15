@@ -1,0 +1,4 @@
+LIBRARY PawsFontMetrics.dll
+
+EXPORTS
+K2Plugin_Start

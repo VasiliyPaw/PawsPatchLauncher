@@ -1,0 +1,182 @@
+{
+  "passed": true,
+  "version": "0.6.0-beta.1",
+  "naturalCases": [
+    {
+      "race": "drauga",
+      "material": "stone",
+      "healthNeverEdited": true,
+      "goldCost": 144.0,
+      "earlySaveHp": 566.0,
+      "lateSaveHp": 4151.0,
+      "fullHp": 5000.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "drauga",
+      "material": "wood",
+      "healthNeverEdited": true,
+      "goldCost": 72.0,
+      "earlySaveHp": 256.0,
+      "lateSaveHp": 1666.0,
+      "fullHp": 2000.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "gauri",
+      "material": "stone",
+      "healthNeverEdited": true,
+      "goldCost": 225.0,
+      "earlySaveHp": 833.0,
+      "lateSaveHp": 6233.0,
+      "fullHp": 7500.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "gauri",
+      "material": "wood",
+      "healthNeverEdited": true,
+      "goldCost": 112.5,
+      "earlySaveHp": 401.0,
+      "lateSaveHp": 2513.0,
+      "fullHp": 3000.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "haroun",
+      "material": "stone",
+      "healthNeverEdited": true,
+      "goldCost": 144.0,
+      "earlySaveHp": 619.0625,
+      "lateSaveHp": 3322.9375,
+      "fullHp": 4000.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "haroun",
+      "material": "wood",
+      "healthNeverEdited": true,
+      "goldCost": 72.0,
+      "earlySaveHp": 365.5625,
+      "lateSaveHp": 1331.1875,
+      "fullHp": 1600.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "human",
+      "material": "stone",
+      "healthNeverEdited": true,
+      "goldCost": 180.0,
+      "earlySaveHp": 561.0,
+      "lateSaveHp": 4156.0,
+      "fullHp": 5000.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "human",
+      "material": "wood",
+      "healthNeverEdited": true,
+      "goldCost": 90.0,
+      "earlySaveHp": 251.0,
+      "lateSaveHp": 1666.0,
+      "fullHp": 2000.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "shadow",
+      "material": "stone",
+      "healthNeverEdited": true,
+      "goldCost": 180.0,
+      "earlySaveHp": 641.0,
+      "lateSaveHp": 5001.0,
+      "fullHp": 6000.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "shadow",
+      "material": "wood",
+      "healthNeverEdited": true,
+      "goldCost": 90.0,
+      "earlySaveHp": 273.0,
+      "lateSaveHp": 2001.0,
+      "fullHp": 2400.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "undead",
+      "material": "stone",
+      "healthNeverEdited": true,
+      "goldCost": 144.0,
+      "earlySaveHp": 496.0,
+      "lateSaveHp": 3736.0,
+      "fullHp": 4500.0,
+      "lateFullProcessRestart": true
+    },
+    {
+      "race": "undead",
+      "material": "wood",
+      "healthNeverEdited": true,
+      "goldCost": 72.0,
+      "earlySaveHp": 251.0,
+      "lateSaveHp": 1501.0,
+      "fullHp": 1800.0,
+      "lateFullProcessRestart": true
+    }
+  ],
+  "selection": {
+    "passed": true,
+    "selections": 10800,
+    "checks": 159901,
+    "helpers": 8,
+    "launcher": "1.0.18.0"
+  },
+  "product": {
+    "passed": true,
+    "ordinaryHelper": true,
+    "launcher": "1.0.18",
+    "freshNativeMenu": {
+      "pid": 38996,
+      "path": "G:\\PawsWork\\QA\\Arcane060-20261115\\game\\k2.exe"
+    },
+    "warmNativeMenu": {
+      "pid": 24880,
+      "path": "G:\\PawsWork\\QA\\Arcane060-20261115\\game\\k2.exe"
+    },
+    "savedWorldLoaded": true,
+    "savedBridgeDefinitions": 1,
+    "fontCacheSize": 1303336,
+    "fontStatus": "{\"event\":\"FontCache\",\"mode\":1,\"calls\":53886,\"hits\":0,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":0,\"written\":1,\"entries\":53886,\"consumed\":0,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n{\"event\":\"FontCache\",\"mode\":2,\"calls\":53886,\"hits\":53886,\"compared\":0,\"mismatches\":0,\"fallback\":0,\"disabled\":0,\"loaded\":1,\"written\":0,\"entries\":53886,\"consumed\":53886,\"groups\":30}\n",
+    "nativeDefinitionStrings": [
+      {
+        "offset": 8,
+        "text": "paws_bridge_human_wood_y_16"
+      },
+      {
+        "offset": 16,
+        "text": "Wooden bridge"
+      },
+      {
+        "offset": 48,
+        "text": "A crossing between solid banks."
+      }
+    ],
+    "observerAddedOnlyForQA": true,
+    "normalExit": true,
+    "normalNineModules": true,
+    "normalNineMenu": true,
+    "normalNineExit": true
+  },
+  "installer": {
+    "passed": true,
+    "launcher": "1.0.18",
+    "publishedBeta5InstalledFirst": true,
+    "upgrade": true,
+    "patchOffRollback": true,
+    "reapply": true,
+    "finalCoreSha256": "B707B0B51DC652E4CC098C99B287E452713D8139A5EB46AE614F16773D1097FB",
+    "stockArchivesUnchanged": true,
+    "independentStockCopies": true
+  },
+  "finishModels": 56,
+  "dayCycleSeconds": 1440
+}

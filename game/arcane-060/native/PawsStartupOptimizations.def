@@ -1,0 +1,14 @@
+LIBRARY PawsStartupOptimizations.dll
+
+EXPORTS
+K2Plugin_Start
+PawsStartupCloneAdd
+PawsStartupFieldHash
+PawsStartupFieldName
+PawsStartupFieldRelease
+PawsStartupLookupStats
+PawsStartupMemory
+PawsStartupNode
+PawsStartupReadStats
+PawsStartupTrim
+PawsStartupValue
