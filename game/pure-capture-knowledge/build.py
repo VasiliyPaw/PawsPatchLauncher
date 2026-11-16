@@ -1,0 +1,3 @@
+from pathlib import Path
+import argparse,subprocess,os
+p=argparse.ArgumentParser();p.add_argument('--cc',required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args();assert a.out.resolve().drive.upper()=='G:';a.out.mkdir(parents=True,exist_ok=True);root=Path(__file__).resolve().parent;temp=a.out/'Temp';temp.mkdir(exist_ok=True);env=os.environ.copy();env.update(TEMP=str(temp),TMP=str(temp));subprocess.run([a.cc,'-shared','-Wall','-Werror','-DCAPTURE_KNOWLEDGE_EMBEDDED',str(root/'runtime.c'),str(root/'ui.c'),str(root.parent/'capture-knowledge/capture_knowledge.c'),'-o',str(a.out/'PawsPurePresentation1372.dll'),'-lkernel32','-luser32'],check=True,env=env)

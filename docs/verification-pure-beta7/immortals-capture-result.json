@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "mode": "immortals",
+  "nativeCombatCapture": true,
+  "local": 9,
+  "newOwner": 10,
+  "city": {
+    "id": 30,
+    "name": "drauga_center_village",
+    "owner": 10,
+    "knownOwner": 10,
+    "visible": 0,
+    "capturable": 1,
+    "color": 4288422948,
+    "shown": 1,
+    "x": 183.0,
+    "y": 56.0,
+    "ghosts": [
+      {
+        "kingdom": 9,
+        "record": 433975196,
+        "owner": 10,
+        "visible": 0
+      },
+      {
+        "kingdom": 10,
+        "record": 0,
+        "owner": 0,
+        "visible": 1
+      }
+    ]
+  },
+  "hook": {
+    "passed": true,
+    "branchTarget": "0x2dac38b9",
+    "module": "G:\\PawsWork\\QA\\Pure050Beta7-20261116\\immortals\\game\\.pawpatch\\native\\90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0\\PawsPurePresentation1372.dll",
+    "sha256": "90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0"
+  },
+  "networkCaptureClaimed": false,
+  "controlledSinglePlayerSetup": true,
+  "knownOwnerAndMinimapColorUpdated": true,
+  "beforeColor": 4281047332
+}

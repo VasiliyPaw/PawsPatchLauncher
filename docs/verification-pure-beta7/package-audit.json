@@ -1,0 +1,30 @@
+{
+  "pure-fixes-data": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\pure050-beta7-release-20261116\\assets\\pure-fixes-data-0.5.0-beta.7.zip",
+    "changed": [],
+    "preserved": 16,
+    "sha256": "CB1A0B25CE91F79AF5C6B2382968082BB2B6730689F8745CA5D999546408F0D1",
+    "size": 30801
+  },
+  "pure-fixes-runtime": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\pure050-beta7-release-20261116\\assets\\pure-fixes-runtime-1.3.72-pure.21-beta.7.zip",
+    "changed": [
+      "k2_paws_pure_colors_1372.exe",
+      "k2_paws_pure_colors_sync_1372.exe",
+      "k2_paws_pure_fixes_1372.exe",
+      "k2_paws_pure_sync_1372.exe"
+    ],
+    "preserved": 2,
+    "sha256": "C955F9E94F2A37B08F90AD52B7492BB2F77FF5E0FF0C8603CA16B3EAD76C3CFA",
+    "size": 986798
+  },
+  "pure-beta-common": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\pure050-beta7-release-20261116\\assets\\pure-beta-common-0.5.0-beta.7.zip",
+    "changed": [
+      "data/ui/game/paws_day_clock.tgi"
+    ],
+    "preserved": 103,
+    "sha256": "58D492C8D1998EB0245F74ADDECD1D1B997083C6670609E8E280EE7888063D12",
+    "size": 5977490
+  }
+}

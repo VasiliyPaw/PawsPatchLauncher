@@ -48,11 +48,15 @@ static int install(void){U at=image+0x228b6c;unsigned char expected[10],jump[5],
  if(!patch(at,jump)){if(patch(at,expected)){original=0;VirtualFree(trampoline,0,MEM_RELEASE);}return 0;}
  host->log("capture-knowledge","READY observed capture knowledge; former/new owner and pre-change viewers; native fog unchanged");return 1;
 }
+#ifndef CAPTURE_KNOWLEDGE_EMBEDDED
 __declspec(dllexport)int __cdecl K2Plugin_Start(const Host*h){wchar_t marker[MAX_PATH];
  if(!h||h->api!=1||wcslen(h->gameDir)>MAX_PATH-40)return 1;swprintf(marker,L"%ls\\paws_runtime.marker",h->gameDir);
  if(GetFileAttributesW(marker)==INVALID_FILE_ATTRIBUTES)return 1;host=h;image=h->exeBase;return 0;
 }
 __declspec(dllexport)void __cdecl K2Plugin_Tick(void){if(!installed)installed=install()?1:2;}
+#else
+int __cdecl PawCaptureStart(const Host*h){if(!h||h->api!=1)return 1;host=h;image=h->exeBase;return install()?0:1;}
+#endif
 #ifdef CAPTURE_KNOWLEDGE_TEST
 __declspec(dllexport)U __cdecl TestChange(U a,U next){return change(a,0,next);}
 __declspec(dllexport)void __cdecl TestBind(U base,U fn){image=base;original=(ChangeFn)fn;}

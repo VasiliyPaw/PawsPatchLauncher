@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "mode": "vanilla",
+  "peers": 3,
+  "checksums": {
+    "commonSamples": 67,
+    "alignedSeconds": 66.0,
+    "uninitializedSamples": {
+      "host": 0,
+      "client": 0,
+      "witness": 0
+    },
+    "first": [
+      16,
+      99
+    ],
+    "last": [
+      1072,
+      3610
+    ],
+    "mismatches": [],
+    "mismatchCount": 0,
+    "errors": []
+  },
+  "hook": {
+    "host": {
+      "passed": true,
+      "branchTarget": "0x2c8b38b9",
+      "module": "G:\\PawsWork\\QA\\Pure050Beta7-20261116\\vanilla\\game\\.pawpatch\\native\\90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0\\PawsPurePresentation1372.dll",
+      "sha256": "90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0"
+    },
+    "client": {
+      "passed": true,
+      "branchTarget": "0x22e738b9",
+      "module": "G:\\PawsWork\\QA\\Pure050Beta7-20261116\\network-vanilla\\client\\game\\.pawpatch\\native\\90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0\\PawsPurePresentation1372.dll",
+      "sha256": "90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0"
+    },
+    "witness": {
+      "passed": true,
+      "branchTarget": "0x2c4938b9",
+      "module": "G:\\PawsWork\\QA\\Pure050Beta7-20261116\\network-vanilla\\witness\\game\\.pawpatch\\native\\90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0\\PawsPurePresentation1372.dll",
+      "sha256": "90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0"
+    }
+  },
+  "stockFailureHandlerEnabled": true,
+  "qaHelperOnlyProcessScopeChanged": true,
+  "networkCaptureClaimed": false
+}

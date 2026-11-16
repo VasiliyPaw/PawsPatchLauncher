@@ -1,0 +1,308 @@
+{
+  "passed": true,
+  "checks": 6900,
+  "cases": [
+    {
+      "base": "0x460000",
+      "resolution": [
+        800,
+        600
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        1024,
+        768
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        1280,
+        1024
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        1280,
+        720
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        1920,
+        1200
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        2560,
+        1080
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        3440,
+        1440
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x460000",
+      "resolution": [
+        3840,
+        2160
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        800,
+        600
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        1024,
+        768
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        1280,
+        1024
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        1280,
+        720
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        1920,
+        1200
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        2560,
+        1080
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        3440,
+        1440
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x80000",
+      "resolution": [
+        3840,
+        2160
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        800,
+        600
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        1024,
+        768
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        1280,
+        1024
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        1280,
+        720
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        1920,
+        1200
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        2560,
+        1080
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        3440,
+        1440
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    },
+    {
+      "base": "0x6a0000",
+      "resolution": [
+        3840,
+        2160
+      ],
+      "oldClockObstructionReproduced": true,
+      "allTenButtonsReachable": true,
+      "clockPositionUnchanged": true
+    }
+  ],
+  "actualNativeFunctions": true,
+  "clockAssetSha256": "3DE896248B875AF95AAE59E74F672193D36F052F99904D4747CC1C3DEC1966AE"
+}

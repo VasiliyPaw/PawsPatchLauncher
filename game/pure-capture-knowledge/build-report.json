@@ -1,0 +1,29 @@
+{
+  "sha256": "90E44E4E0166A07956DE8DE9BAB92982E4CF939125378EC2F15B5195F30157B0",
+  "exports": {
+    "PawPresentationFrame": 4621,
+    "PawPresentationQueued": 5599
+  },
+  "compiler": [
+    "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+    "-shared",
+    "-Wall",
+    "-Werror",
+    "-DCAPTURE_KNOWLEDGE_EMBEDDED",
+    "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\pure050-beta7-release-20261116\\native\\runtime.c",
+    "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\pure050-beta7-release-20261116\\native\\ui.c",
+    "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\pure050-beta7-release-20261116\\native\\capture_knowledge.c",
+    "-o",
+    "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\pure050-beta7-release-20261116\\native\\PawsPurePresentation1372.dll",
+    "-lkernel32",
+    "-luser32"
+  ],
+  "sources": {
+    "runtime.c": "36C27E837588AE044FCEFB6CC03F1D2514DBEAF38939E318D2F065697E5CEB35",
+    "ui.c": "1D8E2709A1267F92F496ECC88ECD2727C18E8F510FBA3566607D4556B58253C0",
+    "day_clock.h": "0CE35C904F97B1914AA80C86A05F56B2EEBCAF868FB043419F3DE4D45A2A9A20",
+    "capture_knowledge.c": "6D671E6631BA51CB44BA865C76C0B9CC0D5D4D6F80FE7997761E8A732865078B"
+  },
+  "standaloneCompatibility": true,
+  "baselineSha256": "95D53CB21669B6FDF8C56FA1CC2319D2C098A6FC75A9F333A3AE506B48E7F356"
+}

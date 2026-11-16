@@ -1,0 +1,203 @@
+{
+  "passed": true,
+  "checks": 477,
+  "cases": [
+    {
+      "dll": "0x10000000",
+      "hiddenThirdPreserved": true
+    },
+    {
+      "dll": "0x10000000",
+      "preChangeVisibility": true
+    },
+    {
+      "dll": "0x10000000",
+      "formerIndex": 0
+    },
+    {
+      "dll": "0x10000000",
+      "formerIndex": 1
+    },
+    {
+      "dll": "0x10000000",
+      "formerIndex": 15
+    },
+    {
+      "dll": "0x10000000",
+      "formerIndex": 31
+    },
+    {
+      "dll": "0x10000000",
+      "case": "unit"
+    },
+    {
+      "dll": "0x10000000",
+      "case": "observer"
+    },
+    {
+      "dll": "0x10000000",
+      "case": "invalid-index"
+    },
+    {
+      "dll": "0x10000000",
+      "case": "missing-record"
+    },
+    {
+      "dll": "0x10000000",
+      "case": "destroyed"
+    },
+    {
+      "dll": "0x10000000",
+      "case": "registry-replaced"
+    },
+    {
+      "dll": "0x10000000",
+      "case": "same-owner"
+    },
+    {
+      "dll": "0x10000000",
+      "case": "null-new"
+    },
+    {
+      "dll": "0x10000000",
+      "case": "rejected-change"
+    },
+    {
+      "dll": "0x10000000",
+      "all32Indices": true,
+      "nativeVisibilityPredicate": true
+    },
+    {
+      "dll": "0x14000000",
+      "hiddenThirdPreserved": true
+    },
+    {
+      "dll": "0x14000000",
+      "preChangeVisibility": true
+    },
+    {
+      "dll": "0x14000000",
+      "formerIndex": 0
+    },
+    {
+      "dll": "0x14000000",
+      "formerIndex": 1
+    },
+    {
+      "dll": "0x14000000",
+      "formerIndex": 15
+    },
+    {
+      "dll": "0x14000000",
+      "formerIndex": 31
+    },
+    {
+      "dll": "0x14000000",
+      "case": "unit"
+    },
+    {
+      "dll": "0x14000000",
+      "case": "observer"
+    },
+    {
+      "dll": "0x14000000",
+      "case": "invalid-index"
+    },
+    {
+      "dll": "0x14000000",
+      "case": "missing-record"
+    },
+    {
+      "dll": "0x14000000",
+      "case": "destroyed"
+    },
+    {
+      "dll": "0x14000000",
+      "case": "registry-replaced"
+    },
+    {
+      "dll": "0x14000000",
+      "case": "same-owner"
+    },
+    {
+      "dll": "0x14000000",
+      "case": "null-new"
+    },
+    {
+      "dll": "0x14000000",
+      "case": "rejected-change"
+    },
+    {
+      "dll": "0x14000000",
+      "all32Indices": true,
+      "nativeVisibilityPredicate": true
+    },
+    {
+      "dll": "0x20000000",
+      "hiddenThirdPreserved": true
+    },
+    {
+      "dll": "0x20000000",
+      "preChangeVisibility": true
+    },
+    {
+      "dll": "0x20000000",
+      "formerIndex": 0
+    },
+    {
+      "dll": "0x20000000",
+      "formerIndex": 1
+    },
+    {
+      "dll": "0x20000000",
+      "formerIndex": 15
+    },
+    {
+      "dll": "0x20000000",
+      "formerIndex": 31
+    },
+    {
+      "dll": "0x20000000",
+      "case": "unit"
+    },
+    {
+      "dll": "0x20000000",
+      "case": "observer"
+    },
+    {
+      "dll": "0x20000000",
+      "case": "invalid-index"
+    },
+    {
+      "dll": "0x20000000",
+      "case": "missing-record"
+    },
+    {
+      "dll": "0x20000000",
+      "case": "destroyed"
+    },
+    {
+      "dll": "0x20000000",
+      "case": "registry-replaced"
+    },
+    {
+      "dll": "0x20000000",
+      "case": "same-owner"
+    },
+    {
+      "dll": "0x20000000",
+      "case": "null-new"
+    },
+    {
+      "dll": "0x20000000",
+      "case": "rejected-change"
+    },
+    {
+      "dll": "0x20000000",
+      "all32Indices": true,
+      "nativeVisibilityPredicate": true
+    }
+  ],
+  "nativeGhostUpdater": true,
+  "nativeVisibilityPredicate": true
+}
