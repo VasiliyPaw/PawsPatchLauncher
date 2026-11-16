@@ -1,0 +1,142 @@
+{
+  "arcane-biome-textures-01": {
+    "id": "arcane-biome-textures-01",
+    "version": "0.6.0-beta.2",
+    "priority": 95,
+    "required": false,
+    "experimental": true,
+    "executableIndependent": true,
+    "mods": [
+      "arcane-wars"
+    ],
+    "dependsOn": [
+      "arcane-wars"
+    ],
+    "name": {
+      "ru": "Текстуры ландшафта",
+      "en": "Terrain textures",
+      "uk": "Текстури ландшафту",
+      "cs": "Textury terénu",
+      "de": "Geländetexturen",
+      "fr": "Textures de terrain"
+    },
+    "description": {
+      "ru": "Плавные переходы между биомами и цветами дна.",
+      "en": "Smooth biome and water-floor transitions.",
+      "uk": "Плавні переходи між біомами та кольорами дна.",
+      "cs": "Plynulé přechody mezi biomy a barvami dna.",
+      "de": "Weiche Übergänge zwischen Biomen und Gewässerböden.",
+      "fr": "Transitions douces entre les biomes et les fonds aquatiques."
+    },
+    "size": 230723653,
+    "sha256": "6673691C8DA62A61B661A65D1A0715C3932D7BE3C1DE55837D99DF2BDEEBE9A1",
+    "urls": [
+      "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-0.6.0-beta.2/arcane-biome-textures-01-0.6.0-beta.2.zip"
+    ]
+  },
+  "arcane-biome-textures-02": {
+    "id": "arcane-biome-textures-02",
+    "version": "0.6.0-beta.2",
+    "priority": 95,
+    "required": false,
+    "experimental": true,
+    "executableIndependent": true,
+    "mods": [
+      "arcane-wars"
+    ],
+    "dependsOn": [
+      "arcane-wars"
+    ],
+    "name": {
+      "ru": "Текстуры ландшафта",
+      "en": "Terrain textures",
+      "uk": "Текстури ландшафту",
+      "cs": "Textury terénu",
+      "de": "Geländetexturen",
+      "fr": "Textures de terrain"
+    },
+    "description": {
+      "ru": "Плавные переходы между биомами и цветами дна.",
+      "en": "Smooth biome and water-floor transitions.",
+      "uk": "Плавні переходи між біомами та кольорами дна.",
+      "cs": "Plynulé přechody mezi biomy a barvami dna.",
+      "de": "Weiche Übergänge zwischen Biomen und Gewässerböden.",
+      "fr": "Transitions douces entre les biomes et les fonds aquatiques."
+    },
+    "size": 230764496,
+    "sha256": "12C81C6DDEECB51322BB9CAC4F35C1755BF69A69E3C290C19225F07E7F7A2CEA",
+    "urls": [
+      "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-0.6.0-beta.2/arcane-biome-textures-02-0.6.0-beta.2.zip"
+    ]
+  },
+  "arcane-biome-textures-03": {
+    "id": "arcane-biome-textures-03",
+    "version": "0.6.0-beta.2",
+    "priority": 95,
+    "required": false,
+    "experimental": true,
+    "executableIndependent": true,
+    "mods": [
+      "arcane-wars"
+    ],
+    "dependsOn": [
+      "arcane-wars"
+    ],
+    "name": {
+      "ru": "Текстуры ландшафта",
+      "en": "Terrain textures",
+      "uk": "Текстури ландшафту",
+      "cs": "Textury terénu",
+      "de": "Geländetexturen",
+      "fr": "Textures de terrain"
+    },
+    "description": {
+      "ru": "Плавные переходы между биомами и цветами дна.",
+      "en": "Smooth biome and water-floor transitions.",
+      "uk": "Плавні переходи між біомами та кольорами дна.",
+      "cs": "Plynulé přechody mezi biomy a barvami dna.",
+      "de": "Weiche Übergänge zwischen Biomen und Gewässerböden.",
+      "fr": "Transitions douces entre les biomes et les fonds aquatiques."
+    },
+    "size": 230732056,
+    "sha256": "E626E3E1CF23FDBC94D4C4880F364969BB6B8E220BBAD6FDA9F2D4B420B8BADD",
+    "urls": [
+      "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-0.6.0-beta.2/arcane-biome-textures-03-0.6.0-beta.2.zip"
+    ]
+  },
+  "arcane-biome-textures-04": {
+    "id": "arcane-biome-textures-04",
+    "version": "0.6.0-beta.2",
+    "priority": 95,
+    "required": false,
+    "experimental": true,
+    "executableIndependent": true,
+    "mods": [
+      "arcane-wars"
+    ],
+    "dependsOn": [
+      "arcane-wars"
+    ],
+    "name": {
+      "ru": "Текстуры ландшафта",
+      "en": "Terrain textures",
+      "uk": "Текстури ландшафту",
+      "cs": "Textury terénu",
+      "de": "Geländetexturen",
+      "fr": "Textures de terrain"
+    },
+    "description": {
+      "ru": "Плавные переходы между биомами и цветами дна.",
+      "en": "Smooth biome and water-floor transitions.",
+      "uk": "Плавні переходи між біомами та кольорами дна.",
+      "cs": "Plynulé přechody mezi biomy a barvami dna.",
+      "de": "Weiche Übergänge zwischen Biomen und Gewässerböden.",
+      "fr": "Transitions douces entre les biomes et les fonds aquatiques."
+    },
+    "size": 207836196,
+    "sha256": "2A2EBFBA918AD6B07B86765D7CD46623AC6C3E3C8F0F358B21046584B808DF16",
+    "urls": [
+      "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-0.6.0-beta.2/arcane-biome-textures-04-0.6.0-beta.2.zip"
+    ]
+  }
+}

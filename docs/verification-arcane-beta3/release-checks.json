@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "version": "0.6.0-beta.3",
+  "launcher": "1.0.19",
+  "catalog": {
+    "passed": true,
+    "selections": 10800,
+    "checks": 178333,
+    "helpers": 8,
+    "launcher": "1.0.19.0"
+  },
+  "installerCases": [
+    {
+      "passed": true,
+      "version": "0.6.0-beta.3",
+      "case": "beta3-upgrade",
+      "newModulePresent": true,
+      "baseArchivesUnchanged": true
+    },
+    {
+      "passed": true,
+      "version": "0.6.0-beta.3",
+      "case": "beta3-off",
+      "newModulePresent": false,
+      "baseArchivesUnchanged": true
+    },
+    {
+      "passed": true,
+      "version": "0.6.0-beta.3",
+      "case": "beta3-reapply",
+      "newModulePresent": true,
+      "baseArchivesUnchanged": true
+    },
+    {
+      "passed": true,
+      "version": "0.6.0-beta.3",
+      "case": "beta3-network",
+      "newModulePresent": true,
+      "baseArchivesUnchanged": true
+    }
+  ],
+  "startupContract": {
+    "passed": true,
+    "normalHelpers": 8,
+    "rejected": 3,
+    "results": {
+      "k2_paws_family_herd_relations_1372.exe": "STARTUP_VALID",
+      "k2_paws_lobby_colors_mp_1372_experimental.exe": "STARTUP_VALID",
+      "k2_paws_lobby_colors_mp_nohostility_1372.exe": "STARTUP_VALID",
+      "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe": "STARTUP_VALID",
+      "k2_paws_lobby_colors_mp_sync_1372.exe": "STARTUP_VALID",
+      "k2_paws_sync_continue_1372.exe": "STARTUP_VALID",
+      "k2_paws_sync_family_herd_relations_1372.exe": "STARTUP_VALID",
+      "k2_paws_ui_1372.exe": "STARTUP_VALID",
+      "missing": "Missing Paw's Patch runtime module: PawsCaptureKnowledge.dll",
+      "tampered": "Paw's Patch runtime module differs: PawsCaptureKnowledge.dll",
+      "disabled": "Required Paw's Patch module is disabled: PawsCaptureKnowledge.dll"
+    },
+    "fixtureRestored": true
+  },
+  "nativeRebuild": {
+    "passed": true,
+    "sha256": "D1944EA3B487E031064A0F274556CB4C0A1F9ED513B1DD3150E6C57C0CAB95A4",
+    "sourceSha256": "FCD608DF1C3794249055842BF1968C855A72CE1E11E7C590F4520374E99CDFC1"
+  },
+  "networkEvidence": {
+    "status": "local-visibility-scoped-candidate-not-published",
+    "productionSha256": "D1944EA3B487E031064A0F274556CB4C0A1F9ED513B1DD3150E6C57C0CAB95A4",
+    "callbackChecks": 477,
+    "networkPeers": 3,
+    "commonCheckpoints": 133,
+    "alignedSeconds": 131.0,
+    "mismatches": 0,
+    "hiddenThirdKeepsOldOwner": true,
+    "saveLoadPreservesPrivacy": true,
+    "normalRevealUpdatesOwner": true,
+    "newMemoryPersistsAfterWithdrawal": true,
+    "perObserverStateIdenticalAcrossPeers": true,
+    "sourcePatchVerified": true,
+    "archiveSha256": "9D77E3592D63213347E42C47AC8058D68890188FF5338C1CDD5C807D20EA3E00",
+    "sourcePatchSha256": "304762C0A020F010A8E12445D22549AC46B60745512CE1CCD762DB6B92E28CF5",
+    "productionExports": [
+      "K2Plugin_Start",
+      "K2Plugin_Tick"
+    ],
+    "fixturesRestored": true
+  },
+  "nativeEvidenceReusedByExactHash": true,
+  "ordinaryNativeGameRelaunchRepeated": false,
+  "reason": "Installed user game is active; release QA does not close or alter it. Native candidate multiplayer testing and exact DLL rebuild are separately recorded.",
+  "textures": {
+    "updateBytes": 99834568,
+    "texturePackagesReused": 4,
+    "textureBytesRedownloaded": 0
+  }
+}

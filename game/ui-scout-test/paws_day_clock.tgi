@@ -3,6 +3,10 @@
     [View Template=NoVE]
     [Label]
     {
+        client_L = 100%
+        client_T = 100%
+        client_R = 0%
+        client_B = 0%
         L = 0%
         T = 7
         R = 100%

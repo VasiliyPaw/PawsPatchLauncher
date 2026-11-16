@@ -1,0 +1,54 @@
+{
+  "pawpatch-core": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta3-release-20261116\\assets\\pawpatch-core-0.6.0-beta.3.zip",
+    "changed": [
+      "Mods/plugins.txt",
+      "k2_paws_family_herd_relations_1372.exe",
+      "paws_runtime.marker",
+      "Mods/PawsCaptureKnowledge.dll"
+    ],
+    "preserved": 3460,
+    "files": 3464,
+    "size": 85704585,
+    "sha256": "287813A80D182C53F71BBE077ED1D7F92BA5AFCC66CBF84D25EE91E3C687AA5C"
+  },
+  "player-colors": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta3-release-20261116\\assets\\player-colors-0.6.0-beta.3.zip",
+    "changed": [
+      "k2_paws_lobby_colors_mp_1372_experimental.exe",
+      "k2_paws_lobby_colors_mp_nohostility_1372.exe",
+      "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe",
+      "k2_paws_lobby_colors_mp_sync_1372.exe"
+    ],
+    "preserved": 2,
+    "files": 6,
+    "size": 1107527,
+    "sha256": "A189F001BA839EE747663AC972B4D25EA608639CD2079B650C9CD4D5AE754BEF"
+  },
+  "desync-continue": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta3-release-20261116\\assets\\desync-continue-0.6.0-beta.3.zip",
+    "changed": [
+      "k2_paws_sync_continue_1372.exe",
+      "k2_paws_sync_family_herd_relations_1372.exe"
+    ],
+    "preserved": 0,
+    "files": 2,
+    "size": 551061,
+    "sha256": "84B658364F88C2BD2552CB6E3E8BE362CFBFDE4CE1429473E28299D949268CB6"
+  },
+  "common-ui": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta3-release-20261116\\assets\\common-ui-0.6.0-beta.3.zip",
+    "changed": [
+      "data/ui/game/paws_day_clock.tgi",
+      "k2_paws_family_herd_relations_1372.exe",
+      "k2_paws_sync_continue_1372.exe",
+      "k2_paws_sync_family_herd_relations_1372.exe",
+      "k2_paws_ui_1372.exe",
+      "paws_patch_versions.ini"
+    ],
+    "preserved": 128,
+    "files": 134,
+    "size": 12471395,
+    "sha256": "B35736385601360D1F06F6D7A32C9C158917033D100D223C720CF9D763C8AE7F"
+  }
+}

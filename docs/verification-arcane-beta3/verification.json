@@ -1,0 +1,22 @@
+{
+  "status": "local-visibility-scoped-candidate-not-published",
+  "productionSha256": "D1944EA3B487E031064A0F274556CB4C0A1F9ED513B1DD3150E6C57C0CAB95A4",
+  "callbackChecks": 477,
+  "networkPeers": 3,
+  "commonCheckpoints": 133,
+  "alignedSeconds": 131.0,
+  "mismatches": 0,
+  "hiddenThirdKeepsOldOwner": true,
+  "saveLoadPreservesPrivacy": true,
+  "normalRevealUpdatesOwner": true,
+  "newMemoryPersistsAfterWithdrawal": true,
+  "perObserverStateIdenticalAcrossPeers": true,
+  "sourcePatchVerified": true,
+  "archiveSha256": "9D77E3592D63213347E42C47AC8058D68890188FF5338C1CDD5C807D20EA3E00",
+  "sourcePatchSha256": "304762C0A020F010A8E12445D22549AC46B60745512CE1CCD762DB6B92E28CF5",
+  "productionExports": [
+    "K2Plugin_Start",
+    "K2Plugin_Tick"
+  ],
+  "fixturesRestored": true
+}

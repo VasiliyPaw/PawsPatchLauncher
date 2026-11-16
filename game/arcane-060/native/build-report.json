@@ -255,5 +255,20 @@
       "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\startup_tokens.h": "03C113377D9A06A102434D45CA9E8DB4CFB1531FCDA653EC672C9065A2C40BEE",
       "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane-060-beta-release-20261115\\native\\Font\\startup_trim.h": "93FC1F24046B04F55ACC839910FC906349E1C5B4B587EFF04D2200265B5A78EC"
     }
+  },
+  "PawsCaptureKnowledge.dll": {
+    "sha256": "D1944EA3B487E031064A0F274556CB4C0A1F9ED513B1DD3150E6C57C0CAB95A4",
+    "sourceSha256": "FCD608DF1C3794249055842BF1968C855A72CE1E11E7C590F4520374E99CDFC1",
+    "source": "game/capture-knowledge/capture_knowledge.c",
+    "args": [
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\crash-20260914-continue\\tools\\tinycc\\tcc\\tcc.exe",
+      "-shared",
+      "-Wall",
+      "-Werror",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\capture-hud-fog-20261116\\source\\game\\capture-knowledge\\capture_knowledge.c",
+      "-o",
+      "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\capture-hud-fog-20261116\\build\\PawsCaptureKnowledge.dll",
+      "-lkernel32"
+    ]
   }
 }

@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "normalHelpers": 8,
+  "rejected": 3,
+  "results": {
+    "k2_paws_family_herd_relations_1372.exe": "STARTUP_VALID",
+    "k2_paws_lobby_colors_mp_1372_experimental.exe": "STARTUP_VALID",
+    "k2_paws_lobby_colors_mp_nohostility_1372.exe": "STARTUP_VALID",
+    "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe": "STARTUP_VALID",
+    "k2_paws_lobby_colors_mp_sync_1372.exe": "STARTUP_VALID",
+    "k2_paws_sync_continue_1372.exe": "STARTUP_VALID",
+    "k2_paws_sync_family_herd_relations_1372.exe": "STARTUP_VALID",
+    "k2_paws_ui_1372.exe": "STARTUP_VALID",
+    "missing": "Missing Paw's Patch runtime module: PawsCaptureKnowledge.dll",
+    "tampered": "Paw's Patch runtime module differs: PawsCaptureKnowledge.dll",
+    "disabled": "Required Paw's Patch module is disabled: PawsCaptureKnowledge.dll"
+  },
+  "fixtureRestored": true
+}

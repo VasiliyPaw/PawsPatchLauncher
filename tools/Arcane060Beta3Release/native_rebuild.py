@@ -1,0 +1,2 @@
+from context import *
+src=CWORK/'source/game/capture-knowledge';report=read(CWORK/'build/build-report.json')['PawsCaptureKnowledge.dll'];run([sys.executable,src/'build.py','--cc',report['command'][0],'--out',O/'native-rebuild'],O/'native-rebuild.log');assert sha(O/'native-rebuild/PawsCaptureKnowledge.dll')==report['sha256'];write(O/'native-rebuild.json',dict(passed=True,sha256=report['sha256'],sourceSha256=sha(src/'capture_knowledge.c')));print('NATIVE_EXACT_REBUILD_PASS')
