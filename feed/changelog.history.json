@@ -1643,6 +1643,31 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "version": "0.6.0-beta.3",
+      "publishedAt": "2026-11-16",
+      "title": {
+        "ru": "Paw’s Patch 0.6.0-beta.3 — Arcane Wars",
+        "en": "Paw’s Patch 0.6.0-beta.3 — Arcane Wars",
+        "uk": "Paw’s Patch 0.6.0-beta.3 — Arcane Wars",
+        "cs": "Paw’s Patch 0.6.0-beta.3 — Arcane Wars",
+        "de": "Paw’s Patch 0.6.0-beta.3 — Arcane Wars",
+        "fr": "Paw’s Patch 0.6.0-beta.3 — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Исправлено отображение владельца и цвета захваченных городов и построек с учётом тумана войны.\n- Исправлены клики по кнопкам групп в верхней части экрана.",
+        "en": "- Fixed captured city and building ownership and colors while respecting fog of war.\n- Fixed clicks on the group buttons at the top of the screen.",
+        "uk": "- Виправлено відображення власника та кольору захоплених міст і споруд з урахуванням туману війни.\n- Виправлено натискання кнопок груп у верхній частині екрана.",
+        "cs": "- Opraveno zobrazení vlastníka a barev dobytých měst a budov s ohledem na válečnou mlhu.\n- Opraveno klikání na tlačítka skupin v horní části obrazovky.",
+        "de": "- Besitzer und Farben eroberter Städte und Gebäude werden unter Berücksichtigung des Kriegsnebels korrekt angezeigt.\n- Klicks auf die Gruppenschaltflächen am oberen Bildschirmrand funktionieren wieder.",
+        "fr": "- Correction de l’affichage du propriétaire et des couleurs des villes et bâtiments capturés, en respectant le brouillard de guerre.\n- Correction des clics sur les boutons de groupe en haut de l’écran."
+      }
+    },
+    {
       "category": "launcher",
       "version": "1.0.19",
       "publishedAt": "2026-11-15",

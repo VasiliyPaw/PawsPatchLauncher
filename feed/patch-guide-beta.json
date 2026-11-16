@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.6.0-beta.2",
+  "version": "0.6.0-beta.3",
   "entries": [
+    {
+      "id": "arcane-capture-hud-060-beta3",
+      "category": "always",
+      "titleRu": "Владельцы построек и верхние кнопки",
+      "titleEn": "Building ownership and top buttons",
+      "bodyRu": "- Исправлено отображение владельца и цвета захваченных городов и построек с учётом тумана войны.\n- Исправлены клики по кнопкам групп в верхней части экрана.",
+      "bodyEn": "- Fixed captured city and building ownership and colors while respecting fog of war.\n- Fixed clicks on the group buttons at the top of the screen."
+    },
     {
       "id": "arcane-lossless-060-beta2",
       "category": "always",
