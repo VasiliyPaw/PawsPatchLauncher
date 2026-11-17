@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "1.0.20",
+      "publishedAt": "2026-11-17",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.20",
+        "en": "Paw’s Launcher 1.0.20",
+        "uk": "Paw’s Launcher 1.0.20",
+        "cs": "Paw’s Launcher 1.0.20",
+        "de": "Paw’s Launcher 1.0.20",
+        "fr": "Paw’s Launcher 1.0.20"
+      },
+      "body": {
+        "ru": "- Исправлены недоступные кнопки управления пользователями и чата во время загрузки и установки.\n- Передача сохранений и конфигураций работает параллельно обновлению.",
+        "en": "- Fixed unavailable user management and chat controls during downloads and installation.\n- Save and configuration sharing now works alongside updates.",
+        "uk": "- Виправлено недоступні кнопки керування користувачами та чату під час завантаження й встановлення.\n- Передавання збережень і конфігурацій працює паралельно з оновленням.",
+        "cs": "- Opraveny nedostupné ovládací prvky správy uživatelů a chatu během stahování a instalace.\n- Sdílení uložených her a konfigurací nyní funguje souběžně s aktualizací.",
+        "de": "- Nicht verfügbare Schaltflächen der Benutzerverwaltung und des Chats während Downloads und Installation wurden korrigiert.\n- Spielstände und Konfigurationen können nun während einer Aktualisierung geteilt werden.",
+        "fr": "- Correction des commandes de gestion des utilisateurs et du chat indisponibles pendant le téléchargement et l’installation.\n- Le partage de sauvegardes et de configurations fonctionne désormais pendant les mises à jour."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "1.0.19",
       "publishedAt": "2026-11-15",
       "title": {
@@ -1642,6 +1663,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "1.0.20",
+      "publishedAt": "2026-11-17",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.20",
+        "en": "Paw’s Launcher 1.0.20",
+        "uk": "Paw’s Launcher 1.0.20",
+        "cs": "Paw’s Launcher 1.0.20",
+        "de": "Paw’s Launcher 1.0.20",
+        "fr": "Paw’s Launcher 1.0.20"
+      },
+      "body": {
+        "ru": "- Исправлены недоступные кнопки управления пользователями и чата во время загрузки и установки.\n- Передача сохранений и конфигураций работает параллельно обновлению.",
+        "en": "- Fixed unavailable user management and chat controls during downloads and installation.\n- Save and configuration sharing now works alongside updates.",
+        "uk": "- Виправлено недоступні кнопки керування користувачами та чату під час завантаження й встановлення.\n- Передавання збережень і конфігурацій працює паралельно з оновленням.",
+        "cs": "- Opraveny nedostupné ovládací prvky správy uživatelů a chatu během stahování a instalace.\n- Sdílení uložených her a konfigurací nyní funguje souběžně s aktualizací.",
+        "de": "- Nicht verfügbare Schaltflächen der Benutzerverwaltung und des Chats während Downloads und Installation wurden korrigiert.\n- Spielstände und Konfigurationen können nun während einer Aktualisierung geteilt werden.",
+        "fr": "- Correction des commandes de gestion des utilisateurs et du chat indisponibles pendant le téléchargement et l’installation.\n- Le partage de sauvegardes et de configurations fonctionne désormais pendant les mises à jour."
+      }
+    },
     {
       "category": "patch",
       "mods": [
