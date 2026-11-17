@@ -1,0 +1,127 @@
+{
+  "pawpatch-core": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\arcane\\assets\\pawpatch-core-0.6.0-beta.5.zip",
+    "group": "arcane",
+    "changed": [
+      "k2_paws_family_herd_relations_1372.exe",
+      "paws_runtime.marker"
+    ],
+    "removedLooseImages": 0,
+    "resourceArchives": 0,
+    "files": 3464,
+    "sha256": "C45E9B4CDDA9213F75D88C302A1B56F1C9F5D1FF4C260A30E08CEF3F433ABE8D",
+    "size": 86119991,
+    "baselineSize": 86119991
+  },
+  "player-colors": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\arcane\\assets\\player-colors-0.6.0-beta.5.zip",
+    "group": "arcane",
+    "changed": [
+      "k2_paws_lobby_colors_mp_1372_experimental.exe",
+      "k2_paws_lobby_colors_mp_nohostility_1372.exe",
+      "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe",
+      "k2_paws_lobby_colors_mp_sync_1372.exe"
+    ],
+    "removedLooseImages": 0,
+    "resourceArchives": 0,
+    "files": 6,
+    "sha256": "AFD61F0D396C5EAAC7F33B6B9237F482E816261F1AFA824A392CE2D7B0D3912D",
+    "size": 1134550,
+    "baselineSize": 1134546
+  },
+  "desync-continue": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\arcane\\assets\\desync-continue-0.6.0-beta.5.zip",
+    "group": "arcane",
+    "changed": [
+      "k2_paws_sync_continue_1372.exe",
+      "k2_paws_sync_family_herd_relations_1372.exe"
+    ],
+    "removedLooseImages": 0,
+    "resourceArchives": 0,
+    "files": 2,
+    "sha256": "03690A9FA8DEDEED100B340DEC029C12B79CC83BBFF926085212E3A7394A66B7",
+    "size": 564353,
+    "baselineSize": 564352
+  },
+  "common-ui": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\arcane\\assets\\common-ui-0.6.0-beta.5.zip",
+    "group": "arcane",
+    "changed": [
+      "k2_paws_family_herd_relations_1372.exe",
+      "k2_paws_sync_continue_1372.exe",
+      "k2_paws_sync_family_herd_relations_1372.exe",
+      "k2_paws_ui_1372.exe",
+      "paws_patch_versions.ini",
+      "startup/autoexec.txt",
+      "paws-hd-ui.rwd",
+      "skins/drauga.rwd",
+      "skins/gauri.rwd",
+      "skins/haroun.rwd",
+      "skins/human.rwd",
+      "skins/shadow.rwd",
+      "skins/undead.rwd"
+    ],
+    "removedLooseImages": 708,
+    "resourceArchives": 7,
+    "files": 78,
+    "sha256": "460DAA645667FEB6B903230C7AD3579175987D84511D6E02A687F44761D69DF4",
+    "size": 124032632,
+    "baselineSize": 1454124155
+  },
+  "pure-fixes-runtime": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\pure\\assets\\pure-fixes-runtime-1.3.72-pure.21-beta.9.zip",
+    "group": "pure",
+    "changed": [
+      "k2_paws_pure_colors_1372.exe",
+      "k2_paws_pure_colors_sync_1372.exe",
+      "k2_paws_pure_fixes_1372.exe",
+      "k2_paws_pure_sync_1372.exe"
+    ],
+    "removedLooseImages": 0,
+    "resourceArchives": 0,
+    "files": 6,
+    "sha256": "9B391C9BB8857A653D732A36794407ECE35FBFDFFA7B6DDB1BF227DA089EF453",
+    "size": 1012586,
+    "baselineSize": 1012587
+  },
+  "pure-fixes-data": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\pure\\assets\\pure-fixes-data-0.5.0-beta.9.zip",
+    "group": "pure",
+    "changed": [],
+    "removedLooseImages": 0,
+    "resourceArchives": 0,
+    "files": 16,
+    "sha256": "17481D0D66418185FECB150A275464FA13B8190EDD682F71338382EC65BC09ED",
+    "size": 31001,
+    "baselineSize": 31001
+  },
+  "pure-beta-common": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\pure\\assets\\pure-beta-common-0.5.0-beta.9.zip",
+    "group": "pure",
+    "changed": [
+      "startup/autoexec.txt",
+      "paws-hd-ui.rwd",
+      "skins/drauga.rwd",
+      "skins/gauri.rwd",
+      "skins/haroun.rwd",
+      "skins/human.rwd",
+      "skins/shadow.rwd",
+      "skins/undead.rwd"
+    ],
+    "removedLooseImages": 708,
+    "resourceArchives": 7,
+    "files": 49,
+    "sha256": "96262D2BAE5AFA56E3E7DB9D289A727D4F1E67A60DAE6EF1C9D8F90850897A96",
+    "size": 118125767,
+    "baselineSize": 1448217357
+  },
+  "arcane-biome-textures": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\arcane\\assets\\arcane-biome-textures-0.6.0-beta.5.zip",
+    "group": "arcane",
+    "sha256": "36B758783284B81BEAB6C8B0FD0913861C50BF64BCA3C8212CB35AAFB98D88B6",
+    "size": 900055601,
+    "files": 4,
+    "baselineSize": 900056401,
+    "rwdFilesByteIdentical": true
+  }
+}

@@ -1,0 +1,4182 @@
+{
+  "paws-hd-ui.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\packed\\paws-hd-ui.rwd",
+    "sha256": "DE8AD93C6C9818726F273909CD25D5117BCE95CB85687C0D8A05AC8871A6DCAD",
+    "size": 109966009,
+    "entries": 654,
+    "uniqueBlobs": 214,
+    "stamp": "6CD97FA5",
+    "files": {
+      "properties/1280/propertyicons/iconpropertybuddyrequests.png": {
+        "size": 348785,
+        "sha256": "BCD93B173E76D16EFC5FC2592025EE0AA6B4318AC50E9ED51CA6B3C2E975FF94"
+      },
+      "properties/1280/propertyicons/iconpropertyims.png": {
+        "size": 332244,
+        "sha256": "F87121234A3E6D9C3BD643FBB8A2A115069EEEA6FDF5FEF7ED8984D72874DBAA"
+      },
+      "properties/800/propertyicons/iconpropertybuddyrequests.png": {
+        "size": 348785,
+        "sha256": "BCD93B173E76D16EFC5FC2592025EE0AA6B4318AC50E9ED51CA6B3C2E975FF94"
+      },
+      "properties/800/propertyicons/iconpropertyims.png": {
+        "size": 332244,
+        "sha256": "F87121234A3E6D9C3BD643FBB8A2A115069EEEA6FDF5FEF7ED8984D72874DBAA"
+      },
+      "properties/propertyicons/iconpropertybuddyrequests.png": {
+        "size": 348785,
+        "sha256": "BCD93B173E76D16EFC5FC2592025EE0AA6B4318AC50E9ED51CA6B3C2E975FF94"
+      },
+      "properties/propertyicons/iconpropertyims.png": {
+        "size": 332244,
+        "sha256": "F87121234A3E6D9C3BD643FBB8A2A115069EEEA6FDF5FEF7ED8984D72874DBAA"
+      },
+      "ui/1280/default/csd/catchingup.tga": {
+        "size": 1048620,
+        "sha256": "345A0CBA78292E32463DE7DE73EA4B0DD708FE559A78FD510303CFFB38D73009"
+      },
+      "ui/1280/default/csd/disconnected.tga": {
+        "size": 1048620,
+        "sha256": "3B6F3ED9A223E73AD189C2322FCAA99DEF8C8EAD68BE62B8230B327EF8F7222F"
+      },
+      "ui/1280/default/csd/lowcpu.tga": {
+        "size": 1048620,
+        "sha256": "F223AB89823D67C5C688C1521EEFAC770D74FA3B8029DB3FB1DD3243FB8DAB80"
+      },
+      "ui/1280/default/csd/outofsync.tga": {
+        "size": 1048620,
+        "sha256": "5655821905FE329324EFADAB61B9B82D2CDC47A55E643D369BB392028E456D07"
+      },
+      "ui/1280/default/lobbybuttons/buddiesselected.png": {
+        "size": 355437,
+        "sha256": "8A246023B77AF7600A1BF0B5FB13F2429C2CBDF0DE3786B16E68622085471E81"
+      },
+      "ui/1280/default/lobbybuttons/buddiesunselected.png": {
+        "size": 325189,
+        "sha256": "82CD5CA3E3F969281A2CE789D96F237E14C327960370F56C7E1716468DFA0EB6"
+      },
+      "ui/1280/default/lobbybuttons/chatallselected.png": {
+        "size": 408220,
+        "sha256": "38B8E9B70D6DD5A10CB524890D64696F3F806F70BFB4E171650B03A98E94DD28"
+      },
+      "ui/1280/default/lobbybuttons/chatallunselected.png": {
+        "size": 354872,
+        "sha256": "48248608DC0B22F431D1F24DA0852805506F3CC2F11187EE5A2AF8FACAF91EB4"
+      },
+      "ui/1280/default/lobbybuttons/chatnoneselected.png": {
+        "size": 400417,
+        "sha256": "8C4501CAD31ACF2C6587968C0EC07432421209820A89E631A3EA58CAEB475748"
+      },
+      "ui/1280/default/lobbybuttons/chatnoneunselected.png": {
+        "size": 336304,
+        "sha256": "D3A1981AD2D36EEF7717C8EE70587C70A07C2D99B19356A4D3BCF5AAE98B485E"
+      },
+      "ui/1280/default/lobbybuttons/fullchatselected.png": {
+        "size": 336143,
+        "sha256": "CA33DF6CEE79F05BF209A0A154E38738392DAE99C603FDDFE9C95333BA8BCE14"
+      },
+      "ui/1280/default/lobbybuttons/fullchatunselected.png": {
+        "size": 310684,
+        "sha256": "EEAFBF19E3218FB0A25E852B81FA664DF2F91BE6F17562B397542AF1E5725838"
+      },
+      "ui/1280/default/lobbybuttons/gamespylogo.png": {
+        "size": 91936,
+        "sha256": "45FD0EF3E7D9FF280FD0AE91C4E2F65E75C93EAEBE2A35900125634C1A6D0866"
+      },
+      "ui/1280/default/lobbybuttons/halfchatselected.png": {
+        "size": 398553,
+        "sha256": "F9E40C3399C7BD381FFF7432C291BB2DBD4F07879BC087F8B759F042097D81DB"
+      },
+      "ui/1280/default/lobbybuttons/halfchatunselected.png": {
+        "size": 367753,
+        "sha256": "44D16EC4E84DF756CC98B94DBF33275D9DC0737B1E9DCA923C39442D6EC721FE"
+      },
+      "ui/1280/default/lobbybuttons/maploadfocused.png": {
+        "size": 328712,
+        "sha256": "8C8296574E6D36802F0A38F234271B1B4441ED22FBC5486D42405228EBB492DD"
+      },
+      "ui/1280/default/lobbybuttons/maploadpressed.png": {
+        "size": 315655,
+        "sha256": "E81D9F4388D12D87D3E24E906EA4C2C43FB8001932E3034206437E2880555356"
+      },
+      "ui/1280/default/lobbybuttons/maploadunpressed.png": {
+        "size": 352417,
+        "sha256": "4547BC2BAAE969B7A51775F42C1558700B833FD43CA1B9BEB28A13EFC3062D6C"
+      },
+      "ui/1280/default/lobbybuttons/mapsavefocused.png": {
+        "size": 358188,
+        "sha256": "A3E6AF22087FF5F3ECB43623CED6AB317E714A93E5662E2693CD142847852D7D"
+      },
+      "ui/1280/default/lobbybuttons/mapsavepressed.png": {
+        "size": 347988,
+        "sha256": "F55AC3D871E7A6028BF78F3A14A66D1831A39D34A1E9A389829CA71E643A709F"
+      },
+      "ui/1280/default/lobbybuttons/mapsaveunpressed.png": {
+        "size": 373197,
+        "sha256": "2806E9F7B9F1185ABD541A9F4E71FC3BFC52FB59171021EBDCF5E8DFE83FFDBC"
+      },
+      "ui/1280/default/lobbybuttons/nochatselected.png": {
+        "size": 342462,
+        "sha256": "EE28AD5E89174090BD2620532AC023DC0DD983D2024D51BF5BC5882D6873F155"
+      },
+      "ui/1280/default/lobbybuttons/nochatunselected.png": {
+        "size": 294529,
+        "sha256": "4C9C76DDAC53E79C520FDF1A24E83A4269EE9113AC5CE8366D6569076A48A008"
+      },
+      "ui/1280/default/lobbybuttons/passwordlock.png": {
+        "size": 252417,
+        "sha256": "70D1D8F2E9DD4F336B18C3E0DE266EC6ADF705188552483411EE75897E12783D"
+      },
+      "ui/1280/default/lobbybuttons/randommapfocused.png": {
+        "size": 374652,
+        "sha256": "F107E6B3C7CD9264256680DDC166585D32007262685E02C544042E6DB62C882F"
+      },
+      "ui/1280/default/lobbybuttons/randommappressed.png": {
+        "size": 394463,
+        "sha256": "ADA195AFCDCF61B3BE2D59518B908604DCBE5A50D8335FC40C1E0950783D31C8"
+      },
+      "ui/1280/default/lobbybuttons/randommapunpressed.png": {
+        "size": 395945,
+        "sha256": "23BB9DBBCC444B7BD1E076B0AC2A9A49DB570FFE80F869353F46F099B60C108B"
+      },
+      "ui/1280/default/lobbybuttons/savefilmsfocused.png": {
+        "size": 391300,
+        "sha256": "4939C4C1421E6C4BC07ADAB68EC68A6509684B5AFE249810ACCAF80653626DCC"
+      },
+      "ui/1280/default/lobbybuttons/savefilmspressed.png": {
+        "size": 396540,
+        "sha256": "81BFBFE0F63905D08F12E82B5BE65EF18E4FE85DE6C243793B2C9D311FAA4496"
+      },
+      "ui/1280/default/lobbybuttons/savefilmsunpressed.png": {
+        "size": 420456,
+        "sha256": "F0BFAE893A02B7E38F7D0A2FDA517B75A603E6A623097FEA54A29C5D0623D0BC"
+      },
+      "ui/1280/default/lobbybuttons/selectnoneselected.png": {
+        "size": 347271,
+        "sha256": "90159FEC68E4C8EEC88F23A7218C4F3723D86C865C0B679AB9A20F12B048024B"
+      },
+      "ui/1280/default/lobbybuttons/selectnoneunselected.png": {
+        "size": 303491,
+        "sha256": "CDDB679A494087A15AD5805615FAF4B54B29A7E879B34140C9B90F5B576EAF48"
+      },
+      "ui/1280/default/lobbybuttons/teamspressed.png": {
+        "size": 350304,
+        "sha256": "9A9B5B435BED391ACD63C7E8C3D4463BDD18DB48C870EC62BCD54776868B9409"
+      },
+      "ui/1280/default/lobbybuttons/teamsunpressed.png": {
+        "size": 321269,
+        "sha256": "7136876A3B70F3665B0E2E1F4ACA978E74740F2C7F4E4246DE5FA66E67160A5F"
+      },
+      "ui/1280/default/lobbybuttons/whisperselected.png": {
+        "size": 356801,
+        "sha256": "0B304C468F9584730C8EE239921CE2C8F6939390C484C589FB06FBD86E64C92A"
+      },
+      "ui/1280/default/lobbybuttons/whisperunselected.png": {
+        "size": 311268,
+        "sha256": "FC39A1AA9B7B819FDD50674D68EDDD03868D1AF66CFDC1DE205B8D29B625A420"
+      },
+      "ui/1280/default/readystatus/hosticon.tga": {
+        "size": 1048620,
+        "sha256": "74CF9E765340B4E0A3646E5082E9260B28FA6CCCDA71B5780A717A3A5ABAFBB1"
+      },
+      "ui/1280/default/readystatus/notreadycheck.tga": {
+        "size": 1048620,
+        "sha256": "719DCE99038A0FFB1D3D1116F5AED87A7482E11B7CD022B3D851EF55B7F9D3C8"
+      },
+      "ui/1280/default/readystatus/notreadycheckbox.tga": {
+        "size": 1048620,
+        "sha256": "040D31E72C95DB887C5A81861621BF77F94E838F5E806582FF4996AD774EBCC3"
+      },
+      "ui/1280/default/readystatus/notreadyicon.png": {
+        "size": 201555,
+        "sha256": "4D8227368DE87B9BA63516DD012E1F0F7480FCF0D21B5345DA0D96C26014A4F7"
+      },
+      "ui/1280/default/readystatus/readycheck.tga": {
+        "size": 1048620,
+        "sha256": "8EE2CCE4A9B877BEF5F757D552502A5B60420C88C3BF1AF19610CA95D4634560"
+      },
+      "ui/1280/default/readystatus/readycheckbox.tga": {
+        "size": 1048620,
+        "sha256": "0B9BF5C30002886A0B5A31413B0D4B5BBF0F8EBB03F1808A032DFCF0426296A3"
+      },
+      "ui/1280/default/readystatus/readyicon.png": {
+        "size": 258318,
+        "sha256": "DECAFF398094C96B479247C683355D2054E1942C867D6E3738974C410DF972D4"
+      },
+      "ui/1280/default/staging/hosticon.png": {
+        "size": 295795,
+        "sha256": "A0CF01BC11DC65D7050939A633A65CE3228CBAF8AF7614B3E08C91A09CD3DB5B"
+      },
+      "ui/1280/default/staging/kingdomicon.png": {
+        "size": 234179,
+        "sha256": "2182D566C9CAA14C6826C150C8206284F2BEE3540145CCD1EF8ACAC03DE1EDE9"
+      },
+      "ui/1280/default/staging/switchicon.png": {
+        "size": 396312,
+        "sha256": "CAE983EDE35D52A1B8D22DA43CCCF5857DA0B5E449CC0C50A787F68881A86A73"
+      },
+      "ui/1280/default/staging/switchiconfocused.png": {
+        "size": 371752,
+        "sha256": "7AFA3C81DEFCA1F8C862DD840AC7CCBC505069069C588A8AED108CC2B411C84B"
+      },
+      "ui/1280/default/staging/switchiconpressed.png": {
+        "size": 387948,
+        "sha256": "8D9C738921D6AB2FC34474325060DFF8D882F1998AC82E8F0210D98CEDF05DC8"
+      },
+      "ui/1280/game/actionbuttons/iconattach.png": {
+        "size": 595435,
+        "sha256": "A62DD297145CDAD18EB824F8CA1B1BC29C6C9E07EA05E0170C70BEB907AE7D78"
+      },
+      "ui/1280/game/actionbuttons/iconattack.png": {
+        "size": 489526,
+        "sha256": "52BA1233D5037E5C4AB51B501A8DACCDC090B5E4E8FC137FD749ECF95E08FDC7"
+      },
+      "ui/1280/game/actionbuttons/iconbombard.png": {
+        "size": 530732,
+        "sha256": "4CEFCAA96246FA1C73B26D8C84C3A607B4371DD66C0A98694FFB71128E64071E"
+      },
+      "ui/1280/game/actionbuttons/iconbuildstructure.png": {
+        "size": 506847,
+        "sha256": "8201D566DE10C6BDD788D9E4621AA748289AB7E517D556763BE195F04211FA39"
+      },
+      "ui/1280/game/actionbuttons/iconbuy.png": {
+        "size": 546598,
+        "sha256": "D4AE4215CEB2B11DB94F0AE589FF3EEA8A3DE9695ECD982F92D5EB4F84DFDBBA"
+      },
+      "ui/1280/game/actionbuttons/iconcancel.png": {
+        "size": 271066,
+        "sha256": "C47FB2258EB06BC1212708AAAC8556EF9577C76C712861BB8508859F6DE83B4A"
+      },
+      "ui/1280/game/actionbuttons/iconcommission.png": {
+        "size": 489844,
+        "sha256": "6E33DF3867A263B88F35164A8E34B43D7773FE6C0177357C3CEF1EE0B71D5BD3"
+      },
+      "ui/1280/game/actionbuttons/iconconstruct.png": {
+        "size": 506847,
+        "sha256": "8201D566DE10C6BDD788D9E4621AA748289AB7E517D556763BE195F04211FA39"
+      },
+      "ui/1280/game/actionbuttons/iconcustomcompany.png": {
+        "size": 308966,
+        "sha256": "DE7DC5E5B7BDAF5D3AA56C51B65DCC6F8D86DAC3408AC11A42F5A5E1B14202CB"
+      },
+      "ui/1280/game/actionbuttons/icondetach.png": {
+        "size": 616290,
+        "sha256": "A42082D4B1B40C3603B2D9C268103E249972315C724A9212260FF50585476992"
+      },
+      "ui/1280/game/actionbuttons/icondisband.png": {
+        "size": 536332,
+        "sha256": "1907389DE4B3334C8DC8935374555E07DD604DA22527AD33DE02BFC67F2CD82D"
+      },
+      "ui/1280/game/actionbuttons/icondowngrade.png": {
+        "size": 383564,
+        "sha256": "F4FB0E4EF94A1D01DEF7894E6453A35D164ECB1AD5D893B0E080084B8F45127A"
+      },
+      "ui/1280/game/actionbuttons/iconexplore.png": {
+        "size": 478828,
+        "sha256": "8A6FF1A48F6E2EE5026930FEB76A35EEF01DF30C7CA347DA07BAD14B62F12B6F"
+      },
+      "ui/1280/game/actionbuttons/icongroupbehaviordisable.png": {
+        "size": 451052,
+        "sha256": "40E75A8821BCD1F37D747501D4196E91CD0D80A1317FA436246FC811272AD44B"
+      },
+      "ui/1280/game/actionbuttons/icongroupbehaviorenable.png": {
+        "size": 461994,
+        "sha256": "541057C8287952C91C3A4810209F2859F421E6C061C75151C46D976A175834D9"
+      },
+      "ui/1280/game/actionbuttons/iconguard.png": {
+        "size": 528834,
+        "sha256": "E8AEB4B018CC89B0F9DD8808ED93A9E5CDDAD980684A95E58ACB4303D8A10BB6"
+      },
+      "ui/1280/game/actionbuttons/iconkingdomview.tga": {
+        "size": 1048620,
+        "sha256": "93FBC318FADD65E3430E74DBD651BA048EA50509ADB050CB2B95A20D013596AE"
+      },
+      "ui/1280/game/actionbuttons/iconmove.png": {
+        "size": 487868,
+        "sha256": "663BB8E0011F281F4C598B123EACC5F52B2502590011703AE23F10A0411F87AA"
+      },
+      "ui/1280/game/actionbuttons/iconobserverview.png": {
+        "size": 460190,
+        "sha256": "A782319741E270C5E662CB0011A5F573EACFFF743500317EE93927CF361ACB5E"
+      },
+      "ui/1280/game/actionbuttons/iconraze.png": {
+        "size": 433063,
+        "sha256": "05A0FAE7C8145BF522FFA823CA84B851FA86B16CA29BDADBF28E85A87D16ADF5"
+      },
+      "ui/1280/game/actionbuttons/iconrecall.png": {
+        "size": 447022,
+        "sha256": "5B052BAE989495F1503E14592F96BC4C7F61009E648139CCB3A0F94ED3D23C8D"
+      },
+      "ui/1280/game/actionbuttons/iconrepair.png": {
+        "size": 508484,
+        "sha256": "B8F5D921751155BC0579A1E27EB9B0D23E9E3645E54CE0167208F1C8BFE7907B"
+      },
+      "ui/1280/game/actionbuttons/iconresearch.png": {
+        "size": 529651,
+        "sha256": "934FF4DA701FB5A9AD1FE3533EE227C236E05AAEB0D6CC85E8D26D30AF51A9CD"
+      },
+      "ui/1280/game/actionbuttons/iconresetfavorites.png": {
+        "size": 389347,
+        "sha256": "5320A619BDFC137F645A708D2308A2F399E6E263F201EBBF14C7534012B45CEB"
+      },
+      "ui/1280/game/actionbuttons/iconretreat.png": {
+        "size": 377447,
+        "sha256": "B9CF1D2F9AC757EE6FC7351054A2372CDCAFCE63BFA689805952543EB6557E5A"
+      },
+      "ui/1280/game/actionbuttons/iconrout.png": {
+        "size": 462108,
+        "sha256": "677060AC82D4FBA989FF3B09919C1EDD2AB02FF5379556071045C87210B23ADB"
+      },
+      "ui/1280/game/actionbuttons/iconsallyforth.png": {
+        "size": 515010,
+        "sha256": "8CF6E6641BD473852198BD2F74BC4933333E6BDADC92D6E421DCA31A9F5B72EA"
+      },
+      "ui/1280/game/actionbuttons/iconsell.png": {
+        "size": 593069,
+        "sha256": "A5E5ACF5420037F2752279CFE6231E51D44AB715E01BEC8AE26864B306DBEE95"
+      },
+      "ui/1280/game/actionbuttons/iconsetrallypoint.png": {
+        "size": 471779,
+        "sha256": "86A66056217D9399652E7F2BC83238D891B6E2704910A5D1849D63994240A81D"
+      },
+      "ui/1280/game/actionbuttons/iconstop.png": {
+        "size": 310269,
+        "sha256": "7A4AA4533CA9C5908F6C35B819CEAA520C7E8703C217A7E83CAD6A82E66FB4C8"
+      },
+      "ui/1280/game/actionbuttons/iconteamattack.png": {
+        "size": 492057,
+        "sha256": "0D09B0482AE4E0931E8801DE04B8828AF1AADED462E209377B3BBD2CD120204A"
+      },
+      "ui/1280/game/actionbuttons/iconteambuild.png": {
+        "size": 498315,
+        "sha256": "7634F58A8FC1ED14E8EED8FD44473BE1AFF97C0C66503B97B20196EB90196EC3"
+      },
+      "ui/1280/game/actionbuttons/iconteamchat.png": {
+        "size": 434700,
+        "sha256": "E43E396F79BCE84E5A837429FBE90C07319E6551D95926F600E02C5D8781D2B4"
+      },
+      "ui/1280/game/actionbuttons/iconteamcommand.png": {
+        "size": 446082,
+        "sha256": "D2693CA14517771EB4F4807C26DC0260837C08CD64864CD7063EC3E65ADAD165"
+      },
+      "ui/1280/game/actionbuttons/iconteamdefend.png": {
+        "size": 497880,
+        "sha256": "A659B5740EA65182DA989FB52A0168E8DEE74FDAF014053414CEE5B59B8734A2"
+      },
+      "ui/1280/game/actionbuttons/iconteamexplore.png": {
+        "size": 486470,
+        "sha256": "E9D85EFA83C8731D330133A8ED6726404D339A34CDCE3E62AC30E247E29EE39C"
+      },
+      "ui/1280/game/actionbuttons/iconteamgiveactor.png": {
+        "size": 427345,
+        "sha256": "E93A65AE2E276B757050887265957E35648AE6E800F5B0F4CA8746DE42E33C35"
+      },
+      "ui/1280/game/actionbuttons/iconteamgiveresources.png": {
+        "size": 453153,
+        "sha256": "354B3936EEEF28B47B0886301C03A12F2929C9655D8D8B8DF5A41CD3AF960CA3"
+      },
+      "ui/1280/game/actionbuttons/iconteamreport.png": {
+        "size": 477306,
+        "sha256": "D63A42F5FD28ED4549B8DB2CF4BFFA31D53F7CB96DAE2005634B7915F8CF4ED4"
+      },
+      "ui/1280/game/actionbuttons/iconteamrequestactor.png": {
+        "size": 428071,
+        "sha256": "4E363FC064F1F50AD80984E3FEAE2D02B23BAA89864020B60A99C7095CBECC0B"
+      },
+      "ui/1280/game/actionbuttons/iconteamrequestresources.png": {
+        "size": 453992,
+        "sha256": "932BD993653576B45BECB54E8D08FD7C7F0C5AD0FCE682AF3A73783CF1F73FD9"
+      },
+      "ui/1280/game/actionbuttons/iconteamselectkingdom.png": {
+        "size": 497522,
+        "sha256": "33A8182BAF994683D3BA298F5EBD1C8E8C775911272A5C0E6BB0D29304261406"
+      },
+      "ui/1280/game/actionbuttons/iconupgrade.png": {
+        "size": 386076,
+        "sha256": "D5968D97686899D9389EDBD56F7D0C296E449B40DD9DE59CA658F0FB92D2490E"
+      },
+      "ui/1280/game/actionbuttons/iconupgradefort.png": {
+        "size": 204503,
+        "sha256": "8F9451BD362A2BA30F1D24B419019366F09A423E537971303DFD6618FEDB21A7"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconamberrings.png": {
+        "size": 388701,
+        "sha256": "D87735A76AE83C61F2EA591CE71625D20BC55EC80005010EDEFB97694886DE1D"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconbalancedweapons.png": {
+        "size": 446843,
+        "sha256": "1C569C2F515932B4CC50854C8A14FABF0F25B35CF72EB26D443BBBD00F9F41B1"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconbarbedspines.png": {
+        "size": 440709,
+        "sha256": "4E3F4BC3B42C678C1DD7DD9AD806C3DDE08351C4FA81D9F789F5B98BED6FCA32"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconbilleting.png": {
+        "size": 496500,
+        "sha256": "3F58E68158F75F85E7D7C3A234CEE0D362CE21D6413FD5E9E00BB265E3EC3448"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblackblessing.png": {
+        "size": 409130,
+        "sha256": "466849EAC5D0E7D9361314F78C031D0D951443BA054031B96CEE08777D1B5926"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblackichor.png": {
+        "size": 325220,
+        "sha256": "C4EA614BA069E68DE5E86AE922F35559FA35AC3D755893A8BCE9C8A9FEECCF50"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblackoffering.png": {
+        "size": 388283,
+        "sha256": "563120DC34CCB926CA14455875C441CD95F9B0E7F0A195B1E1A1573BF629C56B"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblessedarmor.png": {
+        "size": 302104,
+        "sha256": "BF03C5E96FB7D768869B9592240C9F19FFE3657209B33663FF4F580BCFF1E780"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblessinglife.png": {
+        "size": 254796,
+        "sha256": "DC77D0CA1EEABACD12B1644BAD7A45AD29A20D1340EBCEAD11D79E12CE2B3BFD"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblessingmight.png": {
+        "size": 398698,
+        "sha256": "C53F98EF1F8EB3C64EFC5E2FDAEDC321195D6C2941CC2D4A6A70FBC442BC5EF3"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblessingofspeed.png": {
+        "size": 252108,
+        "sha256": "BADF7ABF65AD4272225215576EFD590A68E303529E9993A014EA8A455871ADA4"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblessingofvalor.png": {
+        "size": 358880,
+        "sha256": "66D8B9ED6DAFF9D79560BFC7319C767E72B8A05C7BF1CB9F1CF2F8B3E046C204"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblessingspeed.png": {
+        "size": 252108,
+        "sha256": "BADF7ABF65AD4272225215576EFD590A68E303529E9993A014EA8A455871ADA4"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconblessingvalor.png": {
+        "size": 358880,
+        "sha256": "66D8B9ED6DAFF9D79560BFC7319C767E72B8A05C7BF1CB9F1CF2F8B3E046C204"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconbonerings.png": {
+        "size": 404776,
+        "sha256": "C54E811E3A25C80D76881014FB51D561BD5E281CB3C358432E38C1F9FE54782C"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconbootcamp.png": {
+        "size": 449235,
+        "sha256": "C270B33C17D83C792E3C66C712F0B2EB2A869234FEAF965DDC86FBDE1EFAA1BE"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconcalvarytactics.png": {
+        "size": 401498,
+        "sha256": "454720E98B797D904F4452D8335293440E30CA6D90C938E43DA15B5EE03ED9F9"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconcavalrytactics.png": {
+        "size": 401498,
+        "sha256": "454720E98B797D904F4452D8335293440E30CA6D90C938E43DA15B5EE03ED9F9"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconcompositebows.png": {
+        "size": 373666,
+        "sha256": "B6523B0F89C5D9F9A19A2BCD2461FAB5A905F580ED19715D671CD883A06DC949"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondarkfortitude.png": {
+        "size": 154830,
+        "sha256": "DAF168286A588AED02FDE5295EF2A937E7A48342719D42FFC649E9288563AB7A"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondarkmatter.png": {
+        "size": 400405,
+        "sha256": "BCA9C62CBF1F43858FC467E0F7F07A5C6C0DCE4F6EF3CA407A409FA839195B43"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondarkritual.png": {
+        "size": 514556,
+        "sha256": "95284C0C402A08486C90E18A978BFAD274EC78DB5277B3F2127337C5977ECC04"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondeadzone.png": {
+        "size": 488502,
+        "sha256": "B68E9DF73E30AFCD498445D87B67B8899DF046B96EEEE879E9CFF448960B8188"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondeeproots.png": {
+        "size": 447591,
+        "sha256": "B575D3879822D38EB395E2CA5431723EBB42B10F1A1BE2A92EA566EAA5890437"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondiseasedarmor.png": {
+        "size": 324662,
+        "sha256": "5C576D80AB4E12EABEA18BC80F85075E14EF728724345B05B77972B65ECCF605"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondiseasedarrows.png": {
+        "size": 410167,
+        "sha256": "2333BA71CFEEFE1E928BF788CDE7DBB6C1F39DE336F0BC7586BAC3AFDAD502AF"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondiseasedweapons.png": {
+        "size": 361525,
+        "sha256": "FC866343B0B1861145511CB1D577FB06CF2D861F6D5FBEAD4E5A7CCAF7B9F633"
+      },
+      "ui/1280/game/actionbuttons/techicons/icondragonbonebows.png": {
+        "size": 333162,
+        "sha256": "F64A8B88B7B1FD1BDDE96E479AEB4BFE8191D5BA505FEE5B6EF93A2B7420DBF6"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconedgedspines.png": {
+        "size": 388822,
+        "sha256": "4800114C0E1136B4849BC96D6B1C06F50CCED27B371BC6174024AE06747BE1B3"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconelixerofcourage.png": {
+        "size": 335850,
+        "sha256": "E7E1E32CAF60E1F9484EA447E7BC8E3F7F1195FA8916195F44CF8AEE778A9CA3"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconelixeroflife.png": {
+        "size": 343979,
+        "sha256": "882A8D99276D6B45C18190BBB198AF4247684CE0C6967618608D4A9C3009635E"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconelixerofstrength.png": {
+        "size": 369013,
+        "sha256": "019AE711AE276514DEE82EA4FF4260768A5EBC0B91EB1C1B4F21FD50D5C388E9"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconenchantedarmor.png": {
+        "size": 349453,
+        "sha256": "5858614771E42505D22B97B6EE7175F74AED34037A7588C4FE94E7151077800B"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconentrenchtactics.png": {
+        "size": 446074,
+        "sha256": "B4BE256D7136C1C0E896CC8E9FC309C29969715188FF83BE3E7D8C9EAB5A28B7"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconentwinedbranches.png": {
+        "size": 489604,
+        "sha256": "172403F57D158F445885470154E602FF8B2605FE4519D2D36B771B43CA25F5C5"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconfittedstones.png": {
+        "size": 330750,
+        "sha256": "06F98AE57B76A4B0C115953BCA9B0F9CC78AD988C3A65FD443F29D352593A563"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconflamingarrows.png": {
+        "size": 447673,
+        "sha256": "17C6D83021E9D0B24ECFE1C0CB4E8AF268C5CFBE0C3020C5688A2D56DF3F9E91"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconfortifiedwalls.png": {
+        "size": 379551,
+        "sha256": "7B5842B91BC79C5EACCC21CB3693300B67F8C8A845FC6ECF785343FD9FF919C2"
+      },
+      "ui/1280/game/actionbuttons/techicons/icongroovedspines.png": {
+        "size": 331123,
+        "sha256": "6905118EC8858A2E8E619E5037430B156A04EEEA0696F7F99FC43EF996E2A750"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconguardtraining.png": {
+        "size": 573543,
+        "sha256": "9F8FC7D613018BD981966F93928A734E7A8A1C3419FBF8E1E5B85E20A071DE40"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconironwoodbows.png": {
+        "size": 290854,
+        "sha256": "5520367609209FAE9463EE7432FBDE93D8D909BCD17F2027C2204DA25EB2A5D2"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconjaderings.png": {
+        "size": 363494,
+        "sha256": "03F9600238C94FC54BEB1AF22EAF0F8D0CB9ACA7F605033C5314EADA29898283"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconjourneymen.png": {
+        "size": 311885,
+        "sha256": "0B6D54F626565B27255F82B262A71433A134FD36683CBBBF9E9FC18CA0F49A2F"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconkhaldunitearmor.png": {
+        "size": 355044,
+        "sha256": "DDCC9ED5FC83BEF3F6457C9C0F06CB334AB50A9D4A87ACDECA379C4459E68B83"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconkhaldunitearrows.png": {
+        "size": 370518,
+        "sha256": "B8D9A6A42817A01C6DA083086C5606EE314D59BEE2161F689B7C4D385795FCC2"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconkhalduniteweapons.png": {
+        "size": 214554,
+        "sha256": "5AB97355B28C781CE7609A912F04A112F5C32B4EC33FF100077C8552A66AB5AA"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconmagicarmor.png": {
+        "size": 394459,
+        "sha256": "2B5B0261439CA46D522DF015DD370834A9B133DBB98A258E569B090658691E60"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconmagicarrows.png": {
+        "size": 458480,
+        "sha256": "A442477969A5A3B4053DD946518B26B5CF46209212F3C2A53E95C3F9B393FB1E"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconmagicbows.png": {
+        "size": 443601,
+        "sha256": "9ADEB78DC086A0FC9D4C26D37117966EC3CE20FECCA43E524E5C6FCC7D6E1285"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconmagicweapons.png": {
+        "size": 313603,
+        "sha256": "1DE4F792B8883F5E7C60C29319EB1CAE7BF1273BBAA2B48AD6AC1D73FB33A467"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconnursery.png": {
+        "size": 405324,
+        "sha256": "31946132E08556C1AE0A5C79DD149D46AECA48249D1DCE9333AFFC79B9B42D56"
+      },
+      "ui/1280/game/actionbuttons/techicons/icononyxrings.png": {
+        "size": 321807,
+        "sha256": "5232270B550A6204CE0458F79DA50FAE52C0B99199854DA2B086E483DB72E341"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconopalrings.png": {
+        "size": 363054,
+        "sha256": "971E16D92EF3AFDF245F207D81A70841DE23598E19541A89036307F7F34DD8BA"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconpoisonarrows.png": {
+        "size": 325343,
+        "sha256": "0FD9C964AF6EB247F8A78689B758E345F9E85B68360D9189E463EE302AFC9D0B"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconpoisonblades.png": {
+        "size": 349083,
+        "sha256": "5EE86E8776E3603B954ED0EE194F37BAB0892BF0C36F6B23661D6AEB403974AD"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconpoisonclaws.png": {
+        "size": 301700,
+        "sha256": "F362071B26DD6477BC20DBAFFA5EFA184EBBA3E5F0FB1D953E935B15502432FD"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconpoisonspines.png": {
+        "size": 305697,
+        "sha256": "F9059499FAE16647025AF6205E7122FBD11492F6BFA6DE2E442D98D71429A71E"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconpoisonweapons.png": {
+        "size": 273897,
+        "sha256": "6A1EC7273FB430F3D62A1621F703911B91EFC4B26D102FEA6621D5399822FB7E"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconproselytize.png": {
+        "size": 407404,
+        "sha256": "B405F76D7FBA75B2D94042182166F43014D883CAB9957D056BB8FB26183FAD5B"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconramparts.png": {
+        "size": 439945,
+        "sha256": "46176F0C9FBACDF094F8644BED5E313B0680122179E6A378997030C0339E8DDE"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconrapidgrowth.png": {
+        "size": 244490,
+        "sha256": "F0F7335E2255E2E1169B0994A7C1AC80FF1FEC9D4430D4AD60A1F86E7FF822C8"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconshadowskin.png": {
+        "size": 390040,
+        "sha256": "CB8765357492F7965695C4D15F29A9E99B08A3D2ED2E9983EEA241C662A0A9AF"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconshadowsteelarmor.png": {
+        "size": 329507,
+        "sha256": "372A0134EFC884B55A25D5FE6F080F85EAC3D40433D2E2289D6F411D70301727"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconshadowsteelweapons.png": {
+        "size": 340448,
+        "sha256": "A5628FBBFD1E0590B4594FC1280C9D084CAFD23A8ABAD8F0BA104F3EF84C2678"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconshocktroops.png": {
+        "size": 324648,
+        "sha256": "0B7B1F2BDCD6D8F0097BC9D2F766D9A505A1D26CF62C0DAD8DD1944BA6A89BF7"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconskilledlabor.png": {
+        "size": 464589,
+        "sha256": "C0A623149729C610EBF102BD0684710D6A20383A337B004A6654DD8D7CE53195"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconstablemaster.png": {
+        "size": 360308,
+        "sha256": "358C50ECE84F066AFE61970EF9FA4D7C621B7EB82AA5B661B55E49EE76A6D57D"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconstrongfoundation.png": {
+        "size": 399104,
+        "sha256": "87038112F553D4E84C6515B12B84AEBCAB8F1FCCEB3152466E47EDCF1CACDE36"
+      },
+      "ui/1280/game/actionbuttons/techicons/icontaskmaster.png": {
+        "size": 498388,
+        "sha256": "D761E5E30C359F5DBAEEF64493AA7C92C6680F36705437D2B7BBCB0DC655EDB6"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconthaumaturgy.png": {
+        "size": 473601,
+        "sha256": "EE9C98DDF37107AED91797D572F123BD002B2B7F5F7AC1E06D4538C1AB52A5F9"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconthornybarrier.png": {
+        "size": 485836,
+        "sha256": "44566C00CD98F57528D1080B7995A35C02AECB0C2682FC4B9B4AA34544CA8C88"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconumbralbarrier.png": {
+        "size": 503533,
+        "sha256": "F3ACD3A992282D3E0F91F0205C92817168CF48E9BD44C9C6FC3998DD66B44A40"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconumbralcarapace.png": {
+        "size": 393237,
+        "sha256": "5F9F4671ED580015BB89508EE19E1EAE795FF0A90067FA155F0EB325AE2BC670"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconumbralessence.png": {
+        "size": 354470,
+        "sha256": "8492FECD18CDFC9AF51E51FE32D35E038C39452C6D57BEE2EFE9D3BD990F3576"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconumbralfrenzy.png": {
+        "size": 460344,
+        "sha256": "F2B75D8F57E8B90867EE128E2F9EF47283A7002F31817C416883FB58EDC2EF6C"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconumbralfury.png": {
+        "size": 418395,
+        "sha256": "13149B5EB3DAD5CAF922336600A6330EBC292FF728DD7CB37A9774C7237468C8"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconumbralmight.png": {
+        "size": 410390,
+        "sha256": "FE859CDC9D91D782A94859EC7BE4EB7FC33AE6450704DF09EC6E7989BE118D86"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconumbralrage.png": {
+        "size": 470675,
+        "sha256": "A4C4467347E23FFFCC76AE6DF8B8BBCF59962C828B5A066B0D6D88DAECAF67C7"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconwhitesteelarmor.png": {
+        "size": 323869,
+        "sha256": "75923A83056026A1BC7BBC98F4CA98354BCF4F998F65FA23DD1FE4C8D79BF40B"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconwhitesteelweapons.png": {
+        "size": 305524,
+        "sha256": "7B109B1DD38E2F475D11C14DC61A349B261933130C4D65FC430F9CB678F22364"
+      },
+      "ui/1280/game/actionbuttons/techicons/iconwidetrunks.png": {
+        "size": 486936,
+        "sha256": "267BE6E5DACECDA03CFD7F4D16B4B79300A1574BCF837B6E63C3797933F4E602"
+      },
+      "ui/1280/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "4B289E2238B332736DDE422EABA45E41527A7C68F8FE351A3CFC88C7A6C7A8C4"
+      },
+      "ui/1280/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "5170D4980BFBC36243DAD44121A5DB76D6C98E4042B8A4D6A6DD3F3DAAAA38E1"
+      },
+      "ui/1280/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "73F22E94A69BD37D420FBB04DC6A35928A80EA2828ADC13D4F0F0214819BD128"
+      },
+      "ui/1280/game/favorites/cross.png": {
+        "size": 18154,
+        "sha256": "818DDD8437F0B921B75FEE4B1444CFF29226E73057B96D1B74F0FEE6906A3097"
+      },
+      "ui/1280/game/structurebuttons/bankicon.png": {
+        "size": 541874,
+        "sha256": "C036FE16BD56B8C2F1A207A8B09661B420685F32E26336C93AA474B6C2EB6A58"
+      },
+      "ui/1280/game/structurebuttons/barracksicon.png": {
+        "size": 471525,
+        "sha256": "2ECC050A7191AB168D037F1EB440EA57916814840F73D7092306B26076D7575D"
+      },
+      "ui/1280/game/structurebuttons/bazaaricon.png": {
+        "size": 461394,
+        "sha256": "2426E4640BF15B7F9C8E47A266FE7454CD266BD49A20CB75E1D1A5D72CEB455F"
+      },
+      "ui/1280/game/structurebuttons/blacksmithicon.png": {
+        "size": 347613,
+        "sha256": "6F54631EE72A7172D5F73F28909FD9FEF3238EE0050E2BE3B8589E1F4302CF7B"
+      },
+      "ui/1280/game/structurebuttons/draugacentericon.png": {
+        "size": 376111,
+        "sha256": "B327F77E36436247B755DFCB40F2A59BD07102B51C80620E199F622F681A72C7"
+      },
+      "ui/1280/game/structurebuttons/factoryicon.png": {
+        "size": 477115,
+        "sha256": "BAB794EC312339DA8ED4C94A4A7B8B5AEFFE6C45F851D70431C13253F338C0D2"
+      },
+      "ui/1280/game/structurebuttons/foundryicon.png": {
+        "size": 426165,
+        "sha256": "F8F5299DA82D0D0A8B3B00F7CD719A2CC8C0E3857A2919754B52481E09825D5D"
+      },
+      "ui/1280/game/structurebuttons/gauricentericon.png": {
+        "size": 447701,
+        "sha256": "7AF33ACC00798993C53CE0A129897E88805D5309CC6E0E7E035D03130B404F1E"
+      },
+      "ui/1280/game/structurebuttons/giftofnatureicon.png": {
+        "size": 494419,
+        "sha256": "8A5EEF6A7B3813847CA1E3A2814D61D57BF74F8BCA7A072BBD7DDFE75A9208E3"
+      },
+      "ui/1280/game/structurebuttons/goldmineicon.png": {
+        "size": 539646,
+        "sha256": "CDBC38C9B1191B9A82EFA12EF355D81621FDACF8A77D0A3431F59C0B516ACC83"
+      },
+      "ui/1280/game/structurebuttons/harouncentericon.png": {
+        "size": 414758,
+        "sha256": "D586B518F03628543B58E9A312F98BFB34CEEFAC0BD40D82716C6601995D9BCC"
+      },
+      "ui/1280/game/structurebuttons/humancentericon.png": {
+        "size": 401695,
+        "sha256": "86F2CBE5E82173D3B17C169FBEE9C561EDBEFFEB7386E8A57BF65741D767894F"
+      },
+      "ui/1280/game/structurebuttons/ironconverticon.png": {
+        "size": 476192,
+        "sha256": "979DDC6CD09FC838B2DE12BE64E67A71AC663491E333D55E010AC4B25F69F87D"
+      },
+      "ui/1280/game/structurebuttons/ironmineicon.png": {
+        "size": 497107,
+        "sha256": "FA9C97196A2353C86CFEF86449027F832D4DBF863819024DB44AC99F70B69D25"
+      },
+      "ui/1280/game/structurebuttons/irontomanaconverticon.png": {
+        "size": 493104,
+        "sha256": "F78D67574EEEBF81D721B340F66678D0A3394D40667A16D423E70F6B87B1DD73"
+      },
+      "ui/1280/game/structurebuttons/libraryicon.png": {
+        "size": 428111,
+        "sha256": "49991F3394E163B56DBBB787711A5C1C96F61BB243FCC13A993EF6A053AA1967"
+      },
+      "ui/1280/game/structurebuttons/magecollegeicon.png": {
+        "size": 378248,
+        "sha256": "F76A2293BB2632713CCA7C1457EB709D84E728E919439EE6B9351EF3102FA30A"
+      },
+      "ui/1280/game/structurebuttons/manafocusicon.png": {
+        "size": 337608,
+        "sha256": "89C3890A89B6FA76D165DCEB85607E858F342D48C05E678B7245A75BB39D96CB"
+      },
+      "ui/1280/game/structurebuttons/manamineicon.png": {
+        "size": 489152,
+        "sha256": "3C39DA00F95E8826D843F9FA81CB448A4DCD0EA2E187C7989722A0071734E2AE"
+      },
+      "ui/1280/game/structurebuttons/manasiphonicon.png": {
+        "size": 438684,
+        "sha256": "AD64CE990FB45D1A2A0C0D060272DBC98F9D34D24D0C152FA5149A731CD4D283"
+      },
+      "ui/1280/game/structurebuttons/marketicon.png": {
+        "size": 429747,
+        "sha256": "9340094797C0B953783E6D299F656F372E8CABF61C66A88D63C4FB1C0E0331E4"
+      },
+      "ui/1280/game/structurebuttons/miningposticon.png": {
+        "size": 460683,
+        "sha256": "2F4CFCF16C5D7AE1514E517431439B935D203CE107EDD50182783EC65145C884"
+      },
+      "ui/1280/game/structurebuttons/outposticon.png": {
+        "size": 383439,
+        "sha256": "D0D7FEA8C934838978F88FFF943630F92333DD426DBE89E167CFADD1D3265966"
+      },
+      "ui/1280/game/structurebuttons/portalicon.png": {
+        "size": 498428,
+        "sha256": "8508E537B7BF5A585B34AE2A1E398697DDA11625DE8172CF5A3F1BBDC6E08963"
+      },
+      "ui/1280/game/structurebuttons/quarryicon.png": {
+        "size": 392350,
+        "sha256": "96CBCC3F7CA8D8938F710E2F15B59CC503310CBD96633939B7F47B378BC7ED52"
+      },
+      "ui/1280/game/structurebuttons/sawmillicon.png": {
+        "size": 484855,
+        "sha256": "95E11CC996717758C1A604BF1B98CF0D3EDB9F11EA1F5531D5DF76D625D068EE"
+      },
+      "ui/1280/game/structurebuttons/shadowcentericon.png": {
+        "size": 321318,
+        "sha256": "2E970364318B1B992779CC2D3CF9144D7E282B1DD4744D87963CFB76D74E8101"
+      },
+      "ui/1280/game/structurebuttons/shrineicon.png": {
+        "size": 390042,
+        "sha256": "25BBB6C555284036CB67CDC24CC28DEF6FC9652E09A680251A5594B21E92A908"
+      },
+      "ui/1280/game/structurebuttons/stoneconverticon.png": {
+        "size": 488096,
+        "sha256": "A9C3FAED70913BC618AA04FAF9459164837393F1305963F795210788773838DE"
+      },
+      "ui/1280/game/structurebuttons/stonemineicon.png": {
+        "size": 501937,
+        "sha256": "BB70490F0C785273A6832F378D6080A6646C4577769D6F65492A6C0B95CEC4DC"
+      },
+      "ui/1280/game/structurebuttons/stonetomanaconverticon.png": {
+        "size": 485809,
+        "sha256": "CCE8258B4F7AB04C2E7C45460A76F560BC889A83BD615A54D9E4549A5B96B225"
+      },
+      "ui/1280/game/structurebuttons/templeicon.png": {
+        "size": 413899,
+        "sha256": "FEF9A62D0D7BD776DB718946745071ADB978165468A969C98253448ED7E74A33"
+      },
+      "ui/1280/game/structurebuttons/undeadcentericon.png": {
+        "size": 390044,
+        "sha256": "2DE3D3C856F1BC488F64F4A16711C37BAD401CE7F42E5E20930E112CB757749E"
+      },
+      "ui/1280/game/structurebuttons/warehouseicon.png": {
+        "size": 440871,
+        "sha256": "770BB19427A24671C2D5D917594D15EEC9B83920EA805F47999E029F95D59609"
+      },
+      "ui/1280/game/structurebuttons/woodconverticon.png": {
+        "size": 535136,
+        "sha256": "39568BC8A505D9E70AB3D66BB3DF6EDCD6BACE7710B21287B8F204DE4D3727B9"
+      },
+      "ui/1280/game/structurebuttons/woodmillicon.png": {
+        "size": 465612,
+        "sha256": "A67503A32875AE9966CB695D74249EE65015B3B5DED0F0CF4DD4EB76053F505A"
+      },
+      "ui/1280/game/structurebuttons/woodmineicon.png": {
+        "size": 482352,
+        "sha256": "BC237E4CDFFE6442B9C26B44885E4661038C8769004310B8CD68391A2FCB0A7F"
+      },
+      "ui/1280/game/structurebuttons/woodtomanaconverticon.png": {
+        "size": 547860,
+        "sha256": "84360BF5D0E49D191B0E2D24EE15C55395D6069E5271D2AD954FFFADB6E302C1"
+      },
+      "ui/1280/game/structurebuttons/workshopicon.png": {
+        "size": 489721,
+        "sha256": "560BEE21A7339D7A2403A924942718010731EDABAB0C0A89BBBC338F47B6E997"
+      },
+      "ui/800/default/csd/catchingup.tga": {
+        "size": 1048620,
+        "sha256": "345A0CBA78292E32463DE7DE73EA4B0DD708FE559A78FD510303CFFB38D73009"
+      },
+      "ui/800/default/csd/disconnected.tga": {
+        "size": 1048620,
+        "sha256": "3B6F3ED9A223E73AD189C2322FCAA99DEF8C8EAD68BE62B8230B327EF8F7222F"
+      },
+      "ui/800/default/csd/lowcpu.tga": {
+        "size": 1048620,
+        "sha256": "F223AB89823D67C5C688C1521EEFAC770D74FA3B8029DB3FB1DD3243FB8DAB80"
+      },
+      "ui/800/default/csd/outofsync.tga": {
+        "size": 1048620,
+        "sha256": "5655821905FE329324EFADAB61B9B82D2CDC47A55E643D369BB392028E456D07"
+      },
+      "ui/800/default/lobbybuttons/buddiesselected.png": {
+        "size": 355437,
+        "sha256": "8A246023B77AF7600A1BF0B5FB13F2429C2CBDF0DE3786B16E68622085471E81"
+      },
+      "ui/800/default/lobbybuttons/buddiesunselected.png": {
+        "size": 325189,
+        "sha256": "82CD5CA3E3F969281A2CE789D96F237E14C327960370F56C7E1716468DFA0EB6"
+      },
+      "ui/800/default/lobbybuttons/chatallselected.png": {
+        "size": 408220,
+        "sha256": "38B8E9B70D6DD5A10CB524890D64696F3F806F70BFB4E171650B03A98E94DD28"
+      },
+      "ui/800/default/lobbybuttons/chatallunselected.png": {
+        "size": 354872,
+        "sha256": "48248608DC0B22F431D1F24DA0852805506F3CC2F11187EE5A2AF8FACAF91EB4"
+      },
+      "ui/800/default/lobbybuttons/chatnoneselected.png": {
+        "size": 400417,
+        "sha256": "8C4501CAD31ACF2C6587968C0EC07432421209820A89E631A3EA58CAEB475748"
+      },
+      "ui/800/default/lobbybuttons/chatnoneunselected.png": {
+        "size": 336304,
+        "sha256": "D3A1981AD2D36EEF7717C8EE70587C70A07C2D99B19356A4D3BCF5AAE98B485E"
+      },
+      "ui/800/default/lobbybuttons/fullchatselected.png": {
+        "size": 336143,
+        "sha256": "CA33DF6CEE79F05BF209A0A154E38738392DAE99C603FDDFE9C95333BA8BCE14"
+      },
+      "ui/800/default/lobbybuttons/fullchatunselected.png": {
+        "size": 310684,
+        "sha256": "EEAFBF19E3218FB0A25E852B81FA664DF2F91BE6F17562B397542AF1E5725838"
+      },
+      "ui/800/default/lobbybuttons/gamespylogo.png": {
+        "size": 91936,
+        "sha256": "45FD0EF3E7D9FF280FD0AE91C4E2F65E75C93EAEBE2A35900125634C1A6D0866"
+      },
+      "ui/800/default/lobbybuttons/halfchatselected.png": {
+        "size": 398553,
+        "sha256": "F9E40C3399C7BD381FFF7432C291BB2DBD4F07879BC087F8B759F042097D81DB"
+      },
+      "ui/800/default/lobbybuttons/halfchatunselected.png": {
+        "size": 367753,
+        "sha256": "44D16EC4E84DF756CC98B94DBF33275D9DC0737B1E9DCA923C39442D6EC721FE"
+      },
+      "ui/800/default/lobbybuttons/maploadfocused.png": {
+        "size": 328712,
+        "sha256": "8C8296574E6D36802F0A38F234271B1B4441ED22FBC5486D42405228EBB492DD"
+      },
+      "ui/800/default/lobbybuttons/maploadpressed.png": {
+        "size": 315655,
+        "sha256": "E81D9F4388D12D87D3E24E906EA4C2C43FB8001932E3034206437E2880555356"
+      },
+      "ui/800/default/lobbybuttons/maploadunpressed.png": {
+        "size": 352417,
+        "sha256": "4547BC2BAAE969B7A51775F42C1558700B833FD43CA1B9BEB28A13EFC3062D6C"
+      },
+      "ui/800/default/lobbybuttons/mapsavefocused.png": {
+        "size": 358188,
+        "sha256": "A3E6AF22087FF5F3ECB43623CED6AB317E714A93E5662E2693CD142847852D7D"
+      },
+      "ui/800/default/lobbybuttons/mapsavepressed.png": {
+        "size": 347988,
+        "sha256": "F55AC3D871E7A6028BF78F3A14A66D1831A39D34A1E9A389829CA71E643A709F"
+      },
+      "ui/800/default/lobbybuttons/mapsaveunpressed.png": {
+        "size": 373197,
+        "sha256": "2806E9F7B9F1185ABD541A9F4E71FC3BFC52FB59171021EBDCF5E8DFE83FFDBC"
+      },
+      "ui/800/default/lobbybuttons/nochatselected.png": {
+        "size": 342462,
+        "sha256": "EE28AD5E89174090BD2620532AC023DC0DD983D2024D51BF5BC5882D6873F155"
+      },
+      "ui/800/default/lobbybuttons/nochatunselected.png": {
+        "size": 294529,
+        "sha256": "4C9C76DDAC53E79C520FDF1A24E83A4269EE9113AC5CE8366D6569076A48A008"
+      },
+      "ui/800/default/lobbybuttons/passwordlock.png": {
+        "size": 252417,
+        "sha256": "70D1D8F2E9DD4F336B18C3E0DE266EC6ADF705188552483411EE75897E12783D"
+      },
+      "ui/800/default/lobbybuttons/randommapfocused.png": {
+        "size": 374652,
+        "sha256": "F107E6B3C7CD9264256680DDC166585D32007262685E02C544042E6DB62C882F"
+      },
+      "ui/800/default/lobbybuttons/randommappressed.png": {
+        "size": 394463,
+        "sha256": "ADA195AFCDCF61B3BE2D59518B908604DCBE5A50D8335FC40C1E0950783D31C8"
+      },
+      "ui/800/default/lobbybuttons/randommapunpressed.png": {
+        "size": 395945,
+        "sha256": "23BB9DBBCC444B7BD1E076B0AC2A9A49DB570FFE80F869353F46F099B60C108B"
+      },
+      "ui/800/default/lobbybuttons/savefilmsfocused.png": {
+        "size": 391300,
+        "sha256": "4939C4C1421E6C4BC07ADAB68EC68A6509684B5AFE249810ACCAF80653626DCC"
+      },
+      "ui/800/default/lobbybuttons/savefilmspressed.png": {
+        "size": 396540,
+        "sha256": "81BFBFE0F63905D08F12E82B5BE65EF18E4FE85DE6C243793B2C9D311FAA4496"
+      },
+      "ui/800/default/lobbybuttons/savefilmsunpressed.png": {
+        "size": 420456,
+        "sha256": "F0BFAE893A02B7E38F7D0A2FDA517B75A603E6A623097FEA54A29C5D0623D0BC"
+      },
+      "ui/800/default/lobbybuttons/selectnoneselected.png": {
+        "size": 347271,
+        "sha256": "90159FEC68E4C8EEC88F23A7218C4F3723D86C865C0B679AB9A20F12B048024B"
+      },
+      "ui/800/default/lobbybuttons/selectnoneunselected.png": {
+        "size": 303491,
+        "sha256": "CDDB679A494087A15AD5805615FAF4B54B29A7E879B34140C9B90F5B576EAF48"
+      },
+      "ui/800/default/lobbybuttons/teamspressed.png": {
+        "size": 350304,
+        "sha256": "9A9B5B435BED391ACD63C7E8C3D4463BDD18DB48C870EC62BCD54776868B9409"
+      },
+      "ui/800/default/lobbybuttons/teamsunpressed.png": {
+        "size": 321269,
+        "sha256": "7136876A3B70F3665B0E2E1F4ACA978E74740F2C7F4E4246DE5FA66E67160A5F"
+      },
+      "ui/800/default/lobbybuttons/whisperselected.png": {
+        "size": 356801,
+        "sha256": "0B304C468F9584730C8EE239921CE2C8F6939390C484C589FB06FBD86E64C92A"
+      },
+      "ui/800/default/lobbybuttons/whisperunselected.png": {
+        "size": 311268,
+        "sha256": "FC39A1AA9B7B819FDD50674D68EDDD03868D1AF66CFDC1DE205B8D29B625A420"
+      },
+      "ui/800/default/readystatus/hosticon.tga": {
+        "size": 1048620,
+        "sha256": "74CF9E765340B4E0A3646E5082E9260B28FA6CCCDA71B5780A717A3A5ABAFBB1"
+      },
+      "ui/800/default/readystatus/notreadycheck.tga": {
+        "size": 1048620,
+        "sha256": "719DCE99038A0FFB1D3D1116F5AED87A7482E11B7CD022B3D851EF55B7F9D3C8"
+      },
+      "ui/800/default/readystatus/notreadycheckbox.tga": {
+        "size": 1048620,
+        "sha256": "040D31E72C95DB887C5A81861621BF77F94E838F5E806582FF4996AD774EBCC3"
+      },
+      "ui/800/default/readystatus/notreadyicon.png": {
+        "size": 201555,
+        "sha256": "4D8227368DE87B9BA63516DD012E1F0F7480FCF0D21B5345DA0D96C26014A4F7"
+      },
+      "ui/800/default/readystatus/readycheck.tga": {
+        "size": 1048620,
+        "sha256": "8EE2CCE4A9B877BEF5F757D552502A5B60420C88C3BF1AF19610CA95D4634560"
+      },
+      "ui/800/default/readystatus/readycheckbox.tga": {
+        "size": 1048620,
+        "sha256": "0B9BF5C30002886A0B5A31413B0D4B5BBF0F8EBB03F1808A032DFCF0426296A3"
+      },
+      "ui/800/default/readystatus/readyicon.png": {
+        "size": 258318,
+        "sha256": "DECAFF398094C96B479247C683355D2054E1942C867D6E3738974C410DF972D4"
+      },
+      "ui/800/default/staging/hosticon.png": {
+        "size": 295795,
+        "sha256": "A0CF01BC11DC65D7050939A633A65CE3228CBAF8AF7614B3E08C91A09CD3DB5B"
+      },
+      "ui/800/default/staging/kingdomicon.png": {
+        "size": 234179,
+        "sha256": "2182D566C9CAA14C6826C150C8206284F2BEE3540145CCD1EF8ACAC03DE1EDE9"
+      },
+      "ui/800/default/staging/switchicon.png": {
+        "size": 396312,
+        "sha256": "CAE983EDE35D52A1B8D22DA43CCCF5857DA0B5E449CC0C50A787F68881A86A73"
+      },
+      "ui/800/default/staging/switchiconfocused.png": {
+        "size": 371752,
+        "sha256": "7AFA3C81DEFCA1F8C862DD840AC7CCBC505069069C588A8AED108CC2B411C84B"
+      },
+      "ui/800/default/staging/switchiconpressed.png": {
+        "size": 387948,
+        "sha256": "8D9C738921D6AB2FC34474325060DFF8D882F1998AC82E8F0210D98CEDF05DC8"
+      },
+      "ui/800/game/actionbuttons/iconattach.png": {
+        "size": 595435,
+        "sha256": "A62DD297145CDAD18EB824F8CA1B1BC29C6C9E07EA05E0170C70BEB907AE7D78"
+      },
+      "ui/800/game/actionbuttons/iconattack.png": {
+        "size": 489526,
+        "sha256": "52BA1233D5037E5C4AB51B501A8DACCDC090B5E4E8FC137FD749ECF95E08FDC7"
+      },
+      "ui/800/game/actionbuttons/iconbombard.png": {
+        "size": 530732,
+        "sha256": "4CEFCAA96246FA1C73B26D8C84C3A607B4371DD66C0A98694FFB71128E64071E"
+      },
+      "ui/800/game/actionbuttons/iconbuildstructure.png": {
+        "size": 506847,
+        "sha256": "8201D566DE10C6BDD788D9E4621AA748289AB7E517D556763BE195F04211FA39"
+      },
+      "ui/800/game/actionbuttons/iconbuy.png": {
+        "size": 546598,
+        "sha256": "D4AE4215CEB2B11DB94F0AE589FF3EEA8A3DE9695ECD982F92D5EB4F84DFDBBA"
+      },
+      "ui/800/game/actionbuttons/iconcancel.png": {
+        "size": 271066,
+        "sha256": "C47FB2258EB06BC1212708AAAC8556EF9577C76C712861BB8508859F6DE83B4A"
+      },
+      "ui/800/game/actionbuttons/iconcommission.png": {
+        "size": 489844,
+        "sha256": "6E33DF3867A263B88F35164A8E34B43D7773FE6C0177357C3CEF1EE0B71D5BD3"
+      },
+      "ui/800/game/actionbuttons/iconconstruct.png": {
+        "size": 506847,
+        "sha256": "8201D566DE10C6BDD788D9E4621AA748289AB7E517D556763BE195F04211FA39"
+      },
+      "ui/800/game/actionbuttons/iconcustomcompany.png": {
+        "size": 308966,
+        "sha256": "DE7DC5E5B7BDAF5D3AA56C51B65DCC6F8D86DAC3408AC11A42F5A5E1B14202CB"
+      },
+      "ui/800/game/actionbuttons/icondetach.png": {
+        "size": 616290,
+        "sha256": "A42082D4B1B40C3603B2D9C268103E249972315C724A9212260FF50585476992"
+      },
+      "ui/800/game/actionbuttons/icondisband.png": {
+        "size": 536332,
+        "sha256": "1907389DE4B3334C8DC8935374555E07DD604DA22527AD33DE02BFC67F2CD82D"
+      },
+      "ui/800/game/actionbuttons/icondowngrade.png": {
+        "size": 383564,
+        "sha256": "F4FB0E4EF94A1D01DEF7894E6453A35D164ECB1AD5D893B0E080084B8F45127A"
+      },
+      "ui/800/game/actionbuttons/iconexplore.png": {
+        "size": 478828,
+        "sha256": "8A6FF1A48F6E2EE5026930FEB76A35EEF01DF30C7CA347DA07BAD14B62F12B6F"
+      },
+      "ui/800/game/actionbuttons/icongroupbehaviordisable.png": {
+        "size": 451052,
+        "sha256": "40E75A8821BCD1F37D747501D4196E91CD0D80A1317FA436246FC811272AD44B"
+      },
+      "ui/800/game/actionbuttons/icongroupbehaviorenable.png": {
+        "size": 461994,
+        "sha256": "541057C8287952C91C3A4810209F2859F421E6C061C75151C46D976A175834D9"
+      },
+      "ui/800/game/actionbuttons/iconguard.png": {
+        "size": 528834,
+        "sha256": "E8AEB4B018CC89B0F9DD8808ED93A9E5CDDAD980684A95E58ACB4303D8A10BB6"
+      },
+      "ui/800/game/actionbuttons/iconkingdomview.tga": {
+        "size": 1048620,
+        "sha256": "93FBC318FADD65E3430E74DBD651BA048EA50509ADB050CB2B95A20D013596AE"
+      },
+      "ui/800/game/actionbuttons/iconmove.png": {
+        "size": 487868,
+        "sha256": "663BB8E0011F281F4C598B123EACC5F52B2502590011703AE23F10A0411F87AA"
+      },
+      "ui/800/game/actionbuttons/iconobserverview.png": {
+        "size": 460190,
+        "sha256": "A782319741E270C5E662CB0011A5F573EACFFF743500317EE93927CF361ACB5E"
+      },
+      "ui/800/game/actionbuttons/iconraze.png": {
+        "size": 433063,
+        "sha256": "05A0FAE7C8145BF522FFA823CA84B851FA86B16CA29BDADBF28E85A87D16ADF5"
+      },
+      "ui/800/game/actionbuttons/iconrecall.png": {
+        "size": 447022,
+        "sha256": "5B052BAE989495F1503E14592F96BC4C7F61009E648139CCB3A0F94ED3D23C8D"
+      },
+      "ui/800/game/actionbuttons/iconrepair.png": {
+        "size": 508484,
+        "sha256": "B8F5D921751155BC0579A1E27EB9B0D23E9E3645E54CE0167208F1C8BFE7907B"
+      },
+      "ui/800/game/actionbuttons/iconresearch.png": {
+        "size": 529651,
+        "sha256": "934FF4DA701FB5A9AD1FE3533EE227C236E05AAEB0D6CC85E8D26D30AF51A9CD"
+      },
+      "ui/800/game/actionbuttons/iconresetfavorites.png": {
+        "size": 389347,
+        "sha256": "5320A619BDFC137F645A708D2308A2F399E6E263F201EBBF14C7534012B45CEB"
+      },
+      "ui/800/game/actionbuttons/iconretreat.png": {
+        "size": 377447,
+        "sha256": "B9CF1D2F9AC757EE6FC7351054A2372CDCAFCE63BFA689805952543EB6557E5A"
+      },
+      "ui/800/game/actionbuttons/iconrout.png": {
+        "size": 462108,
+        "sha256": "677060AC82D4FBA989FF3B09919C1EDD2AB02FF5379556071045C87210B23ADB"
+      },
+      "ui/800/game/actionbuttons/iconsallyforth.png": {
+        "size": 515010,
+        "sha256": "8CF6E6641BD473852198BD2F74BC4933333E6BDADC92D6E421DCA31A9F5B72EA"
+      },
+      "ui/800/game/actionbuttons/iconsell.png": {
+        "size": 593069,
+        "sha256": "A5E5ACF5420037F2752279CFE6231E51D44AB715E01BEC8AE26864B306DBEE95"
+      },
+      "ui/800/game/actionbuttons/iconsetrallypoint.png": {
+        "size": 471779,
+        "sha256": "86A66056217D9399652E7F2BC83238D891B6E2704910A5D1849D63994240A81D"
+      },
+      "ui/800/game/actionbuttons/iconstop.png": {
+        "size": 310269,
+        "sha256": "7A4AA4533CA9C5908F6C35B819CEAA520C7E8703C217A7E83CAD6A82E66FB4C8"
+      },
+      "ui/800/game/actionbuttons/iconteamattack.png": {
+        "size": 492057,
+        "sha256": "0D09B0482AE4E0931E8801DE04B8828AF1AADED462E209377B3BBD2CD120204A"
+      },
+      "ui/800/game/actionbuttons/iconteambuild.png": {
+        "size": 498315,
+        "sha256": "7634F58A8FC1ED14E8EED8FD44473BE1AFF97C0C66503B97B20196EB90196EC3"
+      },
+      "ui/800/game/actionbuttons/iconteamchat.png": {
+        "size": 434700,
+        "sha256": "E43E396F79BCE84E5A837429FBE90C07319E6551D95926F600E02C5D8781D2B4"
+      },
+      "ui/800/game/actionbuttons/iconteamcommand.png": {
+        "size": 446082,
+        "sha256": "D2693CA14517771EB4F4807C26DC0260837C08CD64864CD7063EC3E65ADAD165"
+      },
+      "ui/800/game/actionbuttons/iconteamdefend.png": {
+        "size": 497880,
+        "sha256": "A659B5740EA65182DA989FB52A0168E8DEE74FDAF014053414CEE5B59B8734A2"
+      },
+      "ui/800/game/actionbuttons/iconteamexplore.png": {
+        "size": 486470,
+        "sha256": "E9D85EFA83C8731D330133A8ED6726404D339A34CDCE3E62AC30E247E29EE39C"
+      },
+      "ui/800/game/actionbuttons/iconteamgiveactor.png": {
+        "size": 427345,
+        "sha256": "E93A65AE2E276B757050887265957E35648AE6E800F5B0F4CA8746DE42E33C35"
+      },
+      "ui/800/game/actionbuttons/iconteamgiveresources.png": {
+        "size": 453153,
+        "sha256": "354B3936EEEF28B47B0886301C03A12F2929C9655D8D8B8DF5A41CD3AF960CA3"
+      },
+      "ui/800/game/actionbuttons/iconteamreport.png": {
+        "size": 477306,
+        "sha256": "D63A42F5FD28ED4549B8DB2CF4BFFA31D53F7CB96DAE2005634B7915F8CF4ED4"
+      },
+      "ui/800/game/actionbuttons/iconteamrequestactor.png": {
+        "size": 428071,
+        "sha256": "4E363FC064F1F50AD80984E3FEAE2D02B23BAA89864020B60A99C7095CBECC0B"
+      },
+      "ui/800/game/actionbuttons/iconteamrequestresources.png": {
+        "size": 453992,
+        "sha256": "932BD993653576B45BECB54E8D08FD7C7F0C5AD0FCE682AF3A73783CF1F73FD9"
+      },
+      "ui/800/game/actionbuttons/iconteamselectkingdom.png": {
+        "size": 497522,
+        "sha256": "33A8182BAF994683D3BA298F5EBD1C8E8C775911272A5C0E6BB0D29304261406"
+      },
+      "ui/800/game/actionbuttons/iconupgrade.png": {
+        "size": 386076,
+        "sha256": "D5968D97686899D9389EDBD56F7D0C296E449B40DD9DE59CA658F0FB92D2490E"
+      },
+      "ui/800/game/actionbuttons/iconupgradefort.png": {
+        "size": 204503,
+        "sha256": "8F9451BD362A2BA30F1D24B419019366F09A423E537971303DFD6618FEDB21A7"
+      },
+      "ui/800/game/actionbuttons/techicons/iconamberrings.png": {
+        "size": 388701,
+        "sha256": "D87735A76AE83C61F2EA591CE71625D20BC55EC80005010EDEFB97694886DE1D"
+      },
+      "ui/800/game/actionbuttons/techicons/iconbalancedweapons.png": {
+        "size": 446843,
+        "sha256": "1C569C2F515932B4CC50854C8A14FABF0F25B35CF72EB26D443BBBD00F9F41B1"
+      },
+      "ui/800/game/actionbuttons/techicons/iconbarbedspines.png": {
+        "size": 440709,
+        "sha256": "4E3F4BC3B42C678C1DD7DD9AD806C3DDE08351C4FA81D9F789F5B98BED6FCA32"
+      },
+      "ui/800/game/actionbuttons/techicons/iconbilleting.png": {
+        "size": 496500,
+        "sha256": "3F58E68158F75F85E7D7C3A234CEE0D362CE21D6413FD5E9E00BB265E3EC3448"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblackblessing.png": {
+        "size": 409130,
+        "sha256": "466849EAC5D0E7D9361314F78C031D0D951443BA054031B96CEE08777D1B5926"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblackichor.png": {
+        "size": 325220,
+        "sha256": "C4EA614BA069E68DE5E86AE922F35559FA35AC3D755893A8BCE9C8A9FEECCF50"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblackoffering.png": {
+        "size": 388283,
+        "sha256": "563120DC34CCB926CA14455875C441CD95F9B0E7F0A195B1E1A1573BF629C56B"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblessedarmor.png": {
+        "size": 302104,
+        "sha256": "BF03C5E96FB7D768869B9592240C9F19FFE3657209B33663FF4F580BCFF1E780"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblessinglife.png": {
+        "size": 254796,
+        "sha256": "DC77D0CA1EEABACD12B1644BAD7A45AD29A20D1340EBCEAD11D79E12CE2B3BFD"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblessingmight.png": {
+        "size": 398698,
+        "sha256": "C53F98EF1F8EB3C64EFC5E2FDAEDC321195D6C2941CC2D4A6A70FBC442BC5EF3"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblessingofspeed.png": {
+        "size": 252108,
+        "sha256": "BADF7ABF65AD4272225215576EFD590A68E303529E9993A014EA8A455871ADA4"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblessingofvalor.png": {
+        "size": 358880,
+        "sha256": "66D8B9ED6DAFF9D79560BFC7319C767E72B8A05C7BF1CB9F1CF2F8B3E046C204"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblessingspeed.png": {
+        "size": 252108,
+        "sha256": "BADF7ABF65AD4272225215576EFD590A68E303529E9993A014EA8A455871ADA4"
+      },
+      "ui/800/game/actionbuttons/techicons/iconblessingvalor.png": {
+        "size": 358880,
+        "sha256": "66D8B9ED6DAFF9D79560BFC7319C767E72B8A05C7BF1CB9F1CF2F8B3E046C204"
+      },
+      "ui/800/game/actionbuttons/techicons/iconbonerings.png": {
+        "size": 404776,
+        "sha256": "C54E811E3A25C80D76881014FB51D561BD5E281CB3C358432E38C1F9FE54782C"
+      },
+      "ui/800/game/actionbuttons/techicons/iconbootcamp.png": {
+        "size": 449235,
+        "sha256": "C270B33C17D83C792E3C66C712F0B2EB2A869234FEAF965DDC86FBDE1EFAA1BE"
+      },
+      "ui/800/game/actionbuttons/techicons/iconcalvarytactics.png": {
+        "size": 401498,
+        "sha256": "454720E98B797D904F4452D8335293440E30CA6D90C938E43DA15B5EE03ED9F9"
+      },
+      "ui/800/game/actionbuttons/techicons/iconcavalrytactics.png": {
+        "size": 401498,
+        "sha256": "454720E98B797D904F4452D8335293440E30CA6D90C938E43DA15B5EE03ED9F9"
+      },
+      "ui/800/game/actionbuttons/techicons/iconcompositebows.png": {
+        "size": 373666,
+        "sha256": "B6523B0F89C5D9F9A19A2BCD2461FAB5A905F580ED19715D671CD883A06DC949"
+      },
+      "ui/800/game/actionbuttons/techicons/icondarkfortitude.png": {
+        "size": 154830,
+        "sha256": "DAF168286A588AED02FDE5295EF2A937E7A48342719D42FFC649E9288563AB7A"
+      },
+      "ui/800/game/actionbuttons/techicons/icondarkmatter.png": {
+        "size": 400405,
+        "sha256": "BCA9C62CBF1F43858FC467E0F7F07A5C6C0DCE4F6EF3CA407A409FA839195B43"
+      },
+      "ui/800/game/actionbuttons/techicons/icondarkritual.png": {
+        "size": 514556,
+        "sha256": "95284C0C402A08486C90E18A978BFAD274EC78DB5277B3F2127337C5977ECC04"
+      },
+      "ui/800/game/actionbuttons/techicons/icondeadzone.png": {
+        "size": 488502,
+        "sha256": "B68E9DF73E30AFCD498445D87B67B8899DF046B96EEEE879E9CFF448960B8188"
+      },
+      "ui/800/game/actionbuttons/techicons/icondeeproots.png": {
+        "size": 447591,
+        "sha256": "B575D3879822D38EB395E2CA5431723EBB42B10F1A1BE2A92EA566EAA5890437"
+      },
+      "ui/800/game/actionbuttons/techicons/icondiseasedarmor.png": {
+        "size": 324662,
+        "sha256": "5C576D80AB4E12EABEA18BC80F85075E14EF728724345B05B77972B65ECCF605"
+      },
+      "ui/800/game/actionbuttons/techicons/icondiseasedarrows.png": {
+        "size": 410167,
+        "sha256": "2333BA71CFEEFE1E928BF788CDE7DBB6C1F39DE336F0BC7586BAC3AFDAD502AF"
+      },
+      "ui/800/game/actionbuttons/techicons/icondiseasedweapons.png": {
+        "size": 361525,
+        "sha256": "FC866343B0B1861145511CB1D577FB06CF2D861F6D5FBEAD4E5A7CCAF7B9F633"
+      },
+      "ui/800/game/actionbuttons/techicons/icondragonbonebows.png": {
+        "size": 333162,
+        "sha256": "F64A8B88B7B1FD1BDDE96E479AEB4BFE8191D5BA505FEE5B6EF93A2B7420DBF6"
+      },
+      "ui/800/game/actionbuttons/techicons/iconedgedspines.png": {
+        "size": 388822,
+        "sha256": "4800114C0E1136B4849BC96D6B1C06F50CCED27B371BC6174024AE06747BE1B3"
+      },
+      "ui/800/game/actionbuttons/techicons/iconelixerofcourage.png": {
+        "size": 335850,
+        "sha256": "E7E1E32CAF60E1F9484EA447E7BC8E3F7F1195FA8916195F44CF8AEE778A9CA3"
+      },
+      "ui/800/game/actionbuttons/techicons/iconelixeroflife.png": {
+        "size": 343979,
+        "sha256": "882A8D99276D6B45C18190BBB198AF4247684CE0C6967618608D4A9C3009635E"
+      },
+      "ui/800/game/actionbuttons/techicons/iconelixerofstrength.png": {
+        "size": 369013,
+        "sha256": "019AE711AE276514DEE82EA4FF4260768A5EBC0B91EB1C1B4F21FD50D5C388E9"
+      },
+      "ui/800/game/actionbuttons/techicons/iconenchantedarmor.png": {
+        "size": 349453,
+        "sha256": "5858614771E42505D22B97B6EE7175F74AED34037A7588C4FE94E7151077800B"
+      },
+      "ui/800/game/actionbuttons/techicons/iconentrenchtactics.png": {
+        "size": 446074,
+        "sha256": "B4BE256D7136C1C0E896CC8E9FC309C29969715188FF83BE3E7D8C9EAB5A28B7"
+      },
+      "ui/800/game/actionbuttons/techicons/iconentwinedbranches.png": {
+        "size": 489604,
+        "sha256": "172403F57D158F445885470154E602FF8B2605FE4519D2D36B771B43CA25F5C5"
+      },
+      "ui/800/game/actionbuttons/techicons/iconfittedstones.png": {
+        "size": 330750,
+        "sha256": "06F98AE57B76A4B0C115953BCA9B0F9CC78AD988C3A65FD443F29D352593A563"
+      },
+      "ui/800/game/actionbuttons/techicons/iconflamingarrows.png": {
+        "size": 447673,
+        "sha256": "17C6D83021E9D0B24ECFE1C0CB4E8AF268C5CFBE0C3020C5688A2D56DF3F9E91"
+      },
+      "ui/800/game/actionbuttons/techicons/iconfortifiedwalls.png": {
+        "size": 379551,
+        "sha256": "7B5842B91BC79C5EACCC21CB3693300B67F8C8A845FC6ECF785343FD9FF919C2"
+      },
+      "ui/800/game/actionbuttons/techicons/icongroovedspines.png": {
+        "size": 331123,
+        "sha256": "6905118EC8858A2E8E619E5037430B156A04EEEA0696F7F99FC43EF996E2A750"
+      },
+      "ui/800/game/actionbuttons/techicons/iconguardtraining.png": {
+        "size": 573543,
+        "sha256": "9F8FC7D613018BD981966F93928A734E7A8A1C3419FBF8E1E5B85E20A071DE40"
+      },
+      "ui/800/game/actionbuttons/techicons/iconironwoodbows.png": {
+        "size": 290854,
+        "sha256": "5520367609209FAE9463EE7432FBDE93D8D909BCD17F2027C2204DA25EB2A5D2"
+      },
+      "ui/800/game/actionbuttons/techicons/iconjaderings.png": {
+        "size": 363494,
+        "sha256": "03F9600238C94FC54BEB1AF22EAF0F8D0CB9ACA7F605033C5314EADA29898283"
+      },
+      "ui/800/game/actionbuttons/techicons/iconjourneymen.png": {
+        "size": 311885,
+        "sha256": "0B6D54F626565B27255F82B262A71433A134FD36683CBBBF9E9FC18CA0F49A2F"
+      },
+      "ui/800/game/actionbuttons/techicons/iconkhaldunitearmor.png": {
+        "size": 355044,
+        "sha256": "DDCC9ED5FC83BEF3F6457C9C0F06CB334AB50A9D4A87ACDECA379C4459E68B83"
+      },
+      "ui/800/game/actionbuttons/techicons/iconkhaldunitearrows.png": {
+        "size": 370518,
+        "sha256": "B8D9A6A42817A01C6DA083086C5606EE314D59BEE2161F689B7C4D385795FCC2"
+      },
+      "ui/800/game/actionbuttons/techicons/iconkhalduniteweapons.png": {
+        "size": 214554,
+        "sha256": "5AB97355B28C781CE7609A912F04A112F5C32B4EC33FF100077C8552A66AB5AA"
+      },
+      "ui/800/game/actionbuttons/techicons/iconmagicarmor.png": {
+        "size": 394459,
+        "sha256": "2B5B0261439CA46D522DF015DD370834A9B133DBB98A258E569B090658691E60"
+      },
+      "ui/800/game/actionbuttons/techicons/iconmagicarrows.png": {
+        "size": 458480,
+        "sha256": "A442477969A5A3B4053DD946518B26B5CF46209212F3C2A53E95C3F9B393FB1E"
+      },
+      "ui/800/game/actionbuttons/techicons/iconmagicbows.png": {
+        "size": 443601,
+        "sha256": "9ADEB78DC086A0FC9D4C26D37117966EC3CE20FECCA43E524E5C6FCC7D6E1285"
+      },
+      "ui/800/game/actionbuttons/techicons/iconmagicweapons.png": {
+        "size": 313603,
+        "sha256": "1DE4F792B8883F5E7C60C29319EB1CAE7BF1273BBAA2B48AD6AC1D73FB33A467"
+      },
+      "ui/800/game/actionbuttons/techicons/iconnursery.png": {
+        "size": 405324,
+        "sha256": "31946132E08556C1AE0A5C79DD149D46AECA48249D1DCE9333AFFC79B9B42D56"
+      },
+      "ui/800/game/actionbuttons/techicons/icononyxrings.png": {
+        "size": 321807,
+        "sha256": "5232270B550A6204CE0458F79DA50FAE52C0B99199854DA2B086E483DB72E341"
+      },
+      "ui/800/game/actionbuttons/techicons/iconopalrings.png": {
+        "size": 363054,
+        "sha256": "971E16D92EF3AFDF245F207D81A70841DE23598E19541A89036307F7F34DD8BA"
+      },
+      "ui/800/game/actionbuttons/techicons/iconpoisonarrows.png": {
+        "size": 325343,
+        "sha256": "0FD9C964AF6EB247F8A78689B758E345F9E85B68360D9189E463EE302AFC9D0B"
+      },
+      "ui/800/game/actionbuttons/techicons/iconpoisonblades.png": {
+        "size": 349083,
+        "sha256": "5EE86E8776E3603B954ED0EE194F37BAB0892BF0C36F6B23661D6AEB403974AD"
+      },
+      "ui/800/game/actionbuttons/techicons/iconpoisonclaws.png": {
+        "size": 301700,
+        "sha256": "F362071B26DD6477BC20DBAFFA5EFA184EBBA3E5F0FB1D953E935B15502432FD"
+      },
+      "ui/800/game/actionbuttons/techicons/iconpoisonspines.png": {
+        "size": 305697,
+        "sha256": "F9059499FAE16647025AF6205E7122FBD11492F6BFA6DE2E442D98D71429A71E"
+      },
+      "ui/800/game/actionbuttons/techicons/iconpoisonweapons.png": {
+        "size": 273897,
+        "sha256": "6A1EC7273FB430F3D62A1621F703911B91EFC4B26D102FEA6621D5399822FB7E"
+      },
+      "ui/800/game/actionbuttons/techicons/iconproselytize.png": {
+        "size": 407404,
+        "sha256": "B405F76D7FBA75B2D94042182166F43014D883CAB9957D056BB8FB26183FAD5B"
+      },
+      "ui/800/game/actionbuttons/techicons/iconramparts.png": {
+        "size": 439945,
+        "sha256": "46176F0C9FBACDF094F8644BED5E313B0680122179E6A378997030C0339E8DDE"
+      },
+      "ui/800/game/actionbuttons/techicons/iconrapidgrowth.png": {
+        "size": 244490,
+        "sha256": "F0F7335E2255E2E1169B0994A7C1AC80FF1FEC9D4430D4AD60A1F86E7FF822C8"
+      },
+      "ui/800/game/actionbuttons/techicons/iconshadowskin.png": {
+        "size": 390040,
+        "sha256": "CB8765357492F7965695C4D15F29A9E99B08A3D2ED2E9983EEA241C662A0A9AF"
+      },
+      "ui/800/game/actionbuttons/techicons/iconshadowsteelarmor.png": {
+        "size": 329507,
+        "sha256": "372A0134EFC884B55A25D5FE6F080F85EAC3D40433D2E2289D6F411D70301727"
+      },
+      "ui/800/game/actionbuttons/techicons/iconshadowsteelweapons.png": {
+        "size": 340448,
+        "sha256": "A5628FBBFD1E0590B4594FC1280C9D084CAFD23A8ABAD8F0BA104F3EF84C2678"
+      },
+      "ui/800/game/actionbuttons/techicons/iconshocktroops.png": {
+        "size": 324648,
+        "sha256": "0B7B1F2BDCD6D8F0097BC9D2F766D9A505A1D26CF62C0DAD8DD1944BA6A89BF7"
+      },
+      "ui/800/game/actionbuttons/techicons/iconskilledlabor.png": {
+        "size": 464589,
+        "sha256": "C0A623149729C610EBF102BD0684710D6A20383A337B004A6654DD8D7CE53195"
+      },
+      "ui/800/game/actionbuttons/techicons/iconstablemaster.png": {
+        "size": 360308,
+        "sha256": "358C50ECE84F066AFE61970EF9FA4D7C621B7EB82AA5B661B55E49EE76A6D57D"
+      },
+      "ui/800/game/actionbuttons/techicons/iconstrongfoundation.png": {
+        "size": 399104,
+        "sha256": "87038112F553D4E84C6515B12B84AEBCAB8F1FCCEB3152466E47EDCF1CACDE36"
+      },
+      "ui/800/game/actionbuttons/techicons/icontaskmaster.png": {
+        "size": 498388,
+        "sha256": "D761E5E30C359F5DBAEEF64493AA7C92C6680F36705437D2B7BBCB0DC655EDB6"
+      },
+      "ui/800/game/actionbuttons/techicons/iconthaumaturgy.png": {
+        "size": 473601,
+        "sha256": "EE9C98DDF37107AED91797D572F123BD002B2B7F5F7AC1E06D4538C1AB52A5F9"
+      },
+      "ui/800/game/actionbuttons/techicons/iconthornybarrier.png": {
+        "size": 485836,
+        "sha256": "44566C00CD98F57528D1080B7995A35C02AECB0C2682FC4B9B4AA34544CA8C88"
+      },
+      "ui/800/game/actionbuttons/techicons/iconumbralbarrier.png": {
+        "size": 503533,
+        "sha256": "F3ACD3A992282D3E0F91F0205C92817168CF48E9BD44C9C6FC3998DD66B44A40"
+      },
+      "ui/800/game/actionbuttons/techicons/iconumbralcarapace.png": {
+        "size": 393237,
+        "sha256": "5F9F4671ED580015BB89508EE19E1EAE795FF0A90067FA155F0EB325AE2BC670"
+      },
+      "ui/800/game/actionbuttons/techicons/iconumbralessence.png": {
+        "size": 354470,
+        "sha256": "8492FECD18CDFC9AF51E51FE32D35E038C39452C6D57BEE2EFE9D3BD990F3576"
+      },
+      "ui/800/game/actionbuttons/techicons/iconumbralfrenzy.png": {
+        "size": 460344,
+        "sha256": "F2B75D8F57E8B90867EE128E2F9EF47283A7002F31817C416883FB58EDC2EF6C"
+      },
+      "ui/800/game/actionbuttons/techicons/iconumbralfury.png": {
+        "size": 418395,
+        "sha256": "13149B5EB3DAD5CAF922336600A6330EBC292FF728DD7CB37A9774C7237468C8"
+      },
+      "ui/800/game/actionbuttons/techicons/iconumbralmight.png": {
+        "size": 410390,
+        "sha256": "FE859CDC9D91D782A94859EC7BE4EB7FC33AE6450704DF09EC6E7989BE118D86"
+      },
+      "ui/800/game/actionbuttons/techicons/iconumbralrage.png": {
+        "size": 470675,
+        "sha256": "A4C4467347E23FFFCC76AE6DF8B8BBCF59962C828B5A066B0D6D88DAECAF67C7"
+      },
+      "ui/800/game/actionbuttons/techicons/iconwhitesteelarmor.png": {
+        "size": 323869,
+        "sha256": "75923A83056026A1BC7BBC98F4CA98354BCF4F998F65FA23DD1FE4C8D79BF40B"
+      },
+      "ui/800/game/actionbuttons/techicons/iconwhitesteelweapons.png": {
+        "size": 305524,
+        "sha256": "7B109B1DD38E2F475D11C14DC61A349B261933130C4D65FC430F9CB678F22364"
+      },
+      "ui/800/game/actionbuttons/techicons/iconwidetrunks.png": {
+        "size": 486936,
+        "sha256": "267BE6E5DACECDA03CFD7F4D16B4B79300A1574BCF837B6E63C3797933F4E602"
+      },
+      "ui/800/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "4B289E2238B332736DDE422EABA45E41527A7C68F8FE351A3CFC88C7A6C7A8C4"
+      },
+      "ui/800/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "5170D4980BFBC36243DAD44121A5DB76D6C98E4042B8A4D6A6DD3F3DAAAA38E1"
+      },
+      "ui/800/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "73F22E94A69BD37D420FBB04DC6A35928A80EA2828ADC13D4F0F0214819BD128"
+      },
+      "ui/800/game/favorites/cross.png": {
+        "size": 18154,
+        "sha256": "818DDD8437F0B921B75FEE4B1444CFF29226E73057B96D1B74F0FEE6906A3097"
+      },
+      "ui/800/game/structurebuttons/bankicon.png": {
+        "size": 541874,
+        "sha256": "C036FE16BD56B8C2F1A207A8B09661B420685F32E26336C93AA474B6C2EB6A58"
+      },
+      "ui/800/game/structurebuttons/barracksicon.png": {
+        "size": 471525,
+        "sha256": "2ECC050A7191AB168D037F1EB440EA57916814840F73D7092306B26076D7575D"
+      },
+      "ui/800/game/structurebuttons/bazaaricon.png": {
+        "size": 461394,
+        "sha256": "2426E4640BF15B7F9C8E47A266FE7454CD266BD49A20CB75E1D1A5D72CEB455F"
+      },
+      "ui/800/game/structurebuttons/blacksmithicon.png": {
+        "size": 347613,
+        "sha256": "6F54631EE72A7172D5F73F28909FD9FEF3238EE0050E2BE3B8589E1F4302CF7B"
+      },
+      "ui/800/game/structurebuttons/draugacentericon.png": {
+        "size": 376111,
+        "sha256": "B327F77E36436247B755DFCB40F2A59BD07102B51C80620E199F622F681A72C7"
+      },
+      "ui/800/game/structurebuttons/factoryicon.png": {
+        "size": 477115,
+        "sha256": "BAB794EC312339DA8ED4C94A4A7B8B5AEFFE6C45F851D70431C13253F338C0D2"
+      },
+      "ui/800/game/structurebuttons/foundryicon.png": {
+        "size": 426165,
+        "sha256": "F8F5299DA82D0D0A8B3B00F7CD719A2CC8C0E3857A2919754B52481E09825D5D"
+      },
+      "ui/800/game/structurebuttons/gauricentericon.png": {
+        "size": 447701,
+        "sha256": "7AF33ACC00798993C53CE0A129897E88805D5309CC6E0E7E035D03130B404F1E"
+      },
+      "ui/800/game/structurebuttons/giftofnatureicon.png": {
+        "size": 494419,
+        "sha256": "8A5EEF6A7B3813847CA1E3A2814D61D57BF74F8BCA7A072BBD7DDFE75A9208E3"
+      },
+      "ui/800/game/structurebuttons/goldmineicon.png": {
+        "size": 539646,
+        "sha256": "CDBC38C9B1191B9A82EFA12EF355D81621FDACF8A77D0A3431F59C0B516ACC83"
+      },
+      "ui/800/game/structurebuttons/harouncentericon.png": {
+        "size": 414758,
+        "sha256": "D586B518F03628543B58E9A312F98BFB34CEEFAC0BD40D82716C6601995D9BCC"
+      },
+      "ui/800/game/structurebuttons/humancentericon.png": {
+        "size": 401695,
+        "sha256": "86F2CBE5E82173D3B17C169FBEE9C561EDBEFFEB7386E8A57BF65741D767894F"
+      },
+      "ui/800/game/structurebuttons/ironconverticon.png": {
+        "size": 476192,
+        "sha256": "979DDC6CD09FC838B2DE12BE64E67A71AC663491E333D55E010AC4B25F69F87D"
+      },
+      "ui/800/game/structurebuttons/ironmineicon.png": {
+        "size": 497107,
+        "sha256": "FA9C97196A2353C86CFEF86449027F832D4DBF863819024DB44AC99F70B69D25"
+      },
+      "ui/800/game/structurebuttons/irontomanaconverticon.png": {
+        "size": 493104,
+        "sha256": "F78D67574EEEBF81D721B340F66678D0A3394D40667A16D423E70F6B87B1DD73"
+      },
+      "ui/800/game/structurebuttons/libraryicon.png": {
+        "size": 428111,
+        "sha256": "49991F3394E163B56DBBB787711A5C1C96F61BB243FCC13A993EF6A053AA1967"
+      },
+      "ui/800/game/structurebuttons/magecollegeicon.png": {
+        "size": 378248,
+        "sha256": "F76A2293BB2632713CCA7C1457EB709D84E728E919439EE6B9351EF3102FA30A"
+      },
+      "ui/800/game/structurebuttons/manafocusicon.png": {
+        "size": 337608,
+        "sha256": "89C3890A89B6FA76D165DCEB85607E858F342D48C05E678B7245A75BB39D96CB"
+      },
+      "ui/800/game/structurebuttons/manamineicon.png": {
+        "size": 489152,
+        "sha256": "3C39DA00F95E8826D843F9FA81CB448A4DCD0EA2E187C7989722A0071734E2AE"
+      },
+      "ui/800/game/structurebuttons/manasiphonicon.png": {
+        "size": 438684,
+        "sha256": "AD64CE990FB45D1A2A0C0D060272DBC98F9D34D24D0C152FA5149A731CD4D283"
+      },
+      "ui/800/game/structurebuttons/marketicon.png": {
+        "size": 429747,
+        "sha256": "9340094797C0B953783E6D299F656F372E8CABF61C66A88D63C4FB1C0E0331E4"
+      },
+      "ui/800/game/structurebuttons/miningposticon.png": {
+        "size": 460683,
+        "sha256": "2F4CFCF16C5D7AE1514E517431439B935D203CE107EDD50182783EC65145C884"
+      },
+      "ui/800/game/structurebuttons/outposticon.png": {
+        "size": 383439,
+        "sha256": "D0D7FEA8C934838978F88FFF943630F92333DD426DBE89E167CFADD1D3265966"
+      },
+      "ui/800/game/structurebuttons/portalicon.png": {
+        "size": 498428,
+        "sha256": "8508E537B7BF5A585B34AE2A1E398697DDA11625DE8172CF5A3F1BBDC6E08963"
+      },
+      "ui/800/game/structurebuttons/quarryicon.png": {
+        "size": 392350,
+        "sha256": "96CBCC3F7CA8D8938F710E2F15B59CC503310CBD96633939B7F47B378BC7ED52"
+      },
+      "ui/800/game/structurebuttons/sawmillicon.png": {
+        "size": 484855,
+        "sha256": "95E11CC996717758C1A604BF1B98CF0D3EDB9F11EA1F5531D5DF76D625D068EE"
+      },
+      "ui/800/game/structurebuttons/shadowcentericon.png": {
+        "size": 321318,
+        "sha256": "2E970364318B1B992779CC2D3CF9144D7E282B1DD4744D87963CFB76D74E8101"
+      },
+      "ui/800/game/structurebuttons/shrineicon.png": {
+        "size": 390042,
+        "sha256": "25BBB6C555284036CB67CDC24CC28DEF6FC9652E09A680251A5594B21E92A908"
+      },
+      "ui/800/game/structurebuttons/stoneconverticon.png": {
+        "size": 488096,
+        "sha256": "A9C3FAED70913BC618AA04FAF9459164837393F1305963F795210788773838DE"
+      },
+      "ui/800/game/structurebuttons/stonemineicon.png": {
+        "size": 501937,
+        "sha256": "BB70490F0C785273A6832F378D6080A6646C4577769D6F65492A6C0B95CEC4DC"
+      },
+      "ui/800/game/structurebuttons/stonetomanaconverticon.png": {
+        "size": 485809,
+        "sha256": "CCE8258B4F7AB04C2E7C45460A76F560BC889A83BD615A54D9E4549A5B96B225"
+      },
+      "ui/800/game/structurebuttons/templeicon.png": {
+        "size": 413899,
+        "sha256": "FEF9A62D0D7BD776DB718946745071ADB978165468A969C98253448ED7E74A33"
+      },
+      "ui/800/game/structurebuttons/undeadcentericon.png": {
+        "size": 390044,
+        "sha256": "2DE3D3C856F1BC488F64F4A16711C37BAD401CE7F42E5E20930E112CB757749E"
+      },
+      "ui/800/game/structurebuttons/warehouseicon.png": {
+        "size": 440871,
+        "sha256": "770BB19427A24671C2D5D917594D15EEC9B83920EA805F47999E029F95D59609"
+      },
+      "ui/800/game/structurebuttons/woodconverticon.png": {
+        "size": 535136,
+        "sha256": "39568BC8A505D9E70AB3D66BB3DF6EDCD6BACE7710B21287B8F204DE4D3727B9"
+      },
+      "ui/800/game/structurebuttons/woodmillicon.png": {
+        "size": 465612,
+        "sha256": "A67503A32875AE9966CB695D74249EE65015B3B5DED0F0CF4DD4EB76053F505A"
+      },
+      "ui/800/game/structurebuttons/woodmineicon.png": {
+        "size": 482352,
+        "sha256": "BC237E4CDFFE6442B9C26B44885E4661038C8769004310B8CD68391A2FCB0A7F"
+      },
+      "ui/800/game/structurebuttons/woodtomanaconverticon.png": {
+        "size": 547860,
+        "sha256": "84360BF5D0E49D191B0E2D24EE15C55395D6069E5271D2AD954FFFADB6E302C1"
+      },
+      "ui/800/game/structurebuttons/workshopicon.png": {
+        "size": 489721,
+        "sha256": "560BEE21A7339D7A2403A924942718010731EDABAB0C0A89BBBC338F47B6E997"
+      },
+      "ui/default/csd/catchingup.tga": {
+        "size": 1048620,
+        "sha256": "345A0CBA78292E32463DE7DE73EA4B0DD708FE559A78FD510303CFFB38D73009"
+      },
+      "ui/default/csd/disconnected.tga": {
+        "size": 1048620,
+        "sha256": "3B6F3ED9A223E73AD189C2322FCAA99DEF8C8EAD68BE62B8230B327EF8F7222F"
+      },
+      "ui/default/csd/lowcpu.tga": {
+        "size": 1048620,
+        "sha256": "F223AB89823D67C5C688C1521EEFAC770D74FA3B8029DB3FB1DD3243FB8DAB80"
+      },
+      "ui/default/csd/outofsync.tga": {
+        "size": 1048620,
+        "sha256": "5655821905FE329324EFADAB61B9B82D2CDC47A55E643D369BB392028E456D07"
+      },
+      "ui/default/lobbybuttons/buddiesselected.png": {
+        "size": 355437,
+        "sha256": "8A246023B77AF7600A1BF0B5FB13F2429C2CBDF0DE3786B16E68622085471E81"
+      },
+      "ui/default/lobbybuttons/buddiesunselected.png": {
+        "size": 325189,
+        "sha256": "82CD5CA3E3F969281A2CE789D96F237E14C327960370F56C7E1716468DFA0EB6"
+      },
+      "ui/default/lobbybuttons/chatallselected.png": {
+        "size": 408220,
+        "sha256": "38B8E9B70D6DD5A10CB524890D64696F3F806F70BFB4E171650B03A98E94DD28"
+      },
+      "ui/default/lobbybuttons/chatallunselected.png": {
+        "size": 354872,
+        "sha256": "48248608DC0B22F431D1F24DA0852805506F3CC2F11187EE5A2AF8FACAF91EB4"
+      },
+      "ui/default/lobbybuttons/chatnoneselected.png": {
+        "size": 400417,
+        "sha256": "8C4501CAD31ACF2C6587968C0EC07432421209820A89E631A3EA58CAEB475748"
+      },
+      "ui/default/lobbybuttons/chatnoneunselected.png": {
+        "size": 336304,
+        "sha256": "D3A1981AD2D36EEF7717C8EE70587C70A07C2D99B19356A4D3BCF5AAE98B485E"
+      },
+      "ui/default/lobbybuttons/fullchatselected.png": {
+        "size": 336143,
+        "sha256": "CA33DF6CEE79F05BF209A0A154E38738392DAE99C603FDDFE9C95333BA8BCE14"
+      },
+      "ui/default/lobbybuttons/fullchatunselected.png": {
+        "size": 310684,
+        "sha256": "EEAFBF19E3218FB0A25E852B81FA664DF2F91BE6F17562B397542AF1E5725838"
+      },
+      "ui/default/lobbybuttons/gamespylogo.png": {
+        "size": 91936,
+        "sha256": "45FD0EF3E7D9FF280FD0AE91C4E2F65E75C93EAEBE2A35900125634C1A6D0866"
+      },
+      "ui/default/lobbybuttons/halfchatselected.png": {
+        "size": 398553,
+        "sha256": "F9E40C3399C7BD381FFF7432C291BB2DBD4F07879BC087F8B759F042097D81DB"
+      },
+      "ui/default/lobbybuttons/halfchatunselected.png": {
+        "size": 367753,
+        "sha256": "44D16EC4E84DF756CC98B94DBF33275D9DC0737B1E9DCA923C39442D6EC721FE"
+      },
+      "ui/default/lobbybuttons/maploadfocused.png": {
+        "size": 328712,
+        "sha256": "8C8296574E6D36802F0A38F234271B1B4441ED22FBC5486D42405228EBB492DD"
+      },
+      "ui/default/lobbybuttons/maploadpressed.png": {
+        "size": 315655,
+        "sha256": "E81D9F4388D12D87D3E24E906EA4C2C43FB8001932E3034206437E2880555356"
+      },
+      "ui/default/lobbybuttons/maploadunpressed.png": {
+        "size": 352417,
+        "sha256": "4547BC2BAAE969B7A51775F42C1558700B833FD43CA1B9BEB28A13EFC3062D6C"
+      },
+      "ui/default/lobbybuttons/mapsavefocused.png": {
+        "size": 358188,
+        "sha256": "A3E6AF22087FF5F3ECB43623CED6AB317E714A93E5662E2693CD142847852D7D"
+      },
+      "ui/default/lobbybuttons/mapsavepressed.png": {
+        "size": 347988,
+        "sha256": "F55AC3D871E7A6028BF78F3A14A66D1831A39D34A1E9A389829CA71E643A709F"
+      },
+      "ui/default/lobbybuttons/mapsaveunpressed.png": {
+        "size": 373197,
+        "sha256": "2806E9F7B9F1185ABD541A9F4E71FC3BFC52FB59171021EBDCF5E8DFE83FFDBC"
+      },
+      "ui/default/lobbybuttons/nochatselected.png": {
+        "size": 342462,
+        "sha256": "EE28AD5E89174090BD2620532AC023DC0DD983D2024D51BF5BC5882D6873F155"
+      },
+      "ui/default/lobbybuttons/nochatunselected.png": {
+        "size": 294529,
+        "sha256": "4C9C76DDAC53E79C520FDF1A24E83A4269EE9113AC5CE8366D6569076A48A008"
+      },
+      "ui/default/lobbybuttons/passwordlock.png": {
+        "size": 252417,
+        "sha256": "70D1D8F2E9DD4F336B18C3E0DE266EC6ADF705188552483411EE75897E12783D"
+      },
+      "ui/default/lobbybuttons/randommapfocused.png": {
+        "size": 374652,
+        "sha256": "F107E6B3C7CD9264256680DDC166585D32007262685E02C544042E6DB62C882F"
+      },
+      "ui/default/lobbybuttons/randommappressed.png": {
+        "size": 394463,
+        "sha256": "ADA195AFCDCF61B3BE2D59518B908604DCBE5A50D8335FC40C1E0950783D31C8"
+      },
+      "ui/default/lobbybuttons/randommapunpressed.png": {
+        "size": 395945,
+        "sha256": "23BB9DBBCC444B7BD1E076B0AC2A9A49DB570FFE80F869353F46F099B60C108B"
+      },
+      "ui/default/lobbybuttons/savefilmsfocused.png": {
+        "size": 391300,
+        "sha256": "4939C4C1421E6C4BC07ADAB68EC68A6509684B5AFE249810ACCAF80653626DCC"
+      },
+      "ui/default/lobbybuttons/savefilmspressed.png": {
+        "size": 396540,
+        "sha256": "81BFBFE0F63905D08F12E82B5BE65EF18E4FE85DE6C243793B2C9D311FAA4496"
+      },
+      "ui/default/lobbybuttons/savefilmsunpressed.png": {
+        "size": 420456,
+        "sha256": "F0BFAE893A02B7E38F7D0A2FDA517B75A603E6A623097FEA54A29C5D0623D0BC"
+      },
+      "ui/default/lobbybuttons/selectnoneselected.png": {
+        "size": 347271,
+        "sha256": "90159FEC68E4C8EEC88F23A7218C4F3723D86C865C0B679AB9A20F12B048024B"
+      },
+      "ui/default/lobbybuttons/selectnoneunselected.png": {
+        "size": 303491,
+        "sha256": "CDDB679A494087A15AD5805615FAF4B54B29A7E879B34140C9B90F5B576EAF48"
+      },
+      "ui/default/lobbybuttons/teamspressed.png": {
+        "size": 350304,
+        "sha256": "9A9B5B435BED391ACD63C7E8C3D4463BDD18DB48C870EC62BCD54776868B9409"
+      },
+      "ui/default/lobbybuttons/teamsunpressed.png": {
+        "size": 321269,
+        "sha256": "7136876A3B70F3665B0E2E1F4ACA978E74740F2C7F4E4246DE5FA66E67160A5F"
+      },
+      "ui/default/lobbybuttons/whisperselected.png": {
+        "size": 356801,
+        "sha256": "0B304C468F9584730C8EE239921CE2C8F6939390C484C589FB06FBD86E64C92A"
+      },
+      "ui/default/lobbybuttons/whisperunselected.png": {
+        "size": 311268,
+        "sha256": "FC39A1AA9B7B819FDD50674D68EDDD03868D1AF66CFDC1DE205B8D29B625A420"
+      },
+      "ui/default/readystatus/hosticon.tga": {
+        "size": 1048620,
+        "sha256": "74CF9E765340B4E0A3646E5082E9260B28FA6CCCDA71B5780A717A3A5ABAFBB1"
+      },
+      "ui/default/readystatus/notreadycheck.tga": {
+        "size": 1048620,
+        "sha256": "719DCE99038A0FFB1D3D1116F5AED87A7482E11B7CD022B3D851EF55B7F9D3C8"
+      },
+      "ui/default/readystatus/notreadycheckbox.tga": {
+        "size": 1048620,
+        "sha256": "040D31E72C95DB887C5A81861621BF77F94E838F5E806582FF4996AD774EBCC3"
+      },
+      "ui/default/readystatus/notreadyicon.png": {
+        "size": 201555,
+        "sha256": "4D8227368DE87B9BA63516DD012E1F0F7480FCF0D21B5345DA0D96C26014A4F7"
+      },
+      "ui/default/readystatus/readycheck.tga": {
+        "size": 1048620,
+        "sha256": "8EE2CCE4A9B877BEF5F757D552502A5B60420C88C3BF1AF19610CA95D4634560"
+      },
+      "ui/default/readystatus/readycheckbox.tga": {
+        "size": 1048620,
+        "sha256": "0B9BF5C30002886A0B5A31413B0D4B5BBF0F8EBB03F1808A032DFCF0426296A3"
+      },
+      "ui/default/readystatus/readyicon.png": {
+        "size": 258318,
+        "sha256": "DECAFF398094C96B479247C683355D2054E1942C867D6E3738974C410DF972D4"
+      },
+      "ui/default/staging/hosticon.png": {
+        "size": 295795,
+        "sha256": "A0CF01BC11DC65D7050939A633A65CE3228CBAF8AF7614B3E08C91A09CD3DB5B"
+      },
+      "ui/default/staging/kingdomicon.png": {
+        "size": 234179,
+        "sha256": "2182D566C9CAA14C6826C150C8206284F2BEE3540145CCD1EF8ACAC03DE1EDE9"
+      },
+      "ui/default/staging/switchicon.png": {
+        "size": 396312,
+        "sha256": "CAE983EDE35D52A1B8D22DA43CCCF5857DA0B5E449CC0C50A787F68881A86A73"
+      },
+      "ui/default/staging/switchiconfocused.png": {
+        "size": 371752,
+        "sha256": "7AFA3C81DEFCA1F8C862DD840AC7CCBC505069069C588A8AED108CC2B411C84B"
+      },
+      "ui/default/staging/switchiconpressed.png": {
+        "size": 387948,
+        "sha256": "8D9C738921D6AB2FC34474325060DFF8D882F1998AC82E8F0210D98CEDF05DC8"
+      },
+      "ui/game/actionbuttons/iconattach.png": {
+        "size": 595435,
+        "sha256": "A62DD297145CDAD18EB824F8CA1B1BC29C6C9E07EA05E0170C70BEB907AE7D78"
+      },
+      "ui/game/actionbuttons/iconattack.png": {
+        "size": 489526,
+        "sha256": "52BA1233D5037E5C4AB51B501A8DACCDC090B5E4E8FC137FD749ECF95E08FDC7"
+      },
+      "ui/game/actionbuttons/iconbombard.png": {
+        "size": 530732,
+        "sha256": "4CEFCAA96246FA1C73B26D8C84C3A607B4371DD66C0A98694FFB71128E64071E"
+      },
+      "ui/game/actionbuttons/iconbuildstructure.png": {
+        "size": 506847,
+        "sha256": "8201D566DE10C6BDD788D9E4621AA748289AB7E517D556763BE195F04211FA39"
+      },
+      "ui/game/actionbuttons/iconbuy.png": {
+        "size": 546598,
+        "sha256": "D4AE4215CEB2B11DB94F0AE589FF3EEA8A3DE9695ECD982F92D5EB4F84DFDBBA"
+      },
+      "ui/game/actionbuttons/iconcancel.png": {
+        "size": 271066,
+        "sha256": "C47FB2258EB06BC1212708AAAC8556EF9577C76C712861BB8508859F6DE83B4A"
+      },
+      "ui/game/actionbuttons/iconcommission.png": {
+        "size": 489844,
+        "sha256": "6E33DF3867A263B88F35164A8E34B43D7773FE6C0177357C3CEF1EE0B71D5BD3"
+      },
+      "ui/game/actionbuttons/iconconstruct.png": {
+        "size": 506847,
+        "sha256": "8201D566DE10C6BDD788D9E4621AA748289AB7E517D556763BE195F04211FA39"
+      },
+      "ui/game/actionbuttons/iconcustomcompany.png": {
+        "size": 308966,
+        "sha256": "DE7DC5E5B7BDAF5D3AA56C51B65DCC6F8D86DAC3408AC11A42F5A5E1B14202CB"
+      },
+      "ui/game/actionbuttons/icondetach.png": {
+        "size": 616290,
+        "sha256": "A42082D4B1B40C3603B2D9C268103E249972315C724A9212260FF50585476992"
+      },
+      "ui/game/actionbuttons/icondisband.png": {
+        "size": 536332,
+        "sha256": "1907389DE4B3334C8DC8935374555E07DD604DA22527AD33DE02BFC67F2CD82D"
+      },
+      "ui/game/actionbuttons/icondowngrade.png": {
+        "size": 383564,
+        "sha256": "F4FB0E4EF94A1D01DEF7894E6453A35D164ECB1AD5D893B0E080084B8F45127A"
+      },
+      "ui/game/actionbuttons/iconexplore.png": {
+        "size": 478828,
+        "sha256": "8A6FF1A48F6E2EE5026930FEB76A35EEF01DF30C7CA347DA07BAD14B62F12B6F"
+      },
+      "ui/game/actionbuttons/icongroupbehaviordisable.png": {
+        "size": 451052,
+        "sha256": "40E75A8821BCD1F37D747501D4196E91CD0D80A1317FA436246FC811272AD44B"
+      },
+      "ui/game/actionbuttons/icongroupbehaviorenable.png": {
+        "size": 461994,
+        "sha256": "541057C8287952C91C3A4810209F2859F421E6C061C75151C46D976A175834D9"
+      },
+      "ui/game/actionbuttons/iconguard.png": {
+        "size": 528834,
+        "sha256": "E8AEB4B018CC89B0F9DD8808ED93A9E5CDDAD980684A95E58ACB4303D8A10BB6"
+      },
+      "ui/game/actionbuttons/iconkingdomview.tga": {
+        "size": 1048620,
+        "sha256": "93FBC318FADD65E3430E74DBD651BA048EA50509ADB050CB2B95A20D013596AE"
+      },
+      "ui/game/actionbuttons/iconmove.png": {
+        "size": 487868,
+        "sha256": "663BB8E0011F281F4C598B123EACC5F52B2502590011703AE23F10A0411F87AA"
+      },
+      "ui/game/actionbuttons/iconobserverview.png": {
+        "size": 460190,
+        "sha256": "A782319741E270C5E662CB0011A5F573EACFFF743500317EE93927CF361ACB5E"
+      },
+      "ui/game/actionbuttons/iconraze.png": {
+        "size": 433063,
+        "sha256": "05A0FAE7C8145BF522FFA823CA84B851FA86B16CA29BDADBF28E85A87D16ADF5"
+      },
+      "ui/game/actionbuttons/iconrecall.png": {
+        "size": 447022,
+        "sha256": "5B052BAE989495F1503E14592F96BC4C7F61009E648139CCB3A0F94ED3D23C8D"
+      },
+      "ui/game/actionbuttons/iconrepair.png": {
+        "size": 508484,
+        "sha256": "B8F5D921751155BC0579A1E27EB9B0D23E9E3645E54CE0167208F1C8BFE7907B"
+      },
+      "ui/game/actionbuttons/iconresearch.png": {
+        "size": 529651,
+        "sha256": "934FF4DA701FB5A9AD1FE3533EE227C236E05AAEB0D6CC85E8D26D30AF51A9CD"
+      },
+      "ui/game/actionbuttons/iconresetfavorites.png": {
+        "size": 389347,
+        "sha256": "5320A619BDFC137F645A708D2308A2F399E6E263F201EBBF14C7534012B45CEB"
+      },
+      "ui/game/actionbuttons/iconretreat.png": {
+        "size": 377447,
+        "sha256": "B9CF1D2F9AC757EE6FC7351054A2372CDCAFCE63BFA689805952543EB6557E5A"
+      },
+      "ui/game/actionbuttons/iconrout.png": {
+        "size": 462108,
+        "sha256": "677060AC82D4FBA989FF3B09919C1EDD2AB02FF5379556071045C87210B23ADB"
+      },
+      "ui/game/actionbuttons/iconsallyforth.png": {
+        "size": 515010,
+        "sha256": "8CF6E6641BD473852198BD2F74BC4933333E6BDADC92D6E421DCA31A9F5B72EA"
+      },
+      "ui/game/actionbuttons/iconsell.png": {
+        "size": 593069,
+        "sha256": "A5E5ACF5420037F2752279CFE6231E51D44AB715E01BEC8AE26864B306DBEE95"
+      },
+      "ui/game/actionbuttons/iconsetrallypoint.png": {
+        "size": 471779,
+        "sha256": "86A66056217D9399652E7F2BC83238D891B6E2704910A5D1849D63994240A81D"
+      },
+      "ui/game/actionbuttons/iconstop.png": {
+        "size": 310269,
+        "sha256": "7A4AA4533CA9C5908F6C35B819CEAA520C7E8703C217A7E83CAD6A82E66FB4C8"
+      },
+      "ui/game/actionbuttons/iconteamattack.png": {
+        "size": 492057,
+        "sha256": "0D09B0482AE4E0931E8801DE04B8828AF1AADED462E209377B3BBD2CD120204A"
+      },
+      "ui/game/actionbuttons/iconteambuild.png": {
+        "size": 498315,
+        "sha256": "7634F58A8FC1ED14E8EED8FD44473BE1AFF97C0C66503B97B20196EB90196EC3"
+      },
+      "ui/game/actionbuttons/iconteamchat.png": {
+        "size": 434700,
+        "sha256": "E43E396F79BCE84E5A837429FBE90C07319E6551D95926F600E02C5D8781D2B4"
+      },
+      "ui/game/actionbuttons/iconteamcommand.png": {
+        "size": 446082,
+        "sha256": "D2693CA14517771EB4F4807C26DC0260837C08CD64864CD7063EC3E65ADAD165"
+      },
+      "ui/game/actionbuttons/iconteamdefend.png": {
+        "size": 497880,
+        "sha256": "A659B5740EA65182DA989FB52A0168E8DEE74FDAF014053414CEE5B59B8734A2"
+      },
+      "ui/game/actionbuttons/iconteamexplore.png": {
+        "size": 486470,
+        "sha256": "E9D85EFA83C8731D330133A8ED6726404D339A34CDCE3E62AC30E247E29EE39C"
+      },
+      "ui/game/actionbuttons/iconteamgiveactor.png": {
+        "size": 427345,
+        "sha256": "E93A65AE2E276B757050887265957E35648AE6E800F5B0F4CA8746DE42E33C35"
+      },
+      "ui/game/actionbuttons/iconteamgiveresources.png": {
+        "size": 453153,
+        "sha256": "354B3936EEEF28B47B0886301C03A12F2929C9655D8D8B8DF5A41CD3AF960CA3"
+      },
+      "ui/game/actionbuttons/iconteamreport.png": {
+        "size": 477306,
+        "sha256": "D63A42F5FD28ED4549B8DB2CF4BFFA31D53F7CB96DAE2005634B7915F8CF4ED4"
+      },
+      "ui/game/actionbuttons/iconteamrequestactor.png": {
+        "size": 428071,
+        "sha256": "4E363FC064F1F50AD80984E3FEAE2D02B23BAA89864020B60A99C7095CBECC0B"
+      },
+      "ui/game/actionbuttons/iconteamrequestresources.png": {
+        "size": 453992,
+        "sha256": "932BD993653576B45BECB54E8D08FD7C7F0C5AD0FCE682AF3A73783CF1F73FD9"
+      },
+      "ui/game/actionbuttons/iconteamselectkingdom.png": {
+        "size": 497522,
+        "sha256": "33A8182BAF994683D3BA298F5EBD1C8E8C775911272A5C0E6BB0D29304261406"
+      },
+      "ui/game/actionbuttons/iconupgrade.png": {
+        "size": 386076,
+        "sha256": "D5968D97686899D9389EDBD56F7D0C296E449B40DD9DE59CA658F0FB92D2490E"
+      },
+      "ui/game/actionbuttons/iconupgradefort.png": {
+        "size": 204503,
+        "sha256": "8F9451BD362A2BA30F1D24B419019366F09A423E537971303DFD6618FEDB21A7"
+      },
+      "ui/game/actionbuttons/techicons/iconamberrings.png": {
+        "size": 388701,
+        "sha256": "D87735A76AE83C61F2EA591CE71625D20BC55EC80005010EDEFB97694886DE1D"
+      },
+      "ui/game/actionbuttons/techicons/iconbalancedweapons.png": {
+        "size": 446843,
+        "sha256": "1C569C2F515932B4CC50854C8A14FABF0F25B35CF72EB26D443BBBD00F9F41B1"
+      },
+      "ui/game/actionbuttons/techicons/iconbarbedspines.png": {
+        "size": 440709,
+        "sha256": "4E3F4BC3B42C678C1DD7DD9AD806C3DDE08351C4FA81D9F789F5B98BED6FCA32"
+      },
+      "ui/game/actionbuttons/techicons/iconbilleting.png": {
+        "size": 496500,
+        "sha256": "3F58E68158F75F85E7D7C3A234CEE0D362CE21D6413FD5E9E00BB265E3EC3448"
+      },
+      "ui/game/actionbuttons/techicons/iconblackblessing.png": {
+        "size": 409130,
+        "sha256": "466849EAC5D0E7D9361314F78C031D0D951443BA054031B96CEE08777D1B5926"
+      },
+      "ui/game/actionbuttons/techicons/iconblackichor.png": {
+        "size": 325220,
+        "sha256": "C4EA614BA069E68DE5E86AE922F35559FA35AC3D755893A8BCE9C8A9FEECCF50"
+      },
+      "ui/game/actionbuttons/techicons/iconblackoffering.png": {
+        "size": 388283,
+        "sha256": "563120DC34CCB926CA14455875C441CD95F9B0E7F0A195B1E1A1573BF629C56B"
+      },
+      "ui/game/actionbuttons/techicons/iconblessedarmor.png": {
+        "size": 302104,
+        "sha256": "BF03C5E96FB7D768869B9592240C9F19FFE3657209B33663FF4F580BCFF1E780"
+      },
+      "ui/game/actionbuttons/techicons/iconblessinglife.png": {
+        "size": 254796,
+        "sha256": "DC77D0CA1EEABACD12B1644BAD7A45AD29A20D1340EBCEAD11D79E12CE2B3BFD"
+      },
+      "ui/game/actionbuttons/techicons/iconblessingmight.png": {
+        "size": 398698,
+        "sha256": "C53F98EF1F8EB3C64EFC5E2FDAEDC321195D6C2941CC2D4A6A70FBC442BC5EF3"
+      },
+      "ui/game/actionbuttons/techicons/iconblessingofspeed.png": {
+        "size": 252108,
+        "sha256": "BADF7ABF65AD4272225215576EFD590A68E303529E9993A014EA8A455871ADA4"
+      },
+      "ui/game/actionbuttons/techicons/iconblessingofvalor.png": {
+        "size": 358880,
+        "sha256": "66D8B9ED6DAFF9D79560BFC7319C767E72B8A05C7BF1CB9F1CF2F8B3E046C204"
+      },
+      "ui/game/actionbuttons/techicons/iconblessingspeed.png": {
+        "size": 252108,
+        "sha256": "BADF7ABF65AD4272225215576EFD590A68E303529E9993A014EA8A455871ADA4"
+      },
+      "ui/game/actionbuttons/techicons/iconblessingvalor.png": {
+        "size": 358880,
+        "sha256": "66D8B9ED6DAFF9D79560BFC7319C767E72B8A05C7BF1CB9F1CF2F8B3E046C204"
+      },
+      "ui/game/actionbuttons/techicons/iconbonerings.png": {
+        "size": 404776,
+        "sha256": "C54E811E3A25C80D76881014FB51D561BD5E281CB3C358432E38C1F9FE54782C"
+      },
+      "ui/game/actionbuttons/techicons/iconbootcamp.png": {
+        "size": 449235,
+        "sha256": "C270B33C17D83C792E3C66C712F0B2EB2A869234FEAF965DDC86FBDE1EFAA1BE"
+      },
+      "ui/game/actionbuttons/techicons/iconcalvarytactics.png": {
+        "size": 401498,
+        "sha256": "454720E98B797D904F4452D8335293440E30CA6D90C938E43DA15B5EE03ED9F9"
+      },
+      "ui/game/actionbuttons/techicons/iconcavalrytactics.png": {
+        "size": 401498,
+        "sha256": "454720E98B797D904F4452D8335293440E30CA6D90C938E43DA15B5EE03ED9F9"
+      },
+      "ui/game/actionbuttons/techicons/iconcompositebows.png": {
+        "size": 373666,
+        "sha256": "B6523B0F89C5D9F9A19A2BCD2461FAB5A905F580ED19715D671CD883A06DC949"
+      },
+      "ui/game/actionbuttons/techicons/icondarkfortitude.png": {
+        "size": 154830,
+        "sha256": "DAF168286A588AED02FDE5295EF2A937E7A48342719D42FFC649E9288563AB7A"
+      },
+      "ui/game/actionbuttons/techicons/icondarkmatter.png": {
+        "size": 400405,
+        "sha256": "BCA9C62CBF1F43858FC467E0F7F07A5C6C0DCE4F6EF3CA407A409FA839195B43"
+      },
+      "ui/game/actionbuttons/techicons/icondarkritual.png": {
+        "size": 514556,
+        "sha256": "95284C0C402A08486C90E18A978BFAD274EC78DB5277B3F2127337C5977ECC04"
+      },
+      "ui/game/actionbuttons/techicons/icondeadzone.png": {
+        "size": 488502,
+        "sha256": "B68E9DF73E30AFCD498445D87B67B8899DF046B96EEEE879E9CFF448960B8188"
+      },
+      "ui/game/actionbuttons/techicons/icondeeproots.png": {
+        "size": 447591,
+        "sha256": "B575D3879822D38EB395E2CA5431723EBB42B10F1A1BE2A92EA566EAA5890437"
+      },
+      "ui/game/actionbuttons/techicons/icondiseasedarmor.png": {
+        "size": 324662,
+        "sha256": "5C576D80AB4E12EABEA18BC80F85075E14EF728724345B05B77972B65ECCF605"
+      },
+      "ui/game/actionbuttons/techicons/icondiseasedarrows.png": {
+        "size": 410167,
+        "sha256": "2333BA71CFEEFE1E928BF788CDE7DBB6C1F39DE336F0BC7586BAC3AFDAD502AF"
+      },
+      "ui/game/actionbuttons/techicons/icondiseasedweapons.png": {
+        "size": 361525,
+        "sha256": "FC866343B0B1861145511CB1D577FB06CF2D861F6D5FBEAD4E5A7CCAF7B9F633"
+      },
+      "ui/game/actionbuttons/techicons/icondragonbonebows.png": {
+        "size": 333162,
+        "sha256": "F64A8B88B7B1FD1BDDE96E479AEB4BFE8191D5BA505FEE5B6EF93A2B7420DBF6"
+      },
+      "ui/game/actionbuttons/techicons/iconedgedspines.png": {
+        "size": 388822,
+        "sha256": "4800114C0E1136B4849BC96D6B1C06F50CCED27B371BC6174024AE06747BE1B3"
+      },
+      "ui/game/actionbuttons/techicons/iconelixerofcourage.png": {
+        "size": 335850,
+        "sha256": "E7E1E32CAF60E1F9484EA447E7BC8E3F7F1195FA8916195F44CF8AEE778A9CA3"
+      },
+      "ui/game/actionbuttons/techicons/iconelixeroflife.png": {
+        "size": 343979,
+        "sha256": "882A8D99276D6B45C18190BBB198AF4247684CE0C6967618608D4A9C3009635E"
+      },
+      "ui/game/actionbuttons/techicons/iconelixerofstrength.png": {
+        "size": 369013,
+        "sha256": "019AE711AE276514DEE82EA4FF4260768A5EBC0B91EB1C1B4F21FD50D5C388E9"
+      },
+      "ui/game/actionbuttons/techicons/iconenchantedarmor.png": {
+        "size": 349453,
+        "sha256": "5858614771E42505D22B97B6EE7175F74AED34037A7588C4FE94E7151077800B"
+      },
+      "ui/game/actionbuttons/techicons/iconentrenchtactics.png": {
+        "size": 446074,
+        "sha256": "B4BE256D7136C1C0E896CC8E9FC309C29969715188FF83BE3E7D8C9EAB5A28B7"
+      },
+      "ui/game/actionbuttons/techicons/iconentwinedbranches.png": {
+        "size": 489604,
+        "sha256": "172403F57D158F445885470154E602FF8B2605FE4519D2D36B771B43CA25F5C5"
+      },
+      "ui/game/actionbuttons/techicons/iconfittedstones.png": {
+        "size": 330750,
+        "sha256": "06F98AE57B76A4B0C115953BCA9B0F9CC78AD988C3A65FD443F29D352593A563"
+      },
+      "ui/game/actionbuttons/techicons/iconflamingarrows.png": {
+        "size": 447673,
+        "sha256": "17C6D83021E9D0B24ECFE1C0CB4E8AF268C5CFBE0C3020C5688A2D56DF3F9E91"
+      },
+      "ui/game/actionbuttons/techicons/iconfortifiedwalls.png": {
+        "size": 379551,
+        "sha256": "7B5842B91BC79C5EACCC21CB3693300B67F8C8A845FC6ECF785343FD9FF919C2"
+      },
+      "ui/game/actionbuttons/techicons/icongroovedspines.png": {
+        "size": 331123,
+        "sha256": "6905118EC8858A2E8E619E5037430B156A04EEEA0696F7F99FC43EF996E2A750"
+      },
+      "ui/game/actionbuttons/techicons/iconguardtraining.png": {
+        "size": 573543,
+        "sha256": "9F8FC7D613018BD981966F93928A734E7A8A1C3419FBF8E1E5B85E20A071DE40"
+      },
+      "ui/game/actionbuttons/techicons/iconironwoodbows.png": {
+        "size": 290854,
+        "sha256": "5520367609209FAE9463EE7432FBDE93D8D909BCD17F2027C2204DA25EB2A5D2"
+      },
+      "ui/game/actionbuttons/techicons/iconjaderings.png": {
+        "size": 363494,
+        "sha256": "03F9600238C94FC54BEB1AF22EAF0F8D0CB9ACA7F605033C5314EADA29898283"
+      },
+      "ui/game/actionbuttons/techicons/iconjourneymen.png": {
+        "size": 311885,
+        "sha256": "0B6D54F626565B27255F82B262A71433A134FD36683CBBBF9E9FC18CA0F49A2F"
+      },
+      "ui/game/actionbuttons/techicons/iconkhaldunitearmor.png": {
+        "size": 355044,
+        "sha256": "DDCC9ED5FC83BEF3F6457C9C0F06CB334AB50A9D4A87ACDECA379C4459E68B83"
+      },
+      "ui/game/actionbuttons/techicons/iconkhaldunitearrows.png": {
+        "size": 370518,
+        "sha256": "B8D9A6A42817A01C6DA083086C5606EE314D59BEE2161F689B7C4D385795FCC2"
+      },
+      "ui/game/actionbuttons/techicons/iconkhalduniteweapons.png": {
+        "size": 214554,
+        "sha256": "5AB97355B28C781CE7609A912F04A112F5C32B4EC33FF100077C8552A66AB5AA"
+      },
+      "ui/game/actionbuttons/techicons/iconmagicarmor.png": {
+        "size": 394459,
+        "sha256": "2B5B0261439CA46D522DF015DD370834A9B133DBB98A258E569B090658691E60"
+      },
+      "ui/game/actionbuttons/techicons/iconmagicarrows.png": {
+        "size": 458480,
+        "sha256": "A442477969A5A3B4053DD946518B26B5CF46209212F3C2A53E95C3F9B393FB1E"
+      },
+      "ui/game/actionbuttons/techicons/iconmagicbows.png": {
+        "size": 443601,
+        "sha256": "9ADEB78DC086A0FC9D4C26D37117966EC3CE20FECCA43E524E5C6FCC7D6E1285"
+      },
+      "ui/game/actionbuttons/techicons/iconmagicweapons.png": {
+        "size": 313603,
+        "sha256": "1DE4F792B8883F5E7C60C29319EB1CAE7BF1273BBAA2B48AD6AC1D73FB33A467"
+      },
+      "ui/game/actionbuttons/techicons/iconnursery.png": {
+        "size": 405324,
+        "sha256": "31946132E08556C1AE0A5C79DD149D46AECA48249D1DCE9333AFFC79B9B42D56"
+      },
+      "ui/game/actionbuttons/techicons/icononyxrings.png": {
+        "size": 321807,
+        "sha256": "5232270B550A6204CE0458F79DA50FAE52C0B99199854DA2B086E483DB72E341"
+      },
+      "ui/game/actionbuttons/techicons/iconopalrings.png": {
+        "size": 363054,
+        "sha256": "971E16D92EF3AFDF245F207D81A70841DE23598E19541A89036307F7F34DD8BA"
+      },
+      "ui/game/actionbuttons/techicons/iconpoisonarrows.png": {
+        "size": 325343,
+        "sha256": "0FD9C964AF6EB247F8A78689B758E345F9E85B68360D9189E463EE302AFC9D0B"
+      },
+      "ui/game/actionbuttons/techicons/iconpoisonblades.png": {
+        "size": 349083,
+        "sha256": "5EE86E8776E3603B954ED0EE194F37BAB0892BF0C36F6B23661D6AEB403974AD"
+      },
+      "ui/game/actionbuttons/techicons/iconpoisonclaws.png": {
+        "size": 301700,
+        "sha256": "F362071B26DD6477BC20DBAFFA5EFA184EBBA3E5F0FB1D953E935B15502432FD"
+      },
+      "ui/game/actionbuttons/techicons/iconpoisonspines.png": {
+        "size": 305697,
+        "sha256": "F9059499FAE16647025AF6205E7122FBD11492F6BFA6DE2E442D98D71429A71E"
+      },
+      "ui/game/actionbuttons/techicons/iconpoisonweapons.png": {
+        "size": 273897,
+        "sha256": "6A1EC7273FB430F3D62A1621F703911B91EFC4B26D102FEA6621D5399822FB7E"
+      },
+      "ui/game/actionbuttons/techicons/iconproselytize.png": {
+        "size": 407404,
+        "sha256": "B405F76D7FBA75B2D94042182166F43014D883CAB9957D056BB8FB26183FAD5B"
+      },
+      "ui/game/actionbuttons/techicons/iconramparts.png": {
+        "size": 439945,
+        "sha256": "46176F0C9FBACDF094F8644BED5E313B0680122179E6A378997030C0339E8DDE"
+      },
+      "ui/game/actionbuttons/techicons/iconrapidgrowth.png": {
+        "size": 244490,
+        "sha256": "F0F7335E2255E2E1169B0994A7C1AC80FF1FEC9D4430D4AD60A1F86E7FF822C8"
+      },
+      "ui/game/actionbuttons/techicons/iconshadowskin.png": {
+        "size": 390040,
+        "sha256": "CB8765357492F7965695C4D15F29A9E99B08A3D2ED2E9983EEA241C662A0A9AF"
+      },
+      "ui/game/actionbuttons/techicons/iconshadowsteelarmor.png": {
+        "size": 329507,
+        "sha256": "372A0134EFC884B55A25D5FE6F080F85EAC3D40433D2E2289D6F411D70301727"
+      },
+      "ui/game/actionbuttons/techicons/iconshadowsteelweapons.png": {
+        "size": 340448,
+        "sha256": "A5628FBBFD1E0590B4594FC1280C9D084CAFD23A8ABAD8F0BA104F3EF84C2678"
+      },
+      "ui/game/actionbuttons/techicons/iconshocktroops.png": {
+        "size": 324648,
+        "sha256": "0B7B1F2BDCD6D8F0097BC9D2F766D9A505A1D26CF62C0DAD8DD1944BA6A89BF7"
+      },
+      "ui/game/actionbuttons/techicons/iconskilledlabor.png": {
+        "size": 464589,
+        "sha256": "C0A623149729C610EBF102BD0684710D6A20383A337B004A6654DD8D7CE53195"
+      },
+      "ui/game/actionbuttons/techicons/iconstablemaster.png": {
+        "size": 360308,
+        "sha256": "358C50ECE84F066AFE61970EF9FA4D7C621B7EB82AA5B661B55E49EE76A6D57D"
+      },
+      "ui/game/actionbuttons/techicons/iconstrongfoundation.png": {
+        "size": 399104,
+        "sha256": "87038112F553D4E84C6515B12B84AEBCAB8F1FCCEB3152466E47EDCF1CACDE36"
+      },
+      "ui/game/actionbuttons/techicons/icontaskmaster.png": {
+        "size": 498388,
+        "sha256": "D761E5E30C359F5DBAEEF64493AA7C92C6680F36705437D2B7BBCB0DC655EDB6"
+      },
+      "ui/game/actionbuttons/techicons/iconthaumaturgy.png": {
+        "size": 473601,
+        "sha256": "EE9C98DDF37107AED91797D572F123BD002B2B7F5F7AC1E06D4538C1AB52A5F9"
+      },
+      "ui/game/actionbuttons/techicons/iconthornybarrier.png": {
+        "size": 485836,
+        "sha256": "44566C00CD98F57528D1080B7995A35C02AECB0C2682FC4B9B4AA34544CA8C88"
+      },
+      "ui/game/actionbuttons/techicons/iconumbralbarrier.png": {
+        "size": 503533,
+        "sha256": "F3ACD3A992282D3E0F91F0205C92817168CF48E9BD44C9C6FC3998DD66B44A40"
+      },
+      "ui/game/actionbuttons/techicons/iconumbralcarapace.png": {
+        "size": 393237,
+        "sha256": "5F9F4671ED580015BB89508EE19E1EAE795FF0A90067FA155F0EB325AE2BC670"
+      },
+      "ui/game/actionbuttons/techicons/iconumbralessence.png": {
+        "size": 354470,
+        "sha256": "8492FECD18CDFC9AF51E51FE32D35E038C39452C6D57BEE2EFE9D3BD990F3576"
+      },
+      "ui/game/actionbuttons/techicons/iconumbralfrenzy.png": {
+        "size": 460344,
+        "sha256": "F2B75D8F57E8B90867EE128E2F9EF47283A7002F31817C416883FB58EDC2EF6C"
+      },
+      "ui/game/actionbuttons/techicons/iconumbralfury.png": {
+        "size": 418395,
+        "sha256": "13149B5EB3DAD5CAF922336600A6330EBC292FF728DD7CB37A9774C7237468C8"
+      },
+      "ui/game/actionbuttons/techicons/iconumbralmight.png": {
+        "size": 410390,
+        "sha256": "FE859CDC9D91D782A94859EC7BE4EB7FC33AE6450704DF09EC6E7989BE118D86"
+      },
+      "ui/game/actionbuttons/techicons/iconumbralrage.png": {
+        "size": 470675,
+        "sha256": "A4C4467347E23FFFCC76AE6DF8B8BBCF59962C828B5A066B0D6D88DAECAF67C7"
+      },
+      "ui/game/actionbuttons/techicons/iconwhitesteelarmor.png": {
+        "size": 323869,
+        "sha256": "75923A83056026A1BC7BBC98F4CA98354BCF4F998F65FA23DD1FE4C8D79BF40B"
+      },
+      "ui/game/actionbuttons/techicons/iconwhitesteelweapons.png": {
+        "size": 305524,
+        "sha256": "7B109B1DD38E2F475D11C14DC61A349B261933130C4D65FC430F9CB678F22364"
+      },
+      "ui/game/actionbuttons/techicons/iconwidetrunks.png": {
+        "size": 486936,
+        "sha256": "267BE6E5DACECDA03CFD7F4D16B4B79300A1574BCF837B6E63C3797933F4E602"
+      },
+      "ui/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "4B289E2238B332736DDE422EABA45E41527A7C68F8FE351A3CFC88C7A6C7A8C4"
+      },
+      "ui/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "5170D4980BFBC36243DAD44121A5DB76D6C98E4042B8A4D6A6DD3F3DAAAA38E1"
+      },
+      "ui/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "73F22E94A69BD37D420FBB04DC6A35928A80EA2828ADC13D4F0F0214819BD128"
+      },
+      "ui/game/favorites/cross.png": {
+        "size": 18154,
+        "sha256": "818DDD8437F0B921B75FEE4B1444CFF29226E73057B96D1B74F0FEE6906A3097"
+      },
+      "ui/game/structurebuttons/bankicon.png": {
+        "size": 541874,
+        "sha256": "C036FE16BD56B8C2F1A207A8B09661B420685F32E26336C93AA474B6C2EB6A58"
+      },
+      "ui/game/structurebuttons/barracksicon.png": {
+        "size": 471525,
+        "sha256": "2ECC050A7191AB168D037F1EB440EA57916814840F73D7092306B26076D7575D"
+      },
+      "ui/game/structurebuttons/bazaaricon.png": {
+        "size": 461394,
+        "sha256": "2426E4640BF15B7F9C8E47A266FE7454CD266BD49A20CB75E1D1A5D72CEB455F"
+      },
+      "ui/game/structurebuttons/blacksmithicon.png": {
+        "size": 347613,
+        "sha256": "6F54631EE72A7172D5F73F28909FD9FEF3238EE0050E2BE3B8589E1F4302CF7B"
+      },
+      "ui/game/structurebuttons/draugacentericon.png": {
+        "size": 376111,
+        "sha256": "B327F77E36436247B755DFCB40F2A59BD07102B51C80620E199F622F681A72C7"
+      },
+      "ui/game/structurebuttons/factoryicon.png": {
+        "size": 477115,
+        "sha256": "BAB794EC312339DA8ED4C94A4A7B8B5AEFFE6C45F851D70431C13253F338C0D2"
+      },
+      "ui/game/structurebuttons/foundryicon.png": {
+        "size": 426165,
+        "sha256": "F8F5299DA82D0D0A8B3B00F7CD719A2CC8C0E3857A2919754B52481E09825D5D"
+      },
+      "ui/game/structurebuttons/gauricentericon.png": {
+        "size": 447701,
+        "sha256": "7AF33ACC00798993C53CE0A129897E88805D5309CC6E0E7E035D03130B404F1E"
+      },
+      "ui/game/structurebuttons/giftofnatureicon.png": {
+        "size": 494419,
+        "sha256": "8A5EEF6A7B3813847CA1E3A2814D61D57BF74F8BCA7A072BBD7DDFE75A9208E3"
+      },
+      "ui/game/structurebuttons/goldmineicon.png": {
+        "size": 539646,
+        "sha256": "CDBC38C9B1191B9A82EFA12EF355D81621FDACF8A77D0A3431F59C0B516ACC83"
+      },
+      "ui/game/structurebuttons/harouncentericon.png": {
+        "size": 414758,
+        "sha256": "D586B518F03628543B58E9A312F98BFB34CEEFAC0BD40D82716C6601995D9BCC"
+      },
+      "ui/game/structurebuttons/humancentericon.png": {
+        "size": 401695,
+        "sha256": "86F2CBE5E82173D3B17C169FBEE9C561EDBEFFEB7386E8A57BF65741D767894F"
+      },
+      "ui/game/structurebuttons/ironconverticon.png": {
+        "size": 476192,
+        "sha256": "979DDC6CD09FC838B2DE12BE64E67A71AC663491E333D55E010AC4B25F69F87D"
+      },
+      "ui/game/structurebuttons/ironmineicon.png": {
+        "size": 497107,
+        "sha256": "FA9C97196A2353C86CFEF86449027F832D4DBF863819024DB44AC99F70B69D25"
+      },
+      "ui/game/structurebuttons/irontomanaconverticon.png": {
+        "size": 493104,
+        "sha256": "F78D67574EEEBF81D721B340F66678D0A3394D40667A16D423E70F6B87B1DD73"
+      },
+      "ui/game/structurebuttons/libraryicon.png": {
+        "size": 428111,
+        "sha256": "49991F3394E163B56DBBB787711A5C1C96F61BB243FCC13A993EF6A053AA1967"
+      },
+      "ui/game/structurebuttons/magecollegeicon.png": {
+        "size": 378248,
+        "sha256": "F76A2293BB2632713CCA7C1457EB709D84E728E919439EE6B9351EF3102FA30A"
+      },
+      "ui/game/structurebuttons/manafocusicon.png": {
+        "size": 337608,
+        "sha256": "89C3890A89B6FA76D165DCEB85607E858F342D48C05E678B7245A75BB39D96CB"
+      },
+      "ui/game/structurebuttons/manamineicon.png": {
+        "size": 489152,
+        "sha256": "3C39DA00F95E8826D843F9FA81CB448A4DCD0EA2E187C7989722A0071734E2AE"
+      },
+      "ui/game/structurebuttons/manasiphonicon.png": {
+        "size": 438684,
+        "sha256": "AD64CE990FB45D1A2A0C0D060272DBC98F9D34D24D0C152FA5149A731CD4D283"
+      },
+      "ui/game/structurebuttons/marketicon.png": {
+        "size": 429747,
+        "sha256": "9340094797C0B953783E6D299F656F372E8CABF61C66A88D63C4FB1C0E0331E4"
+      },
+      "ui/game/structurebuttons/miningposticon.png": {
+        "size": 460683,
+        "sha256": "2F4CFCF16C5D7AE1514E517431439B935D203CE107EDD50182783EC65145C884"
+      },
+      "ui/game/structurebuttons/outposticon.png": {
+        "size": 383439,
+        "sha256": "D0D7FEA8C934838978F88FFF943630F92333DD426DBE89E167CFADD1D3265966"
+      },
+      "ui/game/structurebuttons/portalicon.png": {
+        "size": 498428,
+        "sha256": "8508E537B7BF5A585B34AE2A1E398697DDA11625DE8172CF5A3F1BBDC6E08963"
+      },
+      "ui/game/structurebuttons/quarryicon.png": {
+        "size": 392350,
+        "sha256": "96CBCC3F7CA8D8938F710E2F15B59CC503310CBD96633939B7F47B378BC7ED52"
+      },
+      "ui/game/structurebuttons/sawmillicon.png": {
+        "size": 484855,
+        "sha256": "95E11CC996717758C1A604BF1B98CF0D3EDB9F11EA1F5531D5DF76D625D068EE"
+      },
+      "ui/game/structurebuttons/shadowcentericon.png": {
+        "size": 321318,
+        "sha256": "2E970364318B1B992779CC2D3CF9144D7E282B1DD4744D87963CFB76D74E8101"
+      },
+      "ui/game/structurebuttons/shrineicon.png": {
+        "size": 390042,
+        "sha256": "25BBB6C555284036CB67CDC24CC28DEF6FC9652E09A680251A5594B21E92A908"
+      },
+      "ui/game/structurebuttons/stoneconverticon.png": {
+        "size": 488096,
+        "sha256": "A9C3FAED70913BC618AA04FAF9459164837393F1305963F795210788773838DE"
+      },
+      "ui/game/structurebuttons/stonemineicon.png": {
+        "size": 501937,
+        "sha256": "BB70490F0C785273A6832F378D6080A6646C4577769D6F65492A6C0B95CEC4DC"
+      },
+      "ui/game/structurebuttons/stonetomanaconverticon.png": {
+        "size": 485809,
+        "sha256": "CCE8258B4F7AB04C2E7C45460A76F560BC889A83BD615A54D9E4549A5B96B225"
+      },
+      "ui/game/structurebuttons/templeicon.png": {
+        "size": 413899,
+        "sha256": "FEF9A62D0D7BD776DB718946745071ADB978165468A969C98253448ED7E74A33"
+      },
+      "ui/game/structurebuttons/undeadcentericon.png": {
+        "size": 390044,
+        "sha256": "2DE3D3C856F1BC488F64F4A16711C37BAD401CE7F42E5E20930E112CB757749E"
+      },
+      "ui/game/structurebuttons/warehouseicon.png": {
+        "size": 440871,
+        "sha256": "770BB19427A24671C2D5D917594D15EEC9B83920EA805F47999E029F95D59609"
+      },
+      "ui/game/structurebuttons/woodconverticon.png": {
+        "size": 535136,
+        "sha256": "39568BC8A505D9E70AB3D66BB3DF6EDCD6BACE7710B21287B8F204DE4D3727B9"
+      },
+      "ui/game/structurebuttons/woodmillicon.png": {
+        "size": 465612,
+        "sha256": "A67503A32875AE9966CB695D74249EE65015B3B5DED0F0CF4DD4EB76053F505A"
+      },
+      "ui/game/structurebuttons/woodmineicon.png": {
+        "size": 482352,
+        "sha256": "BC237E4CDFFE6442B9C26B44885E4661038C8769004310B8CD68391A2FCB0A7F"
+      },
+      "ui/game/structurebuttons/woodtomanaconverticon.png": {
+        "size": 547860,
+        "sha256": "84360BF5D0E49D191B0E2D24EE15C55395D6069E5271D2AD954FFFADB6E302C1"
+      },
+      "ui/game/structurebuttons/workshopicon.png": {
+        "size": 489721,
+        "sha256": "560BEE21A7339D7A2403A924942718010731EDABAB0C0A89BBBC338F47B6E997"
+      }
+    }
+  },
+  "skins/drauga.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\packed\\skins\\drauga.rwd",
+    "sha256": "236ADD0ABA48EF4166792F170AC969282D0F4321DD42E879759D072EAC06C020",
+    "size": 25153919,
+    "entries": 62,
+    "uniqueBlobs": 30,
+    "stamp": "7A059C68",
+    "files": {
+      "ui/1280/game/controlpanel/background.tga": {
+        "size": 1638444,
+        "sha256": "DAF922619A174127A17DD54F8CE22D81265AB85EA8EA7941B9D718FC307A7375"
+      },
+      "ui/1280/game/controlpanel/backgroundtop.png": {
+        "size": 3826,
+        "sha256": "6D5803EBC347AC2038B07A10AED233C31B8DD94DC361A502C16D956F1876824C"
+      },
+      "ui/1280/game/controlpanel/economybar.png": {
+        "size": 5978,
+        "sha256": "EB385112F315EDE69F77DD839ECAAE38A17D7B7E7DA316E68CD2090612E8060D"
+      },
+      "ui/1280/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "8213D226252645B7DB9BB83467314227B94F2A92CB407E81725BC1E092CDE447"
+      },
+      "ui/1280/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "49E9565927D99AFE168D80FC79651EBDDF19CD040491F0329C690D0A47CEA541"
+      },
+      "ui/1280/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "1B3C54FACA49F2B866AF958232A18F287E964A4CC15827CD9A3393A9624C87F7"
+      },
+      "ui/1280/game/panel/smalltilebottom.png": {
+        "size": 381,
+        "sha256": "3F4932A4F5E20C962BE8C5C1EAEDBD531A35E005BA51B79625ACF8B5371D239F"
+      },
+      "ui/1280/game/panel/smalltilecenter.png": {
+        "size": 206,
+        "sha256": "16662562D0801D8C72D426A846AAD67F3DCB7BD206041B59AC895D92210E23F2"
+      },
+      "ui/1280/game/panel/smalltilecorners.png": {
+        "size": 1490,
+        "sha256": "F6CA98DD48E11928DC4786074AD56AA26C5FCA813A9D7108BCFCCB708EF9DCE2"
+      },
+      "ui/1280/game/panel/smalltileleft.png": {
+        "size": 381,
+        "sha256": "17FCEC4537778204AABB78FBEE8D8F53F12183844C9A63FBEB63AFC7079A4972"
+      },
+      "ui/1280/game/panel/smalltileright.png": {
+        "size": 376,
+        "sha256": "F13489D8B02BC2B3ECC9EBBBD24039D57C50F53D0C5CD12E374FA7A67AB8E46B"
+      },
+      "ui/1280/game/panel/smalltiletop.png": {
+        "size": 391,
+        "sha256": "48FFB19B3920D94A9E5183C47B19360C3CB7D373B4FCED9571C19297611E7AB3"
+      },
+      "ui/1280/game/panel/tilebottom.png": {
+        "size": 1077,
+        "sha256": "2F9CFE0B63D4A94CD2E0E601B1BF5C3AE5043AA7C06D473868E6A6B59434F64D"
+      },
+      "ui/1280/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/1280/game/panel/tilecorners.png": {
+        "size": 7570,
+        "sha256": "0DF8CD3FE4954AA791B3FEEC834C4CCEF733C5F5117B3C914E3B421356F59629"
+      },
+      "ui/1280/game/panel/tileleft.png": {
+        "size": 842,
+        "sha256": "CE3AC51CB8164A630CE5929FCC99D3CE4D3897EA7F2CF6284226402F1D5384F8"
+      },
+      "ui/1280/game/panel/tileright.png": {
+        "size": 822,
+        "sha256": "4E0DCCD1E31CE516D3660B3A21D71D9D40EB0D1CC26C2F927522087FED6FDEBE"
+      },
+      "ui/1280/game/panel/tiletop.png": {
+        "size": 1239,
+        "sha256": "A2A2BC7FEC9C23C7B2DE006D5C43578D985AEAFCFDDD6053AD9CC8EC54FE7FDC"
+      },
+      "ui/800/game/controlpanel/background.tga": {
+        "size": 640044,
+        "sha256": "4213FE49E890D8FC657928A6C7363954916D07906983B3C1CE4B954A075F24F3"
+      },
+      "ui/800/game/controlpanel/backgroundtop.png": {
+        "size": 1699,
+        "sha256": "956ABA52676DE665F503F23F5873D6EE7EB15CF58FEEFEFBE277A9BAB48048EA"
+      },
+      "ui/800/game/controlpanel/economybar.png": {
+        "size": 5978,
+        "sha256": "EB385112F315EDE69F77DD839ECAAE38A17D7B7E7DA316E68CD2090612E8060D"
+      },
+      "ui/800/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "8213D226252645B7DB9BB83467314227B94F2A92CB407E81725BC1E092CDE447"
+      },
+      "ui/800/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "49E9565927D99AFE168D80FC79651EBDDF19CD040491F0329C690D0A47CEA541"
+      },
+      "ui/800/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "1B3C54FACA49F2B866AF958232A18F287E964A4CC15827CD9A3393A9624C87F7"
+      },
+      "ui/800/game/panel/smalltilebottom.png": {
+        "size": 381,
+        "sha256": "3F4932A4F5E20C962BE8C5C1EAEDBD531A35E005BA51B79625ACF8B5371D239F"
+      },
+      "ui/800/game/panel/smalltilecenter.png": {
+        "size": 206,
+        "sha256": "16662562D0801D8C72D426A846AAD67F3DCB7BD206041B59AC895D92210E23F2"
+      },
+      "ui/800/game/panel/smalltilecorners.png": {
+        "size": 1490,
+        "sha256": "F6CA98DD48E11928DC4786074AD56AA26C5FCA813A9D7108BCFCCB708EF9DCE2"
+      },
+      "ui/800/game/panel/smalltileleft.png": {
+        "size": 381,
+        "sha256": "17FCEC4537778204AABB78FBEE8D8F53F12183844C9A63FBEB63AFC7079A4972"
+      },
+      "ui/800/game/panel/smalltileright.png": {
+        "size": 376,
+        "sha256": "F13489D8B02BC2B3ECC9EBBBD24039D57C50F53D0C5CD12E374FA7A67AB8E46B"
+      },
+      "ui/800/game/panel/smalltiletop.png": {
+        "size": 391,
+        "sha256": "48FFB19B3920D94A9E5183C47B19360C3CB7D373B4FCED9571C19297611E7AB3"
+      },
+      "ui/800/game/panel/tilebottom.png": {
+        "size": 1077,
+        "sha256": "2F9CFE0B63D4A94CD2E0E601B1BF5C3AE5043AA7C06D473868E6A6B59434F64D"
+      },
+      "ui/800/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/800/game/panel/tilecorners.png": {
+        "size": 7570,
+        "sha256": "0DF8CD3FE4954AA791B3FEEC834C4CCEF733C5F5117B3C914E3B421356F59629"
+      },
+      "ui/800/game/panel/tileleft.png": {
+        "size": 842,
+        "sha256": "CE3AC51CB8164A630CE5929FCC99D3CE4D3897EA7F2CF6284226402F1D5384F8"
+      },
+      "ui/800/game/panel/tileright.png": {
+        "size": 822,
+        "sha256": "4E0DCCD1E31CE516D3660B3A21D71D9D40EB0D1CC26C2F927522087FED6FDEBE"
+      },
+      "ui/800/game/panel/tiletop.png": {
+        "size": 1239,
+        "sha256": "A2A2BC7FEC9C23C7B2DE006D5C43578D985AEAFCFDDD6053AD9CC8EC54FE7FDC"
+      },
+      "ui/default/briefing/bottomleftlost.tga": {
+        "size": 227372,
+        "sha256": "D2137BB6B9614E0E73CB183C53B2925ACDF7760C5AC55894A0D4F50B00F69D87"
+      },
+      "ui/default/briefing/bottomleftwon.tga": {
+        "size": 227372,
+        "sha256": "EDE973051BF057A347DA73DC71C7125B72BC0B19AA8D4B7C37F0CCFA46290F05"
+      },
+      "ui/default/briefing/bottomrightlost.tga": {
+        "size": 32900,
+        "sha256": "91C1492E3347A161F36767D1A62075ED8442C3A8B4B9E56C2A5EB3F4B982A51D"
+      },
+      "ui/default/briefing/bottomrightwon.tga": {
+        "size": 32900,
+        "sha256": "55FA3F75A653465D7DED735B09D4E33EAB4354277E0FBA636A9C5415BB4E2DE0"
+      },
+      "ui/default/briefing/topleftlost.tga": {
+        "size": 1048620,
+        "sha256": "807F17EB7DA51BE3B1C335FBC9BF94B1A989915DD4AC1D75327656148EFCD81B"
+      },
+      "ui/default/briefing/topleftwon.tga": {
+        "size": 1048620,
+        "sha256": "3187D9A335530346C9447DAF90DBBF89FCBFAD04C9DDDBA1A01F37D2EF80DBE5"
+      },
+      "ui/default/briefing/toprightlost.tga": {
+        "size": 151596,
+        "sha256": "96D9ACCF79F27E67DB3165EDF0795533F6F94490CF6C321B074CA20740A725EB"
+      },
+      "ui/default/briefing/toprightwon.tga": {
+        "size": 151596,
+        "sha256": "27281C76ADAD39E9F4FC9B4C37CB763A913B41604CD4B6CD18EBBA3FC1AA8371"
+      },
+      "ui/game/controlpanel/background.tga": {
+        "size": 1044524,
+        "sha256": "EBBDDB22D1D87F3D7B62351F4BBCC57A5CFCD1E398F8C12ADD24880D8D5F3801"
+      },
+      "ui/game/controlpanel/backgroundtop.png": {
+        "size": 2583,
+        "sha256": "B08E7E7F3DA15FC95C7359C4B877974212F760414309079E5C7BF7F11E1EFB79"
+      },
+      "ui/game/controlpanel/economybar.png": {
+        "size": 5978,
+        "sha256": "EB385112F315EDE69F77DD839ECAAE38A17D7B7E7DA316E68CD2090612E8060D"
+      },
+      "ui/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "8213D226252645B7DB9BB83467314227B94F2A92CB407E81725BC1E092CDE447"
+      },
+      "ui/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "49E9565927D99AFE168D80FC79651EBDDF19CD040491F0329C690D0A47CEA541"
+      },
+      "ui/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "1B3C54FACA49F2B866AF958232A18F287E964A4CC15827CD9A3393A9624C87F7"
+      },
+      "ui/game/panel/smalltilebottom.png": {
+        "size": 381,
+        "sha256": "3F4932A4F5E20C962BE8C5C1EAEDBD531A35E005BA51B79625ACF8B5371D239F"
+      },
+      "ui/game/panel/smalltilecenter.png": {
+        "size": 206,
+        "sha256": "16662562D0801D8C72D426A846AAD67F3DCB7BD206041B59AC895D92210E23F2"
+      },
+      "ui/game/panel/smalltilecorners.png": {
+        "size": 1490,
+        "sha256": "F6CA98DD48E11928DC4786074AD56AA26C5FCA813A9D7108BCFCCB708EF9DCE2"
+      },
+      "ui/game/panel/smalltileleft.png": {
+        "size": 381,
+        "sha256": "17FCEC4537778204AABB78FBEE8D8F53F12183844C9A63FBEB63AFC7079A4972"
+      },
+      "ui/game/panel/smalltileright.png": {
+        "size": 376,
+        "sha256": "F13489D8B02BC2B3ECC9EBBBD24039D57C50F53D0C5CD12E374FA7A67AB8E46B"
+      },
+      "ui/game/panel/smalltiletop.png": {
+        "size": 391,
+        "sha256": "48FFB19B3920D94A9E5183C47B19360C3CB7D373B4FCED9571C19297611E7AB3"
+      },
+      "ui/game/panel/tilebottom.png": {
+        "size": 1077,
+        "sha256": "2F9CFE0B63D4A94CD2E0E601B1BF5C3AE5043AA7C06D473868E6A6B59434F64D"
+      },
+      "ui/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/game/panel/tilecorners.png": {
+        "size": 7570,
+        "sha256": "0DF8CD3FE4954AA791B3FEEC834C4CCEF733C5F5117B3C914E3B421356F59629"
+      },
+      "ui/game/panel/tileleft.png": {
+        "size": 842,
+        "sha256": "CE3AC51CB8164A630CE5929FCC99D3CE4D3897EA7F2CF6284226402F1D5384F8"
+      },
+      "ui/game/panel/tileright.png": {
+        "size": 822,
+        "sha256": "4E0DCCD1E31CE516D3660B3A21D71D9D40EB0D1CC26C2F927522087FED6FDEBE"
+      },
+      "ui/game/panel/tiletop.png": {
+        "size": 1239,
+        "sha256": "A2A2BC7FEC9C23C7B2DE006D5C43578D985AEAFCFDDD6053AD9CC8EC54FE7FDC"
+      }
+    },
+    "preservedBaseEntries": 53
+  },
+  "skins/gauri.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\packed\\skins\\gauri.rwd",
+    "sha256": "79F476106C2E7E1E4193F6D8716A0F62410A66F4426B296170721FC48DBFE047",
+    "size": 25152165,
+    "entries": 62,
+    "uniqueBlobs": 29,
+    "stamp": "DC0298A9",
+    "files": {
+      "ui/1280/game/controlpanel/background.tga": {
+        "size": 1638444,
+        "sha256": "5D7CB03E155D54A24E38AECD73928C0C9500A11BEAA1E452A95BD1FACB1CF61E"
+      },
+      "ui/1280/game/controlpanel/backgroundtop.png": {
+        "size": 4014,
+        "sha256": "2289D62E00D281C23B0C01C8EE2DF951E906AE27CA94DB172DC793F9D354621F"
+      },
+      "ui/1280/game/controlpanel/economybar.png": {
+        "size": 5253,
+        "sha256": "A357147AE504EFE9DD4233EED680FD43533AB09DFF78EF23C5AACD0BBF59F087"
+      },
+      "ui/1280/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "3709769C15B347AEE7850F882EAE801D5B70BA9A9AEC7897966495E5B21B2FD6"
+      },
+      "ui/1280/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "2F08B6AB00C1AEEDA795C0D3B3778F16C133919D6B88EA66881485267F0655BD"
+      },
+      "ui/1280/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "456177BF712F308F25FA7FDB59A76C77B6E3FA4E42578C44A2D844A307227A66"
+      },
+      "ui/1280/game/panel/smalltilebottom.png": {
+        "size": 294,
+        "sha256": "3E954F21109A946CB7E4685A8AD1924A9D36B2B8505D8C86D7AA069D693C977C"
+      },
+      "ui/1280/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/1280/game/panel/smalltilecorners.png": {
+        "size": 837,
+        "sha256": "885C437AF172BB907B9D74C8F5C018436D794B58689E93618895E79D2537670E"
+      },
+      "ui/1280/game/panel/smalltileleft.png": {
+        "size": 305,
+        "sha256": "221ACBB1A46B4A56BF0286D6554108C0BF85BA40568F4D3B58169C0B88B83614"
+      },
+      "ui/1280/game/panel/smalltileright.png": {
+        "size": 316,
+        "sha256": "9A2BA91FB133E575748B10FADC4D9C0A8EF2798926BC8D8662B6D0303CEA4E1C"
+      },
+      "ui/1280/game/panel/smalltiletop.png": {
+        "size": 298,
+        "sha256": "0ACB708967DAF604D64831B1012B706FE5F097BB354A34AB7E09C5D327D5C27F"
+      },
+      "ui/1280/game/panel/tilebottom.png": {
+        "size": 744,
+        "sha256": "1DEE412690802A91E2BCA7AE0A56639C8EFD0B12DAB219FD257269E5704941E2"
+      },
+      "ui/1280/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/1280/game/panel/tilecorners.png": {
+        "size": 4050,
+        "sha256": "D44601716C20355590158CF789DD3571BEE87DA18FB38D296845227F8B97845F"
+      },
+      "ui/1280/game/panel/tileleft.png": {
+        "size": 689,
+        "sha256": "93D620C1BF87BCFC9F64A734320DC122ADF3AB6B529EBD54FF2530A5B6621DC9"
+      },
+      "ui/1280/game/panel/tileright.png": {
+        "size": 794,
+        "sha256": "4203DD11223BFFCE0A1DC954EFA72E2E17CDC3F712FFA9603CD1E8D25CFDD5D1"
+      },
+      "ui/1280/game/panel/tiletop.png": {
+        "size": 783,
+        "sha256": "8D83670B9652E78C13D7AA25D10D2C54220D316086CC4156B009911320AB2C5E"
+      },
+      "ui/800/game/controlpanel/background.tga": {
+        "size": 640044,
+        "sha256": "AD394EA566C50B962BF6F2A6A7B9AA5AF05CF0C8A4DF26249A40DDEF965A4ABB"
+      },
+      "ui/800/game/controlpanel/backgroundtop.png": {
+        "size": 1862,
+        "sha256": "B53A61AAB3B561EA8A8311CDCF31D89E7106B819AB56FA022DE0D5DEDF7E16BC"
+      },
+      "ui/800/game/controlpanel/economybar.png": {
+        "size": 5253,
+        "sha256": "A357147AE504EFE9DD4233EED680FD43533AB09DFF78EF23C5AACD0BBF59F087"
+      },
+      "ui/800/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "3709769C15B347AEE7850F882EAE801D5B70BA9A9AEC7897966495E5B21B2FD6"
+      },
+      "ui/800/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "2F08B6AB00C1AEEDA795C0D3B3778F16C133919D6B88EA66881485267F0655BD"
+      },
+      "ui/800/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "456177BF712F308F25FA7FDB59A76C77B6E3FA4E42578C44A2D844A307227A66"
+      },
+      "ui/800/game/panel/smalltilebottom.png": {
+        "size": 294,
+        "sha256": "3E954F21109A946CB7E4685A8AD1924A9D36B2B8505D8C86D7AA069D693C977C"
+      },
+      "ui/800/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/800/game/panel/smalltilecorners.png": {
+        "size": 837,
+        "sha256": "885C437AF172BB907B9D74C8F5C018436D794B58689E93618895E79D2537670E"
+      },
+      "ui/800/game/panel/smalltileleft.png": {
+        "size": 305,
+        "sha256": "221ACBB1A46B4A56BF0286D6554108C0BF85BA40568F4D3B58169C0B88B83614"
+      },
+      "ui/800/game/panel/smalltileright.png": {
+        "size": 316,
+        "sha256": "9A2BA91FB133E575748B10FADC4D9C0A8EF2798926BC8D8662B6D0303CEA4E1C"
+      },
+      "ui/800/game/panel/smalltiletop.png": {
+        "size": 298,
+        "sha256": "0ACB708967DAF604D64831B1012B706FE5F097BB354A34AB7E09C5D327D5C27F"
+      },
+      "ui/800/game/panel/tilebottom.png": {
+        "size": 744,
+        "sha256": "1DEE412690802A91E2BCA7AE0A56639C8EFD0B12DAB219FD257269E5704941E2"
+      },
+      "ui/800/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/800/game/panel/tilecorners.png": {
+        "size": 4050,
+        "sha256": "D44601716C20355590158CF789DD3571BEE87DA18FB38D296845227F8B97845F"
+      },
+      "ui/800/game/panel/tileleft.png": {
+        "size": 689,
+        "sha256": "93D620C1BF87BCFC9F64A734320DC122ADF3AB6B529EBD54FF2530A5B6621DC9"
+      },
+      "ui/800/game/panel/tileright.png": {
+        "size": 794,
+        "sha256": "4203DD11223BFFCE0A1DC954EFA72E2E17CDC3F712FFA9603CD1E8D25CFDD5D1"
+      },
+      "ui/800/game/panel/tiletop.png": {
+        "size": 783,
+        "sha256": "8D83670B9652E78C13D7AA25D10D2C54220D316086CC4156B009911320AB2C5E"
+      },
+      "ui/default/briefing/bottomleftlost.tga": {
+        "size": 227372,
+        "sha256": "4790A817FBED8288C97F7E28A32BCBCDDE243F2536D7B4C87ED523D2B2C26908"
+      },
+      "ui/default/briefing/bottomleftwon.tga": {
+        "size": 227372,
+        "sha256": "AF3913BFF165F7946B3246516CC5203230758D7716466087AD16D294840EBBE3"
+      },
+      "ui/default/briefing/bottomrightlost.tga": {
+        "size": 32900,
+        "sha256": "FDCE265447BC810D665D5C63A78CDC8E7F7281F11658077CD3A5A642C2E9CF29"
+      },
+      "ui/default/briefing/bottomrightwon.tga": {
+        "size": 32900,
+        "sha256": "F96B2472A24DF46F61578F520EDA2EB8C1C2A44EE7DBE5D01BFAC71013301730"
+      },
+      "ui/default/briefing/topleftlost.tga": {
+        "size": 1048620,
+        "sha256": "B0412EA391E3932A5C8FA474388371C6980233C04F4328F063BAC2B26292B606"
+      },
+      "ui/default/briefing/topleftwon.tga": {
+        "size": 1048620,
+        "sha256": "6F0C61C08255193C508AA6532CFB0FF8ED8AE19B82C0F5AA0F0112AEF4C8DEF5"
+      },
+      "ui/default/briefing/toprightlost.tga": {
+        "size": 151596,
+        "sha256": "5A3EFC8A8495B2BC8BCA31F36A9EC849DA0CF645AA42170537C377C887C354AA"
+      },
+      "ui/default/briefing/toprightwon.tga": {
+        "size": 151596,
+        "sha256": "E2ED6AD75977F201ECB3ADE095D9CA825E9BB722A2220A7244E550C26643805E"
+      },
+      "ui/game/controlpanel/background.tga": {
+        "size": 1048620,
+        "sha256": "E0C7014F67F96C1B7C422FB4C9D68A1CA000D0DD8AD97F16554B17BB1D5E5965"
+      },
+      "ui/game/controlpanel/backgroundtop.png": {
+        "size": 2772,
+        "sha256": "530F2A56C6DD42A83AB6F7E7F4DFFAA9F44CE0998A5E8A37D34C714A2306F1AB"
+      },
+      "ui/game/controlpanel/economybar.png": {
+        "size": 5253,
+        "sha256": "A357147AE504EFE9DD4233EED680FD43533AB09DFF78EF23C5AACD0BBF59F087"
+      },
+      "ui/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "3709769C15B347AEE7850F882EAE801D5B70BA9A9AEC7897966495E5B21B2FD6"
+      },
+      "ui/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "2F08B6AB00C1AEEDA795C0D3B3778F16C133919D6B88EA66881485267F0655BD"
+      },
+      "ui/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "456177BF712F308F25FA7FDB59A76C77B6E3FA4E42578C44A2D844A307227A66"
+      },
+      "ui/game/panel/smalltilebottom.png": {
+        "size": 294,
+        "sha256": "3E954F21109A946CB7E4685A8AD1924A9D36B2B8505D8C86D7AA069D693C977C"
+      },
+      "ui/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/game/panel/smalltilecorners.png": {
+        "size": 837,
+        "sha256": "885C437AF172BB907B9D74C8F5C018436D794B58689E93618895E79D2537670E"
+      },
+      "ui/game/panel/smalltileleft.png": {
+        "size": 305,
+        "sha256": "221ACBB1A46B4A56BF0286D6554108C0BF85BA40568F4D3B58169C0B88B83614"
+      },
+      "ui/game/panel/smalltileright.png": {
+        "size": 316,
+        "sha256": "9A2BA91FB133E575748B10FADC4D9C0A8EF2798926BC8D8662B6D0303CEA4E1C"
+      },
+      "ui/game/panel/smalltiletop.png": {
+        "size": 298,
+        "sha256": "0ACB708967DAF604D64831B1012B706FE5F097BB354A34AB7E09C5D327D5C27F"
+      },
+      "ui/game/panel/tilebottom.png": {
+        "size": 744,
+        "sha256": "1DEE412690802A91E2BCA7AE0A56639C8EFD0B12DAB219FD257269E5704941E2"
+      },
+      "ui/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/game/panel/tilecorners.png": {
+        "size": 4050,
+        "sha256": "D44601716C20355590158CF789DD3571BEE87DA18FB38D296845227F8B97845F"
+      },
+      "ui/game/panel/tileleft.png": {
+        "size": 689,
+        "sha256": "93D620C1BF87BCFC9F64A734320DC122ADF3AB6B529EBD54FF2530A5B6621DC9"
+      },
+      "ui/game/panel/tileright.png": {
+        "size": 794,
+        "sha256": "4203DD11223BFFCE0A1DC954EFA72E2E17CDC3F712FFA9603CD1E8D25CFDD5D1"
+      },
+      "ui/game/panel/tiletop.png": {
+        "size": 783,
+        "sha256": "8D83670B9652E78C13D7AA25D10D2C54220D316086CC4156B009911320AB2C5E"
+      }
+    },
+    "preservedBaseEntries": 53
+  },
+  "skins/haroun.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\packed\\skins\\haroun.rwd",
+    "sha256": "DA447841531275EEC95889D4E1B339187BE9B5CB940FD25B319529052AD43AB0",
+    "size": 25137255,
+    "entries": 62,
+    "uniqueBlobs": 29,
+    "stamp": "9C79ECAC",
+    "files": {
+      "ui/1280/game/controlpanel/background.tga": {
+        "size": 1633324,
+        "sha256": "A33E1BFE4A4A69F87A9641FB9562264BCD3E9BC7BA53BF9E6612FD7488CF2216"
+      },
+      "ui/1280/game/controlpanel/backgroundtop.png": {
+        "size": 810,
+        "sha256": "A5A168ABD5804C94E3E14A737D58F2BC876E509ADBA518F2F3EE1A0A2BA5875F"
+      },
+      "ui/1280/game/controlpanel/economybar.png": {
+        "size": 1018,
+        "sha256": "93381E31C81AC51A1593E9BED76B7AC486F740AC2AAE03368F8CBE1F36EE63DA"
+      },
+      "ui/1280/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "8012F98ADBBBB2C7D0ED17AC74A2629B4A26CA80017DA8AA80ABE2C962BABA72"
+      },
+      "ui/1280/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "C2C4901F028AF4AFD03F072EA3F70E7CE0917596A8636CDD591C1064AE6CF23C"
+      },
+      "ui/1280/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "A378C94BAAAB1F7FDFEEB6A1FEDD45AE3E2E00A30B4A13676C1EB13916BEEC95"
+      },
+      "ui/1280/game/panel/smalltilebottom.png": {
+        "size": 337,
+        "sha256": "6806553F865BDAB9A34C9A7A76D8B219F8340742B98EACDED962C61A1C242CAC"
+      },
+      "ui/1280/game/panel/smalltilecenter.png": {
+        "size": 324,
+        "sha256": "63BFACA771A4A58D5AEFF6E9BE288E811C0E4C4EB14C81CBE1350AC26E81097C"
+      },
+      "ui/1280/game/panel/smalltilecorners.png": {
+        "size": 858,
+        "sha256": "CADC7B153DBF29B1749A4023FBD321D1C99C778A47DAA7B3FBAA92FE0B4369CA"
+      },
+      "ui/1280/game/panel/smalltileleft.png": {
+        "size": 365,
+        "sha256": "BAD255ECBBCE12857F6EC50758655CE1BB1E7BCB7E5A2CB0D71F44EA666C6699"
+      },
+      "ui/1280/game/panel/smalltileright.png": {
+        "size": 363,
+        "sha256": "DC61BB128BF20C8F8C3CA5BDEE206ECEA4BC4F3F22C0A8DCFC162FD4E8C6EE89"
+      },
+      "ui/1280/game/panel/smalltiletop.png": {
+        "size": 308,
+        "sha256": "18C599474F4037F99EA4D29FCE5233E04F8F4637E9A6D4EC83434D44927479A1"
+      },
+      "ui/1280/game/panel/tilebottom.png": {
+        "size": 539,
+        "sha256": "8075B36C138BAE8ECA21792FD4F64D7D609BC9A17547495C191B5A3AD79ACB97"
+      },
+      "ui/1280/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "63BFACA771A4A58D5AEFF6E9BE288E811C0E4C4EB14C81CBE1350AC26E81097C"
+      },
+      "ui/1280/game/panel/tilecorners.png": {
+        "size": 6178,
+        "sha256": "A5E86A83B582463DB491F38C6750CD07672F0244E136B32B536D6279BFD4F32A"
+      },
+      "ui/1280/game/panel/tileleft.png": {
+        "size": 504,
+        "sha256": "167B5032702764EF472290B6477A7C2D57E4EC34C8EAEEDB366EBF22FA0F57F7"
+      },
+      "ui/1280/game/panel/tileright.png": {
+        "size": 481,
+        "sha256": "E2D59EEB598C41C988DC2A60729178A3FA1726785FFDC00D8FC51FCE1219EC1A"
+      },
+      "ui/1280/game/panel/tiletop.png": {
+        "size": 424,
+        "sha256": "392F167A45064EA103780347967E4AAA0B11A50DE197A4F10EB0B6F29CF109A8"
+      },
+      "ui/800/game/controlpanel/background.tga": {
+        "size": 640044,
+        "sha256": "0877A9991BA2BA043F7C9C59965BB496693E3A64BEDFAD914F20C73A6AB3DF58"
+      },
+      "ui/800/game/controlpanel/backgroundtop.png": {
+        "size": 411,
+        "sha256": "47034D6E45FAFEBDB1636406C963806A03E58DAE8EC24607E59ED17DAD5B3E55"
+      },
+      "ui/800/game/controlpanel/economybar.png": {
+        "size": 1018,
+        "sha256": "93381E31C81AC51A1593E9BED76B7AC486F740AC2AAE03368F8CBE1F36EE63DA"
+      },
+      "ui/800/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "8012F98ADBBBB2C7D0ED17AC74A2629B4A26CA80017DA8AA80ABE2C962BABA72"
+      },
+      "ui/800/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "C2C4901F028AF4AFD03F072EA3F70E7CE0917596A8636CDD591C1064AE6CF23C"
+      },
+      "ui/800/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "A378C94BAAAB1F7FDFEEB6A1FEDD45AE3E2E00A30B4A13676C1EB13916BEEC95"
+      },
+      "ui/800/game/panel/smalltilebottom.png": {
+        "size": 337,
+        "sha256": "6806553F865BDAB9A34C9A7A76D8B219F8340742B98EACDED962C61A1C242CAC"
+      },
+      "ui/800/game/panel/smalltilecenter.png": {
+        "size": 324,
+        "sha256": "63BFACA771A4A58D5AEFF6E9BE288E811C0E4C4EB14C81CBE1350AC26E81097C"
+      },
+      "ui/800/game/panel/smalltilecorners.png": {
+        "size": 858,
+        "sha256": "CADC7B153DBF29B1749A4023FBD321D1C99C778A47DAA7B3FBAA92FE0B4369CA"
+      },
+      "ui/800/game/panel/smalltileleft.png": {
+        "size": 365,
+        "sha256": "BAD255ECBBCE12857F6EC50758655CE1BB1E7BCB7E5A2CB0D71F44EA666C6699"
+      },
+      "ui/800/game/panel/smalltileright.png": {
+        "size": 363,
+        "sha256": "DC61BB128BF20C8F8C3CA5BDEE206ECEA4BC4F3F22C0A8DCFC162FD4E8C6EE89"
+      },
+      "ui/800/game/panel/smalltiletop.png": {
+        "size": 308,
+        "sha256": "18C599474F4037F99EA4D29FCE5233E04F8F4637E9A6D4EC83434D44927479A1"
+      },
+      "ui/800/game/panel/tilebottom.png": {
+        "size": 539,
+        "sha256": "8075B36C138BAE8ECA21792FD4F64D7D609BC9A17547495C191B5A3AD79ACB97"
+      },
+      "ui/800/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "63BFACA771A4A58D5AEFF6E9BE288E811C0E4C4EB14C81CBE1350AC26E81097C"
+      },
+      "ui/800/game/panel/tilecorners.png": {
+        "size": 6178,
+        "sha256": "A5E86A83B582463DB491F38C6750CD07672F0244E136B32B536D6279BFD4F32A"
+      },
+      "ui/800/game/panel/tileleft.png": {
+        "size": 504,
+        "sha256": "167B5032702764EF472290B6477A7C2D57E4EC34C8EAEEDB366EBF22FA0F57F7"
+      },
+      "ui/800/game/panel/tileright.png": {
+        "size": 481,
+        "sha256": "E2D59EEB598C41C988DC2A60729178A3FA1726785FFDC00D8FC51FCE1219EC1A"
+      },
+      "ui/800/game/panel/tiletop.png": {
+        "size": 424,
+        "sha256": "392F167A45064EA103780347967E4AAA0B11A50DE197A4F10EB0B6F29CF109A8"
+      },
+      "ui/default/briefing/bottomleftlost.tga": {
+        "size": 227372,
+        "sha256": "59E9CEB9D3DF30068E2FF8A8E8ACFE63D15250A378A28072E5CF7FC340CE1F79"
+      },
+      "ui/default/briefing/bottomleftwon.tga": {
+        "size": 227372,
+        "sha256": "030075EB143F9084673D421FB01CD8CF9E2EE9B546B3E4B4371A6444B9B478D6"
+      },
+      "ui/default/briefing/bottomrightlost.tga": {
+        "size": 32900,
+        "sha256": "CF0ACC4027BA1C1354CC458ADC2345A7719311F0A14D466A185207E612CFB988"
+      },
+      "ui/default/briefing/bottomrightwon.tga": {
+        "size": 32900,
+        "sha256": "F9319002567C2946BC36E2FABEC638057051879C99A07AB1E1501E386A165CD6"
+      },
+      "ui/default/briefing/topleftlost.tga": {
+        "size": 1048620,
+        "sha256": "5A5C9F26A09D404F8F80BAD810DEB371A3D69368C9B6EE43DB7DAAFFB4D735D2"
+      },
+      "ui/default/briefing/topleftwon.tga": {
+        "size": 1048620,
+        "sha256": "16C7DC53E8D07FA22891D899B1987121FB46D93CDCD3BD140DFC74D8FDB0E94B"
+      },
+      "ui/default/briefing/toprightlost.tga": {
+        "size": 151596,
+        "sha256": "4F26FC22B0115E4E8D9EB946F0016CF52F8C6A04F85AE55DEC7070B25BD336DA"
+      },
+      "ui/default/briefing/toprightwon.tga": {
+        "size": 151596,
+        "sha256": "52955BF45B1B9542C368CC777916E1BC866B9A8F522DF5AFD9F34E9593565DB7"
+      },
+      "ui/game/controlpanel/background.tga": {
+        "size": 1048620,
+        "sha256": "DFAC83C16269546AA59FBDEB09D8BDF5F2979D6F166C15A060B17A0A81EE14FC"
+      },
+      "ui/game/controlpanel/backgroundtop.png": {
+        "size": 525,
+        "sha256": "1750B92AAA53EECEBB2A97594CD218796FA66FE4689E05009CB39E7736421974"
+      },
+      "ui/game/controlpanel/economybar.png": {
+        "size": 1018,
+        "sha256": "93381E31C81AC51A1593E9BED76B7AC486F740AC2AAE03368F8CBE1F36EE63DA"
+      },
+      "ui/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "8012F98ADBBBB2C7D0ED17AC74A2629B4A26CA80017DA8AA80ABE2C962BABA72"
+      },
+      "ui/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "C2C4901F028AF4AFD03F072EA3F70E7CE0917596A8636CDD591C1064AE6CF23C"
+      },
+      "ui/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "A378C94BAAAB1F7FDFEEB6A1FEDD45AE3E2E00A30B4A13676C1EB13916BEEC95"
+      },
+      "ui/game/panel/smalltilebottom.png": {
+        "size": 337,
+        "sha256": "6806553F865BDAB9A34C9A7A76D8B219F8340742B98EACDED962C61A1C242CAC"
+      },
+      "ui/game/panel/smalltilecenter.png": {
+        "size": 324,
+        "sha256": "63BFACA771A4A58D5AEFF6E9BE288E811C0E4C4EB14C81CBE1350AC26E81097C"
+      },
+      "ui/game/panel/smalltilecorners.png": {
+        "size": 858,
+        "sha256": "CADC7B153DBF29B1749A4023FBD321D1C99C778A47DAA7B3FBAA92FE0B4369CA"
+      },
+      "ui/game/panel/smalltileleft.png": {
+        "size": 365,
+        "sha256": "BAD255ECBBCE12857F6EC50758655CE1BB1E7BCB7E5A2CB0D71F44EA666C6699"
+      },
+      "ui/game/panel/smalltileright.png": {
+        "size": 363,
+        "sha256": "DC61BB128BF20C8F8C3CA5BDEE206ECEA4BC4F3F22C0A8DCFC162FD4E8C6EE89"
+      },
+      "ui/game/panel/smalltiletop.png": {
+        "size": 308,
+        "sha256": "18C599474F4037F99EA4D29FCE5233E04F8F4637E9A6D4EC83434D44927479A1"
+      },
+      "ui/game/panel/tilebottom.png": {
+        "size": 539,
+        "sha256": "8075B36C138BAE8ECA21792FD4F64D7D609BC9A17547495C191B5A3AD79ACB97"
+      },
+      "ui/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "63BFACA771A4A58D5AEFF6E9BE288E811C0E4C4EB14C81CBE1350AC26E81097C"
+      },
+      "ui/game/panel/tilecorners.png": {
+        "size": 6178,
+        "sha256": "A5E86A83B582463DB491F38C6750CD07672F0244E136B32B536D6279BFD4F32A"
+      },
+      "ui/game/panel/tileleft.png": {
+        "size": 504,
+        "sha256": "167B5032702764EF472290B6477A7C2D57E4EC34C8EAEEDB366EBF22FA0F57F7"
+      },
+      "ui/game/panel/tileright.png": {
+        "size": 481,
+        "sha256": "E2D59EEB598C41C988DC2A60729178A3FA1726785FFDC00D8FC51FCE1219EC1A"
+      },
+      "ui/game/panel/tiletop.png": {
+        "size": 424,
+        "sha256": "392F167A45064EA103780347967E4AAA0B11A50DE197A4F10EB0B6F29CF109A8"
+      }
+    },
+    "preservedBaseEntries": 53
+  },
+  "skins/human.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\packed\\skins\\human.rwd",
+    "sha256": "763C8B09D00F13CF3E9594FC263F846C44AD4A4478570FDD1AAAC52A2B17BFA7",
+    "size": 25158391,
+    "entries": 62,
+    "uniqueBlobs": 29,
+    "stamp": "E98E6079",
+    "files": {
+      "ui/1280/game/controlpanel/background.tga": {
+        "size": 1638444,
+        "sha256": "E960247FB9C2E4FADC8F6F97AB552BA54E9DBD6E0E69D90731AAD1B42CC40AB9"
+      },
+      "ui/1280/game/controlpanel/backgroundtop.png": {
+        "size": 5403,
+        "sha256": "D88ECE19F60D5AA791B3FC7E6A0E2FB6A53CCEA7EFD4B64566E65B0C88370898"
+      },
+      "ui/1280/game/controlpanel/economybar.png": {
+        "size": 6473,
+        "sha256": "EE443A52B53DCFA0A3C2AFF897D7E93F2DBE9337E5E3AC1AA6A5E128E7A2FC9F"
+      },
+      "ui/1280/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "B4838D722443B72470D6EBDBBF5B15F27848481EF35A531FC5EBCACA7263AD50"
+      },
+      "ui/1280/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "A536A77A3C2553227C6A065AA90F28756F302C824CCC4008D4B8977651932B47"
+      },
+      "ui/1280/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "C193240BF1BB5AB2EACDDA21B89E637F180B4EE03EF7D4E1CD5ECCF7D5558C38"
+      },
+      "ui/1280/game/panel/smalltilebottom.png": {
+        "size": 371,
+        "sha256": "C329987B22969DEADE4A6F97C39CE84AA263EBF49F3DA0569D30FD79FAAEE656"
+      },
+      "ui/1280/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/1280/game/panel/smalltilecorners.png": {
+        "size": 1303,
+        "sha256": "8A2C3F25901501F12FF61B0E062ADF370BB27B953876F3F1CBDBFE5DAAB2E1DA"
+      },
+      "ui/1280/game/panel/smalltileleft.png": {
+        "size": 462,
+        "sha256": "BA9B6BBA32EA03ED2059923961A1D001080656D15A4AEE4AB3CEDEE0608BD144"
+      },
+      "ui/1280/game/panel/smalltileright.png": {
+        "size": 380,
+        "sha256": "D66660E22ECE7428A081F00C9F3311F243271BFB8188F601A3E41EDE17C56E0F"
+      },
+      "ui/1280/game/panel/smalltiletop.png": {
+        "size": 443,
+        "sha256": "C3BC3C2B12D7775DAB01C6F836DB296A20137CA133802064BD45F4261BC8B697"
+      },
+      "ui/1280/game/panel/tilebottom.png": {
+        "size": 1130,
+        "sha256": "3E956AF8AD329B67DA56B221BC265069F101B762EC547E9272B36CCC99455667"
+      },
+      "ui/1280/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/1280/game/panel/tilecorners.png": {
+        "size": 3383,
+        "sha256": "F9C110EC4E8271B909BB495250FFC3FB1ECD32AD2CA9C23894A5669527478B3B"
+      },
+      "ui/1280/game/panel/tileleft.png": {
+        "size": 1377,
+        "sha256": "A81DC76AE586CEC6A3766962EFF9DA553FC385B4FEC779ACEFB4685A0D525620"
+      },
+      "ui/1280/game/panel/tileright.png": {
+        "size": 1383,
+        "sha256": "8A69090D6BCAF535C23C17C7DA8F9D8B9D3CC70D33EAB116D7434D2E9C3FD468"
+      },
+      "ui/1280/game/panel/tiletop.png": {
+        "size": 1141,
+        "sha256": "4EC54D865B3F30F1C0523045C799C4C594D96FF38CFB666351D86A5034DBDF6E"
+      },
+      "ui/800/game/controlpanel/background.tga": {
+        "size": 640044,
+        "sha256": "E6499E4176F3FF37E1FF239C226144716C8996726E56707BFDE707B78268F294"
+      },
+      "ui/800/game/controlpanel/backgroundtop.png": {
+        "size": 2390,
+        "sha256": "87E193ABF1596A6B1653357784F32457B16D85266034EF2E6E2C8ABD2C75A7A0"
+      },
+      "ui/800/game/controlpanel/economybar.png": {
+        "size": 6473,
+        "sha256": "EE443A52B53DCFA0A3C2AFF897D7E93F2DBE9337E5E3AC1AA6A5E128E7A2FC9F"
+      },
+      "ui/800/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "B4838D722443B72470D6EBDBBF5B15F27848481EF35A531FC5EBCACA7263AD50"
+      },
+      "ui/800/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "A536A77A3C2553227C6A065AA90F28756F302C824CCC4008D4B8977651932B47"
+      },
+      "ui/800/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "C193240BF1BB5AB2EACDDA21B89E637F180B4EE03EF7D4E1CD5ECCF7D5558C38"
+      },
+      "ui/800/game/panel/smalltilebottom.png": {
+        "size": 371,
+        "sha256": "C329987B22969DEADE4A6F97C39CE84AA263EBF49F3DA0569D30FD79FAAEE656"
+      },
+      "ui/800/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/800/game/panel/smalltilecorners.png": {
+        "size": 1303,
+        "sha256": "8A2C3F25901501F12FF61B0E062ADF370BB27B953876F3F1CBDBFE5DAAB2E1DA"
+      },
+      "ui/800/game/panel/smalltileleft.png": {
+        "size": 462,
+        "sha256": "BA9B6BBA32EA03ED2059923961A1D001080656D15A4AEE4AB3CEDEE0608BD144"
+      },
+      "ui/800/game/panel/smalltileright.png": {
+        "size": 380,
+        "sha256": "D66660E22ECE7428A081F00C9F3311F243271BFB8188F601A3E41EDE17C56E0F"
+      },
+      "ui/800/game/panel/smalltiletop.png": {
+        "size": 443,
+        "sha256": "C3BC3C2B12D7775DAB01C6F836DB296A20137CA133802064BD45F4261BC8B697"
+      },
+      "ui/800/game/panel/tilebottom.png": {
+        "size": 1130,
+        "sha256": "3E956AF8AD329B67DA56B221BC265069F101B762EC547E9272B36CCC99455667"
+      },
+      "ui/800/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/800/game/panel/tilecorners.png": {
+        "size": 3383,
+        "sha256": "F9C110EC4E8271B909BB495250FFC3FB1ECD32AD2CA9C23894A5669527478B3B"
+      },
+      "ui/800/game/panel/tileleft.png": {
+        "size": 1377,
+        "sha256": "A81DC76AE586CEC6A3766962EFF9DA553FC385B4FEC779ACEFB4685A0D525620"
+      },
+      "ui/800/game/panel/tileright.png": {
+        "size": 1383,
+        "sha256": "8A69090D6BCAF535C23C17C7DA8F9D8B9D3CC70D33EAB116D7434D2E9C3FD468"
+      },
+      "ui/800/game/panel/tiletop.png": {
+        "size": 1141,
+        "sha256": "4EC54D865B3F30F1C0523045C799C4C594D96FF38CFB666351D86A5034DBDF6E"
+      },
+      "ui/default/briefing/bottomleftlost.tga": {
+        "size": 227372,
+        "sha256": "41697A73138AA504229E146CC8ACA3DA81AA68AB1671B33008ECCF63313903A0"
+      },
+      "ui/default/briefing/bottomleftwon.tga": {
+        "size": 227372,
+        "sha256": "29C6D2D1FB23152FE86F7E1A723229DBAD95DBB5A0874F964C072EB4B406D96D"
+      },
+      "ui/default/briefing/bottomrightlost.tga": {
+        "size": 32900,
+        "sha256": "E57870DAD1BD9C784170B20D291A149374212AE91822135509C9DD848FAA2B57"
+      },
+      "ui/default/briefing/bottomrightwon.tga": {
+        "size": 32900,
+        "sha256": "E9AC892C86A0EF8EC161FDD6E2FAF84268C475B0850218B8627657983CFA5A7F"
+      },
+      "ui/default/briefing/topleftlost.tga": {
+        "size": 1048620,
+        "sha256": "95FAFF444A98F23EAF00ECF09B87C96E577CBDE17A0BBFF3AF95200E8489FD70"
+      },
+      "ui/default/briefing/topleftwon.tga": {
+        "size": 1048620,
+        "sha256": "47C3FB6512BC66A02723AA12E0AFF3B56551609ADB3DAED3FB5C0C76BE648CEE"
+      },
+      "ui/default/briefing/toprightlost.tga": {
+        "size": 151596,
+        "sha256": "379B6CFCBB9E0B4010C2DFF6CFA24D21F9B91B6F675EC77931C3E09DC85714EF"
+      },
+      "ui/default/briefing/toprightwon.tga": {
+        "size": 151596,
+        "sha256": "04B4B794F11A0EA663BDD28AE7F22C2A07AE6DE10E2D00C4C46BDFFA36F4022A"
+      },
+      "ui/game/controlpanel/background.tga": {
+        "size": 1048620,
+        "sha256": "960E00D900767AA4C952F501D84CED98A9146C081B40B44032BF67F397C8A181"
+      },
+      "ui/game/controlpanel/backgroundtop.png": {
+        "size": 3598,
+        "sha256": "C7FC9AB2F355C4066A43B45702D633CF95E4C7CC9E2CD6FA0243EB05C27A3B01"
+      },
+      "ui/game/controlpanel/economybar.png": {
+        "size": 6473,
+        "sha256": "EE443A52B53DCFA0A3C2AFF897D7E93F2DBE9337E5E3AC1AA6A5E128E7A2FC9F"
+      },
+      "ui/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "B4838D722443B72470D6EBDBBF5B15F27848481EF35A531FC5EBCACA7263AD50"
+      },
+      "ui/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "A536A77A3C2553227C6A065AA90F28756F302C824CCC4008D4B8977651932B47"
+      },
+      "ui/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "C193240BF1BB5AB2EACDDA21B89E637F180B4EE03EF7D4E1CD5ECCF7D5558C38"
+      },
+      "ui/game/panel/smalltilebottom.png": {
+        "size": 371,
+        "sha256": "C329987B22969DEADE4A6F97C39CE84AA263EBF49F3DA0569D30FD79FAAEE656"
+      },
+      "ui/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/game/panel/smalltilecorners.png": {
+        "size": 1303,
+        "sha256": "8A2C3F25901501F12FF61B0E062ADF370BB27B953876F3F1CBDBFE5DAAB2E1DA"
+      },
+      "ui/game/panel/smalltileleft.png": {
+        "size": 462,
+        "sha256": "BA9B6BBA32EA03ED2059923961A1D001080656D15A4AEE4AB3CEDEE0608BD144"
+      },
+      "ui/game/panel/smalltileright.png": {
+        "size": 380,
+        "sha256": "D66660E22ECE7428A081F00C9F3311F243271BFB8188F601A3E41EDE17C56E0F"
+      },
+      "ui/game/panel/smalltiletop.png": {
+        "size": 443,
+        "sha256": "C3BC3C2B12D7775DAB01C6F836DB296A20137CA133802064BD45F4261BC8B697"
+      },
+      "ui/game/panel/tilebottom.png": {
+        "size": 1130,
+        "sha256": "3E956AF8AD329B67DA56B221BC265069F101B762EC547E9272B36CCC99455667"
+      },
+      "ui/game/panel/tilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/game/panel/tilecorners.png": {
+        "size": 3383,
+        "sha256": "F9C110EC4E8271B909BB495250FFC3FB1ECD32AD2CA9C23894A5669527478B3B"
+      },
+      "ui/game/panel/tileleft.png": {
+        "size": 1377,
+        "sha256": "A81DC76AE586CEC6A3766962EFF9DA553FC385B4FEC779ACEFB4685A0D525620"
+      },
+      "ui/game/panel/tileright.png": {
+        "size": 1383,
+        "sha256": "8A69090D6BCAF535C23C17C7DA8F9D8B9D3CC70D33EAB116D7434D2E9C3FD468"
+      },
+      "ui/game/panel/tiletop.png": {
+        "size": 1141,
+        "sha256": "4EC54D865B3F30F1C0523045C799C4C594D96FF38CFB666351D86A5034DBDF6E"
+      }
+    },
+    "preservedBaseEntries": 53
+  },
+  "skins/shadow.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\packed\\skins\\shadow.rwd",
+    "sha256": "1224BC90619235EF8BFF7F430CEF2B9172429B02D4E5083B485EAB1143521064",
+    "size": 25153783,
+    "entries": 62,
+    "uniqueBlobs": 30,
+    "stamp": "E068D431",
+    "files": {
+      "ui/1280/game/controlpanel/background.tga": {
+        "size": 1638444,
+        "sha256": "F8FFB0D9A7D12B8EA7B3FDCB7D03CCFADDC448F0D9FFA346B9C04300BA662F15"
+      },
+      "ui/1280/game/controlpanel/backgroundtop.png": {
+        "size": 2592,
+        "sha256": "C9591E771440C2301D461C2D393D7A34093BCC2FCC07C2FB186B0338F295E4AF"
+      },
+      "ui/1280/game/controlpanel/economybar.png": {
+        "size": 5669,
+        "sha256": "DD9508B8A1831530BE408AB3F6B90ED4DBF145137891593A416E0B191AEE51E6"
+      },
+      "ui/1280/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "CECFD657E64F87795776D8318E04110A2E1C067D80C5D88B35157B2B33AB3230"
+      },
+      "ui/1280/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "5990EC2890B1D8DDE397996D3C2826725954414A96576B1F2B915E7B15E447EF"
+      },
+      "ui/1280/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "1027A159A185BF8026FAECFD35A8774D74065225031B4B732CC5AE4E866CB8EA"
+      },
+      "ui/1280/game/panel/smalltilebottom.png": {
+        "size": 389,
+        "sha256": "63B707116FCF1453AC1B127ED2FC1D3441917D1A45475AAC67BD89F54060D521"
+      },
+      "ui/1280/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/1280/game/panel/smalltilecorners.png": {
+        "size": 1539,
+        "sha256": "DFC4B2ECB3AB033050B5E22D0817DA467ADECE33CA24A4C24288F7AF5C7B9C6A"
+      },
+      "ui/1280/game/panel/smalltileleft.png": {
+        "size": 396,
+        "sha256": "8F3D03490511D777AEFA44CEEAF03E611B55773E03A89C7CC6611F45633E454F"
+      },
+      "ui/1280/game/panel/smalltileright.png": {
+        "size": 396,
+        "sha256": "9DA5F891417BD63540B1DF3414A9B188C165A48BB2FAF3A2FF192E80734A8481"
+      },
+      "ui/1280/game/panel/smalltiletop.png": {
+        "size": 386,
+        "sha256": "4994C466AD2581012378AB7E3CCFE4CEFB3250317762E05B212967AE8ACF8278"
+      },
+      "ui/1280/game/panel/tilebottom.png": {
+        "size": 925,
+        "sha256": "51FB0A736B3FC28B7FC0FF71706EDA4EBDE0C65EB98E4CDFCACA92852F8F61F7"
+      },
+      "ui/1280/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "4A657031F0AF4E0CC4BE3461EE11DA98C9E703E4B3628F043F3EE147067D9C14"
+      },
+      "ui/1280/game/panel/tilecorners.png": {
+        "size": 6208,
+        "sha256": "6F9A25BFC533D6FEFB4AEF9D4732C67BF36ABEE1E2EF2A97A53F3A90337383FB"
+      },
+      "ui/1280/game/panel/tileleft.png": {
+        "size": 936,
+        "sha256": "73078CA0EC72A23BB41397FFC3BBB434495622960D685E6389B2EF3B9C765B7C"
+      },
+      "ui/1280/game/panel/tileright.png": {
+        "size": 912,
+        "sha256": "335F4B0FCBE7262E88BE2EA097ECB513039A042BC6CA5DE75E98930F3F3B4D21"
+      },
+      "ui/1280/game/panel/tiletop.png": {
+        "size": 934,
+        "sha256": "790B37B9B4BE7F30EBD634598153854CD3E8658FEE6EABD500D783AA79E3F02D"
+      },
+      "ui/800/game/controlpanel/background.tga": {
+        "size": 640044,
+        "sha256": "2EE44C71B21451AF16451C41AE5CFD45DFCD1388FDA15F36B5CB5538192C1197"
+      },
+      "ui/800/game/controlpanel/backgroundtop.png": {
+        "size": 1215,
+        "sha256": "E6F5C65BC248F8FC7DF8849603ECF161C0A9235C14EDD7D9343050E872BE3A94"
+      },
+      "ui/800/game/controlpanel/economybar.png": {
+        "size": 5669,
+        "sha256": "DD9508B8A1831530BE408AB3F6B90ED4DBF145137891593A416E0B191AEE51E6"
+      },
+      "ui/800/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "CECFD657E64F87795776D8318E04110A2E1C067D80C5D88B35157B2B33AB3230"
+      },
+      "ui/800/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "5990EC2890B1D8DDE397996D3C2826725954414A96576B1F2B915E7B15E447EF"
+      },
+      "ui/800/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "1027A159A185BF8026FAECFD35A8774D74065225031B4B732CC5AE4E866CB8EA"
+      },
+      "ui/800/game/panel/smalltilebottom.png": {
+        "size": 389,
+        "sha256": "63B707116FCF1453AC1B127ED2FC1D3441917D1A45475AAC67BD89F54060D521"
+      },
+      "ui/800/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/800/game/panel/smalltilecorners.png": {
+        "size": 1539,
+        "sha256": "DFC4B2ECB3AB033050B5E22D0817DA467ADECE33CA24A4C24288F7AF5C7B9C6A"
+      },
+      "ui/800/game/panel/smalltileleft.png": {
+        "size": 396,
+        "sha256": "8F3D03490511D777AEFA44CEEAF03E611B55773E03A89C7CC6611F45633E454F"
+      },
+      "ui/800/game/panel/smalltileright.png": {
+        "size": 396,
+        "sha256": "9DA5F891417BD63540B1DF3414A9B188C165A48BB2FAF3A2FF192E80734A8481"
+      },
+      "ui/800/game/panel/smalltiletop.png": {
+        "size": 386,
+        "sha256": "4994C466AD2581012378AB7E3CCFE4CEFB3250317762E05B212967AE8ACF8278"
+      },
+      "ui/800/game/panel/tilebottom.png": {
+        "size": 925,
+        "sha256": "51FB0A736B3FC28B7FC0FF71706EDA4EBDE0C65EB98E4CDFCACA92852F8F61F7"
+      },
+      "ui/800/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "4A657031F0AF4E0CC4BE3461EE11DA98C9E703E4B3628F043F3EE147067D9C14"
+      },
+      "ui/800/game/panel/tilecorners.png": {
+        "size": 6208,
+        "sha256": "6F9A25BFC533D6FEFB4AEF9D4732C67BF36ABEE1E2EF2A97A53F3A90337383FB"
+      },
+      "ui/800/game/panel/tileleft.png": {
+        "size": 936,
+        "sha256": "73078CA0EC72A23BB41397FFC3BBB434495622960D685E6389B2EF3B9C765B7C"
+      },
+      "ui/800/game/panel/tileright.png": {
+        "size": 912,
+        "sha256": "335F4B0FCBE7262E88BE2EA097ECB513039A042BC6CA5DE75E98930F3F3B4D21"
+      },
+      "ui/800/game/panel/tiletop.png": {
+        "size": 934,
+        "sha256": "790B37B9B4BE7F30EBD634598153854CD3E8658FEE6EABD500D783AA79E3F02D"
+      },
+      "ui/default/briefing/bottomleftlost.tga": {
+        "size": 227372,
+        "sha256": "5D0F17553B1DBEA1459F280764CABDA8C6D8DCD73D53C960FBF9494D489E2D72"
+      },
+      "ui/default/briefing/bottomleftwon.tga": {
+        "size": 227372,
+        "sha256": "C25DC582937039E5D4DE3B37111C772B381B6B3ED5B92C154FBCE10B470A330D"
+      },
+      "ui/default/briefing/bottomrightlost.tga": {
+        "size": 32900,
+        "sha256": "3CC3EC9577E2BDCD7E4FA8A68AB1723CF56D4B0FD1FB4A6FD4A46CE8C9930116"
+      },
+      "ui/default/briefing/bottomrightwon.tga": {
+        "size": 32900,
+        "sha256": "B8BD6748074C8382370DA157FB562897DB6C9ACD997E7DCF531DE9EF9EE0777D"
+      },
+      "ui/default/briefing/topleftlost.tga": {
+        "size": 1048620,
+        "sha256": "531D969696FB7CE7C0104A8FF4C1BB7C9B7A9703606954AB8101FA47A2243B67"
+      },
+      "ui/default/briefing/topleftwon.tga": {
+        "size": 1048620,
+        "sha256": "B15F41A6894C42BBA6A257150C351B9C0CB6631EBDC4B299C9D9901A162F2EC5"
+      },
+      "ui/default/briefing/toprightlost.tga": {
+        "size": 151596,
+        "sha256": "27AAA76C3A8E8D3FBB76579580D15FD190B85658A2FC27481C97608A6F705BC1"
+      },
+      "ui/default/briefing/toprightwon.tga": {
+        "size": 151596,
+        "sha256": "0DC3CDAAE29D734E12CFEAC60BA1923B2B411B29D673FE46CEEDB4DE0D9CC286"
+      },
+      "ui/game/controlpanel/background.tga": {
+        "size": 1048620,
+        "sha256": "0DC8418D1A4A1AAE848CC920D4E4D02B0CB72C9CD9B7BA0AFBBE115E2F0725FE"
+      },
+      "ui/game/controlpanel/backgroundtop.png": {
+        "size": 1808,
+        "sha256": "86824E032F817289867CC620784E55C2A54FAD4F526FA8F66FEDBED66D783AB5"
+      },
+      "ui/game/controlpanel/economybar.png": {
+        "size": 5669,
+        "sha256": "DD9508B8A1831530BE408AB3F6B90ED4DBF145137891593A416E0B191AEE51E6"
+      },
+      "ui/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "CECFD657E64F87795776D8318E04110A2E1C067D80C5D88B35157B2B33AB3230"
+      },
+      "ui/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "5990EC2890B1D8DDE397996D3C2826725954414A96576B1F2B915E7B15E447EF"
+      },
+      "ui/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "1027A159A185BF8026FAECFD35A8774D74065225031B4B732CC5AE4E866CB8EA"
+      },
+      "ui/game/panel/smalltilebottom.png": {
+        "size": 389,
+        "sha256": "63B707116FCF1453AC1B127ED2FC1D3441917D1A45475AAC67BD89F54060D521"
+      },
+      "ui/game/panel/smalltilecenter.png": {
+        "size": 224,
+        "sha256": "23EE9547C0E6903E4DC92D48EEDA5DE592688E5C3D188CB730EDA7113F469A00"
+      },
+      "ui/game/panel/smalltilecorners.png": {
+        "size": 1539,
+        "sha256": "DFC4B2ECB3AB033050B5E22D0817DA467ADECE33CA24A4C24288F7AF5C7B9C6A"
+      },
+      "ui/game/panel/smalltileleft.png": {
+        "size": 396,
+        "sha256": "8F3D03490511D777AEFA44CEEAF03E611B55773E03A89C7CC6611F45633E454F"
+      },
+      "ui/game/panel/smalltileright.png": {
+        "size": 396,
+        "sha256": "9DA5F891417BD63540B1DF3414A9B188C165A48BB2FAF3A2FF192E80734A8481"
+      },
+      "ui/game/panel/smalltiletop.png": {
+        "size": 386,
+        "sha256": "4994C466AD2581012378AB7E3CCFE4CEFB3250317762E05B212967AE8ACF8278"
+      },
+      "ui/game/panel/tilebottom.png": {
+        "size": 925,
+        "sha256": "51FB0A736B3FC28B7FC0FF71706EDA4EBDE0C65EB98E4CDFCACA92852F8F61F7"
+      },
+      "ui/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "4A657031F0AF4E0CC4BE3461EE11DA98C9E703E4B3628F043F3EE147067D9C14"
+      },
+      "ui/game/panel/tilecorners.png": {
+        "size": 6208,
+        "sha256": "6F9A25BFC533D6FEFB4AEF9D4732C67BF36ABEE1E2EF2A97A53F3A90337383FB"
+      },
+      "ui/game/panel/tileleft.png": {
+        "size": 936,
+        "sha256": "73078CA0EC72A23BB41397FFC3BBB434495622960D685E6389B2EF3B9C765B7C"
+      },
+      "ui/game/panel/tileright.png": {
+        "size": 912,
+        "sha256": "335F4B0FCBE7262E88BE2EA097ECB513039A042BC6CA5DE75E98930F3F3B4D21"
+      },
+      "ui/game/panel/tiletop.png": {
+        "size": 934,
+        "sha256": "790B37B9B4BE7F30EBD634598153854CD3E8658FEE6EABD500D783AA79E3F02D"
+      }
+    },
+    "preservedBaseEntries": 53
+  },
+  "skins/undead.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-compact-release-20261117\\packed\\skins\\undead.rwd",
+    "sha256": "FDBB9874DC93F4BE9D20EB90B0237D68E3CA8D1E203DE063B49FD99B1C89E8ED",
+    "size": 25150666,
+    "entries": 62,
+    "uniqueBlobs": 30,
+    "stamp": "A5E4A340",
+    "files": {
+      "ui/1280/game/controlpanel/background.tga": {
+        "size": 1638444,
+        "sha256": "E7EC2DC44ECBC216DF782A8F05D7771201789CB8302EAF3431DDEC241A9CA66F"
+      },
+      "ui/1280/game/controlpanel/backgroundtop.png": {
+        "size": 2540,
+        "sha256": "6AF73D0974E3946B50E2B745A6900398BF6DCBF860D935CB944335DD9C4F5B99"
+      },
+      "ui/1280/game/controlpanel/economybar.png": {
+        "size": 3719,
+        "sha256": "95AD55A4E30E36D7161589BAFD8D0756C2C4FA61784C0CC25A974841CACDE111"
+      },
+      "ui/1280/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "F53BA5E3ACC332CD69895B5655FEB7D1FBC44D4500CBA3AB509F4CC89A2966EB"
+      },
+      "ui/1280/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "14284BCB1CEFD0216D11CCEA1CE115E4868D1CC8903EB0C3659C32AE3F9C7987"
+      },
+      "ui/1280/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "8ABAA294121955EC7B0BB53AD5CF8256398FB598CDD0173E2F163C7B27910036"
+      },
+      "ui/1280/game/panel/smalltilebottom.png": {
+        "size": 448,
+        "sha256": "DFC40D7A42B9F0628086D847F19A0E3F48934EBF56DB78A285F9B9735196F68E"
+      },
+      "ui/1280/game/panel/smalltilecenter.png": {
+        "size": 206,
+        "sha256": "16662562D0801D8C72D426A846AAD67F3DCB7BD206041B59AC895D92210E23F2"
+      },
+      "ui/1280/game/panel/smalltilecorners.png": {
+        "size": 1581,
+        "sha256": "6821D7646308C4349546E2122B8215D57AE7A78BCC1CEA9104D6DE990A512F0D"
+      },
+      "ui/1280/game/panel/smalltileleft.png": {
+        "size": 483,
+        "sha256": "69AA6248978A6368CBAF2E10214119C5E58189925A23FBC237C0115C0828B222"
+      },
+      "ui/1280/game/panel/smalltileright.png": {
+        "size": 482,
+        "sha256": "318EEA11B55050844E2757A12EF311524AD72FD1A71E34FE6F297D10C044EAAE"
+      },
+      "ui/1280/game/panel/smalltiletop.png": {
+        "size": 455,
+        "sha256": "8D32990F812E6373A0D8E32F7C48A35E06794690981FAF0944FCB5FA46E25A54"
+      },
+      "ui/1280/game/panel/tilebottom.png": {
+        "size": 754,
+        "sha256": "3842902B33A90755CB33D9B9433FAE1513DEF611F4AA0A4D670C56AEBCEFC38C"
+      },
+      "ui/1280/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "4A657031F0AF4E0CC4BE3461EE11DA98C9E703E4B3628F043F3EE147067D9C14"
+      },
+      "ui/1280/game/panel/tilecorners.png": {
+        "size": 5597,
+        "sha256": "C356AAC22221A5C7CC63044E829EFE683B931AB5CB1CA0C296435384D71394C7"
+      },
+      "ui/1280/game/panel/tileleft.png": {
+        "size": 910,
+        "sha256": "9789EF2B417DF61AEA52D3618C4CCF183E1980BF261A0B6FBEAD9B2CEA69EDA2"
+      },
+      "ui/1280/game/panel/tileright.png": {
+        "size": 912,
+        "sha256": "29C9AB7038EEC7A4262EACC9FC53D4768F842656EA818C8FF408F315E20C99C2"
+      },
+      "ui/1280/game/panel/tiletop.png": {
+        "size": 990,
+        "sha256": "C4F2BCF7D42FC77EB49758EA7CD8293EF7E8A75633DB321EC1193C29F746FE4F"
+      },
+      "ui/800/game/controlpanel/background.tga": {
+        "size": 640044,
+        "sha256": "83585621D1162332F61981FBF8FF51120A3C2DCCC4A29C05B91B381F55880D49"
+      },
+      "ui/800/game/controlpanel/backgroundtop.png": {
+        "size": 1139,
+        "sha256": "A2BBA09522E465415CF6DEDC704B634ABFB72CE17D09FF0F9618004B50C0AEF0"
+      },
+      "ui/800/game/controlpanel/economybar.png": {
+        "size": 3719,
+        "sha256": "95AD55A4E30E36D7161589BAFD8D0756C2C4FA61784C0CC25A974841CACDE111"
+      },
+      "ui/800/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "F53BA5E3ACC332CD69895B5655FEB7D1FBC44D4500CBA3AB509F4CC89A2966EB"
+      },
+      "ui/800/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "14284BCB1CEFD0216D11CCEA1CE115E4868D1CC8903EB0C3659C32AE3F9C7987"
+      },
+      "ui/800/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "8ABAA294121955EC7B0BB53AD5CF8256398FB598CDD0173E2F163C7B27910036"
+      },
+      "ui/800/game/panel/smalltilebottom.png": {
+        "size": 448,
+        "sha256": "DFC40D7A42B9F0628086D847F19A0E3F48934EBF56DB78A285F9B9735196F68E"
+      },
+      "ui/800/game/panel/smalltilecenter.png": {
+        "size": 206,
+        "sha256": "16662562D0801D8C72D426A846AAD67F3DCB7BD206041B59AC895D92210E23F2"
+      },
+      "ui/800/game/panel/smalltilecorners.png": {
+        "size": 1581,
+        "sha256": "6821D7646308C4349546E2122B8215D57AE7A78BCC1CEA9104D6DE990A512F0D"
+      },
+      "ui/800/game/panel/smalltileleft.png": {
+        "size": 483,
+        "sha256": "69AA6248978A6368CBAF2E10214119C5E58189925A23FBC237C0115C0828B222"
+      },
+      "ui/800/game/panel/smalltileright.png": {
+        "size": 482,
+        "sha256": "318EEA11B55050844E2757A12EF311524AD72FD1A71E34FE6F297D10C044EAAE"
+      },
+      "ui/800/game/panel/smalltiletop.png": {
+        "size": 455,
+        "sha256": "8D32990F812E6373A0D8E32F7C48A35E06794690981FAF0944FCB5FA46E25A54"
+      },
+      "ui/800/game/panel/tilebottom.png": {
+        "size": 754,
+        "sha256": "3842902B33A90755CB33D9B9433FAE1513DEF611F4AA0A4D670C56AEBCEFC38C"
+      },
+      "ui/800/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "4A657031F0AF4E0CC4BE3461EE11DA98C9E703E4B3628F043F3EE147067D9C14"
+      },
+      "ui/800/game/panel/tilecorners.png": {
+        "size": 5597,
+        "sha256": "C356AAC22221A5C7CC63044E829EFE683B931AB5CB1CA0C296435384D71394C7"
+      },
+      "ui/800/game/panel/tileleft.png": {
+        "size": 910,
+        "sha256": "9789EF2B417DF61AEA52D3618C4CCF183E1980BF261A0B6FBEAD9B2CEA69EDA2"
+      },
+      "ui/800/game/panel/tileright.png": {
+        "size": 912,
+        "sha256": "29C9AB7038EEC7A4262EACC9FC53D4768F842656EA818C8FF408F315E20C99C2"
+      },
+      "ui/800/game/panel/tiletop.png": {
+        "size": 990,
+        "sha256": "C4F2BCF7D42FC77EB49758EA7CD8293EF7E8A75633DB321EC1193C29F746FE4F"
+      },
+      "ui/default/briefing/bottomleftlost.tga": {
+        "size": 227372,
+        "sha256": "0247476C237CE79B9A517477D6A095EC7866289B50FDD14C0D0ECD597CCDBC74"
+      },
+      "ui/default/briefing/bottomleftwon.tga": {
+        "size": 227372,
+        "sha256": "08DDC071124A7BC2460E0E00BFCC8C3F1F43E40E1121D88D095FCBD4E627FEF5"
+      },
+      "ui/default/briefing/bottomrightlost.tga": {
+        "size": 32900,
+        "sha256": "83BA956B33AEFE81D80EA6708379E76BBD6C29864C3EDAEDC7353BAB061E05B2"
+      },
+      "ui/default/briefing/bottomrightwon.tga": {
+        "size": 32900,
+        "sha256": "EC6FD4C8CDD63A0DF29DD737FD4FDBFAAE7D03F6AD4848A0C8E775D096F693EA"
+      },
+      "ui/default/briefing/topleftlost.tga": {
+        "size": 1048620,
+        "sha256": "47A854464A9C4CC7673A2E9BB43B5E83DD5FA6366539AA764B9107BC21AD3DCB"
+      },
+      "ui/default/briefing/topleftwon.tga": {
+        "size": 1048620,
+        "sha256": "4F7241A0A2418AE759B0FE2425CB9269A404FACBBBDC62683A94452F9586B827"
+      },
+      "ui/default/briefing/toprightlost.tga": {
+        "size": 151596,
+        "sha256": "2932F9F620B10CB5A8AD18DFA18DE8D7E529CBA79DCE214BED1D5D56B0DAAF5F"
+      },
+      "ui/default/briefing/toprightwon.tga": {
+        "size": 151596,
+        "sha256": "CB411F11C0E2DD9024E5DFD9ACDB677BFCE039B1713CCA9A809335AAF756340A"
+      },
+      "ui/game/controlpanel/background.tga": {
+        "size": 1048620,
+        "sha256": "A212C5883B6AF1AF236243CE63551BC081E8AA0F09A1E6AC75E9D293CFD5FE8B"
+      },
+      "ui/game/controlpanel/backgroundtop.png": {
+        "size": 1196,
+        "sha256": "CFE1D165003EFE1FB2F71576110C10B9F41518039FBBDF9702CF00FE9EC4C441"
+      },
+      "ui/game/controlpanel/economybar.png": {
+        "size": 3719,
+        "sha256": "95AD55A4E30E36D7161589BAFD8D0756C2C4FA61784C0CC25A974841CACDE111"
+      },
+      "ui/game/controlpanel/pawuniformcenter.tga": {
+        "size": 2097196,
+        "sha256": "F53BA5E3ACC332CD69895B5655FEB7D1FBC44D4500CBA3AB509F4CC89A2966EB"
+      },
+      "ui/game/controlpanel/pawuniformleft.tga": {
+        "size": 8388652,
+        "sha256": "14284BCB1CEFD0216D11CCEA1CE115E4868D1CC8903EB0C3659C32AE3F9C7987"
+      },
+      "ui/game/controlpanel/pawuniformright.tga": {
+        "size": 8388652,
+        "sha256": "8ABAA294121955EC7B0BB53AD5CF8256398FB598CDD0173E2F163C7B27910036"
+      },
+      "ui/game/panel/smalltilebottom.png": {
+        "size": 448,
+        "sha256": "DFC40D7A42B9F0628086D847F19A0E3F48934EBF56DB78A285F9B9735196F68E"
+      },
+      "ui/game/panel/smalltilecenter.png": {
+        "size": 206,
+        "sha256": "16662562D0801D8C72D426A846AAD67F3DCB7BD206041B59AC895D92210E23F2"
+      },
+      "ui/game/panel/smalltilecorners.png": {
+        "size": 1581,
+        "sha256": "6821D7646308C4349546E2122B8215D57AE7A78BCC1CEA9104D6DE990A512F0D"
+      },
+      "ui/game/panel/smalltileleft.png": {
+        "size": 483,
+        "sha256": "69AA6248978A6368CBAF2E10214119C5E58189925A23FBC237C0115C0828B222"
+      },
+      "ui/game/panel/smalltileright.png": {
+        "size": 482,
+        "sha256": "318EEA11B55050844E2757A12EF311524AD72FD1A71E34FE6F297D10C044EAAE"
+      },
+      "ui/game/panel/smalltiletop.png": {
+        "size": 455,
+        "sha256": "8D32990F812E6373A0D8E32F7C48A35E06794690981FAF0944FCB5FA46E25A54"
+      },
+      "ui/game/panel/tilebottom.png": {
+        "size": 754,
+        "sha256": "3842902B33A90755CB33D9B9433FAE1513DEF611F4AA0A4D670C56AEBCEFC38C"
+      },
+      "ui/game/panel/tilecenter.png": {
+        "size": 324,
+        "sha256": "4A657031F0AF4E0CC4BE3461EE11DA98C9E703E4B3628F043F3EE147067D9C14"
+      },
+      "ui/game/panel/tilecorners.png": {
+        "size": 5597,
+        "sha256": "C356AAC22221A5C7CC63044E829EFE683B931AB5CB1CA0C296435384D71394C7"
+      },
+      "ui/game/panel/tileleft.png": {
+        "size": 910,
+        "sha256": "9789EF2B417DF61AEA52D3618C4CCF183E1980BF261A0B6FBEAD9B2CEA69EDA2"
+      },
+      "ui/game/panel/tileright.png": {
+        "size": 912,
+        "sha256": "29C9AB7038EEC7A4262EACC9FC53D4768F842656EA818C8FF408F315E20C99C2"
+      },
+      "ui/game/panel/tiletop.png": {
+        "size": 990,
+        "sha256": "C4F2BCF7D42FC77EB49758EA7CD8293EF7E8A75633DB321EC1193C29F746FE4F"
+      }
+    },
+    "preservedBaseEntries": 53
+  }
+}

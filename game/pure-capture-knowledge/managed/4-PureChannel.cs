@@ -10,7 +10,7 @@ namespace PawPureFixes
 #if PAW_PURE_RECOVERY
         internal const string Channel = "beta", Version = "1.3.72-pure.15-beta.12", PatchVersion = "0.4.1-beta.12";
 #elif PAW_PURE_EXTENDED
-        internal const string Channel = "beta", Version = "1.3.72-pure.21-beta.8", PatchVersion = "0.5.0-beta.8";
+        internal const string Channel = "beta", Version = "1.3.72-pure.21-beta.9", PatchVersion = "0.5.0-beta.9";
 #else
         internal const string Channel = "stable", Version = "1.3.72-pure.11", PatchVersion = "0.3.0";
 #endif

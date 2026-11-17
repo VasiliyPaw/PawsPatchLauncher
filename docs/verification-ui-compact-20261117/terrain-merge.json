@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "downloadPackagesBefore": 4,
+  "downloadPackagesAfter": 1,
+  "sourcePackageBytes": 900056401,
+  "combinedPackageBytes": 900055601,
+  "unchangedQuality": true,
+  "files": {
+    "paws-biome-textures-01.rwd": {
+      "originalPackage": "arcane-biome-textures-01",
+      "sha256": "51E7559B07B1B03BECECE33ED2FF405629E56CF921156DB681F81B3D21E6B2F9",
+      "size": 231258709
+    },
+    "paws-biome-textures-02.rwd": {
+      "originalPackage": "arcane-biome-textures-02",
+      "sha256": "0582F95995866984248DC79B655605C2A8009D7D41CAA19C5C906878489843F1",
+      "size": 231349614
+    },
+    "paws-biome-textures-03.rwd": {
+      "originalPackage": "arcane-biome-textures-03",
+      "sha256": "07A52BBCD23FFB1562BC448E52C54D12727EC5C3C20235AFF45143D3228985D7",
+      "size": 231234996
+    },
+    "paws-biome-textures-04.rwd": {
+      "originalPackage": "arcane-biome-textures-04",
+      "sha256": "2A046891993C627C540972CD6090B413A26903F2352BD7C6E8E7D6B576866133",
+      "size": 208526886
+    }
+  }
+}

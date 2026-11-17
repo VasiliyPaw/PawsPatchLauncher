@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "resolution": [
+    2560,
+    1440
+  ],
+  "phase": 4,
+  "qaProcess": [
+    {
+      "pid": 22108,
+      "path": "G:\\PawsWork\\QA\\Arcane060-20261115\\game\\TestInstalledRuntime.exe"
+    },
+    {
+      "pid": 12668,
+      "path": "G:\\PawsWork\\QA\\Arcane060-20261115\\game\\k2.exe"
+    }
+  ],
+  "sameSave": true,
+  "gpuDimensions": {
+    "(512, 512)": 13,
+    "(256, 256)": 17,
+    "(1024, 1024)": 1,
+    "(512, 128)": 1,
+    "(64, 64)": 28,
+    "(16, 32)": 1,
+    "(128, 128)": 12,
+    "(32, 32)": 35,
+    "(1024, 512)": 1,
+    "(512, 1024)": 2,
+    "(256, 64)": 2,
+    "(8, 8)": 3,
+    "(16, 16)": 1,
+    "(64, 32)": 6,
+    "(4, 4)": 6,
+    "(1024, 32)": 3,
+    "(64, 16)": 1,
+    "(256, 128)": 2,
+    "(2048, 2048)": 1,
+    "(32, 64)": 2,
+    "(2048, 1024)": 2,
+    "(512, 32)": 1,
+    "(128, 64)": 1
+  },
+  "iconAllocation": [
+    512,
+    512
+  ],
+  "frameHalfAllocation": [
+    2048,
+    1024
+  ],
+  "frameCenterAllocation": [
+    512,
+    1024
+  ],
+  "productionHelperNativeInputsUnchanged": true,
+  "qaHelperOnlyProcessScopeChanged": true,
+  "scope": "Human HUD from the same saved game; all other race archives checked with the production RWD reader."
+}
