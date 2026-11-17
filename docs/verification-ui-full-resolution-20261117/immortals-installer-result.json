@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "cases": 6,
+  "upgradeFrom": "0.5.0-beta.7",
+  "version": "0.5.0-beta.8",
+  "fullresImages": 708,
+  "allFourHelperSelections": true,
+  "rollback": true,
+  "reapply": true,
+  "nativeUnchanged": {
+    "k2.exe": "1EB79BBB678668BE5A05F8C98103CD9988048490CE7C53C74C9A1D0813E9CD45",
+    "d3d9.dll": "3B596B4A9435A8BDCD183906CAABE9CB60706FCE56783D42E8C66C52DA43944E"
+  },
+  "originalArchivesUnchanged": true
+}

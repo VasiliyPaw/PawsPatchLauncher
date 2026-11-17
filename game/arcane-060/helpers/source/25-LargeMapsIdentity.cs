@@ -1,1 +1,1 @@
-internal static class LargeMapsLocal { internal const string TemplateHash="339307F847E16C4197986D834526ED946D33062FF13F889EC19B88AF10480D9E"; internal const string PatchVersion="0.6.0-beta.3"; }
+internal static class LargeMapsLocal { internal const string TemplateHash="339307F847E16C4197986D834526ED946D33062FF13F889EC19B88AF10480D9E"; internal const string PatchVersion="0.6.0-beta.4"; }

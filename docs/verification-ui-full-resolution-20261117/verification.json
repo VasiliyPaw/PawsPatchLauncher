@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "versions": {
+    "arcane": "0.6.0-beta.4",
+    "pure": "0.5.0-beta.8"
+  },
+  "sourceAssets": 236,
+  "sourcePixelsPreserved": true,
+  "sourceSizesPreserved": true,
+  "fullresImagePathsPerMod": 708,
+  "nativeGameplayInputsIdentical": true,
+  "managedChanges": "Version identity constants only",
+  "installerMods": 3,
+  "installerCases": 18,
+  "allHelperVariants": 12,
+  "rollbackAndReapply": true,
+  "catalog": {
+    "passed": true,
+    "selections": 28944,
+    "checks": 509029,
+    "helpers": 12,
+    "launcher": "1.0.19.0"
+  },
+  "liveVisualEvidence": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-fullres-20261116\\verification.json",
+  "liveScope": "Accepted Arcane human HUD at 2560x1440 and actual GPU upload dimensions; remaining race masters checked as files. No new multiplayer match.",
+  "downloadBytes": {
+    "arcane": 1541943044,
+    "pure": 1449260945
+  },
+  "terrainArchivesReused": true,
+  "launcherUnchanged": true,
+  "stableChannelsUnchanged": true
+}
