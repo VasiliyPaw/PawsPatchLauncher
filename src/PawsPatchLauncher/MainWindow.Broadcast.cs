@@ -40,7 +40,7 @@ public partial class MainWindow
     private async void SendSaveBroadcast_Click(object sender, RoutedEventArgs e) => await OpenBroadcastFlowAsync(true);
     private async Task OpenBroadcastFlowAsync(bool quickSave)
     {
-        if (_offerSending || _busy || _accountBusy || ConfirmationActive || _account.State != AccountState.SignedIn) return;
+        if (_offerSending || _accountBusy || ConfirmationActive || AccountConnectionBlocked || _account.Restricted || _account.State != AccountState.SignedIn) return;
         var owner = _account.UserId;
         _offerSending = true; RenderSocialIdentity();
         try
@@ -189,7 +189,7 @@ public partial class MainWindow
 
     private async Task SendBroadcastAsync()
     {
-        if(_broadcastRunning||_broadcastPicking||_offerSending||_busy||_accountBusy||FeedBlocksActions||ConfirmationActive
+        if(_broadcastRunning||_broadcastPicking||_offerSending||_accountBusy||ConfirmationActive||AccountConnectionBlocked||_account.Restricted
             ||_account.State!=AccountState.SignedIn||_broadcastOwner!=_account.UserId||!Guid.TryParse(_broadcastOwner,out var owner))return;
         var selected=_broadcastEntries.Where(e=>e.Select.IsChecked==true&&!e.Sent&&BroadcastIneligible(e.Player) is null).ToArray();
         if(selected.Length<1||selected.Length>BroadcastLimit)return;

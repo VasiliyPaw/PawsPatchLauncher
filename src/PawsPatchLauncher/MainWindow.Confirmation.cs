@@ -52,6 +52,7 @@ public partial class MainWindow
         => BeginActionConfirmation(title, body, detailsLabel, details, action, allowDuringGameOperation: false);
 
     private Task<bool> ConfirmSocialActionAsync(string title, string body, string detailsLabel, string details, string action)
+        // Also used by moderation and help links: these do not change installed game files.
         => BeginActionConfirmation(title, body, detailsLabel, details, action, allowDuringGameOperation: true);
 
     private Task<bool> BeginActionConfirmation(string title, string body, string detailsLabel, string details, string action, bool allowDuringGameOperation)

@@ -12,9 +12,9 @@ public partial class MainWindow
         try { return FriendConfiguration.Matches(ConfigurationCode.Parse(code),LocalAppliedConfiguration()); }
         catch { return false; }
     }
-    private bool CanAcceptOffer(SocialOffer offer)=>!_busy&&!ConfirmationActive&&!_account.Restricted
+    private bool CanAcceptOffer(SocialOffer offer)=>!ConfirmationActive&&!_accountBusy&&_account.State==AccountState.SignedIn&&!_account.Restricted&&!AccountConnectionBlocked&&!_saveReceiving&&!_offerApplicationStarting&&_offerApplying is null
         && _socialPlayers.FirstOrDefault(p=>p.Id==offer.Sender)?.Available!=false
-        && (offer.Kind!="config"||!IsGameRunning()&&!ConfigurationMatches(offer.Configuration)
+        && (offer.Kind!="config"||!_busy&&!FeedBlocksActions&&!IsGameRunning()&&!ConfigurationMatches(offer.Configuration)
             && _socialPlayers.FirstOrDefault(p=>p.Id==offer.Sender) is { } sender
             && FriendVersionStatus(sender with { Configuration=offer.Configuration,Channel=offer.Channel })==PeerVersionStatus.Current);
     private async Task CancelSocialOfferAsync(SocialOffer offer)

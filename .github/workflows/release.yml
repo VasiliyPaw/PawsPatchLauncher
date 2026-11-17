@@ -68,6 +68,9 @@ jobs:
         run: |
           node supabase/functions/reborn-builds/handler.test.mjs
           node supabase/functions/reborn-builds/github.test.mjs
+      - name: Test independent actions during installation
+        shell: pwsh
+        run: ./tools/TestIndependentActions.ps1 -WorkDirectory (Join-Path $env:RUNNER_TEMP 'independent-actions')
       - name: Publish autonomous Windows build
         shell: pwsh
         run: |

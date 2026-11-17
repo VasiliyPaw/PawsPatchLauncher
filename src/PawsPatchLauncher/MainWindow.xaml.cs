@@ -97,9 +97,9 @@ public partial class MainWindow : Window
         Closing += (_, e) =>
         {
             if (ConfirmationActive) { e.Cancel = true; _ = CompleteConfirmationAsync(false); }
-            else if (_busy && _downloadCancellation is not null && _feedClient.Downloads.IsPaused)
+            else if (_busy && !_saveReceiving && _downloadCancellation is not null && _feedClient.Downloads.IsPaused)
             { _closingPausedDownload = true; _downloadCancellation.Cancel(); }
-            else if (_busy || _customModsBusy || _rebornBusy) { e.Cancel = true; ShowToast(() => T("Дождитесь окончания операции или приостановите загрузку.", "Wait for the operation or pause the download.")); }
+            else if (_busy || _customModsBusy || _rebornBusy || _saveReceiving) { e.Cancel = true; ShowToast(() => T("Дождитесь окончания операции или приостановите загрузку.", "Wait for the operation or pause the download.")); }
         };
         _initializing = false;
         Loaded += async (_, _) => await InitializeAsync();
@@ -790,7 +790,7 @@ public partial class MainWindow : Window
     {
         if (ActivityStore.IsCommunityTest || ActivityStore.IsCustomModsTest) return false;
         var release = _pendingLauncherUpdate;
-        if (release is null || _busy || _rebornBusy || ConfirmationActive) return false;
+        if (release is null || _busy || _rebornBusy || _saveReceiving || _offerSending || ConfirmationActive) return false;
         try
         {
             _launcherRestarting = true;

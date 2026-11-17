@@ -8,20 +8,26 @@ public partial class MainWindow
 {
     private IReadOnlyList<SocialOffer> _socialOffers=[];
     private OfferReceipt? _offerApplying;
-    private bool _offerSending,_offerPulseBusy;
+    private bool _offerSending,_offerPulseBusy,_saveReceiving,_offerApplicationStarting;
     private DateTimeOffset _offerNextPulse;
     private OfferReceiptStore OfferReceipts => new(ActivityStore.Root);
     private async Task<OfferReceipt> BeginOfferApplicationAsync(SocialOffer offer)
     {
-        if(!Guid.TryParse(_account.UserId,out var owner)||owner!=offer.Recipient)throw new AccountException("session_expired");
-        var attempt=Guid.NewGuid();
-        var fresh=await _account.OfferActionAsync(offer.Id,"begin",attempt,_accountLifetime.Token);
-        if(_account.UserId!=owner.ToString())throw new AccountException("session_expired");
-        if(fresh.State!="applying"||fresh.Attempt!=attempt)throw new AccountException("offer_unavailable");
-        var receipt=new OfferReceipt(owner,offer.Id,attempt);
-        // Persist an interrupted fallback before any local game/save mutation.
-        OfferReceipts.Save(receipt);_offerApplying=receipt;UpdateLocalOffer(fresh);
-        return receipt;
+        if(_offerApplicationStarting||_offerApplying is not null)throw new AccountException("account_busy");
+        _offerApplicationStarting=true;RefreshOfferActions();
+        try
+        {
+            if(!Guid.TryParse(_account.UserId,out var owner)||owner!=offer.Recipient)throw new AccountException("session_expired");
+            var attempt=Guid.NewGuid();
+            var fresh=await _account.OfferActionAsync(offer.Id,"begin",attempt,_accountLifetime.Token);
+            if(_account.UserId!=owner.ToString())throw new AccountException("session_expired");
+            if(fresh.State!="applying"||fresh.Attempt!=attempt)throw new AccountException("offer_unavailable");
+            var receipt=new OfferReceipt(owner,offer.Id,attempt);
+            // Persist an interrupted fallback before any local game/save mutation.
+            OfferReceipts.Save(receipt);_offerApplying=receipt;UpdateLocalOffer(fresh);
+            return receipt;
+        }
+        finally{_offerApplicationStarting=false;RefreshOfferActions();}
     }
     private async Task VerifyOfferApplicationAsync(OfferReceipt receipt)
     {
@@ -70,7 +76,7 @@ public partial class MainWindow
     private void FriendsComposerMore_Click(object sender,RoutedEventArgs e)
     {
         if (_chatPopup is not null) { _ = CloseChatPopupAsync(); return; }
-        if(_offerSending||_busy||_accountBusy||ConfirmationActive||AccountConnectionBlocked||_socialPeer is null||_account.State!=AccountState.SignedIn)return;
+        if(_offerSending||_accountBusy||ConfirmationActive||AccountConnectionBlocked||_account.Restricted||_socialPeer is null||_account.State!=AccountState.SignedIn)return;
         var owner = _account.UserId; var peer = _socialPeer;
         var menu = new StackPanel();
         foreach(var config in new[]{true,false})
@@ -95,7 +101,7 @@ public partial class MainWindow
     }
     private async Task SendSocialOfferAsync(bool config)
     {
-        if(_offerSending||_busy||FeedBlocksActions||_accountBusy||ConfirmationActive||AccountConnectionBlocked||_socialPeer is not Guid peer||!Guid.TryParse(_account.UserId,out var owner)||!_socialPlayers.Any(p=>p.Id==peer&&p.Relation=="friend"))return;
+        if(_offerSending||_accountBusy||ConfirmationActive||AccountConnectionBlocked||_account.Restricted||_socialPeer is not Guid peer||!Guid.TryParse(_account.UserId,out var owner)||!_socialPlayers.Any(p=>p.Id==peer&&p.Relation=="friend"))return;
         _offerSending=true;RenderSocialIdentity();
         try
         {
@@ -173,7 +179,7 @@ public partial class MainWindow
     }
     private async Task<bool> ConfirmConfigurationOfferAsync(SocialPlayer recipient,string code)
     {
-        if(ConfirmationActive||_busy||FeedBlocksActions)return false;
+        if(ConfirmationActive)return false;
         var known=FriendConfiguration.TryParse(recipient.Configuration,recipient.Channel,out var theirs);
         var ours=FriendConfiguration.WithLocalLanguages(ConfigurationCode.Parse(code),theirs);
         var matches=known&&FriendConfiguration.Matches(theirs,ours);
@@ -182,7 +188,7 @@ public partial class MainWindow
             "Your friend's configuration is unavailable. Ask them to open the launcher with the patch installed.")
             :matches?T("Ваши конфигурации уже совпадают. Отправка не требуется.","Your configurations already match. There is nothing to send.")
             :string.Join("\n",ConfigurationChanges.Describe(theirs,ours,_text.Language));
-        var confirmation=ConfirmActionAsync(T("Предложить конфигурацию?","Offer configuration?"),
+        var confirmation=ConfirmSocialActionAsync(T("Предложить конфигурацию?","Offer configuration?"),
             T("Друг получит предложение и сам решит, применять ли изменения.","Your friend will receive an offer and choose whether to apply the changes."),
             T("ИЗМЕНЕНИЯ У ДРУГА","CHANGES FOR YOUR FRIEND"),details,T("Отправить предложение","Send offer"));
         ConfirmationDeleteButton.IsEnabled=known&&!matches;
@@ -238,7 +244,7 @@ public partial class MainWindow
             });
             accept.Tag=offer.Kind=="config"?offer.Configuration:null;
             accept.CommandParameter="offer-accept"; decline.CommandParameter="offer-decline";
-            if(_busy) { accept.ToolTip=T("Дождитесь завершения текущей операции с файлами.","Wait for the current file operation to finish."); ToolTipService.SetShowOnDisabled(accept,true); }
+            if(offer.Kind=="config"&&(_busy||FeedBlocksActions)) { accept.ToolTip=T("Дождитесь завершения текущей операции с файлами.","Wait for the current file operation to finish."); ToolTipService.SetShowOnDisabled(accept,true); }
             accept.IsEnabled=CanAcceptOffer(offer);decline.IsEnabled=!ConfirmationActive&&!_account.Restricted&&!AccountConnectionBlocked;actions.Children.Add(accept);actions.Children.Add(decline);content.Children.Add(actions);
         }
         if(offer.Sender.ToString()==_account.UserId && offer.State is "pending" or "uploading"){
@@ -269,14 +275,14 @@ public partial class MainWindow
                         if(button.Tag is string code)
                             status=peer is not null && FriendConfiguration.TryParse(code,code.StartsWith("PAW-BETA-")?"beta":"stable",out var imported)
                                 ? FriendVersionStatus(peer with {Configuration=code,Channel=imported.Channel}):PeerVersionStatus.Unknown;
-                        button.IsEnabled=!_busy&&!ConfirmationActive&&!_account.Restricted&&SocialContactAvailable(peer)
-                            && (button.Tag is not string configuration || !IsGameRunning()&&!ConfigurationMatches(configuration)&&status==PeerVersionStatus.Current);
+                        button.IsEnabled=!ConfirmationActive&&!_account.Restricted&&!AccountConnectionBlocked&&!_saveReceiving&&!_offerApplicationStarting&&_offerApplying is null&&SocialContactAvailable(peer)
+                            && (button.Tag is not string configuration || !_busy&&!FeedBlocksActions&&!IsGameRunning()&&!ConfigurationMatches(configuration)&&status==PeerVersionStatus.Current);
                         if(button.Tag is string)
                         {
                             button.ToolTip=status==PeerVersionStatus.Current?null:FriendVersionWarning(status);
                             ToolTipService.SetShowOnDisabled(button,true);
                         }
-                        if(button.CommandParameter is "offer-accept" && _busy)
+                        if(button.CommandParameter is "offer-accept" && button.Tag is string && (_busy||FeedBlocksActions))
                         {
                             button.ToolTip=T("Дождитесь завершения текущей операции с файлами.","Wait for the current file operation to finish.");
                             ToolTipService.SetShowOnDisabled(button,true);
@@ -293,6 +299,8 @@ public partial class MainWindow
     }
     private async Task AcceptSaveOfferAsync(SocialOffer offer)
     {
+        if(_saveReceiving||!CanAcceptOffer(offer)||_account.UserId!=offer.Recipient.ToString()||offer.State!="pending")return;
+        _saveReceiving=true;RefreshOfferActions();
         OfferReceipt? receipt=null;var succeeded=false;var owner=_account.UserId;
         try
         {
@@ -301,12 +309,12 @@ public partial class MainWindow
             if(File.Exists(path))
             {
                 existing=await CryptoAndIO.Sha256Async(path);
-                if(!await ConfirmActionAsync(T("Заменить сохранение?","Replace this save?"),
+                if(!await ConfirmSocialActionAsync(T("Заменить сохранение?","Replace this save?"),
                     T("Текущее сохранение будет сохранено в резервной копии.", "The existing save will be backed up."),
                     T("СОХРАНЕНИЕ","SAVE"),offer.FileName!,T("Принять и заменить","Accept and replace")))return;
             }
-            if(_account.UserId!=owner)return;
-            SetBusy(true,T("Получаю сохранение…","Receiving save…"));
+            if(_account.UserId!=owner||_account.Restricted||_account.State!=AccountState.SignedIn)return;
+            ShowToast(()=>T("Получаю сохранение…","Receiving save…"));
             receipt=await BeginOfferApplicationAsync(offer);
             var bytes=await _account.TransferSaveAsync(offer.Id,"download",ct:_accountLifetime.Token);
             SaveTransferGuard.ValidateBytes(offer.Save,bytes);await VerifyOfferApplicationAsync(receipt);
@@ -315,7 +323,12 @@ public partial class MainWindow
         }
         catch(AccountException e){HandleEndedAccount(e.Code);ShowToast(()=>SocialError(e.Code),true);}
         catch(IOException){ShowToast(()=>T("Сейв сейчас занят или изменился. Повторите получение после завершения записи.", "The save is busy or changed. Retry after the write finishes."),true);}
-        catch(Exception e){ShowError(e);}
-        finally{if(receipt is not null)await FinishOfferApplicationAsync(receipt,succeeded);SetBusy(false);RefreshStatus();}
+        catch(OperationCanceledException){}
+        catch(Exception e){ActivityStore.Log(e);var friendly=FriendlyErrors.Describe(e);ShowToast(()=>friendly.Body(_text.Language),true);}
+        finally
+        {
+            try{if(receipt is not null)await FinishOfferApplicationAsync(receipt,succeeded);}
+            finally{_saveReceiving=false;RefreshOfferActions();RefreshStatus();}
+        }
     }
 }

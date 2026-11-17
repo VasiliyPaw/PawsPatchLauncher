@@ -235,7 +235,7 @@ public partial class MainWindow
         SocialDetailsCopyHint.Foreground=SocialBrush(versionStatus is not (PeerVersionStatus.Current or PeerVersionStatus.Checking)?"#FFB1A8":"#A8BBD2");
         SocialDetailsCopyButton.ToolTip=hint.Length==0?null:hint;
         ToolTipService.SetShowOnDisabled(SocialDetailsCopyButton,true);
-        SocialDetailsCopyButton.IsEnabled = !matches && exact && player?.Available==true && !_account.Restricted && hint.Length == 0 && !_busy && !FeedBlocksActions && !_accountBusy && !_socialBusy && !ConfirmationActive;
+        SocialDetailsCopyButton.IsEnabled = !matches && exact && player?.Available==true && !_account.Restricted && hint.Length == 0 && !_busy && !FeedBlocksActions && !_saveReceiving && !_offerApplicationStarting && _offerApplying is null && !_accountBusy && !_socialBusy && !ConfirmationActive;
         var viewed = SocialDetailsPlayer();
         SocialDetailsRemoveButton.IsEnabled=SocialDetailsBlockButton.IsEnabled=viewed is not null&&_account.State==AccountState.SignedIn
             &&!_accountBusy&&!_socialBusy&&!ConfirmationActive;
@@ -269,7 +269,7 @@ public partial class MainWindow
     {
         if (player is null || player.Deleted || !player.Available || player.ConfigurationHidden || player.Id.ToString() == _account.UserId
             || !FriendConfiguration.TryParse(player.Configuration, player.Channel, out var imported)
-            || _game is null || _busy || FeedBlocksActions || _accountBusy || _socialBusy || ConfirmationActive || _account.State != AccountState.SignedIn) return;
+            || _game is null || _busy || FeedBlocksActions || _saveReceiving || _offerApplicationStarting || _offerApplying is not null || _accountBusy || _socialBusy || ConfirmationActive || _account.State != AccountState.SignedIn) return;
         var owner = _account.UserId;
         var game = _game;
         var originalCode = player.Configuration;

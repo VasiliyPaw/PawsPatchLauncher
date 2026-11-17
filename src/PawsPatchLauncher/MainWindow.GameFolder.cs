@@ -25,7 +25,7 @@ public partial class MainWindow
         SendSaveBroadcastButton.Content = T("Отправить сейв", "Send save");
         SendSaveBroadcastButton.ToolTip = T("Выбрать сейв и друзей", "Choose a save and friends");
         SendSaveBroadcastButton.IsEnabled = _account is not null && _account.State == AccountState.SignedIn
-            && !_account.Restricted && !_accountBusy && !_socialBusy && !_offerSending && !_busy;
+            && !_account.Restricted && !_accountBusy && !_socialBusy && !_offerSending;
     }
 
     private bool _openingSavesFolder;

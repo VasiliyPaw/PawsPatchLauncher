@@ -8,7 +8,7 @@ public partial class MainWindow
     {
         if (url != ArcaneWarsDiscordInvite && url != PrivacyPolicyUrl && url != EnsrickGitHubUrl && url != ModDbDownload.ArcanePage) return;
         if (ModNoticeOverlay.IsVisible) await CloseModNoticeAsync();
-        var confirmation = ConfirmActionAsync(T("Открыть в браузере?", "Open in your browser?"),
+        var confirmation = ConfirmSocialActionAsync(T("Открыть в браузере?", "Open in your browser?"),
             url == ArcaneWarsDiscordInvite
                 ? T("Откроется приглашение на Discord-сервер сообщества модов Kohan II в вашем браузере.", "The Kohan II mod community's Discord invitation will open in your browser.")
                 : url == ModDbDownload.ArcanePage

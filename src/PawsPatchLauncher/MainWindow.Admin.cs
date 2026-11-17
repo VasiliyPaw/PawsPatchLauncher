@@ -180,7 +180,7 @@ public partial class MainWindow
             body.Children.Add(AdminButton(T("Разблокировать","Unban"),async()=>
             {
                 var owner=_account.UserId;
-                if(await ConfirmActionAsync(T("Снять блокировку?","Remove ban?"),T("Адрес снова можно будет использовать для аккаунта.","This email will be available for accounts again."),T("ПОЧТА","EMAIL"),ban.Email,T("Разблокировать","Unban"))&&owner==_account.UserId)
+                if(await ConfirmSocialActionAsync(T("Снять блокировку?","Remove ban?"),T("Адрес снова можно будет использовать для аккаунта.","This email will be available for accounts again."),T("ПОЧТА","EMAIL"),ban.Email,T("Разблокировать","Unban"))&&owner==_account.UserId)
                     await RunAdminMutationAsync(()=>_account.AdminActionAsync("unban",ban.Id,ct:_accountLifetime.Token));
             }));_adminRows.Children.Add(AdminCard(body));
         }
@@ -226,7 +226,7 @@ public partial class MainWindow
         var owner=_account.UserId;
         var title=action switch{"ban"=>T("Заблокировать почту?","Ban email?"),"delete"=>T("Удалить аккаунт?","Delete account?"),"restore"=>T("Восстановить аккаунт?","Restore account?"),_=>T("Роль пользователя","User role")};
         var details=action switch{"ban"=>T("Аккаунт останется. Общение и изменение профиля будут недоступны; игра и обновления продолжат работать.","The account remains. Social features and profile editing will be disabled; local game and updates remain available."),"delete"=>T("Профиль скроется, в чатах останется «Удалённый аккаунт». Восстановление доступно 7 дней. После этого удаление необратимо.","The profile is hidden and chats show a deleted account. Recoverable for 7 days, then permanently deleted."),"restore"=>T("Вернутся профиль и доступ к аккаунту. Если почта заблокирована, блокировка сохранится.","Restores the profile and account. Any email ban remains in force."),_=>T("Paw's Team получает доступ к Arcane Wars и плашку команды, без прав модератора. Администратор модерирует пользователей. Главный администратор также назначает роли.","Paw's Team gets Arcane Wars access and a team badge without moderation privileges. Administrators moderate users. Senior administrators also assign roles.")};
-        var pending=ConfirmActionAsync(title,details,T("ПОЛЬЗОВАТЕЛЬ","USER"),user.DisplayName+" · @"+user.Nickname,action=="role"?T("Сохранить права","Save privileges"):title.TrimEnd('?'));
+        var pending=ConfirmSocialActionAsync(title,details,T("ПОЛЬЗОВАТЕЛЬ","USER"),user.DisplayName+" · @"+user.Nickname,action=="role"?T("Сохранить права","Save privileges"):title.TrimEnd('?'));
         if(!ConfirmationActive)return;
         var reason=new TextBox{Style=(Style)FindResource("ConfigurationInput"),MaxLength=500,Height=60,TextWrapping=TextWrapping.Wrap,AcceptsReturn=false};
         var permanent=new CheckBox{Content=T("Постоянная блокировка","Permanent ban"),IsChecked=false,Margin=new Thickness(0,10,0,10)};

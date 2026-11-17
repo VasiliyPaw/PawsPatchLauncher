@@ -115,8 +115,8 @@ public partial class MainWindow
         var contact=SocialContactAvailable(_socialPlayers.FirstOrDefault(p=>p.Id==_socialPeer));
         FriendsSendButton.IsEnabled=ready && contact;
         FriendsMessageInput.IsEnabled=ready&&contact;
-        FriendsComposerMoreButton.IsEnabled=ready && contact && !_offerSending && !_busy;
-        SendSaveBroadcastButton.IsEnabled=FriendsBroadcastButton.IsEnabled=ready && !_offerSending && !_busy && _socialPlayers.Any(p=>p.Relation=="friend"&&p.Available);
+        FriendsComposerMoreButton.IsEnabled=ready && contact && !_offerSending;
+        SendSaveBroadcastButton.IsEnabled=FriendsBroadcastButton.IsEnabled=ready && !_offerSending && _socialPlayers.Any(p=>p.Relation=="friend"&&p.Available);
         RenderSocialListState();
     }
     private async Task SocialOperationAsync(Func<Guid,Task> action, bool background = false)

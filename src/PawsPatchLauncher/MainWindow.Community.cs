@@ -424,7 +424,8 @@ public partial class MainWindow
     }
     private async Task RemoveCommunityAsync(CommunityMessage message)
     {
-        if (!await ConfirmActionAsync(T("Удалить сообщение?", "Remove message?"), T("Оно исчезнет из общего чата у всех.", "It will disappear from community chat for everyone."), "", "", T("Удалить", "Remove"))) return;
+        var owner = _account.UserId;
+        if (!await ConfirmSocialActionAsync(T("Удалить сообщение?", "Remove message?"), T("Оно исчезнет из общего чата у всех.", "It will disappear from community chat for everyone."), "", "", T("Удалить", "Remove")) || owner != _account.UserId) return;
         try { await _account.RemoveCommunityAsync(message.Id, _accountLifetime.Token); _communityMutationVersion++; _communityNextPoll = default; await PollCommunityAsync(); }
         catch (Exception ex) { if (!_accountLifetime.IsCancellationRequested) { _communitySendError = ex is AccountException a ? a.Code : "network"; RefreshCommunityStatus(); } }
     }

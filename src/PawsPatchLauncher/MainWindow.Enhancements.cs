@@ -75,7 +75,7 @@ public partial class MainWindow
     {
         if (_storageCard is null) return;
         _storageCard.Visibility = _activePage == "settings" ? Visibility.Visible : Visibility.Collapsed;
-        _comparisonDetailsButton.IsEnabled = !_busy && _detailedComparison is not null;
+        _comparisonDetailsButton.IsEnabled = _detailedComparison is not null;
         _cleanStorageButton.IsEnabled = !_busy && !FeedBlocksActions && _storagePlan is { CleanableBytes: > 0 };
         _cleanCache.IsEnabled = _cleanBackups.IsEnabled = !_busy && !FeedBlocksActions;
         if (_storagePlan is not null)
