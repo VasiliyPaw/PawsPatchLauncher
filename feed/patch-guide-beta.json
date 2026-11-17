@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.6.0-beta.3",
+  "version": "0.6.0-beta.4",
   "entries": [
+    {
+      "id": "fullres-ui-20261117",
+      "category": "always",
+      "titleRu": "Чёткий HD-интерфейс",
+      "titleEn": "Sharper HD interface",
+      "bodyRu": "- Иконки действий, построек и технологий используют полное разрешение HD-исходников.\n- Повышена чёткость расовых рамок интерфейса, в том числе при 2К и выше.",
+      "bodyEn": "- Action, building and technology icons now use the full resolution of their HD artwork.\n- Sharper faction interface frames, including at 1440p and higher resolutions."
+    },
     {
       "id": "arcane-capture-hud-060-beta3",
       "category": "always",

@@ -1645,6 +1645,57 @@
     {
       "category": "patch",
       "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "version": "0.6.0-beta.4",
+      "publishedAt": "2026-11-17",
+      "title": {
+        "ru": "Paw’s Patch 0.6.0-beta.4 — Arcane Wars",
+        "en": "Paw’s Patch 0.6.0-beta.4 — Arcane Wars",
+        "uk": "Paw’s Patch 0.6.0-beta.4 — Arcane Wars",
+        "cs": "Paw’s Patch 0.6.0-beta.4 — Arcane Wars",
+        "de": "Paw’s Patch 0.6.0-beta.4 — Arcane Wars",
+        "fr": "Paw’s Patch 0.6.0-beta.4 — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Иконки действий, построек и технологий используют полное разрешение HD-исходников.\n- Повышена чёткость расовых рамок интерфейса, в том числе при 2К и выше.",
+        "en": "- Action, building and technology icons now use the full resolution of their HD artwork.\n- Sharper faction interface frames, including at 1440p and higher resolutions.",
+        "uk": "- Іконки дій, споруд і технологій використовують повну роздільну здатність HD-оригіналів.\n- Покращено чіткість расових рамок інтерфейсу, зокрема при 2К і вище.",
+        "cs": "- Ikony akcí, budov a technologií nyní využívají plné rozlišení HD předloh.\n- Ostřejší rámečky rozhraní ras, také při rozlišení 1440p a vyšším.",
+        "de": "- Aktions-, Gebäude- und Technologie-Symbole nutzen jetzt die volle Auflösung ihrer HD-Vorlagen.\n- Schärfere Völkerrahmen der Benutzeroberfläche, auch bei 1440p und höheren Auflösungen.",
+        "fr": "- Les icônes d’action, de bâtiment et de technologie utilisent désormais la pleine résolution des images HD.\n- Cadres d’interface des factions plus nets, y compris en 1440p et au-delà."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "beta",
+      "version": "0.5.0-beta.8",
+      "publishedAt": "2026-11-17",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0-beta.8 — Vanilla / Immortals",
+        "en": "Paw’s Patch 0.5.0-beta.8 — Vanilla / Immortals",
+        "uk": "Paw’s Patch 0.5.0-beta.8 — Vanilla / Immortals",
+        "cs": "Paw’s Patch 0.5.0-beta.8 — Vanilla / Immortals",
+        "de": "Paw’s Patch 0.5.0-beta.8 — Vanilla / Immortals",
+        "fr": "Paw’s Patch 0.5.0-beta.8 — Vanilla / Immortals"
+      },
+      "body": {
+        "ru": "- Иконки действий, построек и технологий используют полное разрешение HD-исходников.\n- Повышена чёткость расовых рамок интерфейса, в том числе при 2К и выше.",
+        "en": "- Action, building and technology icons now use the full resolution of their HD artwork.\n- Sharper faction interface frames, including at 1440p and higher resolutions.",
+        "uk": "- Іконки дій, споруд і технологій використовують повну роздільну здатність HD-оригіналів.\n- Покращено чіткість расових рамок інтерфейсу, зокрема при 2К і вище.",
+        "cs": "- Ikony akcí, budov a technologií nyní využívají plné rozlišení HD předloh.\n- Ostřejší rámečky rozhraní ras, také při rozlišení 1440p a vyšším.",
+        "de": "- Aktions-, Gebäude- und Technologie-Symbole nutzen jetzt die volle Auflösung ihrer HD-Vorlagen.\n- Schärfere Völkerrahmen der Benutzeroberfläche, auch bei 1440p und höheren Auflösungen.",
+        "fr": "- Les icônes d’action, de bâtiment et de technologie utilisent désormais la pleine résolution des images HD.\n- Cadres d’interface des factions plus nets, y compris en 1440p et au-delà."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
         "vanilla",
         "immortals"
       ],
