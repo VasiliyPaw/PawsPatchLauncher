@@ -1664,6 +1664,57 @@
   ],
   "beta": [
     {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "version": "0.6.0-beta.5",
+      "publishedAt": "2026-11-17",
+      "title": {
+        "ru": "Paw’s Patch 0.6.0-beta.5 — Arcane Wars",
+        "en": "Paw’s Patch 0.6.0-beta.5 — Arcane Wars",
+        "uk": "Paw’s Patch 0.6.0-beta.5 — Arcane Wars",
+        "cs": "Paw’s Patch 0.6.0-beta.5 — Arcane Wars",
+        "de": "Paw’s Patch 0.6.0-beta.5 — Arcane Wars",
+        "fr": "Paw’s Patch 0.6.0-beta.5 — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Уменьшен размер загрузки HD-интерфейса: оптимизировано разрешение иконок и рамок, удалены повторяющиеся данные.\n- Текстуры местности Arcane Wars объединены в один загружаемый пакет без снижения качества.",
+        "en": "- Smaller HD interface download: optimized icon and frame resolutions and removed duplicate data.\n- Arcane Wars terrain textures now download as one package with no quality reduction.",
+        "uk": "- Зменшено розмір завантаження HD-інтерфейсу: оптимізовано роздільну здатність іконок і рамок, видалено повторювані дані.\n- Текстури місцевості Arcane Wars об’єднано в один пакет без зниження якості.",
+        "cs": "- Menší stahování HD rozhraní díky optimalizovanému rozlišení ikon a rámečků a odstranění duplicitních dat.\n- Textury terénu Arcane Wars se stahují v jednom balíčku bez snížení kvality.",
+        "de": "- Kleinerer Download der HD-Oberfläche durch optimierte Symbol- und Rahmenauflösungen und entfernte doppelte Daten.\n- Arcane-Wars-Geländetexturen werden ohne Qualitätsverlust in einem Paket heruntergeladen.",
+        "fr": "- Téléchargement de l’interface HD réduit grâce à des résolutions optimisées et à la suppression des données en double.\n- Les textures du terrain d’Arcane Wars sont regroupées dans un seul téléchargement sans perte de qualité."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "beta",
+      "version": "0.5.0-beta.9",
+      "publishedAt": "2026-11-17",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0-beta.9 — Vanilla / Immortals",
+        "en": "Paw’s Patch 0.5.0-beta.9 — Vanilla / Immortals",
+        "uk": "Paw’s Patch 0.5.0-beta.9 — Vanilla / Immortals",
+        "cs": "Paw’s Patch 0.5.0-beta.9 — Vanilla / Immortals",
+        "de": "Paw’s Patch 0.5.0-beta.9 — Vanilla / Immortals",
+        "fr": "Paw’s Patch 0.5.0-beta.9 — Vanilla / Immortals"
+      },
+      "body": {
+        "ru": "- Уменьшен размер загрузки HD-интерфейса: оптимизировано разрешение иконок и рамок, удалены повторяющиеся данные.",
+        "en": "- Smaller HD interface download: optimized icon and frame resolutions and removed duplicate data.",
+        "uk": "- Зменшено розмір завантаження HD-інтерфейсу: оптимізовано роздільну здатність іконок і рамок, видалено повторювані дані.",
+        "cs": "- Menší stahování HD rozhraní díky optimalizovanému rozlišení ikon a rámečků a odstranění duplicitních dat.",
+        "de": "- Kleinerer Download der HD-Oberfläche durch optimierte Symbol- und Rahmenauflösungen und entfernte doppelte Daten.",
+        "fr": "- Téléchargement de l’interface HD réduit grâce à des résolutions optimisées et à la suppression des données en double."
+      }
+    },
+    {
       "category": "launcher",
       "version": "1.0.20",
       "publishedAt": "2026-11-17",

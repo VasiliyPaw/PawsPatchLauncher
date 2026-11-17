@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.6.0-beta.4",
+  "version": "0.6.0-beta.5",
   "entries": [
+    {
+      "id": "compact-ui-20261117",
+      "category": "always",
+      "titleRu": "Компактный HD-интерфейс",
+      "titleEn": "Compact HD interface",
+      "bodyRu": "- Уменьшен размер загрузки HD-интерфейса: оптимизировано разрешение иконок и рамок, удалены повторяющиеся данные.\n- Текстуры местности Arcane Wars объединены в один загружаемый пакет без снижения качества.",
+      "bodyEn": "- Smaller HD interface download: optimized icon and frame resolutions and removed duplicate data.\n- Arcane Wars terrain textures now download as one package with no quality reduction."
+    },
     {
       "id": "fullres-ui-20261117",
       "category": "always",
