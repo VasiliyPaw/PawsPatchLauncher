@@ -1,22 +1,14 @@
 {
   "schemaVersion": 1,
-  "version": "0.6.0-beta.5",
+  "version": "0.6.0-beta.6",
   "entries": [
     {
-      "id": "compact-ui-20261117",
+      "id": "legacy-ui-20261118",
       "category": "always",
-      "titleRu": "Компактный HD-интерфейс",
-      "titleEn": "Compact HD interface",
-      "bodyRu": "- Уменьшен размер загрузки HD-интерфейса: оптимизировано разрешение иконок и рамок, удалены повторяющиеся данные.\n- Текстуры местности Arcane Wars объединены в один загружаемый пакет без снижения качества.",
-      "bodyEn": "- Smaller HD interface download: optimized icon and frame resolutions and removed duplicate data.\n- Arcane Wars terrain textures now download as one package with no quality reduction."
-    },
-    {
-      "id": "fullres-ui-20261117",
-      "category": "always",
-      "titleRu": "Чёткий HD-интерфейс",
-      "titleEn": "Sharper HD interface",
-      "bodyRu": "- Иконки действий, построек и технологий используют полное разрешение HD-исходников.\n- Повышена чёткость расовых рамок интерфейса, в том числе при 2К и выше.",
-      "bodyEn": "- Action, building and technology icons now use the full resolution of their HD artwork.\n- Sharper faction interface frames, including at 1440p and higher resolutions."
+      "titleRu": "Прежние иконки и интерфейс",
+      "titleEn": "Previous icons and interface",
+      "bodyRu": "- Возвращены прежние иконки и оформление интерфейса всех рас.\n- Удалены файлы прежних HD-иконок и интерфейса.",
+      "bodyEn": "- Restored the previous icons and interface artwork for every faction.\n- Removed the previous HD icon and interface files."
     },
     {
       "id": "arcane-capture-hud-060-beta3",
@@ -39,8 +31,8 @@
       "category": "always",
       "titleRu": "Дороги, мосты и живой мир",
       "titleEn": "Roads, bridges and a living world",
-      "bodyRu": "- Добавлены дороги и мосты всех рас; боты строят и используют переправы.\n- Мосты получили расовые леса и эффекты строительства по всей длине.\n- Добавлены выбор формы карты и количества рек, плавные переходы суши и дна.\n- Полный цикл времени суток длится 24 минуты.\n- Обновлены интерфейсы рас, значки и мини-карта.\n- Ускорена загрузка игры, улучшена реакция ополчения и осадных отрядов.\n- Сохранены исправления оптимизации и воздушной разведки из предыдущей беты.\nПервое обновление загрузит около 900 МБ текстур.",
-      "bodyEn": "- Added roads and bridges for every race; bots build and use crossings.\n- Bridges use racial scaffolding and construction effects across their full length.\n- Added map shapes, river counts and smooth land and water-floor transitions.\n- A full time-of-day cycle lasts 24 minutes.\n- Updated racial interfaces, icons and the minimap.\n- Faster game startup and improved militia and siege responses.\n- Includes the previous beta’s optimization and aerial scout fixes.\nThe first update downloads about 900 MB of textures."
+      "bodyRu": "- Добавлены дороги и мосты всех рас; боты строят и используют переправы.\n- Мосты получили расовые леса и эффекты строительства по всей длине.\n- Добавлены выбор формы карты и количества рек, плавные переходы суши и дна.\n- Полный цикл времени суток длится 24 минуты.\n- Улучшена мини-карта.\n- Ускорена загрузка игры, улучшена реакция ополчения и осадных отрядов.\n- Сохранены исправления оптимизации и воздушной разведки из предыдущей беты.\nПри первой установке загружается около 900 МБ текстур.",
+      "bodyEn": "- Added roads and bridges for every race; bots build and use crossings.\n- Bridges use racial scaffolding and construction effects across their full length.\n- Added map shapes, river counts and smooth land and water-floor transitions.\n- A full time-of-day cycle lasts 24 minutes.\n- Improved the minimap.\n- Faster game startup and improved militia and siege responses.\n- Includes the previous beta’s optimization and aerial scout fixes.\nThe first update downloads about 900 MB of textures."
     },
     {
       "id": "cache-stability-20261114",

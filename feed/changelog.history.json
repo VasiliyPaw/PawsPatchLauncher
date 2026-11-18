@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "1.0.22",
+      "publishedAt": "2026-11-18",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.22",
+        "en": "Paw’s Launcher 1.0.22",
+        "uk": "Paw’s Launcher 1.0.22",
+        "cs": "Paw’s Launcher 1.0.22",
+        "de": "Paw’s Launcher 1.0.22",
+        "fr": "Paw’s Launcher 1.0.22"
+      },
+      "body": {
+        "ru": "- Автоматически удаляются устаревшие HD-пакеты после возврата прежнего интерфейса.",
+        "en": "- Obsolete HD packages are removed automatically after restoring the previous interface.",
+        "uk": "- Застарілі HD-пакети видаляються автоматично після повернення попереднього інтерфейсу.",
+        "cs": "- Zastaralé HD balíčky se po obnovení původního rozhraní automaticky odstraní.",
+        "de": "- Veraltete HD-Pakete werden nach Wiederherstellung der früheren Oberfläche automatisch entfernt.",
+        "fr": "- Suppression automatique des anciens packs HD après le rétablissement de l’interface précédente."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "1.0.20",
       "publishedAt": "2026-11-17",
       "title": {
@@ -1663,6 +1684,78 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "1.0.22",
+      "publishedAt": "2026-11-18",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.22",
+        "en": "Paw’s Launcher 1.0.22",
+        "uk": "Paw’s Launcher 1.0.22",
+        "cs": "Paw’s Launcher 1.0.22",
+        "de": "Paw’s Launcher 1.0.22",
+        "fr": "Paw’s Launcher 1.0.22"
+      },
+      "body": {
+        "ru": "- Автоматически удаляются устаревшие HD-пакеты после возврата прежнего интерфейса.",
+        "en": "- Obsolete HD packages are removed automatically after restoring the previous interface.",
+        "uk": "- Застарілі HD-пакети видаляються автоматично після повернення попереднього інтерфейсу.",
+        "cs": "- Zastaralé HD balíčky se po obnovení původního rozhraní automaticky odstraní.",
+        "de": "- Veraltete HD-Pakete werden nach Wiederherstellung der früheren Oberfläche automatisch entfernt.",
+        "fr": "- Suppression automatique des anciens packs HD après le rétablissement de l’interface précédente."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "arcane-wars"
+      ],
+      "channel": "beta",
+      "version": "0.6.0-beta.6",
+      "publishedAt": "2026-11-18",
+      "title": {
+        "ru": "Paw’s Patch 0.6.0-beta.6 — Arcane Wars",
+        "en": "Paw’s Patch 0.6.0-beta.6 — Arcane Wars",
+        "uk": "Paw’s Patch 0.6.0-beta.6 — Arcane Wars",
+        "cs": "Paw’s Patch 0.6.0-beta.6 — Arcane Wars",
+        "de": "Paw’s Patch 0.6.0-beta.6 — Arcane Wars",
+        "fr": "Paw’s Patch 0.6.0-beta.6 — Arcane Wars"
+      },
+      "body": {
+        "ru": "- Возвращены прежние иконки и оформление интерфейса всех рас.\n- Удалены файлы прежних HD-иконок и интерфейса.",
+        "en": "- Restored the previous icons and interface artwork for every faction.\n- Removed the previous HD icon and interface files.",
+        "uk": "- Повернуто попередні іконки та оформлення інтерфейсу всіх рас.\n- Видалено файли попередніх HD-іконок та інтерфейсу.",
+        "cs": "- Obnoveny původní ikony a vzhled rozhraní všech ras.\n- Odstraněny soubory předchozích HD ikon a rozhraní.",
+        "de": "- Frühere Symbole und das Oberflächendesign aller Völker wiederhergestellt.\n- Die bisherigen HD-Symbol- und Oberflächendateien wurden entfernt.",
+        "fr": "- Rétablissement des anciennes icônes et de l’habillage de l’interface de toutes les factions.\n- Suppression des anciens fichiers HD des icônes et de l’interface."
+      }
+    },
+    {
+      "category": "patch",
+      "mods": [
+        "vanilla",
+        "immortals"
+      ],
+      "channel": "beta",
+      "version": "0.5.0-beta.10",
+      "publishedAt": "2026-11-18",
+      "title": {
+        "ru": "Paw’s Patch 0.5.0-beta.10 — Vanilla / Immortals",
+        "en": "Paw’s Patch 0.5.0-beta.10 — Vanilla / Immortals",
+        "uk": "Paw’s Patch 0.5.0-beta.10 — Vanilla / Immortals",
+        "cs": "Paw’s Patch 0.5.0-beta.10 — Vanilla / Immortals",
+        "de": "Paw’s Patch 0.5.0-beta.10 — Vanilla / Immortals",
+        "fr": "Paw’s Patch 0.5.0-beta.10 — Vanilla / Immortals"
+      },
+      "body": {
+        "ru": "- Возвращены прежние иконки и оформление интерфейса всех рас.\n- Удалены файлы прежних HD-иконок и интерфейса.",
+        "en": "- Restored the previous icons and interface artwork for every faction.\n- Removed the previous HD icon and interface files.",
+        "uk": "- Повернуто попередні іконки та оформлення інтерфейсу всіх рас.\n- Видалено файли попередніх HD-іконок та інтерфейсу.",
+        "cs": "- Obnoveny původní ikony a vzhled rozhraní všech ras.\n- Odstraněny soubory předchozích HD ikon a rozhraní.",
+        "de": "- Frühere Symbole und das Oberflächendesign aller Völker wiederhergestellt.\n- Die bisherigen HD-Symbol- und Oberflächendateien wurden entfernt.",
+        "fr": "- Rétablissement des anciennes icônes et de l’habillage de l’interface de toutes les factions.\n- Suppression des anciens fichiers HD des icônes et de l’interface."
+      }
+    },
     {
       "category": "patch",
       "mods": [
