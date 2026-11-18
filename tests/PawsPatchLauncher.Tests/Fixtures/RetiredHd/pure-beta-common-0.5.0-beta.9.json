@@ -1,0 +1,252 @@
+{
+  "id": "pure-beta-common",
+  "version": "0.5.0-beta.9",
+  "files": [
+    {
+      "path": "d3d9.dll",
+      "size": 11776,
+      "sha256": "3B596B4A9435A8BDCD183906CAABE9CB60706FCE56783D42E8C66C52DA43944E"
+    },
+    {
+      "path": "data/audio/paws_gold_button.tgi",
+      "size": 450,
+      "sha256": "752363F76112ED4C6759F4444C14FC10B2A3A98B1A5F0E1EBCFB0088E7F7345D"
+    },
+    {
+      "path": "data/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "data/localization/strings_paws_world.tgi",
+      "size": 1528,
+      "sha256": "8AA2C51EC3F29254E2745D605F780A55225D3A07F83672787242DC34C1633629"
+    },
+    {
+      "path": "data/ui/game/action_buttons.tgi",
+      "size": 11662,
+      "sha256": "A4388F0EB8B95524C191DD550B6F5530A18C9B7C4056813F7E87E556A7CECC32"
+    },
+    {
+      "path": "data/ui/game/control_panel.tgi",
+      "size": 22480,
+      "sha256": "86BA7439126ECC4039281D6421811125F9E7744801C3A61F47F9FC6A0F20C34D"
+    },
+    {
+      "path": "data/ui/game/favorites_display.tgi",
+      "size": 7842,
+      "sha256": "1E1AECF43E3FD3B19ABCD038A6B55C62746E5BDAA225A950A4F16F33A5B6946E"
+    },
+    {
+      "path": "data/ui/game/floaters.tgi",
+      "size": 14722,
+      "sha256": "53348ED1B4FDF8B316BEA9EFE278FFACE8BAC468DD4FFC80A298502812C0A050"
+    },
+    {
+      "path": "data/ui/game/game_interface.tgi",
+      "size": 6010,
+      "sha256": "4145DA78C6E76AFB908A5F050BC7ACD445A514944D57DEC0E6A46B0152DDB868"
+    },
+    {
+      "path": "data/ui/game/game_menu.tgi",
+      "size": 6556,
+      "sha256": "657BE332811098E52C2E2148C5EFCDBA12F70474F29D3670D4BA26FBA16A31FB"
+    },
+    {
+      "path": "data/ui/game/object_display.tgi",
+      "size": 19250,
+      "sha256": "6ACFC70F7D591633C0A336D5A138F9805CF702060813FC0D2E44388203D62B0F"
+    },
+    {
+      "path": "data/ui/game/organization_editor.tgi",
+      "size": 22970,
+      "sha256": "A020AE3825ECEB872BCF866E20B26BD22F9060B7B8765951FDAA04A08FDEB830"
+    },
+    {
+      "path": "data/ui/game/pawgoldsound.png",
+      "size": 1591535,
+      "sha256": "2E167D01473658DBEC2859ED1A5C8A07499847595A9D662C7C212D61985F645D"
+    },
+    {
+      "path": "data/ui/game/paws_day_clock.tgi",
+      "size": 325,
+      "sha256": "3DE896248B875AF95AAE59E74F672193D36F052F99904D4747CC1C3DEC1966AE"
+    },
+    {
+      "path": "data/ui/game/template_game.tgi",
+      "size": 53618,
+      "sha256": "5523A8F254DECE58D0AE52EBF54D5D45D06ED9F08AF2A5D6CDC354D90F9C33CE"
+    },
+    {
+      "path": "data/ui/game/time_message.tgi",
+      "size": 904,
+      "sha256": "573EF90602E3AE36124ECE6484781FA7FEBC3D2691BD308D24BA4BA018787658"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetcast.kf",
+      "size": 34225,
+      "sha256": "6AC15B8CD0389903AA3366D0B5D7A2F014248A98FA41AAA5B5EC9D44B3B31E97"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetdie1.kf",
+      "size": 15709,
+      "sha256": "22DA6745DE1D279E7BF2F869AEEB477D5011175ECCCEC985BEE0FD3377800E29"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetdie2.kf",
+      "size": 15861,
+      "sha256": "34117ED007BF8E5964FA7623336F79FC441807AE47220F31A45D1C57BBB71DB5"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetfidget1.kf",
+      "size": 17828,
+      "sha256": "F8C4802CDAEA06A2DA5B31222ECD11A5909AB1A61828D9D0DCBA7A44522BFEAD"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetfidget2.kf",
+      "size": 17168,
+      "sha256": "502BB3AF510F8C32B7EFA566A1A69226FBAD8804AE2064981452563B1D530874"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetidle.kf",
+      "size": 15701,
+      "sha256": "F69D67E9DDE3B781CC217D9FF513B7090CDC30C343E50591F1B12473A558B9C3"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetidlecast.kf",
+      "size": 8301,
+      "sha256": "C64DE3963420214EA15F17DE37B49B4021B2F24FD27850C4ED1994C3446A0E27"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetidlemelee.kf",
+      "size": 6718,
+      "sha256": "A08464EDF18BB0BC842F176DB5EC409D84054A8837FD8BF7A5935FD61437E168"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetjog.kf",
+      "size": 17304,
+      "sha256": "BADAD60E65588C21A30ECEB4A732F6DC2D41E8EC87BD8CBEFC3A242416169736"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetmelee1.kf",
+      "size": 13447,
+      "sha256": "4BAEC73A63AABF6FCF607212A6C887D163640708D2F67729CAC19E61A299A1E3"
+    },
+    {
+      "path": "data/units/ceyah/prophet/prophetwalk.kf",
+      "size": 16677,
+      "sha256": "58E96F1105BC885A86B9D0C734ADA238CEDA2259FD69AE70C0080E912382A76C"
+    },
+    {
+      "path": "data/units/human/ranger/rangerdie1.kf",
+      "size": 14564,
+      "sha256": "990CF3DDADD764A12126768FDEC606C8469A7C0C19AD55252F94301475A8A781"
+    },
+    {
+      "path": "data/uvars_k2.tgi",
+      "size": 951,
+      "sha256": "1DCB379A042A840ED311DFD835633EB82528C80EB7B71ADDDE9B02CD68B24F49"
+    },
+    {
+      "path": "local_base_ru/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "local_cs/localization/strings_paws_world.tgi",
+      "size": 1578,
+      "sha256": "067DBD778D9337917B950CA137262AC236ECA37A5038F4665A7D44308FB10126"
+    },
+    {
+      "path": "local_de/localization/strings_paws_world.tgi",
+      "size": 1660,
+      "sha256": "3B91CD8F05C42AA17A328872B593891CFDC0B6C638E5F1B96BF3FDCB9EEE4609"
+    },
+    {
+      "path": "local_fr/localization/strings_paws_world.tgi",
+      "size": 1648,
+      "sha256": "EB0BDC60EB5C37424F49A582070EDE618D838F73023D6EFBAC2F31F03C36DB29"
+    },
+    {
+      "path": "local_immortals_cs/localization/strings_paws_world.tgi",
+      "size": 1578,
+      "sha256": "067DBD778D9337917B950CA137262AC236ECA37A5038F4665A7D44308FB10126"
+    },
+    {
+      "path": "local_immortals_de/localization/strings_paws_world.tgi",
+      "size": 1660,
+      "sha256": "3B91CD8F05C42AA17A328872B593891CFDC0B6C638E5F1B96BF3FDCB9EEE4609"
+    },
+    {
+      "path": "local_immortals_fr/localization/strings_paws_world.tgi",
+      "size": 1648,
+      "sha256": "EB0BDC60EB5C37424F49A582070EDE618D838F73023D6EFBAC2F31F03C36DB29"
+    },
+    {
+      "path": "local_immortals_ru/localization/strings_paws_world.tgi",
+      "size": 1580,
+      "sha256": "B14E9F9E7015A2D7808B67AB1108A98C0610A4195B63C01EBBA62895D6B08883"
+    },
+    {
+      "path": "local_immortals_uk/localization/strings_paws_world.tgi",
+      "size": 1550,
+      "sha256": "368BC7D695C4D459A2F7A3D9C466659F5C0C9F188E281B73DBDB41ACAECF8C65"
+    },
+    {
+      "path": "local_ru/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "local_ru/localization/strings_paws_world.tgi",
+      "size": 1580,
+      "sha256": "B14E9F9E7015A2D7808B67AB1108A98C0610A4195B63C01EBBA62895D6B08883"
+    },
+    {
+      "path": "local_uk/localization/strings_paws_world.tgi",
+      "size": 1550,
+      "sha256": "368BC7D695C4D459A2F7A3D9C466659F5C0C9F188E281B73DBDB41ACAECF8C65"
+    },
+    {
+      "path": "paws-hd-ui.rwd",
+      "size": 109966009,
+      "sha256": "DE8AD93C6C9818726F273909CD25D5117BCE95CB85687C0D8A05AC8871A6DCAD"
+    },
+    {
+      "path": "skins/drauga.rwd",
+      "size": 25153919,
+      "sha256": "236ADD0ABA48EF4166792F170AC969282D0F4321DD42E879759D072EAC06C020"
+    },
+    {
+      "path": "skins/gauri.rwd",
+      "size": 25152165,
+      "sha256": "79F476106C2E7E1E4193F6D8716A0F62410A66F4426B296170721FC48DBFE047"
+    },
+    {
+      "path": "skins/haroun.rwd",
+      "size": 25137255,
+      "sha256": "DA447841531275EEC95889D4E1B339187BE9B5CB940FD25B319529052AD43AB0"
+    },
+    {
+      "path": "skins/human.rwd",
+      "size": 25158391,
+      "sha256": "763C8B09D00F13CF3E9594FC263F846C44AD4A4478570FDD1AAAC52A2B17BFA7"
+    },
+    {
+      "path": "skins/shadow.rwd",
+      "size": 25153783,
+      "sha256": "1224BC90619235EF8BFF7F430CEF2B9172429B02D4E5083B485EAB1143521064"
+    },
+    {
+      "path": "skins/undead.rwd",
+      "size": 25150666,
+      "sha256": "FDBB9874DC93F4BE9D20EB90B0237D68E3CA8D1E203DE063B49FD99B1C89E8ED"
+    },
+    {
+      "path": "startup/autoexec.txt",
+      "size": 1331,
+      "sha256": "E7670410EBA64296035A8E04A2BA0814CE20B69CAC8B4EF2FB35786268464CAC"
+    }
+  ],
+  "remove": []
+}

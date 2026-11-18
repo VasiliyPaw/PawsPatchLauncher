@@ -1,0 +1,25 @@
+{
+  "id": "arcane-biome-textures",
+  "version": "0.6.0-beta.5",
+  "priority": 95,
+  "required": false,
+  "experimental": true,
+  "executableIndependent": true,
+  "mods": [
+    "arcane-wars"
+  ],
+  "dependsOn": [],
+  "name": {
+    "ru": "Текстуры местности",
+    "en": "Terrain textures"
+  },
+  "description": {
+    "ru": "Все текстуры местности одним пакетом без снижения качества.",
+    "en": "All terrain textures in one package without quality reduction."
+  },
+  "size": 900055601,
+  "sha256": "36B758783284B81BEAB6C8B0FD0913861C50BF64BCA3C8212CB35AAFB98D88B6",
+  "urls": [
+    "https://github.com/VasiliyPaw/PawsPatchLauncher/releases/download/patch-0.6.0-beta.5/arcane-biome-textures-0.6.0-beta.5.zip"
+  ]
+}

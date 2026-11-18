@@ -577,6 +577,12 @@ public partial class MainWindow : Window
         await new ModLibrary(_game.Directory).RememberLanguagesAsync(selected);
         if (ModLibrary.Packages(channel, selection.Mod).All(p => LocallyAvailable(installer, p)))
             await new ModLibrary(_game.Directory).RememberAsync(channel, selection.Mod);
+        try
+        {
+            var storage = GetStorageOptions(channel);
+            await Task.Run(() => StorageMaintenance.RetireHdUi(storage, EnsureGameClosed));
+        }
+        catch (Exception) { ActionJournal.Record("storage.retired-artwork.skipped"); }
         _compatibilityKey = "";
         InvalidateReadiness();
         _fileCheckFailed = false;

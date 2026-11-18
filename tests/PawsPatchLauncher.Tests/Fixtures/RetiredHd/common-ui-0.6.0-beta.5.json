@@ -1,0 +1,397 @@
+{
+  "id": "common-ui",
+  "version": "0.6.0-beta.5",
+  "files": [
+    {
+      "path": "data/AVars_version.tgi",
+      "size": 581,
+      "sha256": "D593547A062D0A72EFA0359F1164312457D55E8C50E6653DBCCA61EDB80B93C2"
+    },
+    {
+      "path": "data/UI/1280/Game/controlpanel/Background.tga",
+      "size": 1638444,
+      "sha256": "1CDCD433B43C2C898FDE49A4A5091FC95350F72F052AB34CC7B9F3BD081D16EB"
+    },
+    {
+      "path": "data/UI/800/Game/controlpanel/Background.tga",
+      "size": 640044,
+      "sha256": "D3B7030868968328E37EDACEF9DB4E396D2A34E5603AD2BCB4D7B5F4B2AFE5A2"
+    },
+    {
+      "path": "data/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "2AB5F7D668EEDDF7D57F52755FD3FADD36D323336CFE1BD54AED3976A71AE2E9"
+    },
+    {
+      "path": "data/audio/paws_gold_button.tgi",
+      "size": 450,
+      "sha256": "752363F76112ED4C6759F4444C14FC10B2A3A98B1A5F0E1EBCFB0088E7F7345D"
+    },
+    {
+      "path": "data/game/world_rules_k2.tgi",
+      "size": 3874,
+      "sha256": "3D37E014DED76C23AE2DE7D0F3C760D8D116744BEA5CBA7D4D12A9D25B25E35D"
+    },
+    {
+      "path": "data/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "data/localization/paw_city_policy.tgi",
+      "size": 4186,
+      "sha256": "DC57CC9BC808C724B23FB3028B4B28D695749DA48AD08BDC14F98DA01280F8F4"
+    },
+    {
+      "path": "data/localization/paws_nightmare.tgi",
+      "size": 522,
+      "sha256": "4237E5EF775FB694B64033F83576A89BADE71D62FE7A32CA8851B5B6DCBC8B68"
+    },
+    {
+      "path": "data/localization/strings_data_k2.tgi",
+      "size": 955390,
+      "sha256": "62B94F9490313DE57C981B410B9AB068F41EF3C6872348A2F28D808E51D7A9AD"
+    },
+    {
+      "path": "data/minimap/icons/awtechminimapicon.png",
+      "size": 11899,
+      "sha256": "98C205EC66B3C2A1E102BF3E845368732EAE7E32410276E61150B0016013DCED"
+    },
+    {
+      "path": "data/organizations/banners/ceyah/ceyahbanner.nif",
+      "size": 2567,
+      "sha256": "56F570C1EDDF487B0E319542774A68560C1A5C0AD32653A635DFDC9BF9BBC3F8"
+    },
+    {
+      "path": "data/organizations/banners/ceyah/ceyahplayercolor.tga",
+      "size": 16428,
+      "sha256": "CCEC199DE75F29AA442DD8CC96D4EB6964EFB048C4972F0685EC8718391523AB"
+    },
+    {
+      "path": "data/organizations/banners/council/councilbanner.nif",
+      "size": 2585,
+      "sha256": "09F21F20271650B81CD4AF70014F890B395B53A523A3686EF72DA5B0927AD9A1"
+    },
+    {
+      "path": "data/organizations/banners/council/councilplayercolor.tga",
+      "size": 16428,
+      "sha256": "FBD97EFB864BA75C9B414CDDB2CA88500B655B0D5EE5873211B554D3C1B3F706"
+    },
+    {
+      "path": "data/organizations/banners/default/defaultbanner.nif",
+      "size": 2585,
+      "sha256": "D20A97635302389A1A713198948893D0A56BA607952274A31B479AF48B2123B5"
+    },
+    {
+      "path": "data/organizations/banners/default/defaultplayercolor.tga",
+      "size": 16428,
+      "sha256": "B3E69B79314E456F06EEFE8EF8EF3FA1C9696B127F89F9ED4DFC740368B42D3E"
+    },
+    {
+      "path": "data/organizations/banners/fallen/fallenbanner.nif",
+      "size": 2576,
+      "sha256": "E24AB5DAA2B247FE8A73513DC0EA56D8F6248BB9D494B5C86D7295413563E5BC"
+    },
+    {
+      "path": "data/organizations/banners/fallen/fallenplayercolor.tga",
+      "size": 16428,
+      "sha256": "9E4DE41F1C1D73D6425A5EF52A0B0F73EA77FC1462A486252F36FC4FF4310F80"
+    },
+    {
+      "path": "data/organizations/banners/monster/monsterbanner.nif",
+      "size": 2585,
+      "sha256": "06AE20BC12606D5017406C9E2A8A817AF88FEE92AE55C12356A05835F541BAF5"
+    },
+    {
+      "path": "data/organizations/banners/monster/monsterplayercolor.tga",
+      "size": 16428,
+      "sha256": "F95A1666C41C3400A906C257ABB64484F5F14115AEAE581C1988518CCF147A55"
+    },
+    {
+      "path": "data/organizations/banners/nationalist/nationalistbanner.nif",
+      "size": 2621,
+      "sha256": "D2322454DE1EA9EC17431E6AD46F58D7D08E6703D7DC37CBB76A78E0DE903BB2"
+    },
+    {
+      "path": "data/organizations/banners/nationalist/nationalistplayercolor.tga",
+      "size": 16428,
+      "sha256": "5999DE70B95F4447F2C59AB2F4D08C2ABA693301CDF9F0F0D42CA2BA238BFFE5"
+    },
+    {
+      "path": "data/organizations/banners/royalist/royalistbanner.nif",
+      "size": 2594,
+      "sha256": "F2DE8F48BFD7B1D406208EE3478802A299C58FC5164BE4CA6EA4792AA3FEB308"
+    },
+    {
+      "path": "data/organizations/banners/royalist/royalistplayercolor.tga",
+      "size": 16428,
+      "sha256": "16EA00A757BE1997CD5152F913E4857BBBBEDC6B1FEAD2A10CBBE8F49B1D7258"
+    },
+    {
+      "path": "data/randommap/rmc_temperate03.tgi",
+      "size": 21848,
+      "sha256": "316D351A64E94CAD53E05B743B2BDAE6E446D65EFC7FFAEA349F2A7D1C7DB9B6"
+    },
+    {
+      "path": "data/templates/template_rmc_k2.tgi",
+      "size": 62670,
+      "sha256": "339307F847E16C4197986D834526ED946D33062FF13F889EC19B88AF10480D9E"
+    },
+    {
+      "path": "data/ui/game/action_buttons.tgi",
+      "size": 11662,
+      "sha256": "A4388F0EB8B95524C191DD550B6F5530A18C9B7C4056813F7E87E556A7CECC32"
+    },
+    {
+      "path": "data/ui/game/control_panel.tgi",
+      "size": 22480,
+      "sha256": "86BA7439126ECC4039281D6421811125F9E7744801C3A61F47F9FC6A0F20C34D"
+    },
+    {
+      "path": "data/ui/game/favorites_display.tgi",
+      "size": 7842,
+      "sha256": "1E1AECF43E3FD3B19ABCD038A6B55C62746E5BDAA225A950A4F16F33A5B6946E"
+    },
+    {
+      "path": "data/ui/game/floaters.tgi",
+      "size": 14160,
+      "sha256": "1DB5B3445C7452861F3432DC9B327CA8B44362DE7DA24CC899E175572A05EE2B"
+    },
+    {
+      "path": "data/ui/game/game_interface.tgi",
+      "size": 6010,
+      "sha256": "21D01079893FC2A80251B7B4E25D693CFC84BD1A8C3EC4C67A9657C7123C34E3"
+    },
+    {
+      "path": "data/ui/game/game_menu.tgi",
+      "size": 3277,
+      "sha256": "A0753326D728E027108037E75A61B276BCB0FAECD0D78E56A11E539D8F48C3C0"
+    },
+    {
+      "path": "data/ui/game/object_display.tgi",
+      "size": 9623,
+      "sha256": "3D0DF9DEA010C64BDCAABC74C1EB9F68DFAA1A43134ACCA3F06ADD76E0485B5A"
+    },
+    {
+      "path": "data/ui/game/organization_editor.tgi",
+      "size": 25838,
+      "sha256": "F5FB4B0FF52DE4A7055881D0F89554C0AB7A750AAA6C58AD8A8B56F538403BD3"
+    },
+    {
+      "path": "data/ui/game/paw_city_en.tgi",
+      "size": 25312,
+      "sha256": "FAB308B4D48C63D39AC91A6637F71BFF79402A0140E1621898B4307F2D4B6464"
+    },
+    {
+      "path": "data/ui/game/paw_city_ru.tgi",
+      "size": 25312,
+      "sha256": "FAB308B4D48C63D39AC91A6637F71BFF79402A0140E1621898B4307F2D4B6464"
+    },
+    {
+      "path": "data/ui/game/pawgoldsound.png",
+      "size": 1591535,
+      "sha256": "2E167D01473658DBEC2859ED1A5C8A07499847595A9D662C7C212D61985F645D"
+    },
+    {
+      "path": "data/ui/game/paws_day_clock.tgi",
+      "size": 325,
+      "sha256": "3DE896248B875AF95AAE59E74F672193D36F052F99904D4747CC1C3DEC1966AE"
+    },
+    {
+      "path": "data/ui/game/template_game.tgi",
+      "size": 55606,
+      "sha256": "DD7EED53837845BC6AD871B15CD617E9D8D3C56703DF7E84295417C539495191"
+    },
+    {
+      "path": "data/ui/game/time_message.tgi",
+      "size": 904,
+      "sha256": "573EF90602E3AE36124ECE6484781FA7FEBC3D2691BD308D24BA4BA018787658"
+    },
+    {
+      "path": "data/ui/menus/main.tgi",
+      "size": 5847,
+      "sha256": "40E0507747CCBA54B32C8C3555BA61D45E4B7191DD31D6B43EE87FE7A6B74B52"
+    },
+    {
+      "path": "data/ui/menus/pcolors.tgi",
+      "size": 85202,
+      "sha256": "B456339F8608A0C3102C2317DD6B20D4A1DF1E8097E3C19081C3638CA9845A30"
+    },
+    {
+      "path": "data/ui/menus/staging.tgi",
+      "size": 79882,
+      "sha256": "372533AE315641031E385184DB57E6C080DCC72E75B61CAC40DF1A3604209850"
+    },
+    {
+      "path": "k2_paws_family_herd_relations_1372.exe",
+      "size": 2351616,
+      "sha256": "CA9B5F80F2762CFD346F791B0D98E9514832D9F770F3A69B0EB0B9429EA415F2"
+    },
+    {
+      "path": "k2_paws_sync_continue_1372.exe",
+      "size": 2302464,
+      "sha256": "24CA585DD744421BC41FDF5B01948817BD79EF09DCEEB1FCA3BDB8BD196337ED"
+    },
+    {
+      "path": "k2_paws_sync_family_herd_relations_1372.exe",
+      "size": 2355200,
+      "sha256": "B173CF0001EC2086EE9F79F56205ECBC3E1931F8D1E0B70F9E764D5BF3B16AF2"
+    },
+    {
+      "path": "k2_paws_ui_1372.exe",
+      "size": 2298368,
+      "sha256": "EF89F3627D7FAF11314A0B8F8E3301CABCA7C9FD2E48677F174F02844C6815CA"
+    },
+    {
+      "path": "local_base_ru/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "local_ru/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "local_ru/localization/paw_city_policy.tgi",
+      "size": 4264,
+      "sha256": "72300E06AF23B80D11E34DE2A4FAF7A3FC8AD70067DC67049491ADF80E610B4F"
+    },
+    {
+      "path": "paws-hd-ui.rwd",
+      "size": 109966009,
+      "sha256": "DE8AD93C6C9818726F273909CD25D5117BCE95CB85687C0D8A05AC8871A6DCAD"
+    },
+    {
+      "path": "paws_patch_versions.ini",
+      "size": 56,
+      "sha256": "D5452EC4E990360877721737EC652475F38CE8FE7B599DD6A82147A95BEC3DF5"
+    },
+    {
+      "path": "skins/Drauga/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "8C873C9F99D2DEA689DC2A63A995C2222A714F5A6AB9059126795F8E097A00A2"
+    },
+    {
+      "path": "skins/Drauga/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "C10A3481BFE119E560D9B203D2DFF260EB0DD122354038F8B1BFA144E9BF6389"
+    },
+    {
+      "path": "skins/Drauga/UI/Game/ControlPanel/Background.tga",
+      "size": 1044524,
+      "sha256": "53F2E0AD82371A8B7FF8D172DE439FE15FF00E35F9B0BA43C50CE588A25552E6"
+    },
+    {
+      "path": "skins/Gauri/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "873ECE7A1D675A74B87AAC70E472C6404C1669DA9225A706BA58AB5AC9E9A58D"
+    },
+    {
+      "path": "skins/Gauri/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "D813CC1D22A0F32C180AE17EBCDBAEF94D690F7F95D4FE4BB1D67AC95A798949"
+    },
+    {
+      "path": "skins/Gauri/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "E1B938077FBF4A33B34C618AEDBEED4E3B00DF3D292DE1D7FD1A5BB6789049BE"
+    },
+    {
+      "path": "skins/Haroun/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1633324,
+      "sha256": "0879D2E98210B9CDEBC54AE1D3FF95352D5130BF0BFA053DEE4A0725A0D24701"
+    },
+    {
+      "path": "skins/Haroun/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "4214E93469DA2A68F51C2DA048BBAA9486590F8533942CAF57BD105A8F2900A9"
+    },
+    {
+      "path": "skins/Haroun/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "ADDCD218278B5A85DBD317D5DF43F321A3595F4A9B3E659DF4047922027B8DC6"
+    },
+    {
+      "path": "skins/Human/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "F2E5C057A62B5F7CD193FD24112968AC9AE88220108FBB049C901697EB925604"
+    },
+    {
+      "path": "skins/Human/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "9CEEF58C467292424B59345B7D7816CE010CAFF029CFD973D86DD38049CB7D57"
+    },
+    {
+      "path": "skins/Human/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "E6A355ECC96E7E30DACD22AA34741C56C56D8197F03466885E6D668C332F5620"
+    },
+    {
+      "path": "skins/Shadow/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "B837F8377F10C5230AF18B05EE28B369C961B3FDC3DBEFC4BD491475CF060A56"
+    },
+    {
+      "path": "skins/Shadow/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "CCBA1F4591E7FBE42CF5D3CCC2BD0F69468425B36EF9D6C2E2FD00F256ADC459"
+    },
+    {
+      "path": "skins/Shadow/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "D0FEDE1F0A4AE94374E8AFDA314A26BEA58D32F924406E3D614BFDE32D03242D"
+    },
+    {
+      "path": "skins/Undead/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "D93AFD284CA2C3E9E0AE0AF616550A0C1662944249EAA1380C31C10D5089918E"
+    },
+    {
+      "path": "skins/Undead/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "00EC612AB240A8CBF4B95FBCBCE5E31F8730E715FC5427344A611C956F964F5E"
+    },
+    {
+      "path": "skins/Undead/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "1A435DDEF6B7556A3F791C3631669C05A9E5E96CAC989F0F559E04326C86AE10"
+    },
+    {
+      "path": "skins/drauga.rwd",
+      "size": 25153919,
+      "sha256": "236ADD0ABA48EF4166792F170AC969282D0F4321DD42E879759D072EAC06C020"
+    },
+    {
+      "path": "skins/gauri.rwd",
+      "size": 25152165,
+      "sha256": "79F476106C2E7E1E4193F6D8716A0F62410A66F4426B296170721FC48DBFE047"
+    },
+    {
+      "path": "skins/haroun.rwd",
+      "size": 25137255,
+      "sha256": "DA447841531275EEC95889D4E1B339187BE9B5CB940FD25B319529052AD43AB0"
+    },
+    {
+      "path": "skins/human.rwd",
+      "size": 25158391,
+      "sha256": "763C8B09D00F13CF3E9594FC263F846C44AD4A4478570FDD1AAAC52A2B17BFA7"
+    },
+    {
+      "path": "skins/shadow.rwd",
+      "size": 25153783,
+      "sha256": "1224BC90619235EF8BFF7F430CEF2B9172429B02D4E5083B485EAB1143521064"
+    },
+    {
+      "path": "skins/undead.rwd",
+      "size": 25150666,
+      "sha256": "FDBB9874DC93F4BE9D20EB90B0237D68E3CA8D1E203DE063B49FD99B1C89E8ED"
+    },
+    {
+      "path": "startup/autoexec.txt",
+      "size": 1581,
+      "sha256": "EA898E7B008D3F969FA052706426BBA1108B539A8E13D421A06D5E68A8442C93"
+    }
+  ],
+  "remove": []
+}

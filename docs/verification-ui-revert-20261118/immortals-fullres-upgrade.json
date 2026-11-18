@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "fromVersion": "0.5.0-beta.8",
+  "toVersion": "0.5.0-beta.10",
+  "oldLooseHdFiles": 645,
+  "legacyImagesVerified": 64,
+  "hdPathsAbsent": 655,
+  "untrackedHdArchiveRemoved": true,
+  "nativeGameLaunched": false
+}

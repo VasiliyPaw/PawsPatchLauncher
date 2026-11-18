@@ -1,0 +1,32 @@
+{
+  "skins/Drauga.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\stock-skins\\Drauga.rwd",
+    "sha256": "1164BA91EA5FBED6D958C6F0407494F0C7C7D683F4755DACEA9065753C557F28",
+    "size": 6320365
+  },
+  "skins/Gauri.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\stock-skins\\Gauri.rwd",
+    "sha256": "DA5E1BAE73424182F9184F77146A86EBD2B25DE03F4E804A35CDD980083EE8A0",
+    "size": 6306503
+  },
+  "skins/Haroun.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\stock-skins\\Haroun.rwd",
+    "sha256": "7D8CC77D038AC899AD003691457E519A43F14CBC6BEFBE786FEFD9EB5E85AE37",
+    "size": 6286117
+  },
+  "skins/Human.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\stock-skins\\Human.rwd",
+    "sha256": "D92375FB84D6FF76B4C75092EA9981587FD1F71E96E0CB0BF800B6A1708472B8",
+    "size": 6319695
+  },
+  "skins/Shadow.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\stock-skins\\Shadow.rwd",
+    "sha256": "33065FD644B98B5F954B265E2330BEF328BD642EA932CCA19803BDDF9DDF5C7A",
+    "size": 6316751
+  },
+  "skins/Undead.rwd": {
+    "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\stock-skins\\Undead.rwd",
+    "sha256": "86010014C71ACE46AA3E28AB29B55EE625B104AFE0BC57C52418487DA75E69FB",
+    "size": 6308880
+  }
+}

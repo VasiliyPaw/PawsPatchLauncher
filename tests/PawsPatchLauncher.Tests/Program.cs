@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 TestProcessErrorMode.Enable();
+if (args.Length == 2 && args[0] == "--retired-hd-ui") { RetiredHdUiTests.Run(args[1]); return; }
 if (args.Length == 2 && args[0] == "--missing-executable") { Directory.CreateDirectory(args[1]); MissingExecutableTests.Run(args[1]); return; }
 if (args.Length == 2 && args[0] == "--rebuild-installed-faction-voices") { await CustomVoiceTests.RebuildInstalledAsync(args[1]); return; }
 if (args.Length == 3 && args[0] == "--verify-installed-faction-launch") { await CustomVoiceTests.RunInstalledLaunchAsync(args[1], args[2]); return; }
@@ -244,6 +245,7 @@ try
     passed += await GameLobbyPreferencesTests.RunAsync();
     passed += await WindowsClipboardTests.RunAsync();
     passed += DiagnosticArchiveHistoryTests.Run(root);
+    passed += RetiredHdUiTests.Run(root);
     passed += RwdArchiveTests.Run(root);
     passed += RwdRelocatedPathsTests.Run(root);
     passed += await CustomRwdModTests.RunAsync(root);

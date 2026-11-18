@@ -182,10 +182,12 @@ public partial class MainWindow
             WindowStartupLocation = WindowStartupLocation.CenterOwner, Content = grid };
     }
 
-    private StorageOptions GetStorageOptions()
+    private StorageOptions GetStorageOptions(ChannelManifest? applied = null)
     {
         var feeds = new[] { _channel, _latestChannel }.Where(x => x is not null).Cast<ChannelManifest>()
             .Concat(_feedClient.Archived("stable").Take(1)).Concat(_feedClient.Archived("beta").Take(1)).ToList();
+        if (applied is not null)
+            feeds = new[] { applied }.Concat(_feedClient.Archived("stable").Take(1)).ToList();
         if (_settings.PinnedRelease is not null) feeds.Add(_feedClient.LoadArchived(_settings.PinnedRelease, _settings.Channel));
         return new(_feedClient.CacheDirectory, _game?.Directory, Environment.ProcessPath,
             feeds.SelectMany(x => x.Packages).ToList(), feeds.Select(x => x.Launcher).ToList());

@@ -1,0 +1,3902 @@
+{
+  "id": "common-ui",
+  "version": "0.6.0-beta.4",
+  "files": [
+    {
+      "path": "data/AVars_version.tgi",
+      "size": 581,
+      "sha256": "D593547A062D0A72EFA0359F1164312457D55E8C50E6653DBCCA61EDB80B93C2"
+    },
+    {
+      "path": "data/UI/1280/Game/controlpanel/Background.tga",
+      "size": 1638444,
+      "sha256": "1CDCD433B43C2C898FDE49A4A5091FC95350F72F052AB34CC7B9F3BD081D16EB"
+    },
+    {
+      "path": "data/UI/1280/Game/controlpanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "A43C1DEC0E1999CA756B3CE1973B8CBAF8F3B3B9170F8A99B0AB4294E7C1381D"
+    },
+    {
+      "path": "data/UI/1280/Game/controlpanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "405FCCBFBEA280B943875C5880E648DB79CF4AC2FDF37A2F0814481CD8AF52AE"
+    },
+    {
+      "path": "data/UI/1280/Game/controlpanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "71AB132881D0E91E5A69481E41E1D980C441F3A894A6F2409BD14A3E105DFD4D"
+    },
+    {
+      "path": "data/UI/800/Game/controlpanel/Background.tga",
+      "size": 640044,
+      "sha256": "D3B7030868968328E37EDACEF9DB4E396D2A34E5603AD2BCB4D7B5F4B2AFE5A2"
+    },
+    {
+      "path": "data/UI/800/Game/controlpanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "A43C1DEC0E1999CA756B3CE1973B8CBAF8F3B3B9170F8A99B0AB4294E7C1381D"
+    },
+    {
+      "path": "data/UI/800/Game/controlpanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "405FCCBFBEA280B943875C5880E648DB79CF4AC2FDF37A2F0814481CD8AF52AE"
+    },
+    {
+      "path": "data/UI/800/Game/controlpanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "71AB132881D0E91E5A69481E41E1D980C441F3A894A6F2409BD14A3E105DFD4D"
+    },
+    {
+      "path": "data/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "2AB5F7D668EEDDF7D57F52755FD3FADD36D323336CFE1BD54AED3976A71AE2E9"
+    },
+    {
+      "path": "data/UI/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "A43C1DEC0E1999CA756B3CE1973B8CBAF8F3B3B9170F8A99B0AB4294E7C1381D"
+    },
+    {
+      "path": "data/UI/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "405FCCBFBEA280B943875C5880E648DB79CF4AC2FDF37A2F0814481CD8AF52AE"
+    },
+    {
+      "path": "data/UI/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "71AB132881D0E91E5A69481E41E1D980C441F3A894A6F2409BD14A3E105DFD4D"
+    },
+    {
+      "path": "data/audio/paws_gold_button.tgi",
+      "size": 450,
+      "sha256": "752363F76112ED4C6759F4444C14FC10B2A3A98B1A5F0E1EBCFB0088E7F7345D"
+    },
+    {
+      "path": "data/game/world_rules_k2.tgi",
+      "size": 3874,
+      "sha256": "3D37E014DED76C23AE2DE7D0F3C760D8D116744BEA5CBA7D4D12A9D25B25E35D"
+    },
+    {
+      "path": "data/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "data/localization/paw_city_policy.tgi",
+      "size": 4186,
+      "sha256": "DC57CC9BC808C724B23FB3028B4B28D695749DA48AD08BDC14F98DA01280F8F4"
+    },
+    {
+      "path": "data/localization/paws_nightmare.tgi",
+      "size": 522,
+      "sha256": "4237E5EF775FB694B64033F83576A89BADE71D62FE7A32CA8851B5B6DCBC8B68"
+    },
+    {
+      "path": "data/localization/strings_data_k2.tgi",
+      "size": 955390,
+      "sha256": "62B94F9490313DE57C981B410B9AB068F41EF3C6872348A2F28D808E51D7A9AD"
+    },
+    {
+      "path": "data/minimap/icons/awtechminimapicon.png",
+      "size": 11899,
+      "sha256": "98C205EC66B3C2A1E102BF3E845368732EAE7E32410276E61150B0016013DCED"
+    },
+    {
+      "path": "data/organizations/banners/ceyah/ceyahbanner.nif",
+      "size": 2567,
+      "sha256": "56F570C1EDDF487B0E319542774A68560C1A5C0AD32653A635DFDC9BF9BBC3F8"
+    },
+    {
+      "path": "data/organizations/banners/ceyah/ceyahplayercolor.tga",
+      "size": 16428,
+      "sha256": "CCEC199DE75F29AA442DD8CC96D4EB6964EFB048C4972F0685EC8718391523AB"
+    },
+    {
+      "path": "data/organizations/banners/council/councilbanner.nif",
+      "size": 2585,
+      "sha256": "09F21F20271650B81CD4AF70014F890B395B53A523A3686EF72DA5B0927AD9A1"
+    },
+    {
+      "path": "data/organizations/banners/council/councilplayercolor.tga",
+      "size": 16428,
+      "sha256": "FBD97EFB864BA75C9B414CDDB2CA88500B655B0D5EE5873211B554D3C1B3F706"
+    },
+    {
+      "path": "data/organizations/banners/default/defaultbanner.nif",
+      "size": 2585,
+      "sha256": "D20A97635302389A1A713198948893D0A56BA607952274A31B479AF48B2123B5"
+    },
+    {
+      "path": "data/organizations/banners/default/defaultplayercolor.tga",
+      "size": 16428,
+      "sha256": "B3E69B79314E456F06EEFE8EF8EF3FA1C9696B127F89F9ED4DFC740368B42D3E"
+    },
+    {
+      "path": "data/organizations/banners/fallen/fallenbanner.nif",
+      "size": 2576,
+      "sha256": "E24AB5DAA2B247FE8A73513DC0EA56D8F6248BB9D494B5C86D7295413563E5BC"
+    },
+    {
+      "path": "data/organizations/banners/fallen/fallenplayercolor.tga",
+      "size": 16428,
+      "sha256": "9E4DE41F1C1D73D6425A5EF52A0B0F73EA77FC1462A486252F36FC4FF4310F80"
+    },
+    {
+      "path": "data/organizations/banners/monster/monsterbanner.nif",
+      "size": 2585,
+      "sha256": "06AE20BC12606D5017406C9E2A8A817AF88FEE92AE55C12356A05835F541BAF5"
+    },
+    {
+      "path": "data/organizations/banners/monster/monsterplayercolor.tga",
+      "size": 16428,
+      "sha256": "F95A1666C41C3400A906C257ABB64484F5F14115AEAE581C1988518CCF147A55"
+    },
+    {
+      "path": "data/organizations/banners/nationalist/nationalistbanner.nif",
+      "size": 2621,
+      "sha256": "D2322454DE1EA9EC17431E6AD46F58D7D08E6703D7DC37CBB76A78E0DE903BB2"
+    },
+    {
+      "path": "data/organizations/banners/nationalist/nationalistplayercolor.tga",
+      "size": 16428,
+      "sha256": "5999DE70B95F4447F2C59AB2F4D08C2ABA693301CDF9F0F0D42CA2BA238BFFE5"
+    },
+    {
+      "path": "data/organizations/banners/royalist/royalistbanner.nif",
+      "size": 2594,
+      "sha256": "F2DE8F48BFD7B1D406208EE3478802A299C58FC5164BE4CA6EA4792AA3FEB308"
+    },
+    {
+      "path": "data/organizations/banners/royalist/royalistplayercolor.tga",
+      "size": 16428,
+      "sha256": "16EA00A757BE1997CD5152F913E4857BBBBEDC6B1FEAD2A10CBBE8F49B1D7258"
+    },
+    {
+      "path": "data/randommap/rmc_temperate03.tgi",
+      "size": 21848,
+      "sha256": "316D351A64E94CAD53E05B743B2BDAE6E446D65EFC7FFAEA349F2A7D1C7DB9B6"
+    },
+    {
+      "path": "data/templates/template_rmc_k2.tgi",
+      "size": 62670,
+      "sha256": "339307F847E16C4197986D834526ED946D33062FF13F889EC19B88AF10480D9E"
+    },
+    {
+      "path": "data/ui/game/action_buttons.tgi",
+      "size": 11662,
+      "sha256": "A4388F0EB8B95524C191DD550B6F5530A18C9B7C4056813F7E87E556A7CECC32"
+    },
+    {
+      "path": "data/ui/game/control_panel.tgi",
+      "size": 22480,
+      "sha256": "86BA7439126ECC4039281D6421811125F9E7744801C3A61F47F9FC6A0F20C34D"
+    },
+    {
+      "path": "data/ui/game/favorites_display.tgi",
+      "size": 7842,
+      "sha256": "1E1AECF43E3FD3B19ABCD038A6B55C62746E5BDAA225A950A4F16F33A5B6946E"
+    },
+    {
+      "path": "data/ui/game/floaters.tgi",
+      "size": 14160,
+      "sha256": "1DB5B3445C7452861F3432DC9B327CA8B44362DE7DA24CC899E175572A05EE2B"
+    },
+    {
+      "path": "data/ui/game/game_interface.tgi",
+      "size": 6010,
+      "sha256": "21D01079893FC2A80251B7B4E25D693CFC84BD1A8C3EC4C67A9657C7123C34E3"
+    },
+    {
+      "path": "data/ui/game/game_menu.tgi",
+      "size": 3277,
+      "sha256": "A0753326D728E027108037E75A61B276BCB0FAECD0D78E56A11E539D8F48C3C0"
+    },
+    {
+      "path": "data/ui/game/object_display.tgi",
+      "size": 9623,
+      "sha256": "3D0DF9DEA010C64BDCAABC74C1EB9F68DFAA1A43134ACCA3F06ADD76E0485B5A"
+    },
+    {
+      "path": "data/ui/game/organization_editor.tgi",
+      "size": 25838,
+      "sha256": "F5FB4B0FF52DE4A7055881D0F89554C0AB7A750AAA6C58AD8A8B56F538403BD3"
+    },
+    {
+      "path": "data/ui/game/paw_city_en.tgi",
+      "size": 25312,
+      "sha256": "FAB308B4D48C63D39AC91A6637F71BFF79402A0140E1621898B4307F2D4B6464"
+    },
+    {
+      "path": "data/ui/game/paw_city_ru.tgi",
+      "size": 25312,
+      "sha256": "FAB308B4D48C63D39AC91A6637F71BFF79402A0140E1621898B4307F2D4B6464"
+    },
+    {
+      "path": "data/ui/game/pawgoldsound.png",
+      "size": 1591535,
+      "sha256": "2E167D01473658DBEC2859ED1A5C8A07499847595A9D662C7C212D61985F645D"
+    },
+    {
+      "path": "data/ui/game/paws_day_clock.tgi",
+      "size": 325,
+      "sha256": "3DE896248B875AF95AAE59E74F672193D36F052F99904D4747CC1C3DEC1966AE"
+    },
+    {
+      "path": "data/ui/game/template_game.tgi",
+      "size": 55606,
+      "sha256": "DD7EED53837845BC6AD871B15CD617E9D8D3C56703DF7E84295417C539495191"
+    },
+    {
+      "path": "data/ui/game/time_message.tgi",
+      "size": 904,
+      "sha256": "573EF90602E3AE36124ECE6484781FA7FEBC3D2691BD308D24BA4BA018787658"
+    },
+    {
+      "path": "data/ui/menus/main.tgi",
+      "size": 5847,
+      "sha256": "40E0507747CCBA54B32C8C3555BA61D45E4B7191DD31D6B43EE87FE7A6B74B52"
+    },
+    {
+      "path": "data/ui/menus/pcolors.tgi",
+      "size": 85202,
+      "sha256": "B456339F8608A0C3102C2317DD6B20D4A1DF1E8097E3C19081C3638CA9845A30"
+    },
+    {
+      "path": "data/ui/menus/staging.tgi",
+      "size": 79882,
+      "sha256": "372533AE315641031E385184DB57E6C080DCC72E75B61CAC40DF1A3604209850"
+    },
+    {
+      "path": "k2_paws_family_herd_relations_1372.exe",
+      "size": 2351616,
+      "sha256": "D530CB5348796B0B256D6F056F88DC02F0910DA4B25464C1E543898AEF22C96C"
+    },
+    {
+      "path": "k2_paws_sync_continue_1372.exe",
+      "size": 2302464,
+      "sha256": "5AC3E69C49CA995192C96EA3CBB069F6734924FE5B0460014D60E86477B98BB7"
+    },
+    {
+      "path": "k2_paws_sync_family_herd_relations_1372.exe",
+      "size": 2355200,
+      "sha256": "F3B6F2E0FC4820C03C9121E4E615D779AC036D4C7EC57D4C6EED74E2ED205DE7"
+    },
+    {
+      "path": "k2_paws_ui_1372.exe",
+      "size": 2298368,
+      "sha256": "4EA4B32AC02010F39DF6817CD12E981FDAE026FD78A45CB757AC4198B28B681C"
+    },
+    {
+      "path": "local_base_ru/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "local_ru/localization/hotkeys/hotkeys_favorites.txt",
+      "size": 6143,
+      "sha256": "2F4320D16FCD19DCD7673824C2B9C4AFCE28FDF81D74E4960D1DF0EF32009680"
+    },
+    {
+      "path": "local_ru/localization/paw_city_policy.tgi",
+      "size": 4264,
+      "sha256": "72300E06AF23B80D11E34DE2A4FAF7A3FC8AD70067DC67049491ADF80E610B4F"
+    },
+    {
+      "path": "paws-hd-ui/Properties/1280/PropertyIcons/IconPropertyBuddyRequests.png",
+      "size": 1671871,
+      "sha256": "22780B9ED8A611C0B3D67AA0B22417FAF064D66E7BF14AF0155A8B794D741483"
+    },
+    {
+      "path": "paws-hd-ui/Properties/1280/PropertyIcons/IconPropertyIMs.png",
+      "size": 1771598,
+      "sha256": "FA2381DBC24FC6CD36383F9B5001D47C7D21496BB8DEBB836982ABC54A21BBE7"
+    },
+    {
+      "path": "paws-hd-ui/Properties/800/PropertyIcons/IconPropertyBuddyRequests.png",
+      "size": 1671871,
+      "sha256": "22780B9ED8A611C0B3D67AA0B22417FAF064D66E7BF14AF0155A8B794D741483"
+    },
+    {
+      "path": "paws-hd-ui/Properties/800/PropertyIcons/IconPropertyIMs.png",
+      "size": 1771598,
+      "sha256": "FA2381DBC24FC6CD36383F9B5001D47C7D21496BB8DEBB836982ABC54A21BBE7"
+    },
+    {
+      "path": "paws-hd-ui/Properties/PropertyIcons/IconPropertyBuddyRequests.png",
+      "size": 1671871,
+      "sha256": "22780B9ED8A611C0B3D67AA0B22417FAF064D66E7BF14AF0155A8B794D741483"
+    },
+    {
+      "path": "paws-hd-ui/Properties/PropertyIcons/IconPropertyIMs.png",
+      "size": 1771598,
+      "sha256": "FA2381DBC24FC6CD36383F9B5001D47C7D21496BB8DEBB836982ABC54A21BBE7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/CSD/CatchingUp.tga",
+      "size": 6290108,
+      "sha256": "4FF905973EC2467EBE5C562128EF44FE75AA0C685481321A3E1625D368899545"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/CSD/Disconnected.tga",
+      "size": 6290108,
+      "sha256": "85208CF330D105226F717EA81343D5E144D0B24428B018A912B3F871D2D1544B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/CSD/LowCPU.tga",
+      "size": 6290108,
+      "sha256": "C0CB515E746B9A2D6C36794FE20243077F50FDCE58D909462624AA2367F2F4AB"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/CSD/OutOfSync.tga",
+      "size": 6290108,
+      "sha256": "79E6854353895BF0F011F608DC215B6C560B7B9BC12356184AF739CC7AF721A3"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/BuddiesSelected.png",
+      "size": 2139474,
+      "sha256": "2E7C321F19E597A838FCED24375278071FED0597456B706D0E46456EA6251018"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/BuddiesUnselected.png",
+      "size": 1955288,
+      "sha256": "B537250C4F23556122DC52DA45D97851932D6E13F67557BF89D54528C4924951"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/ChatAllSelected.png",
+      "size": 2458742,
+      "sha256": "69165F384CC0A5AAE84D97686FC1010404844A2B66CA3F369F5998E2916D021F"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/ChatAllUnselected.png",
+      "size": 2101588,
+      "sha256": "0187F1D252D6D05399A92E45EF9873D8F55F52A7C780A989DE9FF77B9B12B9FF"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/ChatNoneSelected.png",
+      "size": 2408206,
+      "sha256": "2F5B273C0D7484F780A514157B97B59B66ABD6011F383AD154C4DE1121BA60CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/ChatNoneUnselected.png",
+      "size": 2047075,
+      "sha256": "9E93BF015A4F0F9E2E5C60A25A480E347D235C2D99CA3D38265224A6ED53996C"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/FullChatSelected.png",
+      "size": 1907665,
+      "sha256": "1397630886958E013B41B0E24CBB0E3FE94DD8CF77E243FAD4BA6867F54680B3"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/FullChatUnselected.png",
+      "size": 1908964,
+      "sha256": "980A35DBA1EAFE8D72ADC5399EA6FED2B0EE78395CA6E595D238D95911DA9750"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/GamespyLogo.png",
+      "size": 439082,
+      "sha256": "1CBFAA6411F3A45258DEB8CBA7DAC0693F7B442C7F74D4442A47F404F654EA84"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/HalfChatSelected.png",
+      "size": 2290246,
+      "sha256": "6BD0297F2AC518C765F9DE3982B44555B7269F520EBFB9F7B3DB2029FB31913E"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/HalfChatUnselected.png",
+      "size": 2171970,
+      "sha256": "C63B71D811E6F26DF306466DB3F2553766C34E633B873C5FB644674AE4CBEA94"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/MapLoadFocused.png",
+      "size": 1928524,
+      "sha256": "46D41F4DC59EBF7D2EE3DF9C3CF4D8437E3DE762D5D9076DC0971B6CCE1455A9"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/MapLoadPressed.png",
+      "size": 1931754,
+      "sha256": "A85CD6C6C78F51451B8518C1CEFBBE151328C0014978DB51705D4D49E6474944"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/MapLoadUnpressed.png",
+      "size": 2064353,
+      "sha256": "E8B599B96A7BECBF0BCCDFB437E65D00E76C8DD4229732D744F859FBA07B2C1B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/MapSaveFocused.png",
+      "size": 2227283,
+      "sha256": "83E806FB373D4F4A54CA94394AF485067C51D7DDE800F9C115C2578FE31FFAE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/MapSavePressed.png",
+      "size": 2083039,
+      "sha256": "DD436651D5520D07F6BDC0C66946C585D59E77015ACB3387D62238204F5000AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/MapSaveUnpressed.png",
+      "size": 2265334,
+      "sha256": "BD7F28CADAD3B958F82FAD336E35EBE240147C8D7229A143C3F410167DBA2D32"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/NoChatSelected.png",
+      "size": 1861553,
+      "sha256": "3971558EAF89DF92B0F489FCA6716EF689E7432E7F03CFCFD253747082DAC3B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/NoChatUnselected.png",
+      "size": 1753279,
+      "sha256": "65F51FD8EA928C9B42A5FA1553C72AC4BB749224DBB938965E15C3878D03EC5E"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/RandomMapFocused.png",
+      "size": 2102790,
+      "sha256": "2DC11CC85B5257B55196968191A9C175EFE97CFBF6C58384647B8211F0363260"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/RandomMapPressed.png",
+      "size": 2306066,
+      "sha256": "B3EBB1C5FEF36D359BFA2B9FB3B220C6D5CEE5252792C0210431359DAAB5A60D"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/RandomMapUnpressed.png",
+      "size": 2259064,
+      "sha256": "8F146F03146637433A8E0E786960B6ADF366414172C6804ABA824227D8A89AAE"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/SaveFilmsFocused.png",
+      "size": 2212193,
+      "sha256": "FBDEF240916B63C92D90443B1C61D7C6F041C2DCFB16EDF2DA6453D492F6E01B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/SaveFilmsPressed.png",
+      "size": 2175567,
+      "sha256": "636A96EE46BFCE8892C5D37407C640D8558E6D94475AE9673D7D5E29F61BC6D4"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/SaveFilmsUnpressed.png",
+      "size": 2325144,
+      "sha256": "3394A497414B3BF8648B01522FF3397A61E300C1F8640C41BCF15535B1F45322"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/SelectNoneSelected.png",
+      "size": 2114337,
+      "sha256": "46E4836D0BF7EB7FA8B4882CEB3009A7E9039E608E4E2EF79C90AEB791835E1D"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/SelectNoneUnselected.png",
+      "size": 1901771,
+      "sha256": "CF375377A051249DBD972A70647C29DE55961DFF716CBFB641C76BDF86D32209"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/TeamsPressed.png",
+      "size": 1980600,
+      "sha256": "3E35BE98E828738EA4803C4AD0954AB5B43509CFCADAF5BED754E4A556F79859"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/TeamsUnpressed.png",
+      "size": 1918050,
+      "sha256": "96CCD9AAA786203F7C604D2623ED026F411CA765DC3C5CB1711A9F2720F4DA4D"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/WhisperSelected.png",
+      "size": 2241451,
+      "sha256": "511AAB65D3A148C9B9682640EAC6C5273419E07522F30AB35C5B667D76B3AA0F"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/WhisperUnselected.png",
+      "size": 1897683,
+      "sha256": "C6CCBF90443AA87667B5AC6AF46D5B4FA2526E3FEAC89B16FCD2598309B14FE0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/LobbyButtons/passwordlock.png",
+      "size": 1424485,
+      "sha256": "BB58498516553AB8D54024C567C3B089ACD983672F3788F6DC68BFFE74CE42D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/ReadyStatus/HostIcon.tga",
+      "size": 6290108,
+      "sha256": "863869917E317A5A3C16C48966F1986B46E6067B55CD9E9E7CCBE93F4E082D05"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/ReadyStatus/NotReadyCheck.tga",
+      "size": 6290108,
+      "sha256": "EDBB239288E0D1270399A118AAB53E0468BCA264F6B3FD4BA806A35372D4D1C8"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/ReadyStatus/NotReadyCheckbox.tga",
+      "size": 6290108,
+      "sha256": "205CFAE4C1CF160BDC514470809D808BE6B4D07AAF6A2E9657619DAE183E9D2C"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/ReadyStatus/NotReadyIcon.png",
+      "size": 1041568,
+      "sha256": "CCC217619A08C9BF059FBFB1B0E42DA619B9B14C77B2404CEBC895ACC08E84BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/ReadyStatus/ReadyCheck.tga",
+      "size": 6290108,
+      "sha256": "12F139D62A4C5E534F9C5E335AB4AAAEC1F0227DEA7EF0BCA69C53A4C54095D4"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/ReadyStatus/ReadyCheckbox.tga",
+      "size": 6290108,
+      "sha256": "812A7A8A520D675A594E8F5EC8CEB9DA0493D6276CDAEDB73A58BC1DB51C43AA"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/ReadyStatus/ReadyIcon.png",
+      "size": 1352988,
+      "sha256": "9359941ACC3B1294CF04BD194864DDF81E0C9A5192CAAD2FE8993B3E8F16B7C5"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/Staging/HostIcon.png",
+      "size": 1757143,
+      "sha256": "03E21389F2F14233D4961388F36F85FB54DC9429A0EAF3EBDCF9F79A976FB8B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/Staging/KingdomIcon.png",
+      "size": 1558180,
+      "sha256": "160B5848C488EABB0D28368EABDC0BBFB4416CA495CDEF13E46DD9104DD946A2"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/Staging/SwitchIcon.png",
+      "size": 2103684,
+      "sha256": "35A2A05037137041736A94CF9988F2DAA0101BD85AC2BFE7B6AA8BA5504737F6"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/Staging/SwitchIconFocused.png",
+      "size": 2072258,
+      "sha256": "2A0E6EA8101A1FB08BBCFEFF433462B7FA11EA83829AAB90DB1B0333AA6769BD"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Default/Staging/SwitchIconPressed.png",
+      "size": 2061000,
+      "sha256": "34FFBD3B0CFAF144D4BD0B69BE11CCBDCE128CAFDDC221718BC88BC4A36295EF"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconAttach.png",
+      "size": 3052336,
+      "sha256": "5F0A140CFF8FB5BB6E4B7E08705B38A598759AC39796E3297486BBCFAE4CA2B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconAttack.png",
+      "size": 2510264,
+      "sha256": "ECB48B33B41D97D4890796CDAC7B8B158CF6B0CDCB23223A8F8B6177B4D4D1D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconBombard.png",
+      "size": 2735016,
+      "sha256": "3DF38A152CFAF1CB38C4D4CBA4E16460FC555DFBAC0116893B99DB22688850F9"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconBuildStructure.png",
+      "size": 2731765,
+      "sha256": "C51124C123AC9028A129B1E8B4DAB20F30504AE45592F73478FD0E12DAB1E765"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconBuy.png",
+      "size": 2700538,
+      "sha256": "28638EDA4E20712A6F31EBEF9736C39FEFD18100DDFEDC693EFB1DB8791E3D2E"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconCancel.png",
+      "size": 1282339,
+      "sha256": "F64B91402340A021451293595074E13205AA5BD20799455FFD22D08C876F9BF5"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconCommission.png",
+      "size": 3920888,
+      "sha256": "23A2B0BE5217E15769C843E95BA4FF5FBD5DB4C4ED13B7109C9A4E634E94A14E"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconConstruct.png",
+      "size": 2731765,
+      "sha256": "C51124C123AC9028A129B1E8B4DAB20F30504AE45592F73478FD0E12DAB1E765"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconCustomCompany.png",
+      "size": 2090828,
+      "sha256": "183291C9C06D617ABC5C777BEFD4600F8AD2E1249570D13C29D70F02DFFCC75A"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconDetach.png",
+      "size": 4381187,
+      "sha256": "E0109B3C04E7AF42B1871404D7116EE7DB2A7A26E07D42632BAAA8C76E799F82"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconDisband.png",
+      "size": 3989246,
+      "sha256": "F269A2F17ADFF032916ED4EB9BB9C3ECDF6CF1E6452CD747C8608708DB80040F"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconDowngrade.png",
+      "size": 2863476,
+      "sha256": "89C8CF77FAD48CB19E262E71F617620BAADC30E385A37A2DD382DB62D40182A7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconExplore.png",
+      "size": 2438202,
+      "sha256": "F07FB51055126DF3D760BD91B9E274621AC2A72E2A6F3F819B315E797E8503CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconGroupBehaviorDisable.png",
+      "size": 3453727,
+      "sha256": "06D956630EBE655DCB3D5F6F96935D67E5F853A88F9698954E8600B228D1EA53"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconGroupBehaviorEnable.png",
+      "size": 3478545,
+      "sha256": "26FDE1E3FAA828142F54D3BEC7EE3017DD7E13449D8A6481473969A48B578D02"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconGuard.png",
+      "size": 2752210,
+      "sha256": "12C9EC585D817304B350AB4FEE5B4A49214961971188B72D1EA273024E86F9F5"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconKingdomView.tga",
+      "size": 6290108,
+      "sha256": "4253C6F9696E1C306130C90953947D01B30FFBECB23409E59829B2B286711238"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconMove.png",
+      "size": 2407204,
+      "sha256": "A58E6EC3011BBA925B4C79A0B50B0757085D359DFEFD09BDA00F911B80F2379B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconObserverView.png",
+      "size": 2370458,
+      "sha256": "5A542D3D986028C122ABD04D3D46AA4082A2524601FC50AA1378754733A09F50"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconRaze.png",
+      "size": 2104477,
+      "sha256": "9A6E1EB7ACF1C4678E80ADB74E5207B942DA7C70857748FA2F1EFBB21D4257DE"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconRecall.png",
+      "size": 2384050,
+      "sha256": "92FACFF15C09E57052ED802CBD0C98A1F57C9CE11D97CA842F743A197A14072E"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconRepair.png",
+      "size": 2689520,
+      "sha256": "63C5CA35137D968BA4531C9824002C812CB219FB3800570214CFF64D90E65BA9"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconResearch.png",
+      "size": 2785635,
+      "sha256": "DD346498139348144781A8D17A57D67B942EA941F9EF96B8821AFEA88934F969"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconResetFavorites.png",
+      "size": 2012086,
+      "sha256": "8A029E87C68CC0F0D48A71434EFD785B7FF8A297944A5FC569C5FECBD2221CB8"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconRetreat.png",
+      "size": 1793921,
+      "sha256": "2425536D16589D2B6E3B58D77B5CEBA00A91FACF892CFDFC85A1445EC4759B3A"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconRout.png",
+      "size": 2352570,
+      "sha256": "3F92EC44FFFA9F41FA1DD55AF15906E6A7EC5B55F22AB75D67BDBFD2BE83C7FD"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconSallyForth.png",
+      "size": 2744061,
+      "sha256": "96BC395E321EE2C4C24D33599F5E7BC90B8C9DA33426513E85DD8727013AF461"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconSell.png",
+      "size": 3018678,
+      "sha256": "72F6B5CE887C94548E768B63DE114F8FE84221C53CF9D8181FED3AAD901B8D78"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconSetRallyPoint.png",
+      "size": 2302358,
+      "sha256": "49BDD1CD833CB13482D1BAA11D107468F23605124485FE437E7FE4F03926DA03"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconStop.png",
+      "size": 1459517,
+      "sha256": "08857513DDCAF54070D22B245AF4CACA76A702C8AC75AB2570FF711F65997AD0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamAttack.png",
+      "size": 2464502,
+      "sha256": "4B091AA7CF53D8BA0B4E47724AB310AAB4501535FE818805EF0F42977CD075BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamBuild.png",
+      "size": 2613729,
+      "sha256": "AC3FF2E3EAF1B19B7EB8600A1F687F940DAE1E35ADB0CF22F6C3D66F7AB3028A"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamChat.png",
+      "size": 2195914,
+      "sha256": "E86E73C46C7A49E726E1E3B02B1BF97548302806134C2CEB637562C4DC51EA3D"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamCommand.png",
+      "size": 2109724,
+      "sha256": "B86B10BB316964772C856C76ADC5AF012F294EDDB88E7F2CA50EE8D2D229A606"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamDefend.png",
+      "size": 2586264,
+      "sha256": "D4BC635153FAC22C08CDD53F511FDB6E02B82F3A8CC1ACFFF649C7B6C47C8265"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamExplore.png",
+      "size": 2432929,
+      "sha256": "62D8DF1C38FF9DECF787455AA0343FCEFDB52D90543EF0446CE3185E0BA49D11"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamGiveActor.png",
+      "size": 2223294,
+      "sha256": "53618D01DCC5FC358F365025DB3B4C53DF027D95F324CABFEEC8A50FFAEEAAFD"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamGiveResources.png",
+      "size": 2375992,
+      "sha256": "EC02A98C153591910A4E6350ED11C1724E6DDABE778A2909054E057171925E06"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamReport.png",
+      "size": 2458437,
+      "sha256": "BB738E6122E5C7FAF603EC2A3A3589364FA8369F52DC4C3A995988420B665122"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamRequestActor.png",
+      "size": 2230922,
+      "sha256": "753AC1107832956B076C2C46FE11F0CA2E1670BE5C640612AFB4833887837E07"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamRequestResources.png",
+      "size": 2382100,
+      "sha256": "B311BD3745BA964E392C4D790E2D5D583077562FD472F76E168E2CD13EF5A9B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconTeamSelectKingdom.png",
+      "size": 2689983,
+      "sha256": "77894003683CEB11011244F0FE3222FF661B3065661AC4FB346298C7834E5652"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconUpgrade.png",
+      "size": 1984685,
+      "sha256": "B66D5B000D40D2DE1680F945D7D7F9A9236D889A2AC238B4BAFB7A0C612215F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/IconUpgradeFort.png",
+      "size": 1041864,
+      "sha256": "451D644C80BC75E3C06A9F31B23373EF3611FF18BD17B824A1E3A811BC805359"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconAmberRings.png",
+      "size": 2625499,
+      "sha256": "DCB77D707AA4CA73F27841C2433F18CA42C65F6BBD37802ADD2FBFFE59FAB892"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBalancedWeapons.png",
+      "size": 3264539,
+      "sha256": "B156642226C31A1AC69C8050579C8FDDECB77F70D0B8B025517FC2FDAEBB37F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBarbedSpines.png",
+      "size": 3070601,
+      "sha256": "831BD60D2F0B6F60AE3AC32EBD377CAC27A88F6D389C2A6D5C99763C8F371E46"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBilleting.png",
+      "size": 4005931,
+      "sha256": "E9F6C646F6B6B82D70EF6792FE2392D70B3C7B68EB79D77984497BBAA51F3CC2"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlackBlessing.png",
+      "size": 2751610,
+      "sha256": "D85759789CAA958F4B4FA67BFD6D13D69001F9C2E83BDC52B75D5E6292CD1B9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlackIchor.png",
+      "size": 2272374,
+      "sha256": "697CD452E728783DC7189F6D290DED6B8425B8110FC885675FD32A42A0D3CCCE"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlackOffering.png",
+      "size": 2675887,
+      "sha256": "A73B80AD7034482AD5D7079768DE325B35F734DC9E964EA266866A00BC85F640"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlessedArmor.png",
+      "size": 2200848,
+      "sha256": "31D257E6F0E83C614A56B9A034354D79F77864F6EDADCA838E1E6F1861D750B1"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlessingLife.png",
+      "size": 1893156,
+      "sha256": "25A8633D1A9F074FF5446A4F775E69CAA571B97BB54F0D0CA53BC80B1B0381A0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlessingMight.png",
+      "size": 1907725,
+      "sha256": "9225191BEEE7B367CA61B3B58C43289296AD71FC3B9052C1FEA6AA63044213A5"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlessingOfValor.png",
+      "size": 2008467,
+      "sha256": "208A715E14FA694CA3EEE69D91E1D6C0F932C6F9F4D8470D57729AB8ACFE8B26"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlessingSpeed.png",
+      "size": 1690921,
+      "sha256": "C2D2EBE47FFC2DEFBE1E188ECA895C97C56CAC50EE1904040336C576E76ABFE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlessingValor.png",
+      "size": 2008467,
+      "sha256": "208A715E14FA694CA3EEE69D91E1D6C0F932C6F9F4D8470D57729AB8ACFE8B26"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBlessingofSpeed.png",
+      "size": 1690921,
+      "sha256": "C2D2EBE47FFC2DEFBE1E188ECA895C97C56CAC50EE1904040336C576E76ABFE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBoneRings.png",
+      "size": 1738716,
+      "sha256": "4D91A18D8F468E20425555ACEA761ABA88A107BB42588687F88ED2C5901B1025"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconBootCamp.png",
+      "size": 2456497,
+      "sha256": "DB45B7F252AA4C1983B92234A0C0B4F7D8A3A33279B5A7FB1D196521C3AB7183"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconCalvaryTactics.png",
+      "size": 2067543,
+      "sha256": "2EC1F95EFFB2866CEEB6C4F6C8A57215250AC2B57B4161FD13EC5018F1C350FC"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconCavalryTactics.png",
+      "size": 2067543,
+      "sha256": "2EC1F95EFFB2866CEEB6C4F6C8A57215250AC2B57B4161FD13EC5018F1C350FC"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconCompositeBows.png",
+      "size": 1481440,
+      "sha256": "AFBE6B266F4955C7EB93B25CD67849449FD6D42B290F17167C4A37B39E92E3AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDarkFortitude.png",
+      "size": 720778,
+      "sha256": "1429156DCE857E280F52941A8C2001DAEEFA813E34526E8E63D0119B713B65F9"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDarkMatter.png",
+      "size": 1711010,
+      "sha256": "E6304F859E8D79B72BD6B4D1D03B74971F05C79150D821199C1A2D7553D163F3"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDarkRitual.png",
+      "size": 2420061,
+      "sha256": "B0D59D61413E692F94D26FD4A6A895CA3FC8A27CBF64DE1A03EB0E1E064A6AE2"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDeadZone.png",
+      "size": 1991190,
+      "sha256": "021A99B04B76C8FBDAA6F104DEC3B60D3913C9DDA8278873FDAF8C66C8BF1666"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDeepRoots.png",
+      "size": 2183797,
+      "sha256": "A1A96497B6FF7FA9FAF35EBAF09E512BCEC6B36B13A9D0B8B52F8CE4D02F34B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDiseasedArmor.png",
+      "size": 2292678,
+      "sha256": "AD5E07490928636849CD83405B5B7800C303AA1B6709A5BB0F72341324769CC7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDiseasedArrows.png",
+      "size": 2858827,
+      "sha256": "EE907CF1CE7E218E88DFD12AA332F3AFB5166AAD893DA62D482D950949B434A6"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDiseasedWeapons.png",
+      "size": 1595392,
+      "sha256": "0E1B25A5561F61399CE3A315778D566564B56AABC157852BFEABF2DBED9403E7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconDragonboneBows.png",
+      "size": 2315445,
+      "sha256": "D8F4A3E415DEE9C40C3A12E64B310727D15C26ED6BF9191140A7D00A22E68AF7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconEdgedSpines.png",
+      "size": 1773450,
+      "sha256": "D242FFB43B409662121C9B2440EC1A2AD5F16258ED3F657BF6885B1B9116048D"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconElixerofCourage.png",
+      "size": 1387368,
+      "sha256": "B1DFF624F48B2383628A6AD29491F6B4FE9E84D53EA470EEAFCA5D2C2AEDE678"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconElixerofLife.png",
+      "size": 1430954,
+      "sha256": "4CDA417B3670DC4F4C7C451E1914AD3653FAF0CAE475F803AE1F384E88AE2816"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconElixerofStrength.png",
+      "size": 1621164,
+      "sha256": "079E6E30F3982DD61FE48E00C27D829C36604C0785D9E5E23E7C55FD71C612BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconEnchantedArmor.png",
+      "size": 2546668,
+      "sha256": "F3703576BE7285F263209A63CFC20C50E80CFA4D35089164EA1AB35C677CFE21"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconEntrenchTactics.png",
+      "size": 1943577,
+      "sha256": "336EA03AE980B06F277F71AB3DEE8177BF7E6E2783334C8C52B1D6F559545A77"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconEntwinedBranches.png",
+      "size": 2177619,
+      "sha256": "16F4DF2C384595D74E4D1C65C4FE28B435434A938917228EE924028D093DA521"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconFittedStones.png",
+      "size": 1780009,
+      "sha256": "C8ABFCF03A86608431CEF9D9A4C57EA07EEB1DC75FCBEF5CC13D0D80BFBB8AAC"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconFlamingArrows.png",
+      "size": 1963684,
+      "sha256": "F7337F2270C8EFE5C720442388FF5BE783E9937B445D3C59354253E93AA28E9C"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconFortifiedWalls.png",
+      "size": 2063783,
+      "sha256": "3D6360A926C7C4228CFF200DCA6783136305EA835F6AFD54138576A248394A3A"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconGroovedSpines.png",
+      "size": 1366002,
+      "sha256": "0AADEF27D18BB3C9CEC37C18A3EB252F9BF99FB90C59E215A9006D55C15796A5"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconGuardTraining.png",
+      "size": 3068519,
+      "sha256": "1EE949B3DAA880BB6C658C404CDAF12C3A6EF3A3FB517A10854274EA3EBA140F"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconIronwoodBows.png",
+      "size": 1719553,
+      "sha256": "FB2BD56B49C758B7565BCC8DE07B121567C1840B8CB104547200ECB0FC93542A"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconJadeRings.png",
+      "size": 1485608,
+      "sha256": "173FF1EE79E333EE6970938DBFA6DE9EF1928B7AFCFAE1386DBCAB695F4FB4E7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconJourneymen.png",
+      "size": 1646265,
+      "sha256": "9AFA15B3DAA198E68B915AD15783349641CED4679C0993284AFC0E2EF06CA559"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconKhalduniteArmor.png",
+      "size": 2596188,
+      "sha256": "5FCE2BD3D570E7F870CFB6B226FB981E2CFD479730700259018AB95979C5E7EE"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconKhalduniteArrows.png",
+      "size": 1764868,
+      "sha256": "7C1E7A3057C7111B0220E9FFB5258B017F1544BC83A4309E284B521C8315B792"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconKhalduniteWeapons.png",
+      "size": 1035626,
+      "sha256": "CE2DEDB566DE4317D5439E76324FF3CF7B127632C2EDC5C581129535C1A211A1"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconMagicArmor.png",
+      "size": 2994989,
+      "sha256": "AF38B24BC962493AE514296778639215D271E190E67E2DEAC2CD856CE8997C0E"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconMagicArrows.png",
+      "size": 2064352,
+      "sha256": "CCE17FBF2D7B253F46894C487840D6C5F122D2F45A7DADCBCED36A552A79835C"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconMagicBows.png",
+      "size": 1889930,
+      "sha256": "E77255A7FDE9FE8715544BEE0E77A2809DBC1B132292EFDFC1DFEBD28BF772DF"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconMagicWeapons.png",
+      "size": 1330473,
+      "sha256": "2BB0AA562BD91C4F0ACFA075D80BDDD29125B84AB6E401E5CAFCD4A56E620E7B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconNursery.png",
+      "size": 1814554,
+      "sha256": "A3FBF2569433A8EBCC2AA24BFA1484CE2B819563533FEE0F84D43A139897226B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconOnyxRings.png",
+      "size": 1609483,
+      "sha256": "F1AB7471A68B8B3AC54F0722E2171D9B14B39276A73AEB0DCBBE22A5586D3755"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconOpalRings.png",
+      "size": 1601579,
+      "sha256": "5428755927A04F339242F7809A13DC07D20CBEABE1F9372251648DE2998EFC9C"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconPoisonArrows.png",
+      "size": 1470640,
+      "sha256": "583E28819051357C73D8743CF487511799F6BF64919B758E5744BDD99F3B6270"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconPoisonBlades.png",
+      "size": 1598519,
+      "sha256": "5F104429D08F6C0D646B902B58DF17DFB8732AF9B5FF17E76DAC6DE67643666D"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconPoisonClaws.png",
+      "size": 1434111,
+      "sha256": "D913DB94128D20CFB24D393FFB3992F2676293526CE22A2FE735EF4DAB1BF937"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconPoisonSpines.png",
+      "size": 1141359,
+      "sha256": "F166229F846B07B1314B7D548FA8DCD165B145FEFD92A40FA2FF5EE9007844B5"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconPoisonWeapons.png",
+      "size": 1219789,
+      "sha256": "3A5CE1B2494AAF5C14FD2AE2CC982069A3BEE7D6CDA23A2B58CCE9B1861923E0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconProselytize.png",
+      "size": 1793371,
+      "sha256": "05E67B5F7280B7508A37A5B20B5F21834A559FA0CAA4F5B2D19323030A89E140"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconRamparts.png",
+      "size": 2545156,
+      "sha256": "3ED752AA78EA516F3695D10673881E6108755E41DD1A3556A0BB3693AE2F94F2"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconRapidGrowth.png",
+      "size": 1217666,
+      "sha256": "F75FDDABE52FA46E893913557D68636DB19D5A1CC5A5FF8C9381F871D4CC5308"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconShadowSteelWeapons.png",
+      "size": 1674017,
+      "sha256": "6D3BA4EB669732069F8D4422AA3789A5EFC1A2501190E73033A29C7F48B896C5"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconShadowskin.png",
+      "size": 1761761,
+      "sha256": "2228EF67DF542C1A8D90D99C0B4D9572D17C341A1AC6F0B1BDCC55C0E60BA1FE"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconShadowsteelArmor.png",
+      "size": 2159446,
+      "sha256": "2FC60FBDCA5DD7839268F3F252F627F9603ACB15EDAB676D23FFDA0014DE8257"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconShockTroops.png",
+      "size": 1869652,
+      "sha256": "D8A81BDC2DE812A7145EA4EFB9AC1304ADC5A4F5200EDA9B3437A8F7F7A3AD30"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconSkilledLabor.png",
+      "size": 2170913,
+      "sha256": "B57EB20AE6B21F9B1AF1D32900F9B729F582DB5712E593756B20065721C1599A"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconStableMaster.png",
+      "size": 1886317,
+      "sha256": "23E34D02BF255B418E07F31B7A320213F8726FEE72523CDBAD2CDB475C8C3213"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconStrongFoundation.png",
+      "size": 2437913,
+      "sha256": "45B86A3898C8A24CA7CF23138C86C7A6518109A36B1799CA6C137ECD9E3290CD"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconTaskmaster.png",
+      "size": 2277918,
+      "sha256": "90669CDD5402DC82F1519820B271B91DAB25BB4C9E088BD92E25421D80841A69"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconThaumaturgy.png",
+      "size": 2084620,
+      "sha256": "0C2137CE9E56A50171342AD769933793EAFEF107B4A84A8C978FC9F6A671F0C2"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconThornyBarrier.png",
+      "size": 2235974,
+      "sha256": "BAEEBF2BD4938B53060DE7E6562BA601302A9E348EDAC1C2DB8CE5660CA1DFD9"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconUmbralBarrier.png",
+      "size": 2226284,
+      "sha256": "98525D9EED3666E0925495F67503C22ACD2A3D4D333D4889FAFAC04733737AA6"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconUmbralCarapace.png",
+      "size": 1715808,
+      "sha256": "9196105A85FA36E74467ECBAE557715D5B2ADCA82BE1D13AACF09FA88133F4A0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconUmbralEssence.png",
+      "size": 1540840,
+      "sha256": "EC4E4816A9E4195E36F8851BA9211F9178708ACB7D228DA2A0E1D27ABF3BA106"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconUmbralFrenzy.png",
+      "size": 2079467,
+      "sha256": "076556D26BF6FF25A62BD77F828D7A022A33B8A588168818AF428696CF8AD1E3"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconUmbralFury.png",
+      "size": 1744144,
+      "sha256": "0A26CCE203E0BACFB169AF5BD261160871B52A0A12508F85E23F197E95DCD5A3"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconUmbralMight.png",
+      "size": 1990569,
+      "sha256": "82E9698365B035F8C01B83F2CBE8E7B4AAC801F3664B313EDAE0BD52A33C63D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconUmbralRage.png",
+      "size": 1902297,
+      "sha256": "C5471FAD8DDF14AF320A498108F0A2838C76A232D07831E10E5FB5B6BF1FFAF4"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconWhitesteelArmor.png",
+      "size": 2335433,
+      "sha256": "C42131CCC6057DA7E6DFFB51DCB16E8089054DEC7D3AD41756A644AFB6BF4D9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconWhitesteelWeapons.png",
+      "size": 1443560,
+      "sha256": "D11C75CED41A8D6EC3AA7A480E967577319B55E8BB75D290B67899F459F85257"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/ActionButtons/TechIcons/IconWideTrunks.png",
+      "size": 2166381,
+      "sha256": "EEA4B6D66B4F034488C695B85E1B9557380631D17229033EF1EAEBABB49846F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/Favorites/cross.png",
+      "size": 99823,
+      "sha256": "9A534BF6FC009FA7F91309F7D3B6F27665D34170A247F57323724F79C048407F"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/BankIcon.png",
+      "size": 2497491,
+      "sha256": "00A2C42EDB7D18C2A21ADA3F565847D2E2A2DE7969D5EF32ABC23896031DEB21"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/BarracksIcon.png",
+      "size": 2378185,
+      "sha256": "7418A4786BB723C890D5E41456FD7D1B7DA42ECF56DF47A34223C24BEDF03A42"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/BazaarIcon.png",
+      "size": 2257114,
+      "sha256": "4243A14CA871E99A973FFBB5617D9FF71E22D7678E43282364C81B19ABDF658B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/BlacksmithIcon.png",
+      "size": 1948488,
+      "sha256": "08EA4814A3520FB553555BC38A61BE7E5806A51CAB5801EB679363E8F04C9243"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/DraugaCenterIcon.png",
+      "size": 1831228,
+      "sha256": "3AC65AEA700B9AE161CA7ACBF1D90D02C598BB087794DD5A1E0A6BA5496C9963"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/FactoryIcon.png",
+      "size": 2337344,
+      "sha256": "2787EDC586E56C820015AE9C184B96C996C6891E348377A2CB8B160285261762"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/FoundryIcon.png",
+      "size": 2176632,
+      "sha256": "5E390D7D7E901BBBE1D313B3E4B1A3CD0C1B1C09D8C63CCD14C7A37A7E9598AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/GauriCenterIcon.png",
+      "size": 2253718,
+      "sha256": "D6C8A09E709897014DC32CB8E950D02680D6AA06754A7A016081AFD32E6B6663"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/GiftOfNatureIcon.png",
+      "size": 2313614,
+      "sha256": "C9D146F80AF712CDF63FED4ED497E26D3875250EE43E200B66BE4EFB223E9C02"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/GoldMineIcon.png",
+      "size": 2720050,
+      "sha256": "E0ED56D3C9FFD9D2FE8785D894CBD09C21A209514E9B7474AFDEBE394CFBFAE3"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/HarounCenterIcon.png",
+      "size": 1870015,
+      "sha256": "64E869656BD9E236EBE1BD36BE4E7751CC9759CD04CACF4BD5BAE7E7485A9952"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/HumanCenterIcon.png",
+      "size": 2039023,
+      "sha256": "58CC83AA6AA6B37C6E89B3A18345F8A3618A4C882A61F45DF0CCEE7462C3F0C4"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/IronConvertIcon.png",
+      "size": 3749359,
+      "sha256": "0ED93D6C9405443309749499E394EEDAFA77B18E21D215C44619A3DFA8038F22"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/IronMineIcon.png",
+      "size": 2626657,
+      "sha256": "CDDF674A5AA5CBA79575A1779DD57206E25E37D1C2D221140A7EF4DBAF3CC135"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/IronToManaConvertIcon.png",
+      "size": 2552986,
+      "sha256": "8D07083488E1C5716454A6E48FC8E8A1BB8F90FE94D5EC87D61A624891CE0144"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/LibraryIcon.png",
+      "size": 2336277,
+      "sha256": "3729EB0E49BC02D01190DE027AEA6F7DCE575D6215EE0FB8CD062B48CED949D8"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/MagecollegeIcon.png",
+      "size": 1819784,
+      "sha256": "899846C175524D6DDCCC12C52BDFD5DD2ECD809EEBAC0C25C2C5EDE202CFB122"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/ManaMineIcon.png",
+      "size": 2352562,
+      "sha256": "8FBCA61C0F287B9EAFA0C9B2EF5199C1F7E12F594A09219A66666414E95A0B9A"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/ManaSiphonIcon.png",
+      "size": 2226634,
+      "sha256": "F31C503079238411CD9A9F05C1629EFBD911DBCE30E015F574CF63550A4784C0"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/ManafocusIcon.png",
+      "size": 1772290,
+      "sha256": "D01D5EE7DEC6DBDF111B6CD213C44E33716A4DC41A29E82C7B29E1A35F46609E"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/MarketIcon.png",
+      "size": 2060053,
+      "sha256": "45B457012DF2727A8CF29448C1FB3DACB17D1AABBA157A3E0C008227F057EB9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/MiningpostIcon.png",
+      "size": 2384028,
+      "sha256": "DD4531E1C502F7A199D0AAF41D697F13413435DD8A89BBB283632BC9B4396900"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/OutpostIcon.png",
+      "size": 2033685,
+      "sha256": "85A787530452DE2D51B68F33202983B8BB2E522CF28D5091ABA175E58D008554"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/PortalIcon.png",
+      "size": 2239046,
+      "sha256": "442E2AD894E1CB16E56AD89DF2572F125A6ECA03B4FA44B47B5DC36D53FC7D74"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/QuarryIcon.png",
+      "size": 2252032,
+      "sha256": "6092CC3ED903CB6AE26F9A110F815BD29FB9A4C33DF6D04F076E8961A6E0B654"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/SawmillIcon.png",
+      "size": 2464399,
+      "sha256": "47846F0235B2296E8F8666E2FA068A42088ADFB47F9F734256E98A646C6FBDFD"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/ShadowCenterIcon.png",
+      "size": 1395854,
+      "sha256": "1054BB767490599D2BE847B584031873738D985396D397B3375E413910CAC2B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/ShrineIcon.png",
+      "size": 2213152,
+      "sha256": "92660170B49BF60DA36B1BBE9AE25B39293215C48A2C13835BC362911E531D62"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/StoneConvertIcon.png",
+      "size": 3848853,
+      "sha256": "AEDFA18E77D50D8950F782710A870A611C26919158F126D95A8E84625F3B7D1E"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/StoneMineIcon.png",
+      "size": 2716573,
+      "sha256": "1F320BAD134E69828FE34E480909334AAB2058634B172D444FD76DDB868FCDB3"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/StoneToManaConvertIcon.png",
+      "size": 2418311,
+      "sha256": "31A2C960C708593C10A9FB8107C3DCAFA5762D98F5DF1546A8B93019254E524A"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/TempleIcon.png",
+      "size": 2092886,
+      "sha256": "2D3188F8B719DF179EAF147198288B02A4FE14CE4FD1FB55F52B6A663386BE77"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/UndeadCenterIcon.png",
+      "size": 1995421,
+      "sha256": "C7D57F2F947BE738F8B62E1CEB9F8F16B0212121AE81AD0C2A138A91EDA40515"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/WarehouseIcon.png",
+      "size": 2398070,
+      "sha256": "A59DD8AA52F655623AEF5722E1A590217E24FBD39BECB7A9F2C3FAAEB80FF2CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/WoodConvertIcon.png",
+      "size": 4131508,
+      "sha256": "D28BB57E5C7579E5CDA03C10CA441701A15EEB41C5E9E1B15D5386ED517084D9"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/WoodMineIcon.png",
+      "size": 2492342,
+      "sha256": "DBCB7D429869CA0D5E3246088E13FFB3B389EC7E02275AF02240B4A456855766"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/WoodToManaConvertIcon.png",
+      "size": 4260532,
+      "sha256": "250D6C71056B0D7EAF2E2B5BDC212B0111D5A4D284805A67EDADBBB8A8CFCCAB"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/WoodmillIcon.png",
+      "size": 2512072,
+      "sha256": "D4AE6FC05AF338EAB2638B57E939A6750D72DA1620D86839B7F0E659B0435BA8"
+    },
+    {
+      "path": "paws-hd-ui/UI/1280/Game/StructureButtons/WorkshopIcon.png",
+      "size": 2495679,
+      "sha256": "1DA944280ABC4064CF5474F2CBBE0A6BE072BE0D933120D67887C81294CD46D8"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/CSD/CatchingUp.tga",
+      "size": 6290108,
+      "sha256": "4FF905973EC2467EBE5C562128EF44FE75AA0C685481321A3E1625D368899545"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/CSD/Disconnected.tga",
+      "size": 6290108,
+      "sha256": "85208CF330D105226F717EA81343D5E144D0B24428B018A912B3F871D2D1544B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/CSD/LowCPU.tga",
+      "size": 6290108,
+      "sha256": "C0CB515E746B9A2D6C36794FE20243077F50FDCE58D909462624AA2367F2F4AB"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/CSD/OutOfSync.tga",
+      "size": 6290108,
+      "sha256": "79E6854353895BF0F011F608DC215B6C560B7B9BC12356184AF739CC7AF721A3"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/BuddiesSelected.png",
+      "size": 2139474,
+      "sha256": "2E7C321F19E597A838FCED24375278071FED0597456B706D0E46456EA6251018"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/BuddiesUnselected.png",
+      "size": 1955288,
+      "sha256": "B537250C4F23556122DC52DA45D97851932D6E13F67557BF89D54528C4924951"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/ChatAllSelected.png",
+      "size": 2458742,
+      "sha256": "69165F384CC0A5AAE84D97686FC1010404844A2B66CA3F369F5998E2916D021F"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/ChatAllUnselected.png",
+      "size": 2101588,
+      "sha256": "0187F1D252D6D05399A92E45EF9873D8F55F52A7C780A989DE9FF77B9B12B9FF"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/ChatNoneSelected.png",
+      "size": 2408206,
+      "sha256": "2F5B273C0D7484F780A514157B97B59B66ABD6011F383AD154C4DE1121BA60CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/ChatNoneUnselected.png",
+      "size": 2047075,
+      "sha256": "9E93BF015A4F0F9E2E5C60A25A480E347D235C2D99CA3D38265224A6ED53996C"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/FullChatSelected.png",
+      "size": 1907665,
+      "sha256": "1397630886958E013B41B0E24CBB0E3FE94DD8CF77E243FAD4BA6867F54680B3"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/FullChatUnselected.png",
+      "size": 1908964,
+      "sha256": "980A35DBA1EAFE8D72ADC5399EA6FED2B0EE78395CA6E595D238D95911DA9750"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/GamespyLogo.png",
+      "size": 439082,
+      "sha256": "1CBFAA6411F3A45258DEB8CBA7DAC0693F7B442C7F74D4442A47F404F654EA84"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/HalfChatSelected.png",
+      "size": 2290246,
+      "sha256": "6BD0297F2AC518C765F9DE3982B44555B7269F520EBFB9F7B3DB2029FB31913E"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/HalfChatUnselected.png",
+      "size": 2171970,
+      "sha256": "C63B71D811E6F26DF306466DB3F2553766C34E633B873C5FB644674AE4CBEA94"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/MapLoadFocused.png",
+      "size": 1928524,
+      "sha256": "46D41F4DC59EBF7D2EE3DF9C3CF4D8437E3DE762D5D9076DC0971B6CCE1455A9"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/MapLoadPressed.png",
+      "size": 1931754,
+      "sha256": "A85CD6C6C78F51451B8518C1CEFBBE151328C0014978DB51705D4D49E6474944"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/MapLoadUnpressed.png",
+      "size": 2064353,
+      "sha256": "E8B599B96A7BECBF0BCCDFB437E65D00E76C8DD4229732D744F859FBA07B2C1B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/MapSaveFocused.png",
+      "size": 2227283,
+      "sha256": "83E806FB373D4F4A54CA94394AF485067C51D7DDE800F9C115C2578FE31FFAE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/MapSavePressed.png",
+      "size": 2083039,
+      "sha256": "DD436651D5520D07F6BDC0C66946C585D59E77015ACB3387D62238204F5000AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/MapSaveUnpressed.png",
+      "size": 2265334,
+      "sha256": "BD7F28CADAD3B958F82FAD336E35EBE240147C8D7229A143C3F410167DBA2D32"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/NoChatSelected.png",
+      "size": 1861553,
+      "sha256": "3971558EAF89DF92B0F489FCA6716EF689E7432E7F03CFCFD253747082DAC3B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/NoChatUnselected.png",
+      "size": 1753279,
+      "sha256": "65F51FD8EA928C9B42A5FA1553C72AC4BB749224DBB938965E15C3878D03EC5E"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/RandomMapFocused.png",
+      "size": 2102790,
+      "sha256": "2DC11CC85B5257B55196968191A9C175EFE97CFBF6C58384647B8211F0363260"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/RandomMapPressed.png",
+      "size": 2306066,
+      "sha256": "B3EBB1C5FEF36D359BFA2B9FB3B220C6D5CEE5252792C0210431359DAAB5A60D"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/RandomMapUnpressed.png",
+      "size": 2259064,
+      "sha256": "8F146F03146637433A8E0E786960B6ADF366414172C6804ABA824227D8A89AAE"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/SaveFilmsFocused.png",
+      "size": 2212193,
+      "sha256": "FBDEF240916B63C92D90443B1C61D7C6F041C2DCFB16EDF2DA6453D492F6E01B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/SaveFilmsPressed.png",
+      "size": 2175567,
+      "sha256": "636A96EE46BFCE8892C5D37407C640D8558E6D94475AE9673D7D5E29F61BC6D4"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/SaveFilmsUnpressed.png",
+      "size": 2325144,
+      "sha256": "3394A497414B3BF8648B01522FF3397A61E300C1F8640C41BCF15535B1F45322"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/SelectNoneSelected.png",
+      "size": 2114337,
+      "sha256": "46E4836D0BF7EB7FA8B4882CEB3009A7E9039E608E4E2EF79C90AEB791835E1D"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/SelectNoneUnselected.png",
+      "size": 1901771,
+      "sha256": "CF375377A051249DBD972A70647C29DE55961DFF716CBFB641C76BDF86D32209"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/TeamsPressed.png",
+      "size": 1980600,
+      "sha256": "3E35BE98E828738EA4803C4AD0954AB5B43509CFCADAF5BED754E4A556F79859"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/TeamsUnpressed.png",
+      "size": 1918050,
+      "sha256": "96CCD9AAA786203F7C604D2623ED026F411CA765DC3C5CB1711A9F2720F4DA4D"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/WhisperSelected.png",
+      "size": 2241451,
+      "sha256": "511AAB65D3A148C9B9682640EAC6C5273419E07522F30AB35C5B667D76B3AA0F"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/WhisperUnselected.png",
+      "size": 1897683,
+      "sha256": "C6CCBF90443AA87667B5AC6AF46D5B4FA2526E3FEAC89B16FCD2598309B14FE0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/LobbyButtons/passwordlock.png",
+      "size": 1424485,
+      "sha256": "BB58498516553AB8D54024C567C3B089ACD983672F3788F6DC68BFFE74CE42D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/ReadyStatus/HostIcon.tga",
+      "size": 6290108,
+      "sha256": "863869917E317A5A3C16C48966F1986B46E6067B55CD9E9E7CCBE93F4E082D05"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/ReadyStatus/NotReadyCheck.tga",
+      "size": 6290108,
+      "sha256": "EDBB239288E0D1270399A118AAB53E0468BCA264F6B3FD4BA806A35372D4D1C8"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/ReadyStatus/NotReadyCheckbox.tga",
+      "size": 6290108,
+      "sha256": "205CFAE4C1CF160BDC514470809D808BE6B4D07AAF6A2E9657619DAE183E9D2C"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/ReadyStatus/NotReadyIcon.png",
+      "size": 1041568,
+      "sha256": "CCC217619A08C9BF059FBFB1B0E42DA619B9B14C77B2404CEBC895ACC08E84BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/ReadyStatus/ReadyCheck.tga",
+      "size": 6290108,
+      "sha256": "12F139D62A4C5E534F9C5E335AB4AAAEC1F0227DEA7EF0BCA69C53A4C54095D4"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/ReadyStatus/ReadyCheckbox.tga",
+      "size": 6290108,
+      "sha256": "812A7A8A520D675A594E8F5EC8CEB9DA0493D6276CDAEDB73A58BC1DB51C43AA"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/ReadyStatus/ReadyIcon.png",
+      "size": 1352988,
+      "sha256": "9359941ACC3B1294CF04BD194864DDF81E0C9A5192CAAD2FE8993B3E8F16B7C5"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/Staging/HostIcon.png",
+      "size": 1757143,
+      "sha256": "03E21389F2F14233D4961388F36F85FB54DC9429A0EAF3EBDCF9F79A976FB8B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/Staging/KingdomIcon.png",
+      "size": 1558180,
+      "sha256": "160B5848C488EABB0D28368EABDC0BBFB4416CA495CDEF13E46DD9104DD946A2"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/Staging/SwitchIcon.png",
+      "size": 2103684,
+      "sha256": "35A2A05037137041736A94CF9988F2DAA0101BD85AC2BFE7B6AA8BA5504737F6"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/Staging/SwitchIconFocused.png",
+      "size": 2072258,
+      "sha256": "2A0E6EA8101A1FB08BBCFEFF433462B7FA11EA83829AAB90DB1B0333AA6769BD"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Default/Staging/SwitchIconPressed.png",
+      "size": 2061000,
+      "sha256": "34FFBD3B0CFAF144D4BD0B69BE11CCBDCE128CAFDDC221718BC88BC4A36295EF"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconAttach.png",
+      "size": 3052336,
+      "sha256": "5F0A140CFF8FB5BB6E4B7E08705B38A598759AC39796E3297486BBCFAE4CA2B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconAttack.png",
+      "size": 2510264,
+      "sha256": "ECB48B33B41D97D4890796CDAC7B8B158CF6B0CDCB23223A8F8B6177B4D4D1D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconBombard.png",
+      "size": 2735016,
+      "sha256": "3DF38A152CFAF1CB38C4D4CBA4E16460FC555DFBAC0116893B99DB22688850F9"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconBuildStructure.png",
+      "size": 2731765,
+      "sha256": "C51124C123AC9028A129B1E8B4DAB20F30504AE45592F73478FD0E12DAB1E765"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconBuy.png",
+      "size": 2700538,
+      "sha256": "28638EDA4E20712A6F31EBEF9736C39FEFD18100DDFEDC693EFB1DB8791E3D2E"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconCancel.png",
+      "size": 1282339,
+      "sha256": "F64B91402340A021451293595074E13205AA5BD20799455FFD22D08C876F9BF5"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconCommission.png",
+      "size": 3920888,
+      "sha256": "23A2B0BE5217E15769C843E95BA4FF5FBD5DB4C4ED13B7109C9A4E634E94A14E"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconConstruct.png",
+      "size": 2731765,
+      "sha256": "C51124C123AC9028A129B1E8B4DAB20F30504AE45592F73478FD0E12DAB1E765"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconCustomCompany.png",
+      "size": 2090828,
+      "sha256": "183291C9C06D617ABC5C777BEFD4600F8AD2E1249570D13C29D70F02DFFCC75A"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconDetach.png",
+      "size": 4381187,
+      "sha256": "E0109B3C04E7AF42B1871404D7116EE7DB2A7A26E07D42632BAAA8C76E799F82"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconDisband.png",
+      "size": 3989246,
+      "sha256": "F269A2F17ADFF032916ED4EB9BB9C3ECDF6CF1E6452CD747C8608708DB80040F"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconDowngrade.png",
+      "size": 2863476,
+      "sha256": "89C8CF77FAD48CB19E262E71F617620BAADC30E385A37A2DD382DB62D40182A7"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconExplore.png",
+      "size": 2438202,
+      "sha256": "F07FB51055126DF3D760BD91B9E274621AC2A72E2A6F3F819B315E797E8503CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconGroupBehaviorDisable.png",
+      "size": 3453727,
+      "sha256": "06D956630EBE655DCB3D5F6F96935D67E5F853A88F9698954E8600B228D1EA53"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconGroupBehaviorEnable.png",
+      "size": 3478545,
+      "sha256": "26FDE1E3FAA828142F54D3BEC7EE3017DD7E13449D8A6481473969A48B578D02"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconGuard.png",
+      "size": 2752210,
+      "sha256": "12C9EC585D817304B350AB4FEE5B4A49214961971188B72D1EA273024E86F9F5"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconKingdomView.tga",
+      "size": 6290108,
+      "sha256": "4253C6F9696E1C306130C90953947D01B30FFBECB23409E59829B2B286711238"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconMove.png",
+      "size": 2407204,
+      "sha256": "A58E6EC3011BBA925B4C79A0B50B0757085D359DFEFD09BDA00F911B80F2379B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconObserverView.png",
+      "size": 2370458,
+      "sha256": "5A542D3D986028C122ABD04D3D46AA4082A2524601FC50AA1378754733A09F50"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconRaze.png",
+      "size": 2104477,
+      "sha256": "9A6E1EB7ACF1C4678E80ADB74E5207B942DA7C70857748FA2F1EFBB21D4257DE"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconRecall.png",
+      "size": 2384050,
+      "sha256": "92FACFF15C09E57052ED802CBD0C98A1F57C9CE11D97CA842F743A197A14072E"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconRepair.png",
+      "size": 2689520,
+      "sha256": "63C5CA35137D968BA4531C9824002C812CB219FB3800570214CFF64D90E65BA9"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconResearch.png",
+      "size": 2785635,
+      "sha256": "DD346498139348144781A8D17A57D67B942EA941F9EF96B8821AFEA88934F969"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconResetFavorites.png",
+      "size": 2012086,
+      "sha256": "8A029E87C68CC0F0D48A71434EFD785B7FF8A297944A5FC569C5FECBD2221CB8"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconRetreat.png",
+      "size": 1793921,
+      "sha256": "2425536D16589D2B6E3B58D77B5CEBA00A91FACF892CFDFC85A1445EC4759B3A"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconRout.png",
+      "size": 2352570,
+      "sha256": "3F92EC44FFFA9F41FA1DD55AF15906E6A7EC5B55F22AB75D67BDBFD2BE83C7FD"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconSallyForth.png",
+      "size": 2744061,
+      "sha256": "96BC395E321EE2C4C24D33599F5E7BC90B8C9DA33426513E85DD8727013AF461"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconSell.png",
+      "size": 3018678,
+      "sha256": "72F6B5CE887C94548E768B63DE114F8FE84221C53CF9D8181FED3AAD901B8D78"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconSetRallyPoint.png",
+      "size": 2302358,
+      "sha256": "49BDD1CD833CB13482D1BAA11D107468F23605124485FE437E7FE4F03926DA03"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconStop.png",
+      "size": 1459517,
+      "sha256": "08857513DDCAF54070D22B245AF4CACA76A702C8AC75AB2570FF711F65997AD0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamAttack.png",
+      "size": 2464502,
+      "sha256": "4B091AA7CF53D8BA0B4E47724AB310AAB4501535FE818805EF0F42977CD075BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamBuild.png",
+      "size": 2613729,
+      "sha256": "AC3FF2E3EAF1B19B7EB8600A1F687F940DAE1E35ADB0CF22F6C3D66F7AB3028A"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamChat.png",
+      "size": 2195914,
+      "sha256": "E86E73C46C7A49E726E1E3B02B1BF97548302806134C2CEB637562C4DC51EA3D"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamCommand.png",
+      "size": 2109724,
+      "sha256": "B86B10BB316964772C856C76ADC5AF012F294EDDB88E7F2CA50EE8D2D229A606"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamDefend.png",
+      "size": 2586264,
+      "sha256": "D4BC635153FAC22C08CDD53F511FDB6E02B82F3A8CC1ACFFF649C7B6C47C8265"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamExplore.png",
+      "size": 2432929,
+      "sha256": "62D8DF1C38FF9DECF787455AA0343FCEFDB52D90543EF0446CE3185E0BA49D11"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamGiveActor.png",
+      "size": 2223294,
+      "sha256": "53618D01DCC5FC358F365025DB3B4C53DF027D95F324CABFEEC8A50FFAEEAAFD"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamGiveResources.png",
+      "size": 2375992,
+      "sha256": "EC02A98C153591910A4E6350ED11C1724E6DDABE778A2909054E057171925E06"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamReport.png",
+      "size": 2458437,
+      "sha256": "BB738E6122E5C7FAF603EC2A3A3589364FA8369F52DC4C3A995988420B665122"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamRequestActor.png",
+      "size": 2230922,
+      "sha256": "753AC1107832956B076C2C46FE11F0CA2E1670BE5C640612AFB4833887837E07"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamRequestResources.png",
+      "size": 2382100,
+      "sha256": "B311BD3745BA964E392C4D790E2D5D583077562FD472F76E168E2CD13EF5A9B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconTeamSelectKingdom.png",
+      "size": 2689983,
+      "sha256": "77894003683CEB11011244F0FE3222FF661B3065661AC4FB346298C7834E5652"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconUpgrade.png",
+      "size": 1984685,
+      "sha256": "B66D5B000D40D2DE1680F945D7D7F9A9236D889A2AC238B4BAFB7A0C612215F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/IconUpgradeFort.png",
+      "size": 1041864,
+      "sha256": "451D644C80BC75E3C06A9F31B23373EF3611FF18BD17B824A1E3A811BC805359"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconAmberRings.png",
+      "size": 2625499,
+      "sha256": "DCB77D707AA4CA73F27841C2433F18CA42C65F6BBD37802ADD2FBFFE59FAB892"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBalancedWeapons.png",
+      "size": 3264539,
+      "sha256": "B156642226C31A1AC69C8050579C8FDDECB77F70D0B8B025517FC2FDAEBB37F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBarbedSpines.png",
+      "size": 3070601,
+      "sha256": "831BD60D2F0B6F60AE3AC32EBD377CAC27A88F6D389C2A6D5C99763C8F371E46"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBilleting.png",
+      "size": 4005931,
+      "sha256": "E9F6C646F6B6B82D70EF6792FE2392D70B3C7B68EB79D77984497BBAA51F3CC2"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlackBlessing.png",
+      "size": 2751610,
+      "sha256": "D85759789CAA958F4B4FA67BFD6D13D69001F9C2E83BDC52B75D5E6292CD1B9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlackIchor.png",
+      "size": 2272374,
+      "sha256": "697CD452E728783DC7189F6D290DED6B8425B8110FC885675FD32A42A0D3CCCE"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlackOffering.png",
+      "size": 2675887,
+      "sha256": "A73B80AD7034482AD5D7079768DE325B35F734DC9E964EA266866A00BC85F640"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlessedArmor.png",
+      "size": 2200848,
+      "sha256": "31D257E6F0E83C614A56B9A034354D79F77864F6EDADCA838E1E6F1861D750B1"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlessingLife.png",
+      "size": 1893156,
+      "sha256": "25A8633D1A9F074FF5446A4F775E69CAA571B97BB54F0D0CA53BC80B1B0381A0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlessingMight.png",
+      "size": 1907725,
+      "sha256": "9225191BEEE7B367CA61B3B58C43289296AD71FC3B9052C1FEA6AA63044213A5"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlessingOfValor.png",
+      "size": 2008467,
+      "sha256": "208A715E14FA694CA3EEE69D91E1D6C0F932C6F9F4D8470D57729AB8ACFE8B26"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlessingSpeed.png",
+      "size": 1690921,
+      "sha256": "C2D2EBE47FFC2DEFBE1E188ECA895C97C56CAC50EE1904040336C576E76ABFE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlessingValor.png",
+      "size": 2008467,
+      "sha256": "208A715E14FA694CA3EEE69D91E1D6C0F932C6F9F4D8470D57729AB8ACFE8B26"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBlessingofSpeed.png",
+      "size": 1690921,
+      "sha256": "C2D2EBE47FFC2DEFBE1E188ECA895C97C56CAC50EE1904040336C576E76ABFE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBoneRings.png",
+      "size": 1738716,
+      "sha256": "4D91A18D8F468E20425555ACEA761ABA88A107BB42588687F88ED2C5901B1025"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconBootCamp.png",
+      "size": 2456497,
+      "sha256": "DB45B7F252AA4C1983B92234A0C0B4F7D8A3A33279B5A7FB1D196521C3AB7183"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconCalvaryTactics.png",
+      "size": 2067543,
+      "sha256": "2EC1F95EFFB2866CEEB6C4F6C8A57215250AC2B57B4161FD13EC5018F1C350FC"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconCavalryTactics.png",
+      "size": 2067543,
+      "sha256": "2EC1F95EFFB2866CEEB6C4F6C8A57215250AC2B57B4161FD13EC5018F1C350FC"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconCompositeBows.png",
+      "size": 1481440,
+      "sha256": "AFBE6B266F4955C7EB93B25CD67849449FD6D42B290F17167C4A37B39E92E3AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDarkFortitude.png",
+      "size": 720778,
+      "sha256": "1429156DCE857E280F52941A8C2001DAEEFA813E34526E8E63D0119B713B65F9"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDarkMatter.png",
+      "size": 1711010,
+      "sha256": "E6304F859E8D79B72BD6B4D1D03B74971F05C79150D821199C1A2D7553D163F3"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDarkRitual.png",
+      "size": 2420061,
+      "sha256": "B0D59D61413E692F94D26FD4A6A895CA3FC8A27CBF64DE1A03EB0E1E064A6AE2"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDeadZone.png",
+      "size": 1991190,
+      "sha256": "021A99B04B76C8FBDAA6F104DEC3B60D3913C9DDA8278873FDAF8C66C8BF1666"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDeepRoots.png",
+      "size": 2183797,
+      "sha256": "A1A96497B6FF7FA9FAF35EBAF09E512BCEC6B36B13A9D0B8B52F8CE4D02F34B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDiseasedArmor.png",
+      "size": 2292678,
+      "sha256": "AD5E07490928636849CD83405B5B7800C303AA1B6709A5BB0F72341324769CC7"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDiseasedArrows.png",
+      "size": 2858827,
+      "sha256": "EE907CF1CE7E218E88DFD12AA332F3AFB5166AAD893DA62D482D950949B434A6"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDiseasedWeapons.png",
+      "size": 1595392,
+      "sha256": "0E1B25A5561F61399CE3A315778D566564B56AABC157852BFEABF2DBED9403E7"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconDragonboneBows.png",
+      "size": 2315445,
+      "sha256": "D8F4A3E415DEE9C40C3A12E64B310727D15C26ED6BF9191140A7D00A22E68AF7"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconEdgedSpines.png",
+      "size": 1773450,
+      "sha256": "D242FFB43B409662121C9B2440EC1A2AD5F16258ED3F657BF6885B1B9116048D"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconElixerofCourage.png",
+      "size": 1387368,
+      "sha256": "B1DFF624F48B2383628A6AD29491F6B4FE9E84D53EA470EEAFCA5D2C2AEDE678"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconElixerofLife.png",
+      "size": 1430954,
+      "sha256": "4CDA417B3670DC4F4C7C451E1914AD3653FAF0CAE475F803AE1F384E88AE2816"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconElixerofStrength.png",
+      "size": 1621164,
+      "sha256": "079E6E30F3982DD61FE48E00C27D829C36604C0785D9E5E23E7C55FD71C612BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconEnchantedArmor.png",
+      "size": 2546668,
+      "sha256": "F3703576BE7285F263209A63CFC20C50E80CFA4D35089164EA1AB35C677CFE21"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconEntrenchTactics.png",
+      "size": 1943577,
+      "sha256": "336EA03AE980B06F277F71AB3DEE8177BF7E6E2783334C8C52B1D6F559545A77"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconEntwinedBranches.png",
+      "size": 2177619,
+      "sha256": "16F4DF2C384595D74E4D1C65C4FE28B435434A938917228EE924028D093DA521"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconFittedStones.png",
+      "size": 1780009,
+      "sha256": "C8ABFCF03A86608431CEF9D9A4C57EA07EEB1DC75FCBEF5CC13D0D80BFBB8AAC"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconFlamingArrows.png",
+      "size": 1963684,
+      "sha256": "F7337F2270C8EFE5C720442388FF5BE783E9937B445D3C59354253E93AA28E9C"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconFortifiedWalls.png",
+      "size": 2063783,
+      "sha256": "3D6360A926C7C4228CFF200DCA6783136305EA835F6AFD54138576A248394A3A"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconGroovedSpines.png",
+      "size": 1366002,
+      "sha256": "0AADEF27D18BB3C9CEC37C18A3EB252F9BF99FB90C59E215A9006D55C15796A5"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconGuardTraining.png",
+      "size": 3068519,
+      "sha256": "1EE949B3DAA880BB6C658C404CDAF12C3A6EF3A3FB517A10854274EA3EBA140F"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconIronwoodBows.png",
+      "size": 1719553,
+      "sha256": "FB2BD56B49C758B7565BCC8DE07B121567C1840B8CB104547200ECB0FC93542A"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconJadeRings.png",
+      "size": 1485608,
+      "sha256": "173FF1EE79E333EE6970938DBFA6DE9EF1928B7AFCFAE1386DBCAB695F4FB4E7"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconJourneymen.png",
+      "size": 1646265,
+      "sha256": "9AFA15B3DAA198E68B915AD15783349641CED4679C0993284AFC0E2EF06CA559"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconKhalduniteArmor.png",
+      "size": 2596188,
+      "sha256": "5FCE2BD3D570E7F870CFB6B226FB981E2CFD479730700259018AB95979C5E7EE"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconKhalduniteArrows.png",
+      "size": 1764868,
+      "sha256": "7C1E7A3057C7111B0220E9FFB5258B017F1544BC83A4309E284B521C8315B792"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconKhalduniteWeapons.png",
+      "size": 1035626,
+      "sha256": "CE2DEDB566DE4317D5439E76324FF3CF7B127632C2EDC5C581129535C1A211A1"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconMagicArmor.png",
+      "size": 2994989,
+      "sha256": "AF38B24BC962493AE514296778639215D271E190E67E2DEAC2CD856CE8997C0E"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconMagicArrows.png",
+      "size": 2064352,
+      "sha256": "CCE17FBF2D7B253F46894C487840D6C5F122D2F45A7DADCBCED36A552A79835C"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconMagicBows.png",
+      "size": 1889930,
+      "sha256": "E77255A7FDE9FE8715544BEE0E77A2809DBC1B132292EFDFC1DFEBD28BF772DF"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconMagicWeapons.png",
+      "size": 1330473,
+      "sha256": "2BB0AA562BD91C4F0ACFA075D80BDDD29125B84AB6E401E5CAFCD4A56E620E7B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconNursery.png",
+      "size": 1814554,
+      "sha256": "A3FBF2569433A8EBCC2AA24BFA1484CE2B819563533FEE0F84D43A139897226B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconOnyxRings.png",
+      "size": 1609483,
+      "sha256": "F1AB7471A68B8B3AC54F0722E2171D9B14B39276A73AEB0DCBBE22A5586D3755"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconOpalRings.png",
+      "size": 1601579,
+      "sha256": "5428755927A04F339242F7809A13DC07D20CBEABE1F9372251648DE2998EFC9C"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconPoisonArrows.png",
+      "size": 1470640,
+      "sha256": "583E28819051357C73D8743CF487511799F6BF64919B758E5744BDD99F3B6270"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconPoisonBlades.png",
+      "size": 1598519,
+      "sha256": "5F104429D08F6C0D646B902B58DF17DFB8732AF9B5FF17E76DAC6DE67643666D"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconPoisonClaws.png",
+      "size": 1434111,
+      "sha256": "D913DB94128D20CFB24D393FFB3992F2676293526CE22A2FE735EF4DAB1BF937"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconPoisonSpines.png",
+      "size": 1141359,
+      "sha256": "F166229F846B07B1314B7D548FA8DCD165B145FEFD92A40FA2FF5EE9007844B5"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconPoisonWeapons.png",
+      "size": 1219789,
+      "sha256": "3A5CE1B2494AAF5C14FD2AE2CC982069A3BEE7D6CDA23A2B58CCE9B1861923E0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconProselytize.png",
+      "size": 1793371,
+      "sha256": "05E67B5F7280B7508A37A5B20B5F21834A559FA0CAA4F5B2D19323030A89E140"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconRamparts.png",
+      "size": 2545156,
+      "sha256": "3ED752AA78EA516F3695D10673881E6108755E41DD1A3556A0BB3693AE2F94F2"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconRapidGrowth.png",
+      "size": 1217666,
+      "sha256": "F75FDDABE52FA46E893913557D68636DB19D5A1CC5A5FF8C9381F871D4CC5308"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconShadowSteelWeapons.png",
+      "size": 1674017,
+      "sha256": "6D3BA4EB669732069F8D4422AA3789A5EFC1A2501190E73033A29C7F48B896C5"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconShadowskin.png",
+      "size": 1761761,
+      "sha256": "2228EF67DF542C1A8D90D99C0B4D9572D17C341A1AC6F0B1BDCC55C0E60BA1FE"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconShadowsteelArmor.png",
+      "size": 2159446,
+      "sha256": "2FC60FBDCA5DD7839268F3F252F627F9603ACB15EDAB676D23FFDA0014DE8257"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconShockTroops.png",
+      "size": 1869652,
+      "sha256": "D8A81BDC2DE812A7145EA4EFB9AC1304ADC5A4F5200EDA9B3437A8F7F7A3AD30"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconSkilledLabor.png",
+      "size": 2170913,
+      "sha256": "B57EB20AE6B21F9B1AF1D32900F9B729F582DB5712E593756B20065721C1599A"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconStableMaster.png",
+      "size": 1886317,
+      "sha256": "23E34D02BF255B418E07F31B7A320213F8726FEE72523CDBAD2CDB475C8C3213"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconStrongFoundation.png",
+      "size": 2437913,
+      "sha256": "45B86A3898C8A24CA7CF23138C86C7A6518109A36B1799CA6C137ECD9E3290CD"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconTaskmaster.png",
+      "size": 2277918,
+      "sha256": "90669CDD5402DC82F1519820B271B91DAB25BB4C9E088BD92E25421D80841A69"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconThaumaturgy.png",
+      "size": 2084620,
+      "sha256": "0C2137CE9E56A50171342AD769933793EAFEF107B4A84A8C978FC9F6A671F0C2"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconThornyBarrier.png",
+      "size": 2235974,
+      "sha256": "BAEEBF2BD4938B53060DE7E6562BA601302A9E348EDAC1C2DB8CE5660CA1DFD9"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconUmbralBarrier.png",
+      "size": 2226284,
+      "sha256": "98525D9EED3666E0925495F67503C22ACD2A3D4D333D4889FAFAC04733737AA6"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconUmbralCarapace.png",
+      "size": 1715808,
+      "sha256": "9196105A85FA36E74467ECBAE557715D5B2ADCA82BE1D13AACF09FA88133F4A0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconUmbralEssence.png",
+      "size": 1540840,
+      "sha256": "EC4E4816A9E4195E36F8851BA9211F9178708ACB7D228DA2A0E1D27ABF3BA106"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconUmbralFrenzy.png",
+      "size": 2079467,
+      "sha256": "076556D26BF6FF25A62BD77F828D7A022A33B8A588168818AF428696CF8AD1E3"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconUmbralFury.png",
+      "size": 1744144,
+      "sha256": "0A26CCE203E0BACFB169AF5BD261160871B52A0A12508F85E23F197E95DCD5A3"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconUmbralMight.png",
+      "size": 1990569,
+      "sha256": "82E9698365B035F8C01B83F2CBE8E7B4AAC801F3664B313EDAE0BD52A33C63D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconUmbralRage.png",
+      "size": 1902297,
+      "sha256": "C5471FAD8DDF14AF320A498108F0A2838C76A232D07831E10E5FB5B6BF1FFAF4"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconWhitesteelArmor.png",
+      "size": 2335433,
+      "sha256": "C42131CCC6057DA7E6DFFB51DCB16E8089054DEC7D3AD41756A644AFB6BF4D9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconWhitesteelWeapons.png",
+      "size": 1443560,
+      "sha256": "D11C75CED41A8D6EC3AA7A480E967577319B55E8BB75D290B67899F459F85257"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/ActionButtons/TechIcons/IconWideTrunks.png",
+      "size": 2166381,
+      "sha256": "EEA4B6D66B4F034488C695B85E1B9557380631D17229033EF1EAEBABB49846F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/Favorites/cross.png",
+      "size": 99823,
+      "sha256": "9A534BF6FC009FA7F91309F7D3B6F27665D34170A247F57323724F79C048407F"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/BankIcon.png",
+      "size": 2497491,
+      "sha256": "00A2C42EDB7D18C2A21ADA3F565847D2E2A2DE7969D5EF32ABC23896031DEB21"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/BarracksIcon.png",
+      "size": 2378185,
+      "sha256": "7418A4786BB723C890D5E41456FD7D1B7DA42ECF56DF47A34223C24BEDF03A42"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/BazaarIcon.png",
+      "size": 2257114,
+      "sha256": "4243A14CA871E99A973FFBB5617D9FF71E22D7678E43282364C81B19ABDF658B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/BlacksmithIcon.png",
+      "size": 1948488,
+      "sha256": "08EA4814A3520FB553555BC38A61BE7E5806A51CAB5801EB679363E8F04C9243"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/DraugaCenterIcon.png",
+      "size": 1831228,
+      "sha256": "3AC65AEA700B9AE161CA7ACBF1D90D02C598BB087794DD5A1E0A6BA5496C9963"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/FactoryIcon.png",
+      "size": 2337344,
+      "sha256": "2787EDC586E56C820015AE9C184B96C996C6891E348377A2CB8B160285261762"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/FoundryIcon.png",
+      "size": 2176632,
+      "sha256": "5E390D7D7E901BBBE1D313B3E4B1A3CD0C1B1C09D8C63CCD14C7A37A7E9598AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/GauriCenterIcon.png",
+      "size": 2253718,
+      "sha256": "D6C8A09E709897014DC32CB8E950D02680D6AA06754A7A016081AFD32E6B6663"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/GiftOfNatureIcon.png",
+      "size": 2313614,
+      "sha256": "C9D146F80AF712CDF63FED4ED497E26D3875250EE43E200B66BE4EFB223E9C02"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/GoldMineIcon.png",
+      "size": 2720050,
+      "sha256": "E0ED56D3C9FFD9D2FE8785D894CBD09C21A209514E9B7474AFDEBE394CFBFAE3"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/HarounCenterIcon.png",
+      "size": 1870015,
+      "sha256": "64E869656BD9E236EBE1BD36BE4E7751CC9759CD04CACF4BD5BAE7E7485A9952"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/HumanCenterIcon.png",
+      "size": 2039023,
+      "sha256": "58CC83AA6AA6B37C6E89B3A18345F8A3618A4C882A61F45DF0CCEE7462C3F0C4"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/IronConvertIcon.png",
+      "size": 3749359,
+      "sha256": "0ED93D6C9405443309749499E394EEDAFA77B18E21D215C44619A3DFA8038F22"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/IronMineIcon.png",
+      "size": 2626657,
+      "sha256": "CDDF674A5AA5CBA79575A1779DD57206E25E37D1C2D221140A7EF4DBAF3CC135"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/IronToManaConvertIcon.png",
+      "size": 2552986,
+      "sha256": "8D07083488E1C5716454A6E48FC8E8A1BB8F90FE94D5EC87D61A624891CE0144"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/LibraryIcon.png",
+      "size": 2336277,
+      "sha256": "3729EB0E49BC02D01190DE027AEA6F7DCE575D6215EE0FB8CD062B48CED949D8"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/MagecollegeIcon.png",
+      "size": 1819784,
+      "sha256": "899846C175524D6DDCCC12C52BDFD5DD2ECD809EEBAC0C25C2C5EDE202CFB122"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/ManaMineIcon.png",
+      "size": 2352562,
+      "sha256": "8FBCA61C0F287B9EAFA0C9B2EF5199C1F7E12F594A09219A66666414E95A0B9A"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/ManaSiphonIcon.png",
+      "size": 2226634,
+      "sha256": "F31C503079238411CD9A9F05C1629EFBD911DBCE30E015F574CF63550A4784C0"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/ManafocusIcon.png",
+      "size": 1772290,
+      "sha256": "D01D5EE7DEC6DBDF111B6CD213C44E33716A4DC41A29E82C7B29E1A35F46609E"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/MarketIcon.png",
+      "size": 2060053,
+      "sha256": "45B457012DF2727A8CF29448C1FB3DACB17D1AABBA157A3E0C008227F057EB9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/MiningpostIcon.png",
+      "size": 2384028,
+      "sha256": "DD4531E1C502F7A199D0AAF41D697F13413435DD8A89BBB283632BC9B4396900"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/OutpostIcon.png",
+      "size": 2033685,
+      "sha256": "85A787530452DE2D51B68F33202983B8BB2E522CF28D5091ABA175E58D008554"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/PortalIcon.png",
+      "size": 2239046,
+      "sha256": "442E2AD894E1CB16E56AD89DF2572F125A6ECA03B4FA44B47B5DC36D53FC7D74"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/QuarryIcon.png",
+      "size": 2252032,
+      "sha256": "6092CC3ED903CB6AE26F9A110F815BD29FB9A4C33DF6D04F076E8961A6E0B654"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/SawmillIcon.png",
+      "size": 2464399,
+      "sha256": "47846F0235B2296E8F8666E2FA068A42088ADFB47F9F734256E98A646C6FBDFD"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/ShadowCenterIcon.png",
+      "size": 1395854,
+      "sha256": "1054BB767490599D2BE847B584031873738D985396D397B3375E413910CAC2B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/ShrineIcon.png",
+      "size": 2213152,
+      "sha256": "92660170B49BF60DA36B1BBE9AE25B39293215C48A2C13835BC362911E531D62"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/StoneConvertIcon.png",
+      "size": 3848853,
+      "sha256": "AEDFA18E77D50D8950F782710A870A611C26919158F126D95A8E84625F3B7D1E"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/StoneMineIcon.png",
+      "size": 2716573,
+      "sha256": "1F320BAD134E69828FE34E480909334AAB2058634B172D444FD76DDB868FCDB3"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/StoneToManaConvertIcon.png",
+      "size": 2418311,
+      "sha256": "31A2C960C708593C10A9FB8107C3DCAFA5762D98F5DF1546A8B93019254E524A"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/TempleIcon.png",
+      "size": 2092886,
+      "sha256": "2D3188F8B719DF179EAF147198288B02A4FE14CE4FD1FB55F52B6A663386BE77"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/UndeadCenterIcon.png",
+      "size": 1995421,
+      "sha256": "C7D57F2F947BE738F8B62E1CEB9F8F16B0212121AE81AD0C2A138A91EDA40515"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/WarehouseIcon.png",
+      "size": 2398070,
+      "sha256": "A59DD8AA52F655623AEF5722E1A590217E24FBD39BECB7A9F2C3FAAEB80FF2CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/WoodConvertIcon.png",
+      "size": 4131508,
+      "sha256": "D28BB57E5C7579E5CDA03C10CA441701A15EEB41C5E9E1B15D5386ED517084D9"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/WoodMineIcon.png",
+      "size": 2492342,
+      "sha256": "DBCB7D429869CA0D5E3246088E13FFB3B389EC7E02275AF02240B4A456855766"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/WoodToManaConvertIcon.png",
+      "size": 4260532,
+      "sha256": "250D6C71056B0D7EAF2E2B5BDC212B0111D5A4D284805A67EDADBBB8A8CFCCAB"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/WoodmillIcon.png",
+      "size": 2512072,
+      "sha256": "D4AE6FC05AF338EAB2638B57E939A6750D72DA1620D86839B7F0E659B0435BA8"
+    },
+    {
+      "path": "paws-hd-ui/UI/800/Game/StructureButtons/WorkshopIcon.png",
+      "size": 2495679,
+      "sha256": "1DA944280ABC4064CF5474F2CBBE0A6BE072BE0D933120D67887C81294CD46D8"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/CSD/CatchingUp.tga",
+      "size": 6290108,
+      "sha256": "4FF905973EC2467EBE5C562128EF44FE75AA0C685481321A3E1625D368899545"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/CSD/Disconnected.tga",
+      "size": 6290108,
+      "sha256": "85208CF330D105226F717EA81343D5E144D0B24428B018A912B3F871D2D1544B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/CSD/LowCPU.tga",
+      "size": 6290108,
+      "sha256": "C0CB515E746B9A2D6C36794FE20243077F50FDCE58D909462624AA2367F2F4AB"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/CSD/OutOfSync.tga",
+      "size": 6290108,
+      "sha256": "79E6854353895BF0F011F608DC215B6C560B7B9BC12356184AF739CC7AF721A3"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/BuddiesSelected.png",
+      "size": 2139474,
+      "sha256": "2E7C321F19E597A838FCED24375278071FED0597456B706D0E46456EA6251018"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/BuddiesUnselected.png",
+      "size": 1955288,
+      "sha256": "B537250C4F23556122DC52DA45D97851932D6E13F67557BF89D54528C4924951"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/ChatAllSelected.png",
+      "size": 2458742,
+      "sha256": "69165F384CC0A5AAE84D97686FC1010404844A2B66CA3F369F5998E2916D021F"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/ChatAllUnselected.png",
+      "size": 2101588,
+      "sha256": "0187F1D252D6D05399A92E45EF9873D8F55F52A7C780A989DE9FF77B9B12B9FF"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/ChatNoneSelected.png",
+      "size": 2408206,
+      "sha256": "2F5B273C0D7484F780A514157B97B59B66ABD6011F383AD154C4DE1121BA60CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/ChatNoneUnselected.png",
+      "size": 2047075,
+      "sha256": "9E93BF015A4F0F9E2E5C60A25A480E347D235C2D99CA3D38265224A6ED53996C"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/FullChatSelected.png",
+      "size": 1907665,
+      "sha256": "1397630886958E013B41B0E24CBB0E3FE94DD8CF77E243FAD4BA6867F54680B3"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/FullChatUnselected.png",
+      "size": 1908964,
+      "sha256": "980A35DBA1EAFE8D72ADC5399EA6FED2B0EE78395CA6E595D238D95911DA9750"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/GamespyLogo.png",
+      "size": 439082,
+      "sha256": "1CBFAA6411F3A45258DEB8CBA7DAC0693F7B442C7F74D4442A47F404F654EA84"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/HalfChatSelected.png",
+      "size": 2290246,
+      "sha256": "6BD0297F2AC518C765F9DE3982B44555B7269F520EBFB9F7B3DB2029FB31913E"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/HalfChatUnselected.png",
+      "size": 2171970,
+      "sha256": "C63B71D811E6F26DF306466DB3F2553766C34E633B873C5FB644674AE4CBEA94"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/MapLoadFocused.png",
+      "size": 1928524,
+      "sha256": "46D41F4DC59EBF7D2EE3DF9C3CF4D8437E3DE762D5D9076DC0971B6CCE1455A9"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/MapLoadPressed.png",
+      "size": 1931754,
+      "sha256": "A85CD6C6C78F51451B8518C1CEFBBE151328C0014978DB51705D4D49E6474944"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/MapLoadUnpressed.png",
+      "size": 2064353,
+      "sha256": "E8B599B96A7BECBF0BCCDFB437E65D00E76C8DD4229732D744F859FBA07B2C1B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/MapSaveFocused.png",
+      "size": 2227283,
+      "sha256": "83E806FB373D4F4A54CA94394AF485067C51D7DDE800F9C115C2578FE31FFAE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/MapSavePressed.png",
+      "size": 2083039,
+      "sha256": "DD436651D5520D07F6BDC0C66946C585D59E77015ACB3387D62238204F5000AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/MapSaveUnpressed.png",
+      "size": 2265334,
+      "sha256": "BD7F28CADAD3B958F82FAD336E35EBE240147C8D7229A143C3F410167DBA2D32"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/NoChatSelected.png",
+      "size": 1861553,
+      "sha256": "3971558EAF89DF92B0F489FCA6716EF689E7432E7F03CFCFD253747082DAC3B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/NoChatUnselected.png",
+      "size": 1753279,
+      "sha256": "65F51FD8EA928C9B42A5FA1553C72AC4BB749224DBB938965E15C3878D03EC5E"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/RandomMapFocused.png",
+      "size": 2102790,
+      "sha256": "2DC11CC85B5257B55196968191A9C175EFE97CFBF6C58384647B8211F0363260"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/RandomMapPressed.png",
+      "size": 2306066,
+      "sha256": "B3EBB1C5FEF36D359BFA2B9FB3B220C6D5CEE5252792C0210431359DAAB5A60D"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/RandomMapUnpressed.png",
+      "size": 2259064,
+      "sha256": "8F146F03146637433A8E0E786960B6ADF366414172C6804ABA824227D8A89AAE"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/SaveFilmsFocused.png",
+      "size": 2212193,
+      "sha256": "FBDEF240916B63C92D90443B1C61D7C6F041C2DCFB16EDF2DA6453D492F6E01B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/SaveFilmsPressed.png",
+      "size": 2175567,
+      "sha256": "636A96EE46BFCE8892C5D37407C640D8558E6D94475AE9673D7D5E29F61BC6D4"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/SaveFilmsUnpressed.png",
+      "size": 2325144,
+      "sha256": "3394A497414B3BF8648B01522FF3397A61E300C1F8640C41BCF15535B1F45322"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/SelectNoneSelected.png",
+      "size": 2114337,
+      "sha256": "46E4836D0BF7EB7FA8B4882CEB3009A7E9039E608E4E2EF79C90AEB791835E1D"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/SelectNoneUnselected.png",
+      "size": 1901771,
+      "sha256": "CF375377A051249DBD972A70647C29DE55961DFF716CBFB641C76BDF86D32209"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/TeamsPressed.png",
+      "size": 1980600,
+      "sha256": "3E35BE98E828738EA4803C4AD0954AB5B43509CFCADAF5BED754E4A556F79859"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/TeamsUnpressed.png",
+      "size": 1918050,
+      "sha256": "96CCD9AAA786203F7C604D2623ED026F411CA765DC3C5CB1711A9F2720F4DA4D"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/WhisperSelected.png",
+      "size": 2241451,
+      "sha256": "511AAB65D3A148C9B9682640EAC6C5273419E07522F30AB35C5B667D76B3AA0F"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/WhisperUnselected.png",
+      "size": 1897683,
+      "sha256": "C6CCBF90443AA87667B5AC6AF46D5B4FA2526E3FEAC89B16FCD2598309B14FE0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/LobbyButtons/passwordlock.png",
+      "size": 1424485,
+      "sha256": "BB58498516553AB8D54024C567C3B089ACD983672F3788F6DC68BFFE74CE42D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/ReadyStatus/HostIcon.tga",
+      "size": 6290108,
+      "sha256": "863869917E317A5A3C16C48966F1986B46E6067B55CD9E9E7CCBE93F4E082D05"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/ReadyStatus/NotReadyCheck.tga",
+      "size": 6290108,
+      "sha256": "EDBB239288E0D1270399A118AAB53E0468BCA264F6B3FD4BA806A35372D4D1C8"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/ReadyStatus/NotReadyCheckbox.tga",
+      "size": 6290108,
+      "sha256": "205CFAE4C1CF160BDC514470809D808BE6B4D07AAF6A2E9657619DAE183E9D2C"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/ReadyStatus/NotReadyIcon.png",
+      "size": 1041568,
+      "sha256": "CCC217619A08C9BF059FBFB1B0E42DA619B9B14C77B2404CEBC895ACC08E84BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/ReadyStatus/ReadyCheck.tga",
+      "size": 6290108,
+      "sha256": "12F139D62A4C5E534F9C5E335AB4AAAEC1F0227DEA7EF0BCA69C53A4C54095D4"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/ReadyStatus/ReadyCheckbox.tga",
+      "size": 6290108,
+      "sha256": "812A7A8A520D675A594E8F5EC8CEB9DA0493D6276CDAEDB73A58BC1DB51C43AA"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/ReadyStatus/ReadyIcon.png",
+      "size": 1352988,
+      "sha256": "9359941ACC3B1294CF04BD194864DDF81E0C9A5192CAAD2FE8993B3E8F16B7C5"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/Staging/HostIcon.png",
+      "size": 1757143,
+      "sha256": "03E21389F2F14233D4961388F36F85FB54DC9429A0EAF3EBDCF9F79A976FB8B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/Staging/KingdomIcon.png",
+      "size": 1558180,
+      "sha256": "160B5848C488EABB0D28368EABDC0BBFB4416CA495CDEF13E46DD9104DD946A2"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/Staging/SwitchIcon.png",
+      "size": 2103684,
+      "sha256": "35A2A05037137041736A94CF9988F2DAA0101BD85AC2BFE7B6AA8BA5504737F6"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/Staging/SwitchIconFocused.png",
+      "size": 2072258,
+      "sha256": "2A0E6EA8101A1FB08BBCFEFF433462B7FA11EA83829AAB90DB1B0333AA6769BD"
+    },
+    {
+      "path": "paws-hd-ui/UI/Default/Staging/SwitchIconPressed.png",
+      "size": 2061000,
+      "sha256": "34FFBD3B0CFAF144D4BD0B69BE11CCBDCE128CAFDDC221718BC88BC4A36295EF"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconAttach.png",
+      "size": 3052336,
+      "sha256": "5F0A140CFF8FB5BB6E4B7E08705B38A598759AC39796E3297486BBCFAE4CA2B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconAttack.png",
+      "size": 2510264,
+      "sha256": "ECB48B33B41D97D4890796CDAC7B8B158CF6B0CDCB23223A8F8B6177B4D4D1D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconBombard.png",
+      "size": 2735016,
+      "sha256": "3DF38A152CFAF1CB38C4D4CBA4E16460FC555DFBAC0116893B99DB22688850F9"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconBuildStructure.png",
+      "size": 2731765,
+      "sha256": "C51124C123AC9028A129B1E8B4DAB20F30504AE45592F73478FD0E12DAB1E765"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconBuy.png",
+      "size": 2700538,
+      "sha256": "28638EDA4E20712A6F31EBEF9736C39FEFD18100DDFEDC693EFB1DB8791E3D2E"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconCancel.png",
+      "size": 1282339,
+      "sha256": "F64B91402340A021451293595074E13205AA5BD20799455FFD22D08C876F9BF5"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconCommission.png",
+      "size": 3920888,
+      "sha256": "23A2B0BE5217E15769C843E95BA4FF5FBD5DB4C4ED13B7109C9A4E634E94A14E"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconConstruct.png",
+      "size": 2731765,
+      "sha256": "C51124C123AC9028A129B1E8B4DAB20F30504AE45592F73478FD0E12DAB1E765"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconCustomCompany.png",
+      "size": 2090828,
+      "sha256": "183291C9C06D617ABC5C777BEFD4600F8AD2E1249570D13C29D70F02DFFCC75A"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconDetach.png",
+      "size": 4381187,
+      "sha256": "E0109B3C04E7AF42B1871404D7116EE7DB2A7A26E07D42632BAAA8C76E799F82"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconDisband.png",
+      "size": 3989246,
+      "sha256": "F269A2F17ADFF032916ED4EB9BB9C3ECDF6CF1E6452CD747C8608708DB80040F"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconDowngrade.png",
+      "size": 2863476,
+      "sha256": "89C8CF77FAD48CB19E262E71F617620BAADC30E385A37A2DD382DB62D40182A7"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconExplore.png",
+      "size": 2438202,
+      "sha256": "F07FB51055126DF3D760BD91B9E274621AC2A72E2A6F3F819B315E797E8503CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconGroupBehaviorDisable.png",
+      "size": 3453727,
+      "sha256": "06D956630EBE655DCB3D5F6F96935D67E5F853A88F9698954E8600B228D1EA53"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconGroupBehaviorEnable.png",
+      "size": 3478545,
+      "sha256": "26FDE1E3FAA828142F54D3BEC7EE3017DD7E13449D8A6481473969A48B578D02"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconGuard.png",
+      "size": 2752210,
+      "sha256": "12C9EC585D817304B350AB4FEE5B4A49214961971188B72D1EA273024E86F9F5"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconKingdomView.tga",
+      "size": 6290108,
+      "sha256": "4253C6F9696E1C306130C90953947D01B30FFBECB23409E59829B2B286711238"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconMove.png",
+      "size": 2407204,
+      "sha256": "A58E6EC3011BBA925B4C79A0B50B0757085D359DFEFD09BDA00F911B80F2379B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconObserverView.png",
+      "size": 2370458,
+      "sha256": "5A542D3D986028C122ABD04D3D46AA4082A2524601FC50AA1378754733A09F50"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconRaze.png",
+      "size": 2104477,
+      "sha256": "9A6E1EB7ACF1C4678E80ADB74E5207B942DA7C70857748FA2F1EFBB21D4257DE"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconRecall.png",
+      "size": 2384050,
+      "sha256": "92FACFF15C09E57052ED802CBD0C98A1F57C9CE11D97CA842F743A197A14072E"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconRepair.png",
+      "size": 2689520,
+      "sha256": "63C5CA35137D968BA4531C9824002C812CB219FB3800570214CFF64D90E65BA9"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconResearch.png",
+      "size": 2785635,
+      "sha256": "DD346498139348144781A8D17A57D67B942EA941F9EF96B8821AFEA88934F969"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconResetFavorites.png",
+      "size": 2012086,
+      "sha256": "8A029E87C68CC0F0D48A71434EFD785B7FF8A297944A5FC569C5FECBD2221CB8"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconRetreat.png",
+      "size": 1793921,
+      "sha256": "2425536D16589D2B6E3B58D77B5CEBA00A91FACF892CFDFC85A1445EC4759B3A"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconRout.png",
+      "size": 2352570,
+      "sha256": "3F92EC44FFFA9F41FA1DD55AF15906E6A7EC5B55F22AB75D67BDBFD2BE83C7FD"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconSallyForth.png",
+      "size": 2744061,
+      "sha256": "96BC395E321EE2C4C24D33599F5E7BC90B8C9DA33426513E85DD8727013AF461"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconSell.png",
+      "size": 3018678,
+      "sha256": "72F6B5CE887C94548E768B63DE114F8FE84221C53CF9D8181FED3AAD901B8D78"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconSetRallyPoint.png",
+      "size": 2302358,
+      "sha256": "49BDD1CD833CB13482D1BAA11D107468F23605124485FE437E7FE4F03926DA03"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconStop.png",
+      "size": 1459517,
+      "sha256": "08857513DDCAF54070D22B245AF4CACA76A702C8AC75AB2570FF711F65997AD0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamAttack.png",
+      "size": 2464502,
+      "sha256": "4B091AA7CF53D8BA0B4E47724AB310AAB4501535FE818805EF0F42977CD075BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamBuild.png",
+      "size": 2613729,
+      "sha256": "AC3FF2E3EAF1B19B7EB8600A1F687F940DAE1E35ADB0CF22F6C3D66F7AB3028A"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamChat.png",
+      "size": 2195914,
+      "sha256": "E86E73C46C7A49E726E1E3B02B1BF97548302806134C2CEB637562C4DC51EA3D"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamCommand.png",
+      "size": 2109724,
+      "sha256": "B86B10BB316964772C856C76ADC5AF012F294EDDB88E7F2CA50EE8D2D229A606"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamDefend.png",
+      "size": 2586264,
+      "sha256": "D4BC635153FAC22C08CDD53F511FDB6E02B82F3A8CC1ACFFF649C7B6C47C8265"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamExplore.png",
+      "size": 2432929,
+      "sha256": "62D8DF1C38FF9DECF787455AA0343FCEFDB52D90543EF0446CE3185E0BA49D11"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamGiveActor.png",
+      "size": 2223294,
+      "sha256": "53618D01DCC5FC358F365025DB3B4C53DF027D95F324CABFEEC8A50FFAEEAAFD"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamGiveResources.png",
+      "size": 2375992,
+      "sha256": "EC02A98C153591910A4E6350ED11C1724E6DDABE778A2909054E057171925E06"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamReport.png",
+      "size": 2458437,
+      "sha256": "BB738E6122E5C7FAF603EC2A3A3589364FA8369F52DC4C3A995988420B665122"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamRequestActor.png",
+      "size": 2230922,
+      "sha256": "753AC1107832956B076C2C46FE11F0CA2E1670BE5C640612AFB4833887837E07"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamRequestResources.png",
+      "size": 2382100,
+      "sha256": "B311BD3745BA964E392C4D790E2D5D583077562FD472F76E168E2CD13EF5A9B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconTeamSelectKingdom.png",
+      "size": 2689983,
+      "sha256": "77894003683CEB11011244F0FE3222FF661B3065661AC4FB346298C7834E5652"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconUpgrade.png",
+      "size": 1984685,
+      "sha256": "B66D5B000D40D2DE1680F945D7D7F9A9236D889A2AC238B4BAFB7A0C612215F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/IconUpgradeFort.png",
+      "size": 1041864,
+      "sha256": "451D644C80BC75E3C06A9F31B23373EF3611FF18BD17B824A1E3A811BC805359"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconAmberRings.png",
+      "size": 2625499,
+      "sha256": "DCB77D707AA4CA73F27841C2433F18CA42C65F6BBD37802ADD2FBFFE59FAB892"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBalancedWeapons.png",
+      "size": 3264539,
+      "sha256": "B156642226C31A1AC69C8050579C8FDDECB77F70D0B8B025517FC2FDAEBB37F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBarbedSpines.png",
+      "size": 3070601,
+      "sha256": "831BD60D2F0B6F60AE3AC32EBD377CAC27A88F6D389C2A6D5C99763C8F371E46"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBilleting.png",
+      "size": 4005931,
+      "sha256": "E9F6C646F6B6B82D70EF6792FE2392D70B3C7B68EB79D77984497BBAA51F3CC2"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlackBlessing.png",
+      "size": 2751610,
+      "sha256": "D85759789CAA958F4B4FA67BFD6D13D69001F9C2E83BDC52B75D5E6292CD1B9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlackIchor.png",
+      "size": 2272374,
+      "sha256": "697CD452E728783DC7189F6D290DED6B8425B8110FC885675FD32A42A0D3CCCE"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlackOffering.png",
+      "size": 2675887,
+      "sha256": "A73B80AD7034482AD5D7079768DE325B35F734DC9E964EA266866A00BC85F640"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlessedArmor.png",
+      "size": 2200848,
+      "sha256": "31D257E6F0E83C614A56B9A034354D79F77864F6EDADCA838E1E6F1861D750B1"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlessingLife.png",
+      "size": 1893156,
+      "sha256": "25A8633D1A9F074FF5446A4F775E69CAA571B97BB54F0D0CA53BC80B1B0381A0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlessingMight.png",
+      "size": 1907725,
+      "sha256": "9225191BEEE7B367CA61B3B58C43289296AD71FC3B9052C1FEA6AA63044213A5"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlessingOfValor.png",
+      "size": 2008467,
+      "sha256": "208A715E14FA694CA3EEE69D91E1D6C0F932C6F9F4D8470D57729AB8ACFE8B26"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlessingSpeed.png",
+      "size": 1690921,
+      "sha256": "C2D2EBE47FFC2DEFBE1E188ECA895C97C56CAC50EE1904040336C576E76ABFE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlessingValor.png",
+      "size": 2008467,
+      "sha256": "208A715E14FA694CA3EEE69D91E1D6C0F932C6F9F4D8470D57729AB8ACFE8B26"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBlessingofSpeed.png",
+      "size": 1690921,
+      "sha256": "C2D2EBE47FFC2DEFBE1E188ECA895C97C56CAC50EE1904040336C576E76ABFE1"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBoneRings.png",
+      "size": 1738716,
+      "sha256": "4D91A18D8F468E20425555ACEA761ABA88A107BB42588687F88ED2C5901B1025"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconBootCamp.png",
+      "size": 2456497,
+      "sha256": "DB45B7F252AA4C1983B92234A0C0B4F7D8A3A33279B5A7FB1D196521C3AB7183"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconCalvaryTactics.png",
+      "size": 2067543,
+      "sha256": "2EC1F95EFFB2866CEEB6C4F6C8A57215250AC2B57B4161FD13EC5018F1C350FC"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconCavalryTactics.png",
+      "size": 2067543,
+      "sha256": "2EC1F95EFFB2866CEEB6C4F6C8A57215250AC2B57B4161FD13EC5018F1C350FC"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconCompositeBows.png",
+      "size": 1481440,
+      "sha256": "AFBE6B266F4955C7EB93B25CD67849449FD6D42B290F17167C4A37B39E92E3AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDarkFortitude.png",
+      "size": 720778,
+      "sha256": "1429156DCE857E280F52941A8C2001DAEEFA813E34526E8E63D0119B713B65F9"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDarkMatter.png",
+      "size": 1711010,
+      "sha256": "E6304F859E8D79B72BD6B4D1D03B74971F05C79150D821199C1A2D7553D163F3"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDarkRitual.png",
+      "size": 2420061,
+      "sha256": "B0D59D61413E692F94D26FD4A6A895CA3FC8A27CBF64DE1A03EB0E1E064A6AE2"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDeadZone.png",
+      "size": 1991190,
+      "sha256": "021A99B04B76C8FBDAA6F104DEC3B60D3913C9DDA8278873FDAF8C66C8BF1666"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDeepRoots.png",
+      "size": 2183797,
+      "sha256": "A1A96497B6FF7FA9FAF35EBAF09E512BCEC6B36B13A9D0B8B52F8CE4D02F34B0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDiseasedArmor.png",
+      "size": 2292678,
+      "sha256": "AD5E07490928636849CD83405B5B7800C303AA1B6709A5BB0F72341324769CC7"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDiseasedArrows.png",
+      "size": 2858827,
+      "sha256": "EE907CF1CE7E218E88DFD12AA332F3AFB5166AAD893DA62D482D950949B434A6"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDiseasedWeapons.png",
+      "size": 1595392,
+      "sha256": "0E1B25A5561F61399CE3A315778D566564B56AABC157852BFEABF2DBED9403E7"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconDragonboneBows.png",
+      "size": 2315445,
+      "sha256": "D8F4A3E415DEE9C40C3A12E64B310727D15C26ED6BF9191140A7D00A22E68AF7"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconEdgedSpines.png",
+      "size": 1773450,
+      "sha256": "D242FFB43B409662121C9B2440EC1A2AD5F16258ED3F657BF6885B1B9116048D"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconElixerofCourage.png",
+      "size": 1387368,
+      "sha256": "B1DFF624F48B2383628A6AD29491F6B4FE9E84D53EA470EEAFCA5D2C2AEDE678"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconElixerofLife.png",
+      "size": 1430954,
+      "sha256": "4CDA417B3670DC4F4C7C451E1914AD3653FAF0CAE475F803AE1F384E88AE2816"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconElixerofStrength.png",
+      "size": 1621164,
+      "sha256": "079E6E30F3982DD61FE48E00C27D829C36604C0785D9E5E23E7C55FD71C612BB"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconEnchantedArmor.png",
+      "size": 2546668,
+      "sha256": "F3703576BE7285F263209A63CFC20C50E80CFA4D35089164EA1AB35C677CFE21"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconEntrenchTactics.png",
+      "size": 1943577,
+      "sha256": "336EA03AE980B06F277F71AB3DEE8177BF7E6E2783334C8C52B1D6F559545A77"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconEntwinedBranches.png",
+      "size": 2177619,
+      "sha256": "16F4DF2C384595D74E4D1C65C4FE28B435434A938917228EE924028D093DA521"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconFittedStones.png",
+      "size": 1780009,
+      "sha256": "C8ABFCF03A86608431CEF9D9A4C57EA07EEB1DC75FCBEF5CC13D0D80BFBB8AAC"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconFlamingArrows.png",
+      "size": 1963684,
+      "sha256": "F7337F2270C8EFE5C720442388FF5BE783E9937B445D3C59354253E93AA28E9C"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconFortifiedWalls.png",
+      "size": 2063783,
+      "sha256": "3D6360A926C7C4228CFF200DCA6783136305EA835F6AFD54138576A248394A3A"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconGroovedSpines.png",
+      "size": 1366002,
+      "sha256": "0AADEF27D18BB3C9CEC37C18A3EB252F9BF99FB90C59E215A9006D55C15796A5"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconGuardTraining.png",
+      "size": 3068519,
+      "sha256": "1EE949B3DAA880BB6C658C404CDAF12C3A6EF3A3FB517A10854274EA3EBA140F"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconIronwoodBows.png",
+      "size": 1719553,
+      "sha256": "FB2BD56B49C758B7565BCC8DE07B121567C1840B8CB104547200ECB0FC93542A"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconJadeRings.png",
+      "size": 1485608,
+      "sha256": "173FF1EE79E333EE6970938DBFA6DE9EF1928B7AFCFAE1386DBCAB695F4FB4E7"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconJourneymen.png",
+      "size": 1646265,
+      "sha256": "9AFA15B3DAA198E68B915AD15783349641CED4679C0993284AFC0E2EF06CA559"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconKhalduniteArmor.png",
+      "size": 2596188,
+      "sha256": "5FCE2BD3D570E7F870CFB6B226FB981E2CFD479730700259018AB95979C5E7EE"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconKhalduniteArrows.png",
+      "size": 1764868,
+      "sha256": "7C1E7A3057C7111B0220E9FFB5258B017F1544BC83A4309E284B521C8315B792"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconKhalduniteWeapons.png",
+      "size": 1035626,
+      "sha256": "CE2DEDB566DE4317D5439E76324FF3CF7B127632C2EDC5C581129535C1A211A1"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconMagicArmor.png",
+      "size": 2994989,
+      "sha256": "AF38B24BC962493AE514296778639215D271E190E67E2DEAC2CD856CE8997C0E"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconMagicArrows.png",
+      "size": 2064352,
+      "sha256": "CCE17FBF2D7B253F46894C487840D6C5F122D2F45A7DADCBCED36A552A79835C"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconMagicBows.png",
+      "size": 1889930,
+      "sha256": "E77255A7FDE9FE8715544BEE0E77A2809DBC1B132292EFDFC1DFEBD28BF772DF"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconMagicWeapons.png",
+      "size": 1330473,
+      "sha256": "2BB0AA562BD91C4F0ACFA075D80BDDD29125B84AB6E401E5CAFCD4A56E620E7B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconNursery.png",
+      "size": 1814554,
+      "sha256": "A3FBF2569433A8EBCC2AA24BFA1484CE2B819563533FEE0F84D43A139897226B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconOnyxRings.png",
+      "size": 1609483,
+      "sha256": "F1AB7471A68B8B3AC54F0722E2171D9B14B39276A73AEB0DCBBE22A5586D3755"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconOpalRings.png",
+      "size": 1601579,
+      "sha256": "5428755927A04F339242F7809A13DC07D20CBEABE1F9372251648DE2998EFC9C"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconPoisonArrows.png",
+      "size": 1470640,
+      "sha256": "583E28819051357C73D8743CF487511799F6BF64919B758E5744BDD99F3B6270"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconPoisonBlades.png",
+      "size": 1598519,
+      "sha256": "5F104429D08F6C0D646B902B58DF17DFB8732AF9B5FF17E76DAC6DE67643666D"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconPoisonClaws.png",
+      "size": 1434111,
+      "sha256": "D913DB94128D20CFB24D393FFB3992F2676293526CE22A2FE735EF4DAB1BF937"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconPoisonSpines.png",
+      "size": 1141359,
+      "sha256": "F166229F846B07B1314B7D548FA8DCD165B145FEFD92A40FA2FF5EE9007844B5"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconPoisonWeapons.png",
+      "size": 1219789,
+      "sha256": "3A5CE1B2494AAF5C14FD2AE2CC982069A3BEE7D6CDA23A2B58CCE9B1861923E0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconProselytize.png",
+      "size": 1793371,
+      "sha256": "05E67B5F7280B7508A37A5B20B5F21834A559FA0CAA4F5B2D19323030A89E140"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconRamparts.png",
+      "size": 2545156,
+      "sha256": "3ED752AA78EA516F3695D10673881E6108755E41DD1A3556A0BB3693AE2F94F2"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconRapidGrowth.png",
+      "size": 1217666,
+      "sha256": "F75FDDABE52FA46E893913557D68636DB19D5A1CC5A5FF8C9381F871D4CC5308"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconShadowSteelWeapons.png",
+      "size": 1674017,
+      "sha256": "6D3BA4EB669732069F8D4422AA3789A5EFC1A2501190E73033A29C7F48B896C5"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconShadowskin.png",
+      "size": 1761761,
+      "sha256": "2228EF67DF542C1A8D90D99C0B4D9572D17C341A1AC6F0B1BDCC55C0E60BA1FE"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconShadowsteelArmor.png",
+      "size": 2159446,
+      "sha256": "2FC60FBDCA5DD7839268F3F252F627F9603ACB15EDAB676D23FFDA0014DE8257"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconShockTroops.png",
+      "size": 1869652,
+      "sha256": "D8A81BDC2DE812A7145EA4EFB9AC1304ADC5A4F5200EDA9B3437A8F7F7A3AD30"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconSkilledLabor.png",
+      "size": 2170913,
+      "sha256": "B57EB20AE6B21F9B1AF1D32900F9B729F582DB5712E593756B20065721C1599A"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconStableMaster.png",
+      "size": 1886317,
+      "sha256": "23E34D02BF255B418E07F31B7A320213F8726FEE72523CDBAD2CDB475C8C3213"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconStrongFoundation.png",
+      "size": 2437913,
+      "sha256": "45B86A3898C8A24CA7CF23138C86C7A6518109A36B1799CA6C137ECD9E3290CD"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconTaskmaster.png",
+      "size": 2277918,
+      "sha256": "90669CDD5402DC82F1519820B271B91DAB25BB4C9E088BD92E25421D80841A69"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconThaumaturgy.png",
+      "size": 2084620,
+      "sha256": "0C2137CE9E56A50171342AD769933793EAFEF107B4A84A8C978FC9F6A671F0C2"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconThornyBarrier.png",
+      "size": 2235974,
+      "sha256": "BAEEBF2BD4938B53060DE7E6562BA601302A9E348EDAC1C2DB8CE5660CA1DFD9"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconUmbralBarrier.png",
+      "size": 2226284,
+      "sha256": "98525D9EED3666E0925495F67503C22ACD2A3D4D333D4889FAFAC04733737AA6"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconUmbralCarapace.png",
+      "size": 1715808,
+      "sha256": "9196105A85FA36E74467ECBAE557715D5B2ADCA82BE1D13AACF09FA88133F4A0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconUmbralEssence.png",
+      "size": 1540840,
+      "sha256": "EC4E4816A9E4195E36F8851BA9211F9178708ACB7D228DA2A0E1D27ABF3BA106"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconUmbralFrenzy.png",
+      "size": 2079467,
+      "sha256": "076556D26BF6FF25A62BD77F828D7A022A33B8A588168818AF428696CF8AD1E3"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconUmbralFury.png",
+      "size": 1744144,
+      "sha256": "0A26CCE203E0BACFB169AF5BD261160871B52A0A12508F85E23F197E95DCD5A3"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconUmbralMight.png",
+      "size": 1990569,
+      "sha256": "82E9698365B035F8C01B83F2CBE8E7B4AAC801F3664B313EDAE0BD52A33C63D0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconUmbralRage.png",
+      "size": 1902297,
+      "sha256": "C5471FAD8DDF14AF320A498108F0A2838C76A232D07831E10E5FB5B6BF1FFAF4"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconWhitesteelArmor.png",
+      "size": 2335433,
+      "sha256": "C42131CCC6057DA7E6DFFB51DCB16E8089054DEC7D3AD41756A644AFB6BF4D9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconWhitesteelWeapons.png",
+      "size": 1443560,
+      "sha256": "D11C75CED41A8D6EC3AA7A480E967577319B55E8BB75D290B67899F459F85257"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/ActionButtons/TechIcons/IconWideTrunks.png",
+      "size": 2166381,
+      "sha256": "EEA4B6D66B4F034488C695B85E1B9557380631D17229033EF1EAEBABB49846F1"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/Favorites/cross.png",
+      "size": 99823,
+      "sha256": "9A534BF6FC009FA7F91309F7D3B6F27665D34170A247F57323724F79C048407F"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/BankIcon.png",
+      "size": 2497491,
+      "sha256": "00A2C42EDB7D18C2A21ADA3F565847D2E2A2DE7969D5EF32ABC23896031DEB21"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/BarracksIcon.png",
+      "size": 2378185,
+      "sha256": "7418A4786BB723C890D5E41456FD7D1B7DA42ECF56DF47A34223C24BEDF03A42"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/BazaarIcon.png",
+      "size": 2257114,
+      "sha256": "4243A14CA871E99A973FFBB5617D9FF71E22D7678E43282364C81B19ABDF658B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/BlacksmithIcon.png",
+      "size": 1948488,
+      "sha256": "08EA4814A3520FB553555BC38A61BE7E5806A51CAB5801EB679363E8F04C9243"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/DraugaCenterIcon.png",
+      "size": 1831228,
+      "sha256": "3AC65AEA700B9AE161CA7ACBF1D90D02C598BB087794DD5A1E0A6BA5496C9963"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/FactoryIcon.png",
+      "size": 2337344,
+      "sha256": "2787EDC586E56C820015AE9C184B96C996C6891E348377A2CB8B160285261762"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/FoundryIcon.png",
+      "size": 2176632,
+      "sha256": "5E390D7D7E901BBBE1D313B3E4B1A3CD0C1B1C09D8C63CCD14C7A37A7E9598AF"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/GauriCenterIcon.png",
+      "size": 2253718,
+      "sha256": "D6C8A09E709897014DC32CB8E950D02680D6AA06754A7A016081AFD32E6B6663"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/GiftOfNatureIcon.png",
+      "size": 2313614,
+      "sha256": "C9D146F80AF712CDF63FED4ED497E26D3875250EE43E200B66BE4EFB223E9C02"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/GoldMineIcon.png",
+      "size": 2720050,
+      "sha256": "E0ED56D3C9FFD9D2FE8785D894CBD09C21A209514E9B7474AFDEBE394CFBFAE3"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/HarounCenterIcon.png",
+      "size": 1870015,
+      "sha256": "64E869656BD9E236EBE1BD36BE4E7751CC9759CD04CACF4BD5BAE7E7485A9952"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/HumanCenterIcon.png",
+      "size": 2039023,
+      "sha256": "58CC83AA6AA6B37C6E89B3A18345F8A3618A4C882A61F45DF0CCEE7462C3F0C4"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/IronConvertIcon.png",
+      "size": 3749359,
+      "sha256": "0ED93D6C9405443309749499E394EEDAFA77B18E21D215C44619A3DFA8038F22"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/IronMineIcon.png",
+      "size": 2626657,
+      "sha256": "CDDF674A5AA5CBA79575A1779DD57206E25E37D1C2D221140A7EF4DBAF3CC135"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/IronToManaConvertIcon.png",
+      "size": 2552986,
+      "sha256": "8D07083488E1C5716454A6E48FC8E8A1BB8F90FE94D5EC87D61A624891CE0144"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/LibraryIcon.png",
+      "size": 2336277,
+      "sha256": "3729EB0E49BC02D01190DE027AEA6F7DCE575D6215EE0FB8CD062B48CED949D8"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/MagecollegeIcon.png",
+      "size": 1819784,
+      "sha256": "899846C175524D6DDCCC12C52BDFD5DD2ECD809EEBAC0C25C2C5EDE202CFB122"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/ManaMineIcon.png",
+      "size": 2352562,
+      "sha256": "8FBCA61C0F287B9EAFA0C9B2EF5199C1F7E12F594A09219A66666414E95A0B9A"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/ManaSiphonIcon.png",
+      "size": 2226634,
+      "sha256": "F31C503079238411CD9A9F05C1629EFBD911DBCE30E015F574CF63550A4784C0"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/ManafocusIcon.png",
+      "size": 1772290,
+      "sha256": "D01D5EE7DEC6DBDF111B6CD213C44E33716A4DC41A29E82C7B29E1A35F46609E"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/MarketIcon.png",
+      "size": 2060053,
+      "sha256": "45B457012DF2727A8CF29448C1FB3DACB17D1AABBA157A3E0C008227F057EB9B"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/MiningpostIcon.png",
+      "size": 2384028,
+      "sha256": "DD4531E1C502F7A199D0AAF41D697F13413435DD8A89BBB283632BC9B4396900"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/OutpostIcon.png",
+      "size": 2033685,
+      "sha256": "85A787530452DE2D51B68F33202983B8BB2E522CF28D5091ABA175E58D008554"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/PortalIcon.png",
+      "size": 2239046,
+      "sha256": "442E2AD894E1CB16E56AD89DF2572F125A6ECA03B4FA44B47B5DC36D53FC7D74"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/QuarryIcon.png",
+      "size": 2252032,
+      "sha256": "6092CC3ED903CB6AE26F9A110F815BD29FB9A4C33DF6D04F076E8961A6E0B654"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/SawmillIcon.png",
+      "size": 2464399,
+      "sha256": "47846F0235B2296E8F8666E2FA068A42088ADFB47F9F734256E98A646C6FBDFD"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/ShadowCenterIcon.png",
+      "size": 1395854,
+      "sha256": "1054BB767490599D2BE847B584031873738D985396D397B3375E413910CAC2B7"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/ShrineIcon.png",
+      "size": 2213152,
+      "sha256": "92660170B49BF60DA36B1BBE9AE25B39293215C48A2C13835BC362911E531D62"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/StoneConvertIcon.png",
+      "size": 3848853,
+      "sha256": "AEDFA18E77D50D8950F782710A870A611C26919158F126D95A8E84625F3B7D1E"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/StoneMineIcon.png",
+      "size": 2716573,
+      "sha256": "1F320BAD134E69828FE34E480909334AAB2058634B172D444FD76DDB868FCDB3"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/StoneToManaConvertIcon.png",
+      "size": 2418311,
+      "sha256": "31A2C960C708593C10A9FB8107C3DCAFA5762D98F5DF1546A8B93019254E524A"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/TempleIcon.png",
+      "size": 2092886,
+      "sha256": "2D3188F8B719DF179EAF147198288B02A4FE14CE4FD1FB55F52B6A663386BE77"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/UndeadCenterIcon.png",
+      "size": 1995421,
+      "sha256": "C7D57F2F947BE738F8B62E1CEB9F8F16B0212121AE81AD0C2A138A91EDA40515"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/WarehouseIcon.png",
+      "size": 2398070,
+      "sha256": "A59DD8AA52F655623AEF5722E1A590217E24FBD39BECB7A9F2C3FAAEB80FF2CB"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/WoodConvertIcon.png",
+      "size": 4131508,
+      "sha256": "D28BB57E5C7579E5CDA03C10CA441701A15EEB41C5E9E1B15D5386ED517084D9"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/WoodMineIcon.png",
+      "size": 2492342,
+      "sha256": "DBCB7D429869CA0D5E3246088E13FFB3B389EC7E02275AF02240B4A456855766"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/WoodToManaConvertIcon.png",
+      "size": 4260532,
+      "sha256": "250D6C71056B0D7EAF2E2B5BDC212B0111D5A4D284805A67EDADBBB8A8CFCCAB"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/WoodmillIcon.png",
+      "size": 2512072,
+      "sha256": "D4AE6FC05AF338EAB2638B57E939A6750D72DA1620D86839B7F0E659B0435BA8"
+    },
+    {
+      "path": "paws-hd-ui/UI/Game/StructureButtons/WorkshopIcon.png",
+      "size": 2495679,
+      "sha256": "1DA944280ABC4064CF5474F2CBBE0A6BE072BE0D933120D67887C81294CD46D8"
+    },
+    {
+      "path": "paws_patch_versions.ini",
+      "size": 56,
+      "sha256": "54C695E0E26B37BC51AEE5AC565F5B31D451E892189DF6C0B978D485F0EAEC3F"
+    },
+    {
+      "path": "skins/Drauga/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "8C873C9F99D2DEA689DC2A63A995C2222A714F5A6AB9059126795F8E097A00A2"
+    },
+    {
+      "path": "skins/Drauga/UI/1280/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "3C59F626E695D61E18D67150E0F472BCD18EE3FED0CBD3973014C4F2F7B82028"
+    },
+    {
+      "path": "skins/Drauga/UI/1280/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "5CEECED157CEAFD2A8DA00A0C1FE1C77545E9B6D1840783BE8DC1E86FA601CBC"
+    },
+    {
+      "path": "skins/Drauga/UI/1280/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "BB6917AF929054DB890B39D001BFC2B26EF9B459192F2ED377EF4CB849A85EF9"
+    },
+    {
+      "path": "skins/Drauga/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "C10A3481BFE119E560D9B203D2DFF260EB0DD122354038F8B1BFA144E9BF6389"
+    },
+    {
+      "path": "skins/Drauga/UI/800/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "3C59F626E695D61E18D67150E0F472BCD18EE3FED0CBD3973014C4F2F7B82028"
+    },
+    {
+      "path": "skins/Drauga/UI/800/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "5CEECED157CEAFD2A8DA00A0C1FE1C77545E9B6D1840783BE8DC1E86FA601CBC"
+    },
+    {
+      "path": "skins/Drauga/UI/800/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "BB6917AF929054DB890B39D001BFC2B26EF9B459192F2ED377EF4CB849A85EF9"
+    },
+    {
+      "path": "skins/Drauga/UI/Game/ControlPanel/Background.tga",
+      "size": 1044524,
+      "sha256": "53F2E0AD82371A8B7FF8D172DE439FE15FF00E35F9B0BA43C50CE588A25552E6"
+    },
+    {
+      "path": "skins/Drauga/UI/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "3C59F626E695D61E18D67150E0F472BCD18EE3FED0CBD3973014C4F2F7B82028"
+    },
+    {
+      "path": "skins/Drauga/UI/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "5CEECED157CEAFD2A8DA00A0C1FE1C77545E9B6D1840783BE8DC1E86FA601CBC"
+    },
+    {
+      "path": "skins/Drauga/UI/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "BB6917AF929054DB890B39D001BFC2B26EF9B459192F2ED377EF4CB849A85EF9"
+    },
+    {
+      "path": "skins/Gauri/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "873ECE7A1D675A74B87AAC70E472C6404C1669DA9225A706BA58AB5AC9E9A58D"
+    },
+    {
+      "path": "skins/Gauri/UI/1280/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "F424ED7150DB8C9B394A5CA6238086A4361C20BD023DECBEDDB753C7A41DAE6B"
+    },
+    {
+      "path": "skins/Gauri/UI/1280/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "7C453C6ABE9190E07F57DAF70A6568886DDB2731D0376C97EF08A17654CBFD27"
+    },
+    {
+      "path": "skins/Gauri/UI/1280/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "E30E280631E0D3C52E6352CDECE134E1B929AB4C5135F7938D8DC25F84906551"
+    },
+    {
+      "path": "skins/Gauri/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "D813CC1D22A0F32C180AE17EBCDBAEF94D690F7F95D4FE4BB1D67AC95A798949"
+    },
+    {
+      "path": "skins/Gauri/UI/800/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "F424ED7150DB8C9B394A5CA6238086A4361C20BD023DECBEDDB753C7A41DAE6B"
+    },
+    {
+      "path": "skins/Gauri/UI/800/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "7C453C6ABE9190E07F57DAF70A6568886DDB2731D0376C97EF08A17654CBFD27"
+    },
+    {
+      "path": "skins/Gauri/UI/800/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "E30E280631E0D3C52E6352CDECE134E1B929AB4C5135F7938D8DC25F84906551"
+    },
+    {
+      "path": "skins/Gauri/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "E1B938077FBF4A33B34C618AEDBEED4E3B00DF3D292DE1D7FD1A5BB6789049BE"
+    },
+    {
+      "path": "skins/Gauri/UI/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "F424ED7150DB8C9B394A5CA6238086A4361C20BD023DECBEDDB753C7A41DAE6B"
+    },
+    {
+      "path": "skins/Gauri/UI/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "7C453C6ABE9190E07F57DAF70A6568886DDB2731D0376C97EF08A17654CBFD27"
+    },
+    {
+      "path": "skins/Gauri/UI/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "E30E280631E0D3C52E6352CDECE134E1B929AB4C5135F7938D8DC25F84906551"
+    },
+    {
+      "path": "skins/Haroun/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1633324,
+      "sha256": "0879D2E98210B9CDEBC54AE1D3FF95352D5130BF0BFA053DEE4A0725A0D24701"
+    },
+    {
+      "path": "skins/Haroun/UI/1280/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "261D4BA350AA995E06AA3AF3137A514839EF11E6A65640992EB0BB7C7A39F086"
+    },
+    {
+      "path": "skins/Haroun/UI/1280/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "56A096682068F5F1AB8AC2113333D31DEA9D99E1CA3AED076B690836EA2EBCC5"
+    },
+    {
+      "path": "skins/Haroun/UI/1280/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "0D7C79F4EEC49A1EBA6B329D8E782A824381571A6E843B88304FF399412929EE"
+    },
+    {
+      "path": "skins/Haroun/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "4214E93469DA2A68F51C2DA048BBAA9486590F8533942CAF57BD105A8F2900A9"
+    },
+    {
+      "path": "skins/Haroun/UI/800/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "261D4BA350AA995E06AA3AF3137A514839EF11E6A65640992EB0BB7C7A39F086"
+    },
+    {
+      "path": "skins/Haroun/UI/800/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "56A096682068F5F1AB8AC2113333D31DEA9D99E1CA3AED076B690836EA2EBCC5"
+    },
+    {
+      "path": "skins/Haroun/UI/800/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "0D7C79F4EEC49A1EBA6B329D8E782A824381571A6E843B88304FF399412929EE"
+    },
+    {
+      "path": "skins/Haroun/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "ADDCD218278B5A85DBD317D5DF43F321A3595F4A9B3E659DF4047922027B8DC6"
+    },
+    {
+      "path": "skins/Haroun/UI/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "261D4BA350AA995E06AA3AF3137A514839EF11E6A65640992EB0BB7C7A39F086"
+    },
+    {
+      "path": "skins/Haroun/UI/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "56A096682068F5F1AB8AC2113333D31DEA9D99E1CA3AED076B690836EA2EBCC5"
+    },
+    {
+      "path": "skins/Haroun/UI/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "0D7C79F4EEC49A1EBA6B329D8E782A824381571A6E843B88304FF399412929EE"
+    },
+    {
+      "path": "skins/Human/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "F2E5C057A62B5F7CD193FD24112968AC9AE88220108FBB049C901697EB925604"
+    },
+    {
+      "path": "skins/Human/UI/1280/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "0084ABF5EDAC659AE42EF2D93706C4DDFF41D3A53B8F46F56BBFF0136A0446DF"
+    },
+    {
+      "path": "skins/Human/UI/1280/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "05208B4DF45C067E8C243FAB8FFF2220FE0CCA64963AC02B0DC074FED2325CE6"
+    },
+    {
+      "path": "skins/Human/UI/1280/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "2A1FBB15C6AF8C98355A7428CF50AF6730E52B85853BCFD47F63B2332371D184"
+    },
+    {
+      "path": "skins/Human/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "9CEEF58C467292424B59345B7D7816CE010CAFF029CFD973D86DD38049CB7D57"
+    },
+    {
+      "path": "skins/Human/UI/800/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "0084ABF5EDAC659AE42EF2D93706C4DDFF41D3A53B8F46F56BBFF0136A0446DF"
+    },
+    {
+      "path": "skins/Human/UI/800/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "05208B4DF45C067E8C243FAB8FFF2220FE0CCA64963AC02B0DC074FED2325CE6"
+    },
+    {
+      "path": "skins/Human/UI/800/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "2A1FBB15C6AF8C98355A7428CF50AF6730E52B85853BCFD47F63B2332371D184"
+    },
+    {
+      "path": "skins/Human/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "E6A355ECC96E7E30DACD22AA34741C56C56D8197F03466885E6D668C332F5620"
+    },
+    {
+      "path": "skins/Human/UI/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "0084ABF5EDAC659AE42EF2D93706C4DDFF41D3A53B8F46F56BBFF0136A0446DF"
+    },
+    {
+      "path": "skins/Human/UI/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "05208B4DF45C067E8C243FAB8FFF2220FE0CCA64963AC02B0DC074FED2325CE6"
+    },
+    {
+      "path": "skins/Human/UI/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "2A1FBB15C6AF8C98355A7428CF50AF6730E52B85853BCFD47F63B2332371D184"
+    },
+    {
+      "path": "skins/Shadow/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "B837F8377F10C5230AF18B05EE28B369C961B3FDC3DBEFC4BD491475CF060A56"
+    },
+    {
+      "path": "skins/Shadow/UI/1280/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "733B720373331EB3AE8985129B895CA0B64D7CC81148B97B0A7A981F6FC71812"
+    },
+    {
+      "path": "skins/Shadow/UI/1280/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "ED14BE3A209615364AAD4D94676F2B6EC197F791851DD19DEE94D1FB56D65BBE"
+    },
+    {
+      "path": "skins/Shadow/UI/1280/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "E9D670F1D35C2A8DA2A4584AF05386FB5637AD66902AF48E0FB021484B8D7461"
+    },
+    {
+      "path": "skins/Shadow/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "CCBA1F4591E7FBE42CF5D3CCC2BD0F69468425B36EF9D6C2E2FD00F256ADC459"
+    },
+    {
+      "path": "skins/Shadow/UI/800/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "733B720373331EB3AE8985129B895CA0B64D7CC81148B97B0A7A981F6FC71812"
+    },
+    {
+      "path": "skins/Shadow/UI/800/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "ED14BE3A209615364AAD4D94676F2B6EC197F791851DD19DEE94D1FB56D65BBE"
+    },
+    {
+      "path": "skins/Shadow/UI/800/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "E9D670F1D35C2A8DA2A4584AF05386FB5637AD66902AF48E0FB021484B8D7461"
+    },
+    {
+      "path": "skins/Shadow/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "D0FEDE1F0A4AE94374E8AFDA314A26BEA58D32F924406E3D614BFDE32D03242D"
+    },
+    {
+      "path": "skins/Shadow/UI/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "733B720373331EB3AE8985129B895CA0B64D7CC81148B97B0A7A981F6FC71812"
+    },
+    {
+      "path": "skins/Shadow/UI/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "ED14BE3A209615364AAD4D94676F2B6EC197F791851DD19DEE94D1FB56D65BBE"
+    },
+    {
+      "path": "skins/Shadow/UI/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "E9D670F1D35C2A8DA2A4584AF05386FB5637AD66902AF48E0FB021484B8D7461"
+    },
+    {
+      "path": "skins/Undead/UI/1280/Game/ControlPanel/Background.tga",
+      "size": 1638444,
+      "sha256": "D93AFD284CA2C3E9E0AE0AF616550A0C1662944249EAA1380C31C10D5089918E"
+    },
+    {
+      "path": "skins/Undead/UI/1280/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "AC3A68A8660B41AF4826D258B6ABAE95C3AFABDAB9576BEFCBF3A58DF8BB5BB1"
+    },
+    {
+      "path": "skins/Undead/UI/1280/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "CD394C131AB00230E515DB675B015CB921866ECC9529FDD4A33A0027C512C2D9"
+    },
+    {
+      "path": "skins/Undead/UI/1280/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "2F69D9B4A8CC14F49D0B46C6873C37963F5EB15234FEF924F621222DDBCB40AA"
+    },
+    {
+      "path": "skins/Undead/UI/800/Game/ControlPanel/Background.tga",
+      "size": 640044,
+      "sha256": "00EC612AB240A8CBF4B95FBCBCE5E31F8730E715FC5427344A611C956F964F5E"
+    },
+    {
+      "path": "skins/Undead/UI/800/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "AC3A68A8660B41AF4826D258B6ABAE95C3AFABDAB9576BEFCBF3A58DF8BB5BB1"
+    },
+    {
+      "path": "skins/Undead/UI/800/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "CD394C131AB00230E515DB675B015CB921866ECC9529FDD4A33A0027C512C2D9"
+    },
+    {
+      "path": "skins/Undead/UI/800/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "2F69D9B4A8CC14F49D0B46C6873C37963F5EB15234FEF924F621222DDBCB40AA"
+    },
+    {
+      "path": "skins/Undead/UI/Game/ControlPanel/Background.tga",
+      "size": 1048620,
+      "sha256": "1A435DDEF6B7556A3F791C3631669C05A9E5E96CAC989F0F559E04326C86AE10"
+    },
+    {
+      "path": "skins/Undead/UI/Game/ControlPanel/PawUniformCenter.tga",
+      "size": 3145076,
+      "sha256": "AC3A68A8660B41AF4826D258B6ABAE95C3AFABDAB9576BEFCBF3A58DF8BB5BB1"
+    },
+    {
+      "path": "skins/Undead/UI/Game/ControlPanel/PawUniformLeft.tga",
+      "size": 12580172,
+      "sha256": "CD394C131AB00230E515DB675B015CB921866ECC9529FDD4A33A0027C512C2D9"
+    },
+    {
+      "path": "skins/Undead/UI/Game/ControlPanel/PawUniformRight.tga",
+      "size": 12580172,
+      "sha256": "2F69D9B4A8CC14F49D0B46C6873C37963F5EB15234FEF924F621222DDBCB40AA"
+    },
+    {
+      "path": "startup/autoexec.txt",
+      "size": 1578,
+      "sha256": "BD03290BC6A3217098B55D819FC9DF419EF908BB105D7A4EDCD0999C3A5AC916"
+    }
+  ],
+  "remove": []
+}

@@ -14,7 +14,7 @@ public sealed record StoragePlan(IReadOnlyList<StorageEntry> Entries)
 }
 public sealed record StorageCleanResult(int Removed, long Bytes, int Skipped);
 
-public static class StorageMaintenance
+public static partial class StorageMaintenance
 {
     public const int RetainDays = 7;
     private sealed record Tree(long Bytes, DateTime Latest, string Stamp, List<string> Files, List<string> Directories);

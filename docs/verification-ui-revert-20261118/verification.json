@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "versions": {
+    "arcane": "0.6.0-beta.6",
+    "pure": "0.5.0-beta.10",
+    "launcher": "1.0.21"
+  },
+  "legacyArtMatchesPreHdBytes": true,
+  "hdPathsRemoved": 655,
+  "stockSkinsRestored": 6,
+  "installerCases": 18,
+  "fullResolutionUpgradeCases": 3,
+  "nativeGameplayInputsIdentical": true,
+  "managedGameplayChanges": "Version identities only",
+  "terrainPackageUnchanged": true,
+  "terrainRedownloadRequired": false,
+  "nativeGameLaunched": false,
+  "newMultiplayerMatchClaimed": false,
+  "launcherTests": {
+    "passed": true,
+    "version": "1.0.21",
+    "nativeGameLaunched": false
+  },
+  "cacheCleanup": {
+    "passed": true,
+    "checks": 16,
+    "results": [
+      {
+        "id": "common-ui",
+        "removed": 2,
+        "bytes": 420696478,
+        "rollbackAfterCacheDeletion": true
+      },
+      {
+        "id": "pure-beta-common",
+        "removed": 2,
+        "bytes": 381008310,
+        "rollbackAfterCacheDeletion": true
+      }
+    ],
+    "launcher": "1.0.21.0",
+    "nativeGameLaunched": false
+  },
+  "catalog": {
+    "passed": true,
+    "selections": 28944,
+    "checks": 522853,
+    "helpers": 12,
+    "launcher": "1.0.21.0"
+  }
+}

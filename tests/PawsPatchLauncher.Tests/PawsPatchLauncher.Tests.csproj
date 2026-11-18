@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Fixtures\RetiredHd\*.json" LogicalName="RetiredHd.%(Filename)%(Extension)" />
     <ProjectReference Include="..\..\src\PawsPatchLauncher\PawsPatchLauncher.csproj" />
     <ProjectReference Include="..\..\tools\RwdTool\RwdTool.csproj" />
   </ItemGroup>
