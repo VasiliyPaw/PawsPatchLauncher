@@ -1,5 +1,6 @@
 from context import *
 import zipfile,re,shutil
+from stock_images import originals,icon_overrides
 OLD_ARC=WS/'outputs/arcane060-beta3-release-20261116/assets/common-ui-0.6.0-beta.3.zip';OLD_PURE=WS/'outputs/pure050-beta7-release-20261116/assets/pure-beta-common-0.5.0-beta.7.zip'
 def unpack(path):
  with zipfile.ZipFile(path)as z:
@@ -10,13 +11,18 @@ def stock_skins():
   r=originals[n.lower()];assert r['existed']and r['sha256'].upper()==h;p=root/'.pawpatch/originals'/r['backupRelativePath'];assert sha(p)==h;dest=folder/Path(n).name;shutil.copy2(p,dest);out[n]=dest.read_bytes();report[n]=dict(path=str(dest),sha256=h,size=dest.stat().st_size)
  assert len(out)==6;write(O/'stock-skins.json',report);return out
 def main():
- f=verify(read(O/'before/feed/v3/beta.json'),key());old={p['id']:p for p in f['packages']};skins=stock_skins();known_hd=read(HD/'fullres-manifest.json')['files'];remove=sorted({r['path']for r in known_hd if r['path'].startswith('paws-hd-ui/')}|{'paws-hd-ui.rwd'});assert len(remove)==655;new=[];audit={};graphics={}
+ f=verify(read(O/'before/feed/v3/beta.json'),key());old={p['id']:p for p in f['packages']};skins=stock_skins();known_hd=read(HD/'fullres-manifest.json')['files'];remove=sorted({r['path']for r in known_hd if r['path'].startswith('paws-hd-ui/')}|{'paws-hd-ui.rwd'});assert len(remove)==655;new=[];audit={};graphics={};stockframes=originals();retired_icons=icon_overrides();remove=sorted(set(remove)|set(retired_icons))
  for group,base,version,tag,pids in[('arcane',AP,ARC,'patch-'+ARC,['pawpatch-core','player-colors','desync-continue','common-ui']),('pure',PP,PURE,'patch-pure-'+PURE,['pure-fixes-runtime','pure-fixes-data','pure-beta-common'])]:
   out=O/group/'assets';out.mkdir(parents=True,exist_ok=True);helpers=read(O/group/'helpers/build-report.json');oldver='0.6.0-beta.5'if group=='arcane'else'0.5.0-beta.9'
   for pid in pids:
    before=old[pid];path=base/'assets'/Path(before['urls'][0]).name;validate_package(path,before);m,current=unpack(path);files=dict(current);baseline={};new_removals=[]
+   if pid=='pawpatch-core':
+    for n in retired_icons:files.pop(n)
    if pid in['common-ui','pure-beta-common']:
     m,baseline=unpack(OLD_ARC if group=='arcane'else OLD_PURE);files=dict(baseline);files.update(skins)
+    for n in list(files):
+     if n.lower()in stockframes:files[n]=stockframes[n.lower()]
+    baseline={n:files[n]for n in baseline}
     if group=='pure':files['startup/autoexec.txt']=(S/'src/PawsPatchLauncher/Assets/Vanilla1372/autoexec.txt').read_bytes()
     assert b'paws-hd-ui'not in files['startup/autoexec.txt'];m['remove']=sorted(set(m.get('remove',[]))|set(remove));new_removals=remove
    for n in files:
@@ -26,9 +32,9 @@ def main():
      for v in[oldver,'0.6.0-beta.3'if group=='arcane'else'0.5.0-beta.7']:files[n]=files[n].replace(v.encode(),version.encode())
    if baseline:
     images={n:dict(size=len(b),sha256=hashlib.sha256(b).hexdigest().upper())for n,b in baseline.items()if Path(n).suffix.lower()in['.png','.tga']};assert len(images)>=63
-    assert all(files[n]==baseline[n]for n in images);graphics[pid]=dict(sourceArchive=str(OLD_ARC if group=='arcane'else OLD_PURE),files=images)
+    assert all(files[n]==baseline[n]for n in images);graphics[pid]=dict(sourceArchive=str(OLD_ARC if group=='arcane'else OLD_PURE),stockFrames=True,files=images)
    changed=[n for n,b in files.items()if n not in current or b!=current[n]];dropped=sorted(set(current)-set(files));allowed=set(helpers)|{'paws_patch_versions.ini','paws_runtime.marker','autoexec.txt'}
-   if not baseline:assert all(Path(n).name in allowed for n in changed)and not dropped
+   if not baseline:assert all(Path(n).name in allowed for n in changed)and set(dropped)==(set(retired_icons)if pid=='pawpatch-core'else set())
    else:assert all(n.lower()=='paws-hd-ui.rwd'or n.lower()in {k.lower()for k in skins}for n in dropped),dropped
    v=RT if pid=='pure-fixes-runtime'else version;m.update(version=v,files=[dict(path=n,size=len(b),sha256=hashlib.sha256(b).hexdigest().upper())for n,b in sorted(files.items())]);dest=out/(pid+'-'+v+'.zip')
    with zipfile.ZipFile(dest,'w',zipfile.ZIP_DEFLATED,compresslevel=9)as z:

@@ -1,0 +1,446 @@
+{
+  "passed": true,
+  "frames": {
+    "data/ui/800/game/controlpanel/pawuniformleft.tga": {
+      "source": "Data.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "C812737CF2E6E8F28D56D8D1233B8B2DC235A75720F390BB8FF06CB0F4074987",
+      "sha256": "166143AF6665599D37F612AE1DA497FFE4D20461A2B893B3FA0E2C4CB48331AD",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "data/ui/800/game/controlpanel/pawuniformright.tga": {
+      "source": "Data.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "C812737CF2E6E8F28D56D8D1233B8B2DC235A75720F390BB8FF06CB0F4074987",
+      "sha256": "FE497840694DC5CF986830896FEC1272A77F2EBA79A2E2A98DF78735A688B2F5",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "data/ui/800/game/controlpanel/pawuniformcenter.tga": {
+      "source": "Data.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "C812737CF2E6E8F28D56D8D1233B8B2DC235A75720F390BB8FF06CB0F4074987",
+      "sha256": "DBBC797E57D0CB4DF32CB0D297940C3E18CD12B490D732A402399235E3A56406",
+      "size": 80018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "data/ui/game/controlpanel/pawuniformleft.tga": {
+      "source": "Data.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "AB55F4F3D6BBA08A3209F001715B36C8874A36E15B1BE3BFF12686CF98F5994B",
+      "sha256": "F2E1923F2F653075020DCCA9E54D96494C9215F4A856C4C534B90DAF35DB0002",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "data/ui/game/controlpanel/pawuniformright.tga": {
+      "source": "Data.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "AB55F4F3D6BBA08A3209F001715B36C8874A36E15B1BE3BFF12686CF98F5994B",
+      "sha256": "2B2561EE10E1EE32C376475FFAE48A3D1F9D164B3B6B5286DD04A5CF78422C29",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "data/ui/game/controlpanel/pawuniformcenter.tga": {
+      "source": "Data.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "AB55F4F3D6BBA08A3209F001715B36C8874A36E15B1BE3BFF12686CF98F5994B",
+      "sha256": "E7D5C8A39DEF3A8AB927655395EAE06E09A4071803818F07436FF2DF5781B561",
+      "size": 131090,
+      "pixelsMatchOriginalCrop": true
+    },
+    "data/ui/1280/game/controlpanel/pawuniformleft.tga": {
+      "source": "Data.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "78FE63EDD3053B1CC9B306E08FA382620E673880C885F9D63B56011BC7805112",
+      "sha256": "35D103B2CEB635919DE362396561EB3E1616DB16C9CD58FFA3C247AC4F1E9A2D",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "data/ui/1280/game/controlpanel/pawuniformright.tga": {
+      "source": "Data.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "78FE63EDD3053B1CC9B306E08FA382620E673880C885F9D63B56011BC7805112",
+      "sha256": "334495BC4CE9ADDFC6C4FFAF87E5F6976208821DE6096276705FD464EBC83536",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "data/ui/1280/game/controlpanel/pawuniformcenter.tga": {
+      "source": "Data.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "78FE63EDD3053B1CC9B306E08FA382620E673880C885F9D63B56011BC7805112",
+      "sha256": "73800FA63B20EC11ECD2E084BBBB607A31482A7F095A152E39EFFEEF798C123C",
+      "size": 204818,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/1280/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/human.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "E960247FB9C2E4FADC8F6F97AB552BA54E9DBD6E0E69D90731AAD1B42CC40AB9",
+      "sha256": "C6DB215DED79E763BD4E6A884C110E170A4E8C7DB1467F9C4CFC15AF94493B89",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/1280/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/human.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "E960247FB9C2E4FADC8F6F97AB552BA54E9DBD6E0E69D90731AAD1B42CC40AB9",
+      "sha256": "DB8FF5961B5775A4B3D3E23691B1C62164F2F667A3F81A0EA6592835D61A7157",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/1280/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/human.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "E960247FB9C2E4FADC8F6F97AB552BA54E9DBD6E0E69D90731AAD1B42CC40AB9",
+      "sha256": "25104CE5453C35A324FEEE89E2298C9402373A237DD89BE1AFB067B3BE4FF230",
+      "size": 204818,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/human.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "960E00D900767AA4C952F501D84CED98A9146C081B40B44032BF67F397C8A181",
+      "sha256": "FE49D250BE42197BF9EFBEA8A7753700C675F991EA7D8FEE57371B12E652D9BA",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/human.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "960E00D900767AA4C952F501D84CED98A9146C081B40B44032BF67F397C8A181",
+      "sha256": "88BF028040EACB7048253DB4ABA932B018793B1DAB2102F48CCAECC064BA4939",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/human.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "960E00D900767AA4C952F501D84CED98A9146C081B40B44032BF67F397C8A181",
+      "sha256": "C5EFA3BA585E0CDE824B922F862C97D0BD3B4A1764A5D0391325C312C7B1C38A",
+      "size": 131090,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/800/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/human.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "E6499E4176F3FF37E1FF239C226144716C8996726E56707BFDE707B78268F294",
+      "sha256": "A7E6A19D0D63F585DB79642A24A8C458362AD3F066D2DF38D8E41B7CCF4CD786",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/800/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/human.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "E6499E4176F3FF37E1FF239C226144716C8996726E56707BFDE707B78268F294",
+      "sha256": "F51B147CF7DF2CC934001C969C73925DF982D7522219818F293C64AAF690E2C3",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/human/ui/800/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/human.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "E6499E4176F3FF37E1FF239C226144716C8996726E56707BFDE707B78268F294",
+      "sha256": "AFB997F7F0B9F020D156C8E7BFE90DDCA55255130685C38408BF477E385967CF",
+      "size": 80018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/1280/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/gauri.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "5D7CB03E155D54A24E38AECD73928C0C9500A11BEAA1E452A95BD1FACB1CF61E",
+      "sha256": "3719628D7BE32E2079DDDF2BED45A720D4AD2114BB3D718A5F42AEAC8A472F91",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/1280/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/gauri.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "5D7CB03E155D54A24E38AECD73928C0C9500A11BEAA1E452A95BD1FACB1CF61E",
+      "sha256": "D80200A5DF526FEE704271C4AC5F7C3F351821D60C08CDD2BE8A416B6EBD6777",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/1280/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/gauri.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "5D7CB03E155D54A24E38AECD73928C0C9500A11BEAA1E452A95BD1FACB1CF61E",
+      "sha256": "2518F10DE869F01E803ABE2F04E592CF301BD68BF0189975E31792EC974B6420",
+      "size": 204818,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/gauri.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "E0C7014F67F96C1B7C422FB4C9D68A1CA000D0DD8AD97F16554B17BB1D5E5965",
+      "sha256": "F2F76D561274ECB68CBFD733353B015991E5425C2480FF31DCDBA1170FB6BBCE",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/gauri.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "E0C7014F67F96C1B7C422FB4C9D68A1CA000D0DD8AD97F16554B17BB1D5E5965",
+      "sha256": "DFD9BFAA56A2317F4AFD2A8AA7FDCFEB523A73F8D806FEDCDFB257D5C9FEF525",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/gauri.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "E0C7014F67F96C1B7C422FB4C9D68A1CA000D0DD8AD97F16554B17BB1D5E5965",
+      "sha256": "641310AAAB65B6E71622FDC116EE8364B648B9B652137EB7D9A7FCFF27BF42C1",
+      "size": 131090,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/800/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/gauri.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "AD394EA566C50B962BF6F2A6A7B9AA5AF05CF0C8A4DF26249A40DDEF965A4ABB",
+      "sha256": "7F4E93BBB311975965F3A7B1C2E4A2F85E1E33D2B8D21446D7E3AE63A1144619",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/800/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/gauri.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "AD394EA566C50B962BF6F2A6A7B9AA5AF05CF0C8A4DF26249A40DDEF965A4ABB",
+      "sha256": "992B027D4E65E34ADEDA57BC9DC38FA5F9E57C083C0EA3AB9848C5FD7D3C452C",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/gauri/ui/800/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/gauri.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "AD394EA566C50B962BF6F2A6A7B9AA5AF05CF0C8A4DF26249A40DDEF965A4ABB",
+      "sha256": "01FD524DDBF7AA290696424EF1ADFC49F1A3E2B11EA385BF5678507AABC7E263",
+      "size": 80018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/1280/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/drauga.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "DAF922619A174127A17DD54F8CE22D81265AB85EA8EA7941B9D718FC307A7375",
+      "sha256": "EBAF2970FF82585B4715CFD07F8C777F68CD38F64F0CBB043CE91ED76912DC81",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/1280/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/drauga.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "DAF922619A174127A17DD54F8CE22D81265AB85EA8EA7941B9D718FC307A7375",
+      "sha256": "38856033DE09F9FA575BEF15CFB0ADECC177FE23082812A071B14407D806D95D",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/1280/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/drauga.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "DAF922619A174127A17DD54F8CE22D81265AB85EA8EA7941B9D718FC307A7375",
+      "sha256": "084ACF0C32460F1D0119ADD7106EBAA183D590AE9E149D527906EED692C4BB92",
+      "size": 204818,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/drauga.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "EBBDDB22D1D87F3D7B62351F4BBCC57A5CFCD1E398F8C12ADD24880D8D5F3801",
+      "sha256": "2BE2D1E0A2E78C591AD94BC05A5DBD688120E7C783D70C88FD2827037165F021",
+      "size": 522258,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/drauga.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "EBBDDB22D1D87F3D7B62351F4BBCC57A5CFCD1E398F8C12ADD24880D8D5F3801",
+      "sha256": "7DBCB3BFF07259C21F9F7B9C6929BDEE3C0C88A444D50C8A74FDFC22CF64A1BD",
+      "size": 522258,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/drauga.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "EBBDDB22D1D87F3D7B62351F4BBCC57A5CFCD1E398F8C12ADD24880D8D5F3801",
+      "sha256": "D3A2ADFE8D0B89E4F68D1BBC71D5FA723C2B3919FB6CAF663D91B782C11B746A",
+      "size": 130066,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/800/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/drauga.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "4213FE49E890D8FC657928A6C7363954916D07906983B3C1CE4B954A075F24F3",
+      "sha256": "1D76477D54A1CF8B555601AB3CACFB3701EA74096B566EAD7D769A9886608772",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/800/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/drauga.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "4213FE49E890D8FC657928A6C7363954916D07906983B3C1CE4B954A075F24F3",
+      "sha256": "BDD5423E7A1807454776A953C7A2AF23C16550B301F62094F0D52096F94DFB2F",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/drauga/ui/800/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/drauga.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "4213FE49E890D8FC657928A6C7363954916D07906983B3C1CE4B954A075F24F3",
+      "sha256": "3CAD74313FC84D4ACBFE943F1450C380EF191EE84D260839E493C40365456B16",
+      "size": 80018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/1280/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/haroun.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "A33E1BFE4A4A69F87A9641FB9562264BCD3E9BC7BA53BF9E6612FD7488CF2216",
+      "sha256": "AA1FF94FFF3A38A4720757BECDA4507E6E0DA70AA129DA04FF15302E0170AB32",
+      "size": 816658,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/1280/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/haroun.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "A33E1BFE4A4A69F87A9641FB9562264BCD3E9BC7BA53BF9E6612FD7488CF2216",
+      "sha256": "071758A222E899CEEC3BB576A1CAE4977BBCEEE79F5DB9819D91DAF5A7113094",
+      "size": 816658,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/1280/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/haroun.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "A33E1BFE4A4A69F87A9641FB9562264BCD3E9BC7BA53BF9E6612FD7488CF2216",
+      "sha256": "21AF978D977DC1499851A98D51C545A6C7256EC789762C00EEF026FD18D5C013",
+      "size": 204178,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/haroun.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "DFAC83C16269546AA59FBDEB09D8BDF5F2979D6F166C15A060B17A0A81EE14FC",
+      "sha256": "A5E607912D40DEB36AF065F69E469B71BFF8193C8CEB3B395EC627FBD4832BA8",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/haroun.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "DFAC83C16269546AA59FBDEB09D8BDF5F2979D6F166C15A060B17A0A81EE14FC",
+      "sha256": "C311ECE4F989B765DFBE142473E29FFB92C887B77F617D89F75C56CB58B4C255",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/haroun.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "DFAC83C16269546AA59FBDEB09D8BDF5F2979D6F166C15A060B17A0A81EE14FC",
+      "sha256": "197621F927F439DC9FE73C4921EBB12168F92D418C77D71F596F8D6A8D491EB5",
+      "size": 131090,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/800/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/haroun.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "0877A9991BA2BA043F7C9C59965BB496693E3A64BEDFAD914F20C73A6AB3DF58",
+      "sha256": "BB05394DDC909D53D2A4C6F8B575FD9CDFB11D95913E88E7D52EFFB7973270E4",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/800/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/haroun.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "0877A9991BA2BA043F7C9C59965BB496693E3A64BEDFAD914F20C73A6AB3DF58",
+      "sha256": "BD776560F955A837343D4C485B7FAACB60C752BAAB2D36F722CCEEC52F666840",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/haroun/ui/800/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/haroun.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "0877A9991BA2BA043F7C9C59965BB496693E3A64BEDFAD914F20C73A6AB3DF58",
+      "sha256": "37318685ED903EAEB33BC734D519E97E88E7068D36C43C76513206E3CD2F5031",
+      "size": 80018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/1280/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/undead.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "E7EC2DC44ECBC216DF782A8F05D7771201789CB8302EAF3431DDEC241A9CA66F",
+      "sha256": "05B0993662F5BCFE7B65816314500F1A734FF771373946646441C0B3152C5FBF",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/1280/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/undead.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "E7EC2DC44ECBC216DF782A8F05D7771201789CB8302EAF3431DDEC241A9CA66F",
+      "sha256": "69A9C7BC897DF739D348B93BF4585417AEA10A0A92623AFA4B6A1C2CE8EFECE0",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/1280/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/undead.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "E7EC2DC44ECBC216DF782A8F05D7771201789CB8302EAF3431DDEC241A9CA66F",
+      "sha256": "0FB3BCE366117366E58DE2B2D1FFBE1BE1FA040994EE6F2E00E7E13CC3DD536C",
+      "size": 204818,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/undead.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "A212C5883B6AF1AF236243CE63551BC081E8AA0F09A1E6AC75E9D293CFD5FE8B",
+      "sha256": "D3B30EFF238CE0D1380FD7E6C72A5A8ECB0E6234226CEF5CB900DA1182E59285",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/undead.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "A212C5883B6AF1AF236243CE63551BC081E8AA0F09A1E6AC75E9D293CFD5FE8B",
+      "sha256": "C04440EF7842B1B084D5AA4AD40360F38362342B66B847741EF8D7C16AFBA2C8",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/undead.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "A212C5883B6AF1AF236243CE63551BC081E8AA0F09A1E6AC75E9D293CFD5FE8B",
+      "sha256": "0C743309129215BE5ED4A6369599B799B39079634FD6C6B56A08810F4332ACA1",
+      "size": 131090,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/800/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/undead.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "83585621D1162332F61981FBF8FF51120A3C2DCCC4A29C05B91B381F55880D49",
+      "sha256": "C061E486D3CAE3D6ADD2D613266560F3FE02EAA9C98E280C50DD64D98F7201DA",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/800/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/undead.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "83585621D1162332F61981FBF8FF51120A3C2DCCC4A29C05B91B381F55880D49",
+      "sha256": "E4E2784C8441AA909FC71A4972816CE547C44FF2406BE5A9A2F3B9C8C6C0A147",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/undead/ui/800/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/undead.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "83585621D1162332F61981FBF8FF51120A3C2DCCC4A29C05B91B381F55880D49",
+      "sha256": "6C0B8EB01234B1EE28C30C3D7A23C0A740D40181DD7A78C1BFED4C8C70B616C0",
+      "size": 80018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/1280/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/shadow.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "F8FFB0D9A7D12B8EA7B3FDCB7D03CCFADDC448F0D9FFA346B9C04300BA662F15",
+      "sha256": "C283D9123DBF0A0855B7469F9B6E8952137B1EC327DEBD6AFF3BD0B6CC0E204B",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/1280/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/shadow.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "F8FFB0D9A7D12B8EA7B3FDCB7D03CCFADDC448F0D9FFA346B9C04300BA662F15",
+      "sha256": "FB8C0C62077B11D3D6B626DC8AC90B4BC058FE52FE545CBFCE498521CF272C71",
+      "size": 819218,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/1280/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/shadow.rwd:ui/1280/game/controlpanel/background.tga",
+      "sourceSha256": "F8FFB0D9A7D12B8EA7B3FDCB7D03CCFADDC448F0D9FFA346B9C04300BA662F15",
+      "sha256": "52BB2D1E8AC986797FB18C982C7E91C6951521558B146C234C095F61B79E6838",
+      "size": 204818,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/shadow.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "0DC8418D1A4A1AAE848CC920D4E4D02B0CB72C9CD9B7BA0AFBBE115E2F0725FE",
+      "sha256": "ECFFF3D3F7C92E88C58BF2A77FAA57C41E731E76660F82AAD91A7B32C56EE539",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/shadow.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "0DC8418D1A4A1AAE848CC920D4E4D02B0CB72C9CD9B7BA0AFBBE115E2F0725FE",
+      "sha256": "35FCB99EC2E805847378569BC5249DAB16EB75A8AFF44CE6E3C6A2A21FD94608",
+      "size": 524306,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/shadow.rwd:ui/game/controlpanel/background.tga",
+      "sourceSha256": "0DC8418D1A4A1AAE848CC920D4E4D02B0CB72C9CD9B7BA0AFBBE115E2F0725FE",
+      "sha256": "BE5C5A57C117AF17657B74F3B2809E7ED1273026D84E72B80C0136CC46EF0607",
+      "size": 131090,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/800/game/controlpanel/pawuniformleft.tga": {
+      "source": "skins/shadow.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "2EE44C71B21451AF16451C41AE5CFD45DFCD1388FDA15F36B5CB5538192C1197",
+      "sha256": "C063DEC6E3ACB5A4D95AE97958F296E6036817465147281EFFFA24558894DC66",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/800/game/controlpanel/pawuniformright.tga": {
+      "source": "skins/shadow.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "2EE44C71B21451AF16451C41AE5CFD45DFCD1388FDA15F36B5CB5538192C1197",
+      "sha256": "46921D3F2B771F9774C0758489436790B727E33D5EF3C2AF7E92FF3D02EC77C3",
+      "size": 320018,
+      "pixelsMatchOriginalCrop": true
+    },
+    "skins/shadow/ui/800/game/controlpanel/pawuniformcenter.tga": {
+      "source": "skins/shadow.rwd:ui/800/game/controlpanel/background.tga",
+      "sourceSha256": "2EE44C71B21451AF16451C41AE5CFD45DFCD1388FDA15F36B5CB5538192C1197",
+      "sha256": "BABE2EA06973220D7B5B2B9C96611F2F94A1F9A02ECD54DD191E219584FA93B3",
+      "size": 80018,
+      "pixelsMatchOriginalCrop": true
+    }
+  }
+}

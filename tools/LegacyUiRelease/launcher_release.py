@@ -1,7 +1,7 @@
 from context import *
 from publish import request,head,unchanged
 import urllib.request,zipfile
-VERSION='1.0.21'
+VERSION='1.0.22'
 def tag():
  h=read(O/'source-publication.json')['commit'];assert head()==h;assert read(O/'launcher-tests.json')['passed']
  assert not request(API+'/git/matching-refs/tags/v'+VERSION)

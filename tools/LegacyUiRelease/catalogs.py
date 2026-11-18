@@ -9,7 +9,7 @@ def note(group):
  v=ARC if group=='arcane'else PURE;name='Arcane Wars'if group=='arcane'else'Vanilla / Immortals'
  return dict(category='patch',mods=['arcane-wars']if group=='arcane'else['vanilla','immortals'],channel='beta',version=v,publishedAt='2026-11-18',title={k:'Paw’s Patch '+v+' — '+name for k in BODIES},body=BODIES)
 def catalogs():
- private=serialization.load_pem_private_key(KEY.read_bytes(),None);assert private.public_key().public_numbers()==key().public_numbers();replacement={p['id']:p for p in read(O/'packages.json')};allowed=[]; launcher_note=read(S/'docs/release-1.0.21.json'); launcher=read(O/'launcher-package.json') if (O/'launcher-package.json').exists() else None
+ private=serialization.load_pem_private_key(KEY.read_bytes(),None);assert private.public_key().public_numbers()==key().public_numbers();replacement={p['id']:p for p in read(O/'packages.json')};allowed=[]; launcher_note=read(S/'docs/release-1.0.22.json'); launcher=read(O/'launcher-package.json') if (O/'launcher-package.json').exists() else None
  for rel in FILES[:6]:
   raw=(O/'before'/rel).read_bytes();a=verify(json.loads(raw),key());b=copy.deepcopy(a)
   if rel in['feed/v2/beta.json','feed/v3/beta.json']:

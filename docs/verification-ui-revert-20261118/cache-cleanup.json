@@ -1,1 +1,1 @@
-{"passed":true,"checks":16,"results":[{"id":"common-ui","removed":2,"bytes":420696478,"rollbackAfterCacheDeletion":true},{"id":"pure-beta-common","removed":2,"bytes":381008310,"rollbackAfterCacheDeletion":true}],"launcher":"1.0.21.0","nativeGameLaunched":false}
+{"passed":true,"checks":16,"results":[{"id":"common-ui","removed":2,"bytes":420696478,"rollbackAfterCacheDeletion":true},{"id":"pure-beta-common","removed":2,"bytes":381008310,"rollbackAfterCacheDeletion":true}],"launcher":"1.0.22.0","nativeGameLaunched":false}

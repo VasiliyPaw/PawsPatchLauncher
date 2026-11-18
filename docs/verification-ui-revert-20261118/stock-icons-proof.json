@@ -1,0 +1,2393 @@
+{
+  "passed": true,
+  "retiredOverrides": [
+    "rivers-data/UI/1280/Game/ActionButtons/IconAttach.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconAttack.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconBombard.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconBuildStructure.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconBuy.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconCancel.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconCommission.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconConstruct.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconCustomCompany.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconDetach.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconDisband.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconDowngrade.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconExplore.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconGroupBehaviorDisable.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconGroupBehaviorEnable.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconGuard.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconKingdomView.tga",
+    "rivers-data/UI/1280/Game/ActionButtons/IconMove.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconObserverView.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconRaze.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconRecall.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconRepair.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconResearch.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconResetFavorites.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconRetreat.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconRout.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconSallyForth.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconSell.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconSetRallyPoint.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconStop.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamAttack.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamBuild.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamChat.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamCommand.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamDefend.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamExplore.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamGiveActor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamGiveResources.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamReport.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamRequestActor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamRequestResources.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconTeamSelectKingdom.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconUpgrade.png",
+    "rivers-data/UI/1280/Game/ActionButtons/IconUpgradeFort.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconAmberRings.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBalancedWeapons.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBarbedSpines.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBilleting.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlackBlessing.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlackIchor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlackOffering.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlessedArmor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlessingLife.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlessingMight.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlessingOfValor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlessingValor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBlessingofSpeed.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBoneRings.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconBootCamp.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconCalvaryTactics.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconCompositeBows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDarkFortitude.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDarkMatter.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDarkRitual.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDeadZone.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDeepRoots.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDiseasedArmor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDiseasedArrows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDiseasedWeapons.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconDragonboneBows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconEdgedSpines.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconElixerofCourage.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconElixerofLife.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconElixerofStrength.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconEnchantedArmor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconEntrenchTactics.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconEntwinedBranches.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconFittedStones.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconFlamingArrows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconFortifiedWalls.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconGroovedSpines.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconGuardTraining.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconIronwoodBows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconJadeRings.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconJourneymen.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconKhalduniteArmor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconKhalduniteArrows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconKhalduniteWeapons.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconMagicArmor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconMagicArrows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconMagicBows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconMagicWeapons.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconNursery.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconOnyxRings.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconOpalRings.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconPoisonArrows.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconPoisonBlades.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconPoisonClaws.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconPoisonSpines.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconPoisonWeapons.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconProselytize.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconRamparts.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconRapidGrowth.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconShadowSteelWeapons.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconShadowskin.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconShadowsteelArmor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconShockTroops.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconSkilledLabor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconStableMaster.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconStrongFoundation.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconTaskmaster.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconThaumaturgy.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconThornyBarrier.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconUmbralBarrier.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconUmbralCarapace.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconUmbralEssence.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconUmbralFrenzy.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconUmbralFury.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconUmbralMight.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconUmbralRage.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconWhitesteelArmor.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconWhitesteelWeapons.png",
+    "rivers-data/UI/1280/Game/ActionButtons/TechIcons/IconWideTrunks.png",
+    "rivers-data/UI/1280/Game/Favorites/cross.png",
+    "rivers-data/UI/1280/Game/StructureButtons/BankIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/BarracksIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/BazaarIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/BlacksmithIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/DraugaCenterIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/FactoryIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/FoundryIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/GauriCenterIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/GiftOfNatureIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/GoldMineIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/HarounCenterIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/HumanCenterIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/IronConvertIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/IronMineIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/IronToManaConvertIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/LibraryIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/MagecollegeIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/ManaMineIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/ManaSiphonIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/ManafocusIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/MarketIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/MiningpostIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/OutpostIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/PortalIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/QuarryIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/SawmillIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/ShadowCenterIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/ShrineIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/StoneConvertIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/StoneMineIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/StoneToManaConvertIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/TempleIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/UndeadCenterIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/WarehouseIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/WoodConvertIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/WoodMineIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/WoodToManaConvertIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/WoodmillIcon.png",
+    "rivers-data/UI/1280/Game/StructureButtons/WorkshopIcon.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconAttach.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconAttack.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconBombard.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconBuildStructure.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconBuy.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconCancel.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconCommission.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconConstruct.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconCustomCompany.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconDetach.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconDisband.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconDowngrade.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconExplore.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconGroupBehaviorDisable.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconGroupBehaviorEnable.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconGuard.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconKingdomView.tga",
+    "rivers-data/UI/800/Game/ActionButtons/IconMove.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconObserverView.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconRaze.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconRecall.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconRepair.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconResearch.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconResetFavorites.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconRetreat.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconRout.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconSallyForth.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconSell.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconSetRallyPoint.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconStop.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamAttack.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamBuild.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamChat.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamCommand.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamDefend.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamExplore.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamGiveActor.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamGiveResources.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamReport.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamRequestActor.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamRequestResources.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconTeamSelectKingdom.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconUpgrade.png",
+    "rivers-data/UI/800/Game/ActionButtons/IconUpgradeFort.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconAmberRings.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBalancedWeapons.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBarbedSpines.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBilleting.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlackBlessing.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlackIchor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlackOffering.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlessedArmor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlessingLife.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlessingMight.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlessingOfValor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlessingValor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBlessingofSpeed.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBoneRings.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconBootCamp.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconCalvaryTactics.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconCompositeBows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDarkFortitude.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDarkMatter.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDarkRitual.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDeadZone.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDeepRoots.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDiseasedArmor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDiseasedArrows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDiseasedWeapons.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconDragonboneBows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconEdgedSpines.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconElixerofCourage.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconElixerofLife.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconElixerofStrength.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconEnchantedArmor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconEntrenchTactics.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconEntwinedBranches.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconFittedStones.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconFlamingArrows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconFortifiedWalls.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconGroovedSpines.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconGuardTraining.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconIronwoodBows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconJadeRings.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconJourneymen.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconKhalduniteArmor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconKhalduniteArrows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconKhalduniteWeapons.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconMagicArmor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconMagicArrows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconMagicBows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconMagicWeapons.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconNursery.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconOnyxRings.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconOpalRings.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconPoisonArrows.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconPoisonBlades.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconPoisonClaws.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconPoisonSpines.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconPoisonWeapons.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconProselytize.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconRamparts.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconRapidGrowth.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconShadowSteelWeapons.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconShadowskin.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconShadowsteelArmor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconShockTroops.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconSkilledLabor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconStableMaster.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconStrongFoundation.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconTaskmaster.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconThaumaturgy.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconThornyBarrier.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconUmbralBarrier.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconUmbralCarapace.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconUmbralEssence.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconUmbralFrenzy.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconUmbralFury.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconUmbralMight.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconUmbralRage.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconWhitesteelArmor.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconWhitesteelWeapons.png",
+    "rivers-data/UI/800/Game/ActionButtons/TechIcons/IconWideTrunks.png",
+    "rivers-data/UI/800/Game/Favorites/cross.png",
+    "rivers-data/UI/800/Game/StructureButtons/BankIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/BarracksIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/BazaarIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/BlacksmithIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/DraugaCenterIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/FactoryIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/FoundryIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/GauriCenterIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/GiftOfNatureIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/GoldMineIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/HarounCenterIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/HumanCenterIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/IronConvertIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/IronMineIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/IronToManaConvertIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/LibraryIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/MagecollegeIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/ManaMineIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/ManaSiphonIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/ManafocusIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/MarketIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/MiningpostIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/OutpostIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/PortalIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/QuarryIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/SawmillIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/ShadowCenterIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/ShrineIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/StoneConvertIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/StoneMineIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/StoneToManaConvertIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/TempleIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/UndeadCenterIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/WarehouseIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/WoodConvertIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/WoodMineIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/WoodToManaConvertIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/WoodmillIcon.png",
+    "rivers-data/UI/800/Game/StructureButtons/WorkshopIcon.png",
+    "rivers-data/UI/Game/ActionButtons/IconAttach.png",
+    "rivers-data/UI/Game/ActionButtons/IconAttack.png",
+    "rivers-data/UI/Game/ActionButtons/IconBombard.png",
+    "rivers-data/UI/Game/ActionButtons/IconBuildStructure.png",
+    "rivers-data/UI/Game/ActionButtons/IconBuy.png",
+    "rivers-data/UI/Game/ActionButtons/IconCancel.png",
+    "rivers-data/UI/Game/ActionButtons/IconCommission.png",
+    "rivers-data/UI/Game/ActionButtons/IconConstruct.png",
+    "rivers-data/UI/Game/ActionButtons/IconCustomCompany.png",
+    "rivers-data/UI/Game/ActionButtons/IconDetach.png",
+    "rivers-data/UI/Game/ActionButtons/IconDisband.png",
+    "rivers-data/UI/Game/ActionButtons/IconDowngrade.png",
+    "rivers-data/UI/Game/ActionButtons/IconExplore.png",
+    "rivers-data/UI/Game/ActionButtons/IconGroupBehaviorDisable.png",
+    "rivers-data/UI/Game/ActionButtons/IconGroupBehaviorEnable.png",
+    "rivers-data/UI/Game/ActionButtons/IconGuard.png",
+    "rivers-data/UI/Game/ActionButtons/IconKingdomView.tga",
+    "rivers-data/UI/Game/ActionButtons/IconMove.png",
+    "rivers-data/UI/Game/ActionButtons/IconObserverView.png",
+    "rivers-data/UI/Game/ActionButtons/IconRaze.png",
+    "rivers-data/UI/Game/ActionButtons/IconRecall.png",
+    "rivers-data/UI/Game/ActionButtons/IconRepair.png",
+    "rivers-data/UI/Game/ActionButtons/IconResearch.png",
+    "rivers-data/UI/Game/ActionButtons/IconResetFavorites.png",
+    "rivers-data/UI/Game/ActionButtons/IconRetreat.png",
+    "rivers-data/UI/Game/ActionButtons/IconRout.png",
+    "rivers-data/UI/Game/ActionButtons/IconSallyForth.png",
+    "rivers-data/UI/Game/ActionButtons/IconSell.png",
+    "rivers-data/UI/Game/ActionButtons/IconSetRallyPoint.png",
+    "rivers-data/UI/Game/ActionButtons/IconStop.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamAttack.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamBuild.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamChat.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamCommand.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamDefend.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamExplore.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamGiveActor.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamGiveResources.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamReport.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamRequestActor.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamRequestResources.png",
+    "rivers-data/UI/Game/ActionButtons/IconTeamSelectKingdom.png",
+    "rivers-data/UI/Game/ActionButtons/IconUpgrade.png",
+    "rivers-data/UI/Game/ActionButtons/IconUpgradeFort.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBalancedWeapons.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBarbedSpines.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBilleting.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBlackBlessing.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBlackIchor.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBlackOffering.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBlessingLife.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBlessingSpeed.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBlessingValor.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconBootCamp.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconCavalryTactics.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconCompositeBows.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconDarkFortitude.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconDarkMatter.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconDarkRitual.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconDeadZone.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconDeepRoots.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconDiseasedArrows.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconDiseasedWeapons.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconDragonboneBows.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconEdgedSpines.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconEnchantedArmor.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconEntrenchTactics.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconEntwinedBranches.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconFittedStones.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconFlamingArrows.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconFortifiedWalls.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconGroovedSpines.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconGuardTraining.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconJadeRings.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconJourneymen.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconKhalduniteArmor.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconKhalduniteArrows.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconKhalduniteWeapons.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconMagicArmor.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconMagicArrows.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconMagicWeapons.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconNursery.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconOnyxRings.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconOpalRings.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconPoisonArrows.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconPoisonBlades.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconPoisonClaws.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconPoisonSpines.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconPoisonWeapons.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconProselytize.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconRamparts.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconRapidGrowth.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconShadowSteelWeapons.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconShadowskin.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconShadowsteelArmor.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconShockTroops.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconSkilledLabor.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconStableMaster.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconStrongFoundation.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconThaumaturgy.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconThornyBarrier.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconUmbralBarrier.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconUmbralCarapace.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconUmbralEssence.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconUmbralFrenzy.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconUmbralFury.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconUmbralMight.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconUmbralRage.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconWhitesteelArmor.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconWhitesteelWeapons.png",
+    "rivers-data/UI/Game/ActionButtons/TechIcons/IconWideTrunks.png",
+    "rivers-data/UI/Game/Favorites/cross.png",
+    "rivers-data/UI/Game/StructureButtons/BankIcon.png",
+    "rivers-data/UI/Game/StructureButtons/BarracksIcon.png",
+    "rivers-data/UI/Game/StructureButtons/BazaarIcon.png",
+    "rivers-data/UI/Game/StructureButtons/BlacksmithIcon.png",
+    "rivers-data/UI/Game/StructureButtons/DraugaCenterIcon.png",
+    "rivers-data/UI/Game/StructureButtons/FactoryIcon.png",
+    "rivers-data/UI/Game/StructureButtons/FoundryIcon.png",
+    "rivers-data/UI/Game/StructureButtons/GauriCenterIcon.png",
+    "rivers-data/UI/Game/StructureButtons/GiftOfNatureIcon.png",
+    "rivers-data/UI/Game/StructureButtons/GoldMineIcon.png",
+    "rivers-data/UI/Game/StructureButtons/HarounCenterIcon.png",
+    "rivers-data/UI/Game/StructureButtons/HumanCenterIcon.png",
+    "rivers-data/UI/Game/StructureButtons/IronConvertIcon.png",
+    "rivers-data/UI/Game/StructureButtons/IronMineIcon.png",
+    "rivers-data/UI/Game/StructureButtons/IronToManaConvertIcon.png",
+    "rivers-data/UI/Game/StructureButtons/LibraryIcon.png",
+    "rivers-data/UI/Game/StructureButtons/MagecollegeIcon.png",
+    "rivers-data/UI/Game/StructureButtons/ManaMineIcon.png",
+    "rivers-data/UI/Game/StructureButtons/ManaSiphonIcon.png",
+    "rivers-data/UI/Game/StructureButtons/ManafocusIcon.png",
+    "rivers-data/UI/Game/StructureButtons/MarketIcon.png",
+    "rivers-data/UI/Game/StructureButtons/MiningpostIcon.png",
+    "rivers-data/UI/Game/StructureButtons/OutpostIcon.png",
+    "rivers-data/UI/Game/StructureButtons/PortalIcon.png",
+    "rivers-data/UI/Game/StructureButtons/QuarryIcon.png",
+    "rivers-data/UI/Game/StructureButtons/SawmillIcon.png",
+    "rivers-data/UI/Game/StructureButtons/ShadowCenterIcon.png",
+    "rivers-data/UI/Game/StructureButtons/ShrineIcon.png",
+    "rivers-data/UI/Game/StructureButtons/StoneConvertIcon.png",
+    "rivers-data/UI/Game/StructureButtons/StoneMineIcon.png",
+    "rivers-data/UI/Game/StructureButtons/StoneToManaConvertIcon.png",
+    "rivers-data/UI/Game/StructureButtons/TempleIcon.png",
+    "rivers-data/UI/Game/StructureButtons/UndeadCenterIcon.png",
+    "rivers-data/UI/Game/StructureButtons/WarehouseIcon.png",
+    "rivers-data/UI/Game/StructureButtons/WoodConvertIcon.png",
+    "rivers-data/UI/Game/StructureButtons/WoodMineIcon.png",
+    "rivers-data/UI/Game/StructureButtons/WoodToManaConvertIcon.png",
+    "rivers-data/UI/Game/StructureButtons/WoodmillIcon.png",
+    "rivers-data/UI/Game/StructureButtons/WorkshopIcon.png"
+  ],
+  "retailFallback": {
+    "ui/800/game/actionbuttons/iconstop.png": {
+      "size": 5220,
+      "sha256": "07CE4104FC1B7AA12144605C3C2C5B6B1684901E37F87D4A39F43AA049FC93D9"
+    },
+    "ui/game/actionbuttons/techicons/iconskilledlabor.png": {
+      "size": 4613,
+      "sha256": "82D704997C8F97647AE649DD3E2D39CDFF1F9FBB35AC83F95E6CD131F6729265"
+    },
+    "ui/800/game/structurebuttons/warehouseicon.png": {
+      "size": 5179,
+      "sha256": "18FE49C03DFBD1CC99CC0CD17178B74D0384AC60C4BDB68AFF9BB79F9416022C"
+    },
+    "ui/800/game/actionbuttons/iconsell.png": {
+      "size": 5715,
+      "sha256": "998C862B1DE509C82F4101ADC41BAA1571A1AB5739C0EDD1187918073AEE5EA7"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondarkfortitude.png": {
+      "size": 6706,
+      "sha256": "ABAFAEC8322AD2FD8786B115166318031FE61428EB12F23F97D653768EFA8182"
+    },
+    "ui/1280/game/actionbuttons/iconsetrallypoint.png": {
+      "size": 9016,
+      "sha256": "62DA6C06FD697A49524AF6EE4B33F25A944BE3AC19CA4BD6C684DCD04C907001"
+    },
+    "ui/game/actionbuttons/techicons/iconbarbedspines.png": {
+      "size": 6821,
+      "sha256": "7758573261704318F2AFBD11F45F37C4B3304E9110B7C053542BD8E7D9BF5CD6"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconumbralmight.png": {
+      "size": 8707,
+      "sha256": "EFB1461EBB696D30E405283E366A1A6554CAABEE5E35AD053D671622357F4D2B"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconthaumaturgy.png": {
+      "size": 8210,
+      "sha256": "C7B03B8711C8DF8177DF5AE652DA9B9B01B3948B3EAAE2D50FA16BEF3DFDFD2C"
+    },
+    "ui/game/actionbuttons/techicons/iconedgedspines.png": {
+      "size": 6466,
+      "sha256": "5A6B822FD625E7700A8823F708F71AB7E412884A3523A2A63C48B1B680A47868"
+    },
+    "ui/800/game/actionbuttons/techicons/iconopalrings.png": {
+      "size": 5025,
+      "sha256": "C8692CCC436C3553907BD73C6AFA9536E413045783499DBDFDF574D7CFC32329"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblessingofvalor.png": {
+      "size": 5012,
+      "sha256": "C740EEC4918DD9EC667BDB4C803E1D01C7B6043DBE235D9001E990E907DF5804"
+    },
+    "ui/game/structurebuttons/barracksicon.png": {
+      "size": 7490,
+      "sha256": "DAB00026EE17EDBF5A209C060F3A3253709E59BB7CFA547253F1ACCAABE21B55"
+    },
+    "ui/game/actionbuttons/iconsallyforth.png": {
+      "size": 6619,
+      "sha256": "84912A6501ABB5093CDFBD1D65101AFB4B0221218FDF8E416F8EB914D2A88CBE"
+    },
+    "ui/game/actionbuttons/techicons/iconkhalduniteweapons.png": {
+      "size": 3109,
+      "sha256": "45DBB8A3DB265647F83AE473168156962B4F3A864198772B3E81DBC017FFBEEB"
+    },
+    "ui/800/game/actionbuttons/techicons/iconstablemaster.png": {
+      "size": 5094,
+      "sha256": "CC1FA0E819396990374CE20EB6A163E908546AF8D6CA6AF424E61DA40EB1B16E"
+    },
+    "ui/800/game/structurebuttons/stoneconverticon.png": {
+      "size": 5817,
+      "sha256": "AB0467511BE7F8D7A9F03FE1D87E3EE89F28909B585EB08923CBB9903418ABA4"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconbootcamp.png": {
+      "size": 7927,
+      "sha256": "C190AE645819C5C32D7CDA30FE3826D5D49C72202C1CDD2A9401C2AF59EC46F4"
+    },
+    "ui/800/game/actionbuttons/techicons/iconkhaldunitearrows.png": {
+      "size": 4682,
+      "sha256": "D43D752177F0068985C96BDCE610F3D11CEEC116D562BE11CCE3992BD196BA7B"
+    },
+    "ui/game/actionbuttons/iconteamgiveactor.png": {
+      "size": 6263,
+      "sha256": "1056A92B25035F9E950CD8B1F4CE90533CC25AD3BC5DF89119C1797A1AACD156"
+    },
+    "ui/game/actionbuttons/techicons/iconthornybarrier.png": {
+      "size": 6661,
+      "sha256": "D9A062E8DF66C817B60281EA4207F67EFC5072E2753D1533E2249BF93C78BA21"
+    },
+    "ui/800/game/actionbuttons/techicons/iconbalancedweapons.png": {
+      "size": 5009,
+      "sha256": "2A1E71F77176FDB9041978D1D483FE086CF729051B19D2AC1462F369872EBF6F"
+    },
+    "ui/1280/game/structurebuttons/undeadcentericon.png": {
+      "size": 8484,
+      "sha256": "4F73AC47F612559ED06A595279C337061C8B837F17615DE38C223394BC1F5A74"
+    },
+    "ui/game/actionbuttons/techicons/iconwhitesteelarmor.png": {
+      "size": 4763,
+      "sha256": "E1A037B531814F4D1F7A792D20D5AC8A299F616019F4D88182D870CD02BF48CE"
+    },
+    "ui/800/game/actionbuttons/techicons/icondarkritual.png": {
+      "size": 5213,
+      "sha256": "D385191D000EFF9BADCCC8704757CCDE25CAAB3996505B548B1479C30ABD449E"
+    },
+    "ui/800/game/actionbuttons/iconcancel.png": {
+      "size": 4873,
+      "sha256": "6BF8B1CAE60DFE268A1C8DF8591872DF6088E911BE818AE91918FB128E975E83"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconelixerofcourage.png": {
+      "size": 8274,
+      "sha256": "255687D5D3BBFB79BBC16E788F8137547CC7EB90850FA66EA4B9DEDB5A8DE6B8"
+    },
+    "ui/1280/game/structurebuttons/giftofnatureicon.png": {
+      "size": 8966,
+      "sha256": "82C255C33338BDAC715EDC6704BAD36A650F33CB723B317C31FB459F637874FE"
+    },
+    "ui/800/game/actionbuttons/techicons/iconflamingarrows.png": {
+      "size": 4997,
+      "sha256": "7F04929672CF5EFBA236EE173126CC0E6429E83E6515C1166D6D8BD9691B85F7"
+    },
+    "ui/game/actionbuttons/techicons/iconfittedstones.png": {
+      "size": 3099,
+      "sha256": "FA6CA356BDB7F653B5B21DECCDC83B1E8E4C8D92FCA7F45202D39A5216DF34BF"
+    },
+    "ui/800/game/actionbuttons/techicons/iconjaderings.png": {
+      "size": 4582,
+      "sha256": "A41888D7944AAB417F9003FBEB9ABA7D3FBE99EC27ED09389EAC84B9C095A4BC"
+    },
+    "ui/800/game/structurebuttons/manafocusicon.png": {
+      "size": 5296,
+      "sha256": "39B0540D499C4B6F8B92973595FEBC3890AF4A249E6A5E25B3B1A10F23120724"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconfittedstones.png": {
+      "size": 6604,
+      "sha256": "9F0637A978F2AF3CCB966A70B0AD3E6313B4BC5900E40F4F086EFF24FC89210C"
+    },
+    "ui/1280/game/actionbuttons/icondowngrade.png": {
+      "size": 8266,
+      "sha256": "FC4510DA0626D1EBA60208F813F9CB525018551222C5F876EB2EC13DEB974E28"
+    },
+    "ui/1280/game/structurebuttons/harouncentericon.png": {
+      "size": 8021,
+      "sha256": "8BCE386D8F14324FE9389A5539FBA1BAF3E22C7FFEF4992B32547AA7B07D52E2"
+    },
+    "ui/800/game/actionbuttons/techicons/icononyxrings.png": {
+      "size": 5011,
+      "sha256": "0B3D591B1B396210096CB4BF85A4B98DB9B3C9104766076A9D43C174C2411663"
+    },
+    "ui/game/actionbuttons/techicons/iconrapidgrowth.png": {
+      "size": 6273,
+      "sha256": "27236FEE3ABC926748EF01FC2FA751A5110187FCD03D62B86FD9779828E23280"
+    },
+    "ui/game/actionbuttons/iconteamattack.png": {
+      "size": 7078,
+      "sha256": "0E502E654AACEBB77F4B1CD455D59F15CD2518AEBD7EB35656F013B9DD3871AD"
+    },
+    "ui/game/structurebuttons/draugacentericon.png": {
+      "size": 6842,
+      "sha256": "BDB20FB8898DF564EE5952371412714193A7F5C98D30B9048782E39CDBCD3063"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconjaderings.png": {
+      "size": 6770,
+      "sha256": "E464874C1CD4C45E52769CB8134F72B308674C5C2A69524B92E036553C3BE537"
+    },
+    "ui/800/game/actionbuttons/iconteamrequestactor.png": {
+      "size": 4598,
+      "sha256": "9CF6C5DB7599BE663B9C7BD71F3BA48DC80A880B1BF7822CB089A392F41ED59F"
+    },
+    "ui/800/game/actionbuttons/techicons/iconcompositebows.png": {
+      "size": 4628,
+      "sha256": "39A68D184ADFC99B4C9AFF6C56907231A3B8D77B6DA9CECA94AC938342EF83A6"
+    },
+    "ui/800/game/actionbuttons/iconretreat.png": {
+      "size": 5540,
+      "sha256": "E4FC323150F2609EBE9DB22C7375A9AC53654EC3921B0EF842F607DC664ECF6C"
+    },
+    "ui/game/actionbuttons/iconobserverview.png": {
+      "size": 6306,
+      "sha256": "478DC060BA1FD059420376AF8B003A577304FBCD3E0532DD570DC1DA926B1360"
+    },
+    "ui/1280/game/actionbuttons/iconresearch.png": {
+      "size": 9080,
+      "sha256": "AB0AD15C26B1001F429088628D524A3D4BB1C4AD76FA8074C5791732C5F48852"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblackblessing.png": {
+      "size": 4826,
+      "sha256": "0BDF543A68D695C2C90AD008786664AC6C4008EE814D04FB07713BA527BB389A"
+    },
+    "ui/800/game/actionbuttons/iconbombard.png": {
+      "size": 5429,
+      "sha256": "7BE63EBDF3C0B2C2112511263E6AA125929D076079D7876DE4D23CBE3DDED781"
+    },
+    "ui/800/game/actionbuttons/techicons/iconmagicarmor.png": {
+      "size": 5207,
+      "sha256": "34A91FC9DEA03438AB626A8D031DEABD4FC78B2C21713C0855E1EDEE95F46673"
+    },
+    "ui/game/actionbuttons/techicons/icondarkfortitude.png": {
+      "size": 3508,
+      "sha256": "4C8FFCBD7E569AA0093DAB29852C2452AB7DC1DB5A02949E3DC7C2E1429D6282"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblessingvalor.png": {
+      "size": 2645,
+      "sha256": "550288396E62D33DBE17F6525C17AC26629954DF07E7E4541F6322ADCC1F803D"
+    },
+    "ui/game/actionbuttons/techicons/iconumbralmight.png": {
+      "size": 6729,
+      "sha256": "EF8BE04CA05E3D04E45794E271CC94E7F26ED6543E43614D3256CC56935505ED"
+    },
+    "ui/800/game/structurebuttons/humancentericon.png": {
+      "size": 5520,
+      "sha256": "1365F40D13037D5850F7A9C1990138C40B82E5F5970F78B859553BD9834A6715"
+    },
+    "ui/game/actionbuttons/techicons/iconthaumaturgy.png": {
+      "size": 6440,
+      "sha256": "4EAAB65F80450406072B292812AFCAC485DD09011DC1CA005210C3536557FF55"
+    },
+    "ui/800/game/actionbuttons/iconkingdomview.tga": {
+      "size": 3888,
+      "sha256": "070A15E31EFBA643CBC1FEDFD2A117636E85FC5730D491D8AD6C73DA2FB53FFB"
+    },
+    "ui/game/actionbuttons/techicons/iconbilleting.png": {
+      "size": 6851,
+      "sha256": "E54DFB7C7F8DD484B32E8C3EC9E40703C5F1B0B17565F3032FE965E7A5D265F8"
+    },
+    "ui/800/game/actionbuttons/techicons/iconguardtraining.png": {
+      "size": 5389,
+      "sha256": "3CDF39C044FF570C68C62F0C7999A2B7F782F6051F736F30B5283D06FF9FD6BA"
+    },
+    "ui/game/actionbuttons/techicons/iconstrongfoundation.png": {
+      "size": 2750,
+      "sha256": "67613F5A4EAC58105200CD22670508B13854D08E7C8E1D29DDE2DEB21278A09B"
+    },
+    "ui/1280/game/structurebuttons/woodmineicon.png": {
+      "size": 8469,
+      "sha256": "28069DC9776929352B14C8BA4F709FEF8564BE2E13DD06B4A7710A6D1D122143"
+    },
+    "ui/800/game/actionbuttons/techicons/iconironwoodbows.png": {
+      "size": 1808,
+      "sha256": "1592C29A0D4BB6346B5E1A136CC04C77C61F07F76F1B90A4A157782F1461B9C6"
+    },
+    "ui/1280/game/structurebuttons/sawmillicon.png": {
+      "size": 9403,
+      "sha256": "6AEE3602D85E6822956FD92F23E4EC3596721190F2866E7F9F0FC2C3DA351FFE"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconbonerings.png": {
+      "size": 5543,
+      "sha256": "55E569459D2A1375DD12F7C487F6DDAF525EE0D1765838DF72C42FF092E7C1C6"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconwhitesteelweapons.png": {
+      "size": 6626,
+      "sha256": "A5AE802C68E3439033B41C05B0627F544FD3C7E73873439B9032A0C06987DFC4"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblessingofvalor.png": {
+      "size": 6322,
+      "sha256": "D2C699C97D93B4156E5328568B5910E5554FA63281F65D5F00CA78460E64D10B"
+    },
+    "ui/game/structurebuttons/harouncentericon.png": {
+      "size": 6350,
+      "sha256": "A8156C7728E77E16B643A1D2E169355396A4AFA089A9E7EE1C0CD1A31C1151C5"
+    },
+    "ui/game/structurebuttons/warehouseicon.png": {
+      "size": 6565,
+      "sha256": "836440C5A4FEEF9E282D692DF9627F7366C06BAEF57DD7967F7BE66CCB9B4477"
+    },
+    "ui/game/structurebuttons/ironconverticon.png": {
+      "size": 7393,
+      "sha256": "0F0ACE0893BDFE9E843AD6764ABF78E4DA29D94611215356A05C83441A640E19"
+    },
+    "ui/game/structurebuttons/woodmillicon.png": {
+      "size": 6977,
+      "sha256": "ECFCDA6AFC59B08D9625E92D516EEA71FAB202DBBD0235378180AEF4D530D83A"
+    },
+    "ui/1280/game/structurebuttons/manamineicon.png": {
+      "size": 9022,
+      "sha256": "E4619B192B563A070F23808BC9B603B047DD5600E3EED38A13AA31CA780BE174"
+    },
+    "ui/game/actionbuttons/techicons/icononyxrings.png": {
+      "size": 3884,
+      "sha256": "A7D13F0A30EB9B1D238368541B8A3AA31876A59F8E870BC826BA94705235B259"
+    },
+    "ui/1280/game/structurebuttons/magecollegeicon.png": {
+      "size": 9496,
+      "sha256": "A8C679A0F10CE16A55C61C7A91DA276CE0546A219C39A29B9DF115B969AD2FC8"
+    },
+    "ui/800/game/actionbuttons/techicons/icondeadzone.png": {
+      "size": 5402,
+      "sha256": "7A6F680BE4AC28D8B045A4D61B02399E105CE1227A0B434CDF180082C7EDD5EB"
+    },
+    "ui/1280/game/actionbuttons/icongroupbehaviorenable.png": {
+      "size": 8064,
+      "sha256": "2DC836042849450537115FCF721202A8B25ABE6D95BEE44C058E0E4C3A146806"
+    },
+    "ui/1280/game/structurebuttons/gauricentericon.png": {
+      "size": 9339,
+      "sha256": "620CBFAF6986657A1CE205F4791D1DC3DCD5DF38D4727763686C9DD529D6689E"
+    },
+    "ui/game/structurebuttons/bankicon.png": {
+      "size": 6935,
+      "sha256": "6B724A4C14C43851C85EAFC52F63CD5D40CFC7E998BC96425CE516EE11F6FE37"
+    },
+    "ui/game/actionbuttons/techicons/iconblessingspeed.png": {
+      "size": 5564,
+      "sha256": "40C40EEC81F43737F3BF56B0D43AE9AA506FA9103EF81027A81010616F8EC4F3"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconamberrings.png": {
+      "size": 5228,
+      "sha256": "405ED93160F99CD64B11179F470567E6D76DA86B1B8C0EC131CA5B113FF5F2FB"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconkhaldunitearrows.png": {
+      "size": 7037,
+      "sha256": "273526D26D921B941A8606411B9D7656F31083F2724B6A038DD5BBB0AABCA672"
+    },
+    "ui/800/game/structurebuttons/portalicon.png": {
+      "size": 5730,
+      "sha256": "E2F65BCB1025B78301F4E9FA10962B2156C2F5C5B5044271AF324A5AA2F1026A"
+    },
+    "ui/game/actionbuttons/iconupgradefort.png": {
+      "size": 3796,
+      "sha256": "FB0F7AE8EFE6F9EAAEB23C12406C89FD48BF0F6F974EC2D5A8FB58A9E8E4BAB2"
+    },
+    "ui/800/game/actionbuttons/techicons/iconkhalduniteweapons.png": {
+      "size": 4415,
+      "sha256": "708065A3AC1642C041894C7271F30707B818666192D5DD8D5AB6911181B7B175"
+    },
+    "ui/800/game/structurebuttons/shrineicon.png": {
+      "size": 5356,
+      "sha256": "2890A94903EE11AD66A2398D6D5320987517D99EE4243AFB328C423D5D10BBF0"
+    },
+    "ui/800/game/actionbuttons/techicons/iconumbralrage.png": {
+      "size": 5381,
+      "sha256": "0A02B4E6483FCF7BA8C3BAD188803F02D83830FD772E1B0D12239C1C33A133D1"
+    },
+    "ui/1280/game/actionbuttons/iconguard.png": {
+      "size": 9239,
+      "sha256": "13E6A993C6B624164CF8CE28C9C156AD85677C2049CADC9B2C20DFCF24B4CDCB"
+    },
+    "ui/800/game/structurebuttons/goldmineicon.png": {
+      "size": 5480,
+      "sha256": "42A7CFCE038E020860D1EE46973E8213C909BBFD2E1FBBC9C872BAA8403F73B4"
+    },
+    "ui/800/game/actionbuttons/iconcommission.png": {
+      "size": 5557,
+      "sha256": "789D4D351449CDA7604DEBBBC575F333930E1AC88AEBDFED563FBC41E29A1DD0"
+    },
+    "ui/1280/game/actionbuttons/iconcustomcompany.png": {
+      "size": 7643,
+      "sha256": "5C3A8F6A0FA71CFAE18FDDA2EC1581947488B5D42CA39484A80785B7A0295D06"
+    },
+    "ui/800/game/actionbuttons/techicons/icondarkmatter.png": {
+      "size": 5258,
+      "sha256": "BF72E73A4CF5829245C05B9C9EC27ED7C817238B5D77242A1BD5FFDAF0AD42D8"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconcompositebows.png": {
+      "size": 6888,
+      "sha256": "8DABCA7ABB0C33014A640F6F4B95497B3AEFD1698223F33EF31DE724F20F5BEF"
+    },
+    "ui/800/game/actionbuttons/icondowngrade.png": {
+      "size": 5224,
+      "sha256": "7876A0C638DD59AB1274851E47706FC707CDAC0E17B8E0E218E29DFC5FA28424"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblackblessing.png": {
+      "size": 7413,
+      "sha256": "403B5DC35A16ABC58384874D0D709C6F48791D4CDE832F5A647817093898860E"
+    },
+    "ui/game/structurebuttons/bazaaricon.png": {
+      "size": 7333,
+      "sha256": "8F436E977733A5ECBE64A0A68677ACB45AFFAFD62AE18F17E853707C64C27685"
+    },
+    "ui/1280/game/actionbuttons/iconobserverview.png": {
+      "size": 7959,
+      "sha256": "585DF9A5C1041220BFD464772D23F5EB55B991A9E1047899D4EBD5B540286368"
+    },
+    "ui/game/actionbuttons/techicons/iconbalancedweapons.png": {
+      "size": 6141,
+      "sha256": "E1335CFA24E0B57587C40C22F36D99BE026E9A39D3C7A3C36BE5195800B79791"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblessingvalor.png": {
+      "size": 6058,
+      "sha256": "FB7E24CB06F72048CD13393CD07C29756A37EC5331EB54F5C80E93CF81F55C63"
+    },
+    "ui/800/game/actionbuttons/techicons/iconthornybarrier.png": {
+      "size": 5273,
+      "sha256": "3A964DB4908313BE63AE97B3F6EEC1CB296CB5D24751DC8A97F65BD64E0EB95E"
+    },
+    "ui/game/actionbuttons/iconteamrequestresources.png": {
+      "size": 6302,
+      "sha256": "1DBA8996E8A3C49F8AB424516045F3D627C36567139A048196B022C91299A998"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblackichor.png": {
+      "size": 5092,
+      "sha256": "7EB5CBF525354FDAF516773D9A8FB34914E920D8803FBAA679C7106B923F544C"
+    },
+    "ui/1280/game/actionbuttons/iconrout.png": {
+      "size": 9133,
+      "sha256": "AF75FFAA1C2963BBD257924700F170C8655B366BA349167FEF958241998B7BBD"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconguardtraining.png": {
+      "size": 8914,
+      "sha256": "0D5F29856A56D3DDCA1E3D64D82EF2C9706E7800315D9395E245A4B1505A8D70"
+    },
+    "ui/game/structurebuttons/manafocusicon.png": {
+      "size": 6549,
+      "sha256": "155A413B8387F3F23491C41FB4BBC0CFDA8FAA2698F0FED9A43C803EF1F1E1DD"
+    },
+    "ui/game/actionbuttons/techicons/iconumbralfrenzy.png": {
+      "size": 6524,
+      "sha256": "9486693BEE04792FEE414A5FDA7E9116D602BC7B2416782BF441B12A3B564EFC"
+    },
+    "ui/800/game/actionbuttons/iconteamexplore.png": {
+      "size": 5352,
+      "sha256": "7E7487EDDE728B48CD217DD5735CFDBD99CC67EFB34FBC643CE274C4C732D3C4"
+    },
+    "ui/800/game/actionbuttons/techicons/iconelixeroflife.png": {
+      "size": 4895,
+      "sha256": "01356A5FCE333FD885DCE7A99239E0A8737F4959E2813EA093646682803AD433"
+    },
+    "ui/game/actionbuttons/techicons/icondarkritual.png": {
+      "size": 4740,
+      "sha256": "5146FC6AA23A836E08DAD5BBB029D45DF990A498D5412ED6F8868F434D3401E3"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblessingofspeed.png": {
+      "size": 4875,
+      "sha256": "33BFD5DD2515F1A3D50E6FA8E81E7156B5D6411CED38605DC3ED3AC0445213B7"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconumbralfrenzy.png": {
+      "size": 8416,
+      "sha256": "1C923ABAEE9A01880DF4968EB3E7875D6F42962CCF0954E6AEA93274E081E0C7"
+    },
+    "ui/800/game/actionbuttons/techicons/icondiseasedweapons.png": {
+      "size": 4863,
+      "sha256": "123501AEF78CAAABFFB0B151090043D8C6FAF608E27EE327DC87DFC031FD934B"
+    },
+    "ui/1280/game/structurebuttons/miningposticon.png": {
+      "size": 9899,
+      "sha256": "CF8D47726902247BE696A55ED728C9A2BF51AB99C96C5356EC0249FDEC5B58FB"
+    },
+    "ui/game/structurebuttons/sawmillicon.png": {
+      "size": 7205,
+      "sha256": "7508E6544EB432780FD819D5086D567807510B12047F418B94065A3E0C8EDA66"
+    },
+    "ui/800/game/structurebuttons/draugacentericon.png": {
+      "size": 5441,
+      "sha256": "72408D3F9B3DAB3D4B59628B90549E385C6D0CF7819EE83DADCBDB43D3E69BDD"
+    },
+    "ui/800/game/actionbuttons/techicons/iconshadowsteelarmor.png": {
+      "size": 5019,
+      "sha256": "00375374A77DDDCB32C342E6B9796DBDD27FA738678AEA8DC9288777FE931A18"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconelixerofstrength.png": {
+      "size": 8236,
+      "sha256": "4FEE78B48B230441E908244437AA740B1E2E667245CE194CEE3E6B56B4E59DB6"
+    },
+    "ui/800/game/actionbuttons/iconupgrade.png": {
+      "size": 2298,
+      "sha256": "407BDC7CD948DEDB72C351A822AFD678C4D9922765898025173387108A6D7B22"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconumbralrage.png": {
+      "size": 8860,
+      "sha256": "E0DE1D96BA1628D33FD4DECDA239071FC91816E5B4B071C43F7B2E36EC14D949"
+    },
+    "ui/800/game/actionbuttons/techicons/iconedgedspines.png": {
+      "size": 5167,
+      "sha256": "013406BCFA521E6ACC59F1814006D4D2CF8203FE9507A4D6D9C0499D3A42157B"
+    },
+    "ui/1280/game/structurebuttons/warehouseicon.png": {
+      "size": 8391,
+      "sha256": "E1DEC86D083441219A73335B5B17312191B0FF9DD5463D3BC5249D896BB4ABA2"
+    },
+    "ui/1280/game/actionbuttons/iconsell.png": {
+      "size": 9696,
+      "sha256": "CC4EA161AD3FEF2F86C5EADAC68F1D16EE87C59BB927861AFB4D065B122AC9D3"
+    },
+    "ui/game/structurebuttons/woodtomanaconverticon.png": {
+      "size": 7678,
+      "sha256": "33456326D26BA8C9C624478A855B3A30DC5D5D762B2ABC2737F152A97D364E6F"
+    },
+    "ui/game/actionbuttons/techicons/iconshadowsteelarmor.png": {
+      "size": 4209,
+      "sha256": "13FA1E28DAC72ABE4B8E59514C217B902B256DB97624E866A30B6DC77F481ECF"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondarkmatter.png": {
+      "size": 8568,
+      "sha256": "9C2D651F2554CD428B7AFBC1EB390F498ADE4523CD36E301E541134B58FBF1B7"
+    },
+    "ui/game/actionbuttons/techicons/icondeadzone.png": {
+      "size": 6911,
+      "sha256": "45CBECBE570620B4CBCFD1A37D68F9C6B61D3019129C09CAAB7222B6BC43B539"
+    },
+    "ui/1280/game/actionbuttons/iconattach.png": {
+      "size": 9548,
+      "sha256": "B8DBACEA6AE4672C3307098152A7C426869C94FEA010CFA09960CBDAB15B651D"
+    },
+    "ui/game/actionbuttons/iconsell.png": {
+      "size": 7409,
+      "sha256": "4C5269EC66375E57CE76EE26A9BB9426AFE71F7712A3239FCCDE170E125526DB"
+    },
+    "ui/800/game/actionbuttons/techicons/iconbarbedspines.png": {
+      "size": 5367,
+      "sha256": "81CF8BB9C4EA033BEC3954BDF9AC4B6FA9C954548300ADAEF289DCFC6B6A5C52"
+    },
+    "ui/game/actionbuttons/techicons/iconshadowsteelweapons.png": {
+      "size": 6273,
+      "sha256": "3513D57F04DD1941532A5010057FE8EFE051DD39F191A70F946A06851C7DCEF2"
+    },
+    "ui/800/game/actionbuttons/iconresearch.png": {
+      "size": 5576,
+      "sha256": "C33E00D47F447031FF67E82F5179180672C4EAFDF194D173A6B5526C19D17532"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconpoisonspines.png": {
+      "size": 7994,
+      "sha256": "1B02E884D883556F63DD9D6391A6798D87521A9ED832B98B24C299026D869B0A"
+    },
+    "ui/game/actionbuttons/techicons/iconmagicarmor.png": {
+      "size": 4823,
+      "sha256": "69E79949BC8FF7538B5FF5BC2EA0CB72B21E1CC5569C03786892F9CBEB64EA17"
+    },
+    "ui/800/game/structurebuttons/irontomanaconverticon.png": {
+      "size": 5776,
+      "sha256": "ADAC6CB5404CA93CBF903AB4C3DBA21B99B56226DFC688441155945AC94F8F61"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconnursery.png": {
+      "size": 7504,
+      "sha256": "7B2AAF03CB027B85D8F5CF99C4F6759B4B11A2C0170FDCC2129B354C6DB2B183"
+    },
+    "ui/1280/game/actionbuttons/icondisband.png": {
+      "size": 9744,
+      "sha256": "8D4E3E211F17480BC01557F3B345F8B348DD7EA2630704E1BD140ACE82202918"
+    },
+    "ui/800/game/actionbuttons/techicons/icondeeproots.png": {
+      "size": 5024,
+      "sha256": "0D100F3DA3C4F3368BE8A842838AF22E79FAB5D526ABC67262CC04FB6006D169"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconedgedspines.png": {
+      "size": 8415,
+      "sha256": "3AE3B4808F632A9CF49AFDEE9A7CACF4189A964FD7668B8D662E287F0DDA51D8"
+    },
+    "ui/800/game/structurebuttons/factoryicon.png": {
+      "size": 5413,
+      "sha256": "53F8D6E4A434F79A7A53F022F6FCECE157903318B34DED7A251369D3FA959DB8"
+    },
+    "ui/800/game/structurebuttons/harouncentericon.png": {
+      "size": 5105,
+      "sha256": "9E317D070C574BCA1C4299C18CC45F7671AE928674FD2E97482D42A8F0FD35F3"
+    },
+    "ui/game/actionbuttons/iconattach.png": {
+      "size": 7212,
+      "sha256": "8666008AA67759632E617A43F662DE859394BECE1EBD75BDBCF384AA974A1061"
+    },
+    "ui/game/structurebuttons/magecollegeicon.png": {
+      "size": 7270,
+      "sha256": "1E275B1BD0953E38A8085D0BDE115865467074A794E73D0A9D221A929CE1C432"
+    },
+    "ui/800/game/actionbuttons/techicons/iconumbralessence.png": {
+      "size": 4817,
+      "sha256": "16487BA97C136499EE47013950515AA4C8FC623C6DB7B795B96FD5CA83C6AE2B"
+    },
+    "ui/800/game/structurebuttons/ironmineicon.png": {
+      "size": 5344,
+      "sha256": "F37B9E7B289FE75F100D536C21C9DB758076666B75049AE6A2521B716785E382"
+    },
+    "ui/game/actionbuttons/iconkingdomview.tga": {
+      "size": 6444,
+      "sha256": "2F714C6C6992CB8FCF5ABE9BA63B360BC517A7C17188328A34C1AB563AD364C7"
+    },
+    "ui/1280/game/actionbuttons/iconteamgiveresources.png": {
+      "size": 7962,
+      "sha256": "F74A6EEB5A3312DC42EAFD0B10907926C0ADB533FF8A5F233F04BDF31EF17220"
+    },
+    "ui/1280/game/actionbuttons/iconteamreport.png": {
+      "size": 8544,
+      "sha256": "C08A5D8C87E65E65F726EF9CECAE183A50DE6375ABE4529B5A4717AB075A88A0"
+    },
+    "ui/game/actionbuttons/techicons/iconcompositebows.png": {
+      "size": 3271,
+      "sha256": "2E064A8D7721BDDCD2DD4C2BED1A3B6BCB6B129BEAF189936868ED8C42BA6F71"
+    },
+    "ui/800/game/structurebuttons/blacksmithicon.png": {
+      "size": 5260,
+      "sha256": "5FA95BE348879DBCB09C4C49933FEDC46664ED629A90F71A90C72AF7BD44997A"
+    },
+    "ui/800/game/actionbuttons/iconrepair.png": {
+      "size": 5484,
+      "sha256": "0079981B4789402E5CBD62723B2EFFA79D91F713E8126AD5379619971051B3AC"
+    },
+    "ui/800/game/actionbuttons/iconteamcommand.png": {
+      "size": 5514,
+      "sha256": "31F0C8B3E5ECE569F36EBF3BFDBAB9CF014E169EB679E0D1995FD2AC46420F7D"
+    },
+    "ui/800/game/actionbuttons/techicons/iconshadowsteelweapons.png": {
+      "size": 5009,
+      "sha256": "30844C791E2A84B2C6837D51AAAC696197C3394307AC8B0D5AE87926E27F41BF"
+    },
+    "ui/game/actionbuttons/techicons/iconblackblessing.png": {
+      "size": 5959,
+      "sha256": "B235858E78E93AE78B05506A378E25C928DE40E314A6D8CC3F7AD475062F4D7B"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconcalvarytactics.png": {
+      "size": 7629,
+      "sha256": "87AAE5BE723C9A85538F8728CA1E13F4E96B8584FFB2C3AB1F60AB462A079863"
+    },
+    "ui/game/actionbuttons/iconteambuild.png": {
+      "size": 6591,
+      "sha256": "A95CC52F8FD4E3AD57F3DFCE0E7E0E9D7651514C5B4E834C1BB9C0C5ED6C29F9"
+    },
+    "ui/game/actionbuttons/techicons/iconblessingvalor.png": {
+      "size": 4170,
+      "sha256": "FC48E0016467549ED267C295C0EE02B33E4287AB64338C03A41D315AEA08504D"
+    },
+    "ui/game/actionbuttons/techicons/iconpoisonarrows.png": {
+      "size": 5538,
+      "sha256": "B18C61647C2FF639A9B9078E02B82468497C7C45E3AD6194984126A68C001AA5"
+    },
+    "ui/800/game/actionbuttons/techicons/iconrapidgrowth.png": {
+      "size": 4933,
+      "sha256": "DCEBFD09BA02614989A85D7DB4E5929E84D92EA57CEED4AFF9E5926AD1558B71"
+    },
+    "ui/800/game/actionbuttons/techicons/iconelixerofcourage.png": {
+      "size": 4895,
+      "sha256": "A6178777CF6559542DB9CE7D85C632B04086AB9925B4872FC78D797F725E9386"
+    },
+    "ui/800/game/actionbuttons/techicons/iconfittedstones.png": {
+      "size": 4425,
+      "sha256": "B03F35B79CFB4F4B678BB6CAE47F72E4AC8DF2BDD7CF995EBB1FD7DB8C16D056"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconpoisonarrows.png": {
+      "size": 6733,
+      "sha256": "B9AF8B808781FC7A4B5755C0D6EF1BBFE04A7348142BDFBDF897C89077E5465B"
+    },
+    "ui/game/actionbuttons/techicons/iconguardtraining.png": {
+      "size": 6857,
+      "sha256": "9B231BF3D307E2FB277BC0364E3948CD1B14496C69CD197D5AB165B70B8BB547"
+    },
+    "ui/1280/game/structurebuttons/manafocusicon.png": {
+      "size": 8325,
+      "sha256": "457CDDCA946F02F6A02FE288BC0743986E6D546DE2395710E3899BC65F227C8E"
+    },
+    "ui/game/actionbuttons/techicons/icondeeproots.png": {
+      "size": 6252,
+      "sha256": "80548B2C0CC104382B35CF42F756BE14689518A1C8021187B71C83D5E765FB05"
+    },
+    "ui/800/game/actionbuttons/iconteamdefend.png": {
+      "size": 5234,
+      "sha256": "4448264096C6EE129AF611F9AFE5B048F9D72180F8C5E08DAD1D9FDDA3B9B9B2"
+    },
+    "ui/1280/game/actionbuttons/icondetach.png": {
+      "size": 9542,
+      "sha256": "D251C30E45D7324A39CE6D7C6A2C1783F317BDA592DFAA6464E75745E7D333C9"
+    },
+    "ui/1280/game/structurebuttons/bazaaricon.png": {
+      "size": 9548,
+      "sha256": "63BCDE987C3B8524B9538C7A25796A1ED8013CD6F11451DA1761B1A8F946C76A"
+    },
+    "ui/800/game/actionbuttons/techicons/iconumbralmight.png": {
+      "size": 5379,
+      "sha256": "95B7C520292BB32FDEA608D4F8D8D6B83DEE994015681D51AD36BCC2FFE4D4A9"
+    },
+    "ui/800/game/actionbuttons/techicons/iconthaumaturgy.png": {
+      "size": 5105,
+      "sha256": "0902BF6576334A70368AA5FA7460715A71A0FD8046CB8AC7D2D9B3F6E4358F48"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondiseasedweapons.png": {
+      "size": 7403,
+      "sha256": "3E1972EDC6D486C4174D7FF560DE3B077587655849D5A71B6F981FBB0BDA0830"
+    },
+    "ui/game/actionbuttons/icondisband.png": {
+      "size": 7381,
+      "sha256": "DEB6A83C432D17BC3978B0CDF7E746BF2C3CEA1A4CB3323ED107C188818AF0F8"
+    },
+    "ui/game/actionbuttons/iconretreat.png": {
+      "size": 6994,
+      "sha256": "28A2851CBCA1B0D6099107E2474D8BAD74A12EC169BEF802851DFB86C536FFB7"
+    },
+    "ui/1280/game/actionbuttons/iconteamchat.png": {
+      "size": 8084,
+      "sha256": "DD7CDA27548F2272AC31262BF27D6EC1B3B7246B281F3E1CB77C6B95025DFA39"
+    },
+    "ui/800/game/structurebuttons/templeicon.png": {
+      "size": 5626,
+      "sha256": "A12E197E972E04CBE7AFB5B3F62BB2B3BCEEF0DD3438491E54A8C0F33F051615"
+    },
+    "ui/800/game/structurebuttons/gauricentericon.png": {
+      "size": 5658,
+      "sha256": "330E344524FA1753F2A21EE187DEF0590B6EC9F8013F5B000709CC47D554BB6B"
+    },
+    "ui/800/game/actionbuttons/techicons/iconumbralcarapace.png": {
+      "size": 5106,
+      "sha256": "AF54F1195E7183E52489685CD2AB13158343C10A5707FD60414D0C17667351D1"
+    },
+    "ui/800/game/actionbuttons/iconupgradefort.png": {
+      "size": 2456,
+      "sha256": "9759D6AB0CDB6196FF3EA493CA1A38F3FE518482340CFA8B8D7417419A768BD9"
+    },
+    "ui/800/game/actionbuttons/iconteamgiveactor.png": {
+      "size": 5161,
+      "sha256": "6F12487D585C9F2D71497FD7BA35A2810488546EBBE7C14DB0499E696DF8C855"
+    },
+    "ui/game/actionbuttons/techicons/iconjourneymen.png": {
+      "size": 3741,
+      "sha256": "CB84A5F2BEB1710629607E10A157DB7A167D81FBFE854652AE0E01CF09748A7E"
+    },
+    "ui/game/actionbuttons/iconbombard.png": {
+      "size": 6829,
+      "sha256": "2C8DDA70EBE6D60C11BF65387E4C311126B967153778C53B344E34F0FBBBFEC9"
+    },
+    "ui/game/structurebuttons/goldmineicon.png": {
+      "size": 7094,
+      "sha256": "6788F8DFC088F3CFE91CEBE5B0129FDE397CA7AE3C4C26EE9D9E11E258BA9DC1"
+    },
+    "ui/game/actionbuttons/techicons/iconentwinedbranches.png": {
+      "size": 6643,
+      "sha256": "E2A3B6C1EA2D92B46C1E44F717CD53D1A139EB145C4488828CEE1D3847E152E5"
+    },
+    "ui/800/game/actionbuttons/iconrecall.png": {
+      "size": 4968,
+      "sha256": "ED6663A0F466355775562C1AB06B59E9129BF962A0394593ED7E09B346917553"
+    },
+    "ui/800/game/structurebuttons/quarryicon.png": {
+      "size": 5488,
+      "sha256": "47511F45508D62D1E5980600BCE0FDDE4109F427A4383FD1A51A025C18F7ED77"
+    },
+    "ui/game/actionbuttons/techicons/icondiseasedweapons.png": {
+      "size": 3896,
+      "sha256": "DAA3919B0F5470DD4D625E37D69E9A9D77867F9C08CBFA683B8F00933DAFDF06"
+    },
+    "ui/game/structurebuttons/manasiphonicon.png": {
+      "size": 6917,
+      "sha256": "20B5716D4AAFB2F3993AB88A51DA158E591C8E330F3C9FCC2DC7AC361962D2AB"
+    },
+    "ui/game/actionbuttons/techicons/iconblackichor.png": {
+      "size": 6322,
+      "sha256": "6676D7178C1A185ACD47A2AEC6957EBFCB3CB20D4A58318753D5F549634A0DD9"
+    },
+    "ui/1280/game/structurebuttons/barracksicon.png": {
+      "size": 9827,
+      "sha256": "434E67CD0EEC60A25B9B178EDB4A2B5B792C3156C3FE97F21F0CFACC1B926369"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconumbralessence.png": {
+      "size": 7361,
+      "sha256": "6FD5375C09D6B6B4FA2098FA2D8382E299C054C0EFA5F3B6DF50540E660EEEE1"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconopalrings.png": {
+      "size": 7761,
+      "sha256": "B302AE8902BE32C1A0928EA8F8039620690930528E55FE2D6080BA2F65618FA0"
+    },
+    "ui/1280/game/actionbuttons/iconcommission.png": {
+      "size": 9111,
+      "sha256": "F1ACCF4417415C80BE81C472D5E072410E763AD8A05870121B27953AE8C74030"
+    },
+    "ui/game/actionbuttons/iconteamexplore.png": {
+      "size": 6703,
+      "sha256": "D878294295DD8EE388B3FB5AC580B99F5CDBD0DCE274F523D26DEB21B64ACBBF"
+    },
+    "ui/game/actionbuttons/techicons/iconshocktroops.png": {
+      "size": 5632,
+      "sha256": "A180648F98EA52600A4AF2C76A76DCEE2E38FCD2349E930C2E327F9AB831D43E"
+    },
+    "ui/game/actionbuttons/iconteamrequestactor.png": {
+      "size": 6379,
+      "sha256": "38201C032AD80CB9F9F1E839F783A7E838BF3940F7B2146B902C0584B4DF42EE"
+    },
+    "ui/800/game/actionbuttons/techicons/iconshadowskin.png": {
+      "size": 4985,
+      "sha256": "F49048DD034601D17B17925F2F8946C60BFCE445BD9629AB3A32BBA1339DE132"
+    },
+    "ui/800/game/actionbuttons/iconbuy.png": {
+      "size": 5709,
+      "sha256": "CC0434C6CC92134301B5AF283A2AEA4F910F75C0605AF48F62CF6D4AF1C8419F"
+    },
+    "ui/800/game/structurebuttons/marketicon.png": {
+      "size": 5728,
+      "sha256": "AE25A51E57EF677ABF9D24414E349020DBB6ABB2F947F53C9004FFCB3184C78A"
+    },
+    "ui/1280/game/actionbuttons/iconexplore.png": {
+      "size": 9036,
+      "sha256": "54E7EE4FE4A354CFAA816D680DE2197D1C29E6F740E2991951C9E254138719D7"
+    },
+    "ui/game/actionbuttons/iconteamreport.png": {
+      "size": 6591,
+      "sha256": "4838FC885BBB9F0041BDAB5E8140EA355891009CB0EF4B51D3D0BB442E63802C"
+    },
+    "ui/800/game/actionbuttons/techicons/icondragonbonebows.png": {
+      "size": 4716,
+      "sha256": "9021AEDD8E18E86AD171396531096EAF3C1B17DA8343FBF38A8E3B855EFB02AF"
+    },
+    "ui/800/game/structurebuttons/workshopicon.png": {
+      "size": 5777,
+      "sha256": "20F2E1CBE6201AE630553512D01BBE9CC1FEAFB86616745FE145E76250AC9CAF"
+    },
+    "ui/game/actionbuttons/techicons/iconpoisonclaws.png": {
+      "size": 3936,
+      "sha256": "6D3F0D11FA2A07925FEC1E9537F0CD391B98E3245AB692C3389CF2ED2DAEB6D7"
+    },
+    "ui/game/structurebuttons/humancentericon.png": {
+      "size": 6973,
+      "sha256": "C89D2B47EA8DF13A49AA4598748C70315EBB852486FAAE80A46D824A1FCA151D"
+    },
+    "ui/800/game/actionbuttons/techicons/iconwidetrunks.png": {
+      "size": 4997,
+      "sha256": "C659688D943FDDEA61893267A3B0B91A9D8C8B3F985EE30A0017CF93AED0A86E"
+    },
+    "ui/800/game/actionbuttons/iconraze.png": {
+      "size": 5425,
+      "sha256": "59C821291049D54DE7710A9A6165C155B3561E50CFDF969A76F386B30D5691DC"
+    },
+    "ui/1280/game/actionbuttons/iconattack.png": {
+      "size": 9199,
+      "sha256": "6368D9CE2094A3F787197EDFDC7299CC605D7CAC7CAF71AE228AECFD101D8F71"
+    },
+    "ui/800/game/actionbuttons/iconbuildstructure.png": {
+      "size": 5551,
+      "sha256": "0172EB8FD3177A988C6AFA92C414C12C770F1F9E3F2F37D687FDDEC7886F5609"
+    },
+    "ui/800/game/actionbuttons/techicons/iconbilleting.png": {
+      "size": 5368,
+      "sha256": "68D6DD8A2C49573E0E47BAE9741E1D9E2476252C2F739030AAF73F4946EC1353"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconkhalduniteweapons.png": {
+      "size": 6330,
+      "sha256": "CE8655632B167FE12F65CE8CB230EB2AE28673DB3B04393A2B370EE0C0A50CBF"
+    },
+    "ui/game/structurebuttons/irontomanaconverticon.png": {
+      "size": 7440,
+      "sha256": "3413A15106D8A5A2E979E65E01CFA8F9E6446D36ADE844B7F0375B151462D30C"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconstablemaster.png": {
+      "size": 8011,
+      "sha256": "F12D2763FAD7C91F7919498018057288AFD71E7310F47579E5AA105197B33C66"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconbilleting.png": {
+      "size": 8889,
+      "sha256": "5905A63FE509366F327E18971D7ADFF512FB0DA9E4CF1825E27364EBD2AF4720"
+    },
+    "ui/game/structurebuttons/stonetomanaconverticon.png": {
+      "size": 6967,
+      "sha256": "F6833B31C746FA42F609ADA7BF6B97D884E4EE479129CC21B1CB80BE9232CC5A"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondeadzone.png": {
+      "size": 8931,
+      "sha256": "10FA2E8B8DB780F748A20434B79209014A3EDD1342EAA12FCD0952886AEF11CE"
+    },
+    "ui/game/actionbuttons/iconattack.png": {
+      "size": 6989,
+      "sha256": "546EF2288CECBA370953F4800B023F0C5CE9913513779C84C432347EAF369D10"
+    },
+    "ui/1280/game/actionbuttons/iconconstruct.png": {
+      "size": 8884,
+      "sha256": "7D8BCAE714C8AB03E0760B93B3BBC4CD308E66DCA5B8F4A9331291649E825C5E"
+    },
+    "ui/1280/game/structurebuttons/shadowcentericon.png": {
+      "size": 8097,
+      "sha256": "18913E0B0B67F307B071D173F4C7BE9B18BEE3CD7BDCC2CFAE75AA730B808F21"
+    },
+    "ui/800/game/actionbuttons/icongroupbehaviordisable.png": {
+      "size": 5121,
+      "sha256": "27333FAFB96E084DF0C61C57F52730E35EBB18828455DA97B7643C927B0C22C9"
+    },
+    "ui/1280/game/structurebuttons/bankicon.png": {
+      "size": 9049,
+      "sha256": "5320C25A132AE3263B1487815C443F2B34830C07F2C6D2BFAD05F58631FF58E9"
+    },
+    "ui/800/game/actionbuttons/iconteamreport.png": {
+      "size": 2273,
+      "sha256": "A28459DED221501D58BB5C70302866412D4955913FBB6B181A0699BC86B0B2EA"
+    },
+    "ui/game/actionbuttons/iconsetrallypoint.png": {
+      "size": 6977,
+      "sha256": "39D4CCC28F31548344FF834770849FA52AC337E8C1CA8F5A740D27E60EEFF010"
+    },
+    "ui/1280/game/actionbuttons/iconteambuild.png": {
+      "size": 8534,
+      "sha256": "3BC1C133ADE6135981FAA969F2F666BE3244EBF7F20D59121CD94C2AA34AFF4F"
+    },
+    "ui/800/game/structurebuttons/foundryicon.png": {
+      "size": 5384,
+      "sha256": "55086A6A7555155D4A20704862CFDC2C381B9948AB1C19D691C07CB21050B95B"
+    },
+    "ui/800/game/actionbuttons/techicons/iconamberrings.png": {
+      "size": 2223,
+      "sha256": "41CBDAB6B80D5D21DD4511581EF38AE6EC1C4E53A819CFA6433B6AD398552F1C"
+    },
+    "ui/1280/game/actionbuttons/techicons/icononyxrings.png": {
+      "size": 7639,
+      "sha256": "E093E4E04A7ED0EFBD3739E61582DE73C3681E94BC5F5646C6577ADB9A022276"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconshadowskin.png": {
+      "size": 7832,
+      "sha256": "F1DB903E8B2989081C1A28AED83066E9268AAB202A257F9AC3CFB30B87C7C5EC"
+    },
+    "ui/800/game/actionbuttons/iconguard.png": {
+      "size": 5611,
+      "sha256": "1ED39308D31C78888825AC20AFC89E901A5FB2FAEC56790EEB834CB128333F01"
+    },
+    "ui/game/structurebuttons/ironmineicon.png": {
+      "size": 6843,
+      "sha256": "829ABFDFDF48564179207A7AB3F3D34D3A35AA9A325A6312EB1C7924725A508C"
+    },
+    "ui/800/game/actionbuttons/techicons/iconumbralfury.png": {
+      "size": 5273,
+      "sha256": "620237280B754ACA9159D5FBA21B967DC61136285F36C6D0CD8D130ABF689990"
+    },
+    "ui/800/game/actionbuttons/techicons/iconumbralfrenzy.png": {
+      "size": 5215,
+      "sha256": "506D123F401E56CE4A071EF93C2567A56CE052E61A9D1A6AC1971D2DFA8BBE9F"
+    },
+    "ui/game/actionbuttons/icongroupbehaviorenable.png": {
+      "size": 6359,
+      "sha256": "8394D84CEF6BAD10063E1CC539EFF119CA41B33BE282F38326B995FDCEE4436B"
+    },
+    "ui/game/actionbuttons/iconexplore.png": {
+      "size": 6901,
+      "sha256": "248EE79976E9063C324020C2D58C694EABD63A5071471B5CC572AB2C7CBD626C"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconwidetrunks.png": {
+      "size": 7995,
+      "sha256": "08D5E9A3FCCDEF036F695242D14B6DA6D7B32582D42BF347A198334F838DED3B"
+    },
+    "ui/game/actionbuttons/iconbuy.png": {
+      "size": 7212,
+      "sha256": "7DD074768326526CB2DB3BE3F069EDE082464A81227A46B7E99DE15BA0C9EAB1"
+    },
+    "ui/game/structurebuttons/undeadcentericon.png": {
+      "size": 6662,
+      "sha256": "7A39AE787BB11A1B2E81A2CAF82A8E552A7193A695EB6DF093D8DD35B00AF0C5"
+    },
+    "ui/800/game/actionbuttons/techicons/iconstrongfoundation.png": {
+      "size": 4653,
+      "sha256": "807D82CBC6EE80F47B6D92E78533DF75604BB65203D9A9FF19E7DFE8BDAFEA5A"
+    },
+    "ui/1280/game/structurebuttons/stoneconverticon.png": {
+      "size": 9889,
+      "sha256": "6071B2DD5CA742D2C8A922A25D6428394C8958A01F8229D54291903E5CA815FC"
+    },
+    "ui/game/actionbuttons/iconteamcommand.png": {
+      "size": 6920,
+      "sha256": "AB988C13D2C045901482BA0F8B7B595992F0445D621D12EC99148D38B323EEAF"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconpoisonweapons.png": {
+      "size": 7240,
+      "sha256": "F6219CC16903AFBA7A7B47D459F0F126344B012C3CE1E25C21358850DA9A6755"
+    },
+    "ui/game/structurebuttons/giftofnatureicon.png": {
+      "size": 6928,
+      "sha256": "3F30ADBF3E298A6B56722D021EBB3713712785D0B61667DEA416ACD3362A3580"
+    },
+    "ui/800/game/structurebuttons/ironconverticon.png": {
+      "size": 5738,
+      "sha256": "55363733C740AFD8DDA17A9D27E6458CC319294B66B6B1C2858685FC31A075EB"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconkhaldunitearmor.png": {
+      "size": 7970,
+      "sha256": "4C4792D75DAFE20EEDE13EB563760D6C07A6CE0AD9899D09886509D275A7921E"
+    },
+    "ui/1280/game/structurebuttons/factoryicon.png": {
+      "size": 9004,
+      "sha256": "51BAE5B35114B09209B5E1A3F89054C563CC9C002B5A5CFC8CD25598618BB519"
+    },
+    "ui/800/game/actionbuttons/techicons/icongroovedspines.png": {
+      "size": 5150,
+      "sha256": "A75A53D170F2AACDC8728B4DD4F8AB5E8B26E1BA8E649AC943D8603D985F4A86"
+    },
+    "ui/game/actionbuttons/techicons/iconumbralessence.png": {
+      "size": 5937,
+      "sha256": "24B46D10CA990243A5AB412D03AC6B5C5E2B8B287742354E1E6AD0DE66D0C13B"
+    },
+    "ui/game/actionbuttons/iconupgrade.png": {
+      "size": 6328,
+      "sha256": "623B9E72B0809A1898A526C990AA819EF63ECABEB579A3F54152CFA497807DEA"
+    },
+    "ui/game/structurebuttons/shadowcentericon.png": {
+      "size": 6463,
+      "sha256": "55DF5CE13E109BA58AB8710F2C8489F081971072E8059363CBF5EF12FBA32D47"
+    },
+    "ui/1280/game/structurebuttons/woodmillicon.png": {
+      "size": 8938,
+      "sha256": "2C0F5718EEAFC18D74F47A17DCF035130C6FA77642AF6E574BBD4C0033B66527"
+    },
+    "ui/1280/game/actionbuttons/iconcancel.png": {
+      "size": 7305,
+      "sha256": "58BED01342114E28FFBF7E4C4D072E81AA939F157CD423C0AF449FFDAF9E7060"
+    },
+    "ui/game/actionbuttons/iconcommission.png": {
+      "size": 6992,
+      "sha256": "3C80C2BE1D4D9A1846B02D75DD07301FEC6A885A8B2CC5E20F7C0EF08A1AB1C7"
+    },
+    "ui/1280/game/actionbuttons/icongroupbehaviordisable.png": {
+      "size": 8101,
+      "sha256": "D455B0D3EAF40FF63E4DA0C96A8E65110DE3A80C977D97BF04F8E9E8432520A5"
+    },
+    "ui/800/game/actionbuttons/iconteamchat.png": {
+      "size": 5110,
+      "sha256": "BBCF1B52176A51590AFF2D92931FABDE16836E0C147B8479C8B0C1539ED2E5F1"
+    },
+    "ui/game/actionbuttons/techicons/iconkhaldunitearmor.png": {
+      "size": 4418,
+      "sha256": "74FA1DAE9270DC3F90281CE12CAF007E601C68CCBBAE969EFDFACB374A31F774"
+    },
+    "ui/game/actionbuttons/techicons/iconmagicweapons.png": {
+      "size": 4081,
+      "sha256": "C437AB051794241367FA4B1AA90B5A8E157BFB5FE8E740F88E68954B47EB2E46"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconmagicweapons.png": {
+      "size": 7436,
+      "sha256": "D2CFA3A6C2ABF4C79D27E737FADC358E629430012F41924DFFF2AAD850FAC6AB"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconumbralfury.png": {
+      "size": 8537,
+      "sha256": "78958981ED8D60011A07D6EE86C15A8536675D10012955CB900024989D269F6C"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconironwoodbows.png": {
+      "size": 4249,
+      "sha256": "13D1237C78893459A40A6C4FEB898BA5F7E48E084BBB0D1AB3C17ACC26E04647"
+    },
+    "ui/800/game/actionbuttons/iconresetfavorites.png": {
+      "size": 5032,
+      "sha256": "836EA50DAEC1719F9F48CC950E21BEDD66CF13F1FFAABD75A0C02A348210DC4A"
+    },
+    "ui/800/game/actionbuttons/techicons/iconfortifiedwalls.png": {
+      "size": 4795,
+      "sha256": "887EBF565DF27781BCB6FF36B80D2996F814640E3987872ADEA60B536FB283EB"
+    },
+    "ui/800/game/actionbuttons/techicons/iconmagicbows.png": {
+      "size": 2941,
+      "sha256": "26B3921CD727A498C1E5D0B5C73AB6A5C98B0F5AD4EEF4C8656EDDD7F2A8725F"
+    },
+    "ui/game/actionbuttons/techicons/iconmagicarrows.png": {
+      "size": 4470,
+      "sha256": "60EF25F5867A97EDAE91D5F4EE830E8F33D3E076298C3567E34239DB51E2A43E"
+    },
+    "ui/1280/game/actionbuttons/iconteamdefend.png": {
+      "size": 8514,
+      "sha256": "D4DEE96F63AA8A6E3C8B691C3389F6BD22BA0E5FE40F8C5738AE64EDAECC947F"
+    },
+    "ui/1280/game/structurebuttons/blacksmithicon.png": {
+      "size": 8211,
+      "sha256": "8A13FF0F9EF60F570B07AFF149055018BC7213CA87164F95A844024B9C398404"
+    },
+    "ui/game/structurebuttons/portalicon.png": {
+      "size": 7367,
+      "sha256": "8FAC50A7CBAF07BB24B768F14233B6BB95DF846E9D381016F8AE594C5A15AF38"
+    },
+    "ui/800/game/actionbuttons/techicons/iconenchantedarmor.png": {
+      "size": 5586,
+      "sha256": "46F791E87CF2F134330707F3FBDCA880B4C5D0EE6AAEC955CDFF7F2805768DF8"
+    },
+    "ui/800/game/actionbuttons/iconconstruct.png": {
+      "size": 5455,
+      "sha256": "C112EA1760B458BD03EE7A57EF85BAC1B250A65C004491A6360C6DF495D5B892"
+    },
+    "ui/800/game/actionbuttons/techicons/icondiseasedarrows.png": {
+      "size": 5052,
+      "sha256": "D7E485E5E942D51681B197AAFBF0833ECA76AA71F81EDD3F10FD5A2E05C50D25"
+    },
+    "ui/800/game/actionbuttons/techicons/iconpoisonarrows.png": {
+      "size": 4612,
+      "sha256": "7DBA0E6CE257BD82480778E4C2058FCF25CE8CFC6483BC25F02D98B523E55E53"
+    },
+    "ui/game/structurebuttons/shrineicon.png": {
+      "size": 6672,
+      "sha256": "B18F67D668B44D462A554D8A68EE8FE6071F5096DBCC4290E010CC140C6B7A4A"
+    },
+    "ui/1280/game/actionbuttons/iconbuildstructure.png": {
+      "size": 9103,
+      "sha256": "F594CC5108C5191C537B1AD29F3A37A4AC3E827C458DDD3D6E3E2A7275265205"
+    },
+    "ui/game/structurebuttons/workshopicon.png": {
+      "size": 7471,
+      "sha256": "68AEF2D0B4C67B62BBD4573FA3868E39358A5F38709636121FE742BB1FBC65CF"
+    },
+    "ui/game/actionbuttons/icondowngrade.png": {
+      "size": 6327,
+      "sha256": "F0CB189462C7A0AD90B3CFD20E18F5915577B5AB849158D764A9EADED25F43BA"
+    },
+    "ui/1280/game/actionbuttons/techicons/icontaskmaster.png": {
+      "size": 7419,
+      "sha256": "6CBC42053C877D4F88B587C4B259D57CE728197A242A711EDF09F04E969D38C2"
+    },
+    "ui/1280/game/actionbuttons/techicons/icongroovedspines.png": {
+      "size": 7708,
+      "sha256": "1F9FEECECC797567B4D837F7265EA7F63A5BF080D7C834B43ACD13E58DA7E121"
+    },
+    "ui/game/actionbuttons/techicons/iconpoisonweapons.png": {
+      "size": 3984,
+      "sha256": "879AD0B55C957E2636BD3E4B0F9BCD726123430D3AB3FCF00B00143C480E9418"
+    },
+    "ui/800/game/structurebuttons/woodmineicon.png": {
+      "size": 5224,
+      "sha256": "D495A36DCD86DE46A20FC78D0656E44C679799AE013F6AAA63C8E3ECB70B49C5"
+    },
+    "ui/game/structurebuttons/factoryicon.png": {
+      "size": 6941,
+      "sha256": "BD903D4FB90C8519787C0653F60F8072D43F0065B92D21A62B3617FF6651F2DD"
+    },
+    "ui/800/game/structurebuttons/stonemineicon.png": {
+      "size": 5409,
+      "sha256": "5AD44C05500372BB1B7F094F39F5D8DE9DB46A6AF60B6FA0F464EBD06B8421BF"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconstrongfoundation.png": {
+      "size": 6648,
+      "sha256": "02E017125B552580F142E8C75E0B373B0EABE346907286E691379443D5D7CD84"
+    },
+    "ui/1280/game/actionbuttons/iconteamgiveactor.png": {
+      "size": 8075,
+      "sha256": "35EFDBD0399CA6CA2D1395C19100622A2C8832E85687C45BBB2679E2CC806091"
+    },
+    "ui/1280/game/actionbuttons/iconmove.png": {
+      "size": 9026,
+      "sha256": "E0507F6D86F4C4F40E3334BD357506DB5C36EE023A31BC4AA68CF2FFF98ECB15"
+    },
+    "ui/800/game/structurebuttons/manamineicon.png": {
+      "size": 5429,
+      "sha256": "D9580B1D4B147967B96CC4CBFA68460C6CB336C6A7DDFAA2E4970F1680BD6A39"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondiseasedarrows.png": {
+      "size": 7852,
+      "sha256": "154F9E6A7853A52C92AA69CC1890BD0D04844CAE1FB975F5D19363CC8E137462"
+    },
+    "ui/game/actionbuttons/iconmove.png": {
+      "size": 6964,
+      "sha256": "463FD8B167D3785ED5B672B0CD3401C61E5863FD9A712E89A11910B3C37776AF"
+    },
+    "ui/game/actionbuttons/techicons/iconpoisonspines.png": {
+      "size": 4388,
+      "sha256": "67A9C95FB6B7177F5DA314EAEF82B7BB2E55FCDCCEE45B2F54B593B70F161A2A"
+    },
+    "ui/800/game/structurebuttons/undeadcentericon.png": {
+      "size": 5329,
+      "sha256": "D5D9D3BB1C25F5890EE2DC52BAA6050A14C9588E9EA43032674567755A6A7650"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconelixeroflife.png": {
+      "size": 8269,
+      "sha256": "86F0C102A833C357F42B65BAA58C1A86A6415694523F6AEF53BF5F1D11825AFB"
+    },
+    "ui/game/actionbuttons/techicons/iconproselytize.png": {
+      "size": 6920,
+      "sha256": "E185EBD3BF194F1BF65C4392ACE45621D6AA241654EA936749120A3F345B5B39"
+    },
+    "ui/1280/game/actionbuttons/iconteamattack.png": {
+      "size": 9406,
+      "sha256": "0B757868C46FABE6BEBF0E8D6CF170139922FBCD4DED9C5618002CA7B0197342"
+    },
+    "ui/800/game/structurebuttons/giftofnatureicon.png": {
+      "size": 5377,
+      "sha256": "0F4A6662E88B6CC61831518C85138F7D52F11BA6A287338380C5C049833A7D6B"
+    },
+    "ui/800/game/actionbuttons/techicons/iconshocktroops.png": {
+      "size": 4691,
+      "sha256": "E63EC14CB89E7E1FD0F5941D673505798A5A17746D17248F88CC69FEA39B36B5"
+    },
+    "ui/800/game/actionbuttons/techicons/iconramparts.png": {
+      "size": 5381,
+      "sha256": "7DF953BF67B3553BAC11A2683FEA7182141347FB046645A5DB83C6A19459C431"
+    },
+    "ui/game/actionbuttons/iconcustomcompany.png": {
+      "size": 5688,
+      "sha256": "B1B642A5CC2EC325F585CB283AFE1A5716281E3241CA1B5F1D86BCCA0B429864"
+    },
+    "ui/800/game/structurebuttons/shadowcentericon.png": {
+      "size": 5169,
+      "sha256": "6116AD79C2AF51B86A3D8F28913597807AE66615A081E91987E1AF333ED5A36D"
+    },
+    "ui/800/game/actionbuttons/techicons/iconpoisonclaws.png": {
+      "size": 4785,
+      "sha256": "3A86E673237F1EA88F74B43D3AF52553929C2D15B35091F8BB78B4594718085F"
+    },
+    "ui/1280/game/structurebuttons/ironconverticon.png": {
+      "size": 9671,
+      "sha256": "5796C3C41A3984E2C7B80F13C34D63F4B3F7472DC8C0F4D9922624F9FBF1B332"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconskilledlabor.png": {
+      "size": 8433,
+      "sha256": "720DC20162C82285B4DDD76CD5E5D8210BCCA6AD6439F69DFE609E49D7F23692"
+    },
+    "ui/1280/game/actionbuttons/iconretreat.png": {
+      "size": 9032,
+      "sha256": "FA21D5BD8119667E0337229F9EDBBDBE3FC7A5AB208EAD218ABBD1E44AA8C414"
+    },
+    "ui/1280/game/actionbuttons/iconbuy.png": {
+      "size": 9549,
+      "sha256": "929235715D1DEEC6A978718E4D3615A290616D14EB506FC8881C28BE969AB8C0"
+    },
+    "ui/1280/game/actionbuttons/iconkingdomview.tga": {
+      "size": 10044,
+      "sha256": "505864AAD93524CB359CF9349C95AC575CE70CD670851F307C6F798582F35F45"
+    },
+    "ui/game/actionbuttons/iconteamdefend.png": {
+      "size": 6534,
+      "sha256": "BD8CAB435AB21876C7634D76D6D50DE9CED63B574FD7755D2F0573594B995E5F"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondeeproots.png": {
+      "size": 7992,
+      "sha256": "F6F459B74B381F578DEA4ED630BDFF51382643035109A106102D39D84C81D4F1"
+    },
+    "ui/800/game/favorites/cross.png": {
+      "size": 302,
+      "sha256": "BE94AE30ADBCAFC79F72B230D3CB0AC3467FDF86D56C7B1E57FA61852D8A85E2"
+    },
+    "ui/game/structurebuttons/gauricentericon.png": {
+      "size": 7167,
+      "sha256": "0BC3B853638FF23D571B07AA7560079AE184121689D65C26FE9536FF2FB8D6CE"
+    },
+    "ui/1280/game/actionbuttons/iconbombard.png": {
+      "size": 8801,
+      "sha256": "69ECFCEBE458EC1E354F4FE5DD64B6A3A92BDB8023E2C84F539E73BCC32DA0AB"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconbarbedspines.png": {
+      "size": 8653,
+      "sha256": "76D4BF0AD0D1636A50DD285C50678D2F0A8A28CE9CA8B910A2DCFFB527695FEB"
+    },
+    "ui/1280/game/actionbuttons/iconraze.png": {
+      "size": 8831,
+      "sha256": "D032C0BD5B9CF7FB9B74D576124F4D17C141891AF722F55407CA25C91D6F6FC6"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconshocktroops.png": {
+      "size": 6922,
+      "sha256": "FF68C08C3723DE9803400B8FB094F43BE5E772BA8713B001764BF1D4DF2E2939"
+    },
+    "ui/game/actionbuttons/techicons/iconcavalrytactics.png": {
+      "size": 5980,
+      "sha256": "A4AD3EB028D592EC607815E629A412627F16F5A7B5CE2D5995BD035898BBABF0"
+    },
+    "ui/game/actionbuttons/techicons/iconumbralcarapace.png": {
+      "size": 4396,
+      "sha256": "D03EB961B02A919DF5C9E5E7BB9B54C9C0B7497142358D199FB1D268537BD267"
+    },
+    "ui/1280/game/structurebuttons/foundryicon.png": {
+      "size": 8728,
+      "sha256": "9C7988064ED47521A3E3AE1990153AF1F9B4FD919F3A91E3B3FEE5DDA6A50D49"
+    },
+    "ui/game/actionbuttons/iconraze.png": {
+      "size": 6822,
+      "sha256": "566244E08562042E3717C8BAF0B80123B29A91633B4895304A75E795F817958F"
+    },
+    "ui/800/game/structurebuttons/stonetomanaconverticon.png": {
+      "size": 5468,
+      "sha256": "1A8F4DA25942FB87B82D36365900F8B53DC495503956B6FC217FFE6FB2D50B9F"
+    },
+    "ui/game/actionbuttons/iconteamchat.png": {
+      "size": 6287,
+      "sha256": "4D347A7B3812AC716DC46AE3946746F3F7700636D0F3B0C4B2A2407CD3CDA97A"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconpoisonclaws.png": {
+      "size": 7188,
+      "sha256": "1F25A8E6A724CE1249729FC8ED733B0F82E79D5F6638F2DA96FE6A466732DBD0"
+    },
+    "ui/800/game/structurebuttons/woodconverticon.png": {
+      "size": 5816,
+      "sha256": "47E835352FE3DF3905CA8E794C5304EADEAF56AA578CF3DCD41E07891F993CC9"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconwhitesteelarmor.png": {
+      "size": 8299,
+      "sha256": "66972507A5A0B276BD76E64644130800ADDAC37224CE9F8ECF9F2E9D10AF1A06"
+    },
+    "ui/game/structurebuttons/miningposticon.png": {
+      "size": 7528,
+      "sha256": "69D92923AAAC8A71B2F9558EB45FF0A99EA048024E31D7EFC23E7A5132822D4B"
+    },
+    "ui/1280/game/structurebuttons/draugacentericon.png": {
+      "size": 8768,
+      "sha256": "8283AF39B7CC78098614C5859FF93D907CEB31D317443461E0FEDC331303C8C4"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblackoffering.png": {
+      "size": 8524,
+      "sha256": "30055C54C3B19A287486A358B1BCF158E03313FAE5C0F94760021ACB5D409BC5"
+    },
+    "ui/800/game/structurebuttons/manasiphonicon.png": {
+      "size": 5532,
+      "sha256": "AA83704AC0A2090BDF600806EFF209EAAB00378C4CA9C49A8077DF0DEBBB78B3"
+    },
+    "ui/1280/game/actionbuttons/iconresetfavorites.png": {
+      "size": 7640,
+      "sha256": "124C94C87B77EB2E3880CFC2C47CBE5C149E7D8E828EAF9492EB48D5042D15C5"
+    },
+    "ui/1280/game/structurebuttons/portalicon.png": {
+      "size": 9617,
+      "sha256": "CD3574587CED4B7FF7FF0CB47F0A71E917E10A37184AE8E0B6BC7F0BB8DD798B"
+    },
+    "ui/game/actionbuttons/techicons/iconkhaldunitearrows.png": {
+      "size": 3865,
+      "sha256": "B5C06F8029EC368F72D2358D416485BCCB86C56A06D172417AAAEC012E91CDD2"
+    },
+    "ui/game/actionbuttons/techicons/icongroovedspines.png": {
+      "size": 3960,
+      "sha256": "7F7305230EFAE368CB6F08674655B427E6F46602CAE181C296E04233A9174396"
+    },
+    "ui/game/actionbuttons/techicons/iconpoisonblades.png": {
+      "size": 5800,
+      "sha256": "6A9D729B3D2C048ECBD9B302460A416F31DDB00229A77ADE44AE02A89449CCD1"
+    },
+    "ui/1280/game/structurebuttons/stonetomanaconverticon.png": {
+      "size": 9057,
+      "sha256": "C5B9FA5CDE3F9E7C84BC01361D2568AC5EEA1905B744E9C357DA43D710A12867"
+    },
+    "ui/800/game/actionbuttons/iconteamrequestresources.png": {
+      "size": 4517,
+      "sha256": "EA03C61218E2DBCAEC08BE3FCD28E20C1478C9AF37883DCEE07C96530F1FF179"
+    },
+    "ui/game/actionbuttons/techicons/iconumbralrage.png": {
+      "size": 6837,
+      "sha256": "196C49F52BBD12581175F6DB5BAA2EADB44A26EF17F767260722E5A6A05D4B63"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconpoisonblades.png": {
+      "size": 7166,
+      "sha256": "AB4D56B0D083613C3CF4531D13CF964753C0E7E36BF6821AF87F811BFB4A356D"
+    },
+    "ui/1280/game/structurebuttons/shrineicon.png": {
+      "size": 8619,
+      "sha256": "B85467A1EAD0CCE65E129BE57ECC3ACF729875A4BD4A6048FBC6B782C5161739"
+    },
+    "ui/game/actionbuttons/techicons/icondarkmatter.png": {
+      "size": 6662,
+      "sha256": "399C6BC82FB3D89715380B8FA206A9AAA814C87AEB2076AFEB47E0883E802EF3"
+    },
+    "ui/800/game/actionbuttons/iconsallyforth.png": {
+      "size": 5214,
+      "sha256": "2A6A9DBD601802BA6B2DB0F24B987466854BA46EF459DA85E83DFB831D0C3C43"
+    },
+    "ui/game/actionbuttons/techicons/icondragonbonebows.png": {
+      "size": 3470,
+      "sha256": "AB86D95F2D259B293258E4161CF47E68D5EAFB328386F30F92948E234D201313"
+    },
+    "ui/game/actionbuttons/iconbuildstructure.png": {
+      "size": 7054,
+      "sha256": "34E2A9E74E3A57A217E9DCAD0F26A39CD5BBB3B93F61C819D6677680DEB8411D"
+    },
+    "ui/game/actionbuttons/techicons/iconopalrings.png": {
+      "size": 4324,
+      "sha256": "31DFFB3A315A673497AC7C16B8AA809A08B5B8C05491342220D2AD77A115D384"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconumbralbarrier.png": {
+      "size": 8481,
+      "sha256": "25FA64EC2CD0DE5977D747FFCD289F318C0FCD0BCA7008978D358B0D94C9CAE4"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconshadowsteelarmor.png": {
+      "size": 7870,
+      "sha256": "99D5BA9A1F26D8FF8A3C2D2436360C0344AB17B58C5D8EBE504D4F8E14251F55"
+    },
+    "ui/800/game/actionbuttons/techicons/iconentwinedbranches.png": {
+      "size": 5278,
+      "sha256": "2AD0EB28E24303C189D56F15E2925D69CD9B9B8B56EC7110F1F34A3F531AA005"
+    },
+    "ui/game/actionbuttons/icondetach.png": {
+      "size": 7205,
+      "sha256": "5369F78908F448BB5D0CB181F9231664F597BA022207D041C3A0B4C28CAD94E3"
+    },
+    "ui/1280/game/structurebuttons/goldmineicon.png": {
+      "size": 9247,
+      "sha256": "2FB856EC0CF8EF9B161B451833468BB9AEE321B47217B73EEB04939E81640646"
+    },
+    "ui/game/actionbuttons/techicons/iconblessinglife.png": {
+      "size": 3861,
+      "sha256": "CC29D5EE47C79AC546DF5BBE1ECA2DE000AA1ECF2597FA34DF199AC387F4FBCE"
+    },
+    "ui/800/game/actionbuttons/iconmove.png": {
+      "size": 5517,
+      "sha256": "86DA0F54BF71EB83B20A8519D87F8A24AA2FFF35275550776023657C6A239F88"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblessinglife.png": {
+      "size": 7655,
+      "sha256": "9861C053EFB04D55FE90A8466DEA910280CE392A2874A8DC14B4E12442181282"
+    },
+    "ui/800/game/structurebuttons/woodtomanaconverticon.png": {
+      "size": 5917,
+      "sha256": "F739BE504431FF3B300F527CC5808FF7A74A65D94CA5479447EDAE94B9A2B333"
+    },
+    "ui/800/game/actionbuttons/icondisband.png": {
+      "size": 5731,
+      "sha256": "D408A77EDB2C2D76641061933EB9697FAC80740A82EB1686F85DDFE7612F8AF5"
+    },
+    "ui/game/actionbuttons/techicons/iconwhitesteelweapons.png": {
+      "size": 3241,
+      "sha256": "0F8ABF1D89D976D8CADBA0C9C5B74C7D23D17C4845FFFDE1ECAC3439576542C6"
+    },
+    "ui/game/actionbuttons/techicons/iconramparts.png": {
+      "size": 6766,
+      "sha256": "A8096D126989059668F61EBF967422E655BABD5C0D027DA98361C9D0B1F4E44A"
+    },
+    "ui/1280/game/actionbuttons/iconrepair.png": {
+      "size": 9024,
+      "sha256": "73C3B28ACDE10CC795CDB870A2B1DE014C117E2450D9133B2027B1C10A7F2686"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblessingmight.png": {
+      "size": 2682,
+      "sha256": "0D8B4D431D4E6A03D4B89B081B07B7660A59DB612ED689622B9E364DEAB9B2BD"
+    },
+    "ui/game/structurebuttons/stonemineicon.png": {
+      "size": 6960,
+      "sha256": "230BF2165A813B3A83FA422257BA35E3B1EC85B4F3900DB2DE6537F6EA855D5F"
+    },
+    "ui/800/game/actionbuttons/techicons/iconkhaldunitearmor.png": {
+      "size": 5062,
+      "sha256": "B22E4A8E9ED0A1255397C9F70C13A77C19702CAD7BAFA65716E3A8C39F9F3A98"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconshadowsteelweapons.png": {
+      "size": 7988,
+      "sha256": "1702081C62B76BE6C61E7490D750176D3E6D58B37B161DF8F1BB28A9B0AAEB99"
+    },
+    "ui/game/favorites/cross.png": {
+      "size": 235,
+      "sha256": "0E1029B305FEB44B3C77AB2822F515AA145061C9E68AD401DF1F0885CA9BCDE9"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblessedarmor.png": {
+      "size": 5983,
+      "sha256": "45ED28F864063DC42AAB08B10C6BADB43A1E594153A1C446E65F1D185C94352B"
+    },
+    "ui/game/structurebuttons/templeicon.png": {
+      "size": 7136,
+      "sha256": "D3D52DA4A76694247DC1AF1AE01BE1836284ED5A469152D0BFEE2EB5F7DE80E7"
+    },
+    "ui/1280/game/favorites/cross.png": {
+      "size": 293,
+      "sha256": "B63E9113D1ED5155BE3F62DB02A7AB80BC2EE4F097F74735B0E4EC31B1B33326"
+    },
+    "ui/800/game/actionbuttons/techicons/iconpoisonweapons.png": {
+      "size": 4808,
+      "sha256": "126B04A403819D932B5DED70D401CB9F44FDA8A7CA0DFF47C4266407F725FAF5"
+    },
+    "ui/800/game/actionbuttons/techicons/iconbootcamp.png": {
+      "size": 5048,
+      "sha256": "DA4FA394A9B0D85ECD78C898E3F0DE49C3E7ADF6149394510C7F6FC6148A709D"
+    },
+    "ui/1280/game/actionbuttons/iconteamexplore.png": {
+      "size": 8818,
+      "sha256": "173A68BE656D63EE8344614E133F282894DC611066267C563B8F341744E8EB0D"
+    },
+    "ui/800/game/actionbuttons/techicons/iconelixerofstrength.png": {
+      "size": 4887,
+      "sha256": "DB1A21135E2F2864CE95537FA441765BD018237414DD6F4553F01B09FF8D8BE5"
+    },
+    "ui/1280/game/structurebuttons/outposticon.png": {
+      "size": 8462,
+      "sha256": "712D3A694EC8259D94302D13B8D24FCF1ECC1F860B4237BC02F704E942656604"
+    },
+    "ui/1280/game/actionbuttons/iconteamrequestresources.png": {
+      "size": 8146,
+      "sha256": "25BFCCE4068CC8A9F94BDA8A2F271D8EF6B749B966E93E563F1C70450A3A18E6"
+    },
+    "ui/800/game/actionbuttons/techicons/iconbonerings.png": {
+      "size": 2305,
+      "sha256": "DFE0633C31A4BE214295D73D429732AEA024763DF5D182EB261BD89D4E9FD467"
+    },
+    "ui/game/structurebuttons/quarryicon.png": {
+      "size": 6973,
+      "sha256": "022D7C2460A11E0D27EB88A5201B9286F47B5632D37BB4623948CBF3AE5B0925"
+    },
+    "ui/game/actionbuttons/iconrepair.png": {
+      "size": 6987,
+      "sha256": "46DB0577D4240E90880D3B23A744DF103C138A61E38018167F68202058312EC6"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconumbralcarapace.png": {
+      "size": 8207,
+      "sha256": "5713A880B466135DB6C9988C9951BF4E4866D259239DCF028A20A4803FDD4AD3"
+    },
+    "ui/800/game/actionbuttons/iconsetrallypoint.png": {
+      "size": 5546,
+      "sha256": "80EC17BBFC168DCACA3F418F8DBF59947F84D96F840A90A62F6A6B47364CA935"
+    },
+    "ui/800/game/actionbuttons/techicons/iconmagicweapons.png": {
+      "size": 4844,
+      "sha256": "51C14751753234A250C4890407A815841BB1361A360AFFBB78A0CF3B87F7D327"
+    },
+    "ui/800/game/actionbuttons/techicons/iconmagicarrows.png": {
+      "size": 5008,
+      "sha256": "AB1B8A55D2ACD6554432C41FF62498D0934C860D514103B63C21877D44E71650"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondarkritual.png": {
+      "size": 8299,
+      "sha256": "546050094117CEEB5F5F86F10228E562778A30DE660227C599789C7A71F1FA0A"
+    },
+    "ui/game/structurebuttons/foundryicon.png": {
+      "size": 6731,
+      "sha256": "EBF6EB246412E35F763BE917A6EB13B0B41C6249AE87837136D6174C77B9F57C"
+    },
+    "ui/game/structurebuttons/woodmineicon.png": {
+      "size": 6626,
+      "sha256": "4080301CCF4DCC4D2347079B6F599BDF920B4B90AC3EBAEB8A03EC29BC303E07"
+    },
+    "ui/1280/game/structurebuttons/libraryicon.png": {
+      "size": 9348,
+      "sha256": "E76421853A36DB8333774CF23720C622238ECB2EC86CCB3077E2D66ACC6DF410"
+    },
+    "ui/800/game/actionbuttons/icongroupbehaviorenable.png": {
+      "size": 5118,
+      "sha256": "B09642D6F09E6E01AB140C17DA6ABA38FF6A3A0688CE9EF47C952C671BB11E78"
+    },
+    "ui/game/actionbuttons/techicons/iconjaderings.png": {
+      "size": 3778,
+      "sha256": "2AAF2F94C0BBF774117C8FC2A001B374ED0F812AED8C8421290189747CF7DA08"
+    },
+    "ui/800/game/actionbuttons/iconteamattack.png": {
+      "size": 5641,
+      "sha256": "DE60EA2C87BDE59FE3245BBCA35859885163F007EC843778FEB7719EDA3E981D"
+    },
+    "ui/game/actionbuttons/iconresearch.png": {
+      "size": 6992,
+      "sha256": "89EBD64A0221F1BB936A9D47FDCA7E21D8B725846945AD87B1EA88726525BB09"
+    },
+    "ui/800/game/actionbuttons/techicons/iconnursery.png": {
+      "size": 4859,
+      "sha256": "AC08D6D9269253778EDB2813840B7E1F7EB8454567050338B1DC898C4C852C3F"
+    },
+    "ui/game/actionbuttons/techicons/iconstablemaster.png": {
+      "size": 6297,
+      "sha256": "5BC1DD77F5A447EF37020EB8F0CF8D62BD5FCD4DFC208B57134D0D0CB3146031"
+    },
+    "ui/1280/game/actionbuttons/iconupgrade.png": {
+      "size": 8257,
+      "sha256": "CEAD7882EC18D13B6B6C924318A14B945AD7CB1A09FAEB8272A15C0261BF8F2C"
+    },
+    "ui/game/structurebuttons/manamineicon.png": {
+      "size": 6929,
+      "sha256": "123C093F3D8D6FBAE3366F9FE645E3EB5325417FAC170BEB4EDB0B000ED83E5C"
+    },
+    "ui/game/actionbuttons/techicons/iconblackoffering.png": {
+      "size": 6592,
+      "sha256": "39C3F988609BFE1ACFBA9A5FD519C853583419B33CFC94065613EADD4087924F"
+    },
+    "ui/game/structurebuttons/marketicon.png": {
+      "size": 7365,
+      "sha256": "85B855FC4E20532526339C3BECFC58A048984E517810521615495C0C2A0A2D97"
+    },
+    "ui/1280/game/structurebuttons/woodtomanaconverticon.png": {
+      "size": 10118,
+      "sha256": "646D997BA7EFEE368D9B7BD5844B713499A86CC01AC48E458AF32C7726938166"
+    },
+    "ui/800/game/actionbuttons/iconteamgiveresources.png": {
+      "size": 4366,
+      "sha256": "A2FDA6D05F6942A9103A04DD36D55689EA6E0089300D7881023002EEBDC0FEEA"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconmagicarrows.png": {
+      "size": 7780,
+      "sha256": "C57BEE5D9E951006141FEAC8422BCE3889BA9B7C51C456EE83E7E70AF94592DD"
+    },
+    "ui/1280/game/actionbuttons/iconrecall.png": {
+      "size": 7801,
+      "sha256": "090494517346088DAF93825C1BF97BAEF06273C6F15518B5F62B78E183818F39"
+    },
+    "ui/800/game/actionbuttons/iconteamselectkingdom.png": {
+      "size": 5247,
+      "sha256": "3821B1068CFE1739E233167C13F5788E0CDC168CD4B1DB9B2F9F6A144143CC90"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconmagicarmor.png": {
+      "size": 8306,
+      "sha256": "D15454B124C1E737AB75E90E43ACD14FB089192E956D8C067049AB765E2B25ED"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconflamingarrows.png": {
+      "size": 7768,
+      "sha256": "1EDD6DD30A58D4E92F05E4E6054AF5B0FF5E9C93BC144F77E18C5CE910812B69"
+    },
+    "ui/800/game/structurebuttons/bazaaricon.png": {
+      "size": 5739,
+      "sha256": "B048F169B6BF27ACB3A2DA812CE5EE6C22A925CAEA85B86CCCC1010531E57E54"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondragonbonebows.png": {
+      "size": 7031,
+      "sha256": "3A803904B127A6FB09B30AB240796CE1E9A8B9DEB5BA6CC6FBB8B760BB910E8D"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconbalancedweapons.png": {
+      "size": 7874,
+      "sha256": "9C7453117AECF0929D319385D2205E7DFA70E111CE760312F048F002D4FEEB72"
+    },
+    "ui/1280/game/structurebuttons/ironmineicon.png": {
+      "size": 8845,
+      "sha256": "63E0D04F3CD354B30EE49DE99026A62BFEF10E735EBA3D9A49D3693AFA499B31"
+    },
+    "ui/800/game/actionbuttons/iconattach.png": {
+      "size": 5602,
+      "sha256": "5A766D6A7A9F631EBA202F0BC1AD486FD053EFBD02651CD5C533EB7705AF7AD1"
+    },
+    "ui/game/actionbuttons/techicons/iconumbralbarrier.png": {
+      "size": 4991,
+      "sha256": "D1BE785E4B46937D26003CC6A8F72D92016E4C60DF097DA4F8B4A0D48DD96379"
+    },
+    "ui/1280/game/actionbuttons/iconteamrequestactor.png": {
+      "size": 8270,
+      "sha256": "5532DDEB91340E8541C04CA57F8CCC4AB71E55E7FCDB5674A7AA9B011D5C4F50"
+    },
+    "ui/game/actionbuttons/iconresetfavorites.png": {
+      "size": 6040,
+      "sha256": "C7652A66949AE445F9161AB759389F9DE923D86D50C807EAB4F7E6F944D11E3D"
+    },
+    "ui/game/actionbuttons/iconrecall.png": {
+      "size": 6178,
+      "sha256": "CBE7E34317FFD72BAA59F151887244253A71846132A15E9F5A089AA9FD202ED4"
+    },
+    "ui/1280/game/structurebuttons/woodconverticon.png": {
+      "size": 9779,
+      "sha256": "0653F42DB8CEFAEF09EE0725E3AB1D76C4CE615DFC9A802C2D1BB0A7E683C160"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblessingmight.png": {
+      "size": 6408,
+      "sha256": "A5B3B90BE80000AA493AA2340D6EED099E40BBEB626DEC2F06E3B8FDE86CE818"
+    },
+    "ui/game/actionbuttons/techicons/iconfortifiedwalls.png": {
+      "size": 3393,
+      "sha256": "717024126AFAF331A4E53287A3D1993EF7972827A41C87850FB08002810421B7"
+    },
+    "ui/800/game/actionbuttons/techicons/iconentrenchtactics.png": {
+      "size": 4902,
+      "sha256": "AB6B2C766B0CE842F9F5F2936355B3140C1E5CECFE2F45811756FB3C314D54D6"
+    },
+    "ui/1280/game/actionbuttons/iconteamcommand.png": {
+      "size": 9142,
+      "sha256": "DEAB0116203BA4D339FD8A05AFC6659D11BE4247552903643BAE05FACB315D50"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconentwinedbranches.png": {
+      "size": 8529,
+      "sha256": "86724DA11B4E71F4D4F1695A37A525F096C035C3A30C086870DBA339383B65D2"
+    },
+    "ui/800/game/actionbuttons/techicons/iconjourneymen.png": {
+      "size": 4728,
+      "sha256": "F4C932F72BECE84499A5430E3FE1C5D13193AF4CA3FADB2D2B545ADBF65291C5"
+    },
+    "ui/1280/game/structurebuttons/stonemineicon.png": {
+      "size": 9011,
+      "sha256": "34BBF2E9467BA331D324FB85CF041B664A9B6A8C06DCFC6E02665FF0CF8EA66E"
+    },
+    "ui/800/game/structurebuttons/barracksicon.png": {
+      "size": 5854,
+      "sha256": "98C6331282BB0C7721544B64FB9F83EA2864032F5C3B5857EC3AF30A704B7375"
+    },
+    "ui/800/game/actionbuttons/techicons/iconproselytize.png": {
+      "size": 5412,
+      "sha256": "6F9AF999495DBA41D168C9838239D32570F6C6F5C1518C9C87E6AAE96E92FD08"
+    },
+    "ui/game/actionbuttons/techicons/iconbootcamp.png": {
+      "size": 6242,
+      "sha256": "2190914AEC8BF4A2BB05F7F4D8FC16545A891234A606424DC112AEAEAF5D015E"
+    },
+    "ui/game/actionbuttons/iconguard.png": {
+      "size": 7037,
+      "sha256": "CCD31D1C36EF22FA31C14B4E80D7D694449AA61D406AAEE21D5AC3AB4DC0E8EE"
+    },
+    "ui/800/game/actionbuttons/iconexplore.png": {
+      "size": 5419,
+      "sha256": "C9E1199E29EFE9ED060C552CEED8BC093AE041AFC431806FE42CF8CF2D10B2E9"
+    },
+    "ui/game/actionbuttons/techicons/iconenchantedarmor.png": {
+      "size": 6949,
+      "sha256": "4C5DAF7B6CFC3B1E35716964669B301414D937F16292B7F7CBB6BD4FC7C594E9"
+    },
+    "ui/game/structurebuttons/outposticon.png": {
+      "size": 6564,
+      "sha256": "94752DA3292FF12CEC64271447D76E4CE50093945A77AD1DCCDBDBF333855631"
+    },
+    "ui/800/game/actionbuttons/techicons/iconpoisonspines.png": {
+      "size": 5165,
+      "sha256": "B7D1F940B75C521974052D9847229B4B12F0BA914E8C80591BE5B065E2CD9F3D"
+    },
+    "ui/game/actionbuttons/iconrout.png": {
+      "size": 7021,
+      "sha256": "DF42D6F9738FE599C9CB6AA27FD0ED13A74938522CD6BFB426CE3B9724EFC2C7"
+    },
+    "ui/game/actionbuttons/techicons/icondiseasedarrows.png": {
+      "size": 4400,
+      "sha256": "64C25452F88551ECA7C85339043C7B7F212B0652C1C2701668AA8F3F82EC375B"
+    },
+    "ui/1280/game/actionbuttons/iconstop.png": {
+      "size": 8100,
+      "sha256": "3524246A30E9654DF6A34FC918303EC8FD989C6B35DE4912707A4FC97C6A1175"
+    },
+    "ui/game/structurebuttons/libraryicon.png": {
+      "size": 7190,
+      "sha256": "9E8F148AF8E679518890E19D17CE5E3807EDAAFAB103FAC5CE4B1A4337BBC86A"
+    },
+    "ui/1280/game/structurebuttons/templeicon.png": {
+      "size": 9388,
+      "sha256": "4B15D9E5BA0627CEF546AE120E5D1EBC8894EB523DD03116BC6C68BFC7C14CD6"
+    },
+    "ui/800/game/actionbuttons/techicons/iconwhitesteelweapons.png": {
+      "size": 4510,
+      "sha256": "471CA59D0D4BB993ADA820D3A419961238D25EF259F06610EDD9344F5D2FAC09"
+    },
+    "ui/800/game/actionbuttons/techicons/iconskilledlabor.png": {
+      "size": 5240,
+      "sha256": "DD446A64DEA4CD6185B7A227CF7BAB3945452911C3D74CFD1B6E4EDD19B8C240"
+    },
+    "ui/800/game/actionbuttons/techicons/icondiseasedarmor.png": {
+      "size": 3208,
+      "sha256": "8A9210C0BCDEC2E9C453A9D1D8B46C8C4260C5770244FA8921A997741DC74E39"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconproselytize.png": {
+      "size": 8955,
+      "sha256": "8CF390767AC7DAD199BE7661A36282416633D9A944ED86A859D2E35E20C5BBDA"
+    },
+    "ui/game/actionbuttons/iconcancel.png": {
+      "size": 5945,
+      "sha256": "D7A88892FD34D10B8BDAF811E50CBE4C465B94B3A5385CB2DFE58DA89532E880"
+    },
+    "ui/800/game/actionbuttons/techicons/icontaskmaster.png": {
+      "size": 2894,
+      "sha256": "0E216BF153AC74D236034D5FD391E9F6874C59CCF590C655BA0503AFF8BAE354"
+    },
+    "ui/game/actionbuttons/iconstop.png": {
+      "size": 6305,
+      "sha256": "7F3155F64AD4B729A9C98C81161B8F2B2B16DCEA58348DA99BE55486CF6CDFC1"
+    },
+    "ui/1280/game/actionbuttons/iconupgradefort.png": {
+      "size": 7015,
+      "sha256": "714D4F88BF0C5A1E348F8C5F78AA94CE75B76833BC6FA5856B0FB915136E877F"
+    },
+    "ui/game/structurebuttons/stoneconverticon.png": {
+      "size": 7508,
+      "sha256": "CA2AE3A946F4C0E7D042DF77B791F75D2444639578A243DC0A8C803CFFE1FA45"
+    },
+    "ui/1280/game/structurebuttons/quarryicon.png": {
+      "size": 9034,
+      "sha256": "99610EF3F8ED79DE7FFC696108F8DD3F087ED9561712E7EE285FF94F1C6930CD"
+    },
+    "ui/800/game/structurebuttons/bankicon.png": {
+      "size": 5397,
+      "sha256": "A7327A664BDEED8503CC14895C95DFBB94FF758F7FC894AA73290248ABEB47A2"
+    },
+    "ui/800/game/actionbuttons/techicons/iconcalvarytactics.png": {
+      "size": 4859,
+      "sha256": "0088CFBCC4F59A13EEC90E39D01B2D3A8CE42DD8BC51F67060E2BB23653E7A62"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconjourneymen.png": {
+      "size": 7118,
+      "sha256": "98FFF0425E4948736654AFB5E6FFD4F173BEA48B4C90F9A1A906C51ED5266F2F"
+    },
+    "ui/800/game/actionbuttons/icondetach.png": {
+      "size": 5579,
+      "sha256": "F87966C1733FF47C580237D8B99B0C0C0BDF1A73A220D274B5CC18A1DC72926F"
+    },
+    "ui/800/game/actionbuttons/techicons/icondarkfortitude.png": {
+      "size": 4590,
+      "sha256": "A118BA37C2DFBF49F981E0448897A5A5F5E4C300DBA97E13B649D4B5FCCC0C25"
+    },
+    "ui/800/game/structurebuttons/outposticon.png": {
+      "size": 5328,
+      "sha256": "A6A465DA9DE06BA9272CB88E3B92C2B7D18330BB24FDD17E8FBD2E8DABA1B1F1"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconmagicbows.png": {
+      "size": 7484,
+      "sha256": "2DEB0E0EC7FB30EFB7335DC768E4C0ECB438C23ED75404293C977BAB44DD5F59"
+    },
+    "ui/1280/game/structurebuttons/humancentericon.png": {
+      "size": 8945,
+      "sha256": "7DAF4279F902640E2FDFAA425CC63971C45203A6614B72B32B7F7A4B12CEF567"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblackichor.png": {
+      "size": 8068,
+      "sha256": "1280B511C6A86A4649468B5E0A0D69428E8A696CDFA47D50190D698A704E6117"
+    },
+    "ui/game/actionbuttons/techicons/iconflamingarrows.png": {
+      "size": 4396,
+      "sha256": "B0ECCA1B1CA607D85532CEF93194CBE8FACA43C7E1F0580304DC470C3BA9BE63"
+    },
+    "ui/game/actionbuttons/techicons/iconshadowskin.png": {
+      "size": 4357,
+      "sha256": "855DDCE55F48BD1C1A0B10DA6F9073534F5B5324B7DD1CA9D8F4F35537DE1B42"
+    },
+    "ui/800/game/structurebuttons/sawmillicon.png": {
+      "size": 5611,
+      "sha256": "9817A719EFD4076EEE9CD9947B12CDA634FC6BCE3ADE4CF57BE4F6D27F0279F9"
+    },
+    "ui/1280/game/actionbuttons/iconsallyforth.png": {
+      "size": 8507,
+      "sha256": "FD7E02DE74D9D2CB27F28DD8C82B550D0A5EF90930546BB64064B93BBB55CD41"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconramparts.png": {
+      "size": 8569,
+      "sha256": "CAACEEC84F201600EA01D0D45E33A10E66C68268493DD2BC9487BBFD9B6C8542"
+    },
+    "ui/800/game/structurebuttons/libraryicon.png": {
+      "size": 5603,
+      "sha256": "3A417ADB5B05F562C8B556C2685AF4C79F671662915E669F97BD8B996D7226B8"
+    },
+    "ui/800/game/actionbuttons/iconteambuild.png": {
+      "size": 5227,
+      "sha256": "A512EF7E10AFA0F6CB5CCC30E1337B715A069476F0E66BBB1AE87CFCD2347E40"
+    },
+    "ui/800/game/actionbuttons/techicons/iconwhitesteelarmor.png": {
+      "size": 5238,
+      "sha256": "890F253538E80D9A249CEF1B64904CE7A81F65060CE80AE36F3225A45F456B68"
+    },
+    "ui/1280/game/structurebuttons/marketicon.png": {
+      "size": 9658,
+      "sha256": "6A6288A6A788B017F487918CD517DCC1B0007B29937BC853B13003716A6C6433"
+    },
+    "ui/game/actionbuttons/techicons/iconwidetrunks.png": {
+      "size": 6287,
+      "sha256": "A5ECBBF89509F413B2E94872F2D3BE6FF57CE234EC203A02CC8FBB58A15F41AC"
+    },
+    "ui/1280/game/structurebuttons/manasiphonicon.png": {
+      "size": 8983,
+      "sha256": "9CF1400D9B8D1694B22E3AB3988F7FB810016A6881FEEF2E88D6597BB6AA52B3"
+    },
+    "ui/1280/game/actionbuttons/iconteamselectkingdom.png": {
+      "size": 9456,
+      "sha256": "5A2D72AA9A5FA61B9AD3F896AC109E2D5580055F68673FE1175F73D88265FE5F"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconfortifiedwalls.png": {
+      "size": 7329,
+      "sha256": "50FC3C812D8D7574F3E8084E1984F3C85321B7297506DCFF0C636D44B02952CB"
+    },
+    "ui/1280/game/structurebuttons/workshopicon.png": {
+      "size": 9805,
+      "sha256": "256F737A6A425EC7544CFEF8E05A01F8579B9625B429CC249BDCD8A4361429C0"
+    },
+    "ui/game/actionbuttons/iconconstruct.png": {
+      "size": 6928,
+      "sha256": "125748F9F1F8ECE8C41E8FFAC02189397863A0925C72B4F4EF36D2396DA5B9CA"
+    },
+    "ui/800/game/actionbuttons/techicons/iconpoisonblades.png": {
+      "size": 4702,
+      "sha256": "2008F9BB0979E3C61EEA2E9D0C6E48A17DFDFBA820F7F355EEC94D19AE8C51B1"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblackoffering.png": {
+      "size": 5258,
+      "sha256": "492A14DAB671596BFA720AE805CD9121AAE79D17C344A267C3E50DDF0B4ED847"
+    },
+    "ui/800/game/actionbuttons/iconcustomcompany.png": {
+      "size": 5509,
+      "sha256": "E85866CFD23A492EE47BFCDDBAA32AA02C740B4FD42F5CBB06D69BC510D94C3E"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconthornybarrier.png": {
+      "size": 8530,
+      "sha256": "C300037290677DB8AAA3D85DF83186F7EE4AE8E237CC910389D9D33246202877"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconentrenchtactics.png": {
+      "size": 7564,
+      "sha256": "6BBBB26BC8D8A24D79648AFADE56488C382F8063514AD7F772A6C82E73C92FA5"
+    },
+    "ui/game/actionbuttons/techicons/iconnursery.png": {
+      "size": 5964,
+      "sha256": "0868261F25136A5B0BC9D334B9A604D67DE4B87D0EE2DB026DA372065E01D5EC"
+    },
+    "ui/800/game/actionbuttons/iconobserverview.png": {
+      "size": 5171,
+      "sha256": "56B8811B309B81583AE56E3F7B16D73454F97EE71BCCE5201070BA19EE665322"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconenchantedarmor.png": {
+      "size": 9103,
+      "sha256": "C50037769F6815F181F24BB53D4BA6B2DED22FA8B60CE492307765FD1BFF98CE"
+    },
+    "ui/game/actionbuttons/icongroupbehaviordisable.png": {
+      "size": 6379,
+      "sha256": "F7954B3249F9779F9FFF237775D2EA634A39CC7DA46D956015E01CD5D45CF071"
+    },
+    "ui/800/game/structurebuttons/woodmillicon.png": {
+      "size": 5473,
+      "sha256": "1A62EA785929758D49FDE7D6A8BE1DBE98CF31181EEF94E6E9A60980039604B2"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblessinglife.png": {
+      "size": 5014,
+      "sha256": "E8992099A9ACE05DD8458447063759FB50794FB171E2254578A9766E4893442A"
+    },
+    "ui/game/structurebuttons/woodconverticon.png": {
+      "size": 7460,
+      "sha256": "CC1A6951CECAEE78F3CB6FDA84F3DF62372A3E6E6649BB8E3AB45F11C00550D4"
+    },
+    "ui/1280/game/structurebuttons/irontomanaconverticon.png": {
+      "size": 9749,
+      "sha256": "5F5504EB821EEAC136BAEE208D2DFC667B4CE06AAE8333FB8FAC2E6F7FC8AA9F"
+    },
+    "ui/800/game/actionbuttons/iconrout.png": {
+      "size": 5562,
+      "sha256": "D6A2E9930E1C352FBDC07518AA6400FA3E0323313E941E0D22C11AC33154BA6F"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconblessingofspeed.png": {
+      "size": 7202,
+      "sha256": "5F3572E4401D9E0A026F81040CF9590606E5A2A1E568604D4C31189C11962E05"
+    },
+    "ui/game/actionbuttons/iconteamgiveresources.png": {
+      "size": 6177,
+      "sha256": "FB3760EC8653F888845FE3AEA5F35FCC296584390DF450374E06496FA42AAD22"
+    },
+    "ui/game/actionbuttons/iconteamselectkingdom.png": {
+      "size": 7229,
+      "sha256": "D04234B6374F842988CD09C3450081E893F35DC14F01369E8EF9867A591E921E"
+    },
+    "ui/800/game/actionbuttons/techicons/iconumbralbarrier.png": {
+      "size": 5275,
+      "sha256": "88476AC3DE1A7501602D1F0FDABC846B0C5ACC68D1DC3430771917FF93052880"
+    },
+    "ui/game/actionbuttons/techicons/iconentrenchtactics.png": {
+      "size": 5999,
+      "sha256": "BE20672D30DFB3C9533F9028741E81E8A5669A15C0615C1D02B2426B2AA9EDF6"
+    },
+    "ui/800/game/actionbuttons/techicons/iconblessedarmor.png": {
+      "size": 2624,
+      "sha256": "0AADD435A629AD963BF965154CFFCC02F639C85EB338A8F6FA9EF8FE9680FED5"
+    },
+    "ui/1280/game/actionbuttons/techicons/icondiseasedarmor.png": {
+      "size": 7441,
+      "sha256": "1E87E503AEDFDA17D331EF2D9E3894F761180C92EAA057C7387AD1668337AF76"
+    },
+    "ui/800/game/actionbuttons/iconattack.png": {
+      "size": 5636,
+      "sha256": "C464C6ED79C9653F7A29853B5E086E60DFB28255284370DEC85CDBA8BF92E8CB"
+    },
+    "ui/game/actionbuttons/techicons/iconumbralfury.png": {
+      "size": 6612,
+      "sha256": "78AA5F3938ABC1CDE88F3F2D827689E5986B49544888B28CEE27A3C1A7548F58"
+    },
+    "ui/800/game/structurebuttons/magecollegeicon.png": {
+      "size": 5707,
+      "sha256": "74160EF2FB673874D4E47EBD2B2D1F33254375091ADEE336B2AD009AF420EAA5"
+    },
+    "ui/1280/game/actionbuttons/techicons/iconrapidgrowth.png": {
+      "size": 7821,
+      "sha256": "F37341343111FC64F809C7532F33A1E22A58A42EB91432921F3BBB84DAA931AF"
+    },
+    "ui/game/structurebuttons/blacksmithicon.png": {
+      "size": 6502,
+      "sha256": "EFA7F8A3F1D044C3C195B52F126FD45AFEB0D9FFBD42FBD130D0CC5A9397BC38"
+    },
+    "ui/800/game/structurebuttons/miningposticon.png": {
+      "size": 5787,
+      "sha256": "D2196DD711740EDE87924F8E92E15CDA0172E745338363CC37C76E02E2CC6506"
+    }
+  },
+  "bridgeFeatureIconsPreserved": true
+}

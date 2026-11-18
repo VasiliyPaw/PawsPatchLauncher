@@ -7,3 +7,6 @@ game/ai-policy/data/data/**/*.tgi -text -whitespace
 game/foundation-placement/data/data/**/*.tgi -text -whitespace
 # Ensrick's terrain pool overlay is verified against exact retail bytes.
 game/terrain-texture-pool/data/data/*.tgi -text -whitespace
+
+# Official HD manifest test fixtures are matched by their exact SHA-256.
+tests/PawsPatchLauncher.Tests/Fixtures/RetiredHd/*.json -text

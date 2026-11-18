@@ -17,14 +17,14 @@ def gate():
 def commit_files(parent,root,paths,message,label):
  assert head()==parent,'Remote moved; refresh scoped files first';e=env();index=O/(label+'-index');assert not index.exists();e['GIT_INDEX_FILE']=str(index)
  def g(*a):return subprocess.check_output(['git',*a],cwd=REPO,env=e,text=True).strip()
- pathsfile=O/(label+'-paths');pathsfile.write_bytes(('\0'.join(paths)+'\0').encode());g('read-tree',parent);g('--work-tree='+str(root),'add','--pathspec-from-file='+str(pathsfile),'--pathspec-file-nul');tree=g('write-tree');body=O/(label+'-commit.txt');body.write_text(message+'\n');commit=g('commit-tree',tree,'-p',parent,'-F',str(body));changed=g('diff-tree','--no-commit-id','--name-only','-r',commit).splitlines();assert set(changed)==set(paths);assert head()==parent;g('push','origin',commit+':refs/heads/main');unchanged();return commit
+ pathsfile=O/(label+'-paths');pathsfile.write_bytes(('\0'.join(paths)+'\0').encode());g('read-tree',parent);g('--work-tree='+str(root),'add','--pathspec-from-file='+str(pathsfile),'--pathspec-file-nul');tree=g('write-tree');body=O/(label+'-commit.txt');body.write_text(message+'\n');commit=g('commit-tree',tree,'-p',parent,'-F',str(body));changed=g('diff-tree','--no-commit-id','--name-only','-r',commit).splitlines();assert changed and set(changed)<=set(paths);assert head()==parent;g('push','origin',commit+':refs/heads/main');unchanged();return commit
 def source():
  gate();git('fetch','--no-tags','origin','main');parent=git('rev-parse','FETCH_HEAD');paths=read(O/'source-scope.json')['files']
  for rel in paths:
   current=subprocess.run(['git','show',parent+':'+rel],cwd=REPO,capture_output=True)
-  original=subprocess.run(['git','show',read(P/'baseline.json')['publicHead']+':'+rel],cwd=REPO,capture_output=True)
+  original=subprocess.run(['git','show',(read(O/'source-publication.json')['commit']if(O/'source-publication.json').exists()else read(P/'baseline.json')['publicHead'])+':'+rel],cwd=REPO,capture_output=True)
   assert current.returncode==original.returncode and normalize(current.stdout)==normalize(original.stdout),'Concurrent source change: '+rel
- commit=commit_files(parent,O/'source-public',paths,'Restore legacy UI artwork and retire obsolete HD caches in launcher 1.0.21','source');write(O/'source-publication.json',dict(commit=commit,parent=parent,files={p:sha(O/'source-public'/p)for p in paths}));print('SOURCE_PUBLIC',commit,flush=True)
+ commit=commit_files(parent,O/'source-public',paths,'Restore legacy UI artwork and retire obsolete HD caches in launcher 1.0.22','source2');write(O/'source-publication.json',dict(commit=commit,parent=parent,files={p:sha(O/'source-public'/p)for p in paths}));print('SOURCE_PUBLIC',commit,flush=True)
 _token=None
 def credential():
  global _token
@@ -93,13 +93,16 @@ def promote():
  # Revalidate selection over the latest public parent before the scoped push.
  print(run([sys.executable,P/'catalog_check.py'],O/'catalog-recheck.log'),flush=True)
  allowed=read(O/'scope.json')['allowed'];assert len(allowed)==8
- commit=commit_files(parent,O/'signed',allowed,'Publish legacy UI betas and launcher 1.0.21','catalog');write(O/'publication.json',dict(sourceCommit=read(O/'source-publication.json')['commit'],catalogCommit=commit,baseline=parent,versions=dict(arcane=ARC,pure=PURE)));print('ALL_BETA_CATALOGS_PUBLIC',commit,flush=True)
+ extra='tools/LegacyUiRelease/finalize.py';dst=O/'signed'/extra;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((P/'finalize.py').read_bytes());allowed.append(extra)
+ commit=commit_files(parent,O/'signed',allowed,'Publish legacy UI betas and launcher 1.0.22','catalog');write(O/'publication.json',dict(sourceCommit=read(O/'source-publication.json')['commit'],catalogCommit=commit,baseline=parent,versions=dict(arcane=ARC,pure=PURE)));print('ALL_BETA_CATALOGS_PUBLIC',commit,flush=True)
 def readback():
  publication=read(O/'publication.json');commit=publication['catalogCommit']
  for rel in FILES:
   data=fetch(RAW.replace('/main/','/'+commit+'/')+rel);assert normalize(data)==normalize((O/'signed'/rel).read_bytes()),rel
   if rel in FILES[:6]:verify(json.loads(data),key())
   if rel not in read(O/'scope.json')['allowed']:assert normalize(data)==normalize((O/'before'/rel).read_bytes()),rel
+ for rel in FILES[:6]:
+  live=verify(json.loads(fetch(RAW+rel)),key());assert live==verify(read(O/'signed'/rel),key());assert live['launcher']['version']=='1.0.22'
  for prefix in['v2','v3']:
   f=verify(json.loads(fetch(RAW+f'feed/{prefix}/beta.json')),key());assert f==verify(read(O/'signed'/f'feed/{prefix}/beta.json'),key())
   for p in read(O/'packages.json'):assert next(q for q in f['packages']if q['id']==p['id'])==p

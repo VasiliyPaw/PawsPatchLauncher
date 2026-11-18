@@ -3,7 +3,7 @@ Q=O/'cleanup-integration'
 def main():
  Q.mkdir(exist_ok=True);(Q/'QA.csproj').write_text('<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings></PropertyGroup><ItemGroup><Using Include="System.IO"/><ProjectReference Include="'+str(S/'src/PawsPatchLauncher/PawsPatchLauncher.csproj')+'"/></ItemGroup></Project>')
  (Q/'Program.cs').write_text(r'''using PawsPatchLauncher;using System.Text.Json;
-var root=args[0];var opt=new JsonSerializerOptions{PropertyNameCaseInsensitive=true};var rows=JsonSerializer.Deserialize<List<Dictionary<string,string>>>(File.ReadAllText(Path.Combine(root,"inputs.json")),opt)!;var checks=0;var results=new List<object>();
+TestProcessErrorMode.Enable();var root=args[0];var opt=new JsonSerializerOptions{PropertyNameCaseInsensitive=true};var rows=JsonSerializer.Deserialize<List<Dictionary<string,string>>>(File.ReadAllText(Path.Combine(root,"inputs.json")),opt)!;var checks=0;var results=new List<object>();
 void Check(bool v,string n){checks++;if(!v)throw new Exception(n);}
 foreach(var row in rows){var id=row["id"];var oldPath=row["old"];var newPath=row["new"];var game=Path.Combine(root,id,"game");var cache=Path.Combine(root,id,"cache");Directory.CreateDirectory(game);var installer=new ModuleInstaller(game);
 async Task<PackageRelease> Package(string p){using var z=System.IO.Compression.ZipFile.OpenRead(p);using var input=z.GetEntry("module.json")!.Open();var m=await JsonSerializer.DeserializeAsync(input,LauncherJsonContext.Default.ModuleArchiveManifest);return new(){Id=m!.Id,Version=m.Version,Sha256=await CryptoAndIO.Sha256Async(p),Size=new FileInfo(p).Length};}

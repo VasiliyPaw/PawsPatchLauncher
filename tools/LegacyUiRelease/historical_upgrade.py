@@ -19,5 +19,5 @@ def test(mod):
  # A stale reserved HD archive outside the old loose module must also go away.
  (game/'paws-hd-ui.rwd').write_bytes(b'Owned QA stale HD archive sentinel\n')
  print(invoke(mod,O/'local-feeds','upgrade'),flush=True);images=verify_game(mod);assert read(game/'.pawpatch/state.json')['modules'][pid]['version']==(ARC if mod=='arcane'else PURE)
- write(O/(mod+'-fullres-upgrade.json'),dict(passed=True,fromVersion=old,toVersion=ARC if mod=='arcane'else PURE,oldLooseHdFiles=count,legacyImagesVerified=images,hdPathsAbsent=655,untrackedHdArchiveRemoved=True,nativeGameLaunched=False));print('FULLRES_TO_OLD_UI_PASS',mod,flush=True)
+ write(O/(mod+'-fullres-upgrade.json'),dict(passed=True,fromVersion=old,toVersion=ARC if mod=='arcane'else PURE,oldLooseHdFiles=count,legacyImagesVerified=images,hdPathsAbsent=len(read(O/'hd-removals.json')),untrackedHdArchiveRemoved=True,nativeGameLaunched=False));print('FULLRES_TO_OLD_UI_PASS',mod,flush=True)
 if __name__=='__main__':prepare()if sys.argv[1]=='prepare'else test(sys.argv[1])

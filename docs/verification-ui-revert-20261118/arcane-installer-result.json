@@ -1,10 +1,10 @@
 {
   "passed": true,
   "cases": 6,
-  "upgradeFrom": "0.6.0-beta.5",
+  "upgradeFrom": "0.6.0-beta.6",
   "version": "0.6.0-beta.6",
   "legacyImagesVerified": 93,
-  "hdPathsAbsent": 655,
+  "hdPathsAbsent": 1132,
   "stockSkinArchivesVerified": 6,
   "allFourHelperSelections": true,
   "rollback": true,

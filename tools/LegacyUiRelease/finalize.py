@@ -1,28 +1,30 @@
 from context import *
 from publish import unchanged
 def main():
- for name in['readback.json','public-client-check/result.json']:assert read(O/name)['passed']
- assert read(O/'source-ci.json')['conclusion']=='success'and read(O/'catalog-ci.json')['conclusion']=='success';unchanged();urls={g:read(O/g/'public-assets.json')['url']for g in['arcane','pure']}
- complete=dict(passed=True,versions=dict(arcane=ARC,pure=PURE),urls=urls,publication=read(O/'publication.json'),sourceCi=read(O/'source-ci.json'),catalogCi=read(O/'catalog-ci.json'),publicClient=read(O/'public-client-check/result.json'),verification=read(O/'verification.json'),publicAssets={g:read(O/g/'public-assets.json')for g in['arcane','pure']},sharedCheckoutPreserved=True);write(O/'COMPLETE.json',complete)
- (O/'FINAL-RU.md').write_text(f'''# Компактный HD-интерфейс и единый пакет земли опубликованы
+ for name in ['readback.json','public-client-check/result.json','public-launcher-result.json']:assert read(O/name)['passed']
+ assert read(O/'source-ci.json')['conclusion']=='success'and read(O/'catalog-ci.json')['conclusion']=='success';assert read(O/'launcher-ci.json')['release']['conclusion']=='success';unchanged()
+ urls={g:read(O/g/'public-assets.json')['url']for g in ['arcane','pure']};urls['launcher']=read(O/'public-launcher-result.json')['url']
+ complete=dict(passed=True,versions=dict(arcane=ARC,pure=PURE,launcher='1.0.22'),urls=urls,publication=read(O/'publication.json'),sourceCi=read(O/'source-ci.json'),catalogCi=read(O/'catalog-ci.json'),launcherCi=read(O/'launcher-ci.json'),publicClient=read(O/'public-client-check/result.json'),verification=read(O/'verification.json'),publicAssets={g:read(O/g/'public-assets.json')for g in ['arcane','pure']},sharedCheckoutPreserved=True)
+ write(O/'COMPLETE.json',complete)
+ (O/'FINAL-RU.md').write_text(f'''# Прежние иконки и интерфейс возвращены
 
 Arcane Wars {ARC}: {urls['arcane']}
 
 Vanilla / Immortals {PURE}: {urls['pure']}
 
-Иконки ограничены 512 пикселями по большей стороне с сохранением пропорций. Половины расовых рамок — 2048×1024, центр — 512×1024. Все исходные HD-мастера сохранены. Экспорт сверяется пиксель в пиксель с соответствующим уменьшением Lanczos. Повторы хранятся один раз в штатных RWD: 708 путей изображений, семь архивов, 1026 проверенных записей с учётом штатных расовых ресурсов. Шесть расовых архивов сохраняют все 53 исходные записи каждый. Временные QA DLL и помощник в релиз не входят.
+Лаунчер 1.0.22: {urls['launcher']}
 
-Пакет интерфейса Arcane: 124 032 632 байта вместо 1 454 124 155. Pure: 118 125 767 вместо 1 448 217 357. Разница с оценкой 115/109 МБ обусловлена сохранением штатных расовых ресурсов внутри новых архивов.
+Все 63 части рамок представляют собой точные вырезки из 21 оригинального атласа; 477 уменьшенных копий новых иконок удалены. Шесть расовых RWD восстановлены из проверенного оригинала. Удаляются 1132 зарезервированных пути прежних HD-файлов; архив HD больше не подключается. Пакеты интерфейса: 21 157 996 байт Arcane, 15 921 609 байт Pure. Исходные художественные материалы и исторические опубликованные выпуски сохранены.
 
-Четыре пакета местности объединены в один ZIP 900 055 601 байт. Внутри четыре прежних RWD: их имена, размеры, хеши, stamps и все пиксели полностью совпадают. Новое имя модуля arcane-biome-textures заменяет четыре старых зависимости. Уже установленным копиям при переходе потребуется одна загрузка объединённого пакета. Последующие изменения UI не требуют менять его. Основная первая загрузка Arcane — 1 190 355 480 байт, без дополнительных языков/озвучек/опций.
+Новый лаунчер после успешного обновления удаляет из подготовленного кэша и загрузок только четыре известных официальных HD-пакета. Проверяются хеши манифеста и ZIP, отсутствие ссылок и посторонних файлов. Пакеты установленных/закреплённых/неактивных версий сохраняются. Оригиналы и резервные снимки не удаляются. В тесте настоящих компактных ZIP освобождено 420 696 478 и 381 008 310 байт; после удаления кэша откат восстановил HD-файлы из снимка.
 
-Публичный установщик лаунчера 1.0.19 прошёл по шесть шагов на каждой из трёх игр: обновление с beta.4/beta.8, четыре варианта помощников, отключение и повторное применение. Отключение восстанавливает штатные расовые RWD. Все 708 изображений извлечены и сверены после установки. Каталог проверен на 28 944 сочетаниях и 513 637 проверках, все 12 помощников. Производственный RwdTool.dll прочитал все 1026 записей новых архивов.
+Объединённый пакет земли остаётся прежним: версия, SHA-256, размер и содержимое без изменений. Повторная загрузка его 900 МБ для уже подготовленной копии не нужна. Игровые исправления, геометрия интерфейса и игровые native-входы сохранены; в помощниках изменились только обозначения версий.
 
-В отдельной Arcane-копии загружено прежнее сохранение при 2560×1440; фактические текстуры Direct3D: иконки 512×512, половины рамок 2048×1024, центр 512×1024. Сохранён настоящий снимок игры. Тестовая копия закрыта, QA файлы и профиль восстановлены. Остальные расы проверены по содержимому архивов; новый сетевой матч не заявляется. Все native-входы и игровые TGI совпадают с предыдущими бетами; в помощниках изменились только константы версий.
+Проверены 18 сценариев установщика на трёх модах, ещё три перехода с первого полноразмерного HD-выпуска, 28 944 сочетания каталога и все 12 помощников. Общие тесты лаунчера: PASS 40019; отдельные проверки очистки: 128 утверждений и 16 проверок настоящих архивов/отката. Новые нативные игровые или сетевые сеансы не запускались. QA соблюдает требование тишины до запуска.
 
-Десять публичных файлов целиком скачаны и сверены. Проверки GitHub исходников и каталога успешны, публичный лаунчер предлагает новые версии всем трём играм. Стабильные каналы, версия лаунчера, установленная пользовательская игра, HEAD и индекс общей рабочей копии сохранены.
+Девять публичных ZIP патчей и файлы выпуска лаунчера полностью скачаны и сверены. Подписанные каталоги прочитаны по неизменяемым и обычным адресам. Обновления доступны всем трём модам, проверки GitHub прошли. Игровые пакеты стабильного канала не изменены; лаунчер 1.0.22 обновлён во всех шести каталогах. Пользовательская установленная игра, HEAD и индекс общей рабочей копии не изменялись.
 
-В лаунчере: Beta → нужная игра → Применить.
+Для применения: обновить лаунчер, выбрать Beta нужного мода и нажать «Обновить и применить».
 ''',encoding='utf-8')
- write(WS/'outputs/ui-size-estimate-20261117/implementation.json',dict(completed=True,actualUiBytes=read(O/'verification.json')['uiPackageBytes'],firstArcaneCoreBytes=1190355480,terrainPackageBytes=900055601,urls=urls,report=str(O/'FINAL-RU.md')));print('COMPACT_BETAS_COMPLETE',json.dumps(urls),flush=True)
+ print('LEGACY_UI_BETAS_COMPLETE',json.dumps(urls),flush=True)
 if __name__=='__main__':main()

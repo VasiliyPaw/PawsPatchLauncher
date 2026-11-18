@@ -2,8 +2,9 @@ from context import *
 from qa import project
 Q=O/'public-client-check';project(Q);write(Q/'before.json',verify(read(O/'before/feed/v3/beta.json'),key()));write(Q/'expected.json',verify(read(O/'signed/feed/v3/beta.json'),key()))
 (Q/'Program.cs').write_text(r'''using System.Text.Json;using PawsPatchLauncher;
-var root=args[0];var opt=new JsonSerializerOptions{PropertyNameCaseInsensitive=true};var cfg=JsonSerializer.Deserialize<LauncherConfiguration>(File.ReadAllText(args[1]),opt)!;cfg.CacheRoot=Path.Combine(root,"cache");var c=new FeedClient(cfg);var f=await c.GetChannelAsync("beta")??throw new Exception("Missing public feed");var expected=JsonSerializer.Deserialize<ChannelManifest>(File.ReadAllText(Path.Combine(root,"expected.json")),opt)!;
+TestProcessErrorMode.Enable();var root=args[0];var opt=new JsonSerializerOptions{PropertyNameCaseInsensitive=true};var cfg=JsonSerializer.Deserialize<LauncherConfiguration>(File.ReadAllText(args[1]),opt)!;cfg.CacheRoot=Path.Combine(root,"cache");var c=new FeedClient(cfg);var f=await c.GetChannelAsync("beta")??throw new Exception("Missing public feed");var expected=JsonSerializer.Deserialize<ChannelManifest>(File.ReadAllText(Path.Combine(root,"expected.json")),opt)!;
 if(f.Packages.Single(p=>p.Id=="pawpatch-core").Version!="0.6.0-beta.6"||f.Packages.Single(p=>p.Id=="pure-fixes-data").Version!="0.5.0-beta.10"){Console.WriteLine("PUBLIC_CLIENT_PENDING");return;}
+if(f.Launcher.Version!="1.0.22")throw new Exception("Wrong launcher version");
 var before=JsonSerializer.Deserialize<ChannelManifest>(File.ReadAllText(Path.Combine(root,"before.json")),opt)!;var results=new List<object>();
 foreach(var mod in new[]{GameMod.ArcaneWars,GameMod.Vanilla,GameMod.Immortals}){
  var s=new UserSettings{Mod=mod,Channel="beta",PawPatchEnabled=true,VanillaPawPatchEnabled=true,ImmortalsPawPatchEnabled=true,GameTextLanguage="en",RussianLocalization=false,GameVoiceLanguage="en"};s=EffectiveSettings.ForFeed(s,f);var selected=GamePackageSelector.Select(f,s,false,false);var old=GamePackageSelector.Select(before,s,false,false);
