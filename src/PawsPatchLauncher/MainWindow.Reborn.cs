@@ -112,7 +112,8 @@ public partial class MainWindow
         {
             var version = Text(available.Version,27,"#F0D18A"); version.FontWeight = FontWeights.Bold; buildPanel.Children.Add(version);
             var info = Text($"{available.PublishedAt.ToLocalTime():d}  ·  {available.Size / 1048576d:0.0} MB",12); info.Margin = new Thickness(0,7,0,16); buildPanel.Children.Add(info);
-            var notes = Text(available.Note(_text.Language)); notes.Margin = new Thickness(0,0,0,18); buildPanel.Children.Add(notes);
+            var notes = new StackPanel { Margin = new Thickness(0,0,0,18), Tag = "reborn-release-notes" };
+            RenderChangelogBody(notes,available.Note(_text.Language)); buildPanel.Children.Add(notes);
         }
         var installedText = Text(T("Установлено: ","Installed: ")+(installed?.Version ?? "—"),12); installedText.Margin = new Thickness(0,0,0,14); buildPanel.Children.Add(installedText);
         RebornBody.Children.Add(Card(buildPanel));

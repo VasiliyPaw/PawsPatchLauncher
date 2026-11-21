@@ -140,6 +140,7 @@ public static class Program
         // Avoid a second real MainWindow during deferred Application startup. Use an inert invisible fixture.
         app.StartupUri = new Uri("pack://application:,,,/PreviewRenderer;component/PreviewBootstrap.xaml");
         app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        if (Environment.GetCommandLineArgs().Contains("--release-notes-checks")) { ReleaseNotesChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (Environment.GetCommandLineArgs().Contains("--independent-operation-checks")) { IndependentOperationChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (Environment.GetCommandLineArgs().Contains("--diagnostic-options-checks")) { DiagnosticOptionsChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }
         if (Environment.GetCommandLineArgs().Contains("--friend-download-checks")) { FriendDownloadChecks.Run(language,Path.GetDirectoryName(Path.GetFullPath(args[0]))!); app.Shutdown(); return; }

@@ -9,6 +9,8 @@ public partial class MainWindow
     private int _changelogTransitionVersion;
     private bool _changelogTransitionPending, _syncingTimeline;
     private string? _renderedNewsIdentity;
+    private string? _renderedHistorySelection;
+    private readonly HashSet<string> _expandedHistoryEntries = [];
     private string _historySubject = "", _historySource = "all", _historyBranch = "stable", _historyActiveSelection = "";
     private IReadOnlyList<TimelineEntry> _renderedHistory = [];
     private ChannelManifest?[] HistoryManifests() => [ChannelForMod("stable"), ChannelForMod("beta"), _latestChannel, _channel];
@@ -95,13 +97,29 @@ public partial class MainWindow
         if (NewsEntriesPanel is null) return;
         SyncHistorySelection(); NewsTitleText.Text = _text["news.title"]; SyncHistoryFilters();
         var entries = HistoryRows(_historySubject, _historySource, _historyBranch);
-        var identity = _text.Language + ":" + _historySubject + ":" + _historySource + ":" + _historyBranch + (_historySubject == "reborn" ? $":{_rebornHistoryLoading}:{_rebornHistoryError}" : "") + string.Join('|', entries.Select(e => e.ReadKey + e.ContentId + e.Overview));
+        var selection = _historySubject + ":" + _historySource + ":" + _historyBranch;
+        var status = _historySubject == "reborn" && (entries.Count == 0 || _rebornHistoryError) ? $":{_rebornHistoryLoading}:{_rebornHistoryError}" : "";
+        var identity = _text.Language + ":" + selection + status + string.Join('|', entries.Select(e => e.ReadKey + e.ContentId + e.Overview));
         if (identity == _renderedNewsIdentity) { MarkVisibleChangelogRead(); return; }
+        var preserveScroll = selection == _renderedHistorySelection && NewsScrollViewer.ActualHeight > 0;
+        var previousOffset = NewsScrollViewer.VerticalOffset;
+        var anchor = preserveScroll ? NewsEntriesPanel.Children.OfType<Border>().FirstOrDefault(card => card.Tag is string[]
+            && card.TranslatePoint(new Point(),NewsScrollViewer).Y + card.ActualHeight > 0) : null;
+        var anchorKeys = anchor?.Tag as string[];
+        var anchorY = anchor?.TranslatePoint(new Point(),NewsScrollViewer).Y ?? 0;
+        _renderedHistorySelection = selection;
         _renderedNewsIdentity = identity; _renderedHistory = entries; CancelChangelogTransition(); NewsEntriesPanel.Children.Clear();
         if (_historySubject == "reborn" && (entries.Count == 0 || _rebornHistoryError)) AddRebornHistoryStatus();
         else if (entries.Count == 0) NewsEntriesPanel.Children.Add(new TextBlock { Text = _historySource == "mod"
             ? T("История выпусков оригинальной игры пока не добавлена.", "Release notes for the original game have not been added yet.") : _text["news.empty"], Style = (Style)FindResource("CardDescription") });
         foreach (var group in entries.GroupBy(e => e.Subject + ":" + e.Source + ":" + e.ContentId + ":" + e.Overview)) NewsEntriesPanel.Children.Add(HistoryCard(group.ToArray()));
+        if (preserveScroll)
+        {
+            NewsScrollViewer.UpdateLayout();
+            var current = anchorKeys is null ? null : NewsEntriesPanel.Children.OfType<Border>().FirstOrDefault(card => card.Tag is string[] keys && keys.Intersect(anchorKeys).Any());
+            NewsScrollViewer.ScrollToVerticalOffset(current is null ? previousOffset
+                : NewsScrollViewer.VerticalOffset + current.TranslatePoint(new Point(),NewsScrollViewer).Y - anchorY);
+        }
         MarkVisibleChangelogRead();
     }
     private Border HistoryCard(TimelineEntry[] rows)
@@ -117,27 +135,38 @@ public partial class MainWindow
         item.Children.Add(new TextBlock { Text = metadata, Style = (Style)FindResource("SmallMetadataText"), Margin = new Thickness(0, 4, 0, 0) });
         var body = row.LocalizedBody ?? (row.Source == "patch" ? ChannelPresentation.ChangelogText(entry.Body.Get(_text.Language), _text.Language) : entry.Body.Get(_text.Language));
         var content = new StackPanel { Margin = new Thickness(0, 9, 0, 0), Tag = "changelog-body" }; item.Children.Add(content);
-        void RenderBody(string text)
-        {
-            content.Children.Clear();
-            foreach (var line in ChangelogTextLayout.Parse(text))
-            {
-                var block = new TextBlock { Text = line.Kind == ChangelogTextKind.Bullet ? "• " + line.Text : line.Text,
-                    TextWrapping = TextWrapping.Wrap, Foreground = SocialBrush(line.Kind == ChangelogTextKind.Heading ? "#E7D099" : "#CDD5E1") };
-                if (line.Kind == ChangelogTextKind.Heading)
-                { block.FontSize = 15; block.FontWeight = FontWeights.SemiBold; block.Margin = new Thickness(0, content.Children.Count == 0 ? 0 : 10, 0, 3); }
-                else { block.Style = (Style)FindResource("CardDescription"); block.Margin = new Thickness(line.Kind == ChangelogTextKind.Bullet ? 9 : 0, 0, 0, 5); }
-                content.Children.Add(block);
-            }
-        }
+        void RenderBody(string text) => RenderChangelogBody(content, text);
         RenderBody(body);
         if (body.Length > 420 || body.Count(c => c == '\n') > 5)
         {
             var preview = ChangelogTextLayout.Preview(body);
-            RenderBody(preview); var expanded = false;
-            var button = new Button { Content = T("Показать полностью ▾", "Show all ▾"), Style = (Style)FindResource("GhostButton"), HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 10, 0, 0), Padding = new Thickness(9, 5, 9, 5) };
-            button.Click += (_, _) => { expanded = !expanded; RenderBody(expanded ? body : preview); button.Content = expanded ? T("Свернуть ▴", "Collapse ▴") : T("Показать полностью ▾", "Show all ▾"); Motion.Reveal(content); }; item.Children.Add(button);
+            var keys = rows.Select(r => r.ReadKey).ToArray();
+            var expanded = keys.Any(_expandedHistoryEntries.Contains);
+            RenderBody(expanded ? body : preview);
+            string Caption() => expanded ? T("Свернуть ▴", "Collapse ▴") : T("Показать полностью ▾", "Show all ▾");
+            var button = new Button { Content = Caption(), Style = (Style)FindResource("GhostButton"), HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 10, 0, 0), Padding = new Thickness(9, 5, 9, 5) };
+            button.Click += (_, _) =>
+            {
+                expanded = !expanded;
+                foreach (var key in keys) { if (expanded) _expandedHistoryEntries.Add(key); else _expandedHistoryEntries.Remove(key); }
+                RenderBody(expanded ? body : preview); button.Content = Caption(); Motion.Reveal(content);
+            }; item.Children.Add(button);
         }
-        return new Border { Child = item, Background = SocialBrush("#132840"), BorderBrush = SocialBrush("#40536E"), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(7), Padding = new Thickness(12), Margin = new Thickness(0, 0, 0, 10) };
+        return new Border { Child = item, Tag = rows.Select(r => r.ReadKey).ToArray(), Background = SocialBrush("#132840"), BorderBrush = SocialBrush("#40536E"), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(7), Padding = new Thickness(12), Margin = new Thickness(0, 0, 0, 10) };
+    }
+
+    // Share the same typography between release history and the Reborn build page.
+    private void RenderChangelogBody(StackPanel content, string text)
+    {
+        content.Children.Clear();
+        foreach (var line in ChangelogTextLayout.Parse(text))
+        {
+            var block = new TextBlock { Text = line.Kind == ChangelogTextKind.Bullet ? "• " + line.Text : line.Text,
+                TextWrapping = TextWrapping.Wrap, Foreground = SocialBrush(line.Kind == ChangelogTextKind.Heading ? "#E7D099" : "#CDD5E1") };
+            if (line.Kind == ChangelogTextKind.Heading)
+            { block.FontSize = 15; block.FontWeight = FontWeights.SemiBold; block.Margin = new Thickness(0, content.Children.Count == 0 ? 0 : 10, 0, 3); }
+            else { block.Style = (Style)FindResource("CardDescription"); block.Margin = new Thickness(line.Kind == ChangelogTextKind.Bullet ? 9 : 0, 0, 0, 5); }
+            content.Children.Add(block);
+        }
     }
 }

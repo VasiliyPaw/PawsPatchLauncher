@@ -1,0 +1,26 @@
+param(
+    [Parameter(Mandatory=$true)][string]$WorkDirectory,
+    [string]$DotnetPath='dotnet',
+    [switch]$SkipBuild
+)
+$ErrorActionPreference='Stop'
+$env:DOTNET_ADD_GLOBAL_TOOLS_TO_PATH='false'
+$taskRepo=Split-Path $PSScriptRoot -Parent
+$taskRoot=[IO.Path]::GetFullPath($WorkDirectory)
+$taskReports=Join-Path $taskRoot 'reports'
+New-Item -ItemType Directory -Force -Path $taskReports | Out-Null
+Push-Location $taskRepo
+try{
+    if(!$SkipBuild){
+        & $DotnetPath build tools/PreviewRenderer/PreviewRenderer.csproj -c Release -p:UseSharedCompilation=false
+        if($LASTEXITCODE -ne 0){throw 'Release notes fixture build failed.'}
+    }
+    foreach($taskLanguage in @('ru','en','uk','cs','de','fr')){
+        $taskProfile=Join-Path $taskRoot ('profiles/'+$taskLanguage)
+        & $DotnetPath tools/PreviewRenderer/bin/Release/net8.0-windows/PreviewRenderer.dll `
+            (Join-Path $taskReports 'fixture.png') --smoke-test --release-notes-checks `
+            "--language=$taskLanguage" "--test-profile=$taskProfile"
+        if($LASTEXITCODE -ne 0){throw "Release notes fixture failed: $taskLanguage"}
+    }
+}
+finally{Pop-Location}

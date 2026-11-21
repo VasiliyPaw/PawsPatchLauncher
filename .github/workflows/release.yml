@@ -14,6 +14,9 @@ on:
 permissions:
   contents: read
 
+env:
+  DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: 'false'
+
 jobs:
   release:
     runs-on: windows-latest
@@ -71,6 +74,9 @@ jobs:
       - name: Test independent actions during installation
         shell: pwsh
         run: ./tools/TestIndependentActions.ps1 -WorkDirectory (Join-Path $env:RUNNER_TEMP 'independent-actions')
+      - name: Test localized release notes
+        shell: pwsh
+        run: ./tools/TestReleaseNotes.ps1 -WorkDirectory (Join-Path $env:RUNNER_TEMP 'release-notes')
       - name: Publish autonomous Windows build
         shell: pwsh
         run: |

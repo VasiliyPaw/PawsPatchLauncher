@@ -4,6 +4,7 @@ param(
     [switch]$SkipBuild
 )
 $ErrorActionPreference='Stop'
+$env:DOTNET_ADD_GLOBAL_TOOLS_TO_PATH='false'
 $taskRepo=Split-Path $PSScriptRoot -Parent
 $taskRoot=[IO.Path]::GetFullPath($WorkDirectory)
 $taskReports=Join-Path $taskRoot 'reports'
