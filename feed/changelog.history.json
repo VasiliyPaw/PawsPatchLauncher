@@ -2,6 +2,27 @@
   "stable": [
     {
       "category": "launcher",
+      "version": "1.0.23",
+      "publishedAt": "2026-11-21",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.23",
+        "en": "Paw’s Launcher 1.0.23",
+        "uk": "Paw’s Launcher 1.0.23",
+        "cs": "Paw’s Launcher 1.0.23",
+        "de": "Paw’s Launcher 1.0.23",
+        "fr": "Paw’s Launcher 1.0.23"
+      },
+      "body": {
+        "ru": "- Исправлено оформление заголовков и списков в описаниях выпусков.\n- Раскрытые записи истории и позиция чтения сохраняются при обновлении.",
+        "en": "- Fixed heading and list formatting in release descriptions.\n- Expanded history entries and reading position are preserved during refreshes.",
+        "uk": "- Виправлено оформлення заголовків і списків в описах випусків.\n- Розгорнуті записи історії та позиція читання зберігаються під час оновлення.",
+        "cs": "- Opraveno formátování nadpisů a seznamů v popisech vydání.\n- Rozbalené záznamy historie a pozice při čtení se při obnovení zachovají.",
+        "de": "- Die Formatierung von Überschriften und Listen in Versionsbeschreibungen wurde korrigiert.\n- Aufgeklappte Verlaufseinträge und die Leseposition bleiben beim Aktualisieren erhalten.",
+        "fr": "- Correction de la mise en forme des titres et des listes dans les descriptions des versions.\n- Les entrées développées de l’historique et la position de lecture sont conservées lors de l’actualisation."
+      }
+    },
+    {
+      "category": "launcher",
       "version": "1.0.22",
       "publishedAt": "2026-11-18",
       "title": {
@@ -1684,6 +1705,27 @@
     }
   ],
   "beta": [
+    {
+      "category": "launcher",
+      "version": "1.0.23",
+      "publishedAt": "2026-11-21",
+      "title": {
+        "ru": "Paw’s Launcher 1.0.23",
+        "en": "Paw’s Launcher 1.0.23",
+        "uk": "Paw’s Launcher 1.0.23",
+        "cs": "Paw’s Launcher 1.0.23",
+        "de": "Paw’s Launcher 1.0.23",
+        "fr": "Paw’s Launcher 1.0.23"
+      },
+      "body": {
+        "ru": "- Исправлено оформление заголовков и списков в описаниях выпусков.\n- Раскрытые записи истории и позиция чтения сохраняются при обновлении.",
+        "en": "- Fixed heading and list formatting in release descriptions.\n- Expanded history entries and reading position are preserved during refreshes.",
+        "uk": "- Виправлено оформлення заголовків і списків в описах випусків.\n- Розгорнуті записи історії та позиція читання зберігаються під час оновлення.",
+        "cs": "- Opraveno formátování nadpisů a seznamů v popisech vydání.\n- Rozbalené záznamy historie a pozice při čtení se při obnovení zachovají.",
+        "de": "- Die Formatierung von Überschriften und Listen in Versionsbeschreibungen wurde korrigiert.\n- Aufgeklappte Verlaufseinträge und die Leseposition bleiben beim Aktualisieren erhalten.",
+        "fr": "- Correction de la mise en forme des titres et des listes dans les descriptions des versions.\n- Les entrées développées de l’historique et la position de lecture sont conservées lors de l’actualisation."
+      }
+    },
     {
       "category": "launcher",
       "version": "1.0.22",
