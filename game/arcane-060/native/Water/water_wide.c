@@ -9,7 +9,7 @@
 #define P(a,o) (*(U*)((uintptr_t)(a)+(o)))
 #define F(a,o) (*(float*)((uintptr_t)(a)+(o)))
 #define FC __attribute__((fastcall))
-#define TYPES 10
+#include "water_materials.h"
 #define RADIUS 24
 #include "water_mix_math.h"
 typedef struct{U api;uintptr_t exeBase;const wchar_t*gameDir,*modsDir;void(__cdecl*log)(const char*,const char*,...);}Host;
@@ -20,7 +20,6 @@ static U defs[TYPES],variations[TYPES],keys[131072],groups,verticesChanged,build
 static float*field;static unsigned char coverage[4096];
 static U prewarmEnabled=1;static void prewarm_floor(U map);
 #include "prewarm_budget.h"
-static const wchar_t*names[TYPES]={L"temperate_lake",L"arctic_lake",L"desert_lake",L"cursed_lake",L"temperate_river",L"arctic_river",L"paws_river_temperate",L"paws_river_arctic",L"paws_river_desert",L"paws_river_cursed"};
 static int readable(U a,U n){MEMORY_BASIC_INFORMATION m;return a&&a+n>=a&&VirtualQuery((void*)a,&m,sizeof(m))&&m.State==MEM_COMMIT&&!(m.Protect&(PAGE_NOACCESS|PAGE_GUARD))&&a+n<=(U)m.BaseAddress+m.RegionSize;}
 static int kind(U def){U i;if(!def)return -1;for(i=0;i<TYPES;i++)if(!wcscmp((wchar_t*)P(def,8),names[i]))return i;return -1;}
 static int index_of(U def){U i;for(i=0;i<typeCount;i++)if(defs[i]==def)return i;return -1;}
@@ -32,11 +31,11 @@ static int prepare(void){U world,map,tiles,w,h,n,i,k,x,y,available[TYPES]={0},va
  if(world==worldSeen&&tiles==tilesSeen&&w==width&&h==height)return field&&typeCount;
  if(field){VirtualFree(field,0,MEM_RELEASE);field=0;}memset(keys,0,sizeof(keys));memset(defs,0,sizeof(defs));memset(variations,0,sizeof(variations));typeCount=0;worldSeen=world;tilesSeen=tiles;width=w;height=h;
  if(!w||!h||w>1024||h>1024||!tiles)return 0;
- for(i=0;i<w*h;i++){U c=tiles+i*48,v=P(c,0),d=v?P(v,0x1c):0;if((P(c,0x20)&0x170)!=0x120||!d)continue;slot=kind(d);if(slot>=0){available[slot]=d;variant[slot]=v;}}
+ for(i=0;i<w*h;i++){U c=tiles+i*48,v=P(c,0),d=v?P(v,0x1c):0;if(!d)continue;slot=kind(d);if(slot>=0){available[slot]=d;variant[slot]=v;}}
  for(k=0;k<TYPES;k++)if(available[k]){defs[typeCount]=available[k];variations[typeCount++]=variant[k];}
  if(!typeCount)return 0;n=(w+1)*(h+1);integrals=VirtualAlloc(0,n*typeCount*4,MEM_COMMIT|MEM_RESERVE,PAGE_READWRITE);field=VirtualAlloc(0,w*h*typeCount*4,MEM_COMMIT|MEM_RESERVE,PAGE_READWRITE);
  if(!integrals||!field){if(integrals)VirtualFree(integrals,0,MEM_RELEASE);if(field){VirtualFree(field,0,MEM_RELEASE);field=0;}return 0;}
- for(k=0;k<typeCount;k++)for(y=0;y<h;y++){U run=0,*b=integrals+k*n;for(x=0;x<w;x++){U c=tiles+(y*w+x)*48,v=P(c,0);run+=v&&(P(c,0x20)&0x170)==0x120&&P(v,0x1c)==defs[k];b[(y+1)*(w+1)+x+1]=b[y*(w+1)+x+1]+run;}}
+ for(k=0;k<typeCount;k++)for(y=0;y<h;y++){U run=0,*b=integrals+k*n;for(x=0;x<w;x++){U c=tiles+(y*w+x)*48,v=P(c,0);run+=v&&P(v,0x1c)==defs[k];b[(y+1)*(w+1)+x+1]=b[y*(w+1)+x+1]+run;}}
  for(y=0;y<h;y++)for(x=0;x<w;x++){U counts[TYPES],sum=0;int x0=x>RADIUS?(int)x-RADIUS:0,y0=y>RADIUS?(int)y-RADIUS:0,x1=x+RADIUS+1<w?(int)x+RADIUS+1:(int)w,y1=y+RADIUS+1<h?(int)y+RADIUS+1:(int)h;for(k=0;k<typeCount;k++){counts[k]=rectangle(integrals+k*n,x0,y0,x1,y1);sum+=counts[k];}if(sum)for(k=0;k<typeCount;k++)field[(y*w+x)*typeCount+k]=(float)counts[k]/sum;}
  VirtualFree(integrals,0,MEM_RELEASE);host->log("water-wide","WORLD %ux%u; %u animated materials; radius %u",w,h,typeCount,RADIUS);if(prewarmEnabled)prewarm_floor(map);return 1;
 }
@@ -49,12 +48,13 @@ static void __cdecl extend_groups(U self,U container){U map,view,chunk,ratio,ox,
  map=P(P(base,0x5f3fb8),0x30);view=P(base,0x5f3fa8);chunk=P(self,0);if(!view||!chunk||!P(view,0xb4))return;ratio=P(view,0xa8)/P(view,0xb4);if(!ratio||ratio>64)return;ox=P(chunk,0xac)*ratio;oy=P(chunk,0xb0)*ratio;memset(coverage,0,sizeof(coverage));
  for(i=0;i<oldn;i++){entry=oldp+i*16;U v=P(entry,0),d=v?P(v,0x1c):0;if(index_of(d)<0)continue;for(j=0;j<P(entry,8);j++){point=P(entry,4)+j*8;x=(int)P(point,0);y=(int)P(point,4);if(x<0||y<0||x>=(int)ratio||y>=(int)ratio)return;if(!coverage[y*ratio+x]){coverage[y*ratio+x]=1;count++;}}}
  if(!count)return;groupBusy=1;((M2)(base+0x1b3aa1))((U)replacement,0,1,1);
- /* Preserve special bog/blood/cutout groups and their native cell lists. */
+ /* Preserve unknown materials and their native cell lists. Known animated
+  * wetlands participate visually without changing their gameplay flags. */
  for(i=0;i<oldn;i++){entry=oldp+i*16;U v=P(entry,0),d=v?P(v,0x1c):0;if(index_of(d)>=0)continue;U out=((M2)(base+0x1b34fb))(0,0,v,(U)replacement);for(j=0;j<P(entry,8);j++){point=P(entry,4)+j*8;((M2)(base+0x1b3d1b))(out,0,P(point,0),P(point,4));}}
  for(k=0;k<typeCount;k++){U out=0;for(y=0;y<(int)ratio;y++)for(x=0;x<(int)ratio;x++)if(coverage[y*ratio+x]&&ox+x<P(map,0x1c)&&oy+y<P(map,0x20)&&reaches(ox+x,oy+y,k)){
   if(!out){retain_for_chunk(chunk,variations[k]);out=((M2)(base+0x1b34fb))(0,0,variations[k],(U)replacement);}((M2)(base+0x1b3d1b))(out,0,x,y);
  }}
- {unsigned short seen[4096];memset(seen,0,sizeof(seen));for(i=0;i<replacement[1];i++){U e=replacement[0]+i*16,v=P(e,0);int index=index_of(P(v,0x1c));if(index<0)continue;for(j=0;j<P(e,8);j++){U p=P(e,4)+j*8,xx=P(p,0),yy=P(p,4);if(xx>=ratio||yy>=ratio||!coverage[yy*ratio+xx]||(seen[yy*ratio+xx]&(1u<<index)))violations++;else seen[yy*ratio+xx]|=1u<<index;}}for(i=0;i<ratio*ratio;i++)if(coverage[i]&&!seen[i])violations++;}
+ {U seen[4096];memset(seen,0,sizeof(seen));for(i=0;i<replacement[1];i++){U e=replacement[0]+i*16,v=P(e,0);int index=index_of(P(v,0x1c));if(index<0)continue;for(j=0;j<P(e,8);j++){U p=P(e,4)+j*8,xx=P(p,0),yy=P(p,4);if(xx>=ratio||yy>=ratio||!coverage[yy*ratio+xx]||(seen[yy*ratio+xx]&(1u<<index)))violations++;else seen[yy*ratio+xx]|=1u<<index;}}for(i=0;i<ratio*ratio;i++)if(coverage[i]&&!seen[i])violations++;}
  ((M0)(base+0x1b3ee1))(container,0);memcpy((void*)container,replacement,12);chunk_key(chunk,1);groups++;groupBusy=0;
 }
 static int __cdecl native_build(U self){builds++;if(!self||!prepare()||index_of(P(self,8))<0||!chunk_key(P(self,0),0)){fallthrough++;return 0;}return 1;}

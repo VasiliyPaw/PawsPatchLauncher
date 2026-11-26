@@ -1,0 +1,230 @@
+{
+  "privateCandidate": true,
+  "installedGameModified": false,
+  "liveGameVerified": false,
+  "samples": 24,
+  "aoRadius": 2.4,
+  "models": [
+    {
+      "race": "Human",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Human\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Human\\wood_y_13.nif",
+      "sourceSha256": "2e4214ccc11412e2af60a80edf0f1eafae17e46b9d44bfa2e4e64bacbdd96c39",
+      "candidateSha256": "33a012bcc121fa8142eecb230e7d348e416844d16d903acdd210c0e9eed8e3d0",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5277,
+      "vertexAoMean": 0.7677,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\human_wood_y_13.tga",
+      "textures": [
+        "Native_HumanWallBase.tga",
+        "Native_HumanWoodmillBase.tga"
+      ]
+    },
+    {
+      "race": "Human",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Human\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Human\\stone_y_13.nif",
+      "sourceSha256": "da8fbac594ed5e18bd20fc39d83eb34c1f8fe9d5c7223f82f944b14d7f25ca6f",
+      "candidateSha256": "ce4a30683ae6a9bd97368e9bb437fc8cdabedd8df20c70b0db77cfa018f78b07",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5269,
+      "vertexAoMean": 0.7636,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\human_stone_y_13.tga",
+      "textures": [
+        "Native_HumanBarracksBase.tga",
+        "Native_HumanWallBase.tga"
+      ]
+    },
+    {
+      "race": "Gauri",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Gauri\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Gauri\\wood_y_13.nif",
+      "sourceSha256": "c56d4edc539397d024ab0cf0b3fab644d34146511249d3745e72377fb5d7d508",
+      "candidateSha256": "d75e7a4eaaa0bcbf16ea8b82c4f8e65abee8af5350db1ba3465ae1e801dd0565",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5268,
+      "vertexAoMean": 0.7409,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\gauri_wood_y_13.tga",
+      "textures": [
+        "GauriTimber.tga",
+        "GauriWoodDeck.tga",
+        "Native_GauriBarracksBase.tga",
+        "Native_GuariMineIronBase.tga"
+      ]
+    },
+    {
+      "race": "Gauri",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Gauri\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Gauri\\stone_y_13.nif",
+      "sourceSha256": "49070acd47070cc5884df48bd463eeb21c877400d1cfa5bd22de770522a1930e",
+      "candidateSha256": "9beb790fdedd73e01b554a1aab0defc181c39c5e01395b988825883f39fdfef4",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5285,
+      "vertexAoMean": 0.7593,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\gauri_stone_y_13.tga",
+      "textures": [
+        "GauriDeck.tga",
+        "Native_GauriBarracksBase.tga",
+        "Native_GuariMineIronBase.tga"
+      ]
+    },
+    {
+      "race": "Drauga",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Drauga\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Drauga\\wood_y_13.nif",
+      "sourceSha256": "771be3c88f9e26b6614bd3968b174f68556d1f7524a7a1d99175c2bfa38ea4b9",
+      "candidateSha256": "db5a2ec2c5bc2d942202f5f83641f4b49cfdeef9958fdaa8b719d47d75d7849c",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5275,
+      "vertexAoMean": 0.8209,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\drauga_wood_y_13.tga",
+      "textures": [
+        "DraugaPlanks.tga",
+        "DraugaRubble.tga",
+        "Native_DraugaMarketBase.tga",
+        "Native_DraugaShrineBase.tga"
+      ]
+    },
+    {
+      "race": "Drauga",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Drauga\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Drauga\\stone_y_13.nif",
+      "sourceSha256": "ae01804d51bce987d02651c13101466d93fe6df239d288eac38b41e01447f4a3",
+      "candidateSha256": "2f6b45e2ad39d5078b333d3b66cfbfa8ae053f4359c6229e8a510e7a72210033",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.8223,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\drauga_stone_y_13.tga",
+      "textures": [
+        "DraugaFlagstone.tga",
+        "DraugaPlanks.tga",
+        "DraugaRubble.tga",
+        "Native_DraugaMarketBase.tga",
+        "Native_DraugaShrineBase.tga"
+      ]
+    },
+    {
+      "race": "Haroun",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Haroun\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Haroun\\wood_y_13.nif",
+      "sourceSha256": "1128c3755ee1be53acd5a0a8d777916db4dbabc09bea6efaf9e8b51b1518f90b",
+      "candidateSha256": "84df9d71beac6e2f5960fe7a3542f1e31cd5ff6e93a85b3cd55146b5f5187a46",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.7997,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\haroun_wood_y_13.tga",
+      "textures": [
+        "HarounCarvedWood.tga",
+        "HarounDeckWood.tga",
+        "Native_HarounCenterBase.tga"
+      ]
+    },
+    {
+      "race": "Haroun",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Haroun\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Haroun\\stone_y_13.nif",
+      "sourceSha256": "cbb1d64fbef9f53a9e8ae2526e4e32fe2032b54dd121ad0aeaa22e95236e7346",
+      "candidateSha256": "4e077ce5dfa71771e9bfde7927b94b451d2939dd84430117818205a64b27364c",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5261,
+      "vertexAoMean": 0.7618,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\haroun_stone_y_13.tga",
+      "textures": [
+        "HarounCarvedWood.tga",
+        "HarounDeckStone.tga",
+        "Native_HarounCenterBase.tga"
+      ]
+    },
+    {
+      "race": "Shadow",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Shadow\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Shadow\\wood_y_13.nif",
+      "sourceSha256": "6540f5ad45009ec0141186ad12f5ec4fa10871a28cd028e89ec39adfd4a3e6ad",
+      "candidateSha256": "f7a75cb1c26123c92ede6016f4fa8a3df3e5b07c8ec05f7cdf8a941a2f40aa3f",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.529,
+      "vertexAoMean": 0.8658,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\shadow_wood_y_13.tga",
+      "textures": [
+        "Native_DesertRocksShadowBase.tga",
+        "Native_ShadowWallBase.tga",
+        "ShadowBasalt.tga",
+        "ShadowDeck.tga",
+        "ShadowIron.tga"
+      ]
+    },
+    {
+      "race": "Shadow",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Shadow\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Shadow\\stone_y_13.nif",
+      "sourceSha256": "b7df7a6914e5b8bb3f86753d5f73be4801bceaf564756c082e42b52ebaacf774",
+      "candidateSha256": "34ff42ffc1ab9c9d69f1d5bfae167157166d4ef61f650f77e91638523479603b",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.7914,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\shadow_stone_y_13.tga",
+      "textures": [
+        "Native_ShadowManaFocusBase.tga",
+        "Native_ShadowWallBase.tga",
+        "ShadowBasalt.tga",
+        "ShadowDeck.tga",
+        "ShadowIron.tga"
+      ]
+    },
+    {
+      "race": "Undead",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Undead\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Undead\\wood_y_13.nif",
+      "sourceSha256": "1de75b01e65c4171134a142af2f5e3490df29823b764499ebe3acf94d821d43a",
+      "candidateSha256": "31d1766787e0ac14b704f555d6ac05580cfd9b9f3a42c8f793b9238c1a77a457",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5293,
+      "vertexAoMean": 0.8297,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\undead_wood_y_13.tga",
+      "textures": [
+        "Native_DoodadsUndeadBase.tga",
+        "Native_UndeadWallBase.tga"
+      ]
+    },
+    {
+      "race": "Undead",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Undead\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Undead\\stone_y_13.nif",
+      "sourceSha256": "207b18007794818a6bf665878a64df98141076e78a53eb1a2a4e34bb49331165",
+      "candidateSha256": "0ccb0a568d3dbeb691a8bc5fe375639dcd8c86fe817b4179920e2c08cb3b38ad",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 8,
+      "vertexAoMinimum": 0.5274,
+      "vertexAoMean": 0.7529,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\undead_stone_y_13.tga",
+      "textures": [
+        "Native_DoodadsUndeadBase.tga",
+        "Native_UndeadWallBase.tga",
+        "PawsBridgeStone.tga"
+      ]
+    }
+  ]
+}

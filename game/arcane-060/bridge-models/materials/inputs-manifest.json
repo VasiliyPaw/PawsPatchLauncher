@@ -1,0 +1,3953 @@
+{
+  "sourceRoot": "G:\\PawsWork\\QA\\ArcaneFix-20261125\\game\\rivers-data\\Paws\\Bridges",
+  "models": [
+    "Human/stone_x_05.nif",
+    "Human/stone_x_06.nif",
+    "Human/stone_x_07.nif",
+    "Human/stone_x_08.nif",
+    "Human/stone_x_09.nif",
+    "Human/stone_x_10.nif",
+    "Human/stone_x_11.nif",
+    "Human/stone_x_12.nif",
+    "Human/stone_x_13.nif",
+    "Human/stone_x_14.nif",
+    "Human/stone_x_15.nif",
+    "Human/stone_x_16.nif",
+    "Human/stone_x_17.nif",
+    "Human/stone_x_18.nif",
+    "Human/stone_x_19.nif",
+    "Human/stone_x_20.nif",
+    "Human/stone_x_21.nif",
+    "Human/stone_x_22.nif",
+    "Human/stone_x_23.nif",
+    "Human/stone_x_24.nif",
+    "Human/stone_x_25.nif",
+    "Human/stone_x_26.nif",
+    "Human/stone_x_27.nif",
+    "Human/stone_x_28.nif",
+    "Human/stone_x_29.nif",
+    "Human/stone_x_30.nif",
+    "Human/stone_x_31.nif",
+    "Human/stone_x_32.nif",
+    "Human/stone_y_05.nif",
+    "Human/stone_y_06.nif",
+    "Human/stone_y_07.nif",
+    "Human/stone_y_08.nif",
+    "Human/stone_y_09.nif",
+    "Human/stone_y_10.nif",
+    "Human/stone_y_11.nif",
+    "Human/stone_y_12.nif",
+    "Human/stone_y_13.nif",
+    "Human/stone_y_14.nif",
+    "Human/stone_y_15.nif",
+    "Human/stone_y_16.nif",
+    "Human/stone_y_17.nif",
+    "Human/stone_y_18.nif",
+    "Human/stone_y_19.nif",
+    "Human/stone_y_20.nif",
+    "Human/stone_y_21.nif",
+    "Human/stone_y_22.nif",
+    "Human/stone_y_23.nif",
+    "Human/stone_y_24.nif",
+    "Human/stone_y_25.nif",
+    "Human/stone_y_26.nif",
+    "Human/stone_y_27.nif",
+    "Human/stone_y_28.nif",
+    "Human/stone_y_29.nif",
+    "Human/stone_y_30.nif",
+    "Human/stone_y_31.nif",
+    "Human/stone_y_32.nif",
+    "Human/wood_x_05.nif",
+    "Human/wood_x_06.nif",
+    "Human/wood_x_07.nif",
+    "Human/wood_x_08.nif",
+    "Human/wood_x_09.nif",
+    "Human/wood_x_10.nif",
+    "Human/wood_x_11.nif",
+    "Human/wood_x_12.nif",
+    "Human/wood_x_13.nif",
+    "Human/wood_x_14.nif",
+    "Human/wood_x_15.nif",
+    "Human/wood_x_16.nif",
+    "Human/wood_x_17.nif",
+    "Human/wood_x_18.nif",
+    "Human/wood_x_19.nif",
+    "Human/wood_x_20.nif",
+    "Human/wood_x_21.nif",
+    "Human/wood_x_22.nif",
+    "Human/wood_x_23.nif",
+    "Human/wood_x_24.nif",
+    "Human/wood_x_25.nif",
+    "Human/wood_x_26.nif",
+    "Human/wood_x_27.nif",
+    "Human/wood_x_28.nif",
+    "Human/wood_x_29.nif",
+    "Human/wood_x_30.nif",
+    "Human/wood_x_31.nif",
+    "Human/wood_x_32.nif",
+    "Human/wood_y_05.nif",
+    "Human/wood_y_06.nif",
+    "Human/wood_y_07.nif",
+    "Human/wood_y_08.nif",
+    "Human/wood_y_09.nif",
+    "Human/wood_y_10.nif",
+    "Human/wood_y_11.nif",
+    "Human/wood_y_12.nif",
+    "Human/wood_y_13.nif",
+    "Human/wood_y_14.nif",
+    "Human/wood_y_15.nif",
+    "Human/wood_y_16.nif",
+    "Human/wood_y_17.nif",
+    "Human/wood_y_18.nif",
+    "Human/wood_y_19.nif",
+    "Human/wood_y_20.nif",
+    "Human/wood_y_21.nif",
+    "Human/wood_y_22.nif",
+    "Human/wood_y_23.nif",
+    "Human/wood_y_24.nif",
+    "Human/wood_y_25.nif",
+    "Human/wood_y_26.nif",
+    "Human/wood_y_27.nif",
+    "Human/wood_y_28.nif",
+    "Human/wood_y_29.nif",
+    "Human/wood_y_30.nif",
+    "Human/wood_y_31.nif",
+    "Human/wood_y_32.nif",
+    "Gauri/stone_x_05.nif",
+    "Gauri/stone_x_06.nif",
+    "Gauri/stone_x_07.nif",
+    "Gauri/stone_x_08.nif",
+    "Gauri/stone_x_09.nif",
+    "Gauri/stone_x_10.nif",
+    "Gauri/stone_x_11.nif",
+    "Gauri/stone_x_12.nif",
+    "Gauri/stone_x_13.nif",
+    "Gauri/stone_x_14.nif",
+    "Gauri/stone_x_15.nif",
+    "Gauri/stone_x_16.nif",
+    "Gauri/stone_x_17.nif",
+    "Gauri/stone_x_18.nif",
+    "Gauri/stone_x_19.nif",
+    "Gauri/stone_x_20.nif",
+    "Gauri/stone_x_21.nif",
+    "Gauri/stone_x_22.nif",
+    "Gauri/stone_x_23.nif",
+    "Gauri/stone_x_24.nif",
+    "Gauri/stone_x_25.nif",
+    "Gauri/stone_x_26.nif",
+    "Gauri/stone_x_27.nif",
+    "Gauri/stone_x_28.nif",
+    "Gauri/stone_x_29.nif",
+    "Gauri/stone_x_30.nif",
+    "Gauri/stone_x_31.nif",
+    "Gauri/stone_x_32.nif",
+    "Gauri/stone_y_05.nif",
+    "Gauri/stone_y_06.nif",
+    "Gauri/stone_y_07.nif",
+    "Gauri/stone_y_08.nif",
+    "Gauri/stone_y_09.nif",
+    "Gauri/stone_y_10.nif",
+    "Gauri/stone_y_11.nif",
+    "Gauri/stone_y_12.nif",
+    "Gauri/stone_y_13.nif",
+    "Gauri/stone_y_14.nif",
+    "Gauri/stone_y_15.nif",
+    "Gauri/stone_y_16.nif",
+    "Gauri/stone_y_17.nif",
+    "Gauri/stone_y_18.nif",
+    "Gauri/stone_y_19.nif",
+    "Gauri/stone_y_20.nif",
+    "Gauri/stone_y_21.nif",
+    "Gauri/stone_y_22.nif",
+    "Gauri/stone_y_23.nif",
+    "Gauri/stone_y_24.nif",
+    "Gauri/stone_y_25.nif",
+    "Gauri/stone_y_26.nif",
+    "Gauri/stone_y_27.nif",
+    "Gauri/stone_y_28.nif",
+    "Gauri/stone_y_29.nif",
+    "Gauri/stone_y_30.nif",
+    "Gauri/stone_y_31.nif",
+    "Gauri/stone_y_32.nif",
+    "Gauri/wood_x_05.nif",
+    "Gauri/wood_x_06.nif",
+    "Gauri/wood_x_07.nif",
+    "Gauri/wood_x_08.nif",
+    "Gauri/wood_x_09.nif",
+    "Gauri/wood_x_10.nif",
+    "Gauri/wood_x_11.nif",
+    "Gauri/wood_x_12.nif",
+    "Gauri/wood_x_13.nif",
+    "Gauri/wood_x_14.nif",
+    "Gauri/wood_x_15.nif",
+    "Gauri/wood_x_16.nif",
+    "Gauri/wood_x_17.nif",
+    "Gauri/wood_x_18.nif",
+    "Gauri/wood_x_19.nif",
+    "Gauri/wood_x_20.nif",
+    "Gauri/wood_x_21.nif",
+    "Gauri/wood_x_22.nif",
+    "Gauri/wood_x_23.nif",
+    "Gauri/wood_x_24.nif",
+    "Gauri/wood_x_25.nif",
+    "Gauri/wood_x_26.nif",
+    "Gauri/wood_x_27.nif",
+    "Gauri/wood_x_28.nif",
+    "Gauri/wood_x_29.nif",
+    "Gauri/wood_x_30.nif",
+    "Gauri/wood_x_31.nif",
+    "Gauri/wood_x_32.nif",
+    "Gauri/wood_y_05.nif",
+    "Gauri/wood_y_06.nif",
+    "Gauri/wood_y_07.nif",
+    "Gauri/wood_y_08.nif",
+    "Gauri/wood_y_09.nif",
+    "Gauri/wood_y_10.nif",
+    "Gauri/wood_y_11.nif",
+    "Gauri/wood_y_12.nif",
+    "Gauri/wood_y_13.nif",
+    "Gauri/wood_y_14.nif",
+    "Gauri/wood_y_15.nif",
+    "Gauri/wood_y_16.nif",
+    "Gauri/wood_y_17.nif",
+    "Gauri/wood_y_18.nif",
+    "Gauri/wood_y_19.nif",
+    "Gauri/wood_y_20.nif",
+    "Gauri/wood_y_21.nif",
+    "Gauri/wood_y_22.nif",
+    "Gauri/wood_y_23.nif",
+    "Gauri/wood_y_24.nif",
+    "Gauri/wood_y_25.nif",
+    "Gauri/wood_y_26.nif",
+    "Gauri/wood_y_27.nif",
+    "Gauri/wood_y_28.nif",
+    "Gauri/wood_y_29.nif",
+    "Gauri/wood_y_30.nif",
+    "Gauri/wood_y_31.nif",
+    "Gauri/wood_y_32.nif",
+    "Drauga/stone_x_05.nif",
+    "Drauga/stone_x_06.nif",
+    "Drauga/stone_x_07.nif",
+    "Drauga/stone_x_08.nif",
+    "Drauga/stone_x_09.nif",
+    "Drauga/stone_x_10.nif",
+    "Drauga/stone_x_11.nif",
+    "Drauga/stone_x_12.nif",
+    "Drauga/stone_x_13.nif",
+    "Drauga/stone_x_14.nif",
+    "Drauga/stone_x_15.nif",
+    "Drauga/stone_x_16.nif",
+    "Drauga/stone_x_17.nif",
+    "Drauga/stone_x_18.nif",
+    "Drauga/stone_x_19.nif",
+    "Drauga/stone_x_20.nif",
+    "Drauga/stone_x_21.nif",
+    "Drauga/stone_x_22.nif",
+    "Drauga/stone_x_23.nif",
+    "Drauga/stone_x_24.nif",
+    "Drauga/stone_x_25.nif",
+    "Drauga/stone_x_26.nif",
+    "Drauga/stone_x_27.nif",
+    "Drauga/stone_x_28.nif",
+    "Drauga/stone_x_29.nif",
+    "Drauga/stone_x_30.nif",
+    "Drauga/stone_x_31.nif",
+    "Drauga/stone_x_32.nif",
+    "Drauga/stone_y_05.nif",
+    "Drauga/stone_y_06.nif",
+    "Drauga/stone_y_07.nif",
+    "Drauga/stone_y_08.nif",
+    "Drauga/stone_y_09.nif",
+    "Drauga/stone_y_10.nif",
+    "Drauga/stone_y_11.nif",
+    "Drauga/stone_y_12.nif",
+    "Drauga/stone_y_13.nif",
+    "Drauga/stone_y_14.nif",
+    "Drauga/stone_y_15.nif",
+    "Drauga/stone_y_16.nif",
+    "Drauga/stone_y_17.nif",
+    "Drauga/stone_y_18.nif",
+    "Drauga/stone_y_19.nif",
+    "Drauga/stone_y_20.nif",
+    "Drauga/stone_y_21.nif",
+    "Drauga/stone_y_22.nif",
+    "Drauga/stone_y_23.nif",
+    "Drauga/stone_y_24.nif",
+    "Drauga/stone_y_25.nif",
+    "Drauga/stone_y_26.nif",
+    "Drauga/stone_y_27.nif",
+    "Drauga/stone_y_28.nif",
+    "Drauga/stone_y_29.nif",
+    "Drauga/stone_y_30.nif",
+    "Drauga/stone_y_31.nif",
+    "Drauga/stone_y_32.nif",
+    "Drauga/wood_x_05.nif",
+    "Drauga/wood_x_06.nif",
+    "Drauga/wood_x_07.nif",
+    "Drauga/wood_x_08.nif",
+    "Drauga/wood_x_09.nif",
+    "Drauga/wood_x_10.nif",
+    "Drauga/wood_x_11.nif",
+    "Drauga/wood_x_12.nif",
+    "Drauga/wood_x_13.nif",
+    "Drauga/wood_x_14.nif",
+    "Drauga/wood_x_15.nif",
+    "Drauga/wood_x_16.nif",
+    "Drauga/wood_x_17.nif",
+    "Drauga/wood_x_18.nif",
+    "Drauga/wood_x_19.nif",
+    "Drauga/wood_x_20.nif",
+    "Drauga/wood_x_21.nif",
+    "Drauga/wood_x_22.nif",
+    "Drauga/wood_x_23.nif",
+    "Drauga/wood_x_24.nif",
+    "Drauga/wood_x_25.nif",
+    "Drauga/wood_x_26.nif",
+    "Drauga/wood_x_27.nif",
+    "Drauga/wood_x_28.nif",
+    "Drauga/wood_x_29.nif",
+    "Drauga/wood_x_30.nif",
+    "Drauga/wood_x_31.nif",
+    "Drauga/wood_x_32.nif",
+    "Drauga/wood_y_05.nif",
+    "Drauga/wood_y_06.nif",
+    "Drauga/wood_y_07.nif",
+    "Drauga/wood_y_08.nif",
+    "Drauga/wood_y_09.nif",
+    "Drauga/wood_y_10.nif",
+    "Drauga/wood_y_11.nif",
+    "Drauga/wood_y_12.nif",
+    "Drauga/wood_y_13.nif",
+    "Drauga/wood_y_14.nif",
+    "Drauga/wood_y_15.nif",
+    "Drauga/wood_y_16.nif",
+    "Drauga/wood_y_17.nif",
+    "Drauga/wood_y_18.nif",
+    "Drauga/wood_y_19.nif",
+    "Drauga/wood_y_20.nif",
+    "Drauga/wood_y_21.nif",
+    "Drauga/wood_y_22.nif",
+    "Drauga/wood_y_23.nif",
+    "Drauga/wood_y_24.nif",
+    "Drauga/wood_y_25.nif",
+    "Drauga/wood_y_26.nif",
+    "Drauga/wood_y_27.nif",
+    "Drauga/wood_y_28.nif",
+    "Drauga/wood_y_29.nif",
+    "Drauga/wood_y_30.nif",
+    "Drauga/wood_y_31.nif",
+    "Drauga/wood_y_32.nif",
+    "Haroun/stone_x_05.nif",
+    "Haroun/stone_x_06.nif",
+    "Haroun/stone_x_07.nif",
+    "Haroun/stone_x_08.nif",
+    "Haroun/stone_x_09.nif",
+    "Haroun/stone_x_10.nif",
+    "Haroun/stone_x_11.nif",
+    "Haroun/stone_x_12.nif",
+    "Haroun/stone_x_13.nif",
+    "Haroun/stone_x_14.nif",
+    "Haroun/stone_x_15.nif",
+    "Haroun/stone_x_16.nif",
+    "Haroun/stone_x_17.nif",
+    "Haroun/stone_x_18.nif",
+    "Haroun/stone_x_19.nif",
+    "Haroun/stone_x_20.nif",
+    "Haroun/stone_x_21.nif",
+    "Haroun/stone_x_22.nif",
+    "Haroun/stone_x_23.nif",
+    "Haroun/stone_x_24.nif",
+    "Haroun/stone_x_25.nif",
+    "Haroun/stone_x_26.nif",
+    "Haroun/stone_x_27.nif",
+    "Haroun/stone_x_28.nif",
+    "Haroun/stone_x_29.nif",
+    "Haroun/stone_x_30.nif",
+    "Haroun/stone_x_31.nif",
+    "Haroun/stone_x_32.nif",
+    "Haroun/stone_y_05.nif",
+    "Haroun/stone_y_06.nif",
+    "Haroun/stone_y_07.nif",
+    "Haroun/stone_y_08.nif",
+    "Haroun/stone_y_09.nif",
+    "Haroun/stone_y_10.nif",
+    "Haroun/stone_y_11.nif",
+    "Haroun/stone_y_12.nif",
+    "Haroun/stone_y_13.nif",
+    "Haroun/stone_y_14.nif",
+    "Haroun/stone_y_15.nif",
+    "Haroun/stone_y_16.nif",
+    "Haroun/stone_y_17.nif",
+    "Haroun/stone_y_18.nif",
+    "Haroun/stone_y_19.nif",
+    "Haroun/stone_y_20.nif",
+    "Haroun/stone_y_21.nif",
+    "Haroun/stone_y_22.nif",
+    "Haroun/stone_y_23.nif",
+    "Haroun/stone_y_24.nif",
+    "Haroun/stone_y_25.nif",
+    "Haroun/stone_y_26.nif",
+    "Haroun/stone_y_27.nif",
+    "Haroun/stone_y_28.nif",
+    "Haroun/stone_y_29.nif",
+    "Haroun/stone_y_30.nif",
+    "Haroun/stone_y_31.nif",
+    "Haroun/stone_y_32.nif",
+    "Haroun/wood_x_05.nif",
+    "Haroun/wood_x_06.nif",
+    "Haroun/wood_x_07.nif",
+    "Haroun/wood_x_08.nif",
+    "Haroun/wood_x_09.nif",
+    "Haroun/wood_x_10.nif",
+    "Haroun/wood_x_11.nif",
+    "Haroun/wood_x_12.nif",
+    "Haroun/wood_x_13.nif",
+    "Haroun/wood_x_14.nif",
+    "Haroun/wood_x_15.nif",
+    "Haroun/wood_x_16.nif",
+    "Haroun/wood_x_17.nif",
+    "Haroun/wood_x_18.nif",
+    "Haroun/wood_x_19.nif",
+    "Haroun/wood_x_20.nif",
+    "Haroun/wood_x_21.nif",
+    "Haroun/wood_x_22.nif",
+    "Haroun/wood_x_23.nif",
+    "Haroun/wood_x_24.nif",
+    "Haroun/wood_x_25.nif",
+    "Haroun/wood_x_26.nif",
+    "Haroun/wood_x_27.nif",
+    "Haroun/wood_x_28.nif",
+    "Haroun/wood_x_29.nif",
+    "Haroun/wood_x_30.nif",
+    "Haroun/wood_x_31.nif",
+    "Haroun/wood_x_32.nif",
+    "Haroun/wood_y_05.nif",
+    "Haroun/wood_y_06.nif",
+    "Haroun/wood_y_07.nif",
+    "Haroun/wood_y_08.nif",
+    "Haroun/wood_y_09.nif",
+    "Haroun/wood_y_10.nif",
+    "Haroun/wood_y_11.nif",
+    "Haroun/wood_y_12.nif",
+    "Haroun/wood_y_13.nif",
+    "Haroun/wood_y_14.nif",
+    "Haroun/wood_y_15.nif",
+    "Haroun/wood_y_16.nif",
+    "Haroun/wood_y_17.nif",
+    "Haroun/wood_y_18.nif",
+    "Haroun/wood_y_19.nif",
+    "Haroun/wood_y_20.nif",
+    "Haroun/wood_y_21.nif",
+    "Haroun/wood_y_22.nif",
+    "Haroun/wood_y_23.nif",
+    "Haroun/wood_y_24.nif",
+    "Haroun/wood_y_25.nif",
+    "Haroun/wood_y_26.nif",
+    "Haroun/wood_y_27.nif",
+    "Haroun/wood_y_28.nif",
+    "Haroun/wood_y_29.nif",
+    "Haroun/wood_y_30.nif",
+    "Haroun/wood_y_31.nif",
+    "Haroun/wood_y_32.nif",
+    "Shadow/stone_x_05.nif",
+    "Shadow/stone_x_06.nif",
+    "Shadow/stone_x_07.nif",
+    "Shadow/stone_x_08.nif",
+    "Shadow/stone_x_09.nif",
+    "Shadow/stone_x_10.nif",
+    "Shadow/stone_x_11.nif",
+    "Shadow/stone_x_12.nif",
+    "Shadow/stone_x_13.nif",
+    "Shadow/stone_x_14.nif",
+    "Shadow/stone_x_15.nif",
+    "Shadow/stone_x_16.nif",
+    "Shadow/stone_x_17.nif",
+    "Shadow/stone_x_18.nif",
+    "Shadow/stone_x_19.nif",
+    "Shadow/stone_x_20.nif",
+    "Shadow/stone_x_21.nif",
+    "Shadow/stone_x_22.nif",
+    "Shadow/stone_x_23.nif",
+    "Shadow/stone_x_24.nif",
+    "Shadow/stone_x_25.nif",
+    "Shadow/stone_x_26.nif",
+    "Shadow/stone_x_27.nif",
+    "Shadow/stone_x_28.nif",
+    "Shadow/stone_x_29.nif",
+    "Shadow/stone_x_30.nif",
+    "Shadow/stone_x_31.nif",
+    "Shadow/stone_x_32.nif",
+    "Shadow/stone_y_05.nif",
+    "Shadow/stone_y_06.nif",
+    "Shadow/stone_y_07.nif",
+    "Shadow/stone_y_08.nif",
+    "Shadow/stone_y_09.nif",
+    "Shadow/stone_y_10.nif",
+    "Shadow/stone_y_11.nif",
+    "Shadow/stone_y_12.nif",
+    "Shadow/stone_y_13.nif",
+    "Shadow/stone_y_14.nif",
+    "Shadow/stone_y_15.nif",
+    "Shadow/stone_y_16.nif",
+    "Shadow/stone_y_17.nif",
+    "Shadow/stone_y_18.nif",
+    "Shadow/stone_y_19.nif",
+    "Shadow/stone_y_20.nif",
+    "Shadow/stone_y_21.nif",
+    "Shadow/stone_y_22.nif",
+    "Shadow/stone_y_23.nif",
+    "Shadow/stone_y_24.nif",
+    "Shadow/stone_y_25.nif",
+    "Shadow/stone_y_26.nif",
+    "Shadow/stone_y_27.nif",
+    "Shadow/stone_y_28.nif",
+    "Shadow/stone_y_29.nif",
+    "Shadow/stone_y_30.nif",
+    "Shadow/stone_y_31.nif",
+    "Shadow/stone_y_32.nif",
+    "Shadow/wood_x_05.nif",
+    "Shadow/wood_x_06.nif",
+    "Shadow/wood_x_07.nif",
+    "Shadow/wood_x_08.nif",
+    "Shadow/wood_x_09.nif",
+    "Shadow/wood_x_10.nif",
+    "Shadow/wood_x_11.nif",
+    "Shadow/wood_x_12.nif",
+    "Shadow/wood_x_13.nif",
+    "Shadow/wood_x_14.nif",
+    "Shadow/wood_x_15.nif",
+    "Shadow/wood_x_16.nif",
+    "Shadow/wood_x_17.nif",
+    "Shadow/wood_x_18.nif",
+    "Shadow/wood_x_19.nif",
+    "Shadow/wood_x_20.nif",
+    "Shadow/wood_x_21.nif",
+    "Shadow/wood_x_22.nif",
+    "Shadow/wood_x_23.nif",
+    "Shadow/wood_x_24.nif",
+    "Shadow/wood_x_25.nif",
+    "Shadow/wood_x_26.nif",
+    "Shadow/wood_x_27.nif",
+    "Shadow/wood_x_28.nif",
+    "Shadow/wood_x_29.nif",
+    "Shadow/wood_x_30.nif",
+    "Shadow/wood_x_31.nif",
+    "Shadow/wood_x_32.nif",
+    "Shadow/wood_y_05.nif",
+    "Shadow/wood_y_06.nif",
+    "Shadow/wood_y_07.nif",
+    "Shadow/wood_y_08.nif",
+    "Shadow/wood_y_09.nif",
+    "Shadow/wood_y_10.nif",
+    "Shadow/wood_y_11.nif",
+    "Shadow/wood_y_12.nif",
+    "Shadow/wood_y_13.nif",
+    "Shadow/wood_y_14.nif",
+    "Shadow/wood_y_15.nif",
+    "Shadow/wood_y_16.nif",
+    "Shadow/wood_y_17.nif",
+    "Shadow/wood_y_18.nif",
+    "Shadow/wood_y_19.nif",
+    "Shadow/wood_y_20.nif",
+    "Shadow/wood_y_21.nif",
+    "Shadow/wood_y_22.nif",
+    "Shadow/wood_y_23.nif",
+    "Shadow/wood_y_24.nif",
+    "Shadow/wood_y_25.nif",
+    "Shadow/wood_y_26.nif",
+    "Shadow/wood_y_27.nif",
+    "Shadow/wood_y_28.nif",
+    "Shadow/wood_y_29.nif",
+    "Shadow/wood_y_30.nif",
+    "Shadow/wood_y_31.nif",
+    "Shadow/wood_y_32.nif",
+    "Undead/stone_x_05.nif",
+    "Undead/stone_x_06.nif",
+    "Undead/stone_x_07.nif",
+    "Undead/stone_x_08.nif",
+    "Undead/stone_x_09.nif",
+    "Undead/stone_x_10.nif",
+    "Undead/stone_x_11.nif",
+    "Undead/stone_x_12.nif",
+    "Undead/stone_x_13.nif",
+    "Undead/stone_x_14.nif",
+    "Undead/stone_x_15.nif",
+    "Undead/stone_x_16.nif",
+    "Undead/stone_x_17.nif",
+    "Undead/stone_x_18.nif",
+    "Undead/stone_x_19.nif",
+    "Undead/stone_x_20.nif",
+    "Undead/stone_x_21.nif",
+    "Undead/stone_x_22.nif",
+    "Undead/stone_x_23.nif",
+    "Undead/stone_x_24.nif",
+    "Undead/stone_x_25.nif",
+    "Undead/stone_x_26.nif",
+    "Undead/stone_x_27.nif",
+    "Undead/stone_x_28.nif",
+    "Undead/stone_x_29.nif",
+    "Undead/stone_x_30.nif",
+    "Undead/stone_x_31.nif",
+    "Undead/stone_x_32.nif",
+    "Undead/stone_y_05.nif",
+    "Undead/stone_y_06.nif",
+    "Undead/stone_y_07.nif",
+    "Undead/stone_y_08.nif",
+    "Undead/stone_y_09.nif",
+    "Undead/stone_y_10.nif",
+    "Undead/stone_y_11.nif",
+    "Undead/stone_y_12.nif",
+    "Undead/stone_y_13.nif",
+    "Undead/stone_y_14.nif",
+    "Undead/stone_y_15.nif",
+    "Undead/stone_y_16.nif",
+    "Undead/stone_y_17.nif",
+    "Undead/stone_y_18.nif",
+    "Undead/stone_y_19.nif",
+    "Undead/stone_y_20.nif",
+    "Undead/stone_y_21.nif",
+    "Undead/stone_y_22.nif",
+    "Undead/stone_y_23.nif",
+    "Undead/stone_y_24.nif",
+    "Undead/stone_y_25.nif",
+    "Undead/stone_y_26.nif",
+    "Undead/stone_y_27.nif",
+    "Undead/stone_y_28.nif",
+    "Undead/stone_y_29.nif",
+    "Undead/stone_y_30.nif",
+    "Undead/stone_y_31.nif",
+    "Undead/stone_y_32.nif",
+    "Undead/wood_x_05.nif",
+    "Undead/wood_x_06.nif",
+    "Undead/wood_x_07.nif",
+    "Undead/wood_x_08.nif",
+    "Undead/wood_x_09.nif",
+    "Undead/wood_x_10.nif",
+    "Undead/wood_x_11.nif",
+    "Undead/wood_x_12.nif",
+    "Undead/wood_x_13.nif",
+    "Undead/wood_x_14.nif",
+    "Undead/wood_x_15.nif",
+    "Undead/wood_x_16.nif",
+    "Undead/wood_x_17.nif",
+    "Undead/wood_x_18.nif",
+    "Undead/wood_x_19.nif",
+    "Undead/wood_x_20.nif",
+    "Undead/wood_x_21.nif",
+    "Undead/wood_x_22.nif",
+    "Undead/wood_x_23.nif",
+    "Undead/wood_x_24.nif",
+    "Undead/wood_x_25.nif",
+    "Undead/wood_x_26.nif",
+    "Undead/wood_x_27.nif",
+    "Undead/wood_x_28.nif",
+    "Undead/wood_x_29.nif",
+    "Undead/wood_x_30.nif",
+    "Undead/wood_x_31.nif",
+    "Undead/wood_x_32.nif",
+    "Undead/wood_y_05.nif",
+    "Undead/wood_y_06.nif",
+    "Undead/wood_y_07.nif",
+    "Undead/wood_y_08.nif",
+    "Undead/wood_y_09.nif",
+    "Undead/wood_y_10.nif",
+    "Undead/wood_y_11.nif",
+    "Undead/wood_y_12.nif",
+    "Undead/wood_y_13.nif",
+    "Undead/wood_y_14.nif",
+    "Undead/wood_y_15.nif",
+    "Undead/wood_y_16.nif",
+    "Undead/wood_y_17.nif",
+    "Undead/wood_y_18.nif",
+    "Undead/wood_y_19.nif",
+    "Undead/wood_y_20.nif",
+    "Undead/wood_y_21.nif",
+    "Undead/wood_y_22.nif",
+    "Undead/wood_y_23.nif",
+    "Undead/wood_y_24.nif",
+    "Undead/wood_y_25.nif",
+    "Undead/wood_y_26.nif",
+    "Undead/wood_y_27.nif",
+    "Undead/wood_y_28.nif",
+    "Undead/wood_y_29.nif",
+    "Undead/wood_y_30.nif",
+    "Undead/wood_y_31.nif",
+    "Undead/wood_y_32.nif"
+  ],
+  "files": {
+    "Human/HumanAshlar.tga": {
+      "sha256": "0279a6a4cb89efe096a7bcb3411ceb83642f671d608de829d0fa2c40b7fe74f6",
+      "bytes": 786476
+    },
+    "Human/HumanOak.tga": {
+      "sha256": "043d41cd5cd15631941d33882daac251c895155c963b2433ecfa7078736065ce",
+      "bytes": 786476
+    },
+    "Human/HumanPaving.tga": {
+      "sha256": "bd81234c6d66bc654e26376450161a6c8c9a26b19e4e89729fb557151a961478",
+      "bytes": 786476
+    },
+    "Human/Native_HumanBarracksBase.tga": {
+      "sha256": "0ee48bfed391c851dc02284bdfc37807cbf0d9cbc433550ec54e2421f5b3ed01",
+      "bytes": 262188
+    },
+    "Human/Native_HumanWallBase.tga": {
+      "sha256": "feab375e82146e69b09583f8f13fdc4e65b37eadfb35f2a3f6ac4c134b2258ab",
+      "bytes": 262188
+    },
+    "Human/Native_HumanWoodmillBase.tga": {
+      "sha256": "e5b537a0540b00cd0ba47fb8f6ace93bb4e9580d97924cb078c4f8aa10becbbb",
+      "bytes": 262188
+    },
+    "Human/stone_x_05.nif": {
+      "sha256": "f01042cea9d294488d595bdcaa0aafb63858d8131dad320ae424cd215fa6a9cf",
+      "bytes": 110291
+    },
+    "Human/stone_x_06.nif": {
+      "sha256": "c4730f15a79dc1a1e576e41248b41960740c072406a02001120479d184be2c4a",
+      "bytes": 170643
+    },
+    "Human/stone_x_07.nif": {
+      "sha256": "2192dd167e0d76df3a993af7e69b804741a7341dea2b91317318489689603e7d",
+      "bytes": 176523
+    },
+    "Human/stone_x_08.nif": {
+      "sha256": "b20201ed1f848e4a67b33079b998a600b2ffb6e46b187e479c84cfaa5c689c61",
+      "bytes": 181843
+    },
+    "Human/stone_x_09.nif": {
+      "sha256": "72da55551f6c814c693eda75d65b7928da7238658b3866b654d702e6ce6bec34",
+      "bytes": 187163
+    },
+    "Human/stone_x_10.nif": {
+      "sha256": "ef70f09b6d3ae6b97c28c6da1cb3dde8d6c72876581d8842bf25264283517f8f",
+      "bytes": 192483
+    },
+    "Human/stone_x_11.nif": {
+      "sha256": "b71265978f0751645673e9cbcdb536771bf4fbf349f0efbe6340f3a0c9a81869",
+      "bytes": 252835
+    },
+    "Human/stone_x_12.nif": {
+      "sha256": "d6b94c1dc2412a9158d3b1130e5b4c46517fe2c310707a12e12b12750a0474c9",
+      "bytes": 258155
+    },
+    "Human/stone_x_13.nif": {
+      "sha256": "6435a26b00f6bce33549a2d47ed54fe7199f2ae04dde0f93d04e779183ced2f1",
+      "bytes": 264035
+    },
+    "Human/stone_x_14.nif": {
+      "sha256": "044dade2aae1019b82e2e9754b9f69e0ac376291a35fedfff304f3708547d41e",
+      "bytes": 269355
+    },
+    "Human/stone_x_15.nif": {
+      "sha256": "a18fa9e81ef114da939a4f04e9f8a71ebeb850528403029975df9aba5865c1de",
+      "bytes": 329707
+    },
+    "Human/stone_x_16.nif": {
+      "sha256": "1fa75b4490db5e25d21348645538bac732aeee2538c83c08c46aaf392624eb98",
+      "bytes": 335027
+    },
+    "Human/stone_x_17.nif": {
+      "sha256": "d1591fd2e1f6c4aa563ccdfcff13e521e0c637c3d6c0ddc39e94c387b4f27aa0",
+      "bytes": 340347
+    },
+    "Human/stone_x_18.nif": {
+      "sha256": "464565d8d51d20c7e44c8d04433356de74678f24f263b7d871fcdf03ae77af57",
+      "bytes": 345667
+    },
+    "Human/stone_x_19.nif": {
+      "sha256": "c9a2115aa6112e0aa6645246de69d20d8fb4435902f1d191753090220500c934",
+      "bytes": 351547
+    },
+    "Human/stone_x_20.nif": {
+      "sha256": "3c46bf60bb9e89bc7bb8d9b22b7b6e13de288f0856c71b46c22c2e3f4540dce1",
+      "bytes": 411899
+    },
+    "Human/stone_x_21.nif": {
+      "sha256": "bcb473b32e621b82329ac2051ecc4382e125717d03a7d7fd49f2836b2c6d711f",
+      "bytes": 417219
+    },
+    "Human/stone_x_22.nif": {
+      "sha256": "4c283508cd2407d366b4ec4a68cd5670c2c4eb7e33b261ef4a6ad857540aa739",
+      "bytes": 422539
+    },
+    "Human/stone_x_23.nif": {
+      "sha256": "b031304b0134e9e947ab3bf6e446a9b1e67b291d4d11080059173ed96d95d778",
+      "bytes": 427859
+    },
+    "Human/stone_x_24.nif": {
+      "sha256": "34b99c0745a27d5121ea79cbee4f4e99bd08c682e90aa06a0255e5f2ce927734",
+      "bytes": 489891
+    },
+    "Human/stone_x_25.nif": {
+      "sha256": "36f4dccf6d09c5e4c0565caaa16c5e1bc563a7ca744081a5f063dde877e538eb",
+      "bytes": 494091
+    },
+    "Human/stone_x_26.nif": {
+      "sha256": "e9685d052095a9e9b3fcec5aae89a3852d373546c384e53d327913141a8bc983",
+      "bytes": 499411
+    },
+    "Human/stone_x_27.nif": {
+      "sha256": "f75fb94f72403f29f242f74f9092f3a8561abc9a6e0535879fa1d8662322bc86",
+      "bytes": 504731
+    },
+    "Human/stone_x_28.nif": {
+      "sha256": "ec85bcb0ad1805c159e33c22b2e287498b7df1e40890579d8771e858b3b1295d",
+      "bytes": 510051
+    },
+    "Human/stone_x_29.nif": {
+      "sha256": "d7d05fcf22d853fcbe082e0014080cbc05a03a9b9863171da5a9e491d862ca1d",
+      "bytes": 570403
+    },
+    "Human/stone_x_30.nif": {
+      "sha256": "df75e6d1de56c9ba5de82750aca94fd44354e4dec176dd77bebc789187e0380c",
+      "bytes": 577403
+    },
+    "Human/stone_x_31.nif": {
+      "sha256": "42a4a389dcb659b0e3117dc34a9672dfcc51ea72bc88fac6ba2064c9ba147651",
+      "bytes": 581603
+    },
+    "Human/stone_x_32.nif": {
+      "sha256": "a48681df727e81b3149b26a277dc7905f2e5b20b91b73f2031dd5904e332e512",
+      "bytes": 586923
+    },
+    "Human/stone_y_05.nif": {
+      "sha256": "47b09f9ee0453ac791a9caac2239d9a77239e004562d8a59df73145e5e72878e",
+      "bytes": 110291
+    },
+    "Human/stone_y_06.nif": {
+      "sha256": "e6a8cda9161cb35ac229f9c53ad39b25ff8a98bb75636f32a96a34e3349b90ff",
+      "bytes": 170643
+    },
+    "Human/stone_y_07.nif": {
+      "sha256": "966226da375f4b88da13a963f9a97fdea97965a49b9676fec4fc10fe3ba47c22",
+      "bytes": 176523
+    },
+    "Human/stone_y_08.nif": {
+      "sha256": "e2a3e7b12caa59305b725e72553ebf5a8bae3ebd4cf77eb8ef6bcbe54850cde6",
+      "bytes": 181843
+    },
+    "Human/stone_y_09.nif": {
+      "sha256": "91bfc1267a2e86da000db81a9928cd323aebbd06ca3a5fc2d80e5797350e9e79",
+      "bytes": 187163
+    },
+    "Human/stone_y_10.nif": {
+      "sha256": "5617062dc0c14c2392b506bde11e7088e1c9dd9aade20d1292f666911b313449",
+      "bytes": 192483
+    },
+    "Human/stone_y_11.nif": {
+      "sha256": "4fd24575aac263dfb6b30226bcb688eafcccbfd71f975e2b0d75a4614ad26133",
+      "bytes": 252835
+    },
+    "Human/stone_y_12.nif": {
+      "sha256": "c229b08078e501abb61ab4a388e8261923110cae1ecd15999c19aa84b12d0aaf",
+      "bytes": 258155
+    },
+    "Human/stone_y_13.nif": {
+      "sha256": "da8fbac594ed5e18bd20fc39d83eb34c1f8fe9d5c7223f82f944b14d7f25ca6f",
+      "bytes": 264035
+    },
+    "Human/stone_y_14.nif": {
+      "sha256": "0068718facb1a59cd61fb97fd1c34456e2852fe202f29a24564b6ff47cce997d",
+      "bytes": 269355
+    },
+    "Human/stone_y_15.nif": {
+      "sha256": "eb928c8e1a21592ee8d8f6e53f5be9777ed1e6eddb3d1c5c4c9020c2e260e859",
+      "bytes": 329707
+    },
+    "Human/stone_y_16.nif": {
+      "sha256": "5b0aa02fa6d86ff79ef6a632b48673387c69098edd1e22cbdf6af14ba5448a46",
+      "bytes": 335027
+    },
+    "Human/stone_y_17.nif": {
+      "sha256": "eb7466bd0f2ed57ab3b25b9b21787f64cf28ef84935756768600badc64b0e3b6",
+      "bytes": 340347
+    },
+    "Human/stone_y_18.nif": {
+      "sha256": "96eacfcb8ad6108c80038fefaea5634d46f67576f4ed1017a5832092315648e5",
+      "bytes": 345667
+    },
+    "Human/stone_y_19.nif": {
+      "sha256": "56bd4c368234d615ce327f121402f3548e15162649f0684277610f395db1e757",
+      "bytes": 351547
+    },
+    "Human/stone_y_20.nif": {
+      "sha256": "65ab8169593dfb59785999cd3bc232419c49ccddcc6d0a82311edde1cd05ce7d",
+      "bytes": 411899
+    },
+    "Human/stone_y_21.nif": {
+      "sha256": "6e08c0ec559e4ee5b2ba48be22944a6449dce3e80977fc0464ba4dd088147058",
+      "bytes": 417219
+    },
+    "Human/stone_y_22.nif": {
+      "sha256": "43a70b32bca28367a85ad129bc4e880a245478c8b7d3f4046aa1c0c55044af54",
+      "bytes": 422539
+    },
+    "Human/stone_y_23.nif": {
+      "sha256": "60388c8f63faf1669aeb088952ca6f6065cb970fc6d678cb07667170d25716d8",
+      "bytes": 427859
+    },
+    "Human/stone_y_24.nif": {
+      "sha256": "29b9425ad031db1bfea8a4768a4ef1633ab8c5d3754dacc2e7f552975977feb1",
+      "bytes": 489891
+    },
+    "Human/stone_y_25.nif": {
+      "sha256": "4e118164c998e229f1de48b322d34acc699163b9071164a10d23b4cff198c01e",
+      "bytes": 494091
+    },
+    "Human/stone_y_26.nif": {
+      "sha256": "4f6455dfc6d673726c775e8636ba8bdc8449fea6b087f11cf37f2db770e86ae6",
+      "bytes": 499411
+    },
+    "Human/stone_y_27.nif": {
+      "sha256": "6503f7a29c389a854f280a142a7f18a4cea0bb4e9d343b155cdca7c92dc54e61",
+      "bytes": 504731
+    },
+    "Human/stone_y_28.nif": {
+      "sha256": "c6c2e1e751170961922f9d3a51d815f232344fe471bdc1704a6062fe2f76d88e",
+      "bytes": 510051
+    },
+    "Human/stone_y_29.nif": {
+      "sha256": "f8d87309264946066d46968df4655a635ef7bba9342c2df93e148745597a6008",
+      "bytes": 570403
+    },
+    "Human/stone_y_30.nif": {
+      "sha256": "d1a2df360ac02f4e3fe82b2fbbbed4bb44556ac41d97df57403b8f3ded82b628",
+      "bytes": 577403
+    },
+    "Human/stone_y_31.nif": {
+      "sha256": "1306fecc17481f8471dd19b681516daeaf1cb0542eb2d261fd4b19217dd39a74",
+      "bytes": 581603
+    },
+    "Human/stone_y_32.nif": {
+      "sha256": "9948218633b6b058f6de0827f38728cb5f81f0a2acd4b2306fff7c5a654680fa",
+      "bytes": 586923
+    },
+    "Human/wood_x_05.nif": {
+      "sha256": "e671f8bb86cd3c07f7dfec07f7d78abd1fcfddb2c4cc74e780120fd290295602",
+      "bytes": 115091
+    },
+    "Human/wood_x_06.nif": {
+      "sha256": "5b8fbb6569ed9b36a6ce066f136ba0e6389fb517abda9123b2a285bd76d7be02",
+      "bytes": 140011
+    },
+    "Human/wood_x_07.nif": {
+      "sha256": "fb12c7297fff977d879c9f2172dccc941648f226322a3151eae7b031a5e94398",
+      "bytes": 159019
+    },
+    "Human/wood_x_08.nif": {
+      "sha256": "4ad725bdd034ded6027ab524bfa2d12b0b0ce6cae2d10295718c4b01395bd82a",
+      "bytes": 167419
+    },
+    "Human/wood_x_09.nif": {
+      "sha256": "3ac8c2f9b2d09f6ba0cb8bef7d0c755609a76d12c569de3d09509eea2fd2d8ed",
+      "bytes": 196787
+    },
+    "Human/wood_x_10.nif": {
+      "sha256": "7b50032982102bd063304af7961e6d3c9503b45717ffedf39095c60c7c86cbe5",
+      "bytes": 204627
+    },
+    "Human/wood_x_11.nif": {
+      "sha256": "39a54fab74be558ea7bd0fe5e6fafac0db0bbb64e7f792098e3576342515ea57",
+      "bytes": 233995
+    },
+    "Human/wood_x_12.nif": {
+      "sha256": "496669e95b40ddba17913ed47e1082d78f45f69b2173a6d2f39471f7c270361e",
+      "bytes": 240715
+    },
+    "Human/wood_x_13.nif": {
+      "sha256": "a23d6bb96baf3eac15b9cf8f07e5a5c7e6f47f41d0848cdaef623c890bdc843a",
+      "bytes": 259723
+    },
+    "Human/wood_x_14.nif": {
+      "sha256": "2a629b3a4509abb12fed485aa88ff2d1fdfcb9d3e5336e146506887f77b85c03",
+      "bytes": 290771
+    },
+    "Human/wood_x_15.nif": {
+      "sha256": "f895fb8d38a0b47f2a1f91ead12b6bea82c88a77cb6c954b77e50ce6ceda7d65",
+      "bytes": 297491
+    },
+    "Human/wood_x_16.nif": {
+      "sha256": "1997c55c6e3add02e0478a13843f9a8f7c9807904eea30b9460e6d52cca0ae98",
+      "bytes": 326859
+    },
+    "Human/wood_x_17.nif": {
+      "sha256": "acb7c91cdbaece151abae072f99b31d49048caf253d2fad1513e283d06d02490",
+      "bytes": 334699
+    },
+    "Human/wood_x_18.nif": {
+      "sha256": "f4bb6176b1cad763b6883f26349d2afd738f6a7bf96abd69170aed132212c160",
+      "bytes": 364067
+    },
+    "Human/wood_x_19.nif": {
+      "sha256": "a376ca2d497e2f54e2112c39ea5f8111ec3d82694aab4c91c11b34224d7eb98c",
+      "bytes": 370787
+    },
+    "Human/wood_x_20.nif": {
+      "sha256": "3ddbea82f070190866e63387bd168ee2ee003c93496ddc360e6d5d6d949f569e",
+      "bytes": 391475
+    },
+    "Human/wood_x_21.nif": {
+      "sha256": "c3111aac3721bccdfd710c51e985e168aa27be42d2d5d5adb0a88effe2eea8d3",
+      "bytes": 409675
+    },
+    "Human/wood_x_22.nif": {
+      "sha256": "33fa2d2c7c64e9b7ddbe38e687e7e8f2f5f137213cc624168b88c4f9e4d6c519",
+      "bytes": 428683
+    },
+    "Human/wood_x_23.nif": {
+      "sha256": "eb8a742a133e8be11d13c04f6d02b8521fb558745fee074761e75f08c1f2c6de",
+      "bytes": 445763
+    },
+    "Human/wood_x_24.nif": {
+      "sha256": "e9419e30dce08363b938a69e0772e41649123ef7763a9b9580e039166b5478d0",
+      "bytes": 464771
+    },
+    "Human/wood_x_25.nif": {
+      "sha256": "6ed8ea50e7670e1f86e85825362d1c9c62befecbf6470006a40844352a0eb54c",
+      "bytes": 472611
+    },
+    "Human/wood_x_26.nif": {
+      "sha256": "b0da39d7e1551d044e35fd38246d74fd8b67146d533d469ce743bfbae16673e8",
+      "bytes": 502539
+    },
+    "Human/wood_x_27.nif": {
+      "sha256": "32b08cbfa9fc55e5ae39a0ac50a8c8fbe8181ca5381c9c07e0abc70318b151f7",
+      "bytes": 521547
+    },
+    "Human/wood_x_28.nif": {
+      "sha256": "8aaf229a1dfd77e892da3718e41d10a54cdaa58238de036d7ab6d162240da55f",
+      "bytes": 539747
+    },
+    "Human/wood_x_29.nif": {
+      "sha256": "f9f6b6e293169c50e405a23db2b280fb5b7e8a81c9fb20fc8dddcc73ba871d01",
+      "bytes": 557635
+    },
+    "Human/wood_x_30.nif": {
+      "sha256": "efa56f8e567acf829ec6719685606f7d902f2e50686204f719a424070a73b0c2",
+      "bytes": 575835
+    },
+    "Human/wood_x_31.nif": {
+      "sha256": "9fbd0af4918a58e8360e6875f601754b96426b5a97da19ce660529c319e8490d",
+      "bytes": 594843
+    },
+    "Human/wood_x_32.nif": {
+      "sha256": "f675a1315f57de7bdc6f15b0aec231754ae5221b2c4bdbc8f2363d639dae7e8c",
+      "bytes": 604363
+    },
+    "Human/wood_y_05.nif": {
+      "sha256": "0608288e0806a194a3bb0c687e488ea9cc54e88fe36fd6ed3505879c3f5d99ca",
+      "bytes": 115091
+    },
+    "Human/wood_y_06.nif": {
+      "sha256": "38f7dd060203c1652d048e1e8bbd96d3deaf0f202161bce3e59aebd2936270e9",
+      "bytes": 140011
+    },
+    "Human/wood_y_07.nif": {
+      "sha256": "5dc5f74334bbcdc5a49d51486b131c6635ba730582a12a52735136cf2d4261d9",
+      "bytes": 159019
+    },
+    "Human/wood_y_08.nif": {
+      "sha256": "9a44f320a7154a7bbb6f6f74145a570cff7611f96b69ef8d805029d90697afa3",
+      "bytes": 167419
+    },
+    "Human/wood_y_09.nif": {
+      "sha256": "2b378314bd55fb9faed234ef2b54789192862f2d76a6f23926925f63bd8f9508",
+      "bytes": 196787
+    },
+    "Human/wood_y_10.nif": {
+      "sha256": "a7c646cdc048b7fce7b5899f35c42e81c801a50bd06fb203deafb32d48e86314",
+      "bytes": 204627
+    },
+    "Human/wood_y_11.nif": {
+      "sha256": "46d44ae73cc7730a9a14d75adcef13d240d71c564466916bf041620d74679a21",
+      "bytes": 233995
+    },
+    "Human/wood_y_12.nif": {
+      "sha256": "6c64be536ae78884e4a32770a7761ebb3555dcdf30a0d1478b5f2506291c8369",
+      "bytes": 240715
+    },
+    "Human/wood_y_13.nif": {
+      "sha256": "2e4214ccc11412e2af60a80edf0f1eafae17e46b9d44bfa2e4e64bacbdd96c39",
+      "bytes": 259723
+    },
+    "Human/wood_y_14.nif": {
+      "sha256": "3559872e99848331a5fcd8f3521b9cb546c41f6ab894278784d6b2ed2aafd6bb",
+      "bytes": 290771
+    },
+    "Human/wood_y_15.nif": {
+      "sha256": "2ff704dce9da760034c739ee64d9ff5075a835beec9b5e0ae0c66998fd697723",
+      "bytes": 297491
+    },
+    "Human/wood_y_16.nif": {
+      "sha256": "10cb2f8efa2948eacb61f3baf2e7b7ff9a3292c84735dc7ba569072c7ab206cd",
+      "bytes": 326859
+    },
+    "Human/wood_y_17.nif": {
+      "sha256": "3a5550090063c59af7433d8b6bc8b47e5c6c92c9cbe4ca75d74fc837ac189c71",
+      "bytes": 334699
+    },
+    "Human/wood_y_18.nif": {
+      "sha256": "2fa808154b493de5c5e8694ec1f73bee5bb9e884602bd65b1fd4480f6cabe71c",
+      "bytes": 364067
+    },
+    "Human/wood_y_19.nif": {
+      "sha256": "5b458c02b92ac7191a4b3ed7701352135b3c467e23d77a38e2d575abaf309bea",
+      "bytes": 370787
+    },
+    "Human/wood_y_20.nif": {
+      "sha256": "f8a93776f1bd03ea6aaf23aa6259f5a6ad9e18cd9abfd9b55085b9337d32ea73",
+      "bytes": 391475
+    },
+    "Human/wood_y_21.nif": {
+      "sha256": "b9e7a6cc854f0cad22fa4af4658b32607382d4c6d27329dbecb5e5d356ba3a13",
+      "bytes": 409675
+    },
+    "Human/wood_y_22.nif": {
+      "sha256": "7c23dd12eb4d2a4e96c919b05b6e73aa5e2b6547ed228144cbcab392c88a374c",
+      "bytes": 428683
+    },
+    "Human/wood_y_23.nif": {
+      "sha256": "2466e4a055810c3bae815208a2695db16b53da4b7febe5315dd0eb4aa81a4d37",
+      "bytes": 445763
+    },
+    "Human/wood_y_24.nif": {
+      "sha256": "a35eb5d5c0d8e919beaf064ac84f812fee500efcd5ed9ec736e10821fabab8b6",
+      "bytes": 464771
+    },
+    "Human/wood_y_25.nif": {
+      "sha256": "9723121271c62e12b5b206758cb1a34131080298657126f52cc882fddb35e180",
+      "bytes": 472611
+    },
+    "Human/wood_y_26.nif": {
+      "sha256": "a046e077d0b0b8931c11fbaba53dfa484de2435324b5221bc0c1a3c10ec7c5ec",
+      "bytes": 502539
+    },
+    "Human/wood_y_27.nif": {
+      "sha256": "6b8e731ae07d3f5a83c23665f7ff513ebe46ea56ea767637a987036273118831",
+      "bytes": 521547
+    },
+    "Human/wood_y_28.nif": {
+      "sha256": "501dd007e489c3e560e01d1aa3404306c5d114dcbf4b5d01fbb16faf565c607d",
+      "bytes": 539747
+    },
+    "Human/wood_y_29.nif": {
+      "sha256": "052579fb2f0cbf641f249b94897e527fa7848f95bf975ccd34fade0490990dba",
+      "bytes": 557635
+    },
+    "Human/wood_y_30.nif": {
+      "sha256": "c0d6359f0440c0ada601e1f0a62fa0cd87afa6b1cd91c3b9ad314b5a96893055",
+      "bytes": 575835
+    },
+    "Human/wood_y_31.nif": {
+      "sha256": "6ef58e0c3cc589b2d17323d847ba972aa0e9dc9ffdd78f2c2cd184ea5c1f3baf",
+      "bytes": 594843
+    },
+    "Human/wood_y_32.nif": {
+      "sha256": "6ddf49f1496b768d09e0dee89a020d8dd31ba3b262d04c5c33835fcca2eb750c",
+      "bytes": 604363
+    },
+    "Gauri/GauriDeck.tga": {
+      "sha256": "3ae25c1480f339d70cd0359bdc2ceba6144227fb5fab5f7b0c64ed60b4e0d03c",
+      "bytes": 786476
+    },
+    "Gauri/GauriMasonry.tga": {
+      "sha256": "c06f968c81bf8877da59c65c4610abd8d431450c26b53fc12d51126310c6914d",
+      "bytes": 786476
+    },
+    "Gauri/GauriTimber.tga": {
+      "sha256": "fd10baabfd14ff79b69075c0caab5d9228bf580dbd39f8ac56e4c8c00ffaf97c",
+      "bytes": 786476
+    },
+    "Gauri/GauriWoodDeck.tga": {
+      "sha256": "88f2dad7342412f550eb97930f953f4ef6be327fb1908a5ec638f6dfc98cb42e",
+      "bytes": 786476
+    },
+    "Gauri/Native_GauriBarracksBase.tga": {
+      "sha256": "079056289361eccf2b9551322f8fc3ad9ba4ee848bccc9d8981264e532dc87c5",
+      "bytes": 262188
+    },
+    "Gauri/Native_GauriWallTowerBase.tga": {
+      "sha256": "3b3c99ac875d25bd7f14633b892faf580fd35a2a595b9953092596edc881f329",
+      "bytes": 65580
+    },
+    "Gauri/Native_GuariMineIronBase.tga": {
+      "sha256": "318754cea983f9e6e2208d41ae99676574b9358bfd37aaff1c9a8e3d81509b8e",
+      "bytes": 262188
+    },
+    "Gauri/stone_x_05.nif": {
+      "sha256": "85d7154dd429f78bbbd72ca5cd67ddfb3d7d1d85c22ba20d15fdad6d18b68ec9",
+      "bytes": 132480
+    },
+    "Gauri/stone_x_06.nif": {
+      "sha256": "f5aae80ea421b46d7c2951be480f2b290c0ee59209fe5abedd96dc077fee9bc3",
+      "bytes": 193392
+    },
+    "Gauri/stone_x_07.nif": {
+      "sha256": "e5880291eb8a5df173959dc631b7e285c7fd104856119d3b08749e72e8a8ee55",
+      "bytes": 199552
+    },
+    "Gauri/stone_x_08.nif": {
+      "sha256": "950e8fdf7963c378425b148b21832a6c2c4bcce55e406e798f66f9feedd0b54c",
+      "bytes": 204312
+    },
+    "Gauri/stone_x_09.nif": {
+      "sha256": "c2721c731d21aa6ad4bde895b9d7a05d9ad0ab9b448bc295b1ef0a8f02465189",
+      "bytes": 212712
+    },
+    "Gauri/stone_x_10.nif": {
+      "sha256": "60275d48f67bd070c70e161e05f2655659326a4e0987ce3da6ebfdfff2577bdb",
+      "bytes": 272504
+    },
+    "Gauri/stone_x_11.nif": {
+      "sha256": "4afd664f468a67f6e5556261c404c10f722c7c3b671867c10c2b9a6730ead85a",
+      "bytes": 278384
+    },
+    "Gauri/stone_x_12.nif": {
+      "sha256": "7c4d70fad67fe7911015cbe9a721061d8ccb2ddf6f96213f592a5b01cd8e6967",
+      "bytes": 285664
+    },
+    "Gauri/stone_x_13.nif": {
+      "sha256": "3fbe37d8bef0aac2ede2b1c557ba3195faab2aba03cffaec9ed21f7b417b5fc2",
+      "bytes": 289304
+    },
+    "Gauri/stone_x_14.nif": {
+      "sha256": "2f6edd55eff65fd928f0983a6163873f405fd02e594601c949e8bacd491090fb",
+      "bytes": 350216
+    },
+    "Gauri/stone_x_15.nif": {
+      "sha256": "bfcd2501d1e7aadbb8961dfc7664fc1e7e10062b3cb2c5dcbc5737ff93bb3ab8",
+      "bytes": 357496
+    },
+    "Gauri/stone_x_16.nif": {
+      "sha256": "2e2f1f323b5b3d97fcd0701a0f4ac4c1e036fd7ae30b00743c2432572447b1c6",
+      "bytes": 362256
+    },
+    "Gauri/stone_x_17.nif": {
+      "sha256": "ac7466fcdc4dd4b540d94833c0d77aaa8ec36ab86de33c9fd8a36cc1fd2440d8",
+      "bytes": 370656
+    },
+    "Gauri/stone_x_18.nif": {
+      "sha256": "e01459f66347bb8f15734e69bc7de1c9db413e09421d7c3726a9397084fd94f4",
+      "bytes": 431568
+    },
+    "Gauri/stone_x_19.nif": {
+      "sha256": "fce1c089e365b4227b4749277ef79a958924d2a0b65417ac3143fba6699fa949",
+      "bytes": 434088
+    },
+    "Gauri/stone_x_20.nif": {
+      "sha256": "c505eb0b2f0acf2aa40cf8cc4bab4d21c520745524271bef81e17ab11c95a457",
+      "bytes": 442488
+    },
+    "Gauri/stone_x_21.nif": {
+      "sha256": "fb1dc501745bc2946adc29ee27d316792e5b49f02dc00808ec9d491889ee2423",
+      "bytes": 448368
+    },
+    "Gauri/stone_x_22.nif": {
+      "sha256": "d667442095359ab25e761e8b36f5354b07a610796b3378fbdf68ccfce88d3022",
+      "bytes": 508160
+    },
+    "Gauri/stone_x_23.nif": {
+      "sha256": "56afa6215d8924775325cbd8f5812cfe8efff34a1d427ce2a5e2c504e61c5b06",
+      "bytes": 515440
+    },
+    "Gauri/stone_x_24.nif": {
+      "sha256": "1efecb55cc89da76aa5b554e526d97c80c803eb6a0dfe79ec3075773fd94511c",
+      "bytes": 521320
+    },
+    "Gauri/stone_x_25.nif": {
+      "sha256": "b8f4562fdc2bce075e90a2a00705d85c97dff0a76e400b89c1146af4ab5a3b4a",
+      "bytes": 527480
+    },
+    "Gauri/stone_x_26.nif": {
+      "sha256": "374865c38e7fcd089a3d70ce69c3ed91f76a634c14955d15e69e2438f5f19473",
+      "bytes": 587272
+    },
+    "Gauri/stone_x_27.nif": {
+      "sha256": "3d47d97b74839518f64f605c7f27d8c68767a4012b69cf91ff2ff42f550439f5",
+      "bytes": 593152
+    },
+    "Gauri/stone_x_28.nif": {
+      "sha256": "4920ab139945dc999afe23f8480e99cbafe1fcf697b285b29ba3a74d6e8c6a77",
+      "bytes": 600432
+    },
+    "Gauri/stone_x_29.nif": {
+      "sha256": "4c400bce072bb666d880ddefc61ab87344e29c5f12ce2335e5d9da2e9ac03571",
+      "bytes": 605192
+    },
+    "Gauri/stone_x_30.nif": {
+      "sha256": "e062ddfe91932f68ec60f2d0d36855ab23a2848d6c021e8cd8bdf87237238770",
+      "bytes": 666104
+    },
+    "Gauri/stone_x_31.nif": {
+      "sha256": "d4c9b62ae8c0e1ae85dc2ce76161e6dde4c4be4ab2e89d921fbfa375d7cdef0f",
+      "bytes": 672264
+    },
+    "Gauri/stone_x_32.nif": {
+      "sha256": "32833356721daf69e216c38e7538d32aee3ced949da97526612db747e7108dcc",
+      "bytes": 678144
+    },
+    "Gauri/stone_y_05.nif": {
+      "sha256": "a9f9a50c6ba637aae27e39a923e079ef1b1fe616d4fa953a25aee89c6b42124c",
+      "bytes": 132480
+    },
+    "Gauri/stone_y_06.nif": {
+      "sha256": "9fa214b1450dbe4138f745cea25af4721de132b6297771237221ccc1ea046d39",
+      "bytes": 193392
+    },
+    "Gauri/stone_y_07.nif": {
+      "sha256": "af0ce419b2c7a7f928ee47e625bd5acd2f21489cc5ca4997e4caa73eb9d4cf49",
+      "bytes": 199552
+    },
+    "Gauri/stone_y_08.nif": {
+      "sha256": "9016c2749a3857384230333fada8d902f9a2f0ec01787bfe4b03e66de39cd1cb",
+      "bytes": 204312
+    },
+    "Gauri/stone_y_09.nif": {
+      "sha256": "d1ad5289c859f61d556d3a85858efd9ca3d1abe997c779f5dbe559c29bb9310b",
+      "bytes": 212712
+    },
+    "Gauri/stone_y_10.nif": {
+      "sha256": "07f2e38a674312e950cf111034fc0bacd60bc7823a56a3dbb8b6a2e1073acaaa",
+      "bytes": 272504
+    },
+    "Gauri/stone_y_11.nif": {
+      "sha256": "d7b5beb0174596e3af083ff8b1bd36a1fdb17e71d8adf758e7e0cb50ae2912ef",
+      "bytes": 278384
+    },
+    "Gauri/stone_y_12.nif": {
+      "sha256": "061a0e8ac7de96809034f947a36901f2ee6d4940f2dcf99b800d7d84e1050154",
+      "bytes": 285664
+    },
+    "Gauri/stone_y_13.nif": {
+      "sha256": "49070acd47070cc5884df48bd463eeb21c877400d1cfa5bd22de770522a1930e",
+      "bytes": 289304
+    },
+    "Gauri/stone_y_14.nif": {
+      "sha256": "5073e7c58e71b7ed4cb3361a905f3ca6f0d186a241e992b06191baf44e2cf060",
+      "bytes": 350216
+    },
+    "Gauri/stone_y_15.nif": {
+      "sha256": "3f0e5019130b61ad3c3c1939491c1a6352172d5f3616ba8c4edfc630fd566601",
+      "bytes": 357496
+    },
+    "Gauri/stone_y_16.nif": {
+      "sha256": "bb053ae873082e3780afb360f40f2c0b12b7906266e7ff638ae591c42d306cd6",
+      "bytes": 362256
+    },
+    "Gauri/stone_y_17.nif": {
+      "sha256": "f52ae638cc5195bd82aba16cc47616da000f66bbbd6c9947f4c5bcbb690821a2",
+      "bytes": 370656
+    },
+    "Gauri/stone_y_18.nif": {
+      "sha256": "79a567baa29ff280361b829479f37fe073ebe39043889b822cff8daff712a1c9",
+      "bytes": 431568
+    },
+    "Gauri/stone_y_19.nif": {
+      "sha256": "85932dbd9fb82b522cc05fae0944e85edb89c5085e9294e62b6f8bf18b293fb2",
+      "bytes": 434088
+    },
+    "Gauri/stone_y_20.nif": {
+      "sha256": "36057767c21ff07b4c09639eb5052e112141fb8af3f7f074ee1a152482867b80",
+      "bytes": 442488
+    },
+    "Gauri/stone_y_21.nif": {
+      "sha256": "ca7c1f20803e9dfc34a7ef4e87948c9d98d9a11996a29d9e09e4ed274c1d9bc0",
+      "bytes": 448368
+    },
+    "Gauri/stone_y_22.nif": {
+      "sha256": "4419b1864f81a87e054ab185cf6faedc3b345ad00f0b6cbd632946ba7e9d0b6b",
+      "bytes": 508160
+    },
+    "Gauri/stone_y_23.nif": {
+      "sha256": "5d22896d1b14094fd790ea9a3588b208822f85dcee765de956155c7db0d0e4f4",
+      "bytes": 515440
+    },
+    "Gauri/stone_y_24.nif": {
+      "sha256": "7fd1c2fe7258188a3dbcb16444d58c3a1bbadb931bc6cb44c4effce017f0dddb",
+      "bytes": 521320
+    },
+    "Gauri/stone_y_25.nif": {
+      "sha256": "a516a039121cb6a9327e4876ea94aa43972c219158336789854b8c24aa7aac0d",
+      "bytes": 527480
+    },
+    "Gauri/stone_y_26.nif": {
+      "sha256": "81d5dc2c7b911134c4c2231c6c6fcb1faa0b7be5b764779b79ab5e78c62dafeb",
+      "bytes": 587272
+    },
+    "Gauri/stone_y_27.nif": {
+      "sha256": "efdfa15b4778ae77cb97b9955c645b85999eefbf915d5ef5fe50978c75db8715",
+      "bytes": 593152
+    },
+    "Gauri/stone_y_28.nif": {
+      "sha256": "3bc2f8e52e43cc273adfdf975c4f7388a1e4e2f9d7bdfb6324d62f274d588c7c",
+      "bytes": 600432
+    },
+    "Gauri/stone_y_29.nif": {
+      "sha256": "471f55afbff372f3092093bcf3338ed6dc9ca8ecb6fa4dbd0dc8755206a30629",
+      "bytes": 605192
+    },
+    "Gauri/stone_y_30.nif": {
+      "sha256": "516d12e78cdaaea7f3a1b7d9ea92a6cd7144851b6d49c648beb6edf4329898ff",
+      "bytes": 666104
+    },
+    "Gauri/stone_y_31.nif": {
+      "sha256": "5f570a5a133c4675020e9847062c0eaba36bbe6804eedfa04ac0ed02ade9f3c4",
+      "bytes": 672264
+    },
+    "Gauri/stone_y_32.nif": {
+      "sha256": "4259061db6142b174a036b7711c03175e28d9d0d27472676826482b7090ebe2a",
+      "bytes": 678144
+    },
+    "Gauri/wood_x_05.nif": {
+      "sha256": "f6f941d17414ad1eb4cb7dfc7313f3af0e2dd3545b6d02b5cc7b3c424ff4d1b7",
+      "bytes": 116205
+    },
+    "Gauri/wood_x_06.nif": {
+      "sha256": "28f2bcbd02c6a5ff02649f34ba057126565cb49bb341200c62940629c7fd6d6a",
+      "bytes": 142981
+    },
+    "Gauri/wood_x_07.nif": {
+      "sha256": "bf31dab53f046e5cfdbea38a71bde8a08d0149f7b7b2b6d18ba0cd4a9806bc41",
+      "bytes": 148021
+    },
+    "Gauri/wood_x_08.nif": {
+      "sha256": "fe7cf7433853660362412b8009a20b6a14b13ca321f443ba6d63e0071674f879",
+      "bytes": 174797
+    },
+    "Gauri/wood_x_09.nif": {
+      "sha256": "b5485a51c277802f524ff2428b2d4c70a772cbe0e3fa6d09b8ef8a26991cb5a1",
+      "bytes": 180957
+    },
+    "Gauri/wood_x_10.nif": {
+      "sha256": "a1fc84966c63179dc4e4d7da3cde51e91c6ca85f6434767dc06fe58c2dd83b0c",
+      "bytes": 188797
+    },
+    "Gauri/wood_x_11.nif": {
+      "sha256": "ae9aaf5c10a7b17fa4c6513d5ec053601ce2b72c286772f36a3d9eb94ec08f46",
+      "bytes": 213893
+    },
+    "Gauri/wood_x_12.nif": {
+      "sha256": "e466711a5950ffe325c8030a68c39c33012a47afb8bb50cd7fe6eeed9ef6c099",
+      "bytes": 220053
+    },
+    "Gauri/wood_x_13.nif": {
+      "sha256": "877d75f7c1a89ca6377e3988716b64d1362a298daaffc1bc808dee20d724053c",
+      "bytes": 245709
+    },
+    "Gauri/wood_x_14.nif": {
+      "sha256": "fc4deccc0af6c3577a57e9a996de0c68099926285594a21ced9125d9f37299c9",
+      "bytes": 251869
+    },
+    "Gauri/wood_x_15.nif": {
+      "sha256": "f8c9ce6177531d4f0a04513f6ee44d4c6c6b018cdce1cab38733f9712b8e9e85",
+      "bytes": 278645
+    },
+    "Gauri/wood_x_16.nif": {
+      "sha256": "95eb282b4a0aa500f858186217bc1f014ac73c284884690cdf4d9cd23790cfc6",
+      "bytes": 284805
+    },
+    "Gauri/wood_x_17.nif": {
+      "sha256": "910879b4fed5a52d57c96a03d9e60b257f56597c04778a107624630a1ae23625",
+      "bytes": 292645
+    },
+    "Gauri/wood_x_18.nif": {
+      "sha256": "a1054a17b333a763e939f6b7368a3616348ab46ac7f9524daefcbdc0551c1065",
+      "bytes": 317741
+    },
+    "Gauri/wood_x_19.nif": {
+      "sha256": "0061f4ce472a76ff246887df25ac91a73ea92b504f031095ad0bd24211287855",
+      "bytes": 324461
+    },
+    "Gauri/wood_x_20.nif": {
+      "sha256": "0afe5ec9458e704872e7f235ba02b0e372e793ff71ea739105d7c74a88755944",
+      "bytes": 349557
+    },
+    "Gauri/wood_x_21.nif": {
+      "sha256": "9dd8edfc0f2df4ef4c291827cc582f9cb990454c337e6a265e3418c45490d52d",
+      "bytes": 355717
+    },
+    "Gauri/wood_x_22.nif": {
+      "sha256": "63cbb19c4748a2cd6c0472dc8d790f93ad6d5368f9443e8844bbfef9d9d888b5",
+      "bytes": 382493
+    },
+    "Gauri/wood_x_23.nif": {
+      "sha256": "8da6c376f1e8c0bd7993ce5bfcbc75f090659408205e2b94be1865f333435df3",
+      "bytes": 388653
+    },
+    "Gauri/wood_x_24.nif": {
+      "sha256": "3407b406e1f5838ac88eff5e52be5ca5ff8d103c48951cb1a5b65218c052661d",
+      "bytes": 396493
+    },
+    "Gauri/wood_x_25.nif": {
+      "sha256": "bb6b39f10573a716b307049af6dc3ee355f68159ddfe22204c732ab633919b4b",
+      "bytes": 420469
+    },
+    "Gauri/wood_x_26.nif": {
+      "sha256": "89f80141f39e048ad54441e1253d94605115ed4e0458460f032357ce166fd804",
+      "bytes": 428309
+    },
+    "Gauri/wood_x_27.nif": {
+      "sha256": "583924aa0ef9fc7d0065ee6432807a030702e4606d47a874ebf09b835ac1442b",
+      "bytes": 453405
+    },
+    "Gauri/wood_x_28.nif": {
+      "sha256": "b48e459bfbc09667e03ce8a54aa950e1583fb48f04224952f65c5ac757fc850d",
+      "bytes": 461245
+    },
+    "Gauri/wood_x_29.nif": {
+      "sha256": "e6ac221b5530dc4f2c1ee7eb5df6dfd5dab7a33b732a0c112fa56ddebc3307c0",
+      "bytes": 486341
+    },
+    "Gauri/wood_x_30.nif": {
+      "sha256": "9e24fef6fe8cb6b5bc72ecec66ba8a4ec1201cb48d3bd09299f59bd5d3967468",
+      "bytes": 492501
+    },
+    "Gauri/wood_x_31.nif": {
+      "sha256": "861e94c147054ad94bc5d21efc9f4303192fd00aaabb8aed9caa0e9b2a279343",
+      "bytes": 518157
+    },
+    "Gauri/wood_x_32.nif": {
+      "sha256": "d2998f1914d32fd1b29c7d8f93cae5248dba391066d1871ca407afdad2b9f840",
+      "bytes": 524317
+    },
+    "Gauri/wood_y_05.nif": {
+      "sha256": "c93b145eb83080f8895eeb96fd6a1af5e2e34acfa68db95095b5d13174a011f0",
+      "bytes": 116205
+    },
+    "Gauri/wood_y_06.nif": {
+      "sha256": "51107eebc1f6deec1dd8c47497bb9ae6d0eba63d50348fdb46070774afc7aed1",
+      "bytes": 142981
+    },
+    "Gauri/wood_y_07.nif": {
+      "sha256": "69bee76d13bb844ae169e59a69d12d19951545a8e5b3b315bfd932c25d25eab2",
+      "bytes": 148021
+    },
+    "Gauri/wood_y_08.nif": {
+      "sha256": "79f596797c10e586ace1ccc9acb37693de4406159c6e8b9e25c9f4dd3e1ac65a",
+      "bytes": 174797
+    },
+    "Gauri/wood_y_09.nif": {
+      "sha256": "7f3d084e0facff1228222ed89da9f06bee24e01ed119f19bd7a88a53c8086fd5",
+      "bytes": 180957
+    },
+    "Gauri/wood_y_10.nif": {
+      "sha256": "3e877fbbfa1baea40e28df37d45996d05f0e6575bab8652ea2c7cfde508fa4ef",
+      "bytes": 188797
+    },
+    "Gauri/wood_y_11.nif": {
+      "sha256": "e3178b5f03082416949cef156ddf7545cf6deb1a125e2f2ebf21b46204d3f04c",
+      "bytes": 213893
+    },
+    "Gauri/wood_y_12.nif": {
+      "sha256": "57e5cca242327a5149d99e76e97fe30e113b0e3f0a89ca9e1b12cdd30e880061",
+      "bytes": 220053
+    },
+    "Gauri/wood_y_13.nif": {
+      "sha256": "c56d4edc539397d024ab0cf0b3fab644d34146511249d3745e72377fb5d7d508",
+      "bytes": 245709
+    },
+    "Gauri/wood_y_14.nif": {
+      "sha256": "1087703246ed63c3ad65f5f68d53615c2eb81c1c27dca17488411280426cd27b",
+      "bytes": 251869
+    },
+    "Gauri/wood_y_15.nif": {
+      "sha256": "500d1d20edd1374afa94c45f5e1827e3497274a5d3f5c53fda6a4ae5de1b2ed4",
+      "bytes": 278645
+    },
+    "Gauri/wood_y_16.nif": {
+      "sha256": "84f05044ea0ae6077b8a8c4cbeae9548c2b1316e582afe707c281b2d79ac2129",
+      "bytes": 284805
+    },
+    "Gauri/wood_y_17.nif": {
+      "sha256": "c36ee43190d24d5b2f6071fc18fad7f663281b88b82ea24700260cb57e9b2c68",
+      "bytes": 292645
+    },
+    "Gauri/wood_y_18.nif": {
+      "sha256": "59663b59b2497573506fa372adc74fe68ee335940c0a7f6331dae858c2d1bd37",
+      "bytes": 317741
+    },
+    "Gauri/wood_y_19.nif": {
+      "sha256": "51a249672f9099e44c02f3a921077f6082e80b5d8b83d4cbd7d68e750ce27a83",
+      "bytes": 324461
+    },
+    "Gauri/wood_y_20.nif": {
+      "sha256": "a040804bcc31bbce26c19b449f81b4a903987cc39651244a65a8b832bd786525",
+      "bytes": 349557
+    },
+    "Gauri/wood_y_21.nif": {
+      "sha256": "20c1c9834d3af018330e79216c25c21c70a1ee7ed3d0743e286655c4b0e824a9",
+      "bytes": 355717
+    },
+    "Gauri/wood_y_22.nif": {
+      "sha256": "5daff9d9f6c65c6127bc51bc1f6ff5f16ad36e07afa63b78c6edb4424dc8d947",
+      "bytes": 382493
+    },
+    "Gauri/wood_y_23.nif": {
+      "sha256": "4f7c5bfc1080ed50ee465f6eb5c3d8fd25a5e73d2a5dc792ea474be6ddc2b60f",
+      "bytes": 388653
+    },
+    "Gauri/wood_y_24.nif": {
+      "sha256": "9120d74ec0c669508a5e08687d86b25a880d4e40e1e198aaaba91b18d0a2eb3b",
+      "bytes": 396493
+    },
+    "Gauri/wood_y_25.nif": {
+      "sha256": "19bd1e2c359a3ac94e6e2f33d59f568bfbed5c2b3342cb621b45e55a7135c053",
+      "bytes": 420469
+    },
+    "Gauri/wood_y_26.nif": {
+      "sha256": "2df57f38c6a0faed6756cda30ea3ab71b2e3377ec62127ef9b0b3f0aa51f8719",
+      "bytes": 428309
+    },
+    "Gauri/wood_y_27.nif": {
+      "sha256": "18371909ac727bb08c9d8937b9ac4b6bdc476327f34f7a1fecc7e97604f8d999",
+      "bytes": 453405
+    },
+    "Gauri/wood_y_28.nif": {
+      "sha256": "54888be97aa22bb3f1e2bdbdc0d6b61c91e56607fc73fed34aa70f7294a580a3",
+      "bytes": 461245
+    },
+    "Gauri/wood_y_29.nif": {
+      "sha256": "6331f3e49b955deddd1b62fd275475e920d3eb7712b4b38e02eb77db33e924ac",
+      "bytes": 486341
+    },
+    "Gauri/wood_y_30.nif": {
+      "sha256": "1b57518f795613ed830707318ea8629930f8cfa1023d728f0c665660d305a8e0",
+      "bytes": 492501
+    },
+    "Gauri/wood_y_31.nif": {
+      "sha256": "4533dcea3d32392f22c0dc7f12db679f5e41aabb6d220cbd7a8bf037018139ee",
+      "bytes": 518157
+    },
+    "Gauri/wood_y_32.nif": {
+      "sha256": "c87dfadea32f9f6e55cf76fddab0cd7a3e82e1adb9b401f7e47dd401f20ac1a0",
+      "bytes": 524317
+    },
+    "Drauga/DraugaFlagstone.tga": {
+      "sha256": "a455568b2d29d766344fa6c5ee259896ecaab904213a7460f9db0780026ecc16",
+      "bytes": 786476
+    },
+    "Drauga/DraugaPlanks.tga": {
+      "sha256": "98efebb232e957ff554eab88e354b86875acc707bb05f3a30f90e56c9d781919",
+      "bytes": 786476
+    },
+    "Drauga/DraugaRubble.tga": {
+      "sha256": "141009128e718816ae291ef9bba4480d19f770091aa9280d6b47906dd3b95348",
+      "bytes": 786476
+    },
+    "Drauga/Native_DraugaMarketBase.tga": {
+      "sha256": "da9722b7bf1deadf398def941c9c27755bb5f67683269eee2af190e20afa16a1",
+      "bytes": 131116
+    },
+    "Drauga/Native_DraugaShrineBase.tga": {
+      "sha256": "b7c04d2147a6a77bee1bd598a9ee4bf08a32ac35cfb760fa79372d44767e6e2d",
+      "bytes": 262188
+    },
+    "Drauga/Native_DraugaWall01base.tga": {
+      "sha256": "6ccf0eec48102bcdd4f94a6cd7bbab3bcfc2b4e81b22fd829ff8b60d20c15496",
+      "bytes": 65580
+    },
+    "Drauga/Native_DraugaWall03Base.tga": {
+      "sha256": "854f6316a2df709fa54d2959316f7d055c1e244f1dbb63345ae2cd4091667619",
+      "bytes": 262188
+    },
+    "Drauga/stone_x_05.nif": {
+      "sha256": "ae3e34df385dd07c37847ddc630bd7ff347604056e5fe80dd186a610b7010de3",
+      "bytes": 171868
+    },
+    "Drauga/stone_x_06.nif": {
+      "sha256": "a173d1c1a09b102be12e95aee2067d010541ec73c6a3055098dc71df8ac6e881",
+      "bytes": 173728
+    },
+    "Drauga/stone_x_07.nif": {
+      "sha256": "c5b19be27046f50e29f5393e0a20f01736b9349078e69d12dfaef067c24fc840",
+      "bytes": 183856
+    },
+    "Drauga/stone_x_08.nif": {
+      "sha256": "4bee53bcbcab73fde2bc96a2178dc5a7e165aaf056b7b6b8f5dc3fa133a0bce2",
+      "bytes": 184696
+    },
+    "Drauga/stone_x_09.nif": {
+      "sha256": "5a0daa6f3f78649d9b85c6fededffe1a1c6622c5a7be21f137689b4f5e58de76",
+      "bytes": 205912
+    },
+    "Drauga/stone_x_10.nif": {
+      "sha256": "88feb28d06c6f3d6fc3c1d11ec36f159dc782966fed99dd8ab5ab0e5f80ee8f8",
+      "bytes": 211996
+    },
+    "Drauga/stone_x_11.nif": {
+      "sha256": "4fe5c5dbd99bf475386c8646a4d656443581fb62ad046e89b65d26a63d9c106b",
+      "bytes": 212836
+    },
+    "Drauga/stone_x_12.nif": {
+      "sha256": "8a4c270d0fbaecd9b934649db061aa80d8c6a622b12ca084f9627faa078d91c6",
+      "bytes": 209452
+    },
+    "Drauga/stone_x_13.nif": {
+      "sha256": "7cae8a36a3a35eac20edff760a8236358e5cd8dd6ec548a5718d60d46127521d",
+      "bytes": 231508
+    },
+    "Drauga/stone_x_14.nif": {
+      "sha256": "5bc12a658465e79e7b27a92eaf6bc0e66beba058d126f62057c8aced30a675dc",
+      "bytes": 233368
+    },
+    "Drauga/stone_x_15.nif": {
+      "sha256": "92e7c23838e1b615a82e9e37b15c52558c33d13ca8179f7d7e8073b9b06e07b8",
+      "bytes": 234208
+    },
+    "Drauga/stone_x_16.nif": {
+      "sha256": "0154d2759d8e618dc5cefcc69fbf57c4fea6481f2b7052178bc267544a24dfae",
+      "bytes": 235048
+    },
+    "Drauga/stone_x_17.nif": {
+      "sha256": "46fde7b369fefecf9e8f4a089b1e5119ba9f2445eb91327e0e95fcd41576f423",
+      "bytes": 260488
+    },
+    "Drauga/stone_x_18.nif": {
+      "sha256": "c28720209160b7108b439a6a58a60c1ea670b62582a781d9f658ce6ebe36e09a",
+      "bytes": 262348
+    },
+    "Drauga/stone_x_19.nif": {
+      "sha256": "98834e98e7c07ee97b66e685f8046c6545fae700284e66e6d54726533870dafe",
+      "bytes": 259804
+    },
+    "Drauga/stone_x_20.nif": {
+      "sha256": "649b9889ef84cee2ca35b2024c5b33d06af627c4759db5cdf945501d547d321e",
+      "bytes": 289468
+    },
+    "Drauga/stone_x_21.nif": {
+      "sha256": "6a6a3d68f3ea8707dea4306d5201dd437434a7497c6c78ae129e12c5d44c0545",
+      "bytes": 290308
+    },
+    "Drauga/stone_x_22.nif": {
+      "sha256": "3ec811edfb319c571d61c70a70b85fe93d618f0ced130a910b4eb5e69234426f",
+      "bytes": 292168
+    },
+    "Drauga/stone_x_23.nif": {
+      "sha256": "9c4fe54953f4855c185aa19cb2447368a6d23326d8b7f387bccaef4dedf30e12",
+      "bytes": 284560
+    },
+    "Drauga/stone_x_24.nif": {
+      "sha256": "040630f1b31f1cb3f80b86051fa50b15255fb264fa871f4f657e95bef717f599",
+      "bytes": 319288
+    },
+    "Drauga/stone_x_25.nif": {
+      "sha256": "f865358995b611204148658941d67b278e6eb53b222970ab10efc05a299b859d",
+      "bytes": 320128
+    },
+    "Drauga/stone_x_26.nif": {
+      "sha256": "522d5ca447e8648ae74c792acc28bb8d38312305ea802ebd798498fc7db72cd9",
+      "bytes": 309316
+    },
+    "Drauga/stone_x_27.nif": {
+      "sha256": "befde55a16d6ef967f5457d25a053acbed51227fbe479d60062197ca248fccc5",
+      "bytes": 310156
+    },
+    "Drauga/stone_x_28.nif": {
+      "sha256": "5bade632f2299e1af49254cc00650b6bc8dde468f1446f718b340b30c17ca6bb",
+      "bytes": 339820
+    },
+    "Drauga/stone_x_29.nif": {
+      "sha256": "271e846d3ba0ced9bcd99f277dc0f18d2ef376d7a4d6381b72e78e602e35d152",
+      "bytes": 340660
+    },
+    "Drauga/stone_x_30.nif": {
+      "sha256": "1b05a137bdec4fe34cfb2fb4cf409a2e041d4f97785d16410b46a5ee07ea2090",
+      "bytes": 334912
+    },
+    "Drauga/stone_x_31.nif": {
+      "sha256": "780ff2d8c93c1884f79b280ce2f2f3b9e6fd31fececedbf377433bb7bf9e5365",
+      "bytes": 361096
+    },
+    "Drauga/stone_x_32.nif": {
+      "sha256": "137eb5e9c164580028762344f5e84d6baa87f993b270b82c00d63d3dbe15e6af",
+      "bytes": 369640
+    },
+    "Drauga/stone_y_05.nif": {
+      "sha256": "098eec382aa17ec8670b013473eddebeae101eda9277fe7f755a82a695953de3",
+      "bytes": 171868
+    },
+    "Drauga/stone_y_06.nif": {
+      "sha256": "23160bb1f0abaac4974e724c2d2118c92444a524a5576ac773293ee256386758",
+      "bytes": 173728
+    },
+    "Drauga/stone_y_07.nif": {
+      "sha256": "cadf74b819fa8587aa380383d4851c125d26bfcb5ad86cd98fb92cd77238edc9",
+      "bytes": 183856
+    },
+    "Drauga/stone_y_08.nif": {
+      "sha256": "058587db2d8a9e09d11a6e208713ec98a49fff5090a66a9f06f1aa62611915a8",
+      "bytes": 184696
+    },
+    "Drauga/stone_y_09.nif": {
+      "sha256": "382b2d130babbc6bb75a2e41a504395f08320b50803677d7f3cecfee0b00a701",
+      "bytes": 205912
+    },
+    "Drauga/stone_y_10.nif": {
+      "sha256": "8cad2713da166e3c10e8f0b55ac03a8234d77643b45feb5f8748ac79c10d8326",
+      "bytes": 211996
+    },
+    "Drauga/stone_y_11.nif": {
+      "sha256": "07f98ca8f562e226252af369a7496ea2d557e8995d0bda7a036cedd963d3b7c8",
+      "bytes": 212836
+    },
+    "Drauga/stone_y_12.nif": {
+      "sha256": "301f67c31393c8f9b6aab8a1aa5b3daf87a085f3930994d4479f60ec5a79eac7",
+      "bytes": 209452
+    },
+    "Drauga/stone_y_13.nif": {
+      "sha256": "ae01804d51bce987d02651c13101466d93fe6df239d288eac38b41e01447f4a3",
+      "bytes": 231508
+    },
+    "Drauga/stone_y_14.nif": {
+      "sha256": "207ffca90b70d7d48f42f9e26efa7ba3c049d3ec15191d8bc53b04e8019911d8",
+      "bytes": 233368
+    },
+    "Drauga/stone_y_15.nif": {
+      "sha256": "b804758c527c57585aaa38d0ba9f708335d66eb461b1b0e8791b43217a258645",
+      "bytes": 234208
+    },
+    "Drauga/stone_y_16.nif": {
+      "sha256": "532b50a7e90d2ce3338e9b3d532d1da711b36f0e8f529a193069cf256f11b219",
+      "bytes": 235048
+    },
+    "Drauga/stone_y_17.nif": {
+      "sha256": "6a82975d3d42a6ec739f0ac1d64884a453d5d2b435e53e9056afadbe33eefef8",
+      "bytes": 260488
+    },
+    "Drauga/stone_y_18.nif": {
+      "sha256": "c9986c70338e126a25b2ab38c6645957ac4f8dfe70820fae864cb1597b2d10a4",
+      "bytes": 262348
+    },
+    "Drauga/stone_y_19.nif": {
+      "sha256": "2a7b4d89f1305f0def650b7554550e1395560ad2ed0edb026d4525d9486ee227",
+      "bytes": 259804
+    },
+    "Drauga/stone_y_20.nif": {
+      "sha256": "e5ac6ef9c09d11a7fac4f8e72187559b641419ee73c69dcc6c52e7888b0756fd",
+      "bytes": 289468
+    },
+    "Drauga/stone_y_21.nif": {
+      "sha256": "c9e5e9f6887c5ec68bb1afbc21b8abde2ed911fd5ca5ca7d0e51eb8f314aa903",
+      "bytes": 290308
+    },
+    "Drauga/stone_y_22.nif": {
+      "sha256": "ac50dd9d8e9fb4bb2027a9fe627cc21b2593fab898e9f7a181c7099bcda22e77",
+      "bytes": 292168
+    },
+    "Drauga/stone_y_23.nif": {
+      "sha256": "d0abd3af4c6b011256d727bcedb58ea11864498cc7a0bb62ad546ea16acdb303",
+      "bytes": 284560
+    },
+    "Drauga/stone_y_24.nif": {
+      "sha256": "3c165ccadfc4eb87483e9926e7f57f09549b860a2be40eb837c37bd6061f0fc6",
+      "bytes": 319288
+    },
+    "Drauga/stone_y_25.nif": {
+      "sha256": "4d360399d38b091fb0e13715464a7a1a476f14c275bfa0fe4f6f994de452776a",
+      "bytes": 320128
+    },
+    "Drauga/stone_y_26.nif": {
+      "sha256": "430a4975ec28bfbc22498974b09bb3a814d2488449de37749295c883d8b2a03a",
+      "bytes": 309316
+    },
+    "Drauga/stone_y_27.nif": {
+      "sha256": "d5d3136f1ecf945e1ec4db6ec47a3670ddcd2ee1e19a6ee223639b0f4e31c06a",
+      "bytes": 310156
+    },
+    "Drauga/stone_y_28.nif": {
+      "sha256": "9b44fa00edc20c6011f797185f347ca99c3ede387a81abac8ded06af8f7f06d9",
+      "bytes": 339820
+    },
+    "Drauga/stone_y_29.nif": {
+      "sha256": "5ad5e8cacdf36fee313875c0b9c3fd966907a0efb0144513362951513ccf73ea",
+      "bytes": 340660
+    },
+    "Drauga/stone_y_30.nif": {
+      "sha256": "a30e1d282d4f839ad2709ec75ddee09d7c9566363faaf7b17dfe9ad2d9425ee8",
+      "bytes": 334912
+    },
+    "Drauga/stone_y_31.nif": {
+      "sha256": "d8d5a9c1689dbe498eacdd98d1ef11bd7ce41889edb1674f9424e498c30862e7",
+      "bytes": 361096
+    },
+    "Drauga/stone_y_32.nif": {
+      "sha256": "66c314af3a0648969f07de022c87eee974d7eded21deb32a579110bc033962dd",
+      "bytes": 369640
+    },
+    "Drauga/wood_x_05.nif": {
+      "sha256": "045b3ad2521bdfd160706193a8d142e2644e3fa9ae614cc52b87a19afcc40cd4",
+      "bytes": 189442
+    },
+    "Drauga/wood_x_06.nif": {
+      "sha256": "f9100dc8fa16322d06fe578def4a199f33e7b121666e0a3090f4434e8a98ced4",
+      "bytes": 216886
+    },
+    "Drauga/wood_x_07.nif": {
+      "sha256": "a7942d4fe18f2e6cc23729db1c9e5639bc221371f19f3d51e8efff3ea08a84ff",
+      "bytes": 227854
+    },
+    "Drauga/wood_x_08.nif": {
+      "sha256": "749af1f6d0ebfe8c2e6ac7729c186ec78bda73818bb0d05cf6839c57951ef441",
+      "bytes": 253438
+    },
+    "Drauga/wood_x_09.nif": {
+      "sha256": "e4d232428bee45a0726d8e848cf69e105ae8aa8407afe4a618a176cbd762eec9",
+      "bytes": 260182
+    },
+    "Drauga/wood_x_10.nif": {
+      "sha256": "1692e8edcc432dcf182af20cb67d4d6fcd795b43e99e152aa1fb30779a178819",
+      "bytes": 273010
+    },
+    "Drauga/wood_x_11.nif": {
+      "sha256": "831afa1e5b4fa87cc8dd37acb507cd964a4b1a812001c3be37a02efda391453c",
+      "bytes": 298594
+    },
+    "Drauga/wood_x_12.nif": {
+      "sha256": "de163eee4a4cee1b98b2c88976d10c2bd6b758721b241606ccbcdea8385cc712",
+      "bytes": 309562
+    },
+    "Drauga/wood_x_13.nif": {
+      "sha256": "812eddc3c69cc6e34c60ea7e04804df3ecc4364f57e663a5997cb5b5bc54c91b",
+      "bytes": 330922
+    },
+    "Drauga/wood_x_14.nif": {
+      "sha256": "3f4c6daaff12c304a3474e9d59b09cc3188d70cf29648a5e1f9f42e0d7791255",
+      "bytes": 342910
+    },
+    "Drauga/wood_x_15.nif": {
+      "sha256": "65f4a4f44dfc1b2136ad28f946e9f25a3cec47e997fbc4227264e982347a54ae",
+      "bytes": 369334
+    },
+    "Drauga/wood_x_16.nif": {
+      "sha256": "f4529d4a69e6e39c76ece664bf0775df51e742dca65af339dac91283106bac26",
+      "bytes": 380302
+    },
+    "Drauga/wood_x_17.nif": {
+      "sha256": "cb51e6efe9d0c25e4a68001990d2cd3b8504a0b5f361904a76376055059f601d",
+      "bytes": 401662
+    },
+    "Drauga/wood_x_18.nif": {
+      "sha256": "4d1b3f5dc2cc111e0a5a5f1fddc0b21a1c4555df43b97c68547c805369b33c34",
+      "bytes": 413650
+    },
+    "Drauga/wood_x_19.nif": {
+      "sha256": "7893ce5c36355d80d316a766c974f6d9d20540360b45b927923ca52aa216b21e",
+      "bytes": 425458
+    },
+    "Drauga/wood_x_20.nif": {
+      "sha256": "dd423db8cc055b096f6b3efbf9ae08cd3a9125357c7daaf2b9f06fa5874eed9c",
+      "bytes": 451042
+    },
+    "Drauga/wood_x_21.nif": {
+      "sha256": "3bd3426c302c2b1a6df42eee7da6b432da558d4d7f0a58fe690a097f8704d6ab",
+      "bytes": 457786
+    },
+    "Drauga/wood_x_22.nif": {
+      "sha256": "6d248393b0a9860e6ac43bd2e27fa6ffbbf9af73b1897ef9dd7dd13d311602d1",
+      "bytes": 484390
+    },
+    "Drauga/wood_x_23.nif": {
+      "sha256": "67afed998a0bace56ab0bd80cbff66085ee1573c04e139e232af4be42f5502ef",
+      "bytes": 495358
+    },
+    "Drauga/wood_x_24.nif": {
+      "sha256": "702d7db33267871d7e76d08c1bb41f563ecae4a056b5e2d1c594b0bbd34578c3",
+      "bytes": 517558
+    },
+    "Drauga/wood_x_25.nif": {
+      "sha256": "cbe9c2b7bce60d4bb7163c64582758cf296a82bda8585ccd630af00eac4b2df2",
+      "bytes": 528526
+    },
+    "Drauga/wood_x_26.nif": {
+      "sha256": "e09f040759495caf1d1eb05ba162b050dd7d2d8d23c7440daafdab9afd3dc042",
+      "bytes": 555130
+    },
+    "Drauga/wood_x_27.nif": {
+      "sha256": "4d2e35728f1a30d134b12aa2f16e94a986385b27cd2f98476cf3c5626922271a",
+      "bytes": 566098
+    },
+    "Drauga/wood_x_28.nif": {
+      "sha256": "fd03c3e72cd32035fe8c3d9d9cae9c14126344b853e8fa486577257b704bdf90",
+      "bytes": 573682
+    },
+    "Drauga/wood_x_29.nif": {
+      "sha256": "34c775b6634ab1160123fb770507d668047890b458bb1a1d1308e73cb3cd6330",
+      "bytes": 599266
+    },
+    "Drauga/wood_x_30.nif": {
+      "sha256": "7e339b6459843242900f7323f7185631c847ccb8d482288f92a7bd087429d881",
+      "bytes": 611254
+    },
+    "Drauga/wood_x_31.nif": {
+      "sha256": "18106fe1eb507836de40d69957f19bbe693e5614348c7a55e61e32a94680dd86",
+      "bytes": 636838
+    },
+    "Drauga/wood_x_32.nif": {
+      "sha256": "08aed8528ccb825fbb44436dd6c9407e8dc6021338f948449c042d40a639fd49",
+      "bytes": 643582
+    },
+    "Drauga/wood_y_05.nif": {
+      "sha256": "e6af3fbe736ebeb6984a9668115b1968eea249110fbeadce1a0cacaf3e703d8a",
+      "bytes": 189442
+    },
+    "Drauga/wood_y_06.nif": {
+      "sha256": "23c10a4f0562c7d1707faa8880b56c6e5b3018e60fd286f67637094e76659443",
+      "bytes": 216886
+    },
+    "Drauga/wood_y_07.nif": {
+      "sha256": "564370b5d828534b2b804d46a10f547851b0b98a124a85393f7d3fc4697fc8d8",
+      "bytes": 227854
+    },
+    "Drauga/wood_y_08.nif": {
+      "sha256": "d97edbcedf382c3c36265b4108536d3cdd8e754cf3027807e3c5cae74dc425ac",
+      "bytes": 253438
+    },
+    "Drauga/wood_y_09.nif": {
+      "sha256": "901b21e3196709277e09673074ddf9487e7900b7e7b1e6f87a173c18d4e3dee4",
+      "bytes": 260182
+    },
+    "Drauga/wood_y_10.nif": {
+      "sha256": "504e867ebd5859705f4aa9e47a7f1f63b18c6c4d580e0c87fa49647885537bcb",
+      "bytes": 273010
+    },
+    "Drauga/wood_y_11.nif": {
+      "sha256": "b0ee3903246c7400aef5fae3f2a755ffd1f77d0f11305734b620e4c3e445f97b",
+      "bytes": 298594
+    },
+    "Drauga/wood_y_12.nif": {
+      "sha256": "a0921b630b5202852470607c1999c35f6a1b5f051b6f5f53142df1f62a98229e",
+      "bytes": 309562
+    },
+    "Drauga/wood_y_13.nif": {
+      "sha256": "771be3c88f9e26b6614bd3968b174f68556d1f7524a7a1d99175c2bfa38ea4b9",
+      "bytes": 330922
+    },
+    "Drauga/wood_y_14.nif": {
+      "sha256": "47021fd51dc493207eb9a5629c7de353cefaab0ac926e15523a87e36f339e0d6",
+      "bytes": 342910
+    },
+    "Drauga/wood_y_15.nif": {
+      "sha256": "00095937131c2c3336c38528b7399e59620f5f64ba3a0f4148063fafce6df47f",
+      "bytes": 369334
+    },
+    "Drauga/wood_y_16.nif": {
+      "sha256": "e1243e92468a035eec37115340eea83a2e1efa22f3fe486d7d59cd430e9b3bb2",
+      "bytes": 380302
+    },
+    "Drauga/wood_y_17.nif": {
+      "sha256": "28eadcc9c7a84f6296a0912ef317edf713ff613232db1522f2056d750a32ae27",
+      "bytes": 401662
+    },
+    "Drauga/wood_y_18.nif": {
+      "sha256": "ab3115f0c6ebf9faf02d64ef09ddc37e993fb062b06a33782aefed3a1e196729",
+      "bytes": 413650
+    },
+    "Drauga/wood_y_19.nif": {
+      "sha256": "cf0f6505a5b5b94e867cb2ab26356da38df7a7f5f2ed8c61971062dd69e46ce9",
+      "bytes": 425458
+    },
+    "Drauga/wood_y_20.nif": {
+      "sha256": "4d3cc10cc1bc190bf69cb5899419bd8ec8ebed8cc37c06416e993cfbdcf6ce9e",
+      "bytes": 451042
+    },
+    "Drauga/wood_y_21.nif": {
+      "sha256": "b22c3237bd33c0477f7fa55fc656bf762d56e193ee21cdc830031af57b6875ea",
+      "bytes": 457786
+    },
+    "Drauga/wood_y_22.nif": {
+      "sha256": "bfc9e85a6355b7ec7e60e51a81757d785f1b21166cf61d300119b49f6cc38e7d",
+      "bytes": 484390
+    },
+    "Drauga/wood_y_23.nif": {
+      "sha256": "b151211d5fa928e1b78fdf412866723f4311eeb15b1eac992bd33c0389201b66",
+      "bytes": 495358
+    },
+    "Drauga/wood_y_24.nif": {
+      "sha256": "5c25d096cca62a5da517d10a691bdbfc6fc9d1c3e5272797b75802b7025100eb",
+      "bytes": 517558
+    },
+    "Drauga/wood_y_25.nif": {
+      "sha256": "d7da7f454fcb6640adaf86819a1e3f36ab27031b398f6b3a198953d3629b2614",
+      "bytes": 528526
+    },
+    "Drauga/wood_y_26.nif": {
+      "sha256": "cecafd3e2556cc165f3e3f07bcfe8055f2aa935b369dc88e975f886e74e7f51c",
+      "bytes": 555130
+    },
+    "Drauga/wood_y_27.nif": {
+      "sha256": "d7db7a59d69bfc84243a22067d3f1a6ac984ff1981172456aafe054e70eaf4ee",
+      "bytes": 566098
+    },
+    "Drauga/wood_y_28.nif": {
+      "sha256": "1e17803b4e2907891700807506554cb707585aa0f016aa8490a6ffdaf9483442",
+      "bytes": 573682
+    },
+    "Drauga/wood_y_29.nif": {
+      "sha256": "e72906822b32d6e09818a54d1c80dd93f89d44b93858676346c6643a54c68088",
+      "bytes": 599266
+    },
+    "Drauga/wood_y_30.nif": {
+      "sha256": "555e0410e57cc8a2b25d52fbcf9305ebdb904612d9a7a0a90f6f2e074e6934ad",
+      "bytes": 611254
+    },
+    "Drauga/wood_y_31.nif": {
+      "sha256": "f34c189ee1d82613e3df87b8a480edf1849009c063ef18590944af6a53bc4057",
+      "bytes": 636838
+    },
+    "Drauga/wood_y_32.nif": {
+      "sha256": "e70afdf04c2e4248bbd7967e809943668b13957d705d4f82f7e2beca64bead58",
+      "bytes": 643582
+    },
+    "Haroun/HarounCarvedWood.tga": {
+      "sha256": "a3a7c4e94d715780130fdd6d76e7ad7afbe8c19a6b1f5708c20fc4d76a402bea",
+      "bytes": 786476
+    },
+    "Haroun/HarounDeckStone.tga": {
+      "sha256": "2dfbc37897a36756c7197e1f1abac23cafd8425a52467682a3e480dfbeee0803",
+      "bytes": 786476
+    },
+    "Haroun/HarounDeckWood.tga": {
+      "sha256": "7587a0ea389355bc3b3417bec548da038c74715c6cf5412d3b51e0c892c35b94",
+      "bytes": 786476
+    },
+    "Haroun/Native_HarounCenterBase.tga": {
+      "sha256": "1ea571d80bb8c388b17272efe01fa75bd19fd4407a1060ff23aa8181d2cf66c3",
+      "bytes": 1048620
+    },
+    "Haroun/Native_HarounLibraryBase.tga": {
+      "sha256": "187a6af31cd511cb54b8c5882e3b4fb5563be27afd22118f1224ce76c1441c21",
+      "bytes": 262188
+    },
+    "Haroun/Native_HarounWall.tga": {
+      "sha256": "f62b5587e99a0b5082aa3858fa90d17ca1077d19c878f354f999591db9e766f6",
+      "bytes": 262188
+    },
+    "Haroun/stone_x_05.nif": {
+      "sha256": "f91204e79f6943796c9838fde427778200ea55b898ca433a89ed7766c2b15636",
+      "bytes": 385361
+    },
+    "Haroun/stone_x_06.nif": {
+      "sha256": "5f667a84a7fa3ccd48cdc04455db1ea513a8cc040e11ca4ed87d5456729553d2",
+      "bytes": 411881
+    },
+    "Haroun/stone_x_07.nif": {
+      "sha256": "8fe0e3e8a321fefddc5eecb0e5fd226ccb6cd233ab9b01b61d9e9be4efdb0502",
+      "bytes": 419033
+    },
+    "Haroun/stone_x_08.nif": {
+      "sha256": "d164ccd95ccf1d31de56b02952df9185847a7c4459fc3d8a5f1d03fe28ea2bd4",
+      "bytes": 433873
+    },
+    "Haroun/stone_x_09.nif": {
+      "sha256": "2f25fd9670fdbb72910ec45c0cf079517f538bb3534b5de04fa1ab143a060dd8",
+      "bytes": 439905
+    },
+    "Haroun/stone_x_10.nif": {
+      "sha256": "933635d315f4d2670eccdd369cc83519091a9ad0531a1c2ebfee9171bd3a4f4f",
+      "bytes": 470065
+    },
+    "Haroun/stone_x_11.nif": {
+      "sha256": "98d97f2c7aa87b5d665e1be74774d00633082958c90025f2ca4f405258d7f944",
+      "bytes": 476097
+    },
+    "Haroun/stone_x_12.nif": {
+      "sha256": "4f158213c8d9722e0a27ce81c1894569cc0be5075e83b4885d73fdd42dfaaf4f",
+      "bytes": 509457
+    },
+    "Haroun/stone_x_13.nif": {
+      "sha256": "717fc85222694fb4293865d23d7bc5158c604205f303e50eec646a470be6200d",
+      "bytes": 516609
+    },
+    "Haroun/stone_x_14.nif": {
+      "sha256": "66711a8dbccf3197e5d8ffbf4a4d3d374f0893aec5ea3501682c4f8009e31080",
+      "bytes": 546769
+    },
+    "Haroun/stone_x_15.nif": {
+      "sha256": "8fb06a60886c6e9cf9bf73f1151636f7a4f8e57b0de6d6db93be22c528ba3c42",
+      "bytes": 561609
+    },
+    "Haroun/stone_x_16.nif": {
+      "sha256": "fe951f7a831ed780f1feb613bd7f90f0279ac440d20f0657a47ad90595fbc5ae",
+      "bytes": 567641
+    },
+    "Haroun/stone_x_17.nif": {
+      "sha256": "502e8e87cfef573be0df237e5ce2d229dc7cc8b4ff30fef2c647f93c9e7138cf",
+      "bytes": 573673
+    },
+    "Haroun/stone_x_18.nif": {
+      "sha256": "aae981388c489374feb4ada974137b21e839083a182b2e3e10fb0e21197a3bab",
+      "bytes": 603833
+    },
+    "Haroun/stone_x_19.nif": {
+      "sha256": "e97cf60e2d3bd819345fc8913004e5fb1f9d7e1614fa062f26e8e6beb4c10514",
+      "bytes": 619793
+    },
+    "Haroun/stone_x_20.nif": {
+      "sha256": "91a4ad0e050077a3e4ee2aa03c004f7a796e59af373d9ee33715def2a3f6e066",
+      "bytes": 625825
+    },
+    "Haroun/stone_x_21.nif": {
+      "sha256": "ff921cfd26384ac8ca7a379c4ab6203f9913b9ec6b22ea227f990549d0eebfac",
+      "bytes": 631857
+    },
+    "Haroun/stone_x_22.nif": {
+      "sha256": "af5ef4d14d5a362b456c2d765c72aac7323905aded5d082a8dfc914c8f64b98b",
+      "bytes": 686977
+    },
+    "Haroun/stone_x_23.nif": {
+      "sha256": "5b7c7b1a794418e67ef376f64652b3915c08d269ef9c89843dc6d84048fdd9de",
+      "bytes": 691737
+    },
+    "Haroun/stone_x_24.nif": {
+      "sha256": "6d850c9d1c4b7eab4669f3262ebff7e20245b72084adea2af561b60391487090",
+      "bytes": 698889
+    },
+    "Haroun/stone_x_25.nif": {
+      "sha256": "31b892847b17e5c93f776c85beba8f39130ff3f316bf26771ee4f50c184be582",
+      "bytes": 715001
+    },
+    "Haroun/stone_x_26.nif": {
+      "sha256": "fb488cd2d1d3bcbf66dcd685ae5a1252fa01e49d7565090054c1f205b9cb8217",
+      "bytes": 743889
+    },
+    "Haroun/stone_x_27.nif": {
+      "sha256": "ac6210bebdc42a2e8604fdface53b0033eee16ccfe3c5341f6087ec2c579607c",
+      "bytes": 749921
+    },
+    "Haroun/stone_x_28.nif": {
+      "sha256": "8b8e4451099df338410b77f26429139f6b076929a0be67791a8e89d7af51b1c5",
+      "bytes": 755953
+    },
+    "Haroun/stone_x_29.nif": {
+      "sha256": "ce2e7a884338365e06efad50db109797f5355fd7dfb94717e9a2e284158541eb",
+      "bytes": 770793
+    },
+    "Haroun/stone_x_30.nif": {
+      "sha256": "6b7b3cad20e852dc988814a152871d76fdc22a290e6684f0579f53b72f6e0aa4",
+      "bytes": 802073
+    },
+    "Haroun/stone_x_31.nif": {
+      "sha256": "07b154d4e20f858669375a8c9626a083eba27b38e8625dfcd67da71d1fcb2b39",
+      "bytes": 808105
+    },
+    "Haroun/stone_x_32.nif": {
+      "sha256": "00d712310c0c4e80887cee1500cf619c266274542165ac745f281814168d569f",
+      "bytes": 842737
+    },
+    "Haroun/stone_y_05.nif": {
+      "sha256": "2fb6f84b839b0f6fdbd735fe980fbfdb8378354935fe1200692a1026d6e37489",
+      "bytes": 385361
+    },
+    "Haroun/stone_y_06.nif": {
+      "sha256": "4a969c85d98cc6b04999dca50b13caf516d9404c97a261a65ccd82ef385c55be",
+      "bytes": 411881
+    },
+    "Haroun/stone_y_07.nif": {
+      "sha256": "3ee1a14022ade7add1f0d3de5b3eb82dd18878c85418e1517404f5de81fcabb2",
+      "bytes": 419033
+    },
+    "Haroun/stone_y_08.nif": {
+      "sha256": "b9b6d434496bab2a99eb1ab127c78ad465f7d7e76b42dd8f2fab38208354c9a5",
+      "bytes": 433873
+    },
+    "Haroun/stone_y_09.nif": {
+      "sha256": "1b427e15870bace8a5f52c3fc0a4c2044199218cc2e3963c2645d911d189415a",
+      "bytes": 439905
+    },
+    "Haroun/stone_y_10.nif": {
+      "sha256": "861cb52bda79673b949c42540fd2880d3701de1d2b90b320243d28b624d89431",
+      "bytes": 470065
+    },
+    "Haroun/stone_y_11.nif": {
+      "sha256": "57f9e3559a5ed71ac6f1ec58be57d2e6ab0efc79159e38b5194161039856ef40",
+      "bytes": 476097
+    },
+    "Haroun/stone_y_12.nif": {
+      "sha256": "bdd4ce608f8ba63b79fcc68bb053bf23c10d8c3410d06b0d3316a87da71f3cac",
+      "bytes": 509457
+    },
+    "Haroun/stone_y_13.nif": {
+      "sha256": "cbb1d64fbef9f53a9e8ae2526e4e32fe2032b54dd121ad0aeaa22e95236e7346",
+      "bytes": 516609
+    },
+    "Haroun/stone_y_14.nif": {
+      "sha256": "ca3e3c746cdf744c29874a7f5eb4a12f3205c00df20d10e77fa5884fda372a9d",
+      "bytes": 546769
+    },
+    "Haroun/stone_y_15.nif": {
+      "sha256": "54eca89895908685c19bbd5ca7629a92f8cae89bddce1e940f51ec4c9b5b483e",
+      "bytes": 561609
+    },
+    "Haroun/stone_y_16.nif": {
+      "sha256": "64ece9a87b6db7120a0f22ebf4b3f0ad643843be1d03674230afa7091de2fff7",
+      "bytes": 567641
+    },
+    "Haroun/stone_y_17.nif": {
+      "sha256": "6689355d11fb985e387f79a38215dee2237aac94cd9da664cb0b5c8b161ed5eb",
+      "bytes": 573673
+    },
+    "Haroun/stone_y_18.nif": {
+      "sha256": "5644d46056f957afc0041eef371f8c8a0d6ae3a0c413934da49a78d0e8718ac1",
+      "bytes": 603833
+    },
+    "Haroun/stone_y_19.nif": {
+      "sha256": "6a99494bfdf592ddb846e72f6ccc5166f3cef8a8776b094415e79ca1c79fb96e",
+      "bytes": 619793
+    },
+    "Haroun/stone_y_20.nif": {
+      "sha256": "5c0a45697ce12ef3fc7785b4a4af0e135bd4b6d49a7af4f1e8f02b009d9e7569",
+      "bytes": 625825
+    },
+    "Haroun/stone_y_21.nif": {
+      "sha256": "7deb6914b3c5522ce549c26880907bd3a2eaa1f27c6371c6d014149b75d7cb7d",
+      "bytes": 631857
+    },
+    "Haroun/stone_y_22.nif": {
+      "sha256": "6e1ed1404e13471883f62ecdad6407499faffed8d224de3e969c9254d24c08ed",
+      "bytes": 686977
+    },
+    "Haroun/stone_y_23.nif": {
+      "sha256": "59b0a5dc715ac16b0f2e1b30c28acb00d47b87d64d56afa718f6b31acafb54db",
+      "bytes": 691737
+    },
+    "Haroun/stone_y_24.nif": {
+      "sha256": "936b05d876c6c2fa6a0348a20ab0a4f693b94598f154440fa0a16886e2aecdb8",
+      "bytes": 698889
+    },
+    "Haroun/stone_y_25.nif": {
+      "sha256": "0c96a4fdbc9a3230e12021d9d2cee1646857dce68aebdf49ef32bcfc54c87b50",
+      "bytes": 715001
+    },
+    "Haroun/stone_y_26.nif": {
+      "sha256": "c5fc7e3e45d49b908694a35a0ed65235790d647e1cda3dbbff29d2de817960fd",
+      "bytes": 743889
+    },
+    "Haroun/stone_y_27.nif": {
+      "sha256": "b9bb656f8b34c2135a60bc3f358632c41b9b60040108ab36d85d910a79e38e55",
+      "bytes": 749921
+    },
+    "Haroun/stone_y_28.nif": {
+      "sha256": "ae1e2adac872186b1f0cf322085f9fb106d9f2e39b11994f9dae3d232d2aa093",
+      "bytes": 755953
+    },
+    "Haroun/stone_y_29.nif": {
+      "sha256": "6e7d864e39fdc4f26f5d2f38372ffeeac346a801ebdc65948e654a45fa779e63",
+      "bytes": 770793
+    },
+    "Haroun/stone_y_30.nif": {
+      "sha256": "d056174256b87224c622a549ad2a2868d0b8302fed065cb7fd5cf179555cb10b",
+      "bytes": 802073
+    },
+    "Haroun/stone_y_31.nif": {
+      "sha256": "2555049354532d5e3586d18e015e5e8ce48221f294821da997708963c01273a5",
+      "bytes": 808105
+    },
+    "Haroun/stone_y_32.nif": {
+      "sha256": "bfe948ae645ddcce90fe061826f5429dd561a5a432adc57e4fb492b6d9b9f3ee",
+      "bytes": 842737
+    },
+    "Haroun/wood_x_05.nif": {
+      "sha256": "c8c6311020908760fd8d8b63037dab6319b69808bfc9e8f0358f75def77da13f",
+      "bytes": 309782
+    },
+    "Haroun/wood_x_06.nif": {
+      "sha256": "a37e283ee4a375dc19afbeeb21aeed8a463cfee497b719931165da83bb99c148",
+      "bytes": 337830
+    },
+    "Haroun/wood_x_07.nif": {
+      "sha256": "a58d88bde19ba9ce7a3c1047c869ace847706835b11bec32cbb79fb6f433f076",
+      "bytes": 343430
+    },
+    "Haroun/wood_x_08.nif": {
+      "sha256": "66bad2f34a65a8b21d1b67d1e086481f2d428be3f67f371844739b36c470fab8",
+      "bytes": 361070
+    },
+    "Haroun/wood_x_09.nif": {
+      "sha256": "21bcf45d4a4f5743edaaf49e0d3a8d10c499b822ca9e9862ba75466df895998b",
+      "bytes": 368630
+    },
+    "Haroun/wood_x_10.nif": {
+      "sha256": "b59257cdb02f95f9d0f1f713d048709bcc3997ce0ad16612a5e436ade288db4a",
+      "bytes": 398358
+    },
+    "Haroun/wood_x_11.nif": {
+      "sha256": "6d3d5a9743e8d621c3c08071c642ce388535549229c5a53d61ac9f992fc94587",
+      "bytes": 405918
+    },
+    "Haroun/wood_x_12.nif": {
+      "sha256": "190c34a9bd7bb4230012b88c180d7b8eab863f57dff512dcd7e8d3fc60e1bd1c",
+      "bytes": 442078
+    },
+    "Haroun/wood_x_13.nif": {
+      "sha256": "51c3bd70acc97fc65afa2c81cbea59c9990edfba5dbb2af04f4cfbde4d31f567",
+      "bytes": 447678
+    },
+    "Haroun/wood_x_14.nif": {
+      "sha256": "130122cb36340391fc23dcea6785c868ec2fae67a21aac6009dcbc0cad662ef4",
+      "bytes": 479366
+    },
+    "Haroun/wood_x_15.nif": {
+      "sha256": "a31e1271fa53aa70e2742af169698f8c1b4540f24de941d9e94d32c431e9af62",
+      "bytes": 497006
+    },
+    "Haroun/wood_x_16.nif": {
+      "sha256": "15607c90e72a0df441aca16eaccd24a7b1d4318a88f37635a8f7c65dd526f6d0",
+      "bytes": 502606
+    },
+    "Haroun/wood_x_17.nif": {
+      "sha256": "a11c2cdca8b7961f5536e13f9502e5f2042b8ac949cdf8992431370d6fb82f6c",
+      "bytes": 510166
+    },
+    "Haroun/wood_x_18.nif": {
+      "sha256": "2847e91a6e621658c26119aae9cb4528039613f31ff13f555db6ccc160364958",
+      "bytes": 541854
+    },
+    "Haroun/wood_x_19.nif": {
+      "sha256": "4399eb251412a699612fd944a21e51b6fa4fdf603e691323c2ca60b3d91f6023",
+      "bytes": 557534
+    },
+    "Haroun/wood_x_20.nif": {
+      "sha256": "97946a1c53ce1e8e8eee616eb821c9a731c2a9965c586757c56fa8fd102dfd0b",
+      "bytes": 565094
+    },
+    "Haroun/wood_x_21.nif": {
+      "sha256": "63abc8037f05e5a4a30845fcd988361c985c0201bed9548f5526e5d341d74aaa",
+      "bytes": 572654
+    },
+    "Haroun/wood_x_22.nif": {
+      "sha256": "e3f9b415d0a26c34bd3989e2474649572e6310520f2ed39290d25cd31badd334",
+      "bytes": 627342
+    },
+    "Haroun/wood_x_23.nif": {
+      "sha256": "59a1394aa6fc0c92ab8eef30872119d6849aa30a78db639e529cd396a10f6034",
+      "bytes": 634902
+    },
+    "Haroun/wood_x_24.nif": {
+      "sha256": "f0903dabcfddf37324fb85c606934922203326f4621628cb97552b37d17a3a04",
+      "bytes": 642462
+    },
+    "Haroun/wood_x_25.nif": {
+      "sha256": "a682627eced157890d7b6305b4d3bd940f4f6969dcceb066aaadc126ef190681",
+      "bytes": 658142
+    },
+    "Haroun/wood_x_26.nif": {
+      "sha256": "19cef5629af0526012760e3f1ed41fc4536ff82566c436baad83388b10bcf3a4",
+      "bytes": 689830
+    },
+    "Haroun/wood_x_27.nif": {
+      "sha256": "70148c43e132269a35c3de1d27c3946d30c80a9f7510e1556f2e6b8af358cfcd",
+      "bytes": 697390
+    },
+    "Haroun/wood_x_28.nif": {
+      "sha256": "d82e9ac116d2d548a0dcaa899d7b66db7c409c33744d12c2e3dcd9d8f76608c8",
+      "bytes": 702990
+    },
+    "Haroun/wood_x_29.nif": {
+      "sha256": "abfe8eeebda2add7be4736aa51b2f6a310ee536283a3c56d838261b45421cda6",
+      "bytes": 720630
+    },
+    "Haroun/wood_x_30.nif": {
+      "sha256": "f29db91aa10750f279793fa6e1782812476844be946abf202646c94f777a6f9d",
+      "bytes": 752318
+    },
+    "Haroun/wood_x_31.nif": {
+      "sha256": "e650bce853bd828de4a074de90d28a29550023e1fe47f66b9ebaac32412f1905",
+      "bytes": 757918
+    },
+    "Haroun/wood_x_32.nif": {
+      "sha256": "c5fb3a2e8daaa96e8962eb84e68c6cede1124876dd57e5e9f645179ea237a072",
+      "bytes": 794078
+    },
+    "Haroun/wood_y_05.nif": {
+      "sha256": "130985e3c2071eb698e66dccf6adff1f770f976e35ee5fe97c37e522144e391c",
+      "bytes": 309782
+    },
+    "Haroun/wood_y_06.nif": {
+      "sha256": "162a3f98055bb265d59fa68d2143be49ac491ad45cd6358c191a8fe0de549e0a",
+      "bytes": 337830
+    },
+    "Haroun/wood_y_07.nif": {
+      "sha256": "73c435157434f0f22f2b31a2a9c56e87c1408bc3c1a303e97760ea5a96fa1a02",
+      "bytes": 343430
+    },
+    "Haroun/wood_y_08.nif": {
+      "sha256": "cb6cf6703c74f634ec0be9f2cd18ca76f47c171c4d8f9d76c1f8402ce99f6c4e",
+      "bytes": 361070
+    },
+    "Haroun/wood_y_09.nif": {
+      "sha256": "1437f2a6bd5b28f050d72b072b2be891bb1ebee6b03ff8a331e8dda9e1533861",
+      "bytes": 368630
+    },
+    "Haroun/wood_y_10.nif": {
+      "sha256": "763c6d73c1ceb677477ea3f89fd155dbd9b458f073c88f419b885afa77836792",
+      "bytes": 398358
+    },
+    "Haroun/wood_y_11.nif": {
+      "sha256": "6109ae50a6383c3d79ea7c84d97cc8a45f8ff6216f15d75051c4bbcc0acf2d7c",
+      "bytes": 405918
+    },
+    "Haroun/wood_y_12.nif": {
+      "sha256": "5723155596a123d223b41ca57e4d9a2f97f93a787c9a44fe5ed3b0d61426bf9c",
+      "bytes": 442078
+    },
+    "Haroun/wood_y_13.nif": {
+      "sha256": "1128c3755ee1be53acd5a0a8d777916db4dbabc09bea6efaf9e8b51b1518f90b",
+      "bytes": 447678
+    },
+    "Haroun/wood_y_14.nif": {
+      "sha256": "3c0881348f3cd00ab425d517e25e1b00e872a1cf520fa449e62f164985498c66",
+      "bytes": 479366
+    },
+    "Haroun/wood_y_15.nif": {
+      "sha256": "03fa8e36c4d549232a83e4f212c4a6e5b06b5521537db96922c7404f984a44cd",
+      "bytes": 497006
+    },
+    "Haroun/wood_y_16.nif": {
+      "sha256": "410ac4bd56b01cfb58c6c29c7117df869565888dec8d8c0a016f86849659f582",
+      "bytes": 502606
+    },
+    "Haroun/wood_y_17.nif": {
+      "sha256": "2d809e46452a872ee65972b00034c769a8dfb8a61ad2ee3d9131663fefb6341b",
+      "bytes": 510166
+    },
+    "Haroun/wood_y_18.nif": {
+      "sha256": "7737f9a6253b6fa4278953686d2fdf5c1dde462af70d9dc2e7f090f39083da8a",
+      "bytes": 541854
+    },
+    "Haroun/wood_y_19.nif": {
+      "sha256": "3c4bd10cafc3b63514236deffc8818b07c32778045ffc67c9d92bd08ef0bb030",
+      "bytes": 557534
+    },
+    "Haroun/wood_y_20.nif": {
+      "sha256": "ad78a1f6384724a992b4bbf53705361426ccf97ee46be1b1db22c6a46a67d2c5",
+      "bytes": 565094
+    },
+    "Haroun/wood_y_21.nif": {
+      "sha256": "1d33f80722c606f3535160b53855ab96c4255ffdf3bbec8b64ec3c00c150516c",
+      "bytes": 572654
+    },
+    "Haroun/wood_y_22.nif": {
+      "sha256": "04fbc8b1060c3a3e4fb6ccc0f74ce9823ab0433620970c3aa083c256aa1e64d3",
+      "bytes": 627342
+    },
+    "Haroun/wood_y_23.nif": {
+      "sha256": "7a7afd86244c2fa112ca11f3716e18170742b385b4069c4797489077e8f4ccd1",
+      "bytes": 634902
+    },
+    "Haroun/wood_y_24.nif": {
+      "sha256": "e369ab5909c9d22547de3de97d580ca791b438cd93d0dae578797d46b74cd79e",
+      "bytes": 642462
+    },
+    "Haroun/wood_y_25.nif": {
+      "sha256": "905bf9a3ed380fcb0a668c774a5a5f0d78feff63072c8c45cc2f93ef28f7c883",
+      "bytes": 658142
+    },
+    "Haroun/wood_y_26.nif": {
+      "sha256": "881c3253266881cc4813da74838d9f5f643fa0f8ed452326d8bf67373dcc27c5",
+      "bytes": 689830
+    },
+    "Haroun/wood_y_27.nif": {
+      "sha256": "8f8f80c2e1cdd0ed200c27f31e9bec0c0b131e5b8c9e2961689446d34f5123db",
+      "bytes": 697390
+    },
+    "Haroun/wood_y_28.nif": {
+      "sha256": "739e27f008452e8ff4bf325f054c7565c8090a46ed1afc075d8a91e4dfe9a6ab",
+      "bytes": 702990
+    },
+    "Haroun/wood_y_29.nif": {
+      "sha256": "c1c91085c590b0a966171da3f05d7450322ba2cf0c48d6389751397534934e9c",
+      "bytes": 720630
+    },
+    "Haroun/wood_y_30.nif": {
+      "sha256": "671551f3daaf25b93fb36f9b419dfcdd1522dc5b29c2c902e0958aff2c848f18",
+      "bytes": 752318
+    },
+    "Haroun/wood_y_31.nif": {
+      "sha256": "35a190eeea0665cc1b4e88e1235fe311981ea8f177744ec7a92a389ee253da16",
+      "bytes": 757918
+    },
+    "Haroun/wood_y_32.nif": {
+      "sha256": "a21943eedb4ae4e5afad3cc22cafcab806b27f48b80ea647db95dae7864da72c",
+      "bytes": 794078
+    },
+    "Shadow/Native_DesertRocksShadowBase.tga": {
+      "sha256": "78d5edf2190636f5a2dd92ed86387ceaa2d62ebf57d6a4c6f82d62819aabda16",
+      "bytes": 524332
+    },
+    "Shadow/Native_ShadowManaFocusBase.tga": {
+      "sha256": "699a86d2da82dc32efd8539fc48fbcb861bc2c09f6df03b2175322ca3094ec57",
+      "bytes": 262188
+    },
+    "Shadow/Native_ShadowWallBase.tga": {
+      "sha256": "403addcfa4e444896158c1751211c8eefec3c5260d0ad3e69e7563a94bf784c6",
+      "bytes": 262188
+    },
+    "Shadow/ShadowBasalt.tga": {
+      "sha256": "d88bc2985613d5c6d67101e305036d29978c75919053451cec38230ab23a6bae",
+      "bytes": 786476
+    },
+    "Shadow/ShadowDeck.tga": {
+      "sha256": "78b0daa0fb866937ff37c4e5c46df6fd8ecb08293245ebb893a7085ed99e6107",
+      "bytes": 786476
+    },
+    "Shadow/ShadowIron.tga": {
+      "sha256": "c72b74906c30b2285f3063e420240560d15bbe7186ba0ab2db4482b0da021346",
+      "bytes": 786476
+    },
+    "Shadow/stone_x_05.nif": {
+      "sha256": "28d7dce3e8d575eb1a2ec5e9bef898a14f85c4cb9b8872c29acbec12b41dfc3a",
+      "bytes": 117779
+    },
+    "Shadow/stone_x_06.nif": {
+      "sha256": "abe2030e32da74e4b0994edd82beef043ac2609f16695f583c7cc7850148c615",
+      "bytes": 124675
+    },
+    "Shadow/stone_x_07.nif": {
+      "sha256": "af1c7300b229ba0b97d62d5fb6541afe7cd68f04cf0bc44cbdaa8b57ae00e11b",
+      "bytes": 131571
+    },
+    "Shadow/stone_x_08.nif": {
+      "sha256": "4d3ae0ad578a5921f6ed4b4b0c342fb55137295cf0bfd576734da07d39881dbc",
+      "bytes": 138467
+    },
+    "Shadow/stone_x_09.nif": {
+      "sha256": "03439051ba2077801e67f5fe8de1416c55927b962024970ea9d06ef0470378c1",
+      "bytes": 171459
+    },
+    "Shadow/stone_x_10.nif": {
+      "sha256": "7e28c78e6a8c36b9b8ac146bae90ce819fdbb5572c1862b32a0c8d6c9b5e6d0b",
+      "bytes": 178355
+    },
+    "Shadow/stone_x_11.nif": {
+      "sha256": "ac5b6fa5214a72580a9f48d3c43cda39c91bf91700bf0e8fc3ea056de02e9bd7",
+      "bytes": 186955
+    },
+    "Shadow/stone_x_12.nif": {
+      "sha256": "da6633ce8496a193c8c4f2d4627ea4b31b5d5510b7521e57d9f0f10b08aea548",
+      "bytes": 193851
+    },
+    "Shadow/stone_x_13.nif": {
+      "sha256": "cd340ff9d76bc0a733ba160340b5ac1df91935408d29eb9b9473d720915f2048",
+      "bytes": 226843
+    },
+    "Shadow/stone_x_14.nif": {
+      "sha256": "4ceed69eec52732e9dc3e19ad05fa81f0d020a414ab883916c7b82510c1481fb",
+      "bytes": 233739
+    },
+    "Shadow/stone_x_15.nif": {
+      "sha256": "e86498eaad7efd26db1353564e60bcff7c862be8e0439763b24472a2fc881c61",
+      "bytes": 240635
+    },
+    "Shadow/stone_x_16.nif": {
+      "sha256": "8b5d65407f1609f5de996536266296d93eca9e2d8fe879788e8ded2300e3e9f2",
+      "bytes": 247531
+    },
+    "Shadow/stone_x_17.nif": {
+      "sha256": "8ea09fc85f8eb127c2ee4fe98e5ee4644bbb334bb3465eb80f4d43f38795df55",
+      "bytes": 280523
+    },
+    "Shadow/stone_x_18.nif": {
+      "sha256": "12a517d4b35ded8a6fc4f0f4378537f65d4a22a3e54db578e86ea3b30c1f91a3",
+      "bytes": 287419
+    },
+    "Shadow/stone_x_19.nif": {
+      "sha256": "a2c65bf366af3afbcd1992296bd4a5a0e82678982e59df9eda0fc5063e48b915",
+      "bytes": 294315
+    },
+    "Shadow/stone_x_20.nif": {
+      "sha256": "63cddedae5989dea35ff7c0236d263c9680ca407c81d9646ef3b05920afef121",
+      "bytes": 329011
+    },
+    "Shadow/stone_x_21.nif": {
+      "sha256": "f02b097e9a32163b93142fc6b50719376c22d3ba1236d8b78715b190b7d1320b",
+      "bytes": 335907
+    },
+    "Shadow/stone_x_22.nif": {
+      "sha256": "99512bcc21f6653ae8b49db4c1dab7ad527fb4fbe2714f076d048f194ef959e4",
+      "bytes": 342803
+    },
+    "Shadow/stone_x_23.nif": {
+      "sha256": "6acc33271c30e4acc4b6f4344977f16b9e5e4dd57052b56c1bd88b5959246743",
+      "bytes": 349699
+    },
+    "Shadow/stone_x_24.nif": {
+      "sha256": "4378a566bfbfb00af5f9685e397acb191c951f40ade91d908cf50b75faa91e31",
+      "bytes": 382691
+    },
+    "Shadow/stone_x_25.nif": {
+      "sha256": "b5b23483c5b58651a44b1fd1dc721d12fb22551f8c120bd0f72de44c26226b7c",
+      "bytes": 389587
+    },
+    "Shadow/stone_x_26.nif": {
+      "sha256": "1d84a5cb25c84d71b546f1f0c14841b4a01a776f162d34b073b6f1e811bbc971",
+      "bytes": 396483
+    },
+    "Shadow/stone_x_27.nif": {
+      "sha256": "476c367e6985bf0389b45d44b0cc0db570a42763f30581f2a960ab5836b258f9",
+      "bytes": 403379
+    },
+    "Shadow/stone_x_28.nif": {
+      "sha256": "5b0f5ce9cd5498e0d8b819a805e7e503de008b5d6a5859c6f88fecee59d4d1f2",
+      "bytes": 436371
+    },
+    "Shadow/stone_x_29.nif": {
+      "sha256": "451ec243cab0d996568706d410645c7427b50aef224a00fed27523e2ae1ae431",
+      "bytes": 444971
+    },
+    "Shadow/stone_x_30.nif": {
+      "sha256": "55aa566022dff42cd353d33f42ea23901b0bd30c6a23ad2681c5339209380ad0",
+      "bytes": 451867
+    },
+    "Shadow/stone_x_31.nif": {
+      "sha256": "f22cd6fe840293d027b89f8a8e883df97aced31adbb0018e013c84b68cc0ebb0",
+      "bytes": 458763
+    },
+    "Shadow/stone_x_32.nif": {
+      "sha256": "c1116f46f7bc953fe67dd63ba3084eaeae149f3f12f9243f9e1c3494af87babf",
+      "bytes": 491755
+    },
+    "Shadow/stone_y_05.nif": {
+      "sha256": "f5a4988e0b05b299b68a76de90e866fb1dd4dd135f32766792a0053742bb529f",
+      "bytes": 117779
+    },
+    "Shadow/stone_y_06.nif": {
+      "sha256": "1eed623cb54963ed62018e42bf8246e8a05b13cb7571d35d35c8964829d81914",
+      "bytes": 124675
+    },
+    "Shadow/stone_y_07.nif": {
+      "sha256": "83aebf2a3b141892104d45bb4011b8c1a94959ffd8df0867b6f1dfea5b735e59",
+      "bytes": 131571
+    },
+    "Shadow/stone_y_08.nif": {
+      "sha256": "04b35801b1ab6bdbd8fd05dc4986d1eb089e294dd3917c3a027d3d8b7983235b",
+      "bytes": 138467
+    },
+    "Shadow/stone_y_09.nif": {
+      "sha256": "b0787d7042532c8f109a2cd82eac886d12418284015c8ed7fbde02d0b7a68dd8",
+      "bytes": 171459
+    },
+    "Shadow/stone_y_10.nif": {
+      "sha256": "9b7f3105a46fb68b036750c37cb789649522587359adfae7efecb85afc199f74",
+      "bytes": 178355
+    },
+    "Shadow/stone_y_11.nif": {
+      "sha256": "68159702b3a6a8297c60bccc3038c1e60081cf64bd155a0534119b9d186be8c1",
+      "bytes": 186955
+    },
+    "Shadow/stone_y_12.nif": {
+      "sha256": "b92314c73116e6929d17ea8b30e5f6537322bb8edbca8383dc81654dffcbcce7",
+      "bytes": 193851
+    },
+    "Shadow/stone_y_13.nif": {
+      "sha256": "b7df7a6914e5b8bb3f86753d5f73be4801bceaf564756c082e42b52ebaacf774",
+      "bytes": 226843
+    },
+    "Shadow/stone_y_14.nif": {
+      "sha256": "267e2e7e99848e6e5741df56ee556201f80e1acc842989a7868e689ca91581a2",
+      "bytes": 233739
+    },
+    "Shadow/stone_y_15.nif": {
+      "sha256": "ed76ebea55f2b7b32a9e406fcf4d61bf5d4c9589411b4d68779ed71acd4a033f",
+      "bytes": 240635
+    },
+    "Shadow/stone_y_16.nif": {
+      "sha256": "524ab18939cb5f651d751323c3b76f8a71251700125801778139342c06695941",
+      "bytes": 247531
+    },
+    "Shadow/stone_y_17.nif": {
+      "sha256": "ef69f26f6f35095f787bbd0e4135f6703e52f70f0120c840871c2269d19e7c30",
+      "bytes": 280523
+    },
+    "Shadow/stone_y_18.nif": {
+      "sha256": "8ddeb859f28c520dfb8685eb027c8a8602bac8a0fa5e5cd5cd0112bff0cb20b0",
+      "bytes": 287419
+    },
+    "Shadow/stone_y_19.nif": {
+      "sha256": "93ac048b4c766c1ab84cde66156a01087df5f5de43d6f1f8b2473872cb89d79d",
+      "bytes": 294315
+    },
+    "Shadow/stone_y_20.nif": {
+      "sha256": "5c0fac9824c8050abae3e75e73e8a05e41ed7c9f5e39602fcd3b7114584d1061",
+      "bytes": 329011
+    },
+    "Shadow/stone_y_21.nif": {
+      "sha256": "0bdee139042f7b62a8470b9eaa9e22dfdee364d202f30dd3dbe5195fc185c7cc",
+      "bytes": 335907
+    },
+    "Shadow/stone_y_22.nif": {
+      "sha256": "9f723b0edbc4d058f6f32bb2413dbd45bdf180ecbc369112ee017bf916e8018f",
+      "bytes": 342803
+    },
+    "Shadow/stone_y_23.nif": {
+      "sha256": "17db5fefb2f77d3d69aeed61fd8e90d468050f7683cdd14d56ea85088f215808",
+      "bytes": 349699
+    },
+    "Shadow/stone_y_24.nif": {
+      "sha256": "b360357d62922b8c5bc1fb1fd3081a9255bac582bc05b41419946f7abeb7fa94",
+      "bytes": 382691
+    },
+    "Shadow/stone_y_25.nif": {
+      "sha256": "75950a71edd552af9557d8cd9a8d1bfe027b32d230339074f4e5db131370b129",
+      "bytes": 389587
+    },
+    "Shadow/stone_y_26.nif": {
+      "sha256": "934d5a20673ba70e170a1a27772a7c1f1a70a5a7afd66408c9392b32f4fe7171",
+      "bytes": 396483
+    },
+    "Shadow/stone_y_27.nif": {
+      "sha256": "2d6eb15e75f32a6a8e84548bd473dd4ca7b3f78a4d7fc489f307528f1cb89923",
+      "bytes": 403379
+    },
+    "Shadow/stone_y_28.nif": {
+      "sha256": "f85c47694edc8c22a24ffa6546329650cdf1090409aa9bd85a771777ad3af5db",
+      "bytes": 436371
+    },
+    "Shadow/stone_y_29.nif": {
+      "sha256": "a22347d90746731c8556f557ae745582149e8d545f41530fae1be3afc2c16605",
+      "bytes": 444971
+    },
+    "Shadow/stone_y_30.nif": {
+      "sha256": "8dc0b152035c7ae4569bfa9d8dc961be0c83bc43eead5902b8122165601ec262",
+      "bytes": 451867
+    },
+    "Shadow/stone_y_31.nif": {
+      "sha256": "6e82a187ac2a69fe088e7001db1b5d63bbcba291e00e689bd520a0b7fa185c72",
+      "bytes": 458763
+    },
+    "Shadow/stone_y_32.nif": {
+      "sha256": "4ce2fa45d054a61e6477f186efe09383938e8392fdaf47ea4b682ab33ee514ad",
+      "bytes": 491755
+    },
+    "Shadow/wood_x_05.nif": {
+      "sha256": "9f3e69464042f83c50605b397ba7d48b141b24d52cfa894720f129a2f160d7ef",
+      "bytes": 104505
+    },
+    "Shadow/wood_x_06.nif": {
+      "sha256": "33a8aebf7432fb92d1c6254655220cb0cfe2dcd67a96f1a2faefba8b886439b7",
+      "bytes": 109569
+    },
+    "Shadow/wood_x_07.nif": {
+      "sha256": "d624513c508e10ae854820b2d25557ea295b3aa15f5da854315ed9c6503d6a60",
+      "bytes": 115729
+    },
+    "Shadow/wood_x_08.nif": {
+      "sha256": "63bc54f84af69c8670467b5107708c1af4445c04d44f57bade0ca7c94bf16d12",
+      "bytes": 120793
+    },
+    "Shadow/wood_x_09.nif": {
+      "sha256": "55165a74728551ec981d0bccee5aa5a8dd6fb19d7813883fe2485ed43e80e01f",
+      "bytes": 130313
+    },
+    "Shadow/wood_x_10.nif": {
+      "sha256": "e4b045d29b6ec004c04c87375eec2fdd836b77e82849486565236fbd2f0cd6bb",
+      "bytes": 135377
+    },
+    "Shadow/wood_x_11.nif": {
+      "sha256": "a61300e66ec67b4388b8824cd2f79c4bf0d5ac8f7876725df58b26b69445eb88",
+      "bytes": 146601
+    },
+    "Shadow/wood_x_12.nif": {
+      "sha256": "c4a704f79231bec5cc2cc71426d4a0f7f02135906e31cb886f733b69032afa02",
+      "bytes": 148305
+    },
+    "Shadow/wood_x_13.nif": {
+      "sha256": "e9075085775174800caca6c2609ca5f035e52be375ce9473d3b6536dd34c8728",
+      "bytes": 157825
+    },
+    "Shadow/wood_x_14.nif": {
+      "sha256": "6a5abc20a6f49123ca2fbc0d55e7311786cccb346ebec226c3419f26e2ea4625",
+      "bytes": 162889
+    },
+    "Shadow/wood_x_15.nif": {
+      "sha256": "82512e4d18c9babd9090e61e6534deb547dc957e63d7a9a79979b1274ceeb035",
+      "bytes": 172409
+    },
+    "Shadow/wood_x_16.nif": {
+      "sha256": "1053ed2de32ca2f4ad0bdc87a7ade4293bb25228640c6bf1d18f905367f2bf90",
+      "bytes": 177473
+    },
+    "Shadow/wood_x_17.nif": {
+      "sha256": "e777b189d80bc938efcec76e054763427490682eddb41af3766a36d1eaebf686",
+      "bytes": 183633
+    },
+    "Shadow/wood_x_18.nif": {
+      "sha256": "8e4c2fd31927d9155427c6a928920965c28f5a2b450cae17ab982a57e919dc9a",
+      "bytes": 188697
+    },
+    "Shadow/wood_x_19.nif": {
+      "sha256": "37c09d1b20d600cb46ffe027f4556798ba78601611a9e700a551016f3e98c942",
+      "bytes": 198217
+    },
+    "Shadow/wood_x_20.nif": {
+      "sha256": "6d9112bc6ed291a60cddac912916b21bc19d5324c088eadddf3b59a6c2fa2775",
+      "bytes": 204985
+    },
+    "Shadow/wood_x_21.nif": {
+      "sha256": "230e7685a0303fd3de342022239dcb6cdd186f483a6a15d088eaf65e6e922ac5",
+      "bytes": 214505
+    },
+    "Shadow/wood_x_22.nif": {
+      "sha256": "89ca8bc459c64b2fc50a2b76a795e62a94ecc3683fe02414fa090ca51b7b46e0",
+      "bytes": 216209
+    },
+    "Shadow/wood_x_23.nif": {
+      "sha256": "8ae8759467ab0fa65fa139f0341e848ca3a9793c316ebb525f8c3638fffa4916",
+      "bytes": 225729
+    },
+    "Shadow/wood_x_24.nif": {
+      "sha256": "3297b96636205f14a0b8c8254b9da9c0406b8504868f389837dec22ef0ebbe44",
+      "bytes": 230793
+    },
+    "Shadow/wood_x_25.nif": {
+      "sha256": "e463c1f1a5cc555fab015ac0d446c996ded21497dba9a124b1ba9032aa335cf0",
+      "bytes": 240313
+    },
+    "Shadow/wood_x_26.nif": {
+      "sha256": "476bb43d6eb89c5029935e88972639158fdb9c72181faed4eba0f8aa384e69a3",
+      "bytes": 245377
+    },
+    "Shadow/wood_x_27.nif": {
+      "sha256": "de02750d9c72192d9ec68fc988eba6581b7f8bca5a2a48dd9758b2d1657836f7",
+      "bytes": 251537
+    },
+    "Shadow/wood_x_28.nif": {
+      "sha256": "8191ea9d141f0e167523af5ccabd0d8f60292d5b58291fcdc84b30a9601f39b0",
+      "bytes": 256601
+    },
+    "Shadow/wood_x_29.nif": {
+      "sha256": "9c735dffbe38dcad90a82994e482cfa45fe473c09e07258e29188e094aa7f3db",
+      "bytes": 267825
+    },
+    "Shadow/wood_x_30.nif": {
+      "sha256": "5404c0ce06f611de3b2dd4a04107f30c366bfa1f17dc21ab346e8cf5c7a5f8fc",
+      "bytes": 272889
+    },
+    "Shadow/wood_x_31.nif": {
+      "sha256": "73c895176a4e4e93c9abf71fa48f331e3f493e8db29c179c49f2fa7cf815cc5d",
+      "bytes": 282409
+    },
+    "Shadow/wood_x_32.nif": {
+      "sha256": "73a3cfe5c3c500e2367ed3940c19e0eb89b956c3441c33d1af7f2f69df904a1d",
+      "bytes": 284113
+    },
+    "Shadow/wood_y_05.nif": {
+      "sha256": "1356df88ac84ef7fb115b668c683ebc2d1b308dc59d5286b906aadfa6e00c285",
+      "bytes": 104505
+    },
+    "Shadow/wood_y_06.nif": {
+      "sha256": "7737945403312096927403875715ba4de12ebe55321787e738f02aecba054ec4",
+      "bytes": 109569
+    },
+    "Shadow/wood_y_07.nif": {
+      "sha256": "d9c1b93922253b47c17a449681ffdcb7d15b0b26ac8513a38c1af0fddb9f71c9",
+      "bytes": 115729
+    },
+    "Shadow/wood_y_08.nif": {
+      "sha256": "a3c23698fe424050ed735d26fdd556f774c7a5e6e8d76cdd4f681ce64a3c6e64",
+      "bytes": 120793
+    },
+    "Shadow/wood_y_09.nif": {
+      "sha256": "3fbefe25eff63a25253047e721c9e6797f951f392d38897d1fcec36070df6e81",
+      "bytes": 130313
+    },
+    "Shadow/wood_y_10.nif": {
+      "sha256": "d5ded79d1652906a7966b936df9c88ba4e758ab48085716708eebfee797e3eff",
+      "bytes": 135377
+    },
+    "Shadow/wood_y_11.nif": {
+      "sha256": "ccb34653d5da15a4a147b34d212418c397e5f864584ac319f6021c8c0b186465",
+      "bytes": 146601
+    },
+    "Shadow/wood_y_12.nif": {
+      "sha256": "fa1d44bb67ae64dfbdf6fdb36d2b6dba7092e9e1d3659328803330edc403c443",
+      "bytes": 148305
+    },
+    "Shadow/wood_y_13.nif": {
+      "sha256": "6540f5ad45009ec0141186ad12f5ec4fa10871a28cd028e89ec39adfd4a3e6ad",
+      "bytes": 157825
+    },
+    "Shadow/wood_y_14.nif": {
+      "sha256": "54da64f602d472052cc32e69da3d36155a6e3821fd9e98dab3b2c6d7555a2593",
+      "bytes": 162889
+    },
+    "Shadow/wood_y_15.nif": {
+      "sha256": "62990f00f72c95871fd8434044c8ca5243d1d1275e07a5cb2f90e3989820ca56",
+      "bytes": 172409
+    },
+    "Shadow/wood_y_16.nif": {
+      "sha256": "10aeb233d3b676cb43000a8a1464238efb890dac5e842e02435fcf1f1df44aa5",
+      "bytes": 177473
+    },
+    "Shadow/wood_y_17.nif": {
+      "sha256": "e4075b4a119b558d83998d8211beadea35539e25a7241ec69a0506c56dc82f36",
+      "bytes": 183633
+    },
+    "Shadow/wood_y_18.nif": {
+      "sha256": "f735e1f134308f98041155f270473a36d15e1ab57f588b1b8d8e4ae93b74d7d4",
+      "bytes": 188697
+    },
+    "Shadow/wood_y_19.nif": {
+      "sha256": "d368e17815371b31856ff284813aab672ba8ed0998f0e2fb127a88dd1a49f01d",
+      "bytes": 198217
+    },
+    "Shadow/wood_y_20.nif": {
+      "sha256": "103854edbf721626f2cf3da5d2c56e50d32cc7000d238c97c3fe17065db9e61a",
+      "bytes": 204985
+    },
+    "Shadow/wood_y_21.nif": {
+      "sha256": "390b77b09d5d6203a0bf0c9d3a5686584d540b213a7fe15bbaea4dedbd6e4277",
+      "bytes": 214505
+    },
+    "Shadow/wood_y_22.nif": {
+      "sha256": "299aff53de618ed7d73d16e68aaae789bd6253a2f274f1c27b90233dbdde971d",
+      "bytes": 216209
+    },
+    "Shadow/wood_y_23.nif": {
+      "sha256": "6e7e3c62d497daa57f1a481d42cefc77d67dd5979ca67259811ba1898caff55a",
+      "bytes": 225729
+    },
+    "Shadow/wood_y_24.nif": {
+      "sha256": "c724f9739e9573308cccefaf45d82b46a60a18e1fb9e72a9eb70dd2bc2e8be8a",
+      "bytes": 230793
+    },
+    "Shadow/wood_y_25.nif": {
+      "sha256": "401926ceae6f907bb8aa5c6838b8f8333b52191a92c9826cee8eafcdaf04a0ac",
+      "bytes": 240313
+    },
+    "Shadow/wood_y_26.nif": {
+      "sha256": "9f60e6ffa4a2f5d4429a83eba9276c828afd455e5e9ec004b694c5d73459e635",
+      "bytes": 245377
+    },
+    "Shadow/wood_y_27.nif": {
+      "sha256": "a3ea0078e8f29e189b7951bf1b7e11e703c6929f6ee6bbbc5d0e6a9ba0adad7e",
+      "bytes": 251537
+    },
+    "Shadow/wood_y_28.nif": {
+      "sha256": "de9c6a70ef9ba8daf4adb29341aae8de0e3c6b2445e966679d150a16174cf094",
+      "bytes": 256601
+    },
+    "Shadow/wood_y_29.nif": {
+      "sha256": "8916adf424381346df590085b3a092ac93408d6083efffa47dbeb3f7860024f8",
+      "bytes": 267825
+    },
+    "Shadow/wood_y_30.nif": {
+      "sha256": "a23c6c50225dadb738cb434bf1dd371d356c9f909f812bc575e9d1941f0e3351",
+      "bytes": 272889
+    },
+    "Shadow/wood_y_31.nif": {
+      "sha256": "94283e91224a143a09e9f4410c3cacc51371ddc21b94dd953a9f22ad117b8179",
+      "bytes": 282409
+    },
+    "Shadow/wood_y_32.nif": {
+      "sha256": "e285092b6886721a9800b683930fc4459b6fb8b3e21eec813cc05eea431729cc",
+      "bytes": 284113
+    },
+    "Undead/Native_DoodadsUndeadBase.tga": {
+      "sha256": "93b9d4b2a1053528f0e47e9b5d0e0947c7896a6318b97df81adc5f2eca3566c0",
+      "bytes": 65580
+    },
+    "Undead/Native_UndeadWallBase.tga": {
+      "sha256": "0d20a68e2ccf55afdbdf0f19a6fdfcbb8fc58b7873870befc5c36336c89b3414",
+      "bytes": 524332
+    },
+    "Undead/PawsBridgeStone.tga": {
+      "sha256": "82de2824241c8e936711b4b638d9964e317df18702a9658effccf616af3a2e78",
+      "bytes": 1048620
+    },
+    "Undead/stone_x_05.nif": {
+      "sha256": "e9030570c8fe6282e08aff9ac6c05b2e050769b66d21f71051e36064081f5ecd",
+      "bytes": 112104
+    },
+    "Undead/stone_x_06.nif": {
+      "sha256": "53cfa4f747dc1fc9c75cce3977e4f57648b8cd912cd63a91d6c0e675d577ebf6",
+      "bytes": 144524
+    },
+    "Undead/stone_x_07.nif": {
+      "sha256": "00043c456238fc5e99973b3b2bf60fc3db21d1feacf4b90d6d4838b00836b842",
+      "bytes": 147116
+    },
+    "Undead/stone_x_08.nif": {
+      "sha256": "df00a7b755f8edaf17365e67eac8cea1b71c18d1dde52f5c62acb6e19fca016e",
+      "bytes": 149708
+    },
+    "Undead/stone_x_09.nif": {
+      "sha256": "06b5ee0adac967d3e84afe5311e0598fc7cc1d0fff2672cd812e428d027304df",
+      "bytes": 154892
+    },
+    "Undead/stone_x_10.nif": {
+      "sha256": "864e4873fdeac8431bbdc68e134a4f75f595e05f411d0c22bfe519ca8215fc3e",
+      "bytes": 187312
+    },
+    "Undead/stone_x_11.nif": {
+      "sha256": "7a0ba6be7583b387aa407acaf7c1ea047079aee8961f8dbd0faaee3186965eef",
+      "bytes": 189904
+    },
+    "Undead/stone_x_12.nif": {
+      "sha256": "92e1ea9d39ee8fa973db38f775f252f9208d8879a16a8d9881b81173e7fdfded",
+      "bytes": 192496
+    },
+    "Undead/stone_x_13.nif": {
+      "sha256": "83b80f14692a268473da38a82c5add47913a2f24a137dcc59d724826164a5fa8",
+      "bytes": 197680
+    },
+    "Undead/stone_x_14.nif": {
+      "sha256": "9daa40ea18092d04272b53a6f1741f86d4b4f93089c330a9e8c6c490c353b03b",
+      "bytes": 230100
+    },
+    "Undead/stone_x_15.nif": {
+      "sha256": "d83a192de06dfd9b192f4b98b634d77116da0b59ae4761f02b195539a4db0e6e",
+      "bytes": 232692
+    },
+    "Undead/stone_x_16.nif": {
+      "sha256": "17e997d170dc44cf037310a925581b5532071ffba2b86cb7eb7c5fcfc2f0fe5e",
+      "bytes": 235284
+    },
+    "Undead/stone_x_17.nif": {
+      "sha256": "d5c03f6b6d5e02cf08c8a4b7efccaad6b44b0f62f5a435266686a5a334bbe73f",
+      "bytes": 240468
+    },
+    "Undead/stone_x_18.nif": {
+      "sha256": "d7f91edd42c04f855c474f2a4143d0951cbbd08ca2fa751746bbbbc6d6c056aa",
+      "bytes": 272888
+    },
+    "Undead/stone_x_19.nif": {
+      "sha256": "0710264868a20ea5fa458d61eee67b3fd3fb773b7ae225373dd7bfa60da3fd4b",
+      "bytes": 275480
+    },
+    "Undead/stone_x_20.nif": {
+      "sha256": "3a619d6d54f7b1c1f679e4befe7415efc0a1cf1dd33bed277f5af54cfe8a201b",
+      "bytes": 278072
+    },
+    "Undead/stone_x_21.nif": {
+      "sha256": "c62c2c098f900247ec819835dda97c281e11e3d418c48bf8d6aed827eede06a3",
+      "bytes": 283256
+    },
+    "Undead/stone_x_22.nif": {
+      "sha256": "883fa375ccd58fa2c0606f54feb0fe182544fa3da9a4229a57ce8c03e6f72412",
+      "bytes": 315676
+    },
+    "Undead/stone_x_23.nif": {
+      "sha256": "66208b8597b60ffc4c3c42576c5cded69d6133b6236fdc5edd88b51d923c05a4",
+      "bytes": 318268
+    },
+    "Undead/stone_x_24.nif": {
+      "sha256": "8a78a816fea34432cbbee525c655b2a20106de14b1893108b16b345dda1be2c4",
+      "bytes": 320860
+    },
+    "Undead/stone_x_25.nif": {
+      "sha256": "c951c92c87e91775094486891a5365217fd5ce9a2efb851e52a6ace4725f6506",
+      "bytes": 326044
+    },
+    "Undead/stone_x_26.nif": {
+      "sha256": "82588e9f61067c4e7d0eb9b717cfccd6a1971fa057478efdda40b864251b391f",
+      "bytes": 358464
+    },
+    "Undead/stone_x_27.nif": {
+      "sha256": "c4caf3c37b88c722505057ab3e478b7b2847a4214516fb34e00def8b364238a2",
+      "bytes": 361056
+    },
+    "Undead/stone_x_28.nif": {
+      "sha256": "acc5feac3cde67fb88b28d7c9bc93aba667391d20a43a34aea70260f8c0e4dcc",
+      "bytes": 363648
+    },
+    "Undead/stone_x_29.nif": {
+      "sha256": "18e906aab87d64c657ebe3624e2bf2b60ab026808b553c8b5ef183bb059d4ada",
+      "bytes": 368832
+    },
+    "Undead/stone_x_30.nif": {
+      "sha256": "5a5f3877161144a640a57b2084f25a43a318e6475af7f8ec4844c64f4ab668b3",
+      "bytes": 401252
+    },
+    "Undead/stone_x_31.nif": {
+      "sha256": "801300e1871ece7d3b0a7f78c14166e3746e1da773a6c92fc3e4c85aa9030497",
+      "bytes": 403844
+    },
+    "Undead/stone_x_32.nif": {
+      "sha256": "87eeaf79233c798452e7c490cde8b3c4a709755b764f24850d18d11b58e29c17",
+      "bytes": 406436
+    },
+    "Undead/stone_y_05.nif": {
+      "sha256": "fbcbb88d0440a9e197f28a0098fd82512106096f7bfdfa5bc7549033a63ed02a",
+      "bytes": 112104
+    },
+    "Undead/stone_y_06.nif": {
+      "sha256": "63622e6cb37736610c2308f6ca210ac625ae235f573ba7a25aa192e236092342",
+      "bytes": 144524
+    },
+    "Undead/stone_y_07.nif": {
+      "sha256": "aa6bd5d51c9d1b628c0a357c1dfa3ca9ef228b43a4aea74ec16ab8e046a3e8f2",
+      "bytes": 147116
+    },
+    "Undead/stone_y_08.nif": {
+      "sha256": "6278893fee065e6cc28a29e3acbfea9f0877592e4cb538e41f5c21bbad26eb58",
+      "bytes": 149708
+    },
+    "Undead/stone_y_09.nif": {
+      "sha256": "61b1ce1f8482b38d973d323d64ecdc3cf1a1d7ecc03a5786509967052799ecee",
+      "bytes": 154892
+    },
+    "Undead/stone_y_10.nif": {
+      "sha256": "058ebd73dbf04a01cebe0c117af2b54e514f7ef472812a59d8f50a2d6bc07dbf",
+      "bytes": 187312
+    },
+    "Undead/stone_y_11.nif": {
+      "sha256": "f12ba58bad7234a6617b260c58787ca663b9f9de1ca1594c1c3356c539bef1e5",
+      "bytes": 189904
+    },
+    "Undead/stone_y_12.nif": {
+      "sha256": "ae38a9e4360e00d748e7505df1b22e04a73a5adbf7ee06cc862b4c29a6557478",
+      "bytes": 192496
+    },
+    "Undead/stone_y_13.nif": {
+      "sha256": "207b18007794818a6bf665878a64df98141076e78a53eb1a2a4e34bb49331165",
+      "bytes": 197680
+    },
+    "Undead/stone_y_14.nif": {
+      "sha256": "32841382082dc1e8a2bfb9c6894936a215cca8ec531ee5601ac2781277ab5548",
+      "bytes": 230100
+    },
+    "Undead/stone_y_15.nif": {
+      "sha256": "eaae8b75ca818e4d041b6a034f8a613b3b4a73fd82884bc5c1b16a4910f46f12",
+      "bytes": 232692
+    },
+    "Undead/stone_y_16.nif": {
+      "sha256": "8eb794b15a9652f3e5e8454dc86ffdea44dce5d90f6dcc3efb502e6a782f90f1",
+      "bytes": 235284
+    },
+    "Undead/stone_y_17.nif": {
+      "sha256": "db1f9d86beaa0d2d4902da6d120ffaf0923d3a4c4081239431c850bb99b5dbd4",
+      "bytes": 240468
+    },
+    "Undead/stone_y_18.nif": {
+      "sha256": "c3d584c79642f8412c8834b831ddc5c9ba5f0329df43cbbdbf6037e97518ae2d",
+      "bytes": 272888
+    },
+    "Undead/stone_y_19.nif": {
+      "sha256": "343855ce13697ceecdf10a338dd02c0879e841eed9dec39633637d59b658726a",
+      "bytes": 275480
+    },
+    "Undead/stone_y_20.nif": {
+      "sha256": "3e3a18de8d384433d5170108eed771195fd3a417e354f735a337af5d25f88e42",
+      "bytes": 278072
+    },
+    "Undead/stone_y_21.nif": {
+      "sha256": "9dfdd4485dca48402713b5c9e218963571a407c1176c53312e0e3f80eef6d70a",
+      "bytes": 283256
+    },
+    "Undead/stone_y_22.nif": {
+      "sha256": "4d31b9799c7f657c154cdc936c2cdb2c9d11a579c3c3d13f228a1340d43be80b",
+      "bytes": 315676
+    },
+    "Undead/stone_y_23.nif": {
+      "sha256": "cf56a595fb1c8f40d112dfbffd1846a5577476c8f98aa4c1eaf06bde591b6c6b",
+      "bytes": 318268
+    },
+    "Undead/stone_y_24.nif": {
+      "sha256": "9f079cdaa57a166752564d5fe1114860ff651e65945cff22149ab80a7b9583ca",
+      "bytes": 320860
+    },
+    "Undead/stone_y_25.nif": {
+      "sha256": "aa87ab05c9091fd1b9e9aa6e43fd74412f70be704ec1a3a78fda0f018d525505",
+      "bytes": 326044
+    },
+    "Undead/stone_y_26.nif": {
+      "sha256": "4ffaf4bcacd6e49c747b5221cc068373ab5d9fe33e28b3e2ee90a1a1b97bb3dd",
+      "bytes": 358464
+    },
+    "Undead/stone_y_27.nif": {
+      "sha256": "84e6d234c874b46433edbe5e6957ac7b64ee023f0eaa7fca7b4e2d7eb90a1cd3",
+      "bytes": 361056
+    },
+    "Undead/stone_y_28.nif": {
+      "sha256": "c84f84577958918d2107c97f0ecdfc794426f28b4b50b654c636195f1a14555c",
+      "bytes": 363648
+    },
+    "Undead/stone_y_29.nif": {
+      "sha256": "a2f60eecc645bdf9a691c1f1c95a9d43c7f05058ea2d0d8881853457f8031e65",
+      "bytes": 368832
+    },
+    "Undead/stone_y_30.nif": {
+      "sha256": "7e59970b833157ae70b423671dca5a6a6da83771f558e6dfe32ab84830bb4aaa",
+      "bytes": 401252
+    },
+    "Undead/stone_y_31.nif": {
+      "sha256": "bfb1f78e4ee978debf4a7349a016fa8ea221e6387d733ba22aef66299f5daa51",
+      "bytes": 403844
+    },
+    "Undead/stone_y_32.nif": {
+      "sha256": "9e8f5f770e79c92bc1eba4205b813ecd381bc0b839986a8840ea7bf7d844524d",
+      "bytes": 406436
+    },
+    "Undead/wood_x_05.nif": {
+      "sha256": "56c471fa2815c7f4a1c8d6d953939c50974a29d2f8fe1524ffd2228d445b806f",
+      "bytes": 169395
+    },
+    "Undead/wood_x_06.nif": {
+      "sha256": "23feb634de4452a17715c7452267ec69e3829fedfc1a1e3e2102664f62769e31",
+      "bytes": 190515
+    },
+    "Undead/wood_x_07.nif": {
+      "sha256": "582f0733b13b8413025d3b79d335bfb52888f01725cf034e0c1ef79aafc668ea",
+      "bytes": 211635
+    },
+    "Undead/wood_x_08.nif": {
+      "sha256": "463909df30a9f129f27db73ff7ced2ef920163d85b4c59f36b06e29e74a03319",
+      "bytes": 232755
+    },
+    "Undead/wood_x_09.nif": {
+      "sha256": "98e24994d56dce0fb15acb273db54ea997bddb22811d212c02d79e33addbf547",
+      "bytes": 241203
+    },
+    "Undead/wood_x_10.nif": {
+      "sha256": "7c471c2a1affc43be0b292c83b20449809a9d6e9a89d335c21f338deee8a9b5c",
+      "bytes": 304747
+    },
+    "Undead/wood_x_11.nif": {
+      "sha256": "405bcfb72132c64a6ee45ce61b79576b2f5619a64d6870b64944a8d813a40307",
+      "bytes": 325867
+    },
+    "Undead/wood_x_12.nif": {
+      "sha256": "d7fc293d35432d5ec57aaa4d049c6847f11d2f6abf9ff4a7c874913f1b80fb2e",
+      "bytes": 346987
+    },
+    "Undead/wood_x_13.nif": {
+      "sha256": "16d61d8545c9b3c7286b409a7e104147ba60ac5f6ea72e07ecd240b2f8cdfaa3",
+      "bytes": 359659
+    },
+    "Undead/wood_x_14.nif": {
+      "sha256": "c97131100a1d8d6e1d4f3a6b59b63f5ced390fa307ff99135a02b060f13c9b7e",
+      "bytes": 380779
+    },
+    "Undead/wood_x_15.nif": {
+      "sha256": "b844faad7012cbf540d1213c030e1ea626627230c32d6ff214cc5f2d198f453a",
+      "bytes": 401899
+    },
+    "Undead/wood_x_16.nif": {
+      "sha256": "f5ec7ac8656e7349e36dbe28ba81a1d29b14a6afc345d8ce152d8c769122ef9a",
+      "bytes": 423019
+    },
+    "Undead/wood_x_17.nif": {
+      "sha256": "68dadb4c25602bac1a5de9cc09bba9a3bc99990c2d710d2cb744c152cfb2fcbc",
+      "bytes": 431467
+    },
+    "Undead/wood_x_18.nif": {
+      "sha256": "2dafc546a5559a0e7d3e288dbb82fb87cf7d15459303ab3bc8c6415230790b65",
+      "bytes": 452587
+    },
+    "Undead/wood_x_19.nif": {
+      "sha256": "e89b3ba4a998867ebf6e70a2443ede43856a00d2d8d991518849875e7810488d",
+      "bytes": 473707
+    },
+    "Undead/wood_x_20.nif": {
+      "sha256": "815edd5aaace0defd6e383b00c4a993c499ecb68a670d193c26c78bac340ecbf",
+      "bytes": 494827
+    },
+    "Undead/wood_x_21.nif": {
+      "sha256": "a93f5625f8b4021218883c82dae1e9d367e3f1740b46b7fa9b70da211b6c77ed",
+      "bytes": 507499
+    },
+    "Undead/wood_x_22.nif": {
+      "sha256": "9bd0fbeb248a5441bc6d93281401cf4ba9180b8c08c8b4bbe2e59e67faf6e73b",
+      "bytes": 528619
+    },
+    "Undead/wood_x_23.nif": {
+      "sha256": "4815b4839a398047a8ab6a0d1896a393b3e0f57013499a2461fdd6c6722edf4f",
+      "bytes": 549739
+    },
+    "Undead/wood_x_24.nif": {
+      "sha256": "44f5d24595d795d1145d9c5e8f9f0f4ccd0c33e9c1cf409c18828f10cb889baf",
+      "bytes": 558187
+    },
+    "Undead/wood_x_25.nif": {
+      "sha256": "42f7daadb07e02a8dafecfe9e8297a29ca3e5258df9f0d7e8150b172c889db31",
+      "bytes": 579307
+    },
+    "Undead/wood_x_26.nif": {
+      "sha256": "e418a3b6fb9e8927ac84a991e396a5f64c0a5e3924481aeb879b839929ddbdb5",
+      "bytes": 600427
+    },
+    "Undead/wood_x_27.nif": {
+      "sha256": "6c764667c16ddec61241fe1cd3e36972ce6b16bb95fc70537205121f64fd349f",
+      "bytes": 621547
+    },
+    "Undead/wood_x_28.nif": {
+      "sha256": "03c516267103685e55d8379aaafe2385660cd142c7efcbabfc10bb10e24895fa",
+      "bytes": 634219
+    },
+    "Undead/wood_x_29.nif": {
+      "sha256": "f3f8dd29519f647ac7126922ce2ef0533ae0a4b4a59cef3170825fa047b42ab2",
+      "bytes": 655339
+    },
+    "Undead/wood_x_30.nif": {
+      "sha256": "03c67d233c3dc7c021536316e238ea17d6f4e1ae2244c5bd0df4cf1ff574c1ff",
+      "bytes": 676459
+    },
+    "Undead/wood_x_31.nif": {
+      "sha256": "21b1ea46afcdb2493f1423e2e2695f8cb026af9c95f3c74976ee900e31d96a2e",
+      "bytes": 697579
+    },
+    "Undead/wood_x_32.nif": {
+      "sha256": "3d8371c807ce2b5ac4607f74960cf68d53000f9d9be50e46f531e4772a8261a5",
+      "bytes": 706027
+    },
+    "Undead/wood_y_05.nif": {
+      "sha256": "dd6326b5d3a64951ae169c3a57d4566e3c75e172cec127427f16f8431f873d43",
+      "bytes": 169395
+    },
+    "Undead/wood_y_06.nif": {
+      "sha256": "c0a94be24a167ba8e91dd9287420df417f26b4a2c18e0d8d5445d72f541a5b23",
+      "bytes": 190515
+    },
+    "Undead/wood_y_07.nif": {
+      "sha256": "1f3ba4ab1775ba97ca4d330b0f10c2ecdf5c365d616ae3eb6f5039049f1f76fc",
+      "bytes": 211635
+    },
+    "Undead/wood_y_08.nif": {
+      "sha256": "a61c135f46ade730f7007f0f0473dea4ef07c6b463c80ee47e6b85df3e1ad4bf",
+      "bytes": 232755
+    },
+    "Undead/wood_y_09.nif": {
+      "sha256": "f2458f52696b0d3a74036843f7eb4c11b01f01d0130ecf6f3f157b415cfeafab",
+      "bytes": 241203
+    },
+    "Undead/wood_y_10.nif": {
+      "sha256": "3bddc983a45bf174f66775b33efe7713a0fcf4a617f8dd23d37a78154f26c0d8",
+      "bytes": 304747
+    },
+    "Undead/wood_y_11.nif": {
+      "sha256": "36d363ae4306376fd86a93d2efd3b7fc939219434d2f6127ac6930890e30c903",
+      "bytes": 325867
+    },
+    "Undead/wood_y_12.nif": {
+      "sha256": "61736c5c89d3e8db420adb6c38a5034a40e8b37d7de269d7d7b8644cd1b708ea",
+      "bytes": 346987
+    },
+    "Undead/wood_y_13.nif": {
+      "sha256": "1de75b01e65c4171134a142af2f5e3490df29823b764499ebe3acf94d821d43a",
+      "bytes": 359659
+    },
+    "Undead/wood_y_14.nif": {
+      "sha256": "19e3c4a8ff7092df83f29c83f55f1066de2a873c167175aead34713201a3ce9c",
+      "bytes": 380779
+    },
+    "Undead/wood_y_15.nif": {
+      "sha256": "4afd3f05cad952d356bfb5f16d85e4c04f72564d793589db8ae1996c47c26c1a",
+      "bytes": 401899
+    },
+    "Undead/wood_y_16.nif": {
+      "sha256": "e3ce2713216918d626d8147cd177d41c8e77177bdab83a22f5a5eb0ee9ebd1dd",
+      "bytes": 423019
+    },
+    "Undead/wood_y_17.nif": {
+      "sha256": "c92ef558e63a2f829ec59d3edda08e7d0181819e193e2a202872569077e32a2d",
+      "bytes": 431467
+    },
+    "Undead/wood_y_18.nif": {
+      "sha256": "0764aaad2c8f5deb1507d162218670dda460734417ba74f54fddb4b66b139d9f",
+      "bytes": 452587
+    },
+    "Undead/wood_y_19.nif": {
+      "sha256": "d301945793b08a647338dea066ca8bd963be18a2ce9641cf6fab27563cf9248f",
+      "bytes": 473707
+    },
+    "Undead/wood_y_20.nif": {
+      "sha256": "f95b015b3379230ad85627bcdffc33741d41a30f5b2b3efe1bff3708a744dda1",
+      "bytes": 494827
+    },
+    "Undead/wood_y_21.nif": {
+      "sha256": "d9e14a372321f9cc7d8ddcabbe74cba5afd2fb5fe59b6a372ba451d5735267f0",
+      "bytes": 507499
+    },
+    "Undead/wood_y_22.nif": {
+      "sha256": "6ab1281c0802747b0ea02673480b9bcdcbb7e6ddcd27cfc2ba9b39a452ac3b33",
+      "bytes": 528619
+    },
+    "Undead/wood_y_23.nif": {
+      "sha256": "455e906b8e55842e489b6b2a866df2868d11fbc6afb2c597ba32fc0597ff2e58",
+      "bytes": 549739
+    },
+    "Undead/wood_y_24.nif": {
+      "sha256": "c87fb04dfc7a48a6aef402777dd49242766ced9f53ac7c157592a91929fbef64",
+      "bytes": 558187
+    },
+    "Undead/wood_y_25.nif": {
+      "sha256": "da5dcbc709e3e3c83cf80acd8964e19410e951c5fb1b4526b3152d7ff2856d19",
+      "bytes": 579307
+    },
+    "Undead/wood_y_26.nif": {
+      "sha256": "a8c547ad3cd97da9172184cf0ea49f6dd123d98a98d2e568683463678d011e63",
+      "bytes": 600427
+    },
+    "Undead/wood_y_27.nif": {
+      "sha256": "7538e140e30fba2dfe2d4a9efb3f679188d187c4daf2abd320e729e38d306497",
+      "bytes": 621547
+    },
+    "Undead/wood_y_28.nif": {
+      "sha256": "6d92229e6cb9d36a4f24616a68ca04e56e3a8bee62b19c54822ba9bd282b557c",
+      "bytes": 634219
+    },
+    "Undead/wood_y_29.nif": {
+      "sha256": "323525eead32076ee359758c119e8d0ab599dd384c30c7754b68e573ac038e21",
+      "bytes": 655339
+    },
+    "Undead/wood_y_30.nif": {
+      "sha256": "1c22570fdf6b02421590d73d304542d5c613fd5f0afe65d7449af830f6036835",
+      "bytes": 676459
+    },
+    "Undead/wood_y_31.nif": {
+      "sha256": "347de7be1572f538f2a741c70fbc21d9efddb084b105314ef1c6960e6c0a1c68",
+      "bytes": 697579
+    },
+    "Undead/wood_y_32.nif": {
+      "sha256": "6a98ba489899e96243d939f49778e359e8d6a1d70f37a060bb63a5e520e3d06b",
+      "bytes": 706027
+    }
+  },
+  "sourceReadOnly": true,
+  "approvedReferences": {
+    "Human/wood_y_13.nif": {
+      "race": "Human",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Human\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Human\\wood_y_13.nif",
+      "sourceSha256": "2e4214ccc11412e2af60a80edf0f1eafae17e46b9d44bfa2e4e64bacbdd96c39",
+      "candidateSha256": "33a012bcc121fa8142eecb230e7d348e416844d16d903acdd210c0e9eed8e3d0",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5277,
+      "vertexAoMean": 0.7677,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\human_wood_y_13.tga",
+      "textures": [
+        "Native_HumanWallBase.tga",
+        "Native_HumanWoodmillBase.tga"
+      ]
+    },
+    "Human/stone_y_13.nif": {
+      "race": "Human",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Human\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Human\\stone_y_13.nif",
+      "sourceSha256": "da8fbac594ed5e18bd20fc39d83eb34c1f8fe9d5c7223f82f944b14d7f25ca6f",
+      "candidateSha256": "ce4a30683ae6a9bd97368e9bb437fc8cdabedd8df20c70b0db77cfa018f78b07",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5269,
+      "vertexAoMean": 0.7636,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\human_stone_y_13.tga",
+      "textures": [
+        "Native_HumanBarracksBase.tga",
+        "Native_HumanWallBase.tga"
+      ]
+    },
+    "Gauri/wood_y_13.nif": {
+      "race": "Gauri",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Gauri\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Gauri\\wood_y_13.nif",
+      "sourceSha256": "c56d4edc539397d024ab0cf0b3fab644d34146511249d3745e72377fb5d7d508",
+      "candidateSha256": "d75e7a4eaaa0bcbf16ea8b82c4f8e65abee8af5350db1ba3465ae1e801dd0565",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5268,
+      "vertexAoMean": 0.7409,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\gauri_wood_y_13.tga",
+      "textures": [
+        "GauriTimber.tga",
+        "GauriWoodDeck.tga",
+        "Native_GauriBarracksBase.tga",
+        "Native_GuariMineIronBase.tga"
+      ]
+    },
+    "Gauri/stone_y_13.nif": {
+      "race": "Gauri",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Gauri\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Gauri\\stone_y_13.nif",
+      "sourceSha256": "49070acd47070cc5884df48bd463eeb21c877400d1cfa5bd22de770522a1930e",
+      "candidateSha256": "9beb790fdedd73e01b554a1aab0defc181c39c5e01395b988825883f39fdfef4",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5285,
+      "vertexAoMean": 0.7593,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\gauri_stone_y_13.tga",
+      "textures": [
+        "GauriDeck.tga",
+        "Native_GauriBarracksBase.tga",
+        "Native_GuariMineIronBase.tga"
+      ]
+    },
+    "Drauga/wood_y_13.nif": {
+      "race": "Drauga",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Drauga\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Drauga\\wood_y_13.nif",
+      "sourceSha256": "771be3c88f9e26b6614bd3968b174f68556d1f7524a7a1d99175c2bfa38ea4b9",
+      "candidateSha256": "db5a2ec2c5bc2d942202f5f83641f4b49cfdeef9958fdaa8b719d47d75d7849c",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5275,
+      "vertexAoMean": 0.8209,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\drauga_wood_y_13.tga",
+      "textures": [
+        "DraugaPlanks.tga",
+        "DraugaRubble.tga",
+        "Native_DraugaMarketBase.tga",
+        "Native_DraugaShrineBase.tga"
+      ]
+    },
+    "Drauga/stone_y_13.nif": {
+      "race": "Drauga",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Drauga\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Drauga\\stone_y_13.nif",
+      "sourceSha256": "ae01804d51bce987d02651c13101466d93fe6df239d288eac38b41e01447f4a3",
+      "candidateSha256": "2f6b45e2ad39d5078b333d3b66cfbfa8ae053f4359c6229e8a510e7a72210033",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.8223,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\drauga_stone_y_13.tga",
+      "textures": [
+        "DraugaFlagstone.tga",
+        "DraugaPlanks.tga",
+        "DraugaRubble.tga",
+        "Native_DraugaMarketBase.tga",
+        "Native_DraugaShrineBase.tga"
+      ]
+    },
+    "Haroun/wood_y_13.nif": {
+      "race": "Haroun",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Haroun\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Haroun\\wood_y_13.nif",
+      "sourceSha256": "1128c3755ee1be53acd5a0a8d777916db4dbabc09bea6efaf9e8b51b1518f90b",
+      "candidateSha256": "84df9d71beac6e2f5960fe7a3542f1e31cd5ff6e93a85b3cd55146b5f5187a46",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.7997,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\haroun_wood_y_13.tga",
+      "textures": [
+        "HarounCarvedWood.tga",
+        "HarounDeckWood.tga",
+        "Native_HarounCenterBase.tga"
+      ]
+    },
+    "Haroun/stone_y_13.nif": {
+      "race": "Haroun",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Haroun\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Haroun\\stone_y_13.nif",
+      "sourceSha256": "cbb1d64fbef9f53a9e8ae2526e4e32fe2032b54dd121ad0aeaa22e95236e7346",
+      "candidateSha256": "4e077ce5dfa71771e9bfde7927b94b451d2939dd84430117818205a64b27364c",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5261,
+      "vertexAoMean": 0.7618,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\haroun_stone_y_13.tga",
+      "textures": [
+        "HarounCarvedWood.tga",
+        "HarounDeckStone.tga",
+        "Native_HarounCenterBase.tga"
+      ]
+    },
+    "Shadow/wood_y_13.nif": {
+      "race": "Shadow",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Shadow\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Shadow\\wood_y_13.nif",
+      "sourceSha256": "6540f5ad45009ec0141186ad12f5ec4fa10871a28cd028e89ec39adfd4a3e6ad",
+      "candidateSha256": "f7a75cb1c26123c92ede6016f4fa8a3df3e5b07c8ec05f7cdf8a941a2f40aa3f",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.529,
+      "vertexAoMean": 0.8658,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\shadow_wood_y_13.tga",
+      "textures": [
+        "Native_DesertRocksShadowBase.tga",
+        "Native_ShadowWallBase.tga",
+        "ShadowBasalt.tga",
+        "ShadowDeck.tga",
+        "ShadowIron.tga"
+      ]
+    },
+    "Shadow/stone_y_13.nif": {
+      "race": "Shadow",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Shadow\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Shadow\\stone_y_13.nif",
+      "sourceSha256": "b7df7a6914e5b8bb3f86753d5f73be4801bceaf564756c082e42b52ebaacf774",
+      "candidateSha256": "34ff42ffc1ab9c9d69f1d5bfae167157166d4ef61f650f77e91638523479603b",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.7914,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\shadow_stone_y_13.tga",
+      "textures": [
+        "Native_ShadowManaFocusBase.tga",
+        "Native_ShadowWallBase.tga",
+        "ShadowBasalt.tga",
+        "ShadowDeck.tga",
+        "ShadowIron.tga"
+      ]
+    },
+    "Undead/wood_y_13.nif": {
+      "race": "Undead",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Undead\\wood_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Undead\\wood_y_13.nif",
+      "sourceSha256": "1de75b01e65c4171134a142af2f5e3490df29823b764499ebe3acf94d821d43a",
+      "candidateSha256": "31d1766787e0ac14b704f555d6ac05580cfd9b9f3a42c8f793b9238c1a77a457",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5293,
+      "vertexAoMean": 0.8297,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\undead_wood_y_13.tga",
+      "textures": [
+        "Native_DoodadsUndeadBase.tga",
+        "Native_UndeadWallBase.tga"
+      ]
+    },
+    "Undead/stone_y_13.nif": {
+      "race": "Undead",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Undead\\stone_y_13.nif",
+      "after": "candidate\\Paws\\Bridges\\Undead\\stone_y_13.nif",
+      "sourceSha256": "207b18007794818a6bf665878a64df98141076e78a53eb1a2a4e34bb49331165",
+      "candidateSha256": "0ccb0a568d3dbeb691a8bc5fe375639dcd8c86fe817b4179920e2c08cb3b38ad",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 8,
+      "vertexAoMinimum": 0.5274,
+      "vertexAoMean": 0.7529,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\undead_stone_y_13.tga",
+      "textures": [
+        "Native_DoodadsUndeadBase.tga",
+        "Native_UndeadWallBase.tga",
+        "PawsBridgeStone.tga"
+      ]
+    },
+    "Human/wood_y_16.nif": {
+      "race": "Human",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Human\\wood_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Human\\wood_y_16.nif",
+      "sourceSha256": "10cb2f8efa2948eacb61f3baf2e7b7ff9a3292c84735dc7ba569072c7ab206cd",
+      "candidateSha256": "2a5cf866ea8ada16c04024ed1dad7892596e07c62b686a8b7c9f179853f530bb",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5277,
+      "vertexAoMean": 0.7647,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\human_wood_y_16.tga",
+      "textures": [
+        "Native_HumanWallBase.tga",
+        "Native_HumanWoodmillBase.tga"
+      ]
+    },
+    "Human/stone_y_16.nif": {
+      "race": "Human",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Human\\stone_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Human\\stone_y_16.nif",
+      "sourceSha256": "5b0aa02fa6d86ff79ef6a632b48673387c69098edd1e22cbdf6af14ba5448a46",
+      "candidateSha256": "2a17057aad585e854902c2e8ba0cc9263ea1a56579b9d68ebd028dd6e01cfbd2",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5271,
+      "vertexAoMean": 0.7629,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\human_stone_y_16.tga",
+      "textures": [
+        "Native_HumanBarracksBase.tga",
+        "Native_HumanWallBase.tga"
+      ]
+    },
+    "Gauri/wood_y_16.nif": {
+      "race": "Gauri",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Gauri\\wood_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Gauri\\wood_y_16.nif",
+      "sourceSha256": "84f05044ea0ae6077b8a8c4cbeae9548c2b1316e582afe707c281b2d79ac2129",
+      "candidateSha256": "8bdfb459ee109b0741f873bb3ffe9ae0de3041710917a29ba64d4255da2f3663",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5268,
+      "vertexAoMean": 0.741,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\gauri_wood_y_16.tga",
+      "textures": [
+        "GauriTimber.tga",
+        "GauriWoodDeck.tga",
+        "Native_GauriBarracksBase.tga",
+        "Native_GuariMineIronBase.tga"
+      ]
+    },
+    "Gauri/stone_y_16.nif": {
+      "race": "Gauri",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Gauri\\stone_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Gauri\\stone_y_16.nif",
+      "sourceSha256": "bb053ae873082e3780afb360f40f2c0b12b7906266e7ff638ae591c42d306cd6",
+      "candidateSha256": "3970e11dd94c3b595688c7991beddbfd06e02bd29c55b561a5e552cc6b1fabae",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5285,
+      "vertexAoMean": 0.7549,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\gauri_stone_y_16.tga",
+      "textures": [
+        "GauriDeck.tga",
+        "Native_GauriBarracksBase.tga",
+        "Native_GuariMineIronBase.tga"
+      ]
+    },
+    "Drauga/wood_y_16.nif": {
+      "race": "Drauga",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Drauga\\wood_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Drauga\\wood_y_16.nif",
+      "sourceSha256": "e1243e92468a035eec37115340eea83a2e1efa22f3fe486d7d59cd430e9b3bb2",
+      "candidateSha256": "edd91efe0f4b6ac0e3c98e82c60f3f27fdaeabbf137eab43bf61cb012d39681d",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5275,
+      "vertexAoMean": 0.819,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\drauga_wood_y_16.tga",
+      "textures": [
+        "DraugaPlanks.tga",
+        "DraugaRubble.tga",
+        "Native_DraugaMarketBase.tga",
+        "Native_DraugaShrineBase.tga"
+      ]
+    },
+    "Drauga/stone_y_16.nif": {
+      "race": "Drauga",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Drauga\\stone_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Drauga\\stone_y_16.nif",
+      "sourceSha256": "532b50a7e90d2ce3338e9b3d532d1da711b36f0e8f529a193069cf256f11b219",
+      "candidateSha256": "b58fccbd5f6963c0dbabfe0edc8fc006b13cbe0ebe1b8b780c0c2ae321d2fe5d",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.8225,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\drauga_stone_y_16.tga",
+      "textures": [
+        "DraugaFlagstone.tga",
+        "DraugaPlanks.tga",
+        "DraugaRubble.tga",
+        "Native_DraugaMarketBase.tga",
+        "Native_DraugaShrineBase.tga"
+      ]
+    },
+    "Haroun/wood_y_16.nif": {
+      "race": "Haroun",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Haroun\\wood_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Haroun\\wood_y_16.nif",
+      "sourceSha256": "410ac4bd56b01cfb58c6c29c7117df869565888dec8d8c0a016f86849659f582",
+      "candidateSha256": "0fc478fd0a5722f3de65ea275bd6a67d4cfcf1ea91cb444e97f1f868165dec54",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.8106,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\haroun_wood_y_16.tga",
+      "textures": [
+        "HarounCarvedWood.tga",
+        "HarounDeckWood.tga",
+        "Native_HarounCenterBase.tga"
+      ]
+    },
+    "Haroun/stone_y_16.nif": {
+      "race": "Haroun",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Haroun\\stone_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Haroun\\stone_y_16.nif",
+      "sourceSha256": "64ece9a87b6db7120a0f22ebf4b3f0ad643843be1d03674230afa7091de2fff7",
+      "candidateSha256": "73844e9ffa70482c4b415849c6dd532efbe6618818e53eccc699504fa2dea170",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 6,
+      "vertexAoMinimum": 0.5261,
+      "vertexAoMean": 0.7707,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\haroun_stone_y_16.tga",
+      "textures": [
+        "HarounCarvedWood.tga",
+        "HarounDeckStone.tga",
+        "Native_HarounCenterBase.tga"
+      ]
+    },
+    "Shadow/wood_y_16.nif": {
+      "race": "Shadow",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Shadow\\wood_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Shadow\\wood_y_16.nif",
+      "sourceSha256": "10aeb233d3b676cb43000a8a1464238efb890dac5e842e02435fcf1f1df44aa5",
+      "candidateSha256": "9635a92dc4e18c3f2bd69752e420d313037c80726c3aa67fad0353aa2a2945f2",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.529,
+      "vertexAoMean": 0.8656,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\shadow_wood_y_16.tga",
+      "textures": [
+        "Native_DesertRocksShadowBase.tga",
+        "Native_ShadowWallBase.tga",
+        "ShadowBasalt.tga",
+        "ShadowDeck.tga",
+        "ShadowIron.tga"
+      ]
+    },
+    "Shadow/stone_y_16.nif": {
+      "race": "Shadow",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Shadow\\stone_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Shadow\\stone_y_16.nif",
+      "sourceSha256": "524ab18939cb5f651d751323c3b76f8a71251700125801778139342c06695941",
+      "candidateSha256": "d66123c5dcfe09a3118a64f83334ff3d23bb4efd59656f90d10117155cbdd2cd",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 7,
+      "vertexAoMinimum": 0.5267,
+      "vertexAoMean": 0.7938,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\shadow_stone_y_16.tga",
+      "textures": [
+        "Native_ShadowManaFocusBase.tga",
+        "Native_ShadowWallBase.tga",
+        "ShadowBasalt.tga",
+        "ShadowDeck.tga",
+        "ShadowIron.tga"
+      ]
+    },
+    "Undead/wood_y_16.nif": {
+      "race": "Undead",
+      "kind": "wood",
+      "before": "before\\Paws\\Bridges\\Undead\\wood_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Undead\\wood_y_16.nif",
+      "sourceSha256": "e3ce2713216918d626d8147cd177d41c8e77177bdab83a22f5a5eb0ee9ebd1dd",
+      "candidateSha256": "ffa26048d31bfb8b6f488f0178397720c941c1f3068e3cec45a9e6dfb19d9677",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 5,
+      "vertexAoMinimum": 0.5293,
+      "vertexAoMean": 0.8247,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\undead_wood_y_16.tga",
+      "textures": [
+        "Native_DoodadsUndeadBase.tga",
+        "Native_UndeadWallBase.tga"
+      ]
+    },
+    "Undead/stone_y_16.nif": {
+      "race": "Undead",
+      "kind": "stone",
+      "before": "before\\Paws\\Bridges\\Undead\\stone_y_16.nif",
+      "after": "candidate\\Paws\\Bridges\\Undead\\stone_y_16.nif",
+      "sourceSha256": "8eb794b15a9652f3e5e8454dc86ffdea44dce5d90f6dcc3efb502e6a782f90f1",
+      "candidateSha256": "4f2943c1bd2c0fe38694ebdc24c7984c626fe6ff82a6fc4c9fad7ed5efea450d",
+      "geometryUvNormalsUnchanged": true,
+      "meshes": 8,
+      "vertexAoMinimum": 0.5275,
+      "vertexAoMean": 0.7536,
+      "fallback": "candidate\\Paws\\Bridges\\Shadows\\undead_stone_y_16.tga",
+      "textures": [
+        "Native_DoodadsUndeadBase.tga",
+        "Native_UndeadWallBase.tga",
+        "PawsBridgeStone.tga"
+      ]
+    }
+  },
+  "genericModelsExcluded": true
+}

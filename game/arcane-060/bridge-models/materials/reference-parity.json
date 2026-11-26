@@ -1,0 +1,152 @@
+{
+  "complete": true,
+  "references": {
+    "Human/wood_y_13.nif": {
+      "approvedSha256": "33a012bcc121fa8142eecb230e7d348e416844d16d903acdd210c0e9eed8e3d0",
+      "outputSha256": "33a012bcc121fa8142eecb230e7d348e416844d16d903acdd210c0e9eed8e3d0",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Human/stone_y_13.nif": {
+      "approvedSha256": "ce4a30683ae6a9bd97368e9bb437fc8cdabedd8df20c70b0db77cfa018f78b07",
+      "outputSha256": "ce4a30683ae6a9bd97368e9bb437fc8cdabedd8df20c70b0db77cfa018f78b07",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Gauri/wood_y_13.nif": {
+      "approvedSha256": "d75e7a4eaaa0bcbf16ea8b82c4f8e65abee8af5350db1ba3465ae1e801dd0565",
+      "outputSha256": "d75e7a4eaaa0bcbf16ea8b82c4f8e65abee8af5350db1ba3465ae1e801dd0565",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Gauri/stone_y_13.nif": {
+      "approvedSha256": "9beb790fdedd73e01b554a1aab0defc181c39c5e01395b988825883f39fdfef4",
+      "outputSha256": "9beb790fdedd73e01b554a1aab0defc181c39c5e01395b988825883f39fdfef4",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Drauga/wood_y_13.nif": {
+      "approvedSha256": "db5a2ec2c5bc2d942202f5f83641f4b49cfdeef9958fdaa8b719d47d75d7849c",
+      "outputSha256": "db5a2ec2c5bc2d942202f5f83641f4b49cfdeef9958fdaa8b719d47d75d7849c",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Drauga/stone_y_13.nif": {
+      "approvedSha256": "2f6b45e2ad39d5078b333d3b66cfbfa8ae053f4359c6229e8a510e7a72210033",
+      "outputSha256": "2f6b45e2ad39d5078b333d3b66cfbfa8ae053f4359c6229e8a510e7a72210033",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Haroun/wood_y_13.nif": {
+      "approvedSha256": "84df9d71beac6e2f5960fe7a3542f1e31cd5ff6e93a85b3cd55146b5f5187a46",
+      "outputSha256": "84df9d71beac6e2f5960fe7a3542f1e31cd5ff6e93a85b3cd55146b5f5187a46",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Haroun/stone_y_13.nif": {
+      "approvedSha256": "4e077ce5dfa71771e9bfde7927b94b451d2939dd84430117818205a64b27364c",
+      "outputSha256": "4e077ce5dfa71771e9bfde7927b94b451d2939dd84430117818205a64b27364c",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Shadow/wood_y_13.nif": {
+      "approvedSha256": "f7a75cb1c26123c92ede6016f4fa8a3df3e5b07c8ec05f7cdf8a941a2f40aa3f",
+      "outputSha256": "f7a75cb1c26123c92ede6016f4fa8a3df3e5b07c8ec05f7cdf8a941a2f40aa3f",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Shadow/stone_y_13.nif": {
+      "approvedSha256": "34ff42ffc1ab9c9d69f1d5bfae167157166d4ef61f650f77e91638523479603b",
+      "outputSha256": "34ff42ffc1ab9c9d69f1d5bfae167157166d4ef61f650f77e91638523479603b",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Undead/wood_y_13.nif": {
+      "approvedSha256": "31d1766787e0ac14b704f555d6ac05580cfd9b9f3a42c8f793b9238c1a77a457",
+      "outputSha256": "31d1766787e0ac14b704f555d6ac05580cfd9b9f3a42c8f793b9238c1a77a457",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Undead/stone_y_13.nif": {
+      "approvedSha256": "0ccb0a568d3dbeb691a8bc5fe375639dcd8c86fe817b4179920e2c08cb3b38ad",
+      "outputSha256": "0ccb0a568d3dbeb691a8bc5fe375639dcd8c86fe817b4179920e2c08cb3b38ad",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Human/wood_y_16.nif": {
+      "approvedSha256": "2a5cf866ea8ada16c04024ed1dad7892596e07c62b686a8b7c9f179853f530bb",
+      "outputSha256": "2a5cf866ea8ada16c04024ed1dad7892596e07c62b686a8b7c9f179853f530bb",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Human/stone_y_16.nif": {
+      "approvedSha256": "2a17057aad585e854902c2e8ba0cc9263ea1a56579b9d68ebd028dd6e01cfbd2",
+      "outputSha256": "2a17057aad585e854902c2e8ba0cc9263ea1a56579b9d68ebd028dd6e01cfbd2",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Gauri/wood_y_16.nif": {
+      "approvedSha256": "8bdfb459ee109b0741f873bb3ffe9ae0de3041710917a29ba64d4255da2f3663",
+      "outputSha256": "8bdfb459ee109b0741f873bb3ffe9ae0de3041710917a29ba64d4255da2f3663",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Gauri/stone_y_16.nif": {
+      "approvedSha256": "3970e11dd94c3b595688c7991beddbfd06e02bd29c55b561a5e552cc6b1fabae",
+      "outputSha256": "3970e11dd94c3b595688c7991beddbfd06e02bd29c55b561a5e552cc6b1fabae",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Drauga/wood_y_16.nif": {
+      "approvedSha256": "edd91efe0f4b6ac0e3c98e82c60f3f27fdaeabbf137eab43bf61cb012d39681d",
+      "outputSha256": "edd91efe0f4b6ac0e3c98e82c60f3f27fdaeabbf137eab43bf61cb012d39681d",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Drauga/stone_y_16.nif": {
+      "approvedSha256": "b58fccbd5f6963c0dbabfe0edc8fc006b13cbe0ebe1b8b780c0c2ae321d2fe5d",
+      "outputSha256": "b58fccbd5f6963c0dbabfe0edc8fc006b13cbe0ebe1b8b780c0c2ae321d2fe5d",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Haroun/wood_y_16.nif": {
+      "approvedSha256": "0fc478fd0a5722f3de65ea275bd6a67d4cfcf1ea91cb444e97f1f868165dec54",
+      "outputSha256": "0fc478fd0a5722f3de65ea275bd6a67d4cfcf1ea91cb444e97f1f868165dec54",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Haroun/stone_y_16.nif": {
+      "approvedSha256": "73844e9ffa70482c4b415849c6dd532efbe6618818e53eccc699504fa2dea170",
+      "outputSha256": "73844e9ffa70482c4b415849c6dd532efbe6618818e53eccc699504fa2dea170",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Shadow/wood_y_16.nif": {
+      "approvedSha256": "9635a92dc4e18c3f2bd69752e420d313037c80726c3aa67fad0353aa2a2945f2",
+      "outputSha256": "9635a92dc4e18c3f2bd69752e420d313037c80726c3aa67fad0353aa2a2945f2",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Shadow/stone_y_16.nif": {
+      "approvedSha256": "d66123c5dcfe09a3118a64f83334ff3d23bb4efd59656f90d10117155cbdd2cd",
+      "outputSha256": "d66123c5dcfe09a3118a64f83334ff3d23bb4efd59656f90d10117155cbdd2cd",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Undead/wood_y_16.nif": {
+      "approvedSha256": "ffa26048d31bfb8b6f488f0178397720c941c1f3068e3cec45a9e6dfb19d9677",
+      "outputSha256": "ffa26048d31bfb8b6f488f0178397720c941c1f3068e3cec45a9e6dfb19d9677",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    },
+    "Undead/stone_y_16.nif": {
+      "approvedSha256": "4f2943c1bd2c0fe38694ebdc24c7984c626fe6ff82a6fc4c9fad7ed5efea450d",
+      "outputSha256": "4f2943c1bd2c0fe38694ebdc24c7984c626fe6ff82a6fc4c9fad7ed5efea450d",
+      "maxColorDelta": 0.0,
+      "invariantsExact": true
+    }
+  },
+  "count": 24,
+  "observedMaximumColorDelta": 0.0,
+  "approvedOutputsByteExact": true
+}

@@ -3,6 +3,7 @@ import sys,io,time,math,json,hashlib,importlib.util,shutil
 P=Path(__file__).resolve().parent;repo=P.parents[1];R=Path((P/'target.txt').read_text())
 sys.path[:0]=[str(repo/'outputs/bridge-model-ee2-20261109/deps'),str(repo/'work/r24-construction-span-20261113')];time.clock=time.perf_counter
 from pyffi.formats.nif import NifFormat as N
+from shadow_footprint import stabilize_shadow_footprint
 from PrepareSplitLanguages import rwd_files
 files=rwd_files((R/'sandbox/Data.rwd').read_bytes());keys={k.lower():k for k in files}
 stock=repo/'work/racial-construction-audit-20261113/stock/Effects/Construction'
@@ -79,8 +80,9 @@ for race,kinds in [('undead',['growth','work','finish']),('shadow',['work'])]:
         if kind!='finish':
          for key in c.data.visibility_keys:key.value=True
        c=c.next_controller
+     if race=='shadow':stabilize_shadow_footprint(data,N)
      for child in data.roots:root.add_child(child)
-    path=folder/race/f'{kind}_{axis}_{count:02}.nif';write(root,path,{'race':race,'kind':kind,'axis':axis,'length':length,'width':6,'particleSpace':'local','layerCopies':copies,'emitters':emitter_count,'source':str(source),'sourceSha256':hashlib.sha256(raw).hexdigest()})
+    path=folder/race/f'{kind}_{axis}_{count:02}.nif';write(root,path,{'race':race,'kind':kind,'axis':axis,'length':length,'width':6,'particleSpace':'local','layerCopies':copies,'emitters':emitter_count,'source':str(source),'sourceSha256':hashlib.sha256(raw).hexdigest(),'staticShadowFootprint':race=='shadow'})
     checked=load(path.read_bytes());emitters=[b for b in checked.blocks if isinstance(b,N.NiPSysBoxEmitter)];assert len(emitters)==emitter_count and all((e.width,e.height)==((length,6) if axis=='x' else (6,length)) for e in emitters)
   print('RACIAL_PARTICLES_READY',race,kind,flush=True)
 sys.path.insert(0,str(P/'source/game/engineer-bridges'))

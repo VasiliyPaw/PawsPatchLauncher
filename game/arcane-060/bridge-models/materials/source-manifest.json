@@ -1,0 +1,122 @@
+{
+  "generate.py": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\generate.py",
+    "sha256": "8b158add6a2d641c0f086dbf7b10bd48ffbdfa06e7bf58acce76bdfc69e34bb1",
+    "bytes": 11444
+  },
+  "ao_trace.c": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\ao_trace.c",
+    "sha256": "738a72afbc6b3f572443a24c3646aeed87515bc4e870e14d2e1f4f6c55767c36",
+    "bytes": 4431
+  },
+  "prepare_inputs.py": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\prepare_inputs.py",
+    "sha256": "0f18bbd93295779b5d6c61feee36ce56c6c4356e78169dc4585d936ecb54c2eb",
+    "bytes": 2119
+  },
+  "finalize.py": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\finalize.py",
+    "sha256": "0cd713af0a28ebaa5677878d53465ccf6fc5b47afa51a3f0bae6a19c32a43123",
+    "bytes": 3705
+  },
+  "run_batch.ps1": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\run_batch.ps1",
+    "sha256": "36ef04ef967e1e2bcc512b513b100512c51d7d42958f2299b42eeef27f1876b2",
+    "bytes": 4171
+  },
+  "generate_shard.py": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\generate_shard.py",
+    "sha256": "a4c27223c032cf25acff94f90ec2c87a8624fc7eb314b65610902dfb922ce5d3",
+    "bytes": 3626
+  },
+  "merge_shards.py": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\merge_shards.py",
+    "sha256": "f0b09bd3fd0a64182dfea95c47ac89a658402531c01220370950f2d340018cd5",
+    "bytes": 1551
+  },
+  "finish_handoff.py": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\finish_handoff.py",
+    "sha256": "42d41c48c0110185238217c673cb94c3ad6126898c98cac40ec78d277f578676",
+    "bytes": 3630
+  },
+  "REPRODUCE.txt": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\REPRODUCE.txt",
+    "sha256": "47f7679bf048b0110b09cb65aaea523ba65e396f0e13b8e5386d46fcf5ae40fd",
+    "bytes": 6541
+  },
+  "inputs-manifest.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\inputs-manifest.json",
+    "sha256": "1a81a205216984977e1ed4e852d412524bd99d53763976c3e31740503678001c",
+    "bytes": 142395
+  },
+  "checkpoint.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\checkpoint.json",
+    "sha256": "fce4e2f7f1d3cc58837c5f375c9e8dc99999d508cb28ea1eabeda25ea690da40",
+    "bytes": 284330
+  },
+  "dispatch-checkpoint.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\dispatch-checkpoint.json",
+    "sha256": "98fe34c4ad0686fcb4eeba90c0c7115fb3ba4ecc833c2a57ed2e77e5becf2169",
+    "bytes": 10539
+  },
+  "shard-0.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\shard-0.json",
+    "sha256": "22156cfc9a29d1513c2837ea96f8a2d19263a55457cfb032c724e68157f31ac2",
+    "bytes": 146703
+  },
+  "shard-1.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\shard-1.json",
+    "sha256": "1eb170650e6627bd54a0ea2aeba435bf8312673a02799cd27da656270f6aa06e",
+    "bytes": 146714
+  },
+  "final-manifest.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\final-manifest.json",
+    "sha256": "01cd5fb5dfe9d372525b312b946350f437a85f020184645e5c6f2634260ff9af",
+    "bytes": 267284
+  },
+  "reference-parity.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\reference-parity.json",
+    "sha256": "8a63d745835e78f17334eead1b619d2a603de67f235ef35b2597208715cb2316",
+    "bytes": 6934
+  },
+  "build-environment.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\build-environment.json",
+    "sha256": "6e13a2c0ae88647efb729dac50ae41ad7b2a0831d4aee1917b460f5825683284",
+    "bytes": 405
+  },
+  "compile.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\compile.json",
+    "sha256": "68eff7c53c6dc6842f97e797b19952f2e3dea290eaaa5bfcd005580cc715f29c",
+    "bytes": 484
+  },
+  "last-closure.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\last-closure.json",
+    "sha256": "776f64745dde9c889dca9a5892b878f5a64657b6cb9997dad8c5ed55a37933e8",
+    "bytes": 802
+  },
+  "closure-shard-0.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\closure-shard-0.json",
+    "sha256": "3cfeb6e34dae6ef0525a0727748560cdacb221cb8d99fb226c4d1069c31b98a3",
+    "bytes": 805
+  },
+  "closure-shard-1.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\closure-shard-1.json",
+    "sha256": "c5ff5b92a52c4b84daed610aaf492fb7be11e92ec47e98065b51583021d56850",
+    "bytes": 804
+  },
+  "build_candidate.py": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-natural-look-20261125\\build_candidate.py",
+    "sha256": "1b200b8e983deb42562783fa50715526e6b61c5d0c34c6e0f2cae1efc478a09e",
+    "bytes": 7178
+  },
+  "candidate-manifest.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-natural-look-20261125\\candidate-manifest.json",
+    "sha256": "75e43f2231b41e8833cd7aad6ea351fa11dae7eef5c41579d44ddda351cb21f3",
+    "bytes": 8983
+  },
+  "candidate-manifest-16.json": {
+    "source": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-natural-look-20261125\\candidate-manifest-16.json",
+    "sha256": "7effa75acb4f40bf1cd35c191e7845b9864239f1c6c9f0ee0b23594a3ae595aa",
+    "bytes": 8981
+  }
+}

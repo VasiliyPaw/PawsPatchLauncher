@@ -1,5 +1,6 @@
 #include "shapes.h"
 #include "profiles.h"
+#include "water_depth.h"
 typedef unsigned short W;
 #define R(p,o) (*(U *)((U)(p)+(o)))
 #define B(p,o) (*(unsigned char *)((U)(p)+(o)))
@@ -32,7 +33,7 @@ static U map_shape(U world,U seed){U i,n,items,def;if(!world)return 0;items=R(wo
    Native decoration, actor placement and serialization continue normally. */
 __attribute__((dllexport)) U generate(State *s,U generator) {
  U creator=R(generator,0),rmc=creator?R(creator,0x50):0,kind=0,world,map,grid,w,h,n,x,y,i,water,waters[4],riverWaters[4],ctx[8],point[2],body,hm,basehm,hw,hh,shift,pad;
- unsigned char *mask=0,*rivers=0;U *dist=0;U ret;int xx,yy,d,nearest,requested;union{float f;U u;}z;
+ unsigned char *mask=0,*rivers=0,*nativeWater=0;U *dist=0;U ret;int xx,yy,d,nearest,requested;union{float f;U u;}z;
  int shape=0,climate=0;
  W *id=rmc?(W*)R(rmc,8):0;
 #ifdef PAWS_INSTALLED_RIVERS
@@ -68,11 +69,12 @@ __attribute__((dllexport)) U generate(State *s,U generator) {
   * strip over Arctic ice and a hard seam at a native lake. Explicit river
   * coverage/depth below still guarantees a continuous blocked channel. */
  for(i=0;i<4;i++){if(!waters[i])waters[i]=water;riverWaters[i]=waters[i];}
- n=w*h;mask=(unsigned char*)((U(*)(U))(s->image+0x2ef03c))(n*6);
+ n=w*h;mask=(unsigned char*)((U(*)(U))(s->image+0x2ef03c))(n*7);
  if(!mask){s->result=4;return 0;}
- rivers=mask+n;dist=(U*)(mask+n*2);
+ rivers=mask+n;dist=(U*)(mask+n*2);nativeWater=mask+n*6;
  ret=terrain(s,generator);if(!(ret&255))goto done;
  grid=R(map,0x28);
+ for(i=0;i<n;i++)nativeWater[i]=(R(grid+i*0x30,0x20)&0x170)==0x120;
  if(kind)make_shape_mask(mask,w,h,s->seed,kind);
  /* A shaped coastline supplements the native lakes; it does not replace
   * them. Both are outlets, so a river stops at its first water body. */
@@ -97,7 +99,7 @@ __attribute__((dllexport)) U generate(State *s,U generator) {
  s->phase=2;
  for(i=0;i<8;i++)ctx[i]=0;
  invoke(s,0x2517a3,(U)ctx,0,0,0,0,0);
- for(y=0;y<h;y++)for(x=0;x<w;x++)if(kind?mask[y*w+x]:rivers[y*w+x]){
+ for(y=0;y<h;y++)for(x=0;x<w;x++)if(kind?(mask[y*w+x]&&(!nativeWater[y*w+x]||rivers[y*w+x])):rivers[y*w+x]){
   U v=R(grid+(y*w+x)*0x30,0),b=(U)climate;W*name=v?(W*)R(v,8):0;
   if((prefix(name,"arctic_")||prefix(name,"paws_river_arctic")))b=1;else if((prefix(name,"desert_")||prefix(name,"paws_river_desert")))b=2;else if((prefix(name,"cursed_")||prefix(name,"paws_river_cursed")))b=3;else if(prefix(name,"temperate_"))b=0;
   point[0]=x;point[1]=y;invoke(s,0x2517f9,(U)ctx,2,(U)point,rivers[y*w+x]?riverWaters[b]:waters[b],0,0);
@@ -122,7 +124,8 @@ __attribute__((dllexport)) U generate(State *s,U generator) {
  if(s->riverGaps){s->result=7;ret=0;goto done;}
  s->phase=3;grid=R(map,0x28);
  /* Native transitions may widen banks. Use actual wet cells for bed depth.
-    Classic maps retain their original terrain deformation outside new rivers. */
+    Native lakes and passable wetland puddles retain their original beds;
+    only generated seas/rivers receive the absolute-height correction. */
  for(i=0;i<n;i++){mask[i]=(R(grid+i*0x30,0x20)&0x70)==0x20;dist[i]=mask[i]?10000:0;}
  for(y=0;y<h;y++)for(x=0;x<w;x++){i=y*w+x;if(x&&dist[i]>dist[i-1]+1)dist[i]=dist[i-1]+1;if(y&&dist[i]>dist[i-w]+1)dist[i]=dist[i-w]+1;}
  for(y=h;y-->0;)for(x=w;x-->0;){i=y*w+x;if(x+1<w&&dist[i]>dist[i+1]+1)dist[i]=dist[i+1]+1;if(y+1<h&&dist[i]>dist[i+w]+1)dist[i]=dist[i+w]+1;}
@@ -132,9 +135,9 @@ __attribute__((dllexport)) U generate(State *s,U generator) {
   xx=((int)(x<<shift)-(int)pad)/2;yy=((int)(y<<shift)-(int)pad)/2;
   if(xx<0)xx=0;if(yy<0)yy=0;if(xx>=(int)w)xx=w-1;if(yy>=(int)h)yy=h-1;
   nearest=(int)dist[yy*w+xx];d=nearest>6?6:nearest;
-  if(!d)continue; /* Preserve installed native hills/mountains on dry land. */
+  if(!d||!water_depth_generated(kind,nativeWater[yy*w+xx],rivers[yy*w+xx],R(grid+(yy*w+xx)*0x30,0x20)))continue;
   if(!kind){int rx,ry,touched=0;for(ry=yy-1;ry<=yy+1&&!touched;ry++)for(rx=xx-1;rx<=xx+1;rx++)if(rx>=0&&ry>=0&&rx<(int)w&&ry<(int)h&&rivers[ry*w+rx]){touched=1;break;}if(!touched||!d)continue;}
-  z.f=-.25f-(float)d*.25f;if(z.f< -1.5f)z.f=-1.5f;
+  z.f=water_bed_target((U)d);
   /* +38 is the deformation layer, added to the base heights at +34.
      Native temperate land starts at +2, so subtract that base for wet
      vertices; otherwise narrow rivers never reach the water plane at zero. */

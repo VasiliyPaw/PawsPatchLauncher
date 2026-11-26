@@ -1,0 +1,18 @@
+{
+  "stdout": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\logs\\20261126-011717-455-0-f382150d.stdout.log",
+  "noGameSdkGpu": true,
+  "failure": null,
+  "maxModels": 672,
+  "exe": "C:\\Users\\Paw\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+  "stderr": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\bridge-materials-full-20261126\\logs\\20261126-011717-455-0-f382150d.stderr.log",
+  "allOwnedClosed": true,
+  "exitCode": 0,
+  "workerScript": "generate_shard.py",
+  "creation": "2026-11-26T01:17:17.4846120Z",
+  "shardIndex": 0,
+  "closedUtc": "2026-11-26T01:19:59.3709499Z",
+  "priority": "BelowNormal",
+  "seconds": 180,
+  "pid": 2476,
+  "remainingOwn": 0
+}

@@ -1,0 +1,9 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "pythonExecutable": "C:\\Users\\Paw\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+  "pythonExecutableSha256": "0d9cabcfa7209387a7ce23d401f20b268d586e62acc1232124019d8d7e04bc14",
+  "numpy": "2.3.5",
+  "pyffi": "2.2.3",
+  "algorithmUnchanged": true,
+  "gameSdkGpuUsed": false
+}

@@ -202,6 +202,29 @@ if a.bridges:
    if op.type==CS_OP_IMM and op.imm==roadstate:fix.append((ins.address-cave+ins.imm_offset,0,1))
  loc=0x4f4e30;assert RAW[loc:loc+4]==struct.pack('<I',BASE+0x270431)
  hooks.append(dict(site=loc,entry=off,kind='pointer',before=RAW[loc:loc+4].hex()))
+ # Individual/summoned units also own UAI Kill/Bombard states. Company-only
+ # target filters cannot cover their direct activations or saved active states.
+ for target,name,expected in [(0x281899,'bridge_unit_attack_activate',6),(0x281c95,'bridge_unit_bombard_activate',3)]:
+  sites=[i for i in range(0x44b000) if RAW[i]==0xe8 and i+5+struct.unpack_from('<i',RAW,i+1)[0]==target]
+  assert len(sites)==expected,(hex(target),sites)
+  for loc in sites:hooks.append(dict(site=loc,entry=exports[name],kind='call',before=RAW[loc:loc+5].hex()))
+ for loc,target,name in [(0x4f6ea4,0x281928,'bridge_unit_attack_tick'),(0x4f6ed0,0x281ec6,'bridge_unit_bombard_tick')]:
+  assert RAW[loc:loc+4]==struct.pack('<I',BASE+target)
+  hooks.append(dict(site=loc,entry=exports[name],kind='pointer',before=RAW[loc:loc+4].hex()))
+ # Native construct actions and summon effects must not materialise a
+ # menu/brush prototype. Reuse these four actual actor-creation call sites. The
+ # validated bridge queue creates only full length-specific actors directly.
+ # Keep human capability/menu checks and saved actor deserialisation native.
+ for loc,target,name in [(0x1fd049,0x242fcd,'bridge_builder_spawn_alternate'),(0x1fd050,0x242eee,'bridge_builder_spawn'),(0x28c332,0x242fcd,'bridge_builder_spawn_alternate'),(0x28c339,0x242eee,'bridge_builder_spawn')]:
+  assert RAW[loc:loc+5]==b'\xe8'+struct.pack('<i',target-loc-5)
+  hooks.append(dict(site=loc,entry=exports[name],kind='call',before=RAW[loc:loc+5].hex()))
+ # Reject bridge catalogue prototypes at the actual construct request, before
+ # its internal foundation spawn242b2e and work-command submission. This
+ # native request has five stack arguments (verified RET20), not four.
+ construct_sites=[i for i in range(0x44b000) if RAW[i]==0xe8 and i+5+struct.unpack_from('<i',RAW,i+1)[0]==0x28c365]
+ assert construct_sites==[0x289f69],construct_sites
+ assert RAW[0x28c65a:0x28c65d]==bytes.fromhex('c21400')
+ for loc in construct_sites:hooks.append(dict(site=loc,entry=exports['bridge_construct_request'],kind='call',before=RAW[loc:loc+5].hex()))
  # Runtime movement must see the finished crossings in the saved static
  # island IDs, while actual terrain and object collision remain native.
  # Native island getters preserve flags, ECX/EDX and all floating registers.

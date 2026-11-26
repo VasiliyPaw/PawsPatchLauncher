@@ -21,6 +21,29 @@ static int bridge_funds(Roads*d,U def,U company,U site){float storage[32];U vect
  return 1;
 }
 EXPORT U bridge_funds_check(Roads*d,U def,U company,U site){return bridge_funds(d,def,company,site);}
+/* A menu prototype is only the building brush's catalogue entry. The brush
+ * always queues a validated length-specific actor before committing. Stock
+ * SAI construction bypasses that brush and used to spawn this entry on land.
+ * Scope rejection to construct/summon actor-creation calls: loading old actors,
+ * ordinary actors, capability checks and the human menu remain unchanged. */
+static int bridge_menu_prototype(U def){const W*w=def?(W*)P(def,8):0,*tail=bridge_tail(def);return w&&(eq(w,"paws_bridge_site")||eq(tail,"wood_site")||eq(tail,"stone_site"));}
+EXPORT U FAST bridge_builder_spawn(U world,U unused,U context){Roads*d=current;
+ if(d&&allowed(d)&&context&&bridge_menu_prototype(P(context,4)))return 0;
+ return d?m1(d,0x242eee,world,context):0;
+}
+EXPORT U FAST bridge_builder_spawn_alternate(U world,U unused,U context){Roads*d=current;
+ if(d&&allowed(d)&&context&&bridge_menu_prototype(P(context,4)))return 0;
+ return d?m1(d,0x242fcd,world,context):0;
+}
+/* Native construct-request entry has FIVE stack arguments (RET20). Reject
+ * catalogue-only bridge definitions before its separate foundation actor is
+ * created or any unit receives a work command. Human bridge brush acceptance
+ * and our paid bridge transaction queue do not invoke this native request. */
+EXPORT U FAST bridge_construct_request(U self,U unused,U definition,U kingdom,U position,U direction,U options){Roads*d=current;U args[5];
+ if(d&&allowed(d)&&bridge_menu_prototype(definition))return 0;
+ args[0]=definition;args[1]=kingdom;args[2]=position;args[3]=direction;args[4]=options;
+ return d?((NativeCall)d->call)(d->image+0x28c365,self,5,args):0;
+}
 /* A visible menu entry represents every length/orientation. Preserve native
  * construction target checks while resolving variants through that entry. */
 EXPORT U FAST bridge_can_build(U list,U unused,U*definition){Roads*d=current;U n,axis,db,key,generic;
@@ -45,13 +68,26 @@ EXPORT U FAST bridge_work_range(U ai,U unused,U target){Roads*d=current;U n,axis
   }
  }return d?m1(d,0x275a71,ai,target):0;
 }
-static int bridge_wet(Roads*d,int x,int y){U c=tile(d,x,y);return c&&(P(c,0x20)&0x170)==0x120&&!bridge_wetland(c)&&!(P(c,0)&&eq((W*)P(P(c,0),8),"paws_engineer_bridge01"));}
+static int bridge_wet(Roads*d,int x,int y){return bridge_channel(d,x,y); }
+/* Reject stale flagged ground before the angle search. Real channels have
+ * higher dry banks in at least two directions. This keeps failed AI scans
+ * bounded without assuming an absolute water level or native waterbody ID. */
+static int bridge_channel_shores(Roads*d,int x,int y){int direction,step,shores=0;float bed=bridge_height(d,x,y);
+ if(!finite(bed))return 0;for(direction=0;direction<8;direction++){int dx=direction==0||direction==4||direction==7?1:direction==2||direction==5||direction==6?-1:0,dy=direction==1||direction==4||direction==5?1:direction==3||direction==6||direction==7?-1:0;
+  for(step=1;step<=20;step++){int xx=x+dx*step,yy=y+dy*step;U c=tile(d,xx,yy);if(!c)break;if(bridge_wet(d,xx,yy))continue;
+   if(!(P(c,0x20)&0x100)&&(P(c,0x20)&0x70)!=0x20&&bridge_height(d,xx,yy)>=bed+.35f)shores++;break;
+  }if(shores>=2)return 1;
+ }return 0;
+}
 /* Estimate the local river normal from wet-cell covariance, then test nearby
  * angles. Endpoints and the native model use exactly the same straight span. */
-static U bridge_auto(Roads*d,int mx,int my,U*points){int dx,dy,best=0x7fffffff;U count=0;
- for(dy=-3;dy<=3;dy++)for(dx=-3;dx<=3;dx++){
+static U bridge_auto(Roads*d,int mx,int my,U*points){int dx,dy,radius,best=0x7fffffff;U count=0;
+ if(!bridge_hm(d))return 0;
+ for(radius=0;radius<=18;radius++)for(dy=-3;dy<=3;dy++)for(dx=-3;dx<=3;dx++){
   int x=mx+dx,y=my+dy,xx,yy,k;float sx=0,sy=0,xxs=0,yys=0,xys=0,total=0,A,D,Bv,lambda,ux,uy,length;
-  if(!bridge_wet(d,x,y))continue;
+  /* The score lower bound permits closest-first pruning without changing
+   * the selected geometry, instead of repeating 49 costly angle searches. */
+  if(dx*dx+dy*dy!=radius||radius*128>=best||!bridge_wet(d,x,y)||!bridge_channel_shores(d,x,y))continue;
   for(yy=-7;yy<=7;yy++)for(xx=-7;xx<=7;xx++)if(xx*xx+yy*yy<=49&&bridge_wet(d,x+xx,y+yy)){sx+=xx;sy+=yy;xxs+=xx*xx;yys+=yy*yy;xys+=xx*yy;total++;}
   A=xxs-sx*sx/total;D=yys-sy*sy/total;Bv=xys-sx*sy/total;
   lambda=(A+D-bg_sqrt((A-D)*(A-D)+4*Bv*Bv))*.5f;

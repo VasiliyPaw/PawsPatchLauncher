@@ -17,14 +17,15 @@ static wchar_t settingsPath[MAX_PATH];
 static unsigned map_get(unsigned kind,unsigned key,unsigned fallback){wchar_t name[32];if(kind)swprintf(name,L"Shape");else swprintf(name,L"%ux%u",key/4096,key%4096);return GetPrivateProfileIntW(kind?L"Map":L"Rivers",name,fallback,settingsPath);}
 static unsigned map_put(unsigned kind,unsigned key,unsigned value){wchar_t name[32],number[16];if(kind)swprintf(name,L"Shape");else swprintf(name,L"%ux%u",key/4096,key%4096);swprintf(number,L"%u",value);return WritePrivateProfileStringW(kind?L"Map":L"Rivers",name,number,settingsPath);}
 #endif
-static unsigned char oldBytes[96][8];
+#define MAX_HOOKS 128
+static unsigned char oldBytes[MAX_HOOKS][8];
 static int write_hook(unsigned at,const void*bytes,unsigned size){DWORD old,unused;
  if(!VirtualProtect((void*)at,size,PAGE_EXECUTE_READWRITE,&old))return 0;
  memcpy((void*)at,bytes,size);FlushInstructionCache(GetCurrentProcess(),(void*)at,size);
  VirtualProtect((void*)at,size,old,&unused);return 1;
 }
 static int install(const Host*h){unsigned i,j,n=sizeof(hooks)/sizeof(hooks[0]),priorTerrain=0;wchar_t marker[MAX_PATH];DWORD old;
- if(!h||h->api!=1||n>96||wcslen(h->gameDir)>MAX_PATH-40)return 1;
+ if(!h||h->api!=1||n>MAX_HOOKS||wcslen(h->gameDir)>MAX_PATH-40)return 1;
  swprintf(marker,L"%ls\\terrain-prototype.marker",h->gameDir);if(GetFileAttributesW(marker)==INVALID_FILE_ATTRIBUTES)return 1;
  owner=h;base=h->exeBase;
  for(i=0;i<n;i++){

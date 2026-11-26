@@ -1,4 +1,4 @@
-/* Purpose-driven SP bridge planning. Never edits native strategic goal lists.
+/* Strategic and explored-river bridge planning. Never edits native strategic goal lists.
  * All path probes are read-only; only the common native construction job pays.
  * Six global AI jobs leave two shared slots available for the human player. */
 #define BAI_UNKNOWN 1.0e29f
@@ -119,7 +119,8 @@ static int bai_useful(float before,float after){return finite(before)&&finite(af
 EXPORT U bridge_ai_useful_check(float before,float after){return bai_useful(before,after);}
 EXPORT float bridge_ai_distance_check(Roads*d,float sx,float sy,float tx,float ty,U k,U*pts,U n,U intents){return bai_distance(d,sx,sy,tx,ty,k,pts,n,intents);}
 static int bai_purpose_live(Roads*d,U pl,U source,U targetID,U kind,float tx,float ty){U a=actor(d,source),target=actor(d,targetID),mind,cmd,node,steps=0;
- if(!a||P(a,0xe8)!=P(pl,8))return 0;
+ if(!pl||!a||P(a,0xe8)!=P(pl,8))return 0;
+ if(kind==6)return worker(d,a)&&bai_known(d,P(pl,8),tx,ty);
  if(kind==4)return target&&P(target,0xe8)==P(pl,8)&&P(target,0x98);
  if(kind==5){U engine=P(pl,0xc),table=P(engine,8),typ,status;if(!target||!table)return 0;
   for(typ=0;typ<23;typ++){U lists=P(table,typ*4);if(!lists)continue;for(status=0;status<3;status++)for(node=P(lists,status*8),steps=0;node&&steps++<4096;node=P(node,4)){U g=P(node,0),vt=g?P(g,0)-d->image:0;if(g&&P(g,4)==engine&&(vt==0x4da480||vt==0x4d84d4)&&P(g,8)<=2&&F(g,0x38)>0&&P(g,0x4c)==targetID)return 1;}}return 0;}
@@ -162,18 +163,53 @@ static int bai_goal(Roads*d,U pl,U builder,BridgeAIPlayer*p,BridgeAIGoal*out){Br
  if(!n)return 0;*out=goals[p->goalCursor++%n];return 1;
 }
 static U bai_live_jobs(Roads*d){U i,n=0;for(i=0;i<BAI_PLAYERS;i++)if(d->ai.players[i].worker)n++;return n;}
+/* A crossing must be at least 24 world units from either river end. Flood
+ * only explored channel cells in a bounded local strip, allowing bends without
+ * turning a short puddle or a dry gap into a river. The generated lake-named
+ * river variations follow exactly the same rule as native river variations. */
+static int bai_channel_margin(Roads*d,U k,U*pts,U n){U queue[512],head=0,tail=0,i,seed=0;unsigned char seen[1089];int cx,cy,positive=0,negative=0;BridgeGeometry g=bg_points(pts,n);
+ for(i=0;i<n;i++)if(bridge_channel(d,pts[i]&65535,pts[i]>>16)){seed=pts[i];break;}if(i==n)return 0;
+ cx=seed&65535;cy=seed>>16;for(i=0;i<1089;i++)seen[i]=0;queue[tail++]=16+16*33;seen[16+16*33]=1;
+ while(head<tail){U at=queue[head++];int x=(int)(at%33)-16,y=(int)(at/33)-16,xx,yy;float across=x*g.ux+y*g.uy,along=x*g.uy-y*g.ux;
+  if(bg_abs(across)>10)continue;if(along>=12)positive=1;if(along<=-12)negative=1;if(positive&&negative)return 1;
+  for(yy=y-1;yy<=y+1;yy++)for(xx=x-1;xx<=x+1;xx++){U next;if((xx!=x&&yy!=y)||xx<-16||yy<-16||xx>16||yy>16)continue;next=(yy+16)*33+xx+16;if(seen[next])continue;seen[next]=1;
+   if(!bai_known(d,k,(cx+xx)*2+1,(cy+yy)*2+1)||!bridge_channel(d,cx+xx,cy+yy))continue;
+   /* Four-connected steps prevent two diagonally touching ponds joining. */
+   if(tail==512)return 0;queue[tail++]=next;
+  }
+ }return 0;
+}
+/* Spacing is a policy for bots, not an artificial restriction on players.
+ * Unknown enemy bridges are not queried by this policy. Allied pending jobs
+ * count before a site exists, so simultaneous intentions cannot bunch up. */
+static int bai_spaced(Roads*d,U k,U*pts,U n,U workerID){U i;BridgeGeometry g=bg_points(pts,n);
+ for(i=0;i<d->bridgeCount;i++){U a=actor(d,d->spans[i].id);if(!a||(P(a,8)&3)||!bai_known(d,k,F(a,0x20),F(a,0x24)))continue;
+  if(!bai_allied(k,P(a,0xe8))){U c=tile(d,integer(F(a,0x20))>>1,integer(F(a,0x24))>>1);if(!c||!(m1(d,0x24a86a,c,k)&255))continue;}
+  if(bai_dist(g.x,g.y,F(a,0x20),F(a,0x24))<96)return 0;
+ }
+ for(i=0;i<JOBS;i++){Job*q=&d->jobs[i];U a=q->id?actor(d,q->id):0;if(a&&q->id!=workerID&&d->jobTools[i]&&bai_allied(k,P(a,0xe8))){BridgeGeometry other=bg_points(q->points,q->count);if(bai_dist(g.x,g.y,other.x,other.y)<96)return 0;}}
+ return 1;
+}
+/* Closest cells first, deterministic at every relocation and player index.
+ * 41 squared samples, 8 world units apart, cover a 320-unit local square. */
+static void bai_river_sample(U index,int*x,int*y){U ring=0,side,offset;while(index>=(2*ring+1)*(2*ring+1))ring++;if(!ring){*x=*y=0;return;}side=2*ring;offset=index-(2*ring-1)*(2*ring-1);
+ if(offset<side){*x=ring;*y=-(int)ring+1+(int)offset;}else if(offset<side*2){*x=(int)ring-1-(int)(offset-side);*y=ring;}else if(offset<side*3){*x=-(int)ring;*y=(int)ring-1-(int)(offset-side*2);}else{*x=-(int)ring+1+(int)(offset-side*3);*y=-(int)ring;}
+}
+EXPORT U bridge_ai_river_check(Roads*d,U k,U*pts,U n,U workerID){return n>=5&&n<=32&&bridge_valid(d,pts,n,0)&&bai_channel_margin(d,k,pts,n)&&bai_spaced(d,k,pts,n,workerID);}
+EXPORT U bridge_ai_sample_check(U index){int x,y;if(index>=1681)return 0xffffffff;bai_river_sample(index,&x,&y);return (U)(x+32)|((U)(y+32)<<16);}
 static int bai_candidate(Roads*d,BridgeAIPlayer*p,U k,U builder,U*pts,U n,float now){U i,side,material=2;float after,approach,x,y,score;BridgeGeometry g;
  if(!n||!bridge_valid(d,pts,n,0)){d->ai.refusals[1]++;return 0;}if(bridge_occupied(d,pts,n,P(builder,0x14))){d->ai.refusals[2]++;return 0;}g=bg_points(pts,n);d->ai.candidateX=g.x;d->ai.candidateY=g.y;if(bai_failed(p,g.x,g.y,now))return 0;
+ if(!bai_channel_margin(d,k,pts,n)||!bai_spaced(d,k,pts,n,P(builder,0x14))){d->ai.refusals[7]++;return 0;}
  for(i=0;i<n;i++)if(!bai_known(d,k,(pts[i]&65535)*2+1,(pts[i]>>16)*2+1)){d->ai.refusals[3]++;return 0;}
  side=bridge_approach(d,builder,pts,n);if(!side){d->ai.refusals[4]++;return 0;}i=side==2?n-1:0;x=(pts[i]&65535)*2+1;y=(pts[i]>>16)*2+1;
  approach=bai_distance(d,F(builder,0x20),F(builder,0x24),x,y,k,0,0,0);d->ai.approach=approach;if(approach>=BAI_UNREACHABLE||approach>240){d->ai.refusals[5]++;return 0;}
- after=bai_distance(d,d->ai.sx,d->ai.sy,d->ai.tx,d->ai.ty,k,pts,n,1);d->ai.after=after;if(!bai_useful(d->ai.baseline,after)){d->ai.refusals[6]++;if(after<BAI_UNREACHABLE)d->ai.duplicates++;return 0;}
+ after=d->ai.kind==6?0:bai_distance(d,d->ai.sx,d->ai.sy,d->ai.tx,d->ai.ty,k,pts,n,1);d->ai.after=after;if(d->ai.kind!=6&&!bai_useful(d->ai.baseline,after)){d->ai.refusals[6]++;if(after<BAI_UNREACHABLE)d->ai.duplicates++;return 0;}
  if(!bai_safe(d,k,g.x-g.ux*g.half,g.y-g.uy*g.half,48)||!bai_safe(d,k,g.x+g.ux*g.half,g.y+g.uy*g.half,48)||!bai_safe(d,k,F(builder,0x20),F(builder,0x24),32)){d->ai.dangerRejected++;return 0;}
  /* Cheap timber first. Durable stone is useful for a major permanent link. */
- if((d->ai.baseline>=BAI_UNREACHABLE||d->ai.baseline-after>150)&&bai_budget(d,k,builder,0,bg_model(&g)))material=0;
+ if(d->ai.kind!=6&&(d->ai.baseline>=BAI_UNREACHABLE||d->ai.baseline-after>150)&&bai_budget(d,k,builder,0,bg_model(&g)))material=0;
  else if(bai_budget(d,k,builder,1,bg_model(&g)))material=1;else if(bai_budget(d,k,builder,0,bg_model(&g)))material=0;
  if(material>1){d->ai.budgetRejected++;return 0;}
- score=after+approach*.25f+g.half*.5f+(material?0:10);
+ score=after+approach*(d->ai.kind==6?1:.25f)+g.half*.5f+(material?0:10);
  if(!d->ai.bestN||score<d->ai.best){d->ai.best=score;d->ai.bestN=n;d->ai.bestMaterial=material;for(i=0;i<n;i++)d->ai.bestPoints[i]=pts[i];return 1;}return 0;
 }
 static int bai_adopt(Roads*d,U pl,BridgeAIPlayer*p,U builder,float now){U i,k=P(pl,8),mind=builder?P(builder,0x70):0,cmd=mind?P(mind,0x20):0,repair=cmd&&P(cmd,8)&&P(P(cmd,8),0xc)==3&&(P(cmd,0xc)&1)?P(cmd,0x10):0;for(i=0;i<d->bridgeCount;i++){U a=actor(d,d->spans[i].id),n,axis,pts[32],j;BridgeGeometry g;int slot;
@@ -210,7 +246,7 @@ static void bai_watch(Roads*d,float now){U i,j;for(i=0;i<BAI_PLAYERS;i++){Bridge
   if((!site&&now-p->started>240)||now-p->progress>90){d->ai.abortReason=3;bai_finish(d,p,now,0);continue;}
   if(now>=p->nextSafety){p->nextSafety=now+2;
    if(!site){BridgeGeometry g=bg_points(d->jobs[p->slot-1].points,d->jobs[p->slot-1].count);
-    if(!bai_purpose_live(d,bai_player(d,k),p->source,p->target,p->kind,p->goalX,p->goalY)||!bai_budget(d,k,a,p->material,bg_model(&g))){d->ai.abortReason=6;bai_finish(d,p,now,0);continue;}
+    if(!bai_purpose_live(d,bai_player(d,k),p->source,p->target,p->kind,p->goalX,p->goalY)||!bai_budget(d,k,a,p->material,bg_model(&g))||!bridge_valid(d,d->jobs[p->slot-1].points,d->jobs[p->slot-1].count,0)){d->ai.abortReason=6;bai_finish(d,p,now,0);continue;}
    }
    if(!bai_safe(d,k,F(a,0x20),F(a,0x24),32)){d->ai.abortReason=4;bai_finish(d,p,now,0);continue;}
   }
@@ -237,19 +273,21 @@ static void bridge_ai_tick(Roads*d,float now){BridgeAI*b=&d->ai;U sai=P(d->image
   /* Probe the crossing and neighbouring banks along the river. A direct
    * source-to-goal chord can hit city walls or an unusable landing; shifting
    * beside it still has to prove the complete route improvement. */
-  if(!b->probe)for(i=0;i<12&&b->sample<b->samples;i++){int x,y;float length;
+  if(b->kind==6){U probes=0;for(i=0;i<12&&b->sample<b->samples&&probes<1;i++){int dx,dy,x,y;bai_river_sample(b->sample++,&dx,&dy);x=(integer(b->sx)>>1)+dx*4;y=(integer(b->sy)>>1)+dy*4;
+    if(!bai_known(d,k,x*2+1,y*2+1)||!bridge_wet(d,x,y))continue;cn=bridge_auto(d,x,y,pts);probes++;b->candidates++;b->goalType++;if(cn)bai_candidate(d,p,k,builder,pts,cn,now);if(b->bestN)break;
+   }}else if(!b->probe)for(i=0;i<12&&b->sample<b->samples;i++){int x,y;float length;
    fraction=(float)(++b->sample)/(float)(b->samples+1);x=integer((b->sx+(b->tx-b->sx)*fraction)*.5f);y=integer((b->sy+(b->ty-b->sy)*fraction)*.5f);
    if(bridge_wet(d,x,y)||bridge_wet(d,x-2,y)||bridge_wet(d,x+2,y)||bridge_wet(d,x,y-2)||bridge_wet(d,x,y+2)){
     length=bai_dist(b->sx,b->sy,b->tx,b->ty);b->probe=1;b->probeX=x;b->probeY=y;b->probeDX=(b->ty-b->sy)/length;b->probeDY=(b->sx-b->tx)/length;break;}}
-  if(b->probe){U at=b->probe-1;float offset=at?((at+1)/2)*4:0;int x,y;if(at&1)offset=-offset;
+  if(b->kind!=6&&b->probe){U at=b->probe-1;float offset=at?((at+1)/2)*4:0;int x,y;if(at&1)offset=-offset;
    x=bg_round(b->probeX+b->probeDX*offset);y=bg_round(b->probeY+b->probeDY*offset);
    cn=bridge_auto(d,x,y,pts);b->candidates++;b->goalType++;if(cn)bai_candidate(d,p,k,builder,pts,cn,now);else b->refusals[0]++;
    if(++b->probe>7)b->probe=0;
   }
-  if((b->probe||b->sample<b->samples)&&b->goalType<21)return;
-  if(b->bestN&&bai_live_jobs(d)<6){BridgeGeometry bestGeometry=bg_points(b->bestPoints,b->bestN);float check=bai_baseline(d,b->sx,b->sy,b->tx,b->ty,k),after=bai_distance(d,b->sx,b->sy,b->tx,b->ty,k,b->bestPoints,b->bestN,1);U free=0;
+  if((b->probe||b->sample<b->samples)&&(b->kind==6?!b->bestN:b->goalType<21))return;
+  if(b->bestN&&bai_live_jobs(d)<6){BridgeGeometry bestGeometry=bg_points(b->bestPoints,b->bestN);float check=b->kind==6?0:bai_baseline(d,b->sx,b->sy,b->tx,b->ty,k),after=b->kind==6?0:bai_distance(d,b->sx,b->sy,b->tx,b->ty,k,b->bestPoints,b->bestN,1);U free=0;
    for(i=0;i<JOBS;i++)if(!d->jobs[i].id)free++;
-   if(free>2&&bai_budget(d,k,builder,b->bestMaterial,bg_model(&bestGeometry))&&bai_useful(check,after)&&!bridge_occupied(d,b->bestPoints,b->bestN,P(builder,0x14))){int slot=bridge_networked(d)?(bridge_net_send(d,builder,b->bestPoints,b->bestN,b->bestMaterial)?-2:-1):bridge_job_queue(d,builder,b->bestPoints,b->bestN,b->bestMaterial);if(slot>=0||slot==-2){BridgeGeometry g=bg_points(b->bestPoints,b->bestN);p->worker=b->company;p->slot=slot>=0?(U)slot+1:0;p->site=0;p->source=b->source;p->target=b->target;p->kind=b->kind;p->goalX=b->tx;p->goalY=b->ty;p->material=b->bestMaterial;p->x=g.x;p->y=g.y;p->started=p->progress=now;p->health=0;b->accepted++;}}
+   if(free>2&&bai_budget(d,k,builder,b->bestMaterial,bg_model(&bestGeometry))&&(b->kind==6||bai_useful(check,after))&&bridge_valid(d,b->bestPoints,b->bestN,0)&&bai_channel_margin(d,k,b->bestPoints,b->bestN)&&bai_spaced(d,k,b->bestPoints,b->bestN,P(builder,0x14))&&!bridge_occupied(d,b->bestPoints,b->bestN,P(builder,0x14))){int slot=bridge_networked(d)?(bridge_net_send(d,builder,b->bestPoints,b->bestN,b->bestMaterial)?-2:-1):bridge_job_queue(d,builder,b->bestPoints,b->bestN,b->bestMaterial);if(slot>=0||slot==-2){BridgeGeometry g=bg_points(b->bestPoints,b->bestN);p->worker=b->company;p->slot=slot>=0?(U)slot+1:0;p->site=0;p->source=b->source;p->target=b->target;p->kind=b->kind;p->goalX=b->tx;p->goalY=b->ty;p->material=b->bestMaterial;p->x=g.x;p->y=g.y;p->started=p->progress=now;p->health=0;b->accepted++;}}
   }p->next=now+15;b->planning=0;return;
  }
  if(bai_live_jobs(d)>=6)return;
@@ -259,10 +297,12 @@ static void bridge_ai_tick(Roads*d,float now){BridgeAI*b=&d->ai;U sai=P(d->image
   if(p->worker||now<p->next||now<p->cooldown)continue;p->next=now+15;builder=bai_worker(d,pl);if(!builder)continue;
   if(bai_adopt(d,pl,p,builder,now))return;
   if(!bai_budget(d,k,builder,0,5)&&!bai_budget(d,k,builder,1,5)){b->budgetRejected++;return;}
-  if(!bai_goal(d,pl,builder,p,&goal))return;
+  /* Alternate strategic detours with nearby explored river crossings.
+   * With no current army/city goal, an idle engineer can still improve access. */
+  if((p->planCursor++&1)||!bai_goal(d,pl,builder,p,&goal)){goal.source=P(builder,0x14);goal.target=0;goal.kind=6;goal.sx=goal.x=F(builder,0x20);goal.sy=goal.y=F(builder,0x24);}
   b->sx=goal.sx;b->sy=goal.sy;b->tx=goal.x;b->ty=goal.y;b->source=goal.source;b->target=goal.target;b->kind=goal.kind;
-  b->baseline=bai_baseline(d,b->sx,b->sy,b->tx,b->ty,k);if(b->baseline>=BAI_UNKNOWN)return;
-  b->planning=index+1;b->company=P(builder,0x14);b->started=now;b->sample=0;b->goalType=0;b->probe=0;b->samples=integer(bai_dist(b->sx,b->sy,b->tx,b->ty)/6);if(b->samples>512)b->samples=512;if(b->samples<12)b->samples=12;b->bestN=0;b->scans++;return;
+  b->baseline=b->kind==6?0:bai_baseline(d,b->sx,b->sy,b->tx,b->ty,k);if(b->baseline>=BAI_UNKNOWN)return;
+  b->planning=index+1;b->company=P(builder,0x14);b->started=now;b->sample=0;b->goalType=0;b->probe=0;b->samples=integer(bai_dist(b->sx,b->sy,b->tx,b->ty)/6);if(b->samples>512)b->samples=512;if(b->samples<12)b->samples=12;if(b->kind==6)b->samples=1681;b->bestN=0;b->scans++;return;
  }
 }
 EXPORT const U bridge_ai_layout[]={offsetof(Roads,ai),sizeof(BridgeAI),offsetof(BridgeAI,players),sizeof(BridgeAIPlayer),offsetof(BridgeAI,scans)};

@@ -1,0 +1,275 @@
+{
+  "models": {
+    "Drauga/stone_y_13.nif": {
+      "sourceSha256": "ae01804d51bce987d02651c13101466d93fe6df239d288eac38b41e01447f4a3",
+      "sha256": "2f6b45e2ad39d5078b333d3b66cfbfa8ae053f4359c6229e8a510e7a72210033",
+      "bytes": 335540,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 6144,
+      "triangles": 3538,
+      "seconds": 2.406
+    },
+    "Drauga/stone_y_16.nif": {
+      "sourceSha256": "532b50a7e90d2ce3338e9b3d532d1da711b36f0e8f529a193069cf256f11b219",
+      "sha256": "b58fccbd5f6963c0dbabfe0edc8fc006b13cbe0ebe1b8b780c0c2ae321d2fe5d",
+      "bytes": 340712,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 6222,
+      "triangles": 3584,
+      "seconds": 2.25
+    },
+    "Drauga/wood_y_13.nif": {
+      "sourceSha256": "771be3c88f9e26b6614bd3968b174f68556d1f7524a7a1d99175c2bfa38ea4b9",
+      "sha256": "db5a2ec2c5bc2d942202f5f83641f4b49cfdeef9958fdaa8b719d47d75d7849c",
+      "bytes": 485642,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 9366,
+      "triangles": 5198,
+      "seconds": 3.141
+    },
+    "Drauga/wood_y_16.nif": {
+      "sourceSha256": "e1243e92468a035eec37115340eea83a2e1efa22f3fe486d7d59cd430e9b3bb2",
+      "sha256": "edd91efe0f4b6ac0e3c98e82c60f3f27fdaeabbf137eab43bf61cb012d39681d",
+      "bytes": 558158,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 10732,
+      "triangles": 5972,
+      "seconds": 3.735
+    },
+    "Gauri/stone_y_13.nif": {
+      "sourceSha256": "49070acd47070cc5884df48bd463eeb21c877400d1cfa5bd22de770522a1930e",
+      "sha256": "9beb790fdedd73e01b554a1aab0defc181c39c5e01395b988825883f39fdfef4",
+      "bytes": 419608,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 5624,
+      "triangles": 4080,
+      "seconds": 2.282
+    },
+    "Gauri/stone_y_16.nif": {
+      "sourceSha256": "bb053ae873082e3780afb360f40f2c0b12b7906266e7ff638ae591c42d306cd6",
+      "sha256": "3970e11dd94c3b595688c7991beddbfd06e02bd29c55b561a5e552cc6b1fabae",
+      "bytes": 525904,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 7008,
+      "triangles": 5124,
+      "seconds": 2.969
+    },
+    "Gauri/wood_y_13.nif": {
+      "sourceSha256": "c56d4edc539397d024ab0cf0b3fab644d34146511249d3745e72377fb5d7d508",
+      "sha256": "d75e7a4eaaa0bcbf16ea8b82c4f8e65abee8af5350db1ba3465ae1e801dd0565",
+      "bytes": 356941,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 6440,
+      "triangles": 3476,
+      "seconds": 2.656
+    },
+    "Gauri/wood_y_16.nif": {
+      "sourceSha256": "84f05044ea0ae6077b8a8c4cbeae9548c2b1316e582afe707c281b2d79ac2129",
+      "sha256": "8bdfb459ee109b0741f873bb3ffe9ae0de3041710917a29ba64d4255da2f3663",
+      "bytes": 414085,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 7440,
+      "triangles": 4040,
+      "seconds": 2.984
+    },
+    "Haroun/stone_y_13.nif": {
+      "sourceSha256": "cbb1d64fbef9f53a9e8ae2526e4e32fe2032b54dd121ad0aeaa22e95236e7346",
+      "sha256": "4e077ce5dfa71771e9bfde7927b94b451d2939dd84430117818205a64b27364c",
+      "bytes": 751233,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 14336,
+      "triangles": 7112,
+      "seconds": 5.484
+    },
+    "Haroun/stone_y_16.nif": {
+      "sourceSha256": "64ece9a87b6db7120a0f22ebf4b3f0ad643843be1d03674230afa7091de2fff7",
+      "sha256": "73844e9ffa70482c4b415849c6dd532efbe6618818e53eccc699504fa2dea170",
+      "bytes": 825561,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 15724,
+      "triangles": 7852,
+      "seconds": 6.032
+    },
+    "Haroun/wood_y_13.nif": {
+      "sourceSha256": "1128c3755ee1be53acd5a0a8d777916db4dbabc09bea6efaf9e8b51b1518f90b",
+      "sha256": "84df9d71beac6e2f5960fe7a3542f1e31cd5ff6e93a85b3cd55146b5f5187a46",
+      "bytes": 651006,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 11946,
+      "triangles": 6136,
+      "seconds": 4.578
+    },
+    "Haroun/wood_y_16.nif": {
+      "sourceSha256": "410ac4bd56b01cfb58c6c29c7117df869565888dec8d8c0a016f86849659f582",
+      "sha256": "0fc478fd0a5722f3de65ea275bd6a67d4cfcf1ea91cb444e97f1f868165dec54",
+      "bytes": 731022,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 13324,
+      "triangles": 6928,
+      "seconds": 5.093
+    },
+    "Human/stone_y_13.nif": {
+      "sourceSha256": "da8fbac594ed5e18bd20fc39d83eb34c1f8fe9d5c7223f82f944b14d7f25ca6f",
+      "sha256": "ce4a30683ae6a9bd97368e9bb437fc8cdabedd8df20c70b0db77cfa018f78b07",
+      "bytes": 383459,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 5584,
+      "triangles": 3744,
+      "seconds": 2.094
+    },
+    "Human/stone_y_16.nif": {
+      "sourceSha256": "5b0aa02fa6d86ff79ef6a632b48673387c69098edd1e22cbdf6af14ba5448a46",
+      "sha256": "2a17057aad585e854902c2e8ba0cc9263ea1a56579b9d68ebd028dd6e01cfbd2",
+      "bytes": 486899,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 7062,
+      "triangles": 4760,
+      "seconds": 2.594
+    },
+    "Human/wood_y_13.nif": {
+      "sourceSha256": "2e4214ccc11412e2af60a80edf0f1eafae17e46b9d44bfa2e4e64bacbdd96c39",
+      "sha256": "33a012bcc121fa8142eecb230e7d348e416844d16d903acdd210c0e9eed8e3d0",
+      "bytes": 382347,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 5938,
+      "triangles": 3836,
+      "seconds": 2.156
+    },
+    "Human/wood_y_16.nif": {
+      "sourceSha256": "10cb2f8efa2948eacb61f3baf2e7b7ff9a3292c84735dc7ba569072c7ab206cd",
+      "sha256": "2a5cf866ea8ada16c04024ed1dad7892596e07c62b686a8b7c9f179853f530bb",
+      "bytes": 481227,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 7444,
+      "triangles": 4828,
+      "seconds": 2.688
+    },
+    "Shadow/stone_y_13.nif": {
+      "sourceSha256": "b7df7a6914e5b8bb3f86753d5f73be4801bceaf564756c082e42b52ebaacf774",
+      "sha256": "34ff42ffc1ab9c9d69f1d5bfae167157166d4ef61f650f77e91638523479603b",
+      "bytes": 324859,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 6102,
+      "triangles": 4816,
+      "seconds": 2.266
+    },
+    "Shadow/stone_y_16.nif": {
+      "sourceSha256": "524ab18939cb5f651d751323c3b76f8a71251700125801778139342c06695941",
+      "sha256": "d66123c5dcfe09a3118a64f83334ff3d23bb4efd59656f90d10117155cbdd2cd",
+      "bytes": 354955,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 6690,
+      "triangles": 5128,
+      "seconds": 2.469
+    },
+    "Shadow/wood_y_13.nif": {
+      "sourceSha256": "6540f5ad45009ec0141186ad12f5ec4fa10871a28cd028e89ec39adfd4a3e6ad",
+      "sha256": "f7a75cb1c26123c92ede6016f4fa8a3df3e5b07c8ec05f7cdf8a941a2f40aa3f",
+      "bytes": 226945,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 4320,
+      "triangles": 3136,
+      "seconds": 1.5
+    },
+    "Shadow/wood_y_16.nif": {
+      "sourceSha256": "10aeb233d3b676cb43000a8a1464238efb890dac5e842e02435fcf1f1df44aa5",
+      "sha256": "9635a92dc4e18c3f2bd69752e420d313037c80726c3aa67fad0353aa2a2945f2",
+      "bytes": 255361,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 4868,
+      "triangles": 3488,
+      "seconds": 1.688
+    },
+    "Undead/stone_y_13.nif": {
+      "sourceSha256": "207b18007794818a6bf665878a64df98141076e78a53eb1a2a4e34bb49331165",
+      "sha256": "0ccb0a568d3dbeb691a8bc5fe375639dcd8c86fe817b4179920e2c08cb3b38ad",
+      "bytes": 290736,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 5400,
+      "triangles": 3446,
+      "seconds": 1.922
+    },
+    "Undead/stone_y_16.nif": {
+      "sourceSha256": "8eb794b15a9652f3e5e8454dc86ffdea44dce5d90f6dcc3efb502e6a782f90f1",
+      "sha256": "4f2943c1bd2c0fe38694ebdc24c7984c626fe6ff82a6fc4c9fad7ed5efea450d",
+      "bytes": 346644,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 6410,
+      "triangles": 4124,
+      "seconds": 2.359
+    },
+    "Undead/wood_y_13.nif": {
+      "sourceSha256": "1de75b01e65c4171134a142af2f5e3490df29823b764499ebe3acf94d821d43a",
+      "sha256": "31d1766787e0ac14b704f555d6ac05580cfd9b9f3a42c8f793b9238c1a77a457",
+      "bytes": 521227,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 10098,
+      "triangles": 5756,
+      "seconds": 3.907
+    },
+    "Undead/wood_y_16.nif": {
+      "sourceSha256": "e3ce2713216918d626d8147cd177d41c8e77177bdab83a22f5a5eb0ee9ebd1dd",
+      "sha256": "ffa26048d31bfb8b6f488f0178397720c941c1f3068e3cec45a9e6dfb19d9677",
+      "bytes": 613387,
+      "invariantsExact": true,
+      "approvedBytesReused": true,
+      "referenceMaxColorDelta": 0.0,
+      "queries": 11898,
+      "triangles": 6716,
+      "seconds": 4.594
+    }
+  },
+  "pins": {
+    "inputs": "1a81a205216984977e1ed4e852d412524bd99d53763976c3e31740503678001c",
+    "helper": "ef844f5b55ef131fb805b410ed14fcfe23cd824d1f9c3f265bf61c3208177706",
+    "script": "8b158add6a2d641c0f086dbf7b10bd48ffbdfa06e7bf58acce76bdfc69e34bb1",
+    "acceleratorSource": "738a72afbc6b3f572443a24c3646aeed87515bc4e870e14d2e1f4f6c55767c36",
+    "originalScript": "1b200b8e983deb42562783fa50715526e6b61c5d0c34c6e0f2cae1efc478a09e"
+  }
+}

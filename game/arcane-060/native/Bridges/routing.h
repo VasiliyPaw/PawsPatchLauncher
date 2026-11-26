@@ -105,11 +105,13 @@ EXPORT U FAST bridge_move_to_actor(U self,U unused,U mode,U target,U formation,U
  * shortest route's bridge landings into the ordinary native path instead.
  * These are path segments, never extra commands in the player's order queue. */
 static void br_native_ports(Roads*d,U path,BridgeRoutePoint*ports,U count,float dx,float dy,U mover){U i,node[8];float x=dx,y=dy;
- /* The smoothed route already includes the exact clicked destination. Do not
-  * insert it twice: a zero-length terminal segment breaks formation headings. */
+ /* Native coarse nodes describe obstacle/region transitions, not the final
+  * order destination. That destination already belongs to the fine planner.
+  * Queuing it again as a type-2 gate makes every member converge on one
+  * point and keeps a company in its crossing column on the open far bank. */
+ (void)mover;
  if(count&&bg_abs(ports[count-1].x-dx)<.001f&&bg_abs(ports[count-1].y-dy)<.001f)count--;
- for(i=count+1;i>0;i--){float px=i==count+1?dx:ports[i-1].x,py=i==count+1?dy:ports[i-1].y,vx=x-px,vy=y-py,length;
-  if(i==count+1){vx=dx-(count?ports[count-1].x:F(mover,0x20));vy=dy-(count?ports[count-1].y:F(mover,0x24));}
+ for(i=count;i>0;i--){float px=ports[i-1].x,py=ports[i-1].y,vx=x-px,vy=y-py,length;
   length=bg_sqrt(vx*vx+vy*vy);
   F(node,0)=px;F(node,4)=py;F(node,8)=length?vx/length:0;F(node,12)=length?vy/length:0;node[4]=2;node[5]=0;F(node,24)=px;F(node,28)=py;
   m1(d,0x27b99b,path,(U)node);x=px;y=py;

@@ -1,0 +1,25 @@
+{
+  "category": "patch",
+  "mods": [
+    "arcane-wars"
+  ],
+  "channel": "beta",
+  "version": "0.6.0-beta.7",
+  "publishedAt": "2026-11-26",
+  "title": {
+    "ru": "Paw’s Patch 0.6.0-beta.7 — Arcane Wars",
+    "en": "Paw’s Patch 0.6.0-beta.7 — Arcane Wars",
+    "uk": "Paw’s Patch 0.6.0-beta.7 — Arcane Wars",
+    "cs": "Paw’s Patch 0.6.0-beta.7 — Arcane Wars",
+    "de": "Paw’s Patch 0.6.0-beta.7 — Arcane Wars",
+    "fr": "Paw’s Patch 0.6.0-beta.7 — Arcane Wars"
+  },
+  "body": {
+    "ru": "- Обновлены поверхности мостов всех рас и эффект строительства Теней.\n- Боты строят переправы на разведанных реках; исправлено строительство мостов на суше.\n- Исправлены самовольные атаки мостов, в том числе призванными существами.\n- Улучшено движение отрядов после переправы.\n- Сглажены переходы воды и дна; исправлена глубина небольших водоёмов на новых картах.",
+    "en": "- Updated bridge surfaces for all factions and the Shadow construction effect.\n- AI builds crossings on explored rivers; fixed bridge construction on dry land.\n- Fixed unsolicited attacks on bridges, including attacks by summoned creatures.\n- Improved company movement after crossing a bridge.\n- Smoothed water and riverbed transitions; corrected small-waterbody depth on new maps.",
+    "uk": "- Оновлено поверхні мостів усіх рас та ефект будівництва Тіней.\n- Боти будують переправи на розвіданих річках; виправлено будівництво мостів на суші.\n- Виправлено самовільні атаки мостів, зокрема прикликаними істотами.\n- Покращено рух загонів після переправи.\n- Згладжено переходи води й дна; виправлено глибину малих водойм на нових картах.",
+    "cs": "- Upraveny povrchy mostů všech ras a stavební efekt Stínů.\n- AI staví přechody přes prozkoumané řeky; opravena stavba mostů na souši.\n- Opraveny samovolné útoky na mosty, včetně vyvolaných tvorů.\n- Vylepšen pohyb družin po překročení mostu.\n- Vyhlazeny přechody vody a dna; opravena hloubka malých vodních ploch na nových mapách.",
+    "de": "- Brückenoberflächen aller Völker und der Baueffekt der Schatten wurden überarbeitet.\n- Die KI baut Übergänge über erkundete Flüsse; Brückenbau auf trockenem Land wurde korrigiert.\n- Ungewollte Angriffe auf Brücken, auch durch beschworene Kreaturen, wurden behoben.\n- Die Bewegung der Kompanien nach einer Überquerung wurde verbessert.\n- Wasser- und Grundübergänge wurden geglättet; die Tiefe kleiner Gewässer auf neuen Karten wurde korrigiert.",
+    "fr": "- Surfaces des ponts de toutes les factions et effet de construction des Ombres améliorés.\n- L’IA construit des passages sur les rivières explorées ; construction des ponts sur la terre ferme corrigée.\n- Attaques spontanées contre les ponts corrigées, y compris celles des créatures invoquées.\n- Déplacement des compagnies après une traversée amélioré.\n- Transitions de l’eau et du fond adoucies ; profondeur des petits plans d’eau corrigée sur les nouvelles cartes."
+  }
+}

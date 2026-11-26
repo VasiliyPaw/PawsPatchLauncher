@@ -1,0 +1,319 @@
+{
+  "version": "0.6.0-beta.7",
+  "checks": {
+    "racialAssets": {
+      "models": 56,
+      "checks": 7168,
+      "passed": true
+    },
+    "water": {
+      "math": 10000,
+      "materials": 22,
+      "field": 78,
+      "depth": 24576,
+      "compiledGeneratorAtTwoBases": 20,
+      "riverPath": 17557,
+      "riverReliefSeeds": 128,
+      "passed": true
+    },
+    "bridgeAI": {
+      "checks": 40,
+      "passed": true
+    },
+    "routing": {
+      "checks": 472,
+      "passed": true,
+      "newDirectBankCasePendingRerun": false
+    },
+    "productionHelpers": {
+      "built": 8,
+      "portableInputsVerified": 89,
+      "passed": true
+    },
+    "combatAndConstructionABI": {
+      "checks": 164,
+      "passed": true
+    },
+    "effectDetachment": {
+      "checks": 602,
+      "passed": true
+    },
+    "networkContract": {
+      "checks": 126,
+      "passed": true,
+      "liveMultiplayerPeers": false
+    }
+  },
+  "nativeShadow": {
+    "passed": true,
+    "hooks": 109,
+    "paidNativeSite": true,
+    "stages": [
+      10,
+      50,
+      85,
+      100
+    ],
+    "healthAdvancedByFixture": true,
+    "modelAlphaDuringConstruction": 0.55,
+    "modelAlphaAfterConstruction": 1,
+    "detachment": [
+      {
+        "name": "paws_bridge_build_shadow_work_y_16",
+        "detachedSamples": 495,
+        "maxYawErrorRadians": 0.0
+      }
+    ],
+    "silent": true,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "allOwnedClosed": true
+  },
+  "multiplayer": {
+    "compiledHostRemoteContract": true,
+    "newLivePeerSession": false
+  },
+  "limits": [
+    "Native small-waterbody depth fix applies to new maps; saved terrain height is retained.",
+    "Existing rogue bridge prototypes in old saves are not removed.",
+    "Live formation and mixed-water screenshot review is not claimed; compiled production code regressions passed."
+  ],
+  "passed": true,
+  "productionHooks": 109,
+  "packagePayloadFiles": 4087,
+  "helperFeatureChecks": 8,
+  "helperSelfTests": 40,
+  "materialModels": 672,
+  "materialApprovedReferencesExact": 24,
+  "newProjectedShadows": false,
+  "stockArtworkByteExact": 99,
+  "hdRemovalRulesPreserved": 1132,
+  "terrainPackageUnchanged": true,
+  "terrainRedownloadRequired": false,
+  "unrelatedModsAndStableUnchanged": true,
+  "qa": {
+    "passed": true,
+    "selections": 28944,
+    "featureCases": 96,
+    "checks": 422713,
+    "installedFileChecks": 40678,
+    "counts": {
+      "dll": 12,
+      "helper": 8,
+      "water": 952,
+      "shadow": 56,
+      "ao": 672,
+      "hd": 1132
+    },
+    "fixture": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta7-release-20261126\\qa\\fixtures\\5ae6b33393d74f0e8ed65f063bdf8809",
+    "stages": [
+      {
+        "stage": "catalog-matrix",
+        "selections": 28944,
+        "helpers": [
+          "k2_paws_family_herd_relations_1372.exe",
+          "k2_paws_lobby_colors_mp_1372_experimental.exe",
+          "k2_paws_lobby_colors_mp_nohostility_1372.exe",
+          "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe",
+          "k2_paws_lobby_colors_mp_sync_1372.exe",
+          "k2_paws_sync_continue_1372.exe",
+          "k2_paws_sync_family_herd_relations_1372.exe",
+          "k2_paws_ui_1372.exe"
+        ]
+      },
+      {
+        "stage": "ai-morale-boundaries",
+        "cases": 96
+      },
+      {
+        "stage": "beta6-real-install",
+        "modules": 4,
+        "verifiedFiles": 4253,
+        "pins": false
+      },
+      {
+        "stage": "beta7-real-upgrade",
+        "modules": 4,
+        "verifiedFiles": 5205,
+        "pins": true
+      },
+      {
+        "stage": "helper-config-0",
+        "modules": 2,
+        "verifiedFiles": 5200,
+        "pins": true
+      },
+      {
+        "stage": "helper-config-1",
+        "modules": 3,
+        "verifiedFiles": 5205,
+        "pins": true
+      },
+      {
+        "stage": "helper-config-2",
+        "modules": 3,
+        "verifiedFiles": 5200,
+        "pins": true
+      },
+      {
+        "stage": "helper-config-3",
+        "modules": 4,
+        "verifiedFiles": 5205,
+        "pins": true
+      },
+      {
+        "stage": "all-off-originals-exact",
+        "originalFiles": 1134
+      },
+      {
+        "stage": "rollback-disable-transaction",
+        "modules": 4,
+        "verifiedFiles": 5205,
+        "pins": true
+      },
+      {
+        "stage": "all-off-again-originals-exact",
+        "originalFiles": 1134
+      },
+      {
+        "stage": "reapply",
+        "modules": 4,
+        "verifiedFiles": 5205,
+        "pins": true
+      }
+    ],
+    "packageAssets": {
+      "old:pawpatch-core": {
+        "id": "pawpatch-core",
+        "version": "0.6.0-beta.6",
+        "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\arcane\\assets\\pawpatch-core-0.6.0-beta.6.zip",
+        "sha256": "2D266518EDEEBF35F78946DC76EC4856DEDE5013E931C93ED3D4D581DB06BC4F",
+        "signedSha256": "2D266518EDEEBF35F78946DC76EC4856DEDE5013E931C93ED3D4D581DB06BC4F",
+        "size": 83536078
+      },
+      "old:player-colors": {
+        "id": "player-colors",
+        "version": "0.6.0-beta.6",
+        "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\arcane\\assets\\player-colors-0.6.0-beta.6.zip",
+        "sha256": "609AE57B4B2C1C410990D50A352BC4C7627A4AB51668CD381A11260F280CBDE3",
+        "signedSha256": "609AE57B4B2C1C410990D50A352BC4C7627A4AB51668CD381A11260F280CBDE3",
+        "size": 1107528
+      },
+      "old:desync-continue": {
+        "id": "desync-continue",
+        "version": "0.6.0-beta.6",
+        "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\arcane\\assets\\desync-continue-0.6.0-beta.6.zip",
+        "sha256": "E2FFD381E6C95D1E1FEFB0E72076A89C4818D5F2AD76E16A00742024C175B1CB",
+        "signedSha256": "E2FFD381E6C95D1E1FEFB0E72076A89C4818D5F2AD76E16A00742024C175B1CB",
+        "size": 551068
+      },
+      "old:common-ui": {
+        "id": "common-ui",
+        "version": "0.6.0-beta.6",
+        "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\ui-revert-release-20261118\\arcane\\assets\\common-ui-0.6.0-beta.6.zip",
+        "sha256": "865FC9BBF92AC3D6FA8EFEA03E39CC49FF43A4AE40CF40E520C4C3ABFB30BB96",
+        "signedSha256": "865FC9BBF92AC3D6FA8EFEA03E39CC49FF43A4AE40CF40E520C4C3ABFB30BB96",
+        "size": 21157996
+      },
+      "new:pawpatch-core": {
+        "id": "pawpatch-core",
+        "version": "0.6.0-beta.7",
+        "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta7-release-20261126\\assets\\pawpatch-core-0.6.0-beta.7.zip",
+        "sha256": "862B37A3ADDFD07C5781E1943C556A2C4DE8D455BC90D70AD27D8A78498B4679",
+        "signedSha256": "862B37A3ADDFD07C5781E1943C556A2C4DE8D455BC90D70AD27D8A78498B4679",
+        "size": 192061225
+      },
+      "new:player-colors": {
+        "id": "player-colors",
+        "version": "0.6.0-beta.7",
+        "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta7-release-20261126\\assets\\player-colors-0.6.0-beta.7.zip",
+        "sha256": "298DA035431B313A42F7925DF3F4287F7E02E5CE21845B75F4E0CF003075DBB6",
+        "signedSha256": "298DA035431B313A42F7925DF3F4287F7E02E5CE21845B75F4E0CF003075DBB6",
+        "size": 1107562
+      },
+      "new:desync-continue": {
+        "id": "desync-continue",
+        "version": "0.6.0-beta.7",
+        "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta7-release-20261126\\assets\\desync-continue-0.6.0-beta.7.zip",
+        "sha256": "7C331FF01AD393CB0C3B29AB08EAAB66A5C7FE4D16E91D5AF88A3D12E2EC16AC",
+        "signedSha256": "7C331FF01AD393CB0C3B29AB08EAAB66A5C7FE4D16E91D5AF88A3D12E2EC16AC",
+        "size": 551076
+      },
+      "new:common-ui": {
+        "id": "common-ui",
+        "version": "0.6.0-beta.7",
+        "path": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\outputs\\arcane060-beta7-release-20261126\\assets\\common-ui-0.6.0-beta.7.zip",
+        "sha256": "5631A86815DD04C235F5ED21CBE7DDFDE838E96F1EB5C28722826C82D8D04743",
+        "signedSha256": "5631A86815DD04C235F5ED21CBE7DDFDE838E96F1EB5C28722826C82D8D04743",
+        "size": 21158013
+      }
+    },
+    "helperHashes": {
+      "k2_paws_family_herd_relations_1372.exe": "9542BB15A486625E95BF54864CE8385E51C2CDC360DDD02856E1080EDFF7DA22",
+      "k2_paws_lobby_colors_mp_1372_experimental.exe": "AB2591610E536AD40D7C25FADBB2336F20FEDC544F6C11186273AEA3FD6E94D3",
+      "k2_paws_lobby_colors_mp_nohostility_1372.exe": "B624EBA30B0D159145997C9411A6DAD231881274C98DE763D78A98A3FB6F5AA0",
+      "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe": "20E3E27C24E60CCB85C38509B456FF94AB5C582251342DF450EB111174AB7C07",
+      "k2_paws_lobby_colors_mp_sync_1372.exe": "4FE378043AF851A587D165EE62D424834861EE94F13EB53A0BE7ACD1B6C29F13",
+      "k2_paws_sync_continue_1372.exe": "F44FD8C4B5A1AF2D327C1E9447B88681A54A7E7FBBB1CCF5A66AFB10F6BE2B93",
+      "k2_paws_sync_family_herd_relations_1372.exe": "EDA955CB41E2E203C6CEFAFFDA79596BDFD4E31BEA78F8761213C7B7110292BF",
+      "k2_paws_ui_1372.exe": "B8A745F5C4905FB39B730871B965DEDB032C0F06C78153F48AFB4E5D777167EC"
+    },
+    "fixtureBudgetBytes": 3221225472,
+    "peakObservedFixtureBytes": 2019556500,
+    "installedHelpersSeen": [
+      "k2_paws_family_herd_relations_1372.exe",
+      "k2_paws_lobby_colors_mp_1372_experimental.exe",
+      "k2_paws_lobby_colors_mp_nohostility_1372.exe",
+      "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe",
+      "k2_paws_lobby_colors_mp_sync_1372.exe",
+      "k2_paws_sync_continue_1372.exe",
+      "k2_paws_sync_family_herd_relations_1372.exe",
+      "k2_paws_ui_1372.exe"
+    ],
+    "helperPackageMasks": {
+      "commonUi": [
+        "k2_paws_family_herd_relations_1372.exe",
+        "k2_paws_sync_continue_1372.exe",
+        "k2_paws_sync_family_herd_relations_1372.exe",
+        "k2_paws_ui_1372.exe"
+      ],
+      "playerColors": [
+        "k2_paws_lobby_colors_mp_1372_experimental.exe",
+        "k2_paws_lobby_colors_mp_nohostility_1372.exe",
+        "k2_paws_lobby_colors_mp_nohostility_sync_1372.exe",
+        "k2_paws_lobby_colors_mp_sync_1372.exe"
+      ]
+    },
+    "nativeGameLaunched": false,
+    "realLauncherAssembly": "G:\\CodexData\\projects\\Codex\\2026-09-09\\paws-patch-kohan-ii-3\\work\\arcane060-beta7-release-20261126\\qa\\bin\\Release\\net8.0-windows\\PawsPatchLauncher.dll",
+    "launcher": "1.0.23.0"
+  },
+  "nativeSave": {
+    "passed": true,
+    "exactProductionPairs": true,
+    "sameInitialWorldTime": true,
+    "allSevenExactIdsPreserved": true,
+    "bridgeCounts": {
+      "baseline": {
+        "total": 7,
+        "alive": 7,
+        "deadOrDying": 0,
+        "menuSites": 3,
+        "construction": 0
+      },
+      "final": {
+        "total": 7,
+        "alive": 7,
+        "deadOrDying": 0,
+        "menuSites": 3,
+        "construction": 0
+      }
+    },
+    "differenceCount": 0,
+    "postReadySmokePassed": true,
+    "allOwnedClosed": true,
+    "scope": "Existing saved actor retention; no new live multiplayer match or full 24-module private upgrade claimed."
+  }
+}

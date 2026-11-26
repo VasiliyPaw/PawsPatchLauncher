@@ -9,6 +9,7 @@ typedef struct {
  float builtX[4],builtY[4];
  BridgeAIFailure failed[BAI_FAILED];
  float goalX,goalY;
+ U planCursor;
 } BridgeAIPlayer;
 typedef struct {
  U world,cursor,planning,company,source,target,kind,goalType,goalKey;

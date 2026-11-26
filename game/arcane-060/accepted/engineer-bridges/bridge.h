@@ -16,6 +16,10 @@ static U bridge_original_at(Roads*d,int x,int y);
 static int bridge_abs(int v){return v<0?-v:v;}
 static int bridge_wetland(U cell){const W*w=P(cell,0)?(W*)P(P(cell,0),8):0;U i,j;const char*names[3];names[0]="swamp";names[1]="marsh";names[2]="quicksand";
  if(!w)return 0;for(i=0;i<80&&w[i];i++)for(j=0;j<3;j++){U k=0;while(names[j][k]&&w[i+k]&&(W)names[j][k]==w[i+k])k++;if(!names[j][k])return 1;}return 0;}
+/* The native water terrain class alone also occurs on walkable/dry cells.
+ * Every request path must require the obstructing water band, not merely its
+ * broad terrain class. Generated rivers deliberately use lake variations. */
+static int bridge_channel(Roads*d,int x,int y){U c=tile(d,x,y);return c&&P(c,0)&&(P(c,0x20)&0x170)==0x120&&!bridge_wetland(c)&&!eq((W*)P(P(c,0),8),"paws_engineer_bridge01");}
 static int bridge_bank(Roads*d,int x,int y){int xx,yy;U c;
  if(!passable(d,x,y))return 0;for(yy=y-2;yy<=y+2;yy++)for(xx=x-2;xx<=x+2;xx++){c=tile(d,xx,yy);if(!c||(P(c,0x20)&0x70)==0x20||bridge_wetland(c))return 0;}return 1;}
 static U bridge_variant(Roads*d,const char*name){U mgr=P(d->image,0x5f0030),i,n,p;if(!mgr||!(n=P(mgr,0x28))||n>4096)return 0;
@@ -25,7 +29,7 @@ static float bridge_height(Roads*d,int x,int y){U h=P(d->world,0x38),b=P(d->worl
  if(xx<0||yy<0||xx>=(int)P(h,0xc)||yy>=(int)P(h,0x10))return -10000;
  at=(yy*P(h,0xc)+xx)*4;return F(P(h,0x40),at)+F(P(b,0x40),at);}
 /* One narrow continuous water band, sound landings, no mountains or islands. */
-static int bridge_valid(Roads*d,U*points,U n,float*level){U i,c,phase=0,wet=0;int x,y,xx,yy,x0,y0,x1,y1;float z0,z1;
+static int bridge_valid(Roads*d,U*points,U n,float*level){U i,c,phase=0,wet=0;int x,y,xx,yy,x0,y0,x1,y1;float z0,z1,bed=10000;
  if(n<5||n>BRIDGE_MAX||!bridge_hm(d))return 0;
  {BridgeGeometry g=bg_points(points,n);U canonical[32],cn,j;if(bg_model(&g)>32)return 0;cn=bg_line(points[0]&65535,points[0]>>16,points[n-1]&65535,points[n-1]>>16,canonical);if(cn!=n)return 0;for(j=0;j<n&&canonical[j]==points[j];j++);
   /* Choosing the reachable bank reverses the original rasterized line.
@@ -42,7 +46,8 @@ static int bridge_valid(Roads*d,U*points,U n,float*level){U i,c,phase=0,wet=0;in
   if(i&&(bridge_abs(x-(int)(points[i-1]&65535))>1||bridge_abs(y-(int)(points[i-1]>>16))>1||points[i]==points[i-1]))return 0;
   c=tile(d,x,y);if(!c||bridge_wetland(c))return 0;
   if(P(c,0)&&eq((W*)P(P(c,0),8),"paws_engineer_bridge01"))return 0;
-  if((P(c,0x20)&0x70)==0x20){if(phase==2)return 0;phase=1;wet++;}
+  if(bridge_channel(d,x,y)){float z=bridge_height(d,x,y);if(phase==2)return 0;phase=1;wet++;if(z<bed)bed=z;}
+  else if((P(c,0x20)&0x70)==0x20)return 0;
   else{if(P(c,0x20)&0x100)return 0;if(phase==1)phase=2;}
   for(yy=y-1;yy<=y+1;yy++)for(xx=x-1;xx<=x+1;xx++){
    float z;c=tile(d,xx,yy);if(!c)return 0;
@@ -50,7 +55,9 @@ static int bridge_valid(Roads*d,U*points,U n,float*level){U i,c,phase=0,wet=0;in
    z=bridge_height(d,xx,yy);if(!finite(z)||z<-8||z>8)return 0;
   }
  }
- if(!wet||wet>16||phase!=2)return 0;
+ /* A stale water flag on ordinary ground is not a river. Compare the bed
+  * with both banks; no fixed biome water level or waterbody ID is assumed. */
+ if(!wet||wet>16||phase!=2||!finite(bed)||bed>(z0<z1?z0:z1)-.35f)return 0;
  if(level){level[0]=z0;level[1]=z1;}return 1;
 }
 static void bridge_plan(Roads*d,int x,int y){d->count=bg_line(d->startX,d->startY,x,y,d->points);d->valid=d->count&&bridge_valid(d,d->points,d->count,0);}

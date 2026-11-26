@@ -1,0 +1,104 @@
+Bridge material AO: exact sources and reproduction layout (2026-11-26)
+
+SCOPE
+672 racial visible bridge NIF files: six races, wood/stone, x/y, counts05..32.
+No generic root112, gameplay definitions, VFX, bridge construction, shadows,
+profiles, save files, launchers, SDK, native game or publication are included.
+35 local texture inputs are copied unchanged; all other existing stock texture
+references stay as before. Do not replace current generated gameplay TGI files.
+
+PINNED ORIGINAL DEPENDENCY
+G:/CodexData/projects/Codex/2026-09-09/paws-patch-kohan-ii-3/work/bridge-natural-look-20261125/build_candidate.py
+SHA256 1b200b8e983deb42562783fa50715526e6b61c5d0c34c6e0f2cae1efc478a09e
+generate.py imports this module's load/parts/rgb and NifFormat. It does NOT call
+its main(), fallback(), game launch functions or shadow-map generation.
+The original hemisphere AO implementation is the reference, not a renderer.
+
+SOURCE HANDOFF / PORTABLE STAGING
+Keep signed copies unchanged in source-handoff/. For an exact replay, stage a
+new real physical-G workspace with the following sibling paths:
+  work/bridge-natural-look-20261125/build_candidate.py
+  work/bridge-natural-look-20261125/candidate-manifest.json
+  work/bridge-natural-look-20261125/candidate-manifest-16.json
+  work/bridge-natural-look-20261125/candidate/Paws/Bridges/<24 approved NIF>
+  work/bridge-materials-full-20261126/{generate.py,ao_trace.c,finalize.py,...}
+  work/bridge-materials-full-20261126/inputs/<Race>/<model or texture>
+  outputs/bridge-model-ee2-20261109/deps/pyffi/...
+Use the same NumPy/Pillow/PyFFI versions from the pinned build environment.
+The original24 reference NIF are build-input assets, NOT Git source; each is
+individually pinned in inputs-manifest.json.approvedReferences. They can be
+restored from the previously reviewed material asset bundle. Keep them out of
+Git as requested by the release coordinator. Immutable beta6 core provides
+the original672 NIF/35 textures: validate their hashes against files in the
+input manifest. No active QA folder is required when replaying frozen inputs.
+
+prepare_inputs.py was used ONCE against the verified current ArcaneFix source
+to create inputs/ and inputs-manifest.json. For replay, restore frozen inputs
+directly instead of requiring that absolute historical SOURCE path to exist.
+For a new source base, a reviewed adapter may override SOURCE/OLD before main;
+record the new manifest and use a NEW checkpoint. Do not weaken the hash gate
+or rewrite the signed original sources to pretend their hashes stayed equal.
+
+CPU TOOL
+Existing physical-G x86_64-win32-tcc.exe was used (no .NET SDK).
+Compiler SHA256 3690fb53a5284cf94efc73ac2ba67ec57f52c7b86cf368a3e9885b3f7b2d3b61
+Compile: x86_64-win32-tcc.exe -Wall -Werror ao_trace.c -o ao_trace.exe
+Expected PE machine AMD64. Compile.json records the actual compiler/source/EXE
+hashes. The C helper only reads and writes task-owned binary files; it cannot
+open, query, inject, capture or control the game. It consumes exactly the
+same double-precision directions and original rounded-query cache as AO24.
+
+RUN ONLY IN THE AGREED RESOURCE WINDOW
+All TEMP/TMP and outputs stay on G. DOTNET_ADD_GLOBAL_TOOLS_TO_PATH=false is
+process-only; no SDK is used. OPENBLAS_NUM_THREADS/OMP_NUM_THREADS/MKL_NUM_THREADS
+are1. One BelowNormal Python parent, at most one short-lived ray child.
+run_batch.ps1 -Seconds 180 -MaxModels 24
+Increase MaxModels only if the coordinator grants it; wall bound stays180s.
+Each model gets reopened and independently checked for geometry, triangle
+indices, UVs, normals, AV hierarchy/flags/transforms, hidden SelectionBox data,
+material parameters, texture references and controllers. Only vertex-color
+data and visible mesh NiVertexColorProperty mode are changed. The24 previously
+approved outputs are copied byte-exact after accelerator/reference parity.
+The allowed parity tolerance is2e-6; mini benchmark's observed delta was0.0.
+
+GENERATION AND FINALIZATION
+checkpoint.json is resumable and pins generator/helper/original/input hashes.
+Every child is held by its Popen handle and killed/waited in finally if needed.
+The180s parent timer checkpoints, and individual child timeout is at most20s.
+Batch receipts keep PID, elapsed time, peak working set, closure, pins and
+errors. First failures retain their exact source/EXE/input/output evidence.
+When672 models exist, run finalize.py in an agreed CPU window. It hash-reads
+all already structurally verified files and copies only unchanged textures.
+final-manifest.json complete=true is the sole complete-overlay handoff gate.
+Before that, overlay/ is PARTIAL AND NOT FOR INTEGRATION.
+
+Final files use kinds approved-material-candidate / unchanged-texture.
+The final manifest records scripts/input/checkpoint hashes and all file hashes.
+The release parent owns the merge, any further native checks and publishing.
+
+TWO-WORKER SCHEDULING USED FOR THE FULL PACK
+Only after all24 references pass, freeze checkpoint.json byte-exact as
+dispatch-checkpoint.json (never overwrite an existing dispatch). The normal
+checkpoint is not written again until the final merge. generate_shard.py uses
+the SAME pinned generate.process() for every model. It splits the remaining
+sorted model paths into disjoint even/odd sets, with separate state and temp
+files. There is no rotation, interpolation, cross-axis reuse or changed math.
+
+In an agreed two-worker window, start these two commands independently:
+  run_batch.ps1 -Seconds 180 -MaxModels 672 -WorkerScript generate_shard.py -ShardIndex 0
+  run_batch.ps1 -Seconds 180 -MaxModels 672 -WorkerScript generate_shard.py -ShardIndex 1
+Wait for both exact owned closures. If successful and the resource window
+still permits it, repeat bounded batches with the same state until both shards
+contain their complete assigned sets. Never run a normal generator alongside
+the shards. Fresh game refusal is retained before each batch.
+
+After both workers close, use the SAME process-only environment as run_batch:
+TEMP/TMP on G, DOTNET_ADD_GLOBAL_TOOLS_TO_PATH=false, BLAS/OMP/MKL threads1,
+and PYTHONDONTWRITEBYTECODE=1. Run the explicit existing Python executable:
+  python.exe -B merge_shards.py
+  python.exe -B finalize.py
+  python.exe -B finish_handoff.py
+Check exit0 after each step before proceeding. The merge verifies complete,
+disjoint model coverage and output hashes. The finalizer writes the sole
+complete=true asset manifest; finish_handoff packages source/evidence JSON
+and reference parity without adding original NIF or texture binaries to Git.

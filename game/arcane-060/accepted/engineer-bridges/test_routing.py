@@ -155,19 +155,25 @@ for image,cave in [(BASE,0x10000000),(0x210000,0x1600000)]:
   actual.append((rf(head),rf(head+4)));assert r(head+16)==2
   if not r(head+36):assert abs(rf(head+8))+abs(rf(head+12))>.99;checks+=1
   head=r(head+36)
- assert actual==ports and commands==[];checks+=2
+ assert actual==ports[:-1] and (88.,60.) not in actual and commands==[];checks+=3
  w(path+4,0)
- # Unit queries retain their own native destinations and collision planner;
- # no ordinal lane offset pushes a copied route off a narrow deck.
+ # Unit queries retain their own native destinations and collision planner.
+ # Coarse gates end at the last required turn, never at the formation target.
  org=world+0xf1000;members=org+0x100;unit=org+0x200;element=org+0x400
  w(company+0x7c,org);w(org+4,company);w(org+0x2c,2);w(org+0x28,members);w(members,unit);w(members+4,unit+0x100)
  for index in range(2):
   mover=unit+index*0x100;w(mover,image+0x4e5c58);w(mover+20,103+index);w(registry+0x20004+(103+index)*4,mover);w(mover+0x80,element+index*0x100);w(element+index*0x100+0x10,company);w(query+0x1c,mover)
   assert run('bridge_region_route',args,self=world+0xe3000)==1;head=r(path+4);lane=[]
   while head:lane.append((rf(head),rf(head+4)));head=r(head+36)
-  assert lane==ports and lane[-1]==(88.,60.);checks+=3
+  assert lane==ports[:-1] and (88.,60.) not in lane;checks+=3
   w(path+4,0)
  w(query+0x1c,company)
+ # An unobstructed deck-to-bank line needs no coarse gate at all. The fine
+ # planner already retains the exact order destination and formation slots.
+ assert plan(40,31,88,31)==[(88.,31.)];checks+=1
+ args=region_args(40,31,88,31);before=len(activations)
+ assert run('bridge_region_route',args,self=world+0xe3000)==1 and r(path+4)==0;checks+=2
+ assert not any(v[0]=='path-port' for v in activations[before:]);checks+=1
  args=region_args(40,60,40,100)
  assert run('bridge_region_route',args,self=world+0xe3000)==0x123 and activations[-1]==(0x263752,args);checks+=2
  for flag in [0x1000,0x200000]:
