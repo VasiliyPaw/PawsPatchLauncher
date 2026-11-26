@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.6.0-beta.6",
+  "version": "0.6.0-beta.7",
   "entries": [
+    {
+      "id": "bridge-water-20261126",
+      "category": "always",
+      "titleRu": "Мосты и водоёмы",
+      "titleEn": "Bridges and water",
+      "bodyRu": "- Обновлены поверхности мостов всех рас и эффект строительства Теней.\n- Боты строят переправы на разведанных реках; исправлено строительство мостов на суше.\n- Исправлены самовольные атаки мостов, в том числе призванными существами.\n- Улучшено движение отрядов после переправы.\n- Сглажены переходы воды и дна; исправлена глубина небольших водоёмов на новых картах.",
+      "bodyEn": "- Updated bridge surfaces for all factions and the Shadow construction effect.\n- AI builds crossings on explored rivers; fixed bridge construction on dry land.\n- Fixed unsolicited attacks on bridges, including attacks by summoned creatures.\n- Improved company movement after crossing a bridge.\n- Smoothed water and riverbed transitions; corrected small-waterbody depth on new maps."
+    },
     {
       "id": "legacy-ui-20261118",
       "category": "always",
